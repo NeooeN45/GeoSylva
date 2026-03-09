@@ -25,8 +25,10 @@ import com.forestry.counter.domain.repository.PlacetteRepository
 import com.forestry.counter.domain.repository.EssenceRepository
 import com.forestry.counter.domain.repository.TigeRepository
 import com.forestry.counter.domain.repository.IbpRepository
+import com.forestry.counter.domain.repository.RipisylveRepository
 import com.forestry.counter.domain.repository.ParameterRepository
 import com.forestry.counter.data.repository.IbpRepositoryImpl
+import com.forestry.counter.data.repository.RipisylveRepositoryImpl
 import com.forestry.counter.domain.usecase.export.ExportDataUseCase
 import com.forestry.counter.domain.usecase.import.ImportDataUseCase
 import com.forestry.counter.data.logging.CrashLogger
@@ -65,6 +67,8 @@ class ForestryCounterApplication : Application() {
     lateinit var parameterRepository: ParameterRepository
         private set
     lateinit var ibpRepository: IbpRepository
+        private set
+    lateinit var ripisylveRepository: RipisylveRepository
         private set
 
     // Preferences
@@ -139,6 +143,7 @@ class ForestryCounterApplication : Application() {
         tigeRepository = TigeRepositoryImpl(database.tigeDao())
         parameterRepository = ParameterRepositoryImpl(database.parameterDao())
         ibpRepository = IbpRepositoryImpl(database.ibpEvaluationDao())
+        ripisylveRepository = RipisylveRepositoryImpl(database.ripisylveDao())
 
         // Initialize forestry calculator
         forestryCalculator = ForestryCalculator(parameterRepository)

@@ -47,6 +47,8 @@ import com.forestry.counter.presentation.screens.forestry.IbpHistoryScreen
 import com.forestry.counter.presentation.screens.forestry.IbpReferenceScreen
 import com.forestry.counter.presentation.screens.forestry.IbpDiagnosticScreen
 import com.forestry.counter.presentation.screens.forestry.IbpCompareScreen
+import com.forestry.counter.presentation.screens.forestry.RipisylveDiagnosticScreen
+import com.forestry.counter.presentation.screens.forestry.StationDiagnosticScreen
 import com.forestry.counter.presentation.screens.settings.PriceTablesEditorScreen
 import com.forestry.counter.presentation.screens.onboarding.OnboardingScreen
 import kotlinx.coroutines.launch
@@ -114,6 +116,12 @@ sealed class Screen(val route: String) {
     }
     object IbpCompare : Screen("ibp/compare/{parcelleId}") {
         fun createRoute(parcelleId: String) = "ibp/compare/$parcelleId"
+    }
+    object RipisylveDiagnostic : Screen("ripisylve/diagnostic/{parcelleId}") {
+        fun createRoute(parcelleId: String) = "ripisylve/diagnostic/$parcelleId"
+    }
+    object StationDiagnostic : Screen("station/diagnostic/{parcelleId}") {
+        fun createRoute(parcelleId: String) = "station/diagnostic/$parcelleId"
     }
     object Onboarding : Screen("onboarding")
 }
@@ -382,6 +390,12 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                 },
                 onNavigateToDashboard = { pid ->
                     navController.navigate(Screen.Dashboard.createRoute(pid))
+                },
+                onNavigateToRipisylve = { pid ->
+                    navController.navigate(Screen.RipisylveDiagnostic.createRoute(pid))
+                },
+                onNavigateToStation = { pid ->
+                    navController.navigate(Screen.StationDiagnostic.createRoute(pid))
                 }
             )
         }
@@ -736,6 +750,40 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                 formulaRepository = app.formulaRepository,
                 formulaParser = app.formulaParser,
                 preferencesManager = app.userPreferences,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            route = Screen.RipisylveDiagnostic.route,
+            arguments = listOf(navArgument("parcelleId") { type = NavType.StringType }),
+            enterTransition = navEnterTransition,
+            exitTransition = navExitTransition,
+            popEnterTransition = navPopEnterTransition,
+            popExitTransition = navPopExitTransition
+        ) { backStackEntry ->
+            val parcelleId = backStackEntry.arguments?.getString("parcelleId") ?: return@composable
+            RipisylveDiagnosticScreen(
+                parcelleId = parcelleId,
+                ripisylveRepository = app.ripisylveRepository,
+                tigeRepository = app.tigeRepository,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            route = Screen.StationDiagnostic.route,
+            arguments = listOf(navArgument("parcelleId") { type = NavType.StringType }),
+            enterTransition = navEnterTransition,
+            exitTransition = navExitTransition,
+            popEnterTransition = navPopEnterTransition,
+            popExitTransition = navPopExitTransition
+        ) { backStackEntry ->
+            val parcelleId = backStackEntry.arguments?.getString("parcelleId") ?: return@composable
+            StationDiagnosticScreen(
+                parcelleId = parcelleId,
+                tigeRepository = app.tigeRepository,
+                parcelleRepository = app.parcelleRepository,
                 onNavigateBack = { navController.popBackStack() }
             )
         }

@@ -12,8 +12,10 @@ import com.forestry.counter.data.local.dao.EssenceDao
 import com.forestry.counter.data.local.dao.TigeDao
 import com.forestry.counter.data.local.dao.IbpEvaluationDao
 import com.forestry.counter.data.local.dao.ParameterDao
+import com.forestry.counter.data.local.dao.RipisylveDao
 import com.forestry.counter.data.local.entity.CounterEntity
 import com.forestry.counter.data.local.entity.IbpEvaluationEntity
+import com.forestry.counter.data.local.entity.RipisylveEntity
 import com.forestry.counter.data.local.entity.FormulaEntity
 import com.forestry.counter.data.local.entity.GroupEntity
 import com.forestry.counter.data.local.entity.GroupVariableEntity
@@ -34,9 +36,10 @@ import com.forestry.counter.data.local.entity.ParameterEntity
         EssenceEntity::class,
         TigeEntity::class,
         ParameterEntity::class,
-        IbpEvaluationEntity::class
+        IbpEvaluationEntity::class,
+        RipisylveEntity::class
     ],
-    version = 15,
+    version = 16,
     exportSchema = true
 )
 abstract class ForestryDatabase : RoomDatabase() {
@@ -50,6 +53,7 @@ abstract class ForestryDatabase : RoomDatabase() {
     abstract fun tigeDao(): TigeDao
     abstract fun parameterDao(): ParameterDao
     abstract fun ibpEvaluationDao(): IbpEvaluationDao
+    abstract fun ripisylveDao(): RipisylveDao
 
     companion object {
         const val DATABASE_NAME = "forestry_counter.db"

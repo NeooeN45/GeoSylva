@@ -23,8 +23,10 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.Landscape
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Straighten
+import androidx.compose.material.icons.filled.Water
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -67,7 +69,9 @@ fun PlacettesScreen(
     onNavigateBack: () -> Unit,
     onNavigateToMartelageForParcelle: ((String) -> Unit)? = null,
     onNavigateToMap: ((String) -> Unit)? = null,
-    onNavigateToDashboard: ((String) -> Unit)? = null
+    onNavigateToDashboard: ((String) -> Unit)? = null,
+    onNavigateToRipisylve: ((String) -> Unit)? = null,
+    onNavigateToStation: ((String) -> Unit)? = null
 ) {
     val scope = rememberCoroutineScope()
     val snackbar = remember { SnackbarHostState() }
@@ -167,6 +171,22 @@ fun PlacettesScreen(
                         }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back)) }
                     },
                     actions = {
+                        if (onNavigateToRipisylve != null) {
+                            IconButton(onClick = {
+                                playClickFeedback()
+                                onNavigateToRipisylve(parcelleId)
+                            }) {
+                                Icon(Icons.Default.Water, contentDescription = "Diagnostic Ripisylve")
+                            }
+                        }
+                        if (onNavigateToStation != null) {
+                            IconButton(onClick = {
+                                playClickFeedback()
+                                onNavigateToStation(parcelleId)
+                            }) {
+                                Icon(Icons.Default.Landscape, contentDescription = "Diagnostic Station")
+                            }
+                        }
                         if (onNavigateToDashboard != null) {
                             IconButton(onClick = {
                                 playClickFeedback()

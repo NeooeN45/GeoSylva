@@ -152,11 +152,57 @@ object DatabaseMigrations {
         }
     }
 
+    val MIGRATION_15_16 = object : Migration(15, 16) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS ripisylve_diagnostics (
+                    id TEXT NOT NULL PRIMARY KEY,
+                    parcelleId TEXT NOT NULL,
+                    observerName TEXT NOT NULL DEFAULT '',
+                    observationDate INTEGER NOT NULL,
+                    createdAt INTEGER NOT NULL,
+                    updatedAt INTEGER NOT NULL,
+                    latitude REAL,
+                    longitude REAL,
+                    altitudeM REAL,
+                    sectionLengthM REAL NOT NULL DEFAULT 50.0,
+                    sectionNotes TEXT NOT NULL DEFAULT '',
+                    continuitePct REAL NOT NULL DEFAULT 0.0,
+                    largeurMode TEXT NOT NULL DEFAULT 'UNE_RANGEE',
+                    strateHerbacee INTEGER NOT NULL DEFAULT 0,
+                    strateArbustive INTEGER NOT NULL DEFAULT 0,
+                    strateArborescente INTEGER NOT NULL DEFAULT 0,
+                    nbEspecesObservees INTEGER NOT NULL DEFAULT 0,
+                    especesObserveesCsv TEXT NOT NULL DEFAULT '',
+                    diamAutoFromDendro INTEGER NOT NULL DEFAULT 0,
+                    hasTresPetitBois INTEGER NOT NULL DEFAULT 0,
+                    hasPetitBois INTEGER NOT NULL DEFAULT 0,
+                    hasMoyenBois INTEGER NOT NULL DEFAULT 0,
+                    hasGrosBois INTEGER NOT NULL DEFAULT 0,
+                    microhabitatCavites INTEGER NOT NULL DEFAULT 0,
+                    microhabitatFissures INTEGER NOT NULL DEFAULT 0,
+                    microhabitatDecollementEcorce INTEGER NOT NULL DEFAULT 0,
+                    microhabitatChampignons INTEGER NOT NULL DEFAULT 0,
+                    microhabitatBoisMort INTEGER NOT NULL DEFAULT 0,
+                    microhabitatTresGrosBois INTEGER NOT NULL DEFAULT 0,
+                    sanitairePct REAL NOT NULL DEFAULT 0.0,
+                    invasivesPct REAL NOT NULL DEFAULT 0.0,
+                    invasivesCsv TEXT NOT NULL DEFAULT '',
+                    inadapteesMode TEXT NOT NULL DEFAULT 'ABSENCE',
+                    stabilitePct REAL NOT NULL DEFAULT 0.0,
+                    globalNotes TEXT NOT NULL DEFAULT '',
+                    photoUrisCsv TEXT NOT NULL DEFAULT ''
+                )
+            """.trimIndent())
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_ripisylve_parcelleId ON ripisylve_diagnostics(parcelleId)")
+        }
+    }
+
     /** Liste ordonnée de toutes les migrations pour Room.databaseBuilder */
     val ALL = arrayOf(
         MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5,
         MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9,
         MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13,
-        MIGRATION_13_14, MIGRATION_14_15
+        MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16
     )
 }
