@@ -682,7 +682,8 @@ fun MartelageScreen(
                         stats = s,
                         scopeLabel = scopeKey,
                         surfaceM2 = surfaceM2,
-                        productBreakdown = breakdownByEssence
+                        productBreakdown = breakdownByEssence,
+                        tiges = tigesInScope
                     )
                 }.onSuccess {
                     snackbar.showSnackbar(context.getString(R.string.pdf_exported))

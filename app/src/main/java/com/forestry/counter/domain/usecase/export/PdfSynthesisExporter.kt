@@ -35,7 +35,8 @@ object PdfSynthesisExporter {
         scopeLabel: String,
         surfaceM2: Double?,
         parcelle: Parcelle? = null,
-        productBreakdown: Map<String, List<ProductBreakdownRow>> = emptyMap()
+        productBreakdown: Map<String, List<ProductBreakdownRow>> = emptyMap(),
+        tiges: List<Tige> = emptyList()
     ) {
         val doc = PdfDocument()
         try {
@@ -43,7 +44,7 @@ object PdfSynthesisExporter {
             val page = doc.startPage(pageInfo)
             val canvas = page.canvas
 
-            val y = drawContent(canvas, context, stats, scopeLabel, surfaceM2, parcelle, productBreakdown)
+            val y = drawContent(canvas, context, stats, scopeLabel, surfaceM2, parcelle, productBreakdown, tiges)
 
             // Footer
             val footerPaint = paint(9f, Color.GRAY)
@@ -70,7 +71,8 @@ object PdfSynthesisExporter {
         scopeLabel: String,
         surfaceM2: Double?,
         parcelle: Parcelle? = null,
-        productBreakdown: Map<String, List<ProductBreakdownRow>> = emptyMap()
+        productBreakdown: Map<String, List<ProductBreakdownRow>> = emptyMap(),
+        tiges: List<Tige> = emptyList()
     ): Float {
         var y = MARGIN + 10f
 
@@ -152,6 +154,53 @@ object PdfSynthesisExporter {
             y += 18f
             y = drawKvRow(canvas, y, ctx.getString(R.string.pdf_revenue), "${fmt0(s.revenueTotal)} €", labelPaint, valuePaint)
             s.revenuePerHa?.let { y = drawKvRow(canvas, y, ctx.getString(R.string.pdf_revenue_ha), "${fmt0(it)} €/ha", labelPaint, valuePaint) }
+        }
+
+        // ── Carte de localisation (scatter plot des tiges) ──
+        val gpsTiges = tiges.filter { it.gpsLat != null && it.gpsLon != null }
+        if (gpsTiges.size >= 2) {
+            y += 10f
+            canvas.drawLine(MARGIN, y, PAGE_W - MARGIN, y, thinLine())
+            y += 16f
+            canvas.drawText("Cartographie du Martelage", MARGIN, y, sectionPaint)
+            y += 18f
+            
+            val mapHeight = 160f
+            val mapWidth = PAGE_W - 2 * MARGIN
+            val minLat = gpsTiges.minOf { it.gpsLat!! }
+            val maxLat = gpsTiges.maxOf { it.gpsLat!! }
+            val minLon = gpsTiges.minOf { it.gpsLon!! }
+            val maxLon = gpsTiges.maxOf { it.gpsLon!! }
+            
+            val latRange = (maxLat - minLat).coerceAtLeast(0.0001)
+            val lonRange = (maxLon - minLon).coerceAtLeast(0.0001)
+            
+            val mapBg = Paint().apply { color = Color.parseColor("#F5F5F5"); style = Paint.Style.FILL }
+            val mapBorder = Paint().apply { color = Color.parseColor("#E0E0E0"); style = Paint.Style.STROKE; strokeWidth = 1f }
+            val pointPaint = Paint().apply { color = Color.parseColor("#4CAF50"); style = Paint.Style.FILL; isAntiAlias = true }
+            val specialPointPaint = Paint().apply { color = Color.parseColor("#F44336"); style = Paint.Style.FILL; isAntiAlias = true }
+            
+            canvas.drawRect(MARGIN, y, MARGIN + mapWidth, y + mapHeight, mapBg)
+            canvas.drawRect(MARGIN, y, MARGIN + mapWidth, y + mapHeight, mapBorder)
+            
+            gpsTiges.forEach { t ->
+                val px = MARGIN + ((t.gpsLon!! - minLon) / lonRange * (mapWidth - 10f) + 5f).toFloat()
+                // Invert Y since screen Y goes down, while Lat goes up
+                val py = y + mapHeight - ((t.gpsLat!! - minLat) / latRange * (mapHeight - 10f) + 5f).toFloat()
+                val isSpecial = t.qualite == "MORT" || t.qualite == "BIO" || t.qualite == "DÉP" || t.qualite == "SAN"
+                val r = if (isSpecial) 3.5f else 2f
+                val p = if (isSpecial) specialPointPaint else pointPaint
+                canvas.drawCircle(px, py, r, p)
+            }
+            
+            val legendPaint = paint(8f, Color.DKGRAY)
+            canvas.drawCircle(MARGIN + 10f, y + mapHeight + 12f, 2f, pointPaint)
+            canvas.drawText("Arbre martelé", MARGIN + 16f, y + mapHeight + 15f, legendPaint)
+            
+            canvas.drawCircle(MARGIN + 90f, y + mapHeight + 12f, 3.5f, specialPointPaint)
+            canvas.drawText("Arbre spécial (Bio/Mort)", MARGIN + 98f, y + mapHeight + 15f, legendPaint)
+
+            y += mapHeight + 25f
         }
 
         // ── Tableau par essence ──
