@@ -110,10 +110,14 @@ import com.forestry.counter.domain.location.GpsParcelTracer
 import com.forestry.counter.domain.location.TreeNavigator
 import com.forestry.counter.domain.location.WktUtils
 import com.forestry.counter.domain.model.Essence
+import com.forestry.counter.domain.model.Parcelle
 import com.forestry.counter.domain.model.Tige
-import com.forestry.counter.domain.repository.EssenceRepository
+import com.forestry.counter.domain.repository.IbpRepository
+import com.forestry.counter.domain.repository.RipisylveRepository
+import com.forestry.counter.domain.repository.StationRepository
 import com.forestry.counter.domain.repository.ParcelleRepository
 import com.forestry.counter.domain.repository.TigeRepository
+import com.forestry.counter.domain.repository.EssenceRepository
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
@@ -168,7 +172,10 @@ private const val SHP_SOURCE_ID = "shp-parcelles"
 private const val SHP_FILL_ID = "shp-fill"
 private const val SHP_LINE_ID = "shp-line"
 private const val SHP_LABEL_ID = "shp-labels"
-private const val TIGE_SOURCE_ID = "tige-source"
+private const val TIGE_SOURCE_ID = "tiges-source"
+private const val DIAGNOSTICS_SOURCE_ID = "diagnostics-source"
+private const val DIAGNOSTICS_LAYER_ID = "diagnostics-layer"
+private const val DIAGNOSTICS_LABEL_LAYER_ID = "diagnostics-label-layer"
 private const val TIGE_CLUSTER_LAYER_ID = "tige-clusters"
 private const val TIGE_CLUSTER_COUNT_LAYER_ID = "tige-cluster-count"
 private const val TIGE_POINT_LAYER_ID = "tige-points"
@@ -464,8 +471,8 @@ private fun buildTigesGeoJson(
             t.precisionM <= 12.0 -> "#FF9800"   // orange = modéré
             else                 -> "#F44336"   // rouge = mauvais
         }
-        sb.append("\"label\":\"").append(jsonEscape(label)).append("\",")
-        sb.append("\"precision_color\":\"").append(precisionColor).append("\"")
+        sb.append("\"precision_m\":").append(String.format(Locale.US, "%.1f", t.precisionM ?: 0.0)).append(',')
+        sb.append("\"precision_color\":\"").append(jsonEscape(precisionColor)).append("\"")
         sb.append("}}")
     }
 
@@ -473,13 +480,105 @@ private fun buildTigesGeoJson(
     return sb.toString()
 }
 
+private fun buildDiagnosticsGeoJson(
+    ibp: List<com.forestry.counter.domain.model.IbpEvaluation>,
+    ripisylve: List<com.forestry.counter.domain.model.ripisylve.RipisylveObservation>,
+    station: List<com.forestry.counter.domain.model.station.StationObservation>
+): String {
+    val features = mutableListOf<String>()
+    
+    ibp.filter { it.latitude != null && it.longitude != null }.forEach { eval ->
+        val type = "IBP"
+        val score = eval.scoreTotal
+        val level = if (score != null) {
+            when {
+                score >= 80 -> "A"
+                score >= 60 -> "B"
+                score >= 40 -> "C"
+                score >= 20 -> "D"
+                else -> "E"
+            }
+        } else "?"
+        
+        val color = if (score != null) {
+            when {
+                score >= 80 -> "#2E7D32"
+                score >= 60 -> "#8BC34A"
+                score >= 40 -> "#FFEB3B"
+                score >= 20 -> "#FF9800"
+                else -> "#F44336"
+            }
+        } else "#9E9E9E"
+
+        features.add("""
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[${eval.longitude},${eval.latitude}]},
+            "properties":{"type":"$type","label":"🐞 IBP $level","color":"$color","id":"${eval.id}"}}
+        """.trimIndent().replace("\n", ""))
+    }
+    
+    ripisylve.filter { it.latitude != null && it.longitude != null }.forEach { obs ->
+        val color = "#1976D2" // Blue for water
+        features.add("""
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[${obs.longitude},${obs.latitude}]},
+            "properties":{"type":"Ripisylve","label":"💧 Ripisylve","color":"$color","id":"${obs.id}"}}
+        """.trimIndent().replace("\n", ""))
+    }
+    
+    station.filter { it.latitude != null && it.longitude != null }.forEach { obs ->
+        val color = "#795548" // Brown for soil/station
+        features.add("""
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[${obs.longitude},${obs.latitude}]},
+            "properties":{"type":"Station","label":"⛰️ Station","color":"$color","id":"${obs.id}"}}
+        """.trimIndent().replace("\n", ""))
+    }
+    
+    return """{"type":"FeatureCollection","features":[${features.joinToString(",")}]}"""
+}
+
 private fun renderTigesOnMap(
     style: Style,
     geoTiges: List<Triple<Tige, Double, Double>>,
     essenceMap: Map<String, Essence>,
-    essenceColors: Map<String, Int>
+    essenceColors: Map<String, Int>,
+    parcelles: List<Parcelle> = emptyList(),
+    ibpDiagnostics: List<com.forestry.counter.domain.model.IbpEvaluation> = emptyList(),
+    ripisylveDiagnostics: List<com.forestry.counter.domain.model.ripisylve.RipisylveObservation> = emptyList(),
+    stationDiagnostics: List<com.forestry.counter.domain.model.station.StationObservation> = emptyList()
 ) {
     removeTigeLayers(style)
+    try { style.removeLayer(DIAGNOSTICS_LABEL_LAYER_ID) } catch (_: Throwable) {}
+    try { style.removeLayer(DIAGNOSTICS_LAYER_ID) } catch (_: Throwable) {}
+    try { style.removeSource(DIAGNOSTICS_SOURCE_ID) } catch (_: Throwable) {}
+    
+    if (ibpDiagnostics.isNotEmpty() || ripisylveDiagnostics.isNotEmpty() || stationDiagnostics.isNotEmpty()) {
+        val diagGeoJson = buildDiagnosticsGeoJson(ibpDiagnostics, ripisylveDiagnostics, stationDiagnostics)
+        style.addSource(GeoJsonSource(DIAGNOSTICS_SOURCE_ID, diagGeoJson))
+        
+        style.addLayer(
+            CircleLayer(DIAGNOSTICS_LAYER_ID, DIAGNOSTICS_SOURCE_ID).withProperties(
+                PropertyFactory.circleColor(get("color")),
+                PropertyFactory.circleRadius(10f),
+                PropertyFactory.circleStrokeColor(Color.White.toArgb()),
+                PropertyFactory.circleStrokeWidth(2f),
+                PropertyFactory.circleOpacity(0.9f)
+            )
+        )
+        
+        style.addLayer(
+            SymbolLayer(DIAGNOSTICS_LABEL_LAYER_ID, DIAGNOSTICS_SOURCE_ID).withProperties(
+                PropertyFactory.textField(get("label")),
+                PropertyFactory.textSize(12f),
+                PropertyFactory.textColor(Color.Black.toArgb()),
+                PropertyFactory.textHaloColor(Color.White.toArgb()),
+                PropertyFactory.textHaloWidth(2f),
+                PropertyFactory.textOffset(arrayOf(0f, 1.0f)),
+                PropertyFactory.textAnchor(com.mapbox.mapboxsdk.style.layers.Property.TEXT_ANCHOR_TOP),
+                PropertyFactory.textAllowOverlap(false),
+                PropertyFactory.textIgnorePlacement(false)
+            )
+        )
+    }
+
     if (geoTiges.isEmpty()) return
 
     val geoJson = buildTigesGeoJson(geoTiges, essenceMap, essenceColors)
@@ -658,6 +757,14 @@ data class TappedTreeInfo(
     val lon: Double
 )
 
+data class TappedDiagnosticInfo(
+    val type: String,
+    val label: String,
+    val id: String,
+    val lat: Double,
+    val lon: Double
+)
+
 private fun attachTigeTapInfo(
     map: MapboxMap,
     context: Context,
@@ -732,6 +839,50 @@ private fun attachTigeTapInfo(
             true
         } catch (e: Throwable) {
             Log.e(TAG, "Tige tap handler error", e)
+            false
+        }
+    }
+}
+
+private fun attachDiagnosticTapInfo(
+    map: MapboxMap,
+    onDiagnosticTapped: (TappedDiagnosticInfo) -> Unit
+) {
+    map.addOnMapClickListener { latLng ->
+        try {
+            val point = map.projection.toScreenLocation(latLng)
+            val features = map.queryRenderedFeatures(point, DIAGNOSTICS_LAYER_ID, DIAGNOSTICS_LABEL_LAYER_ID)
+            val f = features.firstOrNull() ?: return@addOnMapClickListener false
+
+            val props = f.properties() ?: return@addOnMapClickListener false
+            val geom = f.geometry()
+
+            val type = props.get("type")?.asString ?: return@addOnMapClickListener false
+            val label = props.get("label")?.asString ?: ""
+            val id = props.get("id")?.asString ?: ""
+
+            val diagLat: Double
+            val diagLon: Double
+            if (geom != null && geom is com.mapbox.geojson.Point) {
+                diagLon = geom.longitude()
+                diagLat = geom.latitude()
+            } else {
+                diagLon = latLng.longitude
+                diagLat = latLng.latitude
+            }
+
+            onDiagnosticTapped(
+                TappedDiagnosticInfo(
+                    type = type,
+                    label = label,
+                    id = id,
+                    lat = diagLat,
+                    lon = diagLon
+                )
+            )
+            true
+        } catch (e: Throwable) {
+            Log.e(TAG, "Diagnostic tap handler error", e)
             false
         }
     }
@@ -943,7 +1094,10 @@ fun MapScreen(
     parcelleId: String,
     tigeRepository: TigeRepository,
     essenceRepository: EssenceRepository? = null,
-    parcelleRepository: ParcelleRepository? = null,
+    parcelleRepository: ParcelleRepository,
+    ibpRepository: IbpRepository,
+    ripisylveRepository: RipisylveRepository,
+    stationRepository: StationRepository,
     preferencesManager: UserPreferencesManager,
     offlineTileManager: OfflineTileManager? = null,
     onNavigateBack: () -> Unit,
@@ -975,6 +1129,9 @@ fun MapScreen(
         }
     }
     val tiges by tigesFlow.collectAsState(initial = emptyList())
+    val ibpDiagnostics by ibpRepository.getAll().collectAsState(initial = emptyList())
+    val ripisylveDiagnostics by ripisylveRepository.getAll().collectAsState(initial = emptyList())
+    val stationDiagnostics by stationRepository.getAll().collectAsState(initial = emptyList())
     val essences by (essenceRepository?.getAllEssences()
         ?: kotlinx.coroutines.flow.flowOf(emptyList<Essence>())).collectAsState(initial = emptyList())
     val animationsEnabled by preferencesManager.animationsEnabled.collectAsState(initial = true)
@@ -982,6 +1139,8 @@ fun MapScreen(
     val mapShowLegendPref by preferencesManager.mapShowLegend.collectAsState(initial = false)
     val mapOnlyReliableGps by preferencesManager.mapOnlyReliableGps.collectAsState(initial = false)
     val mapReliableGpsThresholdM by preferencesManager.mapReliableGpsThresholdM.collectAsState(initial = 8f)
+
+    val parcelles by parcelleRepository.getAllParcelles().collectAsState(initial = emptyList())
 
     // Permission localisation
     val locationPermission = rememberPermissionState(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -1104,6 +1263,7 @@ fun MapScreen(
     val treeNavigator = remember(context) { TreeNavigator(context) }
     val navState by treeNavigator.state.collectAsState()
     var tappedTree by remember { mutableStateOf<TappedTreeInfo?>(null) }
+    var tappedDiagnostic by remember { mutableStateOf<TappedDiagnosticInfo?>(null) }
 
     // Cleanup navigator on dispose
     DisposableEffect(Unit) {
@@ -1182,7 +1342,12 @@ fun MapScreen(
             map.setStyle(Style.Builder().fromJson(styleJson)) { style ->
                 enableLocationComponent(map, style, context)
                 applyCurrentShpOverlay(style)
-                renderTigesOnMap(style, filteredGeoTiges, essenceMap, essenceColors)
+                renderTigesOnMap(style, filteredGeoTiges, essenceMap, essenceColors,
+                    parcelles = parcelles,
+                    ibpDiagnostics = ibpDiagnostics,
+                    ripisylveDiagnostics = ripisylveDiagnostics,
+                    stationDiagnostics = stationDiagnostics
+                )
             }
         } catch (e: Throwable) {
             Log.w(TAG, "Style switch failed", e)
@@ -1286,7 +1451,45 @@ fun MapScreen(
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            // ── Carte MapLibre ──
+            // ── Diagnostic Tap Card ──
+            tappedDiagnostic?.let { diag ->
+                Box(
+                    modifier = Modifier.fillMaxSize().padding(16.dp),
+                    contentAlignment = Alignment.BottomCenter
+                ) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth().padding(bottom = 72.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                    ) {
+                        Column(Modifier.padding(16.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    diag.label,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                                IconButton(onClick = { tappedDiagnostic = null }) {
+                                    Icon(Icons.Default.Close, contentDescription = "Fermer")
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                "Coordonnées : ${String.format(Locale.US, "%.5f", diag.lat)}, ${String.format(Locale.US, "%.5f", diag.lon)}",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                }
+            }
+
+            // ── Tree Tap Card ──
             val lifecycleOwner = LocalLifecycleOwner.current
             var mapError by remember { mutableStateOf(false) }
             val mapView = remember {
@@ -1346,6 +1549,7 @@ fun MapScreen(
                                                     } else false
                                                 }
                                                 attachTigeTapInfo(map, context) { info -> tappedTree = info }
+                                                attachDiagnosticTapInfo(map) { info -> tappedDiagnostic = info }
                                                 tigeTapAttached = true
                                             }
                                         }
