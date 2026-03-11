@@ -37,27 +37,49 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Checkbox
+import androidx.compose.material.icons.automirrored.filled.FormatListBulleted
+import androidx.compose.material.icons.filled.Explore
+import androidx.compose.ui.geometry.center
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddLocationAlt
+import androidx.compose.material.icons.filled.Analytics
+import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Explore
+import androidx.compose.material.icons.filled.CloudDownload
+import androidx.compose.material.icons.filled.CloudOff
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.DirectionsWalk
+import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material.icons.filled.Forest
 import androidx.compose.material.icons.filled.GpsFixed
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Landscape
 import androidx.compose.material.icons.filled.Layers
-import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.LegendToggle
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.automirrored.filled.FormatListBulleted
-import androidx.compose.material.icons.filled.CloudDownload
+import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Navigation
-import androidx.compose.material.icons.filled.NearMe
-import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Straighten
+import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.WaterDrop
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -77,7 +99,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -512,7 +533,7 @@ private fun buildDiagnosticsGeoJson(
 
         features.add("""
             {"type":"Feature","geometry":{"type":"Point","coordinates":[${eval.longitude},${eval.latitude}]},
-            "properties":{"type":"$type","label":"🐞 IBP $level","color":"$color","id":"${eval.id}"}}
+            "properties":{"type":"$type","label":"🐞 IBP $level","color":"$color","id":"${eval.id}","parcelleId":"${eval.parcelleId}"}}
         """.trimIndent().replace("\n", ""))
     }
     
@@ -520,7 +541,7 @@ private fun buildDiagnosticsGeoJson(
         val color = "#1976D2" // Blue for water
         features.add("""
             {"type":"Feature","geometry":{"type":"Point","coordinates":[${obs.longitude},${obs.latitude}]},
-            "properties":{"type":"Ripisylve","label":"💧 Ripisylve","color":"$color","id":"${obs.id}"}}
+            "properties":{"type":"Ripisylve","label":"💧 Ripisylve","color":"$color","id":"${obs.id}","parcelleId":"${obs.parcelleId}"}}
         """.trimIndent().replace("\n", ""))
     }
     
@@ -528,7 +549,7 @@ private fun buildDiagnosticsGeoJson(
         val color = "#795548" // Brown for soil/station
         features.add("""
             {"type":"Feature","geometry":{"type":"Point","coordinates":[${obs.longitude},${obs.latitude}]},
-            "properties":{"type":"Station","label":"⛰️ Station","color":"$color","id":"${obs.id}"}}
+            "properties":{"type":"Station","label":"⛰️ Station","color":"$color","id":"${obs.id}","parcelleId":"${obs.parcelleId}"}}
         """.trimIndent().replace("\n", ""))
     }
     
@@ -761,6 +782,7 @@ data class TappedDiagnosticInfo(
     val type: String,
     val label: String,
     val id: String,
+    val parcelleId: String,
     val lat: Double,
     val lon: Double
 )
@@ -860,6 +882,7 @@ private fun attachDiagnosticTapInfo(
             val type = props.get("type")?.asString ?: return@addOnMapClickListener false
             val label = props.get("label")?.asString ?: ""
             val id = props.get("id")?.asString ?: ""
+            val parcelleId = props.get("parcelleId")?.asString ?: ""
 
             val diagLat: Double
             val diagLon: Double
@@ -876,6 +899,7 @@ private fun attachDiagnosticTapInfo(
                     type = type,
                     label = label,
                     id = id,
+                    parcelleId = parcelleId,
                     lat = diagLat,
                     lon = diagLon
                 )
@@ -1104,7 +1128,10 @@ fun MapScreen(
     initialNavLat: Double? = null,
     initialNavLon: Double? = null,
     initialNavEssence: String? = null,
-    initialNavDiam: Double? = null
+    initialNavDiam: Double? = null,
+    onNavigateToIbpDiagnostic: ((String) -> Unit)? = null,
+    onNavigateToRipisylveDiagnostic: ((String) -> Unit)? = null,
+    onNavigateToStationDiagnostic: ((String) -> Unit)? = null
 ) {
     val context = LocalContext.current
 
@@ -1484,6 +1511,20 @@ fun MapScreen(
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
+                            Spacer(modifier = Modifier.height(12.dp))
+                            androidx.compose.material3.Button(
+                                onClick = {
+                                    when (diag.type) {
+                                        "IBP" -> onNavigateToIbpDiagnostic?.invoke(diag.parcelleId)
+                                        "Ripisylve" -> onNavigateToRipisylveDiagnostic?.invoke(diag.parcelleId)
+                                        "Station" -> onNavigateToStationDiagnostic?.invoke(diag.parcelleId)
+                                        else -> {}
+                                    }
+                                },
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                androidx.compose.material3.Text("Ouvrir le diagnostic")
+                            }
                         }
                     }
                 }
@@ -1668,7 +1709,9 @@ fun MapScreen(
                     elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
                     shape = RoundedCornerShape(18.dp)
                 ) {
-                    Column(modifier = Modifier.padding(14.dp)) {
+                    Column(
+                        modifier = Modifier.padding(14.dp).verticalScroll(rememberScrollState())
+                    ) {
                         // En-tête
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -2343,7 +2386,7 @@ fun MapScreen(
                                 Text(stringResource(R.string.map_height_label, it.roundToInt()), style = MaterialTheme.typography.bodySmall)
                             }
                             currentTapped.precisionM?.let {
-                                Text("\u00B1${String.format(Locale.US, "%.1f", it)} m", style = MaterialTheme.typography.bodySmall)
+                                Text("\u00B1${String.format(Locale.getDefault(), "%.1f", it)} m", style = MaterialTheme.typography.bodySmall)
                             }
                         }
                         // Navigate button

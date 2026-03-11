@@ -49,6 +49,7 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Analytics
+import androidx.compose.material.icons.filled.Forest
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.rememberCoroutineScope
@@ -1404,6 +1405,12 @@ fun MartelageScreen(
                                 text = { Text(stringResource(R.string.tab_analysis), style = MaterialTheme.typography.labelMedium) },
                                 icon = { Icon(Icons.Default.Analytics, contentDescription = null, modifier = Modifier.size(18.dp)) }
                             )
+                            Tab(
+                                selected = selectedTabIndex == 3,
+                                onClick = { selectedTabIndex = 3 },
+                                text = { Text("Écologie", style = MaterialTheme.typography.labelMedium) },
+                                icon = { Icon(Icons.Default.Forest, contentDescription = null, modifier = Modifier.size(18.dp)) }
+                            )
                         }
 
                         Spacer(modifier = Modifier.height(12.dp))
@@ -1897,6 +1904,16 @@ fun MartelageScreen(
                                     singleLine = true
                                 )
                             }
+                        }
+
+                        // ── TAB 3 : Écologie & Classes de Fertilité ──
+                        if (selectedTabIndex == 3) {
+                            EcologyFertilityTab(
+                                tigesInScope = tigesInScope,
+                                essenceRepository = essenceRepository,
+                                onNavigateToRipisylve = { if (parcelleId != null) onNavigateToMap?.invoke(parcelleId) }, // Or any other navigation action needed
+                                onNavigateToStation = { if (parcelleId != null) onNavigateToMap?.invoke(parcelleId) }
+                            )
                         }
                     }
                 }

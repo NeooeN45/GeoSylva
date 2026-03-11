@@ -507,7 +507,16 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                 initialNavLat = navLat,
                 initialNavLon = navLon,
                 initialNavEssence = navEssence,
-                initialNavDiam = navDiam
+                initialNavDiam = navDiam,
+                onNavigateToIbpDiagnostic = { pid ->
+                    navController.navigate(Screen.IbpDiagnostic.createRoute(pid))
+                },
+                onNavigateToRipisylveDiagnostic = { pid ->
+                    navController.navigate(Screen.RipisylveDiagnostic.createRoute(pid))
+                },
+                onNavigateToStationDiagnostic = { pid ->
+                    navController.navigate(Screen.StationDiagnostic.createRoute(pid))
+                }
             )
         }
 
