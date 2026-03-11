@@ -784,6 +784,7 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                 parcelleId = parcelleId,
                 tigeRepository = app.tigeRepository,
                 parcelleRepository = app.parcelleRepository,
+                stationRepository = app.stationRepository,
                 onNavigateBack = { navController.popBackStack() }
             )
         }

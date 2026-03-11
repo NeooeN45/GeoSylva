@@ -26,6 +26,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Forest
@@ -60,8 +61,10 @@ import com.forestry.counter.domain.model.station.TextureSol
 import com.forestry.counter.domain.model.station.TypeHumus
 import com.forestry.counter.domain.repository.TigeRepository
 import com.forestry.counter.domain.repository.ParcelleRepository
+import com.forestry.counter.domain.repository.StationRepository
 import com.forestry.counter.domain.usecase.station.StationDiagnosticEngine
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -70,9 +73,11 @@ fun StationDiagnosticScreen(
     parcelleId: String,
     tigeRepository: TigeRepository,
     parcelleRepository: ParcelleRepository,
+    stationRepository: StationRepository,
     onNavigateBack: () -> Unit
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val tiges by tigeRepository.getTigesByParcelle(parcelleId).collectAsState(initial = emptyList())
     val parcelles by parcelleRepository.getAllParcelles().collectAsState(initial = emptyList())
     val parcelle = remember(parcelles, parcelleId) { parcelles.firstOrNull { p -> p.id == parcelleId } }
@@ -117,13 +122,13 @@ fun StationDiagnosticScreen(
     var notes by rememberSaveable { mutableStateOf("") }
 
     // GPS capture
-    LaunchedEffect(Unit) {
-        withContext(Dispatchers.IO) {
+    val captureGps = {
+        scope.launch(Dispatchers.IO) {
             try {
-                val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    val loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                        ?: lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                val lm = context.getSystemService(Context.LOCATION_SERVICE) as android.location.LocationManager
+                if (androidx.core.app.ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                    val loc = lm.getLastKnownLocation(android.location.LocationManager.GPS_PROVIDER)
+                        ?: lm.getLastKnownLocation(android.location.LocationManager.NETWORK_PROVIDER)
                     loc?.let {
                         gpsLat = it.latitude
                         gpsLon = it.longitude
@@ -134,10 +139,13 @@ fun StationDiagnosticScreen(
             } catch (_: Exception) {}
         }
     }
+    
+    LaunchedEffect(Unit) { captureGps() }
 
     // ── Build observation & result from current state ──
     val currentObs by remember(
-        gpsLat, gpsLon, altitudeM, commune, pentePct, exposition, positionTopo, distanceCours,
+        gpsLat, gpsLon, altitudeM,
+        commune, pentePct, exposition, positionTopo, distanceCours,
         profondeurCm, texture, pierrosite, hydromorphieCm, humus, phEstime, testHcl, drainage, rocheMere,
         gradientHydrique, gradientTrophique, gradientLumineux, gradientHumique,
         especesIndicatrices, especesXerophiles, especesMesophiles, especesHygrophiles, notes
@@ -190,24 +198,17 @@ fun StationDiagnosticScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Column {
-                        Text("Diagnostic Station", fontWeight = FontWeight.Bold)
-                        if (parcelle != null) {
-                            Text(parcelle.name, style = MaterialTheme.typography.bodySmall,
-                                color = Color.White.copy(alpha = 0.8f))
-                        }
-                    }
+                    Text(if (parcelle != null) "Station - ${parcelle.name}" else "Station")
                 },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, null)
+                    IconButton(onClick = onNavigateBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, null) }
+                },
+                actions = {
+                    IconButton(onClick = { scope.launch { stationRepository.save(currentObs) } }) {
+                        Icon(Icons.Default.Save, "Sauvegarder")
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF2E5902),
-                    titleContentColor = Color.White,
-                    navigationIconContentColor = Color.White
-                )
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
             )
         }
     ) { padding ->

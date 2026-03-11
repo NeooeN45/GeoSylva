@@ -182,19 +182,58 @@ object DatabaseMigrations {
                     microhabitatCavites INTEGER NOT NULL DEFAULT 0,
                     microhabitatFissures INTEGER NOT NULL DEFAULT 0,
                     microhabitatDecollementEcorce INTEGER NOT NULL DEFAULT 0,
-                    microhabitatChampignons INTEGER NOT NULL DEFAULT 0,
+                    microhabitatLierre INTEGER NOT NULL DEFAULT 0,
                     microhabitatBoisMort INTEGER NOT NULL DEFAULT 0,
-                    microhabitatTresGrosBois INTEGER NOT NULL DEFAULT 0,
-                    sanitairePct REAL NOT NULL DEFAULT 0.0,
-                    invasivesPct REAL NOT NULL DEFAULT 0.0,
-                    invasivesCsv TEXT NOT NULL DEFAULT '',
+                    microhabitatCheveluRacinaire INTEGER NOT NULL DEFAULT 0,
+                    santeSanitaire TEXT NOT NULL DEFAULT '',
+                    santeDegatsCastor INTEGER NOT NULL DEFAULT 0,
                     inadapteesMode TEXT NOT NULL DEFAULT 'ABSENCE',
-                    stabilitePct REAL NOT NULL DEFAULT 0.0,
-                    globalNotes TEXT NOT NULL DEFAULT '',
-                    photoUrisCsv TEXT NOT NULL DEFAULT ''
+                    stabiliteBerge TEXT NOT NULL DEFAULT '',
+                    stabiliteErosion INTEGER NOT NULL DEFAULT 0,
+                    stabilitePietinement INTEGER NOT NULL DEFAULT 0,
+                    notes TEXT NOT NULL DEFAULT ''
                 )
             """.trimIndent())
             db.execSQL("CREATE INDEX IF NOT EXISTS index_ripisylve_parcelleId ON ripisylve_diagnostics(parcelleId)")
+        }
+    }
+
+    val MIGRATION_16_17 = object : Migration(16, 17) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS station_diagnostics (
+                    id TEXT PRIMARY KEY NOT NULL,
+                    parcelleId TEXT NOT NULL,
+                    observerName TEXT NOT NULL,
+                    observationDate INTEGER NOT NULL,
+                    latitude REAL,
+                    longitude REAL,
+                    altitudeM REAL,
+                    commune TEXT NOT NULL,
+                    pentePct REAL,
+                    exposition TEXT NOT NULL,
+                    positionTopo TEXT NOT NULL,
+                    distanceCourseauM REAL,
+                    profondeurSolCm INTEGER,
+                    texture TEXT NOT NULL,
+                    pierrosite TEXT NOT NULL,
+                    hydromorphieProfondeurCm INTEGER,
+                    humus TEXT NOT NULL,
+                    phEstime REAL,
+                    testHcl TEXT NOT NULL,
+                    drainage TEXT NOT NULL,
+                    rocheMere TEXT NOT NULL,
+                    gradientHydrique INTEGER NOT NULL,
+                    gradientTrophique INTEGER NOT NULL,
+                    gradientLumineux INTEGER NOT NULL,
+                    gradientHumique INTEGER NOT NULL,
+                    especesIndicatricesJson TEXT NOT NULL,
+                    especesXerophiles INTEGER NOT NULL,
+                    especesMesophiles INTEGER NOT NULL,
+                    especesHygrophiles INTEGER NOT NULL,
+                    notes TEXT NOT NULL
+                )
+            """.trimIndent())
         }
     }
 
@@ -203,6 +242,6 @@ object DatabaseMigrations {
         MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5,
         MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9,
         MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13,
-        MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16
+        MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17
     )
 }

@@ -96,6 +96,25 @@ fun RipisylveDiagnosticScreen(
     var sectionLength by rememberSaveable { mutableStateOf("50") }
     var sectionNotes by rememberSaveable { mutableStateOf("") }
 
+    // GPS capture
+    val captureGps = {
+        scope.launch(Dispatchers.IO) {
+            try {
+                val lm = context.getSystemService(Context.LOCATION_SERVICE) as android.location.LocationManager
+                if (androidx.core.app.ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                    val loc = lm.getLastKnownLocation(android.location.LocationManager.GPS_PROVIDER)
+                        ?: lm.getLastKnownLocation(android.location.LocationManager.NETWORK_PROVIDER)
+                    loc?.let {
+                        gpsLat = it.latitude
+                        gpsLon = it.longitude
+                    }
+                }
+            } catch (_: Exception) {}
+        }
+    }
+    
+    LaunchedEffect(Unit) { captureGps() }
+
     // Critère 1 – Continuité
     var continuitePct by rememberSaveable { mutableStateOf(0f) }
     // Critère 2 – Largeur
@@ -139,6 +158,7 @@ fun RipisylveDiagnosticScreen(
 
     // ── Calcul du score ──
     val currentObs by remember(
+        gpsLat, gpsLon,
         continuitePct, largeurMode, strateHerbacee, strateArbustive, strateArborescente,
         nbEspeces, hasTresPetitBois, hasPetitBois, hasMoyenBois, hasGrosBois,
         microCavites, microFissures, microDecol, microChamp, microBoisMort, microTresGros,
@@ -147,6 +167,9 @@ fun RipisylveDiagnosticScreen(
         derivedStateOf {
             RipisylveObservation(
                 parcelleId = parcelleId,
+                observerName = observerName,
+                latitude = gpsLat,
+                longitude = gpsLon,
                 continuitePct = continuitePct.toDouble(),
                 largeurMode = largeurMode,
                 strateHerbacee = strateHerbacee,
