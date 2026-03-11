@@ -21,6 +21,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -67,7 +69,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-@OptIn(ExperimentalMaterial3Api::class)
+import androidx.compose.foundation.ExperimentalFoundationApi
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun StationDiagnosticScreen(
     parcelleId: String,
@@ -84,6 +88,19 @@ fun StationDiagnosticScreen(
 
     var selectedTab by rememberSaveable { mutableStateOf(0) }
     val tabs = listOf("Topo / Sol", "Gradients", "Végétation", "Résultat")
+    val pagerState = rememberPagerState(pageCount = { tabs.size })
+
+    // Synchronize tabs and pager
+    LaunchedEffect(selectedTab) {
+        if (pagerState.currentPage != selectedTab) {
+            pagerState.animateScrollToPage(selectedTab)
+        }
+    }
+    LaunchedEffect(pagerState.currentPage) {
+        if (selectedTab != pagerState.currentPage) {
+            selectedTab = pagerState.currentPage
+        }
+    }
 
     // ── GPS ──
     var gpsLat by rememberSaveable { mutableStateOf<Double?>(null) }
@@ -235,41 +252,46 @@ fun StationDiagnosticScreen(
                 }
             }
 
-            when (selectedTab) {
-                0 -> TopoSolTab(
-                    gpsLat = gpsLat, gpsLon = gpsLon,
-                    altitudeM = altitudeM, onAltitudeChange = { altitudeM = it },
-                    commune = commune, onCommuneChange = { commune = it },
-                    pentePct = pentePct, onPenteChange = { pentePct = it },
-                    exposition = exposition, onExpositionChange = { exposition = it },
-                    positionTopo = positionTopo, onPositionTopoChange = { positionTopo = it },
-                    distanceCours = distanceCours, onDistanceCoursChange = { distanceCours = it },
-                    profondeurCm = profondeurCm, onProfondeurChange = { profondeurCm = it },
-                    texture = texture, onTextureChange = { texture = it },
-                    pierrosite = pierrosite, onPierrositeChange = { pierrosite = it },
-                    hydromorphieCm = hydromorphieCm, onHydromorphieChange = { hydromorphieCm = it },
-                    humus = humus, onHumusChange = { humus = it },
-                    phEstime = phEstime, onPhChange = { phEstime = it },
-                    testHcl = testHcl, onTestHclChange = { testHcl = it },
-                    drainage = drainage, onDrainageChange = { drainage = it },
-                    rocheMere = rocheMere, onRocheMereChange = { rocheMere = it }
-                )
-                1 -> GradientsTab(
-                    gradientHydrique = gradientHydrique, onHydriqueChange = { gradientHydrique = it },
-                    gradientTrophique = gradientTrophique, onTrophiqueChange = { gradientTrophique = it },
-                    gradientLumineux = gradientLumineux, onLumineuxChange = { gradientLumineux = it },
-                    gradientHumique = gradientHumique, onHumiqueChange = { gradientHumique = it }
-                )
-                2 -> VegetationTab(
-                    especesIndicatrices = especesIndicatrices, onEspecesChange = { especesIndicatrices = it },
-                    especesXerophiles = especesXerophiles, onXerophilesChange = { especesXerophiles = it },
-                    especesMesophiles = especesMesophiles, onMesophilesChange = { especesMesophiles = it },
-                    especesHygrophiles = especesHygrophiles, onHygrophilesChange = { especesHygrophiles = it },
-                    notes = notes, onNotesChange = { notes = it },
-                    dendroCtx = dendroCtx,
-                    nbTiges = tiges.size
-                )
-                3 -> ResultatTab(result = result, currentObs = currentObs, dendroCtx = dendroCtx)
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxSize()
+            ) { page ->
+                when (page) {
+                    0 -> TopoSolTab(
+                        gpsLat = gpsLat, gpsLon = gpsLon,
+                        altitudeM = altitudeM, onAltitudeChange = { altitudeM = it },
+                        commune = commune, onCommuneChange = { commune = it },
+                        pentePct = pentePct, onPenteChange = { pentePct = it },
+                        exposition = exposition, onExpositionChange = { exposition = it },
+                        positionTopo = positionTopo, onPositionTopoChange = { positionTopo = it },
+                        distanceCours = distanceCours, onDistanceCoursChange = { distanceCours = it },
+                        profondeurCm = profondeurCm, onProfondeurChange = { profondeurCm = it },
+                        texture = texture, onTextureChange = { texture = it },
+                        pierrosite = pierrosite, onPierrositeChange = { pierrosite = it },
+                        hydromorphieCm = hydromorphieCm, onHydromorphieChange = { hydromorphieCm = it },
+                        humus = humus, onHumusChange = { humus = it },
+                        phEstime = phEstime, onPhChange = { phEstime = it },
+                        testHcl = testHcl, onTestHclChange = { testHcl = it },
+                        drainage = drainage, onDrainageChange = { drainage = it },
+                        rocheMere = rocheMere, onRocheMereChange = { rocheMere = it }
+                    )
+                    1 -> GradientsTab(
+                        gradientHydrique = gradientHydrique, onHydriqueChange = { gradientHydrique = it },
+                        gradientTrophique = gradientTrophique, onTrophiqueChange = { gradientTrophique = it },
+                        gradientLumineux = gradientLumineux, onLumineuxChange = { gradientLumineux = it },
+                        gradientHumique = gradientHumique, onHumiqueChange = { gradientHumique = it }
+                    )
+                    2 -> VegetationTab(
+                        especesIndicatrices = especesIndicatrices, onEspecesChange = { especesIndicatrices = it },
+                        especesXerophiles = especesXerophiles, onXerophilesChange = { especesXerophiles = it },
+                        especesMesophiles = especesMesophiles, onMesophilesChange = { especesMesophiles = it },
+                        especesHygrophiles = especesHygrophiles, onHygrophilesChange = { especesHygrophiles = it },
+                        notes = notes, onNotesChange = { notes = it },
+                        dendroCtx = dendroCtx,
+                        nbTiges = tiges.size
+                    )
+                    3 -> ResultatTab(result = result)
+                }
             }
         }
     }
@@ -600,9 +622,7 @@ private fun StaCheckChip(
 
 @Composable
 private fun ResultatTab(
-    result: StationDiagnosticEngine.StationResult,
-    currentObs: StationObservation,
-    dendroCtx: StationDiagnosticEngine.DendroContext
+    result: StationDiagnosticEngine.StationResult
 ) {
     Column(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),

@@ -10,6 +10,7 @@ import android.net.Uri
 import com.forestry.counter.R
 import com.forestry.counter.domain.calculation.ProductBreakdownRow
 import com.forestry.counter.domain.model.Parcelle
+import com.forestry.counter.domain.model.Tige
 import com.forestry.counter.presentation.screens.forestry.BiodiversityIndex
 import com.forestry.counter.presentation.screens.forestry.MartelageStats
 import com.forestry.counter.presentation.screens.forestry.SpecialTreeEntry
@@ -157,7 +158,10 @@ object PdfSynthesisExporter {
         }
 
         // ── Carte de localisation (scatter plot des tiges) ──
-        val gpsTiges = tiges.filter { it.gpsLat != null && it.gpsLon != null }
+        val gpsTiges = tiges.mapNotNull { t ->
+            val pt = QgisExportHelper.parseWktPointZ(t.gpsWkt)
+            if (pt != null) Pair(t, pt) else null
+        }
         if (gpsTiges.size >= 2) {
             y += 10f
             canvas.drawLine(MARGIN, y, PAGE_W - MARGIN, y, thinLine())
@@ -167,10 +171,10 @@ object PdfSynthesisExporter {
             
             val mapHeight = 160f
             val mapWidth = PAGE_W - 2 * MARGIN
-            val minLat = gpsTiges.minOf { it.gpsLat!! }
-            val maxLat = gpsTiges.maxOf { it.gpsLat!! }
-            val minLon = gpsTiges.minOf { it.gpsLon!! }
-            val maxLon = gpsTiges.maxOf { it.gpsLon!! }
+            val minLat = gpsTiges.minOf { it.second.lat }
+            val maxLat = gpsTiges.maxOf { it.second.lat }
+            val minLon = gpsTiges.minOf { it.second.lon }
+            val maxLon = gpsTiges.maxOf { it.second.lon }
             
             val latRange = (maxLat - minLat).coerceAtLeast(0.0001)
             val lonRange = (maxLon - minLon).coerceAtLeast(0.0001)
@@ -183,11 +187,11 @@ object PdfSynthesisExporter {
             canvas.drawRect(MARGIN, y, MARGIN + mapWidth, y + mapHeight, mapBg)
             canvas.drawRect(MARGIN, y, MARGIN + mapWidth, y + mapHeight, mapBorder)
             
-            gpsTiges.forEach { t ->
-                val px = MARGIN + ((t.gpsLon!! - minLon) / lonRange * (mapWidth - 10f) + 5f).toFloat()
+            gpsTiges.forEach { (t, pt) ->
+                val px = MARGIN + ((pt.lon - minLon) / lonRange * (mapWidth - 10f) + 5f).toFloat()
                 // Invert Y since screen Y goes down, while Lat goes up
-                val py = y + mapHeight - ((t.gpsLat!! - minLat) / latRange * (mapHeight - 10f) + 5f).toFloat()
-                val isSpecial = t.qualite == "MORT" || t.qualite == "BIO" || t.qualite == "DÉP" || t.qualite == "SAN"
+                val py = y + mapHeight - ((pt.lat - minLat) / latRange * (mapHeight - 10f) + 5f).toFloat()
+                val isSpecial = t.categorie == "MORT" || t.categorie == "ARBRE_BIO" || t.categorie == "DEPERISSANT" || t.categorie == "PARASITE"
                 val r = if (isSpecial) 3.5f else 2f
                 val p = if (isSpecial) specialPointPaint else pointPaint
                 canvas.drawCircle(px, py, r, p)
