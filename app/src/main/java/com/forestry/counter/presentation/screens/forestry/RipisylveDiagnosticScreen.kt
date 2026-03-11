@@ -25,6 +25,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -73,7 +75,9 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
-@OptIn(ExperimentalMaterial3Api::class)
+import androidx.compose.foundation.ExperimentalFoundationApi
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun RipisylveDiagnosticScreen(
     parcelleId: String,
@@ -87,7 +91,20 @@ fun RipisylveDiagnosticScreen(
     val diagnostics by ripisylveRepository.getByParcelle(parcelleId).collectAsState(initial = emptyList())
 
     var selectedTab by rememberSaveable { mutableStateOf(0) }
-    val tabs = listOf("Terrain", "Auto", "Résultat", "Historique")
+    val tabs = listOf("Dimensions", "Structure", "Menaces", "Résultat", "Historique")
+    val pagerState = rememberPagerState(pageCount = { tabs.size })
+
+    // Synchronize tabs and pager
+    LaunchedEffect(selectedTab) {
+        if (pagerState.currentPage != selectedTab) {
+            pagerState.animateScrollToPage(selectedTab)
+        }
+    }
+    LaunchedEffect(pagerState.currentPage) {
+        if (selectedTab != pagerState.currentPage) {
+            selectedTab = pagerState.currentPage
+        }
+    }
 
     // ── Saisie terrain (état) ──
     var gpsLat by rememberSaveable { mutableStateOf<Double?>(null) }
@@ -286,80 +303,67 @@ fun RipisylveDiagnosticScreen(
                 }
             }
 
-            when (selectedTab) {
-                0 -> TerrainTab(
-                    gpsLat = gpsLat, gpsLon = gpsLon,
-                    observerName = observerName, onObserverChange = { observerName = it },
-                    sectionLength = sectionLength, onSectionLengthChange = { sectionLength = it },
-                    sectionNotes = sectionNotes, onSectionNotesChange = { sectionNotes = it },
-                    continuitePct = continuitePct, onContinuiteChange = { continuitePct = it },
-                    largeurMode = largeurMode, onLargeurChange = { largeurMode = it },
-                    strateHerbacee = strateHerbacee, onStrateHerbaceeChange = { strateHerbacee = it },
-                    strateArbustive = strateArbustive, onStrateArbustiveChange = { strateArbustive = it },
-                    strateArborescente = strateArborescente, onStrateArborescente = { strateArborescente = it },
-                    nbEspeces = nbEspeces, onNbEspecesChange = { nbEspeces = it },
-                    hasTresPetitBois = hasTresPetitBois, onHasTresPetitBoisChange = { hasTresPetitBois = it },
-                    hasPetitBois = hasPetitBois, onHasPetitBoisChange = { hasPetitBois = it },
-                    hasMoyenBois = hasMoyenBois, onHasMoyenBoisChange = { hasMoyenBois = it },
-                    hasGrosBois = hasGrosBois, onHasGrosBoisChange = { hasGrosBois = it },
-                    dendroAutoFill = dendroAutoFill,
-                    microCavites = microCavites, onMicroCavitesChange = { microCavites = it },
-                    microFissures = microFissures, onMicroFissuresChange = { microFissures = it },
-                    microDecol = microDecol, onMicroDecolChange = { microDecol = it },
-                    microChamp = microChamp, onMicroChampChange = { microChamp = it },
-                    microBoisMort = microBoisMort, onMicroBoisMortChange = { microBoisMort = it },
-                    microTresGros = microTresGros, onMicroTresGrosChange = { microTresGros = it },
-                    sanitairePct = sanitairePct, onSanitaireChange = { sanitairePct = it },
-                    invasivesPct = invasivesPct, onInvasivesChange = { invasivesPct = it },
-                    inadapteesMode = inadapteesMode, onInadapteesChange = { inadapteesMode = it },
-                    stabilitePct = stabilitePct, onStabiliteChange = { stabilitePct = it },
-                    globalNotes = globalNotes, onGlobalNotesChange = { globalNotes = it },
-                    onSave = { saveCurrentDiagnostic() }
-                )
-                1 -> AutoTab(score = score, tiges = tiges.size, dendroAutoFill = dendroAutoFill)
-                2 -> ResultTab(score = score)
-                3 -> HistoriqueTab(
-                    diagnostics = diagnostics,
-                    onDelete = { obs -> scope.launch { ripisylveRepository.delete(obs) } }
-                )
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxSize()
+            ) { page ->
+                when (page) {
+                    0 -> DimensionsTab(
+                        gpsLat = gpsLat, gpsLon = gpsLon,
+                        observerName = observerName, onObserverChange = { observerName = it },
+                        sectionLength = sectionLength, onSectionLengthChange = { sectionLength = it },
+                        sectionNotes = sectionNotes, onSectionNotesChange = { sectionNotes = it },
+                        continuitePct = continuitePct, onContinuiteChange = { continuitePct = it },
+                        largeurMode = largeurMode, onLargeurChange = { largeurMode = it }
+                    )
+                    1 -> StructureTab(
+                        strateHerbacee = strateHerbacee, onStrateHerbaceeChange = { strateHerbacee = it },
+                        strateArbustive = strateArbustive, onStrateArbustiveChange = { strateArbustive = it },
+                        strateArborescente = strateArborescente, onStrateArborescente = { strateArborescente = it },
+                        nbEspeces = nbEspeces, onNbEspecesChange = { nbEspeces = it },
+                        hasTresPetitBois = hasTresPetitBois, onHasTresPetitBoisChange = { hasTresPetitBois = it },
+                        hasPetitBois = hasPetitBois, onHasPetitBoisChange = { hasPetitBois = it },
+                        hasMoyenBois = hasMoyenBois, onHasMoyenBoisChange = { hasMoyenBois = it },
+                        hasGrosBois = hasGrosBois, onHasGrosBoisChange = { hasGrosBois = it },
+                        dendroAutoFill = dendroAutoFill,
+                        microCavites = microCavites, onMicroCavitesChange = { microCavites = it },
+                        microFissures = microFissures, onMicroFissuresChange = { microFissures = it },
+                        microDecol = microDecol, onMicroDecolChange = { microDecol = it },
+                        microChamp = microChamp, onMicroChampChange = { microChamp = it },
+                        microBoisMort = microBoisMort, onMicroBoisMortChange = { microBoisMort = it },
+                        microTresGros = microTresGros, onMicroTresGrosChange = { microTresGros = it }
+                    )
+                    2 -> MenacesTab(
+                        sanitairePct = sanitairePct, onSanitaireChange = { sanitairePct = it },
+                        invasivesPct = invasivesPct, onInvasivesChange = { invasivesPct = it },
+                        inadapteesMode = inadapteesMode, onInadapteesChange = { inadapteesMode = it },
+                        stabilitePct = stabilitePct, onStabiliteChange = { stabilitePct = it },
+                        globalNotes = globalNotes, onGlobalNotesChange = { globalNotes = it },
+                        onSave = { saveCurrentDiagnostic() }
+                    )
+                    3 -> ResultTab(score = score, tiges = tiges.size, dendroAutoFill = dendroAutoFill)
+                    4 -> HistoriqueTab(
+                        diagnostics = diagnostics,
+                        onDelete = { obs -> scope.launch { ripisylveRepository.delete(obs) } }
+                    )
+                }
             }
         }
     }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  Tab 0 – Terrain
+//  Tab 0 – Dimensions
 // ─────────────────────────────────────────────────────────────────────────────
 
 @Composable
-private fun TerrainTab(
+private fun DimensionsTab(
     gpsLat: Double?, gpsLon: Double?,
     observerName: String, onObserverChange: (String) -> Unit,
     sectionLength: String, onSectionLengthChange: (String) -> Unit,
     sectionNotes: String, onSectionNotesChange: (String) -> Unit,
     continuitePct: Float, onContinuiteChange: (Float) -> Unit,
-    largeurMode: LargeurMode, onLargeurChange: (LargeurMode) -> Unit,
-    strateHerbacee: Boolean, onStrateHerbaceeChange: (Boolean) -> Unit,
-    strateArbustive: Boolean, onStrateArbustiveChange: (Boolean) -> Unit,
-    strateArborescente: Boolean, onStrateArborescente: (Boolean) -> Unit,
-    nbEspeces: String, onNbEspecesChange: (String) -> Unit,
-    hasTresPetitBois: Boolean, onHasTresPetitBoisChange: (Boolean) -> Unit,
-    hasPetitBois: Boolean, onHasPetitBoisChange: (Boolean) -> Unit,
-    hasMoyenBois: Boolean, onHasMoyenBoisChange: (Boolean) -> Unit,
-    hasGrosBois: Boolean, onHasGrosBoisChange: (Boolean) -> Unit,
-    dendroAutoFill: RipisylveObservation,
-    microCavites: Boolean, onMicroCavitesChange: (Boolean) -> Unit,
-    microFissures: Boolean, onMicroFissuresChange: (Boolean) -> Unit,
-    microDecol: Boolean, onMicroDecolChange: (Boolean) -> Unit,
-    microChamp: Boolean, onMicroChampChange: (Boolean) -> Unit,
-    microBoisMort: Boolean, onMicroBoisMortChange: (Boolean) -> Unit,
-    microTresGros: Boolean, onMicroTresGrosChange: (Boolean) -> Unit,
-    sanitairePct: Float, onSanitaireChange: (Float) -> Unit,
-    invasivesPct: Float, onInvasivesChange: (Float) -> Unit,
-    inadapteesMode: InadapteesMode, onInadapteesChange: (InadapteesMode) -> Unit,
-    stabilitePct: Float, onStabiliteChange: (Float) -> Unit,
-    globalNotes: String, onGlobalNotesChange: (String) -> Unit,
-    onSave: () -> Unit
+    largeurMode: LargeurMode, onLargeurChange: (LargeurMode) -> Unit
 ) {
     val df = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.FRANCE)
 
@@ -387,7 +391,7 @@ private fun TerrainTab(
             Spacer(Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(value = sectionLength, onValueChange = onSectionLengthChange,
-                    label = { Text("Longueur (m)") }, modifier = Modifier.weight(1f), singleLine = true)
+                    label = { Text("Longueur étudiée (m)") }, modifier = Modifier.weight(1f), singleLine = true)
             }
             Spacer(Modifier.height(8.dp))
             OutlinedTextField(value = sectionNotes, onValueChange = onSectionNotesChange,
@@ -430,7 +434,39 @@ private fun TerrainTab(
                 }
             }
         }
+        Spacer(Modifier.height(24.dp))
+    }
+}
 
+// ─────────────────────────────────────────────────────────────────────────────
+//  Tab 1 – Structure & Biodiversité
+// ─────────────────────────────────────────────────────────────────────────────
+
+@Composable
+private fun StructureTab(
+    strateHerbacee: Boolean, onStrateHerbaceeChange: (Boolean) -> Unit,
+    strateArbustive: Boolean, onStrateArbustiveChange: (Boolean) -> Unit,
+    strateArborescente: Boolean, onStrateArborescente: (Boolean) -> Unit,
+    nbEspeces: String, onNbEspecesChange: (String) -> Unit,
+    hasTresPetitBois: Boolean, onHasTresPetitBoisChange: (Boolean) -> Unit,
+    hasPetitBois: Boolean, onHasPetitBoisChange: (Boolean) -> Unit,
+    hasMoyenBois: Boolean, onHasMoyenBoisChange: (Boolean) -> Unit,
+    hasGrosBois: Boolean, onHasGrosBoisChange: (Boolean) -> Unit,
+    dendroAutoFill: RipisylveObservation,
+    microCavites: Boolean, onMicroCavitesChange: (Boolean) -> Unit,
+    microFissures: Boolean, onMicroFissuresChange: (Boolean) -> Unit,
+    microDecol: Boolean, onMicroDecolChange: (Boolean) -> Unit,
+    microChamp: Boolean, onMicroChampChange: (Boolean) -> Unit,
+    microBoisMort: Boolean, onMicroBoisMortChange: (Boolean) -> Unit,
+    microTresGros: Boolean, onMicroTresGrosChange: (Boolean) -> Unit
+) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
         // ── C3 : Strates ──
         RipCriterionCard(num = 3, title = "Nombre de strates",
             maxPts = 20, pts = RipisylveScorer.scoreStrates(
@@ -479,7 +515,7 @@ private fun TerrainTab(
                     Row(Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
                         Icon(Icons.Default.Sync, null, tint = Color(0xFF2E7D32), modifier = Modifier.size(16.dp))
                         Spacer(Modifier.width(6.dp))
-                        Text("Calculé automatiquement depuis les ${dendroAutoFill.let { 0 }} tiges",
+                        Text("Calculé automatiquement depuis l'inventaire",
                             style = MaterialTheme.typography.bodySmall, color = Color(0xFF2E7D32))
                     }
                 }
@@ -508,9 +544,32 @@ private fun TerrainTab(
             RipCheckRow("Bois mort sur pied/sol (d ≥ 30 cm)", microBoisMort, onMicroBoisMortChange)
             RipCheckRow("Très gros bois vivant (d ≥ 70 cm)", microTresGros, onMicroTresGrosChange)
         }
+        Spacer(Modifier.height(24.dp))
+    }
+}
 
-        Divider(color = Color(0xFFB71C1C).copy(alpha = 0.3f), thickness = 1.dp)
-        Text("INDICATEURS NÉGATIFS", style = MaterialTheme.typography.labelSmall,
+// ─────────────────────────────────────────────────────────────────────────────
+//  Tab 2 – Menaces & Stabilité
+// ─────────────────────────────────────────────────────────────────────────────
+
+@Composable
+private fun MenacesTab(
+    sanitairePct: Float, onSanitaireChange: (Float) -> Unit,
+    invasivesPct: Float, onInvasivesChange: (Float) -> Unit,
+    inadapteesMode: InadapteesMode, onInadapteesChange: (InadapteesMode) -> Unit,
+    stabilitePct: Float, onStabiliteChange: (Float) -> Unit,
+    globalNotes: String, onGlobalNotesChange: (String) -> Unit,
+    onSave: () -> Unit
+) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        HorizontalDivider(color = Color(0xFFB71C1C).copy(alpha = 0.3f), thickness = 1.dp)
+        Text("INDICATEURS NÉGATIFS (Pénalités)", style = MaterialTheme.typography.labelSmall,
             color = Color(0xFFB71C1C), fontWeight = FontWeight.Bold)
 
         // ── C7 : État sanitaire ──
@@ -544,7 +603,7 @@ private fun TerrainTab(
                 Text("100 %", style = MaterialTheme.typography.labelSmall)
             }
             Spacer(Modifier.height(4.dp))
-            Text("Principales espèces invasives : Balsamine du Cap, Renouée asiatique, Berce du Caucase, Solidages",
+            Text("Ex: Balsamine du Cap, Renouée du Japon, Berce du Caucase...",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
@@ -552,7 +611,7 @@ private fun TerrainTab(
         // ── C9 : Espèces inadaptées ──
         RipCriterionCard(num = 9, title = "Espèces inadaptées",
             maxPts = 0, pts = inadapteesMode.points,
-            description = "À proximité immédiate du cours d'eau", isNegative = true
+            description = "Conifères ou espèces ornementales inadaptées", isNegative = true
         ) {
             InadapteesMode.entries.forEach { mode ->
                 Row(
@@ -568,7 +627,7 @@ private fun TerrainTab(
         // ── C10 : Stabilité ──
         RipCriterionCard(num = 10, title = "Stabilité des arbres / berges",
             maxPts = 0, pts = RipisylveScorer.scoreStabilite(stabilitePct.toDouble()),
-            description = "% d'arbres penchés ou affouillement de berge", isNegative = true
+            description = "% d'arbres menaçant de basculer / berges érodées", isNegative = true
         ) {
             Slider(value = stabilitePct, onValueChange = onStabiliteChange,
                 valueRange = 0f..100f, steps = 19,
@@ -583,7 +642,7 @@ private fun TerrainTab(
 
         // ── Notes globales ──
         OutlinedTextField(value = globalNotes, onValueChange = onGlobalNotesChange,
-            label = { Text("Notes générales") }, modifier = Modifier.fillMaxWidth(), minLines = 3)
+            label = { Text("Notes générales et observations") }, modifier = Modifier.fillMaxWidth(), minLines = 3)
 
         Button(onClick = onSave, modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1A6B3C))) {
@@ -596,94 +655,11 @@ private fun TerrainTab(
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  Tab 1 – Auto (récapitulatif calcul)
+//  Tab 3 – Résultat (and Auto computation recap)
 // ─────────────────────────────────────────────────────────────────────────────
 
 @Composable
-private fun AutoTab(score: RipisylveScore, tiges: Int, dendroAutoFill: RipisylveObservation) {
-    Column(
-        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        Text("Calcul automatique en cours", style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold)
-        Text("L'application calcule le score en temps réel à partir de vos saisies terrain.",
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant)
-
-        // Tableau récapitulatif
-        Card(
-            shape = RoundedCornerShape(12.dp), elevation = CardDefaults.cardElevation(2.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("Détail des critères", style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold)
-                Divider()
-                AutoRow("1. Continuité", score.scoreContinuite, 30, false)
-                AutoRow("2. Largeur", score.scoreLargeur, 20, false)
-                AutoRow("3. Strates (${score.nbStrates}/3)", score.scoreStrates, 20, false)
-                AutoRow("4. Diversité", score.scoreDiversite, 10, false)
-                AutoRow("5. Classes diam. (${score.nbClassesDiam}/4)${if (dendroAutoFill.diamAutoFromDendro) " ⚡" else ""}", score.scoreDiametres, 10, false)
-                AutoRow("6. Microhabitats (${score.nbMicrohabitats})", score.scoreMicrohabitats, 10, false)
-                Divider()
-                AutoRow("7. État sanitaire", score.scoreSanitaire, -20, true)
-                AutoRow("8. Espèces invasives", score.scoreInvasives, -20, true)
-                AutoRow("9. Espèces inadaptées", score.scoreInadaptees, -10, true)
-                AutoRow("10. Stabilité", score.scoreStabilite, -20, true)
-                Divider(thickness = 2.dp, color = Color(0xFF1A6B3C))
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("SCORE TOTAL", style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.ExtraBold)
-                    Text("${score.scoreTotal} pts",
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = Color(score.fonctionnalite.colorHex))
-                }
-            }
-        }
-
-        if (tiges > 0) {
-            Surface(
-                color = Color(0xFFE8F5E9), shape = RoundedCornerShape(8.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Default.Sync, null, tint = Color(0xFF2E7D32))
-                    Spacer(Modifier.width(8.dp))
-                    Column {
-                        Text("Données dendro intégrées", fontWeight = FontWeight.SemiBold,
-                            style = MaterialTheme.typography.bodyMedium, color = Color(0xFF1B5E20))
-                        Text("$tiges tiges de l'inventaire — classes de diamètre calculées automatiquement",
-                            style = MaterialTheme.typography.bodySmall, color = Color(0xFF2E7D32))
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun AutoRow(label: String, pts: Int, maxPts: Int, isNegative: Boolean) {
-    Row(Modifier.fillMaxWidth().padding(vertical = 2.dp), horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically) {
-        Text(label, style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f))
-        val color = if (isNegative) {
-            if (pts < 0) Color(0xFFC62828) else Color(0xFF388E3C)
-        } else {
-            if (pts > 0) Color(0xFF2E7D32) else MaterialTheme.colorScheme.onSurfaceVariant
-        }
-        Text("$pts pts", style = MaterialTheme.typography.bodySmall,
-            fontWeight = FontWeight.Bold, color = color)
-    }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-//  Tab 2 – Résultat
-// ─────────────────────────────────────────────────────────────────────────────
-
-@Composable
-private fun ResultTab(score: RipisylveScore) {
+private fun ResultTab(score: RipisylveScore, tiges: Int, dendroAutoFill: RipisylveObservation) {
     val scoreAnim = remember { Animatable(0f) }
     LaunchedEffect(score.scoreTotal) {
         scoreAnim.animateTo(
@@ -746,6 +722,56 @@ private fun ResultTab(score: RipisylveScore) {
                                 color = Color.White, fontWeight = FontWeight.Bold,
                                 style = MaterialTheme.typography.bodyMedium)
                         }
+                    }
+                }
+            }
+        }
+
+        // Tableau récapitulatif
+        Card(
+            shape = RoundedCornerShape(12.dp), elevation = CardDefaults.cardElevation(2.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text("Détail des critères", style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold)
+                HorizontalDivider()
+                AutoRow("1. Continuité", score.scoreContinuite, 30, false)
+                AutoRow("2. Largeur", score.scoreLargeur, 20, false)
+                AutoRow("3. Strates (${score.nbStrates}/3)", score.scoreStrates, 20, false)
+                AutoRow("4. Diversité", score.scoreDiversite, 10, false)
+                AutoRow("5. Classes diam. (${score.nbClassesDiam}/4)${if (dendroAutoFill.diamAutoFromDendro) " ⚡" else ""}", score.scoreDiametres, 10, false)
+                AutoRow("6. Microhabitats (${score.nbMicrohabitats})", score.scoreMicrohabitats, 10, false)
+                HorizontalDivider()
+                AutoRow("7. État sanitaire", score.scoreSanitaire, -20, true)
+                AutoRow("8. Espèces invasives", score.scoreInvasives, -20, true)
+                AutoRow("9. Espèces inadaptées", score.scoreInadaptees, -10, true)
+                AutoRow("10. Stabilité", score.scoreStabilite, -20, true)
+                HorizontalDivider(thickness = 2.dp, color = Color(0xFF1A6B3C))
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text("SCORE TOTAL", style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.ExtraBold)
+                    Text("${score.scoreTotal} pts",
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color(score.fonctionnalite.colorHex))
+                }
+            }
+        }
+
+        if (tiges > 0) {
+            Surface(
+                color = Color(0xFFE8F5E9), shape = RoundedCornerShape(8.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.Sync, null, tint = Color(0xFF2E7D32))
+                    Spacer(Modifier.width(8.dp))
+                    Column {
+                        Text("Données dendro intégrées", fontWeight = FontWeight.SemiBold,
+                            style = MaterialTheme.typography.bodyMedium, color = Color(0xFF1B5E20))
+                        Text("$tiges tiges de l'inventaire — classes de diamètre calculées automatiquement",
+                            style = MaterialTheme.typography.bodySmall, color = Color(0xFF2E7D32))
                     }
                 }
             }
@@ -849,7 +875,7 @@ private fun ResultTab(score: RipisylveScore) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  Tab 3 – Historique
+//  Tab 4 – Historique
 // ─────────────────────────────────────────────────────────────────────────────
 
 @Composable
@@ -907,6 +933,21 @@ private fun HistoriqueTab(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun AutoRow(label: String, pts: Int, maxPts: Int, isNegative: Boolean) {
+    Row(Modifier.fillMaxWidth().padding(vertical = 2.dp), horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically) {
+        Text(label, style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f))
+        val color = if (isNegative) {
+            if (pts < 0) Color(0xFFC62828) else Color(0xFF388E3C)
+        } else {
+            if (pts > 0) Color(0xFF2E7D32) else MaterialTheme.colorScheme.onSurfaceVariant
+        }
+        Text("$pts pts", style = MaterialTheme.typography.bodySmall,
+            fontWeight = FontWeight.Bold, color = color)
     }
 }
 
