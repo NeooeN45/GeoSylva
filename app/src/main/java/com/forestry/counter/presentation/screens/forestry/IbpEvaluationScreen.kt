@@ -227,26 +227,58 @@ fun IbpEvaluationScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { onNavigateToReference?.invoke() }) {
-                        Icon(Icons.Default.MenuBook, contentDescription = "Guide IBP")
-                    }
-                    if (answers.isComplete) {
-                        IconButton(onClick = { showResultDialog = true }) {
-                            Icon(Icons.Default.Assessment, contentDescription = stringResource(R.string.ibp_result))
+                    if (hasUnsavedChanges) {
+                        IconButton(onClick = { saveEvaluation() }) {
+                            Icon(Icons.Default.Save, contentDescription = stringResource(R.string.save),
+                                tint = MaterialTheme.colorScheme.primary)
                         }
                     }
-                    IconButton(onClick = {
-                        val dateStr = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(observationDate))
-                        exportPdfLauncher.launch("IBP_${dateStr}.pdf")
-                    }) {
-                        Icon(Icons.Default.PictureAsPdf, contentDescription = stringResource(R.string.ibp_export_pdf))
-                    }
-                    IconButton(onClick = { saveEvaluation() }) {
-                        Icon(Icons.Default.Save, contentDescription = stringResource(R.string.save))
-                    }
-                    if (evaluationId != null) {
-                        IconButton(onClick = { showDeleteDialog = true }) {
-                            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.ibp_delete), tint = MaterialTheme.colorScheme.error)
+                    var showOverflow by remember { mutableStateOf(false) }
+                    Box {
+                        IconButton(onClick = { showOverflow = true }) {
+                            Icon(Icons.Default.MoreVert, contentDescription = "Plus d'options")
+                        }
+                        DropdownMenu(expanded = showOverflow, onDismissRequest = { showOverflow = false }) {
+                            if (!hasUnsavedChanges) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.save)) },
+                                    leadingIcon = { Icon(Icons.Default.Save, null) },
+                                    onClick = { showOverflow = false; saveEvaluation() }
+                                )
+                            }
+                            if (onNavigateToReference != null) {
+                                DropdownMenuItem(
+                                    text = { Text("Guide IBP") },
+                                    leadingIcon = { Icon(Icons.Default.MenuBook, null) },
+                                    onClick = { showOverflow = false; onNavigateToReference.invoke() }
+                                )
+                            }
+                            if (answers.isComplete) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.ibp_result)) },
+                                    leadingIcon = { Icon(Icons.Default.Assessment, null) },
+                                    onClick = { showOverflow = false; showResultDialog = true }
+                                )
+                            }
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.ibp_export_pdf)) },
+                                leadingIcon = { Icon(Icons.Default.PictureAsPdf, null) },
+                                onClick = {
+                                    showOverflow = false
+                                    val dateStr = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(observationDate))
+                                    exportPdfLauncher.launch("IBP_${dateStr}.pdf")
+                                }
+                            )
+                            if (evaluationId != null) {
+                                HorizontalDivider()
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.ibp_delete),
+                                        color = MaterialTheme.colorScheme.error) },
+                                    leadingIcon = { Icon(Icons.Default.Delete, null,
+                                        tint = MaterialTheme.colorScheme.error) },
+                                    onClick = { showOverflow = false; showDeleteDialog = true }
+                                )
+                            }
                         }
                     }
                 },
@@ -272,6 +304,15 @@ fun IbpEvaluationScreen(
                 answeredCount = answers.answeredCount,
                 levelColor = levelColor,
                 level = level
+            )
+
+            // ── GPS Section ──────────────────────────────────────────
+            IbpGpsSection(
+                gpsLat = gpsLat,
+                gpsLon = gpsLon,
+                onLatChange = { gpsLat = it },
+                onLonChange = { gpsLon = it },
+                onRecapture = { captureGps() }
             )
 
             // ── Meta (evaluator + date + growth conditions) ────────────────────────────
@@ -696,6 +737,97 @@ fun ibpGrowthConditionsIcon(cond: IbpGrowthConditions): String = when (cond) {
     IbpGrowthConditions.HIGHLAND      -> "⛰️"
     IbpGrowthConditions.SUBALPINE     -> "🏔️"
     IbpGrowthConditions.MEDITERRANEAN -> "☀️"
+}
+
+/* ───────────────── GPS Section ────────────────────────────────── */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun IbpGpsSection(
+    gpsLat: Double?,
+    gpsLon: Double?,
+    onLatChange: (Double?) -> Unit,
+    onLonChange: (Double?) -> Unit,
+    onRecapture: () -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val hasGps = gpsLat != null && gpsLon != null
+    val gpsColor = if (hasGps) Color(0xFF2E7D32) else MaterialTheme.colorScheme.onSurfaceVariant
+
+    Card(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(2.dp)
+    ) {
+        Column {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { expanded = !expanded }
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Default.GpsFixed,
+                    contentDescription = null,
+                    tint = gpsColor,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(Modifier.width(12.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        "Localisation GPS",
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = gpsColor
+                    )
+                    Text(
+                        if (hasGps) String.format(Locale.US, "%.5f, %.5f", gpsLat, gpsLon) else "Aucune coordonnée",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                IconButton(onClick = onRecapture) {
+                    Icon(Icons.Default.MyLocation, contentDescription = "Capturer", tint = MaterialTheme.colorScheme.primary)
+                }
+                Icon(
+                    imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            AnimatedVisibility(visible = expanded) {
+                Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
+                    HorizontalDivider()
+                    Spacer(Modifier.height(12.dp))
+                    Text("Saisie manuelle des coordonnées (WGS84)", style = MaterialTheme.typography.labelSmall)
+                    Spacer(Modifier.height(8.dp))
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        OutlinedTextField(
+                            value = gpsLat?.toString() ?: "",
+                            onValueChange = { onLatChange(it.toDoubleOrNull()) },
+                            label = { Text("Latitude") },
+                            modifier = Modifier.weight(1f),
+                            singleLine = true,
+                            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
+                                keyboardType = androidx.compose.ui.text.input.KeyboardType.Decimal
+                            )
+                        )
+                        OutlinedTextField(
+                            value = gpsLon?.toString() ?: "",
+                            onValueChange = { onLonChange(it.toDoubleOrNull()) },
+                            label = { Text("Longitude") },
+                            modifier = Modifier.weight(1f),
+                            singleLine = true,
+                            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
+                                keyboardType = androidx.compose.ui.text.input.KeyboardType.Decimal
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 /* ─────────────── Criterion Card (enriched) ────────────────────── */
