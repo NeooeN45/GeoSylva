@@ -1,6 +1,7 @@
 package com.forestry.counter.domain.usecase.brain
 
 import android.content.Context
+import android.util.Log
 import com.forestry.counter.data.local.ForestryDatabase
 import com.forestry.counter.data.local.entity.FloraFtsEntity
 import com.forestry.counter.data.local.entity.GpsContextCacheEntity
@@ -38,12 +39,21 @@ import kotlin.math.roundToInt
 class LocalBrainCore(private val db: ForestryDatabase, private val context: Context) {
 
     companion object {
+        private const val TAG = "LocalBrainCore"
         @Volatile private var instance: LocalBrainCore? = null
-        fun getInstance(ctx: Context): LocalBrainCore {
+        fun getInstance(ctx: Context): LocalBrainCore? {
             val app = ctx.applicationContext as? com.forestry.counter.ForestryCounterApplication
-                ?: error("LocalBrainCore requires ForestryCounterApplication")
+            if (app == null) {
+                Log.e(TAG, "LocalBrainCore requires ForestryCounterApplication context")
+                return null
+            }
             return instance ?: synchronized(this) {
-                instance ?: LocalBrainCore(app.database, ctx.applicationContext).also { instance = it }
+                instance ?: try {
+                    LocalBrainCore(app.database, ctx.applicationContext).also { instance = it }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Failed to initialize LocalBrainCore: ${e.message}", e)
+                    null
+                }
             }
         }
         // Durée de validité du cache GPS : 30 jours

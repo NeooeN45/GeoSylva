@@ -1,6 +1,7 @@
 package com.forestry.counter.domain.geo
 
 import android.content.Context
+import android.util.Log
 import java.io.File
 import java.io.RandomAccessFile
 import kotlin.math.atan2
@@ -27,6 +28,7 @@ import kotlin.math.sqrt
  */
 object EmbeddedDemService {
 
+    private const val TAG = "EmbeddedDemService"
     private const val SRTM3_SIZE  = 1201          // points par côté (3 arcsec)
     private const val CELL_DEG    = 1.0 / 1200.0  // pas angulaire = 3 arcsec
 
@@ -39,11 +41,17 @@ object EmbeddedDemService {
     fun getTerrainData(context: Context, lat: Double, lon: Double): SrtmTerrainData? {
         val tileLat = Math.floor(lat).toInt()
         val tileLon = Math.floor(lon).toInt()
-        val file    = findTile(context, tileLat, tileLon) ?: return null
+        val file    = findTile(context, tileLat, tileLon)
+        
+        if (file == null) {
+            Log.d(TAG, "Tuile manquante pour ($lat, $lon) → N${tileLat}E${tileLon}.hgt")
+            return null
+        }
 
         return try {
             readTerrainFromHgt(file, lat, lon, tileLat, tileLon)
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            Log.e(TAG, "Erreur lecture tuile ${file.name}: ${e.message}", e)
             null
         }
     }
@@ -66,6 +74,21 @@ object EmbeddedDemService {
         }.distinct().sorted()
     }
 
+    /**
+     * Retourne les statistiques des tuiles disponibles.
+     */
+    fun getStats(context: Context): Map<String, Any> {
+        val tiles = availableTiles(context)
+        val dirs = demDirs(context).filter { it.exists() }
+        return mapOf(
+            "tileCount" to tiles.size,
+            "directories" to dirs.map { it.absolutePath },
+            "totalSizeBytes" to dirs.sumOf { dir ->
+                dir.listFiles { f -> f.extension.lowercase() == "hgt" }?.sumOf { it.length() } ?: 0L
+            }
+        )
+    }
+
     // ─── Recherche de tuile ────────────────────────────────────────────────────
 
     private fun demDirs(context: Context): List<File> = listOfNotNull(
@@ -75,9 +98,31 @@ object EmbeddedDemService {
 
     private fun findTile(context: Context, tileLat: Int, tileLon: Int): File? {
         val name = tileName(tileLat, tileLon)
-        return demDirs(context)
-            .flatMap { dir -> listOf(File(dir, name), File(dir, name.lowercase())) }
-            .firstOrNull { it.exists() && it.length() >= SRTM3_SIZE.toLong() * SRTM3_SIZE * 2 }
+        val dirs = demDirs(context)
+        
+        // Vérifier d'abord que les répertoires existent
+        for (dir in dirs) {
+            if (!dir.exists()) {
+                Log.d(TAG, "Répertoire DEM inexistant: ${dir.absolutePath}")
+                continue
+            }
+            
+            // Essayer le nom standard puis en minuscules
+            val candidates = listOf(File(dir, name), File(dir, name.lowercase()))
+            for (file in candidates) {
+                if (file.exists()) {
+                    val minSize = SRTM3_SIZE.toLong() * SRTM3_SIZE * 2
+                    if (file.length() >= minSize) {
+                        Log.d(TAG, "Tuile trouvée: ${file.absolutePath} (${file.length() / 1024} KB)")
+                        return file
+                    } else {
+                        Log.w(TAG, "Tuile ${file.name} trop petite: ${file.length()} < $minSize bytes")
+                    }
+                }
+            }
+        }
+        
+        return null
     }
 
     /** Construit le nom de fichier HGT standard : N45E002.hgt */
@@ -110,7 +155,10 @@ object EmbeddedDemService {
                 val offset = ((r * SRTM3_SIZE) + c) * 2L
                 raf.seek(offset)
                 val hi = raf.read(); val lo = raf.read()
-                if (hi < 0 || lo < 0) return null
+                if (hi < 0 || lo < 0) {
+                    Log.w(TAG, "Lecture incomplète à offset $offset dans ${file.name}")
+                    return null
+                }
                 val raw = (hi shl 8) or lo
                 grid[dr + 1][dc + 1] = if (raw == 0x8000) 0 else
                     if (raw >= 0x8000) raw - 0x10000 else raw
@@ -118,7 +166,10 @@ object EmbeddedDemService {
         }
 
         val alt = grid[1][1]
-        if (alt <= -32000) return null
+        if (alt <= -32000) {
+            Log.w(TAG, "Valeur nodata à ($lat, $lon) dans ${file.name}")
+            return null
+        }
 
         // Cellule physique en mètres (90 m ≈ 3 arcsec à lat ~45°)
         val cellM = CELL_DEG * 111_320.0 * Math.cos(Math.toRadians(lat))
@@ -133,6 +184,8 @@ object EmbeddedDemService {
         val aspectDeg = ((Math.toDegrees(atan2(dzdx, dzdy)) + 360) % 360).toInt()
         val aspectLabel = aspectLabel(aspectDeg)
 
+        Log.d(TAG, "Alt=${alt}m, Pente=${slopePct}%, Aspect=$aspectLabel à ($lat, $lon)")
+        
         return SrtmTerrainData(alt, slopePct, aspectDeg, aspectLabel)
     }
 

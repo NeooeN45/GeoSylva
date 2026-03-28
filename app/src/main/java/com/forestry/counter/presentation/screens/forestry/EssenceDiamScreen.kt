@@ -157,10 +157,12 @@ fun EssenceDiamScreen(
         }
     }
 
+    val scope = rememberCoroutineScope()
+
     // Profil GPS unique : équilibre rapidité + précision (6 lectures, max 20m, timeout 15s)
     fun captureGpsForTige(tigeId: String) {
         val appCtx = appContext
-        kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+        scope.launch(Dispatchers.IO) {
             val hasPermission = ContextCompat.checkSelfPermission(appCtx, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(appCtx, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
             if (!hasPermission) return@launch
