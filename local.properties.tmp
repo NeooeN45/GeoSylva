@@ -1,0 +1,5 @@
+# Android SDK location for Windows (default path)
+sdk.dir=C:\\Users\\%USERNAME%\\AppData\\Local\\Android\\Sdk
+
+# If you installed Android Studio in a custom location, adjust the path:
+# sdk.dir=C:\\Program Files\\Android\\AndroidStudio\\sdk

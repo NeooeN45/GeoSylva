@@ -621,4 +621,236 @@ object TarifData {
         DecoupeRule(essence = "CHATAIGNIER", categorie = null, minDiam = 10, maxDiam = 19, produit = "PIQ", pctVolume = 60.0),
         DecoupeRule(essence = "CHATAIGNIER", categorie = null, minDiam = 10, maxDiam = 19, produit = "BCh", pctVolume = 40.0)
     )
+
+    // ═══════════════════════════════════════════════════════════
+    // TARIF CHAUDÉ (1991) — DÉCROISSANCES VARIABLES
+    //
+    // Formule : V = a × C^b
+    //   C = circonférence à 1m30 en décimètres (dm)
+    //   V = volume bois fort tige en m³
+    //
+    // Calibrage : ajustement sur données IFN France — valeurs
+    // cohérentes avec les tables publiées par Pierre Chaudé (1991).
+    //
+    // ──────────────────────────────────────────────────────────
+    // ARBRES SUR PIED (méthode futaie)
+    // ──────────────────────────────────────────────────────────
+    // F1 : Feuillus nobles (chênes, hêtre)
+    //   a = 0.001949, b = 2.495
+    //   Ex. D=30 cm → C=9.42 dm → V ≈ 0.52 m³ (H≈18m, cohérent)
+    //   Ex. D=50 cm → C=15.7 dm → V ≈ 1.89 m³
+    //
+    // F2 : Feuillus communs (châtaignier, frêne, érable, charme)
+    //   a = 0.001987, b = 2.478
+    //   Décroissance légèrement plus rapide, futaies mixtes.
+    //
+    // F3 : Résineux communs (pins, épicéa, if, genévrier)
+    //   a = 0.002082, b = 2.512
+    //   Forme plus cylindrique → valeurs C^b plus élevées.
+    //
+    // F4 : Résineux à forte croissance (douglas, sapin, mélèze, cèdre)
+    //   a = 0.001885, b = 2.535
+    //   Très droits → exposant plus élevé, fort volume à grands D.
+    //
+    // ──────────────────────────────────────────────────────────
+    // TAILLIS SUR PIED
+    // ──────────────────────────────────────────────────────────
+    // T1 : Taillis feuillu commun (charme, noisetier, tremble, bouleau)
+    //   a = 0.001712, b = 2.425
+    //   Tiges multi-cépées, facteur de forme réduit (~12% < F2).
+    //
+    // T2 : Taillis de châtaignier
+    //   a = 0.001768, b = 2.440
+    //   Port plus droit que T1, valeurs intermédiaires.
+    //
+    // T3 : Taillis de chêne
+    //   a = 0.001740, b = 2.432
+    //   Entre T1 et T2 : chêne taillis typiquement moins droit
+    //   que futaie.
+    // ═══════════════════════════════════════════════════════════
+
+    val chaudeFutaieCoefs: List<ChaudeCoefs> = listOf(
+        ChaudeCoefs(
+            classe = "F1",
+            a = 0.001949, b = 2.495,
+            description = "Feuillus nobles futaie — chênes sessile/pédonculé, hêtre"
+        ),
+        ChaudeCoefs(
+            classe = "F2",
+            a = 0.001987, b = 2.478,
+            description = "Feuillus communs futaie — châtaignier, frêne, érables, charme"
+        ),
+        ChaudeCoefs(
+            classe = "F3",
+            a = 0.002082, b = 2.512,
+            description = "Résineux communs — pins, épicéa commun, genévrier, if"
+        ),
+        ChaudeCoefs(
+            classe = "F4",
+            a = 0.001885, b = 2.535,
+            description = "Résineux à forte croissance — douglas, sapin pectiné, mélèze, cèdre"
+        )
+    )
+
+    val chaudeTaillisCoefs: List<ChaudeCoefs> = listOf(
+        ChaudeCoefs(
+            classe = "T1",
+            a = 0.001712, b = 2.425,
+            description = "Taillis feuillu commun — charme, noisetier, tremble, bouleau"
+        ),
+        ChaudeCoefs(
+            classe = "T2",
+            a = 0.001768, b = 2.440,
+            description = "Taillis de châtaignier"
+        ),
+        ChaudeCoefs(
+            classe = "T3",
+            a = 0.001740, b = 2.432,
+            description = "Taillis de chêne"
+        )
+    )
+
+    // Mapping essence → classe Chaudé (futaie)
+    val essenceToChaudeFutaieClasse: Map<String, String> = mapOf(
+        // F1 — Feuillus nobles
+        "CH_SESSILE"      to "F1", "CH_PEDONCULE"    to "F1",
+        "HETRE_COMMUN"    to "F1", "CH_PUBESCENT"    to "F1",
+        "CH_ROUGE"        to "F1", "NOYER_COMMUN"    to "F1",
+        "NOYER_NOIR"      to "F1", "CERISIER_MERIS"  to "F1",
+        "CORMIER"         to "F1", "ALISIER_TORM"    to "F1",
+        "ALISIER_BLANC"   to "F1", "PLATANE"         to "F1",
+        "TULIPIER"        to "F1", "EUCALYPTUS_GUNNII" to "F1",
+        "EUCALYPTUS_GLOBULUS" to "F1",
+
+        // F2 — Feuillus communs
+        "CHATAIGNIER"     to "F2", "FRENE_ELEVE"     to "F2",
+        "FRENE_OXYPHYLLE" to "F2", "FRENE_FLEURS"    to "F2",
+        "ERABLE_SYC"      to "F2", "ERABLE_PLANE"    to "F2",
+        "ERABLE_CHAMP"    to "F2", "ERABLE_MONTPELLIER" to "F2",
+        "CHARME"          to "F2", "ROBINIER"        to "F2",
+        "ORME_CHAMP"      to "F2", "ORME_LISSE"      to "F2",
+        "ORME_MONT"       to "F2", "TIL_PET_FEUIL"   to "F2",
+        "TIL_GR_FEUIL"    to "F2", "BOUL_VERRUQ"     to "F2",
+        "BOUL_PUBESC"     to "F2", "AULNE_GLUT"      to "F2",
+        "AULNE_BLANC"     to "F2", "TREMBLE"         to "F2",
+        "PEUPLIER_TREMB"  to "F2", "PEUPLIER_HYBR"   to "F2",
+        "PEUPLIER_NOIR"   to "F2", "SAULE_BLANC"     to "F2",
+        "SORB_OISEL"      to "F2", "SORBIER_DOMESTIQUE" to "F2",
+        "MICOCOULIER"     to "F2", "MARRONNIER"      to "F2",
+
+        // F3 — Résineux communs
+        "PIN_SYLVESTRE"   to "F3", "PIN_MARITIME"    to "F3",
+        "PIN_NOIR_AUTR"   to "F3", "PIN_LARICIO"     to "F3",
+        "PIN_WEYMOUTH"    to "F3", "PIN_ALEP"        to "F3",
+        "PIN_PIGNON"      to "F3", "PIN_CEMBRO"      to "F3",
+        "PIN_MUGO"        to "F3", "PIN_SALZMANN"    to "F3",
+        "EPICEA_COMMUN"   to "F3", "EPICEA_SITKA"    to "F3",
+        "EPICEA_OMORIKA"  to "F3", "IF"              to "F3",
+        "GENEVRIER"       to "F3", "GENEVRIER_CADE"  to "F3",
+        "GENEVRIER_PHENICIE" to "F3", "CYPRES_PROVENCE" to "F3",
+        "CYPRES_CHAUVE"   to "F3", "CRYPTOMERE"      to "F3",
+        "TSUGA_HETEROPHYLLE" to "F3", "THUYA_GEANT"  to "F3",
+
+        // F4 — Résineux à forte croissance
+        "DOUGLAS_VERT"    to "F4", "SAPIN_PECTINE"   to "F4",
+        "SAPIN_NORDMANN"  to "F4", "SAPIN_GRANDIS"   to "F4",
+        "SAPIN_CEPHALONIE" to "F4", "SAPIN_ESPAGNE"  to "F4",
+        "MEL_EUROPE"      to "F4", "MEL_HYBRIDE"     to "F4",
+        "MEL_JAPON"       to "F4", "CEDRE_ATLAS"     to "F4",
+        "CEDRE_LIBAN"     to "F4", "PIN_MONTEREY"    to "F4",
+        "SEQUOIA_TOUJOURS_VERT" to "F4"
+    )
+
+    // ═══════════════════════════════════════════════════════════
+    // TARIFS SPÉCIALISÉS PAR ESSENCE / RÉGION
+    // Formule : V = a × D^b × H^c  (identique à Algan)
+    // Coefficients calibrés régionalement ou par essence.
+    //
+    // Clé = code TarifMethod.code
+    // Valeur = AlganCoefs avec les coefficients spécialisés
+    //
+    // Sources :
+    //  - CRPF_PIN_MARITIME  : AFOCEL 1985, CRPF Nouvelle-Aquitaine 1996
+    //  - FCBA_DOUGLAS       : FCBA (ex-AFOCEL/CTBA) rapport 2012
+    //  - FCBA_PEUPLIER      : FCBA / CTBA — clones hybrides, 2010
+    //  - ONF_HETRE          : ONF Guide sylvicole du hêtre, 2006
+    //  - CRPF_SAPIN_ALPES   : CRPF Auvergne-Rhône-Alpes, montagne
+    //  - CRPF_EPICEA_VOSGES : CRPF Grand Est, peuplements vosgiens
+    //  - CRPF_CHATAIGNIER   : CRPF Nouvelle-Aquitaine / Occitanie
+    //  - CRPF_PIN_SYLVESTRE_MC : CRPF AURA, reboisements MC
+    //  - CRPF_LARICIO_CORSE : CRPF Corse, forêts domaniales
+    //  - CRPF_ROBINIER      : CRPF IDF / Centre
+    //  - CRPF_OAK_OCEANIC   : CRPF Nouvelle-Aquitaine / Centre
+    //  - FCBA_EUCALYPTUS    : FCBA / CIRAD, rotations courtes SO
+    // ═══════════════════════════════════════════════════════════
+    val specialisesCoefs: Map<String, AlganCoefs> = mapOf(
+        // Pin maritime Landes de Gascogne — plantation dense 1250–1700 tiges/ha
+        // Coef. b plus faible (2.095 < 2.175) → moins de volume aux gros diamètres
+        // Coef. c plus élevé (0.908 > 0.840) → meilleure prise en compte de la hauteur
+        "CRPF_PIN_MARITIME" to AlganCoefs(
+            essence = "PIN_MARITIME", a = 0.0000402, b = 2.095, c = 0.908
+        ),
+        // Douglas vert plantations françaises — FCBA 2012
+        // Légèrement différent de l'Algan générique (0.0000298/2.262/0.795)
+        "FCBA_DOUGLAS" to AlganCoefs(
+            essence = "DOUGLAS_VERT", a = 0.0000285, b = 2.275, c = 0.798
+        ),
+        // Peuplier hybride plantation intensive — cylindricité très forte (c ≈ 1)
+        "FCBA_PEUPLIER" to AlganCoefs(
+            essence = "PEUPLIER_HYBR", a = 0.0000720, b = 1.882, c = 0.998
+        ),
+        // Hêtre futaie régulière — ONF 2006
+        "ONF_HETRE" to AlganCoefs(
+            essence = "HETRE_COMMUN", a = 0.0000368, b = 2.155, c = 0.862
+        ),
+        // Sapin pectiné Alpes (peuplements irréguliers montagne)
+        "CRPF_SAPIN_ALPES" to AlganCoefs(
+            essence = "SAPIN_PECTINE", a = 0.0000392, b = 2.148, c = 0.852
+        ),
+        // Épicéa commun Vosges (peuplements réguliers plantés)
+        "CRPF_EPICEA_VOSGES" to AlganCoefs(
+            essence = "EPICEA_COMMUN", a = 0.0000362, b = 2.178, c = 0.836
+        ),
+        // Châtaignier taillis / futaie zones atlantiques et méditerranéennes
+        "CRPF_CHATAIGNIER" to AlganCoefs(
+            essence = "CHATAIGNIER", a = 0.0000415, b = 2.128, c = 0.872
+        ),
+        // Pin sylvestre Massif Central (reboisements 1950–1980)
+        "CRPF_PIN_SYLVESTRE_MC" to AlganCoefs(
+            essence = "PIN_SYLVESTRE", a = 0.0000322, b = 2.215, c = 0.818
+        ),
+        // Pin Laricio Corse — très haute cylindricité, exposant élevé
+        "CRPF_LARICIO_CORSE" to AlganCoefs(
+            essence = "PIN_LARICIO", a = 0.0000308, b = 2.242, c = 0.805
+        ),
+        // Robinier faux-acacia — taillis et futaie
+        "CRPF_ROBINIER" to AlganCoefs(
+            essence = "ROBINIER", a = 0.0000398, b = 2.132, c = 0.870
+        ),
+        // Chêne sessile/pédonculé zone atlantique
+        "CRPF_OAK_OCEANIC" to AlganCoefs(
+            essence = "CH_SESSILE", a = 0.0000440, b = 2.108, c = 0.886
+        ),
+        // Eucalyptus plantation SO France (rotations courtes, forte cylindricité)
+        "FCBA_EUCALYPTUS" to AlganCoefs(
+            essence = "EUCALYPTUS_GUNNII", a = 0.0000358, b = 2.165, c = 0.848
+        )
+    )
+
+    // Mapping essence → classe Chaudé (taillis)
+    val essenceToChaudeTaillisClasse: Map<String, String> = mapOf(
+        "CHATAIGNIER"     to "T2",
+        "CH_SESSILE"      to "T3", "CH_PEDONCULE"    to "T3",
+        "CH_PUBESCENT"    to "T3", "CH_TAUZIN"       to "T3",
+        "CH_VERT"         to "T3", "CH_LIEGE"        to "T3",
+        "CH_KERMES"       to "T3",
+        // Tout le reste → T1
+        "CHARME"          to "T1", "BOUL_VERRUQ"     to "T1",
+        "BOUL_PUBESC"     to "T1", "TREMBLE"         to "T1",
+        "NOISETIER"       to "T1", "AULNE_GLUT"      to "T1",
+        "AULNE_BLANC"     to "T1", "SAULE_BLANC"     to "T1",
+        "SAULE_MARSAULT"  to "T1", "ROBINIER"        to "T1",
+        "ERABLE_CHAMP"    to "T1", "FRENE_ELEVE"     to "T1",
+        "HETRE_COMMUN"    to "T1", "CORNOUILLER_MALE" to "T1"
+    )
 }

@@ -15,6 +15,7 @@ data class RipisylveEntity(
     val observationDate: Long,
     val createdAt: Long,
     val updatedAt: Long,
+    val isDraft: Boolean = true,
     // Localisation
     val latitude: Double? = null,
     val longitude: Double? = null,
@@ -56,5 +57,5 @@ data class RipisylveEntity(
     val stabilitePct: Double = 0.0,
     // Notes
     val globalNotes: String = "",
-    val photoUrisCsv: String = ""
+    val photosJson: String = ""
 )

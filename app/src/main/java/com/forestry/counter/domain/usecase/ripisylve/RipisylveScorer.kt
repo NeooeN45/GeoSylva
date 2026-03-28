@@ -33,6 +33,8 @@ object RipisylveScorer {
         val scoreInadaptees = obs.inadapteesMode.points
         val scoreStabilite  = scoreStabilite(obs.stabilitePct)
 
+        val confidenceScore = computeConfidenceScore(obs, nbStrates, nbMicro, nbClassesDiam)
+
         return RipisylveScore(
             scoreContinuite    = scoreContinuite,
             scoreLargeur       = scoreLargeur,
@@ -46,7 +48,8 @@ object RipisylveScorer {
             scoreStabilite     = scoreStabilite,
             nbMicrohabitats    = nbMicro,
             nbStrates          = nbStrates,
-            nbClassesDiam      = nbClassesDiam
+            nbClassesDiam      = nbClassesDiam,
+            confidenceScore    = confidenceScore
         )
     }
 
@@ -179,6 +182,67 @@ object RipisylveScorer {
         pct >= 30.0 -> -20
         pct >= 10.0 -> -10
         else        -> 0
+    }
+
+    // ─────────────────────────────────────────────────────────────────
+    //  Confiance — 0 à 100 pts selon données réellement observées
+    //  Principe : chaque critère EXPLICITEMENT renseigné ajoute des pts.
+    //  Une observation à 0.0 sur tous les champs = confiance minimale.
+    // ─────────────────────────────────────────────────────────────────
+
+    fun computeConfidenceScore(
+        obs: RipisylveObservation,
+        nbStrates: Int,
+        nbMicro: Int,
+        nbClassesDiam: Int
+    ): Int {
+        var score = 0
+
+        // GPS (15 pts)
+        if (obs.latitude != null && obs.longitude != null) score += 15
+
+        // Photos (20 pts — indispensables pour valider le diagnostic)
+        score += when {
+            obs.photos.size >= 3 -> 20
+            obs.photos.size >= 1 -> 10
+            else -> 0
+        }
+
+        // Continuité renseignée (> 0 ou notes de section fournies) (10 pts)
+        if (obs.continuitePct > 0.0 || obs.sectionNotes.isNotBlank()) score += 10
+
+        // Largeur renseignée (≠ valeur par défaut UNE_RANGEE) (5 pts)
+        if (obs.largeurMode != LargeurMode.UNE_RANGEE) score += 5
+
+        // Strates observées (0, 5, 10, 15 pts selon nb)
+        score += nbStrates * 5
+
+        // Diversité floristique (0, 5, 10 pts)
+        score += when {
+            obs.nbEspecesObservees >= 5 || obs.especesObservees.size >= 5 -> 10
+            obs.nbEspecesObservees >= 2 || obs.especesObservees.size >= 2 -> 5
+            else -> 0
+        }
+
+        // Classes diamètre renseignées (5 pts si ≥ 1)
+        if (nbClassesDiam >= 1) score += 5
+
+        // Microhabitats observés (5 pts si ≥ 1)
+        if (nbMicro >= 1) score += 5
+
+        // Pressions évaluées : sanitaire, invasives, inadaptées, stabilité (5 pts si ≥ 2 critères évalués)
+        val pressionsEvaluees = listOf(
+            obs.sanitairePct > 0.0,
+            obs.invasivesPct > 0.0,
+            obs.inadapteesMode != InadapteesMode.ABSENCE,
+            obs.stabilitePct > 0.0
+        ).count { it }
+        if (pressionsEvaluees >= 2) score += 5
+
+        // Notes de terrain fournies (bonus léger)
+        if (obs.globalNotes.isNotBlank()) score += 5
+
+        return score.coerceIn(0, 100)
     }
 
     // ─────────────────────────────────────────────────────────────────

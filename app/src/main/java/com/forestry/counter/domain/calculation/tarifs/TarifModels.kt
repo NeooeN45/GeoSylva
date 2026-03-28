@@ -13,53 +13,227 @@ import kotlinx.serialization.Serializable
  * - Tarifs lents IFN : Inventaire Forestier National — Tables à 2 entrées (D130 + H)
  * - FGH : V = F × G × H  (variante explicite de la méthode du coefficient de forme)
  * - Coefficient de forme : V = G × H × f  (méthode classique)
+ * - Tarifs spécialisés CRPF/FCBA : tarifs régionaux ou par essence (Pin maritime, Douglas, etc.)
  */
-enum class TarifMethod(val code: String, val label: String, val description: String, val entrees: Int) {
+
+/** Catégorie fonctionnelle d'un tarif de cubage pour le classement et l'affichage. */
+enum class TarifCategory(val label: String, val description: String) {
+    UNIVERSEL( "Universel",   "Applicable à toutes essences et régions"),
+    REGIONAL(  "Régional",    "Calibré pour une région ou massif forestier spécifique"),
+    SPECIALISE("Spécialisé",  "Dédié à une ou quelques essences — précision maximale sur ces essences")
+}
+
+enum class TarifMethod(
+    val code: String,
+    val label: String,
+    val description: String,
+    val entrees: Int,
+    val category: TarifCategory = TarifCategory.UNIVERSEL,
+    val reliability: Int = 3,                          // 1–5 ★ (5 = meilleure précision)
+    val specializedEssences: List<String> = emptyList(), // vide = universel
+    val regionLabel: String? = null
+) {
+    // ── Tarifs universels ──────────────────────────────────────────────────────
     SCHAEFFER_1E(
         code = "SCHAEFFER_1E",
         label = "Schaeffer 1 entrée",
-        description = "V = a + b × C130²  — Tarif à 1 entrée (circonférence). Schaeffer, 1949.",
-        entrees = 1
+        description = "V = a + b × C130²  — Tarif à 1 entrée (circonférence). Schaeffer, 1949. Simple mais moins précis sans hauteur.",
+        entrees = 1, reliability = 2
     ),
     SCHAEFFER_2E(
         code = "SCHAEFFER_2E",
         label = "Schaeffer 2 entrées",
-        description = "V = a + b × C130² × H  — Tarif à 2 entrées (circonférence + hauteur). Schaeffer, 1949.",
-        entrees = 2
+        description = "V = a + b × C130² × H  — Tarif à 2 entrées (circonférence + hauteur). Schaeffer, 1949. Méthode historique robuste.",
+        entrees = 2, reliability = 3
     ),
     ALGAN(
         code = "ALGAN",
-        label = "Algan",
-        description = "V = a × D^b × H^c  — Coefficients par essence (Algan 1958, Pardé & Bouchon 1988). Adapté résineux et feuillus.",
-        entrees = 2
+        label = "Algan (par essence)",
+        description = "V = a × D^b × H^c  — Coefficients propres à chaque essence (Algan 1958, Pardé & Bouchon 1988). Très utilisé en France.",
+        entrees = 2, reliability = 4
     ),
     IFN_RAPIDE(
         code = "IFN_RAPIDE",
         label = "Tarif rapide IFN",
-        description = "Tarifs IFN à 1 entrée (n° 1–36). V = f(D130). Inventaire Forestier National.",
-        entrees = 1
+        description = "Tarifs IFN à 1 entrée (n° 1–36). V = f(D130). Inventaire Forestier National. Pratique sans mesure de hauteur.",
+        entrees = 1, reliability = 3
     ),
     IFN_LENT(
         code = "IFN_LENT",
         label = "Tarif lent IFN",
-        description = "Tables IFN à 2 entrées (D130, H). Inventaire Forestier National.",
-        entrees = 2
+        description = "Tables IFN à 2 entrées (D130, H). V = f(D², D²×H). Inventaire Forestier National. Référence nationale — meilleure précision générique.",
+        entrees = 2, reliability = 5
     ),
     FGH(
         code = "FGH",
-        label = "FGH",
-        description = "V = F × G × H  — Variante explicite de la méthode du coefficient de forme (F = facteur de forme).",
-        entrees = 2
+        label = "FGH (coef. forme explicite)",
+        description = "V = F × G × H  — Variante explicite du coefficient de forme. Permet de saisir F manuellement. Utile pour peuplements atypiques.",
+        entrees = 2, reliability = 3
     ),
     COEF_FORME(
         code = "COEF_FORME",
         label = "Coefficient de forme",
-        description = "V = G × H × f  — Méthode classique avec coefficient de forme/décroissance.",
-        entrees = 2
+        description = "V = G × H × f  — Méthode classique. Coefficient de décroissance par essence (Pardé & Bouchon 1988). Estimation rapide.",
+        entrees = 2, reliability = 2
+    ),
+    CHAUDE(
+        code = "CHAUDE",
+        label = "Chaudé — arbres sur pied",
+        description = "Tarif à décroissances variables — arbres sur pied. V = a × C^b (C₁₃₀ en dm). Pierre Chaudé, 1991. Classement par type sylvicole (F1–F4).",
+        entrees = 1, reliability = 3
+    ),
+    CHAUDE_TAILLIS(
+        code = "CHAUDE_TAILLIS",
+        label = "Chaudé — taillis sur pied",
+        description = "Tarif à décroissances variables — taillis sur pied. V = a × C^b (C₁₃₀ en dm). Pierre Chaudé, 1991. Classes T1–T3 (chêne, châtaignier, divers).",
+        entrees = 1, reliability = 3
+    ),
+
+    // ── Tarifs spécialisés par essence ou région ───────────────────────────────
+    CRPF_PIN_MARITIME(
+        code = "CRPF_PIN_MARITIME",
+        label = "CRPF NA — Pin maritime (Landes)",
+        description = "Tarif 2 entrées spécifique au pin maritime des Landes de Gascogne. Calibré sur les peuplements du massif landais (plantations 1250–1700 tiges/ha). CRPF Nouvelle-Aquitaine / FCBA (ex-AFOCEL). V = a × D^b × H^c. Référence privilégiée pour le pin maritime aquitain.",
+        entrees = 2,
+        category = TarifCategory.SPECIALISE, reliability = 5,
+        specializedEssences = listOf("PIN_MARITIME"),
+        regionLabel = "Nouvelle-Aquitaine / Landes de Gascogne"
+    ),
+    FCBA_DOUGLAS(
+        code = "FCBA_DOUGLAS",
+        label = "FCBA — Douglas vert",
+        description = "Tarif 2 entrées calibré sur les plantations françaises de Douglas vert (Pseudotsuga menziesii). FCBA (ex-AFOCEL/CTBA), rapport 2012. Optimisé pour futaies régulières — précision supérieure à l'Algan générique.",
+        entrees = 2,
+        category = TarifCategory.SPECIALISE, reliability = 5,
+        specializedEssences = listOf("DOUGLAS_VERT"),
+        regionLabel = "France (toutes régions)"
+    ),
+    FCBA_PEUPLIER(
+        code = "FCBA_PEUPLIER",
+        label = "FCBA — Peuplier hybride plantation",
+        description = "Tarif 2 entrées pour peupliers hybrides en plantation intensive (I-214, Beaupré, Soligo, Koster…). FCBA / CTBA. Adapté aux cycles courts 10–18 ans, forte cylindricité (c ≈ 1).",
+        entrees = 2,
+        category = TarifCategory.SPECIALISE, reliability = 5,
+        specializedEssences = listOf("PEUPLIER_HYBR", "PEUPLIER_NOIR"),
+        regionLabel = "France (plaines alluviales)"
+    ),
+    ONF_HETRE(
+        code = "ONF_HETRE",
+        label = "ONF — Hêtre futaie",
+        description = "Tables de production ONF pour hêtre (Fagus sylvatica). Tarif 2 entrées calibré sur les hêtraies françaises de futaie régulière. ONF, Guide sylvicole du hêtre (2006). Adapté plaine et montagne.",
+        entrees = 2,
+        category = TarifCategory.SPECIALISE, reliability = 5,
+        specializedEssences = listOf("HETRE_COMMUN"),
+        regionLabel = "France (hêtraies)"
+    ),
+    CRPF_SAPIN_ALPES(
+        code = "CRPF_SAPIN_ALPES",
+        label = "CRPF AURA — Sapin/Épicéa Alpes",
+        description = "Tarif 2 entrées régional pour sapin pectiné et épicéa commun en conditions alpines et pré-alpines. CRPF Auvergne-Rhône-Alpes. Calibré sur peuplements irréguliers de montagne (800–1800 m).",
+        entrees = 2,
+        category = TarifCategory.REGIONAL, reliability = 4,
+        specializedEssences = listOf("SAPIN_PECTINE", "EPICEA_COMMUN"),
+        regionLabel = "Alpes / Préalpes / Jura"
+    ),
+    CRPF_EPICEA_VOSGES(
+        code = "CRPF_EPICEA_VOSGES",
+        label = "CRPF Grand Est — Épicéa Vosges",
+        description = "Tarif 2 entrées pour épicéa commun des Vosges et du Grand Est. CRPF Grand Est. Calibré sur peuplements réguliers vosgiens (conditions atlantico-continentales, 400–1000 m).",
+        entrees = 2,
+        category = TarifCategory.REGIONAL, reliability = 4,
+        specializedEssences = listOf("EPICEA_COMMUN"),
+        regionLabel = "Vosges / Grand Est"
+    ),
+    CRPF_CHATAIGNIER(
+        code = "CRPF_CHATAIGNIER",
+        label = "CRPF — Châtaignier",
+        description = "Tarif 2 entrées spécifique au châtaignier (Castanea sativa) en taillis et taillis-sous-futaie. CRPF Nouvelle-Aquitaine / CRPF Occitanie. Adapté aux peuplements atlantiques et méditerranéens.",
+        entrees = 2,
+        category = TarifCategory.SPECIALISE, reliability = 4,
+        specializedEssences = listOf("CHATAIGNIER"),
+        regionLabel = "Nouvelle-Aquitaine / Occitanie / Corse"
+    ),
+    CRPF_PIN_SYLVESTRE_MC(
+        code = "CRPF_PIN_SYLVESTRE_MC",
+        label = "CRPF AURA — Pin sylvestre MC",
+        description = "Tarif 2 entrées pour pin sylvestre (Pinus sylvestris) du Massif Central. CRPF Auvergne-Rhône-Alpes. Coefficients distincts du pin sylvestre atlantique ou alpin — adapté aux reboisements d'après-guerre.",
+        entrees = 2,
+        category = TarifCategory.REGIONAL, reliability = 4,
+        specializedEssences = listOf("PIN_SYLVESTRE"),
+        regionLabel = "Massif Central"
+    ),
+    CRPF_LARICIO_CORSE(
+        code = "CRPF_LARICIO_CORSE",
+        label = "CRPF — Pin Laricio",
+        description = "Tarif 2 entrées pour pin Laricio de Corse (Pinus nigra subsp. laricio). CRPF Corse. Calibré sur forêts domaniales corses et plantations continentales. Très haute cylindricité.",
+        entrees = 2,
+        category = TarifCategory.SPECIALISE, reliability = 4,
+        specializedEssences = listOf("PIN_LARICIO"),
+        regionLabel = "Corse / Vosges / Massif Central"
+    ),
+    CRPF_ROBINIER(
+        code = "CRPF_ROBINIER",
+        label = "CRPF — Robinier faux-acacia",
+        description = "Tarif 2 entrées pour robinier faux-acacia (Robinia pseudoacacia). CRPF IDF / Centre. Adapté aux taillis à courtes rotations et futaies. Bois de cœur très durable, valorisation piquets.",
+        entrees = 2,
+        category = TarifCategory.SPECIALISE, reliability = 4,
+        specializedEssences = listOf("ROBINIER"),
+        regionLabel = "Centre / IDF / Normandie"
+    ),
+    CRPF_OAK_OCEANIC(
+        code = "CRPF_OAK_OCEANIC",
+        label = "CRPF — Chêne atlantique",
+        description = "Tarif 2 entrées pour chênes sessile et pédonculé en zone atlantique (ouest France). CRPF Nouvelle-Aquitaine / Centre. Calibré sur futaies régulières plaine atlantique — valorisation bois d'œuvre.",
+        entrees = 2,
+        category = TarifCategory.REGIONAL, reliability = 4,
+        specializedEssences = listOf("CH_SESSILE", "CH_PEDONCULE"),
+        regionLabel = "Nouvelle-Aquitaine / Centre / Bretagne"
+    ),
+    FCBA_EUCALYPTUS(
+        code = "FCBA_EUCALYPTUS",
+        label = "FCBA — Eucalyptus plantation",
+        description = "Tarif 2 entrées pour eucalyptus en plantation (E. gunnii, E. globulus). FCBA / CIRAD. Adapté aux rotations courtes (8–15 ans) du grand sud-ouest France. Forte cylindricité.",
+        entrees = 2,
+        category = TarifCategory.SPECIALISE, reliability = 4,
+        specializedEssences = listOf("EUCALYPTUS_GUNNII", "EUCALYPTUS_GLOBULUS"),
+        regionLabel = "Sud-Ouest France"
     );
 
     companion object {
         fun fromCode(code: String): TarifMethod? = entries.firstOrNull { it.code.equals(code, ignoreCase = true) }
+
+        /**
+         * Suggère le meilleur tarif pour un ensemble d'essences.
+         * Retourne le tarif spécialisé si toutes les essences sont couvertes,
+         * sinon le tarif universel le plus fiable pour 2 entrées.
+         */
+        fun suggestFor(essenceCodes: List<String>): TarifMethod {
+            if (essenceCodes.isEmpty()) return IFN_LENT
+            val up = essenceCodes.map { it.trim().uppercase() }
+            // 1. Chercher un tarif spécialisé qui couvre TOUTES les essences
+            val specialized = entries
+                .filter { it.specializedEssences.isNotEmpty() }
+                .sortedByDescending { it.reliability }
+                .firstOrNull { method -> up.all { e -> method.specializedEssences.contains(e) } }
+            if (specialized != null) return specialized
+            // 2. Fallback : IFN_LENT (meilleure fiabilité universelle)
+            return IFN_LENT
+        }
+
+        /**
+         * Retourne les tarifs classés par pertinence pour un ensemble d'essences.
+         * Ordre : spécialisés correspondants → universels 2E fiables → 1E → anciens.
+         */
+        fun rankedFor(essenceCodes: List<String>): List<TarifMethod> {
+            val up = essenceCodes.map { it.trim().uppercase() }
+            val specialized = entries.filter { m ->
+                m.specializedEssences.isNotEmpty() &&
+                up.any { e -> m.specializedEssences.contains(e) }
+            }.sortedByDescending { it.reliability }
+            val universal2E = listOf(IFN_LENT, ALGAN, SCHAEFFER_2E, FGH, COEF_FORME)
+            val universal1E = listOf(IFN_RAPIDE, CHAUDE, CHAUDE_TAILLIS, SCHAEFFER_1E)
+            return (specialized + universal2E + universal1E).distinct()
+        }
     }
 }
 
@@ -180,6 +354,41 @@ data class CoefFormeEntry(
         if (diamCm <= 0.0 || hauteurM <= 0.0) return 0.0
         val g = Math.PI / 4.0 * Math.pow(diamCm / 100.0, 2.0)
         return g * hauteurM * f
+    }
+}
+
+// ─────────────────────────────────────────────────────
+// Tarif Chaudé (1991) : Tarif à décroissances variables
+// V = a × C^b   (C = circonférence à 1m30, en dm, V en m³)
+//
+// Sept classes sylvicoles couvrant futaie et taillis :
+//   F1 — Feuillus nobles futaie (chênes, hêtre)
+//   F2 — Feuillus communs futaie (châtaignier, frêne, érable, charme)
+//   F3 — Résineux communs (pins, épicéa, if, genévrier)
+//   F4 — Résineux à forte croissance (douglas, sapin, mélèze, cèdre)
+//   T1 — Taillis feuillu commun (charme, noisetier, tremble, bouleau)
+//   T2 — Taillis de châtaignier
+//   T3 — Taillis de chêne
+//
+// Source : Pierre Chaudé (1991). "Tarif de cubage à décroissances
+// variables pour les arbres sur pied / Tarif de cubage des taillis
+// sur pied."
+// ─────────────────────────────────────────────────────
+@Serializable
+data class ChaudeCoefs(
+    val classe: String,
+    val a: Double,
+    val b: Double,
+    val description: String = ""
+) {
+    fun volumeFromCirconfDm(circonfDm: Double): Double {
+        if (circonfDm <= 0.0) return 0.0
+        return (a * Math.pow(circonfDm, b)).coerceAtLeast(0.0)
+    }
+
+    fun volumeFromDiam(diamCm: Double): Double {
+        val cDm = Math.PI * diamCm / 10.0
+        return volumeFromCirconfDm(cDm)
     }
 }
 

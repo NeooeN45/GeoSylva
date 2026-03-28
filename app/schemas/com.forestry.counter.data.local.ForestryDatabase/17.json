@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 17,
-    "identityHash": "4505b8be0dbfdd2dbe349de36e14b3b1",
+    "identityHash": "135ea026ddf6fb53df7aa39de101831b",
     "entities": [
       {
         "tableName": "groups",
@@ -1112,7 +1112,7 @@
       },
       {
         "tableName": "ripisylve_diagnostics",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `parcelleId` TEXT NOT NULL, `observerName` TEXT NOT NULL, `observationDate` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `latitude` REAL, `longitude` REAL, `altitudeM` REAL, `sectionLengthM` REAL NOT NULL, `sectionNotes` TEXT NOT NULL, `continuitePct` REAL NOT NULL, `largeurMode` TEXT NOT NULL, `strateHerbacee` INTEGER NOT NULL, `strateArbustive` INTEGER NOT NULL, `strateArborescente` INTEGER NOT NULL, `nbEspecesObservees` INTEGER NOT NULL, `especesObserveesCsv` TEXT NOT NULL, `diamAutoFromDendro` INTEGER NOT NULL, `hasTresPetitBois` INTEGER NOT NULL, `hasPetitBois` INTEGER NOT NULL, `hasMoyenBois` INTEGER NOT NULL, `hasGrosBois` INTEGER NOT NULL, `microhabitatCavites` INTEGER NOT NULL, `microhabitatFissures` INTEGER NOT NULL, `microhabitatDecollementEcorce` INTEGER NOT NULL, `microhabitatChampignons` INTEGER NOT NULL, `microhabitatBoisMort` INTEGER NOT NULL, `microhabitatTresGrosBois` INTEGER NOT NULL, `sanitairePct` REAL NOT NULL, `invasivesPct` REAL NOT NULL, `invasivesCsv` TEXT NOT NULL, `inadapteesMode` TEXT NOT NULL, `stabilitePct` REAL NOT NULL, `globalNotes` TEXT NOT NULL, `photoUrisCsv` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `parcelleId` TEXT NOT NULL, `observerName` TEXT NOT NULL, `observationDate` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `isDraft` INTEGER NOT NULL, `latitude` REAL, `longitude` REAL, `altitudeM` REAL, `sectionLengthM` REAL NOT NULL, `sectionNotes` TEXT NOT NULL, `continuitePct` REAL NOT NULL, `largeurMode` TEXT NOT NULL, `strateHerbacee` INTEGER NOT NULL, `strateArbustive` INTEGER NOT NULL, `strateArborescente` INTEGER NOT NULL, `nbEspecesObservees` INTEGER NOT NULL, `especesObserveesCsv` TEXT NOT NULL, `diamAutoFromDendro` INTEGER NOT NULL, `hasTresPetitBois` INTEGER NOT NULL, `hasPetitBois` INTEGER NOT NULL, `hasMoyenBois` INTEGER NOT NULL, `hasGrosBois` INTEGER NOT NULL, `microhabitatCavites` INTEGER NOT NULL, `microhabitatFissures` INTEGER NOT NULL, `microhabitatDecollementEcorce` INTEGER NOT NULL, `microhabitatChampignons` INTEGER NOT NULL, `microhabitatBoisMort` INTEGER NOT NULL, `microhabitatTresGrosBois` INTEGER NOT NULL, `sanitairePct` REAL NOT NULL, `invasivesPct` REAL NOT NULL, `invasivesCsv` TEXT NOT NULL, `inadapteesMode` TEXT NOT NULL, `stabilitePct` REAL NOT NULL, `globalNotes` TEXT NOT NULL, `photosJson` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -1147,6 +1147,12 @@
           {
             "fieldPath": "updatedAt",
             "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDraft",
+            "columnName": "isDraft",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -1325,8 +1331,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "photoUrisCsv",
-            "columnName": "photoUrisCsv",
+            "fieldPath": "photosJson",
+            "columnName": "photosJson",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -1352,7 +1358,7 @@
       },
       {
         "tableName": "station_diagnostics",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `parcelleId` TEXT NOT NULL, `observerName` TEXT NOT NULL, `observationDate` INTEGER NOT NULL, `latitude` REAL, `longitude` REAL, `altitudeM` REAL, `commune` TEXT NOT NULL, `pentePct` REAL, `exposition` TEXT NOT NULL, `positionTopo` TEXT NOT NULL, `distanceCourseauM` REAL, `profondeurSolCm` INTEGER, `texture` TEXT NOT NULL, `pierrosite` TEXT NOT NULL, `hydromorphieProfondeurCm` INTEGER, `humus` TEXT NOT NULL, `phEstime` REAL, `testHcl` TEXT NOT NULL, `drainage` TEXT NOT NULL, `rocheMere` TEXT NOT NULL, `gradientHydrique` INTEGER NOT NULL, `gradientTrophique` INTEGER NOT NULL, `gradientLumineux` INTEGER NOT NULL, `gradientHumique` INTEGER NOT NULL, `especesIndicatricesJson` TEXT NOT NULL, `especesXerophiles` INTEGER NOT NULL, `especesMesophiles` INTEGER NOT NULL, `especesHygrophiles` INTEGER NOT NULL, `notes` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `parcelleId` TEXT NOT NULL, `observerName` TEXT NOT NULL, `observationDate` INTEGER NOT NULL, `isDraft` INTEGER NOT NULL, `photosJson` TEXT NOT NULL, `latitude` REAL, `longitude` REAL, `altitudeM` REAL, `commune` TEXT NOT NULL, `pentePct` REAL, `exposition` TEXT NOT NULL, `positionTopo` TEXT NOT NULL, `distanceCourseauM` REAL, `profondeurSolCm` INTEGER, `texture` TEXT NOT NULL, `pierrosite` TEXT NOT NULL, `hydromorphieProfondeurCm` INTEGER, `humus` TEXT NOT NULL, `phEstime` REAL, `testHcl` TEXT NOT NULL, `drainage` TEXT NOT NULL, `rocheMere` TEXT NOT NULL, `gradientHydrique` INTEGER NOT NULL, `gradientTrophique` INTEGER NOT NULL, `gradientLumineux` INTEGER NOT NULL, `gradientHumique` INTEGER NOT NULL, `especesIndicatricesJson` TEXT NOT NULL, `especesXerophiles` INTEGER NOT NULL, `especesMesophiles` INTEGER NOT NULL, `especesHygrophiles` INTEGER NOT NULL, `notes` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -1376,6 +1382,18 @@
             "fieldPath": "observationDate",
             "columnName": "observationDate",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDraft",
+            "columnName": "isDraft",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "photosJson",
+            "columnName": "photosJson",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -1548,7 +1566,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4505b8be0dbfdd2dbe349de36e14b3b1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '135ea026ddf6fb53df7aa39de101831b')"
     ]
   }
 }

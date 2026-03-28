@@ -133,7 +133,7 @@ fun StaggerEntrance(
 ) {
     var visible by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
-        delay((index * staggerMs).toLong())
+        delay(minOf(index * staggerMs, 300).toLong())
         visible = true
     }
     AnimatedVisibility(

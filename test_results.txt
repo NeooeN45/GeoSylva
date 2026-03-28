@@ -1,0 +1,240 @@
+> Task :app:checkKotlinGradlePluginConfigurationErrors
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugBuildConfig
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileDebugUnitTest UP-TO-DATE
+> Task :app:buildKotlinToolingMetadata UP-TO-DATE
+> Task :app:preReleaseBuild UP-TO-DATE
+> Task :app:generateReleaseBuildConfig
+> Task :app:checkReleaseAarMetadata UP-TO-DATE
+> Task :app:generateReleaseResValues UP-TO-DATE
+> Task :app:mapReleaseSourceSetPaths UP-TO-DATE
+> Task :app:generateReleaseResources UP-TO-DATE
+> Task :app:mergeReleaseResources UP-TO-DATE
+> Task :app:packageReleaseResources UP-TO-DATE
+> Task :app:parseReleaseLocalResources UP-TO-DATE
+> Task :app:createReleaseCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksRelease UP-TO-DATE
+> Task :app:processReleaseMainManifest UP-TO-DATE
+> Task :app:processReleaseManifest UP-TO-DATE
+> Task :app:processReleaseManifestForPackage UP-TO-DATE
+> Task :app:processReleaseResources UP-TO-DATE
+> Task :app:javaPreCompileRelease UP-TO-DATE
+> Task :app:preReleaseUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileReleaseUnitTest UP-TO-DATE
+> Task :app:kspDebugKotlin
+> Task :app:kspReleaseKotlin
+> Task :app:compileDebugKotlin
+> Task :app:compileReleaseKotlin
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/calculation/SanityChecker.kt:272:25 Destructured parameter 'key' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandClassificationEngine.kt:55:13 Variable 'hasGoodReserves' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:159:85 Parameter 'comp' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:265:96 Parameter 'nPerHa' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:265:112 Parameter 'essence' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:325:49 Parameter 'stage' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:347:48 Parameter 'stage' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:373:36 Parameter 'stage' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:411:40 Parameter 'stage' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:433:59 Parameter 'gPerHa' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:455:48 Parameter 'gPerHa' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:455:64 Parameter 'stage' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/model/ripisylve/RipisylveScore.kt:50:13 Variable 'missingCriteria' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/correlateur/SuperCorrelateurEngine.kt:217:9 Parameter 'climateZone' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/correlateur/SuperCorrelateurEngine.kt:312:9 Parameter 'surfaceHa' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/correlateur/SuperCorrelateurEngine.kt:405:9 Parameter 'station' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/correlateur/SuperCorrelateurEngine.kt:568:9 Parameter 'station' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/correlateur/SuperCorrelateurEngine.kt:586:9 Parameter 'station' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/correlateur/SuperCorrelateurEngine.kt:591:9 Parameter 'zone' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/export/IbpPdfExporter.kt:16:16 Parameter 'context' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/export/IbpPdfExporter.kt:39:17 Variable 'y' initializer is redundant
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/export/IbpPdfExporter.kt:171:17 Variable 'y' initializer is redundant
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/export/MartelageCsvExporter.kt:202:52 Parameter 'stats' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/export/PdfSynthesisExporter.kt:350:13 Variable 'colNote' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/fertility/FertilityClassifier.kt:182:54 Parameter 'ref' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/components/GpsDistanceMeasureDialog.kt:134:21 'Divider(Modifier = ..., Dp = ..., Color = ...): Unit' is deprecated. Renamed to HorizontalDivider
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/components/GpsDistanceMeasureDialog.kt:136:21 'Divider(Modifier = ..., Dp = ..., Color = ...): Unit' is deprecated. Renamed to HorizontalDivider
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/components/HeightCameraAimOverlay.kt:334:9 Variable 'context' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/DashboardScreen.kt:279:36 'TrendingUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingUp
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/DashboardScreen.kt:384:40 'TrendingUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingUp
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/DashboardScreen.kt:385:41 'TrendingDown: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingDown
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/DashboardScreen.kt:386:31 'TrendingFlat: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingFlat
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/DashboardScreen.kt:542:51 Parameter 'unit' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/EssenceDiamScreen.kt:112:9 Variable 'finePermission' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/EssenceDiamScreen.kt:163:28 This is a delicate API and its use requires care. Make sure you fully read and understand documentation of the declaration that is marked as a delicate API.
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/EssenceDiamScreen.kt:498:25 Name shadowed: tiges
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/EssenceDiamScreen.kt:502:17 Name shadowed: heightTotalPopulated
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/EssenceDiamScreen.kt:605:33 Name shadowed: tiges
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/EssenceDiamScreen.kt:856:29 Name shadowed: tiges
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/EssenceDiamScreen.kt:1009:25 'LinearProgressIndicator(Float, Modifier = ..., Color = ..., Color = ..., StrokeCap = ...): Unit' is deprecated. Use the overload that takes `progress` as a lambda
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpCompareScreen.kt:109:37 'TrendingUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingUp
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpCompareScreen.kt:110:37 'TrendingDown: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingDown
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpCompareScreen.kt:111:37 'TrendingFlat: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingFlat
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpCompareScreen.kt:303:5 Parameter 'labels' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpCriterionIllustrations.kt:44:29 Variable 'cy' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpCriterionIllustrations.kt:84:29 Variable 'cy' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpCriterionIllustrations.kt:290:21 Variable 'angle' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpDiagnosticScreen.kt:164:53 Parameter 'labels' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpDiagnosticScreen.kt:364:36 'TrendingUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingUp
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpDiagnosticScreen.kt:403:50 'TrendingUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingUp
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpDiagnosticScreen.kt:403:95 'TrendingDown: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingDown
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpDiagnosticScreen.kt:403:127 'TrendingFlat: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingFlat
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpEvaluationScreen.kt:252:72 'MenuBook: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.MenuBook
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpEvaluationScreen.kt:1343:38 Parameter 'score' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpEvaluationScreen.kt:1635:45 'FormatListBulleted: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.FormatListBulleted
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpProjectsScreen.kt:446:44 'ArrowBack: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.ArrowBack
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:450:13 Variable 'label' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:514:25 Condition 'score != null' is always 'true'
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:524:25 Condition 'score != null' is always 'true'
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:564:5 Parameter 'parcelles' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:792:5 Parameter 'context' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:1145:21 Condition 'parcelleRepository != null' is always 'true'
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:1146:71 This declaration needs opt-in. Its usage should be marked with '@kotlinx.coroutines.ExperimentalCoroutinesApi' or '@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)'
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:1164:9 Variable 'animationsEnabled' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:1194:9 Variable 'showOfflineSnackbar' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:3081:56 Elvis operator (?:) always returns the left operand of non-nullable type String?
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:3329:44 Condition 'parcelleRepository != null' is always 'true'
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MartelageSummaryCards.kt:389:72 Parameter 'index' is never used, could be renamed to _
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteDetailScreen.kt:606:87 Unnecessary safe call on a non-null receiver of type Double?
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/ProductBreakdownCard.kt:141:17 'Divider(Modifier = ..., Dp = ..., Color = ...): Unit' is deprecated. Renamed to HorizontalDivider
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RipisylveDiagnosticScreen.kt:387:49 Parameter 'notes' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RipisylveDiagnosticScreen.kt:387:64 Parameter 'onNotesChange' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RipisylveDiagnosticScreen.kt:748:36 'Assignment: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.Assignment
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RipisylveDiagnosticScreen.kt:782:51 'TrendingUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingUp
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RipisylveDiagnosticScreen.kt:782:96 'TrendingDown: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingDown
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RipisylveDiagnosticScreen.kt:786:36 'TrendingUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingUp
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/StandClassificationScreen.kt:84:44 'ArrowBack: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.ArrowBack
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/StandClassificationScreen.kt:231:77 'Help: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.Help
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/SuperCorrelateurScreen.kt:159:72 'Assignment: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.Assignment
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/SuperCorrelateurScreen.kt:365:17 'Divider(Modifier = ..., Dp = ..., Color = ...): Unit' is deprecated. Renamed to HorizontalDivider
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/settings/PriceTablesEditorScreen.kt:439:5 Parameter 'index' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/utils/PremiumAnimations.kt:67:5 Parameter 'radius' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/utils/PremiumAnimations.kt:89:5 Parameter 'baseColor' is never used
+
+> Task :app:compileDebugKotlin
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/calculation/SanityChecker.kt:272:25 Destructured parameter 'key' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandClassificationEngine.kt:55:13 Variable 'hasGoodReserves' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:159:85 Parameter 'comp' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:265:96 Parameter 'nPerHa' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:265:112 Parameter 'essence' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:325:49 Parameter 'stage' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:347:48 Parameter 'stage' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:373:36 Parameter 'stage' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:411:40 Parameter 'stage' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:433:59 Parameter 'gPerHa' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:455:48 Parameter 'gPerHa' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/classification/stand/StandTypologyDatabase.kt:455:64 Parameter 'stage' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/model/ripisylve/RipisylveScore.kt:50:13 Variable 'missingCriteria' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/correlateur/SuperCorrelateurEngine.kt:217:9 Parameter 'climateZone' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/correlateur/SuperCorrelateurEngine.kt:312:9 Parameter 'surfaceHa' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/correlateur/SuperCorrelateurEngine.kt:405:9 Parameter 'station' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/correlateur/SuperCorrelateurEngine.kt:568:9 Parameter 'station' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/correlateur/SuperCorrelateurEngine.kt:586:9 Parameter 'station' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/correlateur/SuperCorrelateurEngine.kt:591:9 Parameter 'zone' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/export/IbpPdfExporter.kt:16:16 Parameter 'context' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/export/IbpPdfExporter.kt:39:17 Variable 'y' initializer is redundant
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/export/IbpPdfExporter.kt:171:17 Variable 'y' initializer is redundant
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/export/MartelageCsvExporter.kt:202:52 Parameter 'stats' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/export/PdfSynthesisExporter.kt:350:13 Variable 'colNote' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/domain/usecase/fertility/FertilityClassifier.kt:182:54 Parameter 'ref' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/components/GpsDistanceMeasureDialog.kt:134:21 'Divider(Modifier = ..., Dp = ..., Color = ...): Unit' is deprecated. Renamed to HorizontalDivider
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/components/GpsDistanceMeasureDialog.kt:136:21 'Divider(Modifier = ..., Dp = ..., Color = ...): Unit' is deprecated. Renamed to HorizontalDivider
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/components/HeightCameraAimOverlay.kt:334:9 Variable 'context' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/DashboardScreen.kt:279:36 'TrendingUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingUp
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/DashboardScreen.kt:384:40 'TrendingUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingUp
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/DashboardScreen.kt:385:41 'TrendingDown: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingDown
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/DashboardScreen.kt:386:31 'TrendingFlat: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingFlat
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/DashboardScreen.kt:542:51 Parameter 'unit' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/EssenceDiamScreen.kt:112:9 Variable 'finePermission' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/EssenceDiamScreen.kt:163:28 This is a delicate API and its use requires care. Make sure you fully read and understand documentation of the declaration that is marked as a delicate API.
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/EssenceDiamScreen.kt:498:25 Name shadowed: tiges
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/EssenceDiamScreen.kt:502:17 Name shadowed: heightTotalPopulated
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/EssenceDiamScreen.kt:605:33 Name shadowed: tiges
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/EssenceDiamScreen.kt:856:29 Name shadowed: tiges
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/EssenceDiamScreen.kt:1009:25 'LinearProgressIndicator(Float, Modifier = ..., Color = ..., Color = ..., StrokeCap = ...): Unit' is deprecated. Use the overload that takes `progress` as a lambda
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpCompareScreen.kt:109:37 'TrendingUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingUp
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpCompareScreen.kt:110:37 'TrendingDown: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingDown
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpCompareScreen.kt:111:37 'TrendingFlat: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingFlat
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpCompareScreen.kt:303:5 Parameter 'labels' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpCriterionIllustrations.kt:44:29 Variable 'cy' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpCriterionIllustrations.kt:84:29 Variable 'cy' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpCriterionIllustrations.kt:290:21 Variable 'angle' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpDiagnosticScreen.kt:164:53 Parameter 'labels' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpDiagnosticScreen.kt:364:36 'TrendingUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingUp
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpDiagnosticScreen.kt:403:50 'TrendingUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingUp
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpDiagnosticScreen.kt:403:95 'TrendingDown: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingDown
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpDiagnosticScreen.kt:403:127 'TrendingFlat: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingFlat
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpEvaluationScreen.kt:252:72 'MenuBook: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.MenuBook
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpEvaluationScreen.kt:1343:38 Parameter 'score' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpEvaluationScreen.kt:1635:45 'FormatListBulleted: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.FormatListBulleted
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/IbpProjectsScreen.kt:446:44 'ArrowBack: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.ArrowBack
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:450:13 Variable 'label' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:514:25 Condition 'score != null' is always 'true'
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:524:25 Condition 'score != null' is always 'true'
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:564:5 Parameter 'parcelles' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:792:5 Parameter 'context' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:1145:21 Condition 'parcelleRepository != null' is always 'true'
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:1146:71 This declaration needs opt-in. Its usage should be marked with '@kotlinx.coroutines.ExperimentalCoroutinesApi' or '@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)'
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:1164:9 Variable 'animationsEnabled' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:1194:9 Variable 'showOfflineSnackbar' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:3081:56 Elvis operator (?:) always returns the left operand of non-nullable type String?
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapScreen.kt:3329:44 Condition 'parcelleRepository != null' is always 'true'
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MartelageSummaryCards.kt:389:72 Parameter 'index' is never used, could be renamed to _
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteDetailScreen.kt:606:87 Unnecessary safe call on a non-null receiver of type Double?
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/ProductBreakdownCard.kt:141:17 'Divider(Modifier = ..., Dp = ..., Color = ...): Unit' is deprecated. Renamed to HorizontalDivider
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RipisylveDiagnosticScreen.kt:387:49 Parameter 'notes' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RipisylveDiagnosticScreen.kt:387:64 Parameter 'onNotesChange' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RipisylveDiagnosticScreen.kt:748:36 'Assignment: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.Assignment
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RipisylveDiagnosticScreen.kt:782:51 'TrendingUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingUp
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RipisylveDiagnosticScreen.kt:782:96 'TrendingDown: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingDown
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RipisylveDiagnosticScreen.kt:786:36 'TrendingUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.TrendingUp
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/StandClassificationScreen.kt:84:44 'ArrowBack: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.ArrowBack
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/StandClassificationScreen.kt:231:77 'Help: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.Help
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/SuperCorrelateurScreen.kt:159:72 'Assignment: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.Assignment
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/SuperCorrelateurScreen.kt:365:17 'Divider(Modifier = ..., Dp = ..., Color = ...): Unit' is deprecated. Renamed to HorizontalDivider
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/screens/settings/PriceTablesEditorScreen.kt:439:5 Parameter 'index' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/utils/PremiumAnimations.kt:67:5 Parameter 'radius' is never used
+w: file:///D:/projet/GeoSylva/app/src/main/java/com/forestry/counter/presentation/utils/PremiumAnimations.kt:89:5 Parameter 'baseColor' is never used
+
+> Task :app:compileReleaseJavaWithJavac
+> Task :app:processReleaseJavaRes UP-TO-DATE
+> Task :app:bundleReleaseClassesToRuntimeJar
+> Task :app:bundleReleaseClassesToCompileJar
+> Task :app:compileDebugJavaWithJavac
+> Task :app:processDebugJavaRes UP-TO-DATE
+> Task :app:bundleDebugClassesToCompileJar
+> Task :app:bundleDebugClassesToRuntimeJar
+> Task :app:kspReleaseUnitTestKotlin
+> Task :app:kspDebugUnitTestKotlin
+
+> Task :app:compileReleaseUnitTestKotlin
+w: file:///D:/projet/GeoSylva/app/src/test/java/com/forestry/counter/domain/calculation/ForestryCalculatorTest.kt:195:13 Variable 'json' is never used
+
+> Task :app:compileReleaseUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processReleaseUnitTestJavaRes
+
+> Task :app:compileDebugUnitTestKotlin
+w: file:///D:/projet/GeoSylva/app/src/test/java/com/forestry/counter/domain/calculation/ForestryCalculatorTest.kt:195:13 Variable 'json' is never used
+
+> Task :app:testReleaseUnitTest
+> Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processDebugUnitTestJavaRes UP-TO-DATE
+> Task :app:testDebugUnitTest
+> Task :app:test
+
+BUILD SUCCESSFUL in 5m 23s
+52 actionable tasks: 20 executed, 32 up-to-date

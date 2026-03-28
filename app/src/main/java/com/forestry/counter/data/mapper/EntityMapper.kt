@@ -167,6 +167,7 @@ fun ParcelleEntity.toParcelle(): Parcelle {
         aspect = aspect,
         access = access,
         altitudeM = altitudeM,
+        commune = commune,
         objectifType = objectifType,
         objectifVal = objectifVal,
         tolerancePct = tolerancePct,
@@ -191,6 +192,7 @@ fun Parcelle.toParcelleEntity(): ParcelleEntity {
         aspect = aspect,
         access = access,
         altitudeM = altitudeM,
+        commune = commune,
         objectifType = objectifType,
         objectifVal = objectifVal,
         tolerancePct = tolerancePct,
@@ -294,7 +296,8 @@ fun TigeEntity.toTige(): Tige {
         qualite = qualite,
         defauts = defauts?.split(',')?.map { it.trim() }?.filter { it.isNotEmpty() },
         photoUri = photoUri,
-        qualiteDetail = qualiteDetail
+        qualiteDetail = qualiteDetail,
+        destination = destination
     )
 }
 
@@ -319,7 +322,8 @@ fun Tige.toTigeEntity(): TigeEntity {
         qualite = qualite,
         defauts = defauts?.joinToString(","),
         photoUri = photoUri,
-        qualiteDetail = qualiteDetail
+        qualiteDetail = qualiteDetail,
+        destination = destination
     )
 }
 

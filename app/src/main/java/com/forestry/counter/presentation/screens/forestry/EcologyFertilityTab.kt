@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.forestry.counter.domain.model.Essence
 import com.forestry.counter.domain.model.Tige
+import com.forestry.counter.R
 import com.forestry.counter.domain.repository.EssenceRepository
 import kotlinx.coroutines.flow.firstOrNull
 import java.util.Locale
@@ -50,14 +51,14 @@ fun EcologyFertilityTab(
             ) {
                 Column(Modifier.padding(16.dp)) {
                     Text(
-                        "Analyse Écologique et Stationnelle",
+                        stringResource(R.string.ecology_tab_title),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(Modifier.height(8.dp))
                     Text(
-                        "L'adéquation essence-station est primordiale pour garantir la résilience et la productivité du peuplement face aux changements climatiques.",
+                        stringResource(R.string.ecology_tab_desc),
                         style = MaterialTheme.typography.bodyMedium
                     )
                     
@@ -73,7 +74,7 @@ fun EcologyFertilityTab(
                         ) {
                             Icon(Icons.Default.Landscape, contentDescription = null, modifier = Modifier.size(18.dp))
                             Spacer(Modifier.width(8.dp))
-                            Text("Diag. Station")
+                            Text(stringResource(R.string.diag_station_btn))
                         }
                         Button(
                             onClick = onNavigateToRipisylve,
@@ -82,7 +83,7 @@ fun EcologyFertilityTab(
                         ) {
                             Icon(Icons.Default.WaterDrop, contentDescription = null, modifier = Modifier.size(18.dp))
                             Spacer(Modifier.width(8.dp))
-                            Text("Diag. Ripisylve")
+                            Text(stringResource(R.string.diag_ripisylve_btn))
                         }
                     }
                 }
@@ -91,7 +92,7 @@ fun EcologyFertilityTab(
 
         item {
             Text(
-                "Classes de fertilité estimées par essence présente :",
+                stringResource(R.string.ecology_fertility_classes_title),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp)
@@ -101,7 +102,7 @@ fun EcologyFertilityTab(
         if (tigesByEssence.isEmpty()) {
             item {
                 Text(
-                    "Aucune tige inventoriée pour calculer les classes de fertilité.",
+                    stringResource(R.string.ecology_no_stems),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(horizontal = 4.dp)

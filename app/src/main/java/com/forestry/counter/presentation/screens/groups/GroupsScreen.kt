@@ -11,9 +11,11 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -21,6 +23,8 @@ import androidx.compose.animation.core.*
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.sp
 import com.forestry.counter.presentation.utils.StaggerEntrance
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -41,6 +45,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -69,7 +74,9 @@ fun GroupsScreen(
     preferencesManager: UserPreferencesManager,
     onNavigateToMartelage: ((String?) -> Unit)? = null,
     onNavigateToMap: ((String) -> Unit)? = null,
-    onNavigateToIbp: (() -> Unit)? = null
+    onNavigateToIbp: (() -> Unit)? = null,
+    onNavigateToRipisylve: (() -> Unit)? = null,
+    onNavigateToStation: (() -> Unit)? = null
 ) {
     val viewModel = remember { GroupsViewModel(groupRepository) }
     val uiState by viewModel.uiState.collectAsState()
@@ -82,6 +89,8 @@ fun GroupsScreen(
     var colorHex by remember { mutableStateOf("") }
     var showMartelageScopeDialog by remember { mutableStateOf(false) }
     var showMapScopeDialog by remember { mutableStateOf(false) }
+    var showDiagnosticsSheet  by remember { mutableStateOf(false) }
+    var pendingDiagnosticNav  by remember { mutableStateOf<(() -> Unit)?>(null) }
 
     val glassBlurEnabled = false
     val isDarkTheme = MaterialTheme.colorScheme.background.luminance() < 0.5f
@@ -198,9 +207,9 @@ fun GroupsScreen(
                                         }
                                     }
                                 }
-                                if (onNavigateToIbp != null) {
-                                    IconButton(onClick = { onNavigateToIbp() }) {
-                                        Icon(Icons.Default.EmojiNature, contentDescription = stringResource(R.string.ibp_title))
+                                if (onNavigateToIbp != null || onNavigateToRipisylve != null || onNavigateToStation != null) {
+                                    IconButton(onClick = { showDiagnosticsSheet = true }) {
+                                        Icon(Icons.Default.Biotech, contentDescription = "Diagnostics")
                                     }
                                 }
                                 IconButton(onClick = onNavigateToSettings) {
@@ -463,6 +472,18 @@ fun GroupsScreen(
                         singleLine = true
                     )
                 }
+            }
+
+            // ── Bottom sheet diagnostics ─────────────────────────────────────
+            if (showDiagnosticsSheet) {
+                val groups = (uiState as? GroupsUiState.Success)?.groups.orEmpty()
+                DiagnosticsBottomSheet(
+                    groups = groups,
+                    onNavigateToIbp = onNavigateToIbp,
+                    onNavigateToRipisylve = onNavigateToRipisylve,
+                    onNavigateToStation = onNavigateToStation,
+                    onDismiss = { showDiagnosticsSheet = false }
+                )
             }
 
             if (colorTargetGroupId != null) {
@@ -1016,6 +1037,209 @@ fun CreateGroupDialog(
                     tonalElevation = if (selected) 6.dp else 0.dp,
                     shadowElevation = if (selected) 6.dp else 0.dp
                 ) {}
+            }
+        }
+    }
+}
+
+// ─── Diagnostics Bottom Sheet ────────────────────────────────────────────────
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DiagnosticsBottomSheet(
+    groups: List<Group>,
+    onNavigateToIbp: (() -> Unit)?,
+    onNavigateToRipisylve: (() -> Unit)?,
+    onNavigateToStation: (() -> Unit)?,
+    onDismiss: () -> Unit
+) {
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    var selectedGroupId by remember { mutableStateOf<String?>(null) }
+    var showLinkStep by remember { mutableStateOf(false) }
+    var pendingNav by remember { mutableStateOf<(() -> Unit)?>(null) }
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        dragHandle = { BottomSheetDefaults.DragHandle() }
+    ) {
+        Column(modifier = Modifier.padding(bottom = 28.dp)) {
+            // En-tête
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Icon(
+                    Icons.Default.Biotech,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(26.dp)
+                )
+                Column {
+                    Text("Diagnostics terrain", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                    Text("Choisissez un diagnostic à lancer", style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
+
+            if (!showLinkStep) {
+                HorizontalDivider(modifier = Modifier.padding(vertical = 10.dp))
+                Text(
+                    "Diagnostics disponibles",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp)
+                )
+                Spacer(Modifier.height(4.dp))
+
+                data class DiagEntry(
+                    val label: String,
+                    val subtitle: String,
+                    val icon: androidx.compose.ui.graphics.vector.ImageVector,
+                    val color: Color,
+                    val nav: (() -> Unit)?
+                )
+                val entries = listOf(
+                    DiagEntry("IBP – Biodiversité", "Indice de Biodiversité Potentielle\nEvaluation de la richesse écologique du peuplement",
+                        Icons.Default.EmojiNature, Color(0xFF2E7D32), onNavigateToIbp),
+                    DiagEntry("Ripisylve", "Diagnostic des zones humides et milieux riverains\nQualité de la végétation de berge",
+                        Icons.Default.Water, Color(0xFF1565C0), onNavigateToRipisylve),
+                    DiagEntry("Station forestière", "Analyse de la station : sol, topographie, hydrologie\nClasse de fertilité et potentiel sylvicole",
+                        Icons.Default.Terrain, Color(0xFF5D4037), onNavigateToStation)
+                )
+
+                Column(
+                    modifier = Modifier.padding(horizontal = 12.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    entries.forEach { entry ->
+                        if (entry.nav == null) return@forEach
+                        Surface(
+                            onClick = {
+                                pendingNav = entry.nav
+                                if (groups.isNotEmpty()) showLinkStep = true
+                                else { entry.nav.invoke(); onDismiss() }
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(14.dp),
+                            color = entry.color.copy(alpha = 0.08f),
+                            border = androidx.compose.foundation.BorderStroke(1.dp, entry.color.copy(alpha = 0.25f))
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(14.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(14.dp)
+                            ) {
+                                Surface(
+                                    shape = RoundedCornerShape(10.dp),
+                                    color = entry.color.copy(alpha = 0.14f),
+                                    modifier = Modifier.size(44.dp)
+                                ) {
+                                    Box(contentAlignment = Alignment.Center) {
+                                        Icon(entry.icon, contentDescription = null, tint = entry.color, modifier = Modifier.size(24.dp))
+                                    }
+                                }
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(entry.label, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+                                    Text(entry.subtitle, style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        maxLines = 2, overflow = TextOverflow.Ellipsis)
+                                }
+                                Icon(Icons.Default.ChevronRight, contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f))
+                            }
+                        }
+                    }
+                }
+            } else {
+                // Étape 2 : liaison optionnelle à un projet
+                HorizontalDivider(modifier = Modifier.padding(vertical = 10.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(onClick = { showLinkStep = false; selectedGroupId = null }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Retour")
+                    }
+                    Spacer(Modifier.width(4.dp))
+                    Column {
+                        Text("Associer à un projet ?", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+                        Text("Facultatif — vous pouvez lancer sans association", style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+                Spacer(Modifier.height(6.dp))
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 300.dp)
+                        .padding(horizontal = 12.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    item {
+                        Surface(
+                            onClick = { pendingNav?.invoke(); onDismiss() },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(12.dp),
+                            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f),
+                            border = if (selectedGroupId == null)
+                                androidx.compose.foundation.BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                Icon(Icons.Default.Block, contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
+                                Column {
+                                    Text("Sans association", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
+                                    Text("Lancer le diagnostic sans lier à un projet", style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                }
+                            }
+                        }
+                    }
+                    items(groups, key = { it.id }) { g ->
+                        Surface(
+                            onClick = { selectedGroupId = g.id; pendingNav?.invoke(); onDismiss() },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(12.dp),
+                            color = if (selectedGroupId == g.id)
+                                MaterialTheme.colorScheme.secondaryContainer
+                            else
+                                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                val grpColor = g.color?.let { c ->
+                                    try { Color(android.graphics.Color.parseColor(c)) } catch (_: Exception) { null }
+                                }
+                                Box(
+                                    modifier = Modifier
+                                        .size(16.dp)
+                                        .background(grpColor ?: MaterialTheme.colorScheme.primary, CircleShape)
+                                )
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(g.name, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
+                                }
+                                if (selectedGroupId == g.id) {
+                                    Icon(Icons.Default.Check, contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
+                                }
+                            }
+                        }
+                    }
+                }
+                Spacer(Modifier.height(8.dp))
             }
         }
     }

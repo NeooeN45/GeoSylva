@@ -1,5 +1,7 @@
 package com.forestry.counter.domain.model.ripisylve
 
+import com.forestry.counter.domain.model.station.DiagnosticPhoto
+
 /**
  * Observation de terrain pour le diagnostic de ripisylve.
  * Basé sur l'indice CRPF Hauts-de-France (Forêt-Entreprise n°242, 2018).
@@ -12,6 +14,10 @@ data class RipisylveObservation(
     val observationDate: Long = System.currentTimeMillis(),
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis(),
+
+    // ── Statut et Médias ──
+    val isDraft: Boolean = true,
+    val photos: List<DiagnosticPhoto> = emptyList(),
 
     // ── Localisation ──
     val latitude: Double? = null,
@@ -66,8 +72,7 @@ data class RipisylveObservation(
     val stabilitePct: Double = 0.0,             // % arbres penchés ou affouillement
 
     // ── Champ libre ──
-    val globalNotes: String = "",
-    val photoUris: List<String> = emptyList()
+    val globalNotes: String = ""
 )
 
 enum class LargeurMode(val label: String, val points: Int) {

@@ -35,6 +35,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.Canvas
@@ -94,6 +96,13 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -164,9 +173,14 @@ import com.mapbox.mapboxsdk.style.layers.CircleLayer
 import com.mapbox.mapboxsdk.style.layers.FillLayer
 import com.mapbox.mapboxsdk.style.layers.LineLayer
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory
+import com.mapbox.mapboxsdk.style.layers.RasterLayer
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer
 import com.mapbox.mapboxsdk.style.sources.GeoJsonOptions
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
+import com.mapbox.mapboxsdk.style.sources.RasterSource
+import com.mapbox.mapboxsdk.style.sources.TileSet
+import com.forestry.counter.domain.geo.WmsLayerConfig
+import com.forestry.counter.domain.geo.WmsLayerManager
 import kotlin.math.*
 import java.io.File
 import java.util.Locale
@@ -712,19 +726,36 @@ private fun renderTigesOnMap(
     )
 }
 
+private const val TRACE_CLOSE_SOURCE_ID = "trace_close_source"
+private const val TRACE_CLOSE_LAYER_ID  = "trace_close_layer"
+
 /**
- * Dessine le tracé GPS (ligne + polygone + points) sur la carte.
+ * Dessine le tracé GPS (ligne + polygone + points + ligne de fermeture preview).
  */
-private fun renderTraceOnMap(style: Style, tracer: GpsParcelTracer) {
-    // Remove existing trace layers
-    try { style.removeLayer(TRACE_POINTS_LAYER_ID) } catch (_: Throwable) {}
-    try { style.removeLayer(TRACE_LINE_ID) } catch (_: Throwable) {}
-    try { style.removeLayer(TRACE_FILL_ID) } catch (_: Throwable) {}
-    try { style.removeSource(TRACE_POINTS_SOURCE_ID) } catch (_: Throwable) {}
-    try { style.removeSource(TRACE_SOURCE_ID) } catch (_: Throwable) {}
+private fun renderTraceOnMap(
+    style: Style,
+    tracer: GpsParcelTracer,
+    lineColor: Int = android.graphics.Color.parseColor("#2E7D32"),
+    lineWidthDp: Float = 3f
+) {
+    // Remove existing trace layers/sources
+    listOf(TRACE_POINTS_LAYER_ID, TRACE_LINE_ID, TRACE_FILL_ID, TRACE_CLOSE_LAYER_ID).forEach {
+        try { style.removeLayer(it) } catch (_: Throwable) {}
+    }
+    listOf(TRACE_POINTS_SOURCE_ID, TRACE_SOURCE_ID, TRACE_CLOSE_SOURCE_ID).forEach {
+        try { style.removeSource(it) } catch (_: Throwable) {}
+    }
 
     val state = tracer.state.value
     if (state.points.isEmpty()) return
+
+    // Fill color: same hue as line, lighter
+    val fillArgb = android.graphics.Color.argb(
+        51, // 0.20 * 255
+        android.graphics.Color.red(lineColor),
+        android.graphics.Color.green(lineColor),
+        android.graphics.Color.blue(lineColor)
+    )
 
     // Polygon fill + line (if ≥3 points)
     val polyJson = tracer.toGeoJsonPolygon()
@@ -736,7 +767,7 @@ private fun renderTraceOnMap(style: Style, tracer: GpsParcelTracer) {
     if (polyJson != null) {
         style.addLayer(
             FillLayer(TRACE_FILL_ID, TRACE_SOURCE_ID).withProperties(
-                PropertyFactory.fillColor(android.graphics.Color.parseColor("#1B5E20")),
+                PropertyFactory.fillColor(fillArgb),
                 PropertyFactory.fillOpacity(0.20f)
             )
         )
@@ -744,18 +775,34 @@ private fun renderTraceOnMap(style: Style, tracer: GpsParcelTracer) {
 
     style.addLayer(
         LineLayer(TRACE_LINE_ID, TRACE_SOURCE_ID).withProperties(
-            PropertyFactory.lineColor(android.graphics.Color.parseColor("#2E7D32")),
-            PropertyFactory.lineWidth(3f),
+            PropertyFactory.lineColor(lineColor),
+            PropertyFactory.lineWidth(lineWidthDp),
             PropertyFactory.lineOpacity(0.9f)
         )
     )
+
+    // Dashed closing-preview line (first ↔ last point, only while recording and ≥2 pts)
+    if (state.isRecording && state.points.size >= 2) {
+        val first = state.points.first()
+        val last  = state.points.last()
+        val closeJson = """{"type":"Feature","geometry":{"type":"LineString","coordinates":[[${last.lon},${last.lat}],[${first.lon},${first.lat}]]}}"""
+        style.addSource(GeoJsonSource(TRACE_CLOSE_SOURCE_ID, closeJson))
+        style.addLayer(
+            LineLayer(TRACE_CLOSE_LAYER_ID, TRACE_CLOSE_SOURCE_ID).withProperties(
+                PropertyFactory.lineColor(lineColor),
+                PropertyFactory.lineWidth(lineWidthDp * 0.8f),
+                PropertyFactory.lineOpacity(0.55f),
+                PropertyFactory.lineDasharray(arrayOf(4f, 3f))
+            )
+        )
+    }
 
     // Points
     val pointsJson = tracer.toGeoJsonPoints()
     style.addSource(GeoJsonSource(TRACE_POINTS_SOURCE_ID, pointsJson))
     style.addLayer(
         CircleLayer(TRACE_POINTS_LAYER_ID, TRACE_POINTS_SOURCE_ID).withProperties(
-            PropertyFactory.circleColor(android.graphics.Color.parseColor("#4CAF50")),
+            PropertyFactory.circleColor(lineColor),
             PropertyFactory.circleRadius(5f),
             PropertyFactory.circleStrokeColor(android.graphics.Color.WHITE),
             PropertyFactory.circleStrokeWidth(2f),
@@ -1267,6 +1314,16 @@ fun MapScreen(
     var showShpPanel by remember { mutableStateOf(false) }
     var shpImporting by remember { mutableStateOf(false) }
 
+    // ── WMS/WMTS overlay state ──
+    val wmsManager = remember { WmsLayerManager(context) }
+    var wmsLayers by remember { mutableStateOf(wmsManager.loadLayers()) }
+    var showWmsDialog by remember { mutableStateOf(false) }
+    val appliedWmsIds = remember { mutableSetOf<String>() }
+
+    // ── Trace style state ──
+    var traceLineColor by remember { mutableIntStateOf(android.graphics.Color.parseColor("#2E7D32")) }
+    var traceLineWidth by remember { mutableFloatStateOf(3f) }
+
     // ── GPS Parcel Trace state ──
     val gpsTracer = remember(context) { GpsParcelTracer(context) }
     val traceState by gpsTracer.state.collectAsState()
@@ -1345,11 +1402,64 @@ fun MapScreen(
         }
     }
 
+    // File picker multi-format (GeoJSON, KML, KMZ, GPX, CSV, GeoPackage)
+    val geoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        if (uri == null) return@rememberLauncherForActivityResult
+        shpImporting = true
+        scope.launch {
+            val overlay = shpManager.importGenericUri(uri)
+            shpImporting = false
+            if (overlay != null) {
+                shpGeoJsonFile = shpManager.getGeoJsonFile(overlay)
+                shpOverlay = overlay
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.shp_import_success, overlay.featureCount),
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                Toast.makeText(context, context.getString(R.string.shp_import_error), Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
     // Appliquer l'overlay shapefile quand le fichier ou les paramètres changent
     fun applyCurrentShpOverlay(style: Style): String {
         val file = shpGeoJsonFile ?: return "no file"
         val ov = shpOverlay ?: return "no overlay"
         return applyShapefileOverlay(style, file, ov)
+    }
+
+    // Applique les couches WMS/WMTS dynamiquement sur le style courant
+    fun applyWmsOverlays(style: Style, overlays: List<WmsLayerConfig>) {
+        // Supprimer les couches/sources WMS précédentes
+        appliedWmsIds.forEach { id ->
+            runCatching { style.removeLayer("wms_layer_$id") }
+            runCatching { style.removeSource("wms_src_$id") }
+        }
+        appliedWmsIds.clear()
+
+        // Trouver un ID de référence au-dessus duquel on insère (juste en dessous du shapefile)
+        val belowId: String? = runCatching { style.getLayer(SHP_FILL_ID)?.id }.getOrNull()
+            ?: runCatching { style.getLayer(TRACE_LINE_ID)?.id }.getOrNull()
+
+        overlays.filter { it.visible }.forEach { layer ->
+            runCatching {
+                val srcId = "wms_src_${layer.id}"
+                val lyrId = "wms_layer_${layer.id}"
+                val tileSet = TileSet("2.2.0", layer.url)
+                val source  = RasterSource(srcId, tileSet, layer.tileSize)
+                style.addSource(source)
+                val rasterLayer = RasterLayer(lyrId, srcId)
+                    .withProperties(PropertyFactory.rasterOpacity(layer.opacity))
+                if (belowId != null) style.addLayerBelow(rasterLayer, belowId)
+                else style.addLayer(rasterLayer)
+                appliedWmsIds.add(layer.id)
+                Log.d(TAG, "WMS applied: ${layer.name} (opacity=${layer.opacity})")
+            }.onFailure { Log.w(TAG, "WMS apply failed: ${layer.name}", it) }
+        }
     }
 
     fun switchLayer(index: Int) {
@@ -1368,6 +1478,7 @@ fun MapScreen(
         try {
             map.setStyle(Style.Builder().fromJson(styleJson)) { style ->
                 enableLocationComponent(map, style, context)
+                applyWmsOverlays(style, wmsLayers)
                 applyCurrentShpOverlay(style)
                 renderTigesOnMap(style, filteredGeoTiges, essenceMap, essenceColors,
                     parcelles = parcelles,
@@ -1380,6 +1491,7 @@ fun MapScreen(
             Log.w(TAG, "Style switch failed", e)
             map.setStyle(Style.Builder().fromJson(offlineLocalStyle("Offline fallback"))) { style ->
                 enableLocationComponent(map, style, context)
+                applyWmsOverlays(style, wmsLayers)
                 applyCurrentShpOverlay(style)
                 renderTigesOnMap(style, filteredGeoTiges, essenceMap, essenceColors)
             }
@@ -1478,58 +1590,6 @@ fun MapScreen(
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            // ── Diagnostic Tap Card ──
-            tappedDiagnostic?.let { diag ->
-                Box(
-                    modifier = Modifier.fillMaxSize().padding(16.dp),
-                    contentAlignment = Alignment.BottomCenter
-                ) {
-                    Card(
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 72.dp),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-                    ) {
-                        Column(Modifier.padding(16.dp)) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    diag.label,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                                IconButton(onClick = { tappedDiagnostic = null }) {
-                                    Icon(Icons.Default.Close, contentDescription = "Fermer")
-                                }
-                            }
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Text(
-                                "Coordonnées : ${String.format(Locale.US, "%.5f", diag.lat)}, ${String.format(Locale.US, "%.5f", diag.lon)}",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                            Spacer(modifier = Modifier.height(12.dp))
-                            androidx.compose.material3.Button(
-                                onClick = {
-                                    when (diag.type) {
-                                        "IBP" -> onNavigateToIbpDiagnostic?.invoke(diag.parcelleId)
-                                        "Ripisylve" -> onNavigateToRipisylveDiagnostic?.invoke(diag.parcelleId)
-                                        "Station" -> onNavigateToStationDiagnostic?.invoke(diag.parcelleId)
-                                        else -> {}
-                                    }
-                                },
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                androidx.compose.material3.Text("Ouvrir le diagnostic")
-                            }
-                        }
-                    }
-                }
-            }
-
             // ── Tree Tap Card ──
             val lifecycleOwner = LocalLifecycleOwner.current
             var mapError by remember { mutableStateOf(false) }
@@ -1638,13 +1698,17 @@ fun MapScreen(
                 } catch (_: Throwable) { /* permission pas encore accordée */ }
             }
 
-            // Ajouter/mettre à jour les tiges (source GeoJSON + clusters) quand la carte et les données sont prêtes
-            LaunchedEffect(mapReady, filteredGeoTiges, essenceColors) {
+            // Ajouter/mettre à jour les tiges + diagnostics quand la carte et les données sont prêtes
+            LaunchedEffect(mapReady, filteredGeoTiges, essenceColors, ibpDiagnostics, ripisylveDiagnostics, stationDiagnostics) {
                 val map = mapLibreMap ?: return@LaunchedEffect
                 if (!mapReady) return@LaunchedEffect
 
                 map.getStyle { style ->
-                    renderTigesOnMap(style, filteredGeoTiges, essenceMap, essenceColors)
+                    renderTigesOnMap(style, filteredGeoTiges, essenceMap, essenceColors,
+                        ibpDiagnostics = ibpDiagnostics,
+                        ripisylveDiagnostics = ripisylveDiagnostics,
+                        stationDiagnostics = stationDiagnostics
+                    )
                 }
 
                 if (displayedGeoTiges.isNotEmpty()) {
@@ -1666,10 +1730,10 @@ fun MapScreen(
             }
 
             // ── Mettre à jour le tracé GPS sur la carte ──
-            LaunchedEffect(mapReady, traceState) {
+            LaunchedEffect(mapReady, traceState, traceLineColor, traceLineWidth) {
                 val map = mapLibreMap ?: return@LaunchedEffect
                 if (!mapReady) return@LaunchedEffect
-                map.getStyle { style -> renderTraceOnMap(style, gpsTracer) }
+                map.getStyle { style -> renderTraceOnMap(style, gpsTracer, traceLineColor, traceLineWidth) }
             }
 
             // ── Mettre à jour la couche de mesure ──
@@ -1691,6 +1755,13 @@ fun MapScreen(
                     val result = applyCurrentShpOverlay(style)
                     Log.d(TAG, "SHP apply result: $result")
                 }
+            }
+
+            // ── Appliquer/mettre à jour les couches WMS/WMTS ──
+            LaunchedEffect(wmsLayers, mapReady) {
+                val map = mapLibreMap ?: return@LaunchedEffect
+                if (!mapReady) return@LaunchedEffect
+                map.getStyle { style -> applyWmsOverlays(style, wmsLayers) }
             }
 
             // ── Panneau sélecteur de couches (par catégorie) ──
@@ -1793,6 +1864,94 @@ fun MapScreen(
                                 }
                             }
                         }
+
+                        // ── Section WMS/WMTS ──
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Surface(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f), modifier = Modifier.fillMaxWidth().height(1.dp)) {}
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                Icon(Icons.Default.Layers, contentDescription = null, modifier = Modifier.size(16.dp), tint = Color(0xFF1565C0))
+                                Text(stringResource(R.string.wms_panel_title), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                                val activeCount = wmsLayers.count { it.visible }
+                                if (activeCount > 0) {
+                                    Surface(color = Color(0xFF1565C0), shape = RoundedCornerShape(8.dp)) {
+                                        Text(
+                                            "$activeCount",
+                                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 1.dp),
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = Color.White,
+                                            fontSize = 10.sp
+                                        )
+                                    }
+                                }
+                            }
+                            TextButton(
+                                onClick = { showWmsDialog = true },
+                                contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 8.dp, vertical = 4.dp)
+                            ) {
+                                Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(14.dp))
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text(stringResource(R.string.wms_add_layer), style = MaterialTheme.typography.labelMedium)
+                            }
+                        }
+                        if (wmsLayers.isEmpty()) {
+                            Text(stringResource(R.string.wms_no_layers), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        } else {
+                            wmsLayers.forEach { wmsLayer ->
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Surface(
+                                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                                    shape = RoundedCornerShape(8.dp),
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Column(modifier = Modifier.padding(8.dp)) {
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Row(modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                                Switch(
+                                                    checked = wmsLayer.visible,
+                                                    onCheckedChange = { v ->
+                                                        wmsLayers = wmsManager.updateLayer(wmsLayer.copy(visible = v))
+                                                    },
+                                                    modifier = Modifier.height(20.dp)
+                                                )
+                                                Text(wmsLayer.name, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold, maxLines = 1)
+                                            }
+                                            IconButton(
+                                                onClick = { wmsLayers = wmsManager.removeLayer(wmsLayer.id) },
+                                                modifier = Modifier.size(28.dp)
+                                            ) {
+                                                Icon(Icons.Default.Close, contentDescription = stringResource(R.string.wms_delete), modifier = Modifier.size(14.dp), tint = MaterialTheme.colorScheme.error)
+                                            }
+                                        }
+                                        if (wmsLayer.visible) {
+                                            Spacer(modifier = Modifier.height(4.dp))
+                                            Text(
+                                                stringResource(R.string.wms_opacity, (wmsLayer.opacity * 100).toInt()),
+                                                style = MaterialTheme.typography.labelSmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                            )
+                                            Slider(
+                                                value = wmsLayer.opacity,
+                                                onValueChange = { v ->
+                                                    wmsLayers = wmsManager.updateLayer(wmsLayer.copy(opacity = v))
+                                                },
+                                                valueRange = 0.05f..1f,
+                                                modifier = Modifier.fillMaxWidth().height(28.dp)
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1847,20 +2006,48 @@ fun MapScreen(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Spacer(modifier = Modifier.height(8.dp))
-                            Surface(
-                                onClick = {
-                                    shpPickerLauncher.launch(arrayOf("application/zip", "application/x-zip-compressed", "application/octet-stream"))
-                                },
-                                color = Color(0xFF2E7D32),
-                                shape = RoundedCornerShape(10.dp)
-                            ) {
-                                Row(
-                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
+                                Surface(
+                                    onClick = {
+                                        geoPickerLauncher.launch(arrayOf(
+                                            "application/geo+json", "application/json", "application/vnd.google-earth.kml+xml",
+                                            "application/vnd.google-earth.kmz", "application/gpx+xml",
+                                            "application/geopackage+sqlite3", "text/csv", "text/plain",
+                                            "application/octet-stream", "*/*"
+                                        ))
+                                    },
+                                    color = Color(0xFF1565C0),
+                                    shape = RoundedCornerShape(10.dp),
+                                    modifier = Modifier.weight(1f)
                                 ) {
-                                    Icon(Icons.Default.Add, contentDescription = null, tint = Color.White, modifier = Modifier.size(18.dp))
-                                    Text(stringResource(R.string.shp_import), color = Color.White, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.labelLarge)
+                                    Row(
+                                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                    ) {
+                                        Icon(Icons.Default.Add, contentDescription = null, tint = Color.White, modifier = Modifier.size(16.dp))
+                                        Column {
+                                            Text("GeoJSON / KML", color = Color.White, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.labelMedium)
+                                            Text("GPX · CSV · GPKG", color = Color.White.copy(alpha = 0.8f), style = MaterialTheme.typography.labelSmall)
+                                        }
+                                    }
+                                }
+                                Surface(
+                                    onClick = {
+                                        shpPickerLauncher.launch(arrayOf("application/zip", "application/x-zip-compressed", "application/octet-stream"))
+                                    },
+                                    color = Color(0xFF2E7D32),
+                                    shape = RoundedCornerShape(10.dp),
+                                    modifier = Modifier.weight(1f)
+                                ) {
+                                    Row(
+                                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                    ) {
+                                        Icon(Icons.Default.Add, contentDescription = null, tint = Color.White, modifier = Modifier.size(16.dp))
+                                        Text(stringResource(R.string.shp_import), color = Color.White, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.labelMedium)
+                                    }
                                 }
                             }
                         } else {
@@ -2063,7 +2250,12 @@ fun MapScreen(
                             ) {
                                 Surface(
                                     onClick = {
-                                        shpPickerLauncher.launch(arrayOf("application/zip", "application/x-zip-compressed", "application/octet-stream"))
+                                        geoPickerLauncher.launch(arrayOf(
+                                            "application/geo+json", "application/json", "application/vnd.google-earth.kml+xml",
+                                            "application/vnd.google-earth.kmz", "application/gpx+xml",
+                                            "application/geopackage+sqlite3", "text/csv", "text/plain",
+                                            "application/zip", "application/x-zip-compressed", "application/octet-stream", "*/*"
+                                        ))
                                     },
                                     color = MaterialTheme.colorScheme.primaryContainer,
                                     shape = RoundedCornerShape(8.dp),
@@ -2159,9 +2351,13 @@ fun MapScreen(
                 }
             }
 
-            // ── Légende par essence (améliorée) ──
+            // ── Légende par essence + diagnostics ──
+            val ibpOnMapCount = ibpDiagnostics.count { it.latitude != null && it.longitude != null }
+            val ripOnMapCount = ripisylveDiagnostics.count { it.latitude != null && it.longitude != null }
+            val stationOnMapCount = stationDiagnostics.count { it.latitude != null && it.longitude != null }
+            val hasDiagnosticsOnMap = ibpOnMapCount > 0 || ripOnMapCount > 0 || stationOnMapCount > 0
             AnimatedVisibility(
-                visible = showLegend && essenceColors.isNotEmpty(),
+                visible = showLegend && (essenceColors.isNotEmpty() || hasDiagnosticsOnMap),
                 enter = fadeIn(tween(200)) + expandVertically(tween(250)),
                 exit = fadeOut(tween(150)) + shrinkVertically(tween(200)),
                 modifier = Modifier
@@ -2195,6 +2391,65 @@ fun MapScreen(
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.primary
                             )
+                        }
+                        if (hasDiagnosticsOnMap) {
+                            Spacer(modifier = Modifier.height(2.dp))
+                            HorizontalDivider(
+                                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
+                                thickness = 0.5.dp
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                "Diagnostics",
+                                style = MaterialTheme.typography.labelSmall,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Spacer(modifier = Modifier.height(3.dp))
+                            if (ibpOnMapCount > 0) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    Box(Modifier.size(18.dp).clip(CircleShape).background(Color(0xFF2E7D32)),
+                                        contentAlignment = Alignment.Center) {
+                                        Icon(Icons.Default.BugReport, null, tint = Color.White, modifier = Modifier.size(11.dp))
+                                    }
+                                    Text("IBP ($ibpOnMapCount)", style = MaterialTheme.typography.bodySmall)
+                                }
+                            }
+                            if (ripOnMapCount > 0) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    Box(Modifier.size(18.dp).clip(CircleShape).background(Color(0xFF1976D2)),
+                                        contentAlignment = Alignment.Center) {
+                                        Icon(Icons.Default.WaterDrop, null, tint = Color.White, modifier = Modifier.size(11.dp))
+                                    }
+                                    Text("Ripisylve ($ripOnMapCount)", style = MaterialTheme.typography.bodySmall)
+                                }
+                            }
+                            if (stationOnMapCount > 0) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    Box(Modifier.size(18.dp).clip(CircleShape).background(Color(0xFF795548)),
+                                        contentAlignment = Alignment.Center) {
+                                        Icon(Icons.Default.Landscape, null, tint = Color.White, modifier = Modifier.size(11.dp))
+                                    }
+                                    Text("Station ($stationOnMapCount)", style = MaterialTheme.typography.bodySmall)
+                                }
+                            }
+                            if (essenceColors.isNotEmpty()) {
+                                Spacer(modifier = Modifier.height(4.dp))
+                                HorizontalDivider(
+                                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
+                                    thickness = 0.5.dp
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                            }
                         }
                         val totalWithGps = essenceCounts.values.sum()
                         essenceColors.forEach { (code, color) ->
@@ -2606,6 +2861,47 @@ fun MapScreen(
                                 stringResource(R.string.trace_perimeter_m, String.format(Locale.getDefault(), "%.0f", p)),
                                 style = MaterialTheme.typography.bodySmall
                             )
+                        }
+                        // ── Couleur + épaisseur du tracé ──
+                        Row(horizontalArrangement = Arrangement.spacedBy(5.dp), verticalAlignment = Alignment.CenterVertically) {
+                            val traceColors = listOf(
+                                android.graphics.Color.parseColor("#2E7D32"),
+                                android.graphics.Color.parseColor("#1565C0"),
+                                android.graphics.Color.parseColor("#E65100"),
+                                android.graphics.Color.parseColor("#6A1B9A"),
+                                android.graphics.Color.parseColor("#C62828"),
+                                android.graphics.Color.parseColor("#F9A825")
+                            )
+                            traceColors.forEach { c ->
+                                Box(
+                                    modifier = Modifier
+                                        .size(if (traceLineColor == c) 18.dp else 14.dp)
+                                        .clip(CircleShape)
+                                        .background(Color(c))
+                                        .then(
+                                            if (traceLineColor == c) Modifier.border(2.dp, Color.White, CircleShape)
+                                            else Modifier
+                                        )
+                                        .clickable { traceLineColor = c }
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(4.dp))
+                            // Line width picker
+                            listOf(2f, 3f, 5f).forEach { w ->
+                                Surface(
+                                    onClick = { traceLineWidth = w },
+                                    color = if (traceLineWidth == w) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                                    shape = RoundedCornerShape(4.dp),
+                                    modifier = Modifier.size(width = 22.dp, height = 18.dp)
+                                ) {
+                                    Box(contentAlignment = Alignment.Center) {
+                                        Surface(
+                                            color = Color(traceLineColor),
+                                            modifier = Modifier.fillMaxWidth(0.7f).height(w.dp)
+                                        ) {}
+                                    }
+                                }
+                            }
                         }
                         // Action buttons
                         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -3211,6 +3507,124 @@ fun MapScreen(
                     }
                 }
             }
+            // ── Diagnostic Tap Card (au premier plan) ──
+            tappedDiagnostic?.let { diag ->
+                val diagColor = when (diag.type) {
+                    "IBP"       -> Color(0xFF2E7D32)
+                    "Ripisylve" -> Color(0xFF1976D2)
+                    "Station"   -> Color(0xFF795548)
+                    else        -> MaterialTheme.colorScheme.primary
+                }
+                val diagIcon = when (diag.type) {
+                    "IBP"       -> Icons.Default.BugReport
+                    "Ripisylve" -> Icons.Default.WaterDrop
+                    "Station"   -> Icons.Default.Landscape
+                    else        -> Icons.Default.Analytics
+                }
+                Card(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth()
+                        .padding(start = 12.dp, end = 12.dp, bottom = 80.dp)
+                        .clickable {
+                            when (diag.type) {
+                                "IBP"       -> onNavigateToIbpDiagnostic?.invoke(diag.parcelleId)
+                                "Ripisylve" -> onNavigateToRipisylveDiagnostic?.invoke(diag.parcelleId)
+                                "Station"   -> onNavigateToStationDiagnostic?.invoke(diag.parcelleId)
+                                else        -> {}
+                            }
+                            tappedDiagnostic = null
+                        },
+                    elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
+                    shape = RoundedCornerShape(18.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                ) {
+                    Row(modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min)) {
+                        Box(
+                            modifier = Modifier
+                                .width(6.dp)
+                                .fillMaxHeight()
+                                .background(diagColor, RoundedCornerShape(topStart = 18.dp, bottomStart = 18.dp))
+                        )
+                        Column(modifier = Modifier.weight(1f).padding(14.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                                ) {
+                                    Surface(
+                                        color = diagColor.copy(alpha = 0.12f),
+                                        shape = CircleShape,
+                                        modifier = Modifier.size(38.dp)
+                                    ) {
+                                        Box(contentAlignment = Alignment.Center) {
+                                            Icon(
+                                                diagIcon,
+                                                contentDescription = null,
+                                                tint = diagColor,
+                                                modifier = Modifier.size(20.dp)
+                                            )
+                                        }
+                                    }
+                                    Column {
+                                        Text(
+                                            diag.label,
+                                            style = MaterialTheme.typography.titleSmall,
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.onSurface
+                                        )
+                                        Text(
+                                            "${String.format(Locale.US, "%.5f", diag.lat)}, ${String.format(Locale.US, "%.5f", diag.lon)}",
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                }
+                                IconButton(
+                                    onClick = { tappedDiagnostic = null },
+                                    modifier = Modifier.size(28.dp)
+                                ) {
+                                    Icon(Icons.Default.Close, contentDescription = "Fermer", modifier = Modifier.size(16.dp))
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(diagColor, RoundedCornerShape(10.dp))
+                                    .clickable {
+                                        when (diag.type) {
+                                            "IBP"       -> onNavigateToIbpDiagnostic?.invoke(diag.parcelleId)
+                                            "Ripisylve" -> onNavigateToRipisylveDiagnostic?.invoke(diag.parcelleId)
+                                            "Station"   -> onNavigateToStationDiagnostic?.invoke(diag.parcelleId)
+                                            else        -> {}
+                                        }
+                                        tappedDiagnostic = null
+                                    }
+                                    .padding(horizontal = 16.dp, vertical = 10.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    Icon(Icons.Default.Analytics, contentDescription = null, tint = Color.White, modifier = Modifier.size(16.dp))
+                                    Text(
+                                        "Ouvrir le diagnostic",
+                                        color = Color.White,
+                                        style = MaterialTheme.typography.labelLarge,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -3356,6 +3770,141 @@ fun MapScreen(
             },
             dismissButton = {
                 androidx.compose.material3.TextButton(onClick = { showTraceSaveDialog = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            }
+        )
+    }
+
+    // ── Add WMS/WMTS layer dialog ──
+    if (showWmsDialog) {
+        var selectedTabIdx by remember { mutableIntStateOf(0) }
+        var customName by remember { mutableStateOf("") }
+        var customUrl  by remember { mutableStateOf("") }
+        var customOpacity by remember { mutableFloatStateOf(0.7f) }
+        var selectedPreset by remember { mutableStateOf<WmsLayerConfig?>(null) }
+
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { showWmsDialog = false },
+            title = { Text(stringResource(R.string.wms_dialog_title)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    // Tabs: Prédéfinis / URL custom
+                    androidx.compose.material3.TabRow(selectedTabIndex = selectedTabIdx) {
+                        androidx.compose.material3.Tab(
+                            selected = selectedTabIdx == 0,
+                            onClick = { selectedTabIdx = 0 },
+                            text = { Text(stringResource(R.string.wms_tab_presets), style = MaterialTheme.typography.labelMedium) }
+                        )
+                        androidx.compose.material3.Tab(
+                            selected = selectedTabIdx == 1,
+                            onClick = { selectedTabIdx = 1 },
+                            text = { Text(stringResource(R.string.wms_tab_custom), style = MaterialTheme.typography.labelMedium) }
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    if (selectedTabIdx == 0) {
+                        // ── Prédéfinis ──
+                        val alreadyAdded = wmsLayers.map { it.id }.toSet()
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.verticalScroll(rememberScrollState()).heightIn(max = 280.dp)) {
+                            WmsLayerConfig.PRESETS.forEach { preset ->
+                                val isAdded = preset.id in alreadyAdded
+                                val isSelected = selectedPreset?.id == preset.id
+                                Surface(
+                                    onClick = { if (!isAdded) selectedPreset = if (isSelected) null else preset },
+                                    color = when {
+                                        isAdded    -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
+                                        isSelected -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                                        else       -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f)
+                                    },
+                                    shape = RoundedCornerShape(8.dp),
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Row(
+                                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                    ) {
+                                        Icon(
+                                            if (isSelected) Icons.Default.CheckCircle else Icons.Default.Layers,
+                                            contentDescription = null,
+                                            modifier = Modifier.size(18.dp),
+                                            tint = if (isSelected) MaterialTheme.colorScheme.primary
+                                                   else if (isAdded) MaterialTheme.colorScheme.outlineVariant
+                                                   else Color(0xFF1565C0)
+                                        )
+                                        Column(modifier = Modifier.weight(1f)) {
+                                            Text(
+                                                preset.name,
+                                                style = MaterialTheme.typography.bodySmall,
+                                                fontWeight = FontWeight.SemiBold,
+                                                color = if (isAdded) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface
+                                            )
+                                            if (isAdded) Text("Déjà ajoutée", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        // Opacity pour preset
+                        if (selectedPreset != null) {
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(stringResource(R.string.wms_opacity, (customOpacity * 100).toInt()), style = MaterialTheme.typography.labelSmall)
+                            Slider(value = customOpacity, onValueChange = { customOpacity = it }, valueRange = 0.05f..1f, modifier = Modifier.fillMaxWidth().height(28.dp))
+                        }
+                    } else {
+                        // ── URL personnalisée ──
+                        androidx.compose.material3.OutlinedTextField(
+                            value = customName,
+                            onValueChange = { customName = it },
+                            label = { Text(stringResource(R.string.wms_field_name)) },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        androidx.compose.material3.OutlinedTextField(
+                            value = customUrl,
+                            onValueChange = { customUrl = it },
+                            label = { Text(stringResource(R.string.wms_field_url)) },
+                            placeholder = { Text(stringResource(R.string.wms_url_hint), style = MaterialTheme.typography.labelSmall) },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(stringResource(R.string.wms_opacity, (customOpacity * 100).toInt()), style = MaterialTheme.typography.labelSmall)
+                        Slider(value = customOpacity, onValueChange = { customOpacity = it }, valueRange = 0.05f..1f, modifier = Modifier.fillMaxWidth().height(28.dp))
+                    }
+                }
+            },
+            confirmButton = {
+                androidx.compose.material3.TextButton(
+                    onClick = {
+                        val newLayer: WmsLayerConfig? = when {
+                            selectedTabIdx == 0 && selectedPreset != null ->
+                                selectedPreset!!.copy(opacity = customOpacity)
+                            selectedTabIdx == 1 && customUrl.contains("{z}") ->
+                                WmsLayerConfig(
+                                    name    = customName.ifBlank { customUrl.substringAfterLast('/').take(30) },
+                                    url     = customUrl.trim(),
+                                    opacity = customOpacity
+                                )
+                            else -> null
+                        }
+                        if (newLayer != null) {
+                            wmsLayers = wmsManager.addLayer(newLayer)
+                            Toast.makeText(context, context.getString(R.string.wms_added), Toast.LENGTH_SHORT).show()
+                        }
+                        showWmsDialog = false
+                    },
+                    enabled = (selectedTabIdx == 0 && selectedPreset != null)
+                           || (selectedTabIdx == 1 && customUrl.contains("{z}"))
+                ) {
+                    Text(stringResource(R.string.wms_add_confirm))
+                }
+            },
+            dismissButton = {
+                androidx.compose.material3.TextButton(onClick = { showWmsDialog = false }) {
                     Text(stringResource(R.string.cancel))
                 }
             }

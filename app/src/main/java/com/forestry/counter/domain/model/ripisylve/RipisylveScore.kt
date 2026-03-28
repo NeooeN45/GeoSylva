@@ -17,7 +17,9 @@ data class RipisylveScore(
     val scoreStabilite: Int,        // 0, -10, -20
     val nbMicrohabitats: Int,
     val nbStrates: Int,
-    val nbClassesDiam: Int
+    val nbClassesDiam: Int,
+    /** Score de confiance 0–100, calculé par RipisylveScorer selon les données observées */
+    val confidenceScore: Int = 0
 ) {
     val scoreTotal: Int get() = scoreContinuite + scoreLargeur + scoreStrates +
             scoreDiversite + scoreDiametres + scoreMicrohabitats +
@@ -46,9 +48,14 @@ data class RipisylveScore(
         RipisylveFonctionnalite.TRES_BONNE -> ConsigneGestion.MAINTIEN
     }
 
-    val confidenceLevel: DiagConfidence get() {
-        var missingCriteria = 0
-        return DiagConfidence.FORTE
+    /**
+     * Niveau de confiance calculé depuis [confidenceScore] (0–100).
+     * Jamais FORTE par défaut : doit être gagné par les données observées.
+     */
+    val confidenceLevel: DiagConfidence get() = when {
+        confidenceScore >= 70 -> DiagConfidence.FORTE
+        confidenceScore >= 40 -> DiagConfidence.MOYENNE
+        else                  -> DiagConfidence.FAIBLE
     }
 
     /** Résumé textuel automatique */

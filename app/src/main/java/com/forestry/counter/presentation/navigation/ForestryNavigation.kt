@@ -49,7 +49,10 @@ import com.forestry.counter.presentation.screens.forestry.IbpDiagnosticScreen
 import com.forestry.counter.presentation.screens.forestry.IbpCompareScreen
 import com.forestry.counter.presentation.screens.forestry.RipisylveDiagnosticScreen
 import com.forestry.counter.presentation.screens.forestry.StationDiagnosticScreen
+import com.forestry.counter.presentation.screens.forestry.SuperCorrelateurScreen
+import com.forestry.counter.presentation.screens.forestry.StandClassificationScreen
 import com.forestry.counter.presentation.screens.settings.PriceTablesEditorScreen
+import com.forestry.counter.presentation.screens.forestry.TarifDocumentationScreen
 import com.forestry.counter.presentation.screens.onboarding.OnboardingScreen
 import kotlinx.coroutines.launch
 
@@ -123,7 +126,16 @@ sealed class Screen(val route: String) {
     object StationDiagnostic : Screen("station/diagnostic/{parcelleId}") {
         fun createRoute(parcelleId: String) = "station/diagnostic/$parcelleId"
     }
+    object RipisylveDiagnosticStandalone : Screen("ripisylve/standalone")
+    object StationDiagnosticStandalone : Screen("station/standalone")
+    object SuperCorrelateur : Screen("correlateur/{parcelleId}") {
+        fun createRoute(parcelleId: String) = "correlateur/$parcelleId"
+    }
+    object StandClassification : Screen("stand/classification/{parcelleId}") {
+        fun createRoute(parcelleId: String) = "stand/classification/$parcelleId"
+    }
     object Onboarding : Screen("onboarding")
+    object TarifDocs : Screen("settings/tarif_docs")
 }
 
 @Composable
@@ -277,7 +289,9 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                 onNavigateToMap = { scope ->
                     navController.navigate(Screen.Map.createRoute(scope))
                 },
-                onNavigateToIbp = { navController.navigate(Screen.IbpProjects.route) }
+                onNavigateToIbp = { navController.navigate(Screen.IbpProjects.route) },
+                onNavigateToRipisylve = { navController.navigate(Screen.RipisylveDiagnosticStandalone.route) },
+                onNavigateToStation = { navController.navigate(Screen.StationDiagnosticStandalone.route) }
             )
         }
 
@@ -328,6 +342,7 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                 calculator = app.forestryCalculator,
                 userPreferences = app.userPreferences,
                 essenceRepository = app.essenceRepository,
+                stationRepository = app.stationRepository,
                 onNavigateBack = { navController.popBackStack() }
             )
         }
@@ -469,6 +484,12 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                 },
                 onNavigateToIbpHistory = { pid, plid ->
                     navController.navigate(Screen.IbpHistory.createRoute(pid, plid))
+                },
+                onNavigateToSuperCorrelateur = { pid ->
+                    navController.navigate(Screen.SuperCorrelateur.createRoute(pid))
+                },
+                onNavigateToStandClassification = { pid ->
+                    navController.navigate(Screen.StandClassification.createRoute(pid))
                 },
                 onNavigateBack = { navController.popBackStack() }
             )
@@ -730,8 +751,19 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                 placetteRepository = app.placetteRepository,
                 offlineTileManager = app.offlineTileManager,
                 onNavigateToPriceTablesEditor = { navController.navigate(Screen.PriceTablesEditor.route) },
+                onNavigateToTarifDocs = { navController.navigate(Screen.TarifDocs.route) },
                 onNavigateBack = { navController.popBackStack() }
             )
+        }
+
+        composable(
+            route = Screen.TarifDocs.route,
+            enterTransition = navEnterTransition,
+            exitTransition = navExitTransition,
+            popEnterTransition = navPopEnterTransition,
+            popExitTransition = navPopExitTransition
+        ) {
+            TarifDocumentationScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         composable(
@@ -767,6 +799,37 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
         }
 
         composable(
+            route = Screen.RipisylveDiagnosticStandalone.route,
+            enterTransition = navEnterTransition,
+            exitTransition = navExitTransition,
+            popEnterTransition = navPopEnterTransition,
+            popExitTransition = navPopExitTransition
+        ) {
+            RipisylveDiagnosticScreen(
+                parcelleId = "STANDALONE",
+                ripisylveRepository = app.ripisylveRepository,
+                tigeRepository = app.tigeRepository,
+                preferencesManager = app.userPreferences,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            route = Screen.StationDiagnosticStandalone.route,
+            enterTransition = navEnterTransition,
+            exitTransition = navExitTransition,
+            popEnterTransition = navPopEnterTransition,
+            popExitTransition = navPopExitTransition
+        ) {
+            StationDiagnosticScreen(
+                parcelleId = "STANDALONE",
+                stationRepository = app.stationRepository,
+                preferencesManager = app.userPreferences,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(
             route = Screen.RipisylveDiagnostic.route,
             arguments = listOf(navArgument("parcelleId") { type = NavType.StringType }),
             enterTransition = navEnterTransition,
@@ -779,6 +842,7 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                 parcelleId = parcelleId,
                 ripisylveRepository = app.ripisylveRepository,
                 tigeRepository = app.tigeRepository,
+                preferencesManager = app.userPreferences,
                 onNavigateBack = { navController.popBackStack() }
             )
         }
@@ -794,9 +858,43 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
             val parcelleId = backStackEntry.arguments?.getString("parcelleId") ?: return@composable
             StationDiagnosticScreen(
                 parcelleId = parcelleId,
-                tigeRepository = app.tigeRepository,
-                parcelleRepository = app.parcelleRepository,
                 stationRepository = app.stationRepository,
+                preferencesManager = app.userPreferences,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            route = Screen.SuperCorrelateur.route,
+            arguments = listOf(navArgument("parcelleId") { type = NavType.StringType }),
+            enterTransition = navEnterTransition,
+            exitTransition = navExitTransition,
+            popEnterTransition = navPopEnterTransition,
+            popExitTransition = navPopExitTransition
+        ) { backStackEntry ->
+            val parcelleId = backStackEntry.arguments?.getString("parcelleId") ?: return@composable
+            SuperCorrelateurScreen(
+                parcelleId = parcelleId,
+                tigeRepository = app.tigeRepository,
+                stationRepository = app.stationRepository,
+                ripisylveRepository = app.ripisylveRepository,
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToStation = { navController.navigate(Screen.StationDiagnostic.createRoute(parcelleId)) },
+                onNavigateToRipisylve = { navController.navigate(Screen.RipisylveDiagnostic.createRoute(parcelleId)) }
+            )
+        }
+
+        composable(
+            route = Screen.StandClassification.route,
+            arguments = listOf(navArgument("parcelleId") { type = NavType.StringType }),
+            enterTransition = navEnterTransition,
+            exitTransition = navExitTransition,
+            popEnterTransition = navPopEnterTransition,
+            popExitTransition = navPopExitTransition
+        ) { backStackEntry ->
+            val parcelleId = backStackEntry.arguments?.getString("parcelleId") ?: return@composable
+            StandClassificationScreen(
+                parcelleId = parcelleId,
                 onNavigateBack = { navController.popBackStack() }
             )
         }

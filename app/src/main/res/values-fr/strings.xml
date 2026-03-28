@@ -321,7 +321,7 @@
     <string name="sanity_revenue_ha_negative">Revenu/ha négatif — vérifier les tables de prix</string>
     <string name="sanity_revenue_ha_very_high">Revenu/ha = %.0f € très élevé — à vérifier</string>
     <string name="gps_periodic_unavailable">⚠ Signal GPS indisponible — la capture de position risque d\'échouer</string>
-    <string name="gps_periodic_poor">⚠ Précision GPS faible (±%.0f m) — seuil : ±%.0f m. Déplacez-vous en zone dégagée.</string>
+    <string name="gps_periodic_poor">⚠️ Précision GPS faible (±%1$.0f m) — seuil : ±%2$.0f m. Déplacez-vous en zone dégagée.</string>
     <string name="map_gps_filtered_out">%1$d tiges ont un GPS mais la précision dépasse le seuil de %2$d m.\nDésactivez le filtre de précision ou allez en zone dégagée.</string>
     <string name="map_layer_picker_title">Fonds de carte</string>
     <string name="map_layer_osm">OSM</string>
@@ -378,6 +378,21 @@
     <string name="shp_replace">Remplacer</string>
     <string name="shp_delete">Supprimer</string>
     <string name="shp_info_format">%1$d parcelles · %2$d forêts</string>
+
+    <string name="wms_panel_title">Couches WMS/WMTS</string>
+    <string name="wms_add_layer">Ajouter une couche…</string>
+    <string name="wms_no_layers">Aucune couche WMS/WMTS ajoutée.</string>
+    <string name="wms_dialog_title">Ajouter une couche WMS/WMTS</string>
+    <string name="wms_tab_presets">Prédéfinis</string>
+    <string name="wms_tab_custom">URL personnalisée</string>
+    <string name="wms_field_name">Nom de la couche</string>
+    <string name="wms_field_url">URL template ({z}/{x}/{y})</string>
+    <string name="wms_opacity">Opacité : %1$d%%</string>
+    <string name="wms_delete">Supprimer la couche</string>
+    <string name="wms_add_confirm">Ajouter</string>
+    <string name="wms_url_hint">https://…/{z}/{x}/{y}.png</string>
+    <string name="wms_added">Couche WMS ajoutée</string>
+    <string name="wms_info_format">%1$d couche(s) active(s)</string>
 
     <string name="parcelles_title">Parcelles</string>
     <string name="parcelles_empty_title">Aucune parcelle</string>
@@ -465,6 +480,10 @@
     <string name="add_diameter_class">Ajouter classe de diamètre</string>
     <string name="configure_heights">Configurer les hauteurs</string>
     <string name="height">Hauteur</string>
+
+    <string name="action_mode_cut">Couper</string>
+    <string name="action_mode_keep">Conserver</string>
+    <string name="action_mode_bio">Arbre Bio</string>
 
     <string name="special_tree_dying">Dépérissant</string>
     <string name="special_tree_bio">Arbre bio</string>
@@ -752,6 +771,8 @@
     <string name="tarif_method_fgh_desc">V = F × G × H — Variante explicite avec facteur de forme.</string>
     <string name="tarif_method_coef_forme">Coefficient de forme</string>
     <string name="tarif_method_coef_forme_desc">V = G × H × f — Méthode classique avec coefficient de forme/décroissance.</string>
+    <string name="tarif_method_chaude">Tarif Chaudé</string>
+    <string name="tarif_method_chaude_desc">V = a × C^b (Chaudé 1991). Circonférence en décimètres. 4 classes futaie + 3 classes taillis.</string>
 
     <string name="tarif_select_dialog_title">Choisir la méthode de cubage</string>
     <string name="tarif_numero_dialog_title">Choisir le numéro de tarif</string>
@@ -1029,6 +1050,27 @@
     <string name="gps_distance_record2">Enregistrer position 2 (mon point de mesure)</string>
     <string name="gps_distance_pos1_recorded">Pied de l’arbre : %1$s, %2$s</string>
     <string name="gps_distance_use">Utiliser cette distance</string>
+
+    <!-- Auto-remplissage parcelle -->
+    <string name="parcelle_commune">Commune</string>
+    <string name="parcelle_autofill_btn">Remplir depuis GPS</string>
+    <string name="parcelle_autofill_no_gps">Permission GPS manquante ou position indisponible.</string>
+
+    <!-- Méthode 2-stations -->
+    <string name="height_mode_single">1 station</string>
+    <string name="height_mode_two">2 stations</string>
+    <string name="height_mode_two_hint">Mesurez depuis 2 positions différentes pour une précision maximale</string>
+    <string name="height_station2_title">Station 2 — 2ème mesure</string>
+    <string name="height_station2_move">Déplacez-vous à une autre distance (idéalement ±5 m), puis entrez la nouvelle distance.</string>
+    <string name="height_station2_distance">Distance depuis station 2</string>
+    <string name="height_two_station_result_title">Résultat combiné (2 stations)</string>
+    <string name="height_station1_label">Station 1</string>
+    <string name="height_station2_label">Station 2</string>
+    <string name="height_agreement_format">Concordance : %1$d%%</string>
+    <string name="height_agreement_good">✓ Excellent accord entre les 2 mesures</string>
+    <string name="height_agreement_medium">⚠ Écart modéré — résultat moyen fiable</string>
+    <string name="height_agreement_poor">⚠ Fort écart — recommandez une 3ème mesure</string>
+    <string name="height_confidence_band">Intervalle de confiance : %1$s – %2$s m</string>
     <!-- Placette photos (F6) -->
     <string name="photo_take">Prendre une photo</string>
     <string name="photo_taken">Photo enregistrée</string>
@@ -1182,9 +1224,9 @@
 
     <!-- IBP Critère G (VS) – Milieux ouverts florifères -->
     <string name="ibp_vs_title">G – Milieux ouverts florifères</string>
-    <string name="ibp_vs_subtitle">Trouées, clairières, larges lisières — % de la surface parcourue (1–5 % = optimal)</string>
+    <string name="ibp_vs_subtitle" formatted="false">Trouées, clairières, larges lisières — % de la surface parcourue (1–5 % = optimal)</string>
     <string name="ibp_vs_o0">0 % de surface ouverte — Score 0 pt</string>
-    <string name="ibp_vs_o1">&lt; 1 % ou &gt; 5 % de surface ouverte — Score 2 pts</string>
+    <string name="ibp_vs_o1" formatted="false">&lt; 1 % ou &gt; 5 % de surface ouverte — Score 2 pts</string>
     <string name="ibp_vs_o2">1–5 % de milieux ouverts florifères — Score 5 pts</string>
 
     <!-- IBP Critère H (CF) – Continuité temporelle -->
@@ -1338,4 +1380,168 @@
     <string name="tab_synthesis">Synthèse</string>
     <string name="tab_valuation">Valorisation</string>
     <string name="tab_analysis">Écologie</string>
+
+    <!-- Super Corrélateur -->
+    <string name="super_correlateur_title">Super Corrélateur</string>
+    <string name="super_correlateur_subtitle">Intelligence forestière multi-sources</string>
+    <string name="super_correlateur_loading">Analyse en cours…</string>
+    <string name="super_correlateur_error">Erreur lors du calcul</string>
+    <string name="super_correlateur_critical_alerts">Alertes sanitaires critiques</string>
+    <string name="super_correlateur_improve_title">Améliorer la précision</string>
+    <string name="super_correlateur_improve_desc">Des données supplémentaires amélioreraient la qualité du diagnostic.</string>
+    <string name="diag_station_btn">Diag. Station</string>
+    <string name="diag_ripisylve_btn">Diag. Ripisylve</string>
+    <string name="super_correlateur_resilience_score">Score de résilience</string>
+    <string name="super_correlateur_zone_format">Zone : %1$s</string>
+    <string name="super_correlateur_horizon_format">Horizon : %1$s</string>
+    <string name="super_correlateur_essences_format">Essences : %1$s</string>
+    <string name="super_correlateur_concerns_format">Concerne : %1$s</string>
+    <string name="super_correlateur_data_sources">Sources de données</string>
+    <string name="super_correlateur_completeness_format">Complétude : %1$d%%</string>
+    <string name="super_correlateur_synthese_title">Synthèse du diagnostic</string>
+    <string name="super_correlateur_resilience_label">Résilience</string>
+    <string name="super_correlateur_actions_label">Actions</string>
+    <string name="super_correlateur_alertes_label">Alertes</string>
+
+    <!-- Projections DRIAS -->
+    <string name="drias_projections_title">Projections DRIAS 2050</string>
+    <string name="drias_scenario_format">Scénario SSP5-8.5 · %1$s</string>
+    <string name="drias_delta_t_2050">T° +2050</string>
+    <string name="drias_precip_summer">Préc. été</string>
+    <string name="drias_drought_days">J. sécheresse</string>
+    <string name="drias_extreme_heat">Canicule</string>
+    <string name="drias_fire_risk">Risque feu</string>
+    <string name="drias_delta_t_2100">T° +2100</string>
+    <string name="drias_snow_2050">Neige −2050</string>
+    <string name="drias_source_note">Source : DRIAS 2021 (Météo-France) · CNRM-CM6-1, IPSL-CM6A-LR · Valeurs moyennes représentatives de zone.</string>
+    <string name="drias_value_days_format">%1$d j/an</string>
+
+    <!-- Indicateurs sylvicoles (MartelageSummaryCards) -->
+    <string name="sylv_kpi_card_title">Indicateurs sylvicoles</string>
+    <string name="sylv_slend_label">Élancement H/D (résineux)</string>
+    <string name="sylv_slend_very_stable">Très stable</string>
+    <string name="sylv_slend_stable">Stable</string>
+    <string name="sylv_slend_normal">Normal</string>
+    <string name="sylv_slend_risky">Élancé — risque vent</string>
+    <string name="sylv_slend_info">Élancement = H (m) / D (m) = H_m × 100 / D_cm.\n&lt; 70 : très stable\n70–85 : stable\n85–100 : normal\n&gt; 100 : élancé, risque de volis/chablis par vent.</string>
+    <string name="sylv_g_label">Surface terrière G/ha</string>
+    <string name="sylv_g_low_density">Densité faible</string>
+    <string name="sylv_g_moderate">Densité modérée</string>
+    <string name="sylv_g_normal">Densité normale</string>
+    <string name="sylv_g_dense">Peuplement dense</string>
+    <string name="sylv_g_overstocked">Surpeuplement</string>
+    <string name="sylv_g_info">G/ha = Σ(π × D²/4) de toutes les tiges, ramenée à l\'hectare.\nRéférence ONF/CNPF :\n&lt; 10 : peuplement clair ou très jeune\n10–20 : densité modérée\n20–35 : densité normale (objectif usuel)\n&gt; 35 : peuplement dense, éclaircie recommandée.</string>
+    <string name="sylv_h_label">H Lorey / H moy</string>
+    <string name="sylv_h_homogeneous">Peuplement homogène</string>
+    <string name="sylv_h_slightly_hetero">Légèrement hétérogène</string>
+    <string name="sylv_h_irregular">Futaie irrégulière</string>
+    <string name="sylv_h_info">H Lorey / Hmoy = indice de structure verticale.\n= Σ(Gi × Hi) / Σ(Gi) ÷ Hmoy\n&lt; 1.05 : futaie régulière homogène\n1.05–1.15 : légère hétérogénéité — normal\n&gt; 1.15 : futaie bi-étagée ou jardinée.</string>
+    <string name="sylv_n_label">Densité N/ha</string>
+    <string name="sylv_n_sparse">Peuplement clair</string>
+    <string name="sylv_n_dense_stand">Peuplement fourni</string>
+    <string name="sylv_n_high">Densité élevée</string>
+    <string name="sylv_n_very_dense">Très dense</string>
+    <string name="sylv_n_info">N/ha = nombre de tiges / surface inventoriée.\nRéférences (futaie adulte) :\n&lt; 100 : peuplement très ouvert\n100–300 : densité normale adulte\n300–700 : fourni (jeune futaie)\n700–1500 : forte concurrence\n&gt; 1500 : taillis ou régénération dense.</string>
+    <string name="sylv_vg_label">Ratio V/G</string>
+    <string name="sylv_vg_very_low">Très bas</string>
+    <string name="sylv_vg_low">Bas</string>
+    <string name="sylv_vg_coherent">Cohérent</string>
+    <string name="sylv_vg_high">Élevé</string>
+    <string name="sylv_vg_very_high">Très élevé</string>
+    <string name="sylv_vg_info">V/G = Volume total / Surface terrière totale (m³/m²).\nIndicateur clé de la cohérence du cubage :\n&lt; 4 : suspect — hauteurs manquantes ou tarif inadapté\n4–7 : bas — peuplement très jeune ou dense\n7–15 : normal (norme indicative ONF)\n15–22 : élevé — arbres hauts ou tarif surestimant\n&gt; 22 : très élevé — vérifier le tarif de cubage.</string>
+    <string name="sylv_dmdg_label">Dm / Dg</string>
+    <string name="sylv_dmdg_skew_large">Asymétrie vers gros bois</string>
+    <string name="sylv_dmdg_skew_small">Asymétrie vers petits bois</string>
+    <string name="sylv_dmdg_symmetric">Distribution symétrique</string>
+    <string name="sylv_dmdg_info">Dm / Dg = rapport du diamètre moyen sur le diamètre de surface terrière.\n≈ 1.00 : distribution symétrique (loi normale)\n&lt; 0.82 : queue vers les gros diamètres (sélection ancienne, régénération absente)\n&gt; 1.08 : queue vers les petits diamètres (régénération abondante, taillis).</string>
+
+    <!-- Carte qualité des données (MartelageSummaryCards) -->
+    <string name="data_quality_title">Qualité des données</string>
+    <string name="data_quality_complete_label">Données complètes</string>
+    <string name="data_quality_partial_label">Données partielles</string>
+    <string name="data_quality_insufficient_label">Données insuffisantes</string>
+    <string name="tip_small_sample_title">Échantillon réduit</string>
+    <string name="tip_no_surface_title">Surface non renseignée</string>
+    <string name="tip_some_heights_missing_title">Quelques hauteurs manquantes</string>
+    <string name="tip_quality_not_assessed_title">Qualité non évaluée</string>
+    <string name="tip_quality_partial_title_format">Qualité évaluée sur %1$d%% des tiges</string>
+    <string name="tip_sanity_errors_title">Erreurs de cohérence détectées</string>
+    <string name="tip_vg_ratio_abnormal_title">Ratio V/G anormal (%1$s m³/m²)</string>
+    <string name="tip_biodiversity_missing_title">Biodiversité non calculée</string>
+    <string name="data_quality_tips_hide">Masquer ▲</string>
+    <string name="data_quality_tips_more_format">Voir %1$d conseil(s) supplémentaire(s) ▼</string>
+    <string name="data_quality_all_complete">Toutes les données clés sont renseignées. Le rapport est complet.</string>
+    <string name="tip_small_sample_body">Seulement %1$d tige(s). La précision des indicateurs est faible. Visez ≥ 30 tiges pour une analyse fiable.</string>
+    <string name="tip_no_surface_body">Sans surface connue, les indicateurs /ha sont incorrects. Renseignez la surface de la parcelle.</string>
+    <string name="tip_missing_heights_body">%1$d%% des tiges n\'ont pas de hauteur. Utilisez un tarif 1 entrée (Schaeffer, IFN Rapide ou Chaudé) ou saisissez des hauteurs d\'arbres-type.</string>
+    <string name="tip_some_heights_missing_body">%1$s — l\'application estime le volume pour ces essences via tarif 1 entrée.</string>
+    <string name="tip_quality_not_assessed_body">Aucune tige n\'a de classe de qualité (A–D ou 1–5). L\'évaluation qualité améliore l\'estimation de valorisation.</string>
+    <string name="tip_quality_partial_body">Complétez l\'évaluation qualité pour un rapport de valorisation plus précis.</string>
+    <string name="tip_sanity_errors_body">Des incohérences critiques ont été détectées dans les données. Consultez l\'onglet Alertes sanitaires.</string>
+    <string name="tip_biodiversity_missing_body">Relancez le calcul avec les paramètres IBP pour obtenir l\'indice de biodiversité de la parcelle.</string>
+    <string name="tip_vg_ratio_abnormal_body">Ce ratio suggère un problème de tarif ou des hauteurs aberrantes. Vérifiez le tarif sélectionné.</string>
+    <string name="tarif_reco_2entry">Tarif 2 entrées recommandé (Algan, Schaeffer 2E, IFN Lent) — hauteurs disponibles.</string>
+    <string name="tarif_reco_mixed">Tarif mixte : 2 entrées où disponible, sinon Chaudé ou IFN Rapide pour les tiges sans hauteur.</string>
+    <string name="tarif_reco_1entry">Tarif 1 entrée recommandé : Chaudé (arbres sur pied) pour feuillus, IFN Rapide pour résineux.</string>
+
+    <!-- Typologique rapide / onglets MartelageScreen -->
+    <string name="tab_management">Gestion</string>
+    <string name="typologique_rapide_title">Saisie terrain rapide</string>
+    <string name="typologique_rapide_subtitle">G + triangle sans tiges individuelles</string>
+    <string name="typologique_g_label">Surface terrière G</string>
+    <string name="typologique_triangle_label">Triangle des structures (%% sur tiges précomptables ≥ 17,5 cm)</string>
+    <string name="typologique_cnpf_format">Code CNPF : %1$s  ·  Structure %2$s  ·  GB+TGB = %3$d%%</string>
+    <string name="typologique_pct_hint">Les %% sont normalisés automatiquement à 100%%</string>
+
+    <!-- Classification peuplement -->
+    <string name="stand_class_no_data">Aucune donnée disponible pour classifier le peuplement.</string>
+    <string name="stand_class_questions_improve_format">%1$d question(s) supplémentaire(s) amélioreraient la précision</string>
+    <string name="stand_class_complete_btn">Compléter</string>
+    <string name="stand_class_complete_data_desc">Compléter les données</string>
+    <string name="stand_class_cnpf_srgs_label">Code CNPF / SRGS</string>
+    <string name="stand_class_regime_key">Régime × Capital G × Structure 1–9</string>
+    <string name="stand_class_identified_title">Peuplement identifié</string>
+    <string name="stand_class_treatment_mode">Mode de traitement</string>
+    <string name="stand_class_age_structure">Structure d\'âge</string>
+    <string name="stand_class_vertical_structure">Structure verticale</string>
+    <string name="stand_class_composition">Composition</string>
+    <string name="stand_class_origin">Origine</string>
+    <string name="stand_class_development_stage">Stade de développement</string>
+    <string name="stand_class_dynamic">Dynamique</string>
+    <string name="stand_class_health_state">État sanitaire</string>
+    <string name="stand_class_ecological_type">Type écologique</string>
+    <string name="stand_class_triangle_title">Triangle des structures</string>
+    <string name="stand_class_triangle_position">Position (sémantique)</string>
+    <string name="stand_class_cnpf_structure">Structure CNPF (1–9)</string>
+    <string name="stand_class_pb">Petits bois — PB (17,5–27,5 cm)</string>
+    <string name="stand_class_bm">Bois moyen — BM</string>
+    <string name="stand_class_gb">Gros bois — GB</string>
+    <string name="stand_class_tgb">Très gros bois — TGB (%1$s)</string>
+    <string name="stand_class_gb_tgb_cumul">GB + TGB cumulés (axe Y triangle)</string>
+    <string name="stand_class_ecological_meaning">Signification écologique</string>
+    <string name="stand_class_risks_title">Risques identifiés</string>
+    <string name="stand_class_objective_label">Objectif de gestion suggéré</string>
+    <string name="stand_class_srgs_title">Itinéraire SRGS régional</string>
+    <string name="stand_class_confidence_format">Confiance : %1$d%%</string>
+
+    <!-- Diagnostics station / ripisylve (libellés communs) -->
+    <string name="super_correlateur_banner_desc">Corrélation multi-sources · Résilience 2050 · Plan d\'action sylvicole</string>
+    <string name="diag_station_label">Diag. Station</string>
+    <string name="diag_ripisylve_label">Diag. Ripisylve</string>
+    <!-- EcologyFertilityTab -->
+    <string name="ecology_tab_title">Analyse Écologique et Stationnelle</string>
+    <string name="ecology_tab_desc">L\'adéquation essence-station est primordiale pour garantir la résilience et la productivité du peuplement face aux changements climatiques.</string>
+    <string name="ecology_fertility_classes_title">Classes de fertilité estimées par essence présente :</string>
+    <string name="ecology_no_stems">Aucune tige inventoriée pour calculer les classes de fertilité.</string>
+    <string name="draft_saved">Brouillon sauvegardé</string>
+    <string name="diagnostic_finalized">Diagnostic finalisé</string>
+    <string name="station_export_error">Erreur export PDF</string>
+    <string name="station_finalize_incomplete">Impossible de finaliser : complétez le sol (prof/texture) et ajoutez min 2 photos.</string>
+    <string name="station_completion_pct">%1$d%% complété</string>
+    <string name="station_save_draft">Brouillon</string>
+    <string name="station_finalize">Finaliser</string>
+    <string name="station_add_horizon">Ajouter un horizon</string>
+    <string name="station_no_horizons">Aucun horizon saisi. Ajoutez les couches du sol de haut en bas (A → C).</string>
+    <string name="station_horizon_edit_title">Modifier l\'horizon</string>
+    <string name="station_horizon_new_title">Nouvel horizon</string>
 </resources>

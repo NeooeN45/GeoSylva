@@ -65,6 +65,24 @@ object TarifCalculator {
                 val h = hauteurM ?: return null
                 volumeCoefForme(essenceCode, diamCm, h, coefFormOverride)
             }
+            TarifMethod.CHAUDE        -> volumeChaude(essenceCode, diamCm, taillis = false)
+            TarifMethod.CHAUDE_TAILLIS -> volumeChaude(essenceCode, diamCm, taillis = true)
+            // ── Tarifs spécialisés (tous V = a × D^b × H^c) ─────────────────
+            TarifMethod.CRPF_PIN_MARITIME,
+            TarifMethod.FCBA_DOUGLAS,
+            TarifMethod.FCBA_PEUPLIER,
+            TarifMethod.ONF_HETRE,
+            TarifMethod.CRPF_SAPIN_ALPES,
+            TarifMethod.CRPF_EPICEA_VOSGES,
+            TarifMethod.CRPF_CHATAIGNIER,
+            TarifMethod.CRPF_PIN_SYLVESTRE_MC,
+            TarifMethod.CRPF_LARICIO_CORSE,
+            TarifMethod.CRPF_ROBINIER,
+            TarifMethod.CRPF_OAK_OCEANIC,
+            TarifMethod.FCBA_EUCALYPTUS -> {
+                val h = hauteurM ?: return null
+                volumeSpecialise(method.code, diamCm, h)
+            }
         }
     }
 
@@ -97,6 +115,29 @@ object TarifCalculator {
         TarifMethod.IFN_RAPIDE -> 1..36
         TarifMethod.IFN_LENT -> 1..8
         else -> null
+    }
+
+    /**
+     * Retourne la classe Chaudé recommandée pour une essence donnée.
+     */
+    fun chaudeClasseFor(essenceCode: String, taillis: Boolean): String {
+        val code = normalizeEssenceCode(essenceCode)
+        return if (taillis) {
+            TarifData.essenceToChaudeTaillisClasse[code] ?: "T1"
+        } else {
+            TarifData.essenceToChaudeFutaieClasse[code]
+                ?: if (listOf("PIN","SAPIN","EPICEA","DOUGLAS","MELEZE","CEDRE")
+                        .any { code.contains(it) }) "F3" else "F1"
+        }
+    }
+
+    /**
+     * Retourne la description de la classe Chaudé.
+     */
+    fun chaudeClasseDescription(essenceCode: String, taillis: Boolean): String? {
+        val classe = chaudeClasseFor(essenceCode, taillis)
+        val source = if (taillis) TarifData.chaudeTaillisCoefs else TarifData.chaudeFutaieCoefs
+        return source.firstOrNull { it.classe == classe }?.description
     }
 
     /**
@@ -188,10 +229,28 @@ object TarifCalculator {
         return if (v > 0.0) v else null
     }
 
+    /**
+     * Calcule le volume pour un tarif spécialisé (V = a × D^b × H^c).
+     * Les coefficients sont lus depuis TarifData.specialisesCoefs.
+     */
+    private fun volumeSpecialise(methodCode: String, diamCm: Double, hauteurM: Double): Double? {
+        val coefs = TarifData.specialisesCoefs[methodCode] ?: return null
+        val v = coefs.volume(diamCm, hauteurM)
+        return if (v > 0.0) v else null
+    }
+
     private fun volumeCoefForme(essenceCode: String, diamCm: Double, hauteurM: Double, override: Double?): Double {
         val f = override ?: defaultCoefForme(essenceCode)
         val g = PI / 4.0 * (diamCm / 100.0).pow(2.0)
         return g * hauteurM * f
+    }
+
+    private fun volumeChaude(essenceCode: String, diamCm: Double, taillis: Boolean): Double? {
+        val classe = chaudeClasseFor(essenceCode, taillis)
+        val source = if (taillis) TarifData.chaudeTaillisCoefs else TarifData.chaudeFutaieCoefs
+        val coefs = source.firstOrNull { it.classe == classe } ?: return null
+        val v = coefs.volumeFromDiam(diamCm)
+        return if (v > 0.0) v else null
     }
 
     private fun volumeFgh(essenceCode: String, diamCm: Double, hauteurM: Double, override: Double?): Double {

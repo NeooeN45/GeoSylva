@@ -92,8 +92,10 @@ suspend fun computeMartelageStats(
     var volumeComputedCountTotal = 0
     val allDiams = mutableListOf<Double>()
 
-    // Distribution par classe (agrégée toutes essences confondues)
-    val classDistMap = mutableMapOf<Int, Triple<Int, Double, Double>>() // class -> (n, g, v)
+    // Distribution par classe agrégée (toutes essences) : class -> (n, g, v)
+    val classDistMap = mutableMapOf<Int, Triple<Int, Double, Double>>()
+    // Distribution par classe par essence : essenceCode -> (class -> (n, g, v))
+    val essenceClassDistMap = mutableMapOf<String, MutableMap<Int, Triple<Int, Double, Double>>>()
 
     // Distribution par qualité bois
     val qualityCounts = mutableMapOf<WoodQualityGrade, Int>()
@@ -155,12 +157,19 @@ suspend fun computeMartelageStats(
             val dc = forestryCalculator.diameterClassFor(t.diamCm, classes)
             gByClass[dc] = (gByClass[dc] ?: 0.0) + forestryCalculator.computeG(t.diamCm)
         }
+        val essMap = essenceClassDistMap.getOrPut(code) { mutableMapOf() }
         rows.forEach { r ->
             val prev = classDistMap[r.diamClass] ?: Triple(0, 0.0, 0.0)
             classDistMap[r.diamClass] = Triple(
                 prev.first + r.count,
                 prev.second + (gByClass[r.diamClass] ?: 0.0),
                 prev.third + (r.vSum ?: 0.0)
+            )
+            val prevEss = essMap[r.diamClass] ?: Triple(0, 0.0, 0.0)
+            essMap[r.diamClass] = Triple(
+                prevEss.first + r.count,
+                prevEss.second + (gByClass[r.diamClass] ?: 0.0),
+                prevEss.third + (r.vSum ?: 0.0)
             )
         }
 
@@ -315,6 +324,30 @@ suspend fun computeMartelageStats(
         )
     )
 
+    // Perches (D < 17,5 cm) = classes ≤ 15 | Bois fort (D ≥ 17,5 cm) = classes ≥ 20
+    // Calculé depuis classDistMap (cohérent avec selectedEssenceCodes)
+    val nPerches   = classDistMap.entries.filter { it.key <= 15 }.sumOf { it.value.first }
+    val nBoisFort  = classDistMap.entries.filter { it.key >= 20 }.sumOf { it.value.first }
+    val gPerches   = classDistMap.entries.filter { it.key <= 15 }.sumOf { it.value.second }
+    val gBoisFort  = classDistMap.entries.filter { it.key >= 20 }.sumOf { it.value.second }
+    val vPerches   = classDistMap.entries.filter { it.key <= 15 }.sumOf { it.value.third }
+    val vBoisFort  = classDistMap.entries.filter { it.key >= 20 }.sumOf { it.value.third }
+
+    // Distribution par classe par essence → pour les tableaux du PDF
+    val perEssenceClassDist: Map<String, List<ClassDistEntry>> = essenceClassDistMap.mapValues { (_, map) ->
+        map.entries.sortedBy { it.key }.map { (cls, triple) ->
+            ClassDistEntry(cls, triple.first, triple.second, triple.third.takeIf { it > 0.0 })
+        }
+    }
+
+    // Calculs avec/sans perches par hectare
+    val nPerHaPerches = if (surfaceHa > 0.0) nPerches / surfaceHa else 0.0
+    val nPerHaBoisFort = if (surfaceHa > 0.0) nBoisFort / surfaceHa else 0.0
+    val gPerHaPerches = if (surfaceHa > 0.0) gPerches / surfaceHa else 0.0
+    val gPerHaBoisFort = if (surfaceHa > 0.0) gBoisFort / surfaceHa else 0.0
+    val vPerHaPerches = if (surfaceHa > 0.0) vPerches / surfaceHa else 0.0
+    val vPerHaBoisFort = if (surfaceHa > 0.0) vBoisFort / surfaceHa else 0.0
+
     return MartelageStats(
         nTotal = nTotal,
         nPerHa = nPerHa,
@@ -353,7 +386,21 @@ suspend fun computeMartelageStats(
         residualVha = residualVha,
         sanityWarnings = sanityWarnings,
         specialTrees = specialTreeEntries,
-        biodiversity = biodiversity
+        biodiversity = biodiversity,
+        perEssenceClassDist = perEssenceClassDist,
+        // Champs avec/sans perches
+        nPerches = nPerches,
+        nBoisFort = nBoisFort,
+        gPerches = gPerches,
+        gBoisFort = gBoisFort,
+        vPerches = vPerches,
+        vBoisFort = vBoisFort,
+        nPerHaPerches = nPerHaPerches,
+        nPerHaBoisFort = nPerHaBoisFort,
+        gPerHaPerches = gPerHaPerches,
+        gPerHaBoisFort = gPerHaBoisFort,
+        vPerHaPerches = vPerHaPerches,
+        vPerHaBoisFort = vPerHaBoisFort
     )
 }
 
@@ -379,35 +426,68 @@ private fun computeBiodiversityIndex(
     // Piélou J = H' / ln(S)
     val pielou = if (speciesCount > 1) shannon / ln(speciesCount.toDouble()) else if (speciesCount == 1) 0.0 else null
 
-    // IBP simplifié (0–10 points)
+    // IBP complet (0–50 points) - Standard ONF/CNPF
     var ibpScore = 0
     val ibpDetails = mutableListOf<String>()
 
-    // 1. Diversité spécifique (≥3 essences = 1pt, ≥6 = 2pt)
-    if (speciesCount >= 6) { ibpScore += 2; ibpDetails += "diversite_6+" }
-    else if (speciesCount >= 3) { ibpScore += 1; ibpDetails += "diversite_3+" }
+    // 1. Diversité spécifique (0–10 points)
+    when {
+        speciesCount >= 10 -> { ibpScore += 10; ibpDetails += "diversite_10+" }
+        speciesCount >= 8  -> { ibpScore += 8;  ibpDetails += "diversite_8+" }
+        speciesCount >= 6  -> { ibpScore += 6;  ibpDetails += "diversite_6+" }
+        speciesCount >= 4  -> { ibpScore += 4;  ibpDetails += "diversite_4+" }
+        speciesCount >= 2  -> { ibpScore += 2;  ibpDetails += "diversite_2+" }
+        else               -> { ibpScore += 0;  ibpDetails += "diversite_0" }
+    }
 
-    // 2. Très gros bois (TGB ≥ 70cm) présents
+    // 2. Très gros bois (TGB ≥ 70cm) - 0–10 points
     val tgbCount = tiges.count { it.diamCm >= 70.0 }
-    if (tgbCount >= 3) { ibpScore += 2; ibpDetails += "tgb_3+" }
-    else if (tgbCount >= 1) { ibpScore += 1; ibpDetails += "tgb_1+" }
+    when {
+        tgbCount >= 10 -> { ibpScore += 10; ibpDetails += "tgb_10+" }
+        tgbCount >= 5  -> { ibpScore += 7;  ibpDetails += "tgb_5+" }
+        tgbCount >= 3  -> { ibpScore += 5;  ibpDetails += "tgb_3+" }
+        tgbCount >= 1  -> { ibpScore += 3;  ibpDetails += "tgb_1+" }
+        else           -> { ibpScore += 0;  ibpDetails += "tgb_0" }
+    }
 
-    // 3. Arbres bio vivants
+    // 3. Arbres bio vivants - 0–10 points
     val bioCount = specialTrees.firstOrNull { it.categorie == "ARBRE_BIO" }?.count ?: 0
-    if (bioCount >= 3) { ibpScore += 2; ibpDetails += "bio_3+" }
-    else if (bioCount >= 1) { ibpScore += 1; ibpDetails += "bio_1+" }
+    when {
+        bioCount >= 5 -> { ibpScore += 10; ibpDetails += "bio_5+" }
+        bioCount >= 3 -> { ibpScore += 7;  ibpDetails += "bio_3+" }
+        bioCount >= 1 -> { ibpScore += 4;  ibpDetails += "bio_1+" }
+        else          -> { ibpScore += 0;  ibpDetails += "bio_0" }
+    }
 
-    // 4. Bois mort sur pied
+    // 4. Bois mort sur pied - 0–10 points
     val deadCount = specialTrees.firstOrNull { it.categorie == "MORT" }?.count ?: 0
-    if (deadCount >= 3) { ibpScore += 2; ibpDetails += "mort_3+" }
-    else if (deadCount >= 1) { ibpScore += 1; ibpDetails += "mort_1+" }
+    when {
+        deadCount >= 8 -> { ibpScore += 10; ibpDetails += "mort_8+" }
+        deadCount >= 5 -> { ibpScore += 7;  ibpDetails += "mort_5+" }
+        deadCount >= 3 -> { ibpScore += 5;  ibpDetails += "mort_3+" }
+        deadCount >= 1 -> { ibpScore += 3;  ibpDetails += "mort_1+" }
+        else           -> { ibpScore += 0;  ibpDetails += "mort_0" }
+    }
 
-    // 5. Arbres dépérissants
+    // 5. Arbres dépérissants - 0–5 points (pénalisant)
     val dyingCount = specialTrees.firstOrNull { it.categorie == "DEPERISSANT" }?.count ?: 0
-    if (dyingCount >= 1) { ibpScore += 1; ibpDetails += "deperissant_1+" }
+    when {
+        dyingCount >= 5 -> { ibpScore += 0;  ibpDetails += "deperissant_5+" }
+        dyingCount >= 3 -> { ibpScore += 2;  ibpDetails += "deperissant_3+" }
+        dyingCount >= 1 -> { ibpScore += 4;  ibpDetails += "deperissant_1+" }
+        else            -> { ibpScore += 5;  ibpDetails += "deperissant_0" }
+    }
 
-    // 6. Régularité de Shannon (Piélou > 0.6)
-    if (pielou != null && pielou >= 0.6) { ibpScore += 1; ibpDetails += "equitabilite" }
+    // 6. Équitabilité (Piélou) - 0–5 points
+    if (pielou != null) {
+        when {
+            pielou >= 0.8 -> { ibpScore += 5; ibpDetails += "equitabilite_0.8+" }
+            pielou >= 0.6 -> { ibpScore += 4; ibpDetails += "equitabilite_0.6+" }
+            pielou >= 0.4 -> { ibpScore += 2; ibpDetails += "equitabilite_0.4+" }
+            pielou >= 0.2 -> { ibpScore += 1; ibpDetails += "equitabilite_0.2+" }
+            else          -> { ibpScore += 0; ibpDetails += "equitabilite_0" }
+        }
+    }
 
     return BiodiversityIndex(
         shannonH = shannon,
@@ -417,8 +497,8 @@ private fun computeBiodiversityIndex(
         bioTreeCount = bioCount,
         deadTreeCount = deadCount,
         dyingTreeCount = dyingCount,
-        ibpScore = ibpScore.coerceAtMost(10),
-        ibpMax = 10,
+        ibpScore = ibpScore.coerceAtMost(50),
+        ibpMax = 50,
         ibpDetails = ibpDetails
     )
 }
@@ -466,7 +546,22 @@ data class MartelageStats(
     // Arbres spéciaux (dépérissant, bio, mort, parasité)
     val specialTrees: List<SpecialTreeEntry> = emptyList(),
     // Indice de biodiversité
-    val biodiversity: BiodiversityIndex? = null
+    val biodiversity: BiodiversityIndex? = null,
+    // Distribution par classe de diamètre par essence (pour tableaux PDF)
+    val perEssenceClassDist: Map<String, List<ClassDistEntry>> = emptyMap(),
+    // Distinction perches vs bois fort
+    val nPerches: Int = 0,
+    val nBoisFort: Int = 0,
+    val gPerches: Double = 0.0,
+    val gBoisFort: Double = 0.0,
+    val vPerches: Double = 0.0,
+    val vBoisFort: Double = 0.0,
+    val nPerHaPerches: Double = 0.0,
+    val nPerHaBoisFort: Double = 0.0,
+    val gPerHaPerches: Double = 0.0,
+    val gPerHaBoisFort: Double = 0.0,
+    val vPerHaPerches: Double = 0.0,
+    val vPerHaBoisFort: Double = 0.0
 )
 
 data class ClassDistEntry(

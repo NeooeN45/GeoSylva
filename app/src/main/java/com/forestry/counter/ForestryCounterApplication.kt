@@ -44,6 +44,7 @@ import kotlinx.coroutines.runBlocking
 import com.forestry.counter.domain.parameters.ParameterKeys
 import com.forestry.counter.data.parameters.ParameterDefaults
 import com.forestry.counter.domain.model.ParameterItem
+import com.forestry.counter.domain.usecase.brain.LocalBrainCore
 
 class ForestryCounterApplication : Application() {
 
@@ -254,6 +255,9 @@ class ForestryCounterApplication : Application() {
                     )
                 )
             }
+
+            // Seed FTS flora index (idempotent)
+            LocalBrainCore.getInstance(applicationContext).ensureFtsIndexReady()
 
             val ess = essenceRepository.getAllEssences().first()
             if (ess.isEmpty()) {

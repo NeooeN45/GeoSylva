@@ -134,6 +134,41 @@ class ShapefileOverlayManager(private val context: Context) {
         }
 
     /**
+     * Importe n'importe quel format géospatial supporté par GeoImportParser
+     * (GeoJSON, KML, KMZ, GPX, CSV coords, GeoPackage).
+     */
+    suspend fun importGenericUri(uri: Uri, displayName: String? = null): ShapefileOverlay? =
+        withContext(Dispatchers.IO) {
+            try {
+                val result = GeoImportParser.parse(context, uri, displayName) ?: run {
+                    Log.e(TAG, "GeoImportParser returned null for $uri")
+                    return@withContext null
+                }
+                if (result.featureCount == 0) {
+                    Log.w(TAG, "No features parsed from $uri (format=${result.format})")
+                }
+                val id            = "${result.format}_${System.currentTimeMillis()}"
+                val geoJsonFile   = "$id.geojson"
+                File(dir, geoJsonFile).writeText(result.geoJson, Charsets.UTF_8)
+                val name = displayName ?: result.displayName.ifBlank { "Import ${result.format.uppercase()}" }
+                val overlay = ShapefileOverlay(
+                    id           = id,
+                    displayName  = name,
+                    forestNames  = emptyList(),
+                    featureCount = result.featureCount,
+                    geoJsonFile  = geoJsonFile
+                )
+                saveOverlayMeta(overlay)
+                Log.i(TAG, "importGenericUri OK: ${result.featureCount} features (${result.format})")
+                if (result.warnings.isNotEmpty()) Log.w(TAG, "Warnings: ${result.warnings}")
+                overlay
+            } catch (e: Exception) {
+                Log.e(TAG, "importGenericUri failed", e)
+                null
+            }
+        }
+
+    /**
      * Charge le GeoJSON d'un overlay.
      */
     suspend fun loadGeoJson(overlay: ShapefileOverlay): String? =

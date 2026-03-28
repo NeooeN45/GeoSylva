@@ -83,6 +83,7 @@ fun SettingsScreen(
     placetteRepository: PlacetteRepository? = null,
     offlineTileManager: com.forestry.counter.domain.location.OfflineTileManager? = null,
     onNavigateToPriceTablesEditor: () -> Unit = {},
+    onNavigateToTarifDocs: () -> Unit = {},
     onNavigateBack: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -162,24 +163,6 @@ fun SettingsScreen(
             text = {
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                     TarifMethod.entries.forEach { method ->
-                        val labelRes = when (method) {
-                            TarifMethod.SCHAEFFER_1E -> R.string.tarif_method_schaeffer_1e
-                            TarifMethod.SCHAEFFER_2E -> R.string.tarif_method_schaeffer_2e
-                            TarifMethod.ALGAN -> R.string.tarif_method_algan
-                            TarifMethod.IFN_RAPIDE -> R.string.tarif_method_ifn_rapide
-                            TarifMethod.IFN_LENT -> R.string.tarif_method_ifn_lent
-                            TarifMethod.FGH -> R.string.tarif_method_fgh
-                            TarifMethod.COEF_FORME -> R.string.tarif_method_coef_forme
-                        }
-                        val descRes = when (method) {
-                            TarifMethod.SCHAEFFER_1E -> R.string.tarif_method_schaeffer_1e_desc
-                            TarifMethod.SCHAEFFER_2E -> R.string.tarif_method_schaeffer_2e_desc
-                            TarifMethod.ALGAN -> R.string.tarif_method_algan_desc
-                            TarifMethod.IFN_RAPIDE -> R.string.tarif_method_ifn_rapide_desc
-                            TarifMethod.IFN_LENT -> R.string.tarif_method_ifn_lent_desc
-                            TarifMethod.FGH -> R.string.tarif_method_fgh_desc
-                            TarifMethod.COEF_FORME -> R.string.tarif_method_coef_forme_desc
-                        }
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -193,7 +176,6 @@ fun SettingsScreen(
                                         snackbarHostState.showSnackbar(context.getString(R.string.settings_tarif_saved))
                                     }
                                     showTarifDialog = false
-                                    // Si le tarif a des numéros, ouvrir le dialogue numéro
                                     if (TarifCalculator.availableTarifNumbers(method) != null) {
                                         showTarifNumeroDialog = true
                                     }
@@ -208,11 +190,11 @@ fun SettingsScreen(
                             Spacer(modifier = Modifier.width(12.dp))
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    text = stringResource(labelRes),
+                                    text = method.label,
                                     style = MaterialTheme.typography.bodyLarge
                                 )
                                 Text(
-                                    text = stringResource(descRes),
+                                    text = method.description,
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -221,6 +203,13 @@ fun SettingsScreen(
                                         text = stringResource(R.string.tarif_no_height_required),
                                         style = MaterialTheme.typography.labelSmall,
                                         color = MaterialTheme.colorScheme.primary
+                                    )
+                                }
+                                method.regionLabel?.let { region ->
+                                    Text(
+                                        text = region,
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.secondary
                                     )
                                 }
                             }
@@ -653,16 +642,7 @@ fun SettingsScreen(
 
             // Tarifs de cubage
             SettingsSection(title = stringResource(R.string.settings_section_tarifs)) {
-                val tarifLabelRes = when (currentTarifMethod) {
-                    TarifMethod.SCHAEFFER_1E -> R.string.tarif_method_schaeffer_1e
-                    TarifMethod.SCHAEFFER_2E -> R.string.tarif_method_schaeffer_2e
-                    TarifMethod.ALGAN -> R.string.tarif_method_algan
-                    TarifMethod.IFN_RAPIDE -> R.string.tarif_method_ifn_rapide
-                    TarifMethod.IFN_LENT -> R.string.tarif_method_ifn_lent
-                    TarifMethod.FGH -> R.string.tarif_method_fgh
-                    TarifMethod.COEF_FORME -> R.string.tarif_method_coef_forme
-                }
-                val currentLabel = stringResource(tarifLabelRes)
+                val currentLabel = currentTarifMethod.label
                 val subtitle = if (currentTarifNumero != null) {
                     stringResource(R.string.settings_tarif_current_format, currentLabel) +
                         " — " + stringResource(R.string.settings_tarif_numero_format, currentTarifNumero!!)
@@ -738,6 +718,12 @@ fun SettingsScreen(
                     supportingContent = { Text(stringResource(R.string.settings_edit_price_tables_desc)) },
                     leadingContent = { Icon(Icons.Default.AttachMoney, contentDescription = null) },
                     modifier = Modifier.clickable { onNavigateToPriceTablesEditor() }
+                )
+                ListItem(
+                    headlineContent = { Text("Documentation cubage") },
+                    supportingContent = { Text("Tarifs, formules, bases de données embarquées") },
+                    leadingContent = { Icon(Icons.Default.MenuBook, contentDescription = null) },
+                    modifier = Modifier.clickable { onNavigateToTarifDocs() }
                 )
             }
 

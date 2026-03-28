@@ -29,6 +29,26 @@ data class TreeHeightResult(
     val capability: SensorCapability
 )
 
+/**
+ * Résultat de la méthode 2-stations.
+ * @param combinedHeightM   Moyenne pondérée par inverse-variance des deux mesures
+ * @param precisionM        Précision combinée (propagation d'erreur)
+ * @param height1M          Hauteur issue de la station 1
+ * @param height2M          Hauteur issue de la station 2
+ * @param agreementPct      Taux de concordance 0–100 (100 = identiques)
+ * @param confidenceLowM    Borne basse de l'intervalle de confiance à 95 %
+ * @param confidenceHighM   Borne haute
+ */
+data class TwoStationResult(
+    val combinedHeightM: Double,
+    val precisionM: Double,
+    val height1M: Double,
+    val height2M: Double,
+    val agreementPct: Int,
+    val confidenceLowM: Double,
+    val confidenceHighM: Double
+)
+
 object TreeHeightMeasureTool {
 
     /** Détecte le meilleur capteur disponible sur l'appareil. */
@@ -151,6 +171,51 @@ object TreeHeightMeasureTool {
      * Formule : H = hauteur_téléphone + D×tan(α_cime) − D×tan(α_base)
      * (en terrain plat ou légèrement incliné)
      */
+    /**
+     * Calcule la hauteur combinée par la méthode des 2 stations.
+     * Pondération inverse-variance : la mesure la plus précise contribue davantage.
+     */
+    fun calculateHeight2Stations(
+        distance1M: Double,
+        angleTop1Deg: Double,
+        angleBase1Deg: Double = 0.0,
+        distance2M: Double,
+        angleTop2Deg: Double,
+        angleBase2Deg: Double = 0.0,
+        phoneHeightM: Double = 1.5,
+        capability: SensorCapability = SensorCapability.BASIC
+    ): TwoStationResult {
+        val r1 = calculateHeight(distance1M, angleTop1Deg, angleBase1Deg, phoneHeightM, capability)
+        val r2 = calculateHeight(distance2M, angleTop2Deg, angleBase2Deg, phoneHeightM, capability)
+
+        // Pondération inverse-variance (w = 1/σ²)
+        val v1 = r1.precisionM * r1.precisionM
+        val v2 = r2.precisionM * r2.precisionM
+        val w1 = if (v1 > 0) 1.0 / v1 else 1.0
+        val w2 = if (v2 > 0) 1.0 / v2 else 1.0
+        val combined = (r1.heightM * w1 + r2.heightM * w2) / (w1 + w2)
+
+        // Précision combinée
+        val precisionCombined = sqrt(1.0 / (w1 + w2)).coerceAtLeast(0.05)
+
+        // Concordance : 100% si identiques, 0% si > 20% d'écart
+        val maxH = maxOf(r1.heightM, r2.heightM)
+        val diffRatio = if (maxH > 0) abs(r1.heightM - r2.heightM) / maxH else 0.0
+        val agreementPct = ((1.0 - (diffRatio / 0.20).coerceIn(0.0, 1.0)) * 100).toInt()
+
+        // Intervalle de confiance à 95 % (± 1,96σ)
+        val margin = 1.96 * precisionCombined
+        return TwoStationResult(
+            combinedHeightM   = combined,
+            precisionM        = precisionCombined,
+            height1M          = r1.heightM,
+            height2M          = r2.heightM,
+            agreementPct      = agreementPct,
+            confidenceLowM    = (combined - margin).coerceAtLeast(0.5),
+            confidenceHighM   = combined + margin
+        )
+    }
+
     fun calculateHeight(
         distanceM: Double,
         angleTopDeg: Double,

@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.automirrored.filled.Sort
+import androidx.compose.material.icons.filled.MyLocation
 import androidx.compose.material.icons.filled.Straighten
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -88,10 +89,13 @@ fun ParcellesScreen(
     var aspect by remember { mutableStateOf("") }
     var access by remember { mutableStateOf("") }
     var altitudeM by remember { mutableStateOf("") }
+    var commune by remember { mutableStateOf("") }
     var remarks by remember { mutableStateOf("") }
     var tolerance by remember { mutableStateOf("") }
     var samplingMode by remember { mutableStateOf("CIRCULAR") }
     var sampleArea by remember { mutableStateOf("2000") }
+    var autoFillRunning by remember { mutableStateOf(false) }
+    var autoFillError by remember { mutableStateOf<String?>(null) }
     val group by remember(forestId) {
         if (forestId != null) groupRepository.getGroupById(forestId) else kotlinx.coroutines.flow.flowOf(null)
     }.collectAsState(initial = null)
@@ -133,6 +137,7 @@ fun ParcellesScreen(
                     aspect = null,
                     access = null,
                     altitudeM = null,
+                    commune = null,
                     objectifType = null,
                     objectifVal = null,
                     tolerancePct = null,
@@ -348,10 +353,12 @@ fun ParcellesScreen(
                                             aspect = p.aspect ?: ""
                                             access = p.access ?: ""
                                             altitudeM = p.altitudeM?.toString() ?: ""
+                                            commune = p.commune ?: ""
                                             remarks = p.remarks ?: ""
                                             tolerance = p.tolerancePct?.toString() ?: ""
                                             samplingMode = p.samplingMode ?: "CIRCULAR"
                                             sampleArea = p.sampleAreaM2?.toString() ?: "2000"
+                                            autoFillError = null
                                         },
                                         onDelete = {
                                             playClickFeedback()
@@ -389,6 +396,7 @@ fun ParcellesScreen(
                             aspect = aspect.trim().ifBlank { null },
                             access = access.trim().ifBlank { null },
                             altitudeM = altitudeM.replace(',', '.').toDoubleOrNull(),
+                            commune = commune.trim().ifBlank { null },
                             samplingMode = samplingMode.trim().ifBlank { null },
                             sampleAreaM2 = sampleArea.toDoubleOrNull(),
                             targetSpeciesCsv = p.targetSpeciesCsv,
@@ -454,6 +462,56 @@ fun ParcellesScreen(
                     label = { Text(stringResource(R.string.parcelle_altitude_m)) },
                     modifier = Modifier.fillMaxWidth()
                 )
+
+                // Commune + bouton auto-fill GPS
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    OutlinedTextField(
+                        value = commune,
+                        onValueChange = { commune = it },
+                        label = { Text(stringResource(R.string.parcelle_commune)) },
+                        modifier = Modifier.weight(1f),
+                        singleLine = true
+                    )
+                    if (autoFillRunning) {
+                        CircularProgressIndicator(modifier = Modifier.size(24.dp), strokeWidth = 2.dp)
+                    } else {
+                        IconButton(
+                            onClick = {
+                                autoFillRunning = true
+                                autoFillError = null
+                                scope.launch {
+                                    val result = com.forestry.counter.domain.geo.ParcelleAutoFillService.autoFillFromGps(context)
+                                    autoFillRunning = false
+                                    if (result != null) {
+                                        if (result.commune != null) commune = result.commune
+                                        if (result.altitudeM != null && altitudeM.isBlank())
+                                            altitudeM = String.format("%.0f", result.altitudeM)
+                                        if (result.slopePct != null && slopePct.isBlank())
+                                            slopePct = result.slopePct.toString()
+                                        if (result.aspectLabel != null && aspect.isBlank())
+                                            aspect = result.aspectLabel
+                                        autoFillError = result.errorMessage
+                                    } else {
+                                        autoFillError = context.getString(R.string.parcelle_autofill_no_gps)
+                                    }
+                                }
+                            }
+                        ) {
+                            Icon(Icons.Default.MyLocation, contentDescription = stringResource(R.string.parcelle_autofill_btn))
+                        }
+                    }
+                }
+                if (autoFillError != null) {
+                    Text(
+                        autoFillError!!,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
 
                 var samplingExpanded by remember { mutableStateOf(false) }
                 ExposedDropdownMenuBox(expanded = samplingExpanded, onExpandedChange = { samplingExpanded = !samplingExpanded }) {

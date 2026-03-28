@@ -20,5 +20,6 @@ data class Tige(
     val qualite: Int? = null,
     val defauts: List<String>? = null,
     val photoUri: String? = null,
-    val qualiteDetail: String? = null
+    val qualiteDetail: String? = null,
+    val destination: String? = null // "COUPER", "CONSERVER", null (par défaut: COUPER pour le martelage)
 )

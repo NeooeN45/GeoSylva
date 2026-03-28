@@ -10,6 +10,10 @@ data class StationObservation(
     val observerName: String = "",
     val observationDate: Long = System.currentTimeMillis(),
 
+    // ── Statut et Médias ──
+    val isDraft: Boolean = true,
+    val photos: List<DiagnosticPhoto> = emptyList(),
+
     // ── Géolocalisation ──
     val latitude: Double? = null,
     val longitude: Double? = null,
@@ -46,7 +50,39 @@ data class StationObservation(
     val especesHygrophiles: Boolean = false,
 
     // ── Notes libres ──
-    val notes: String = ""
+    val notes: String = "",
+
+    // ── Profil pédologique multi-horizons ──
+    val horizons: List<SoilHorizon> = emptyList(),
+
+    // ── Flore par strates (relevé botanique structuré) ──
+    val floraEntries: List<FloraEntry> = emptyList(),
+
+    // ── Biodiversité ──
+    val biodiversite: BiodiversiteData = BiodiversiteData(),
+
+    // ── Peuplement qualitatif ──
+    val peuplement: PeuplementDescription = PeuplementDescription()
+)
+
+data class SoilHorizon(
+    val label: String = "",          // ex: "A", "B", "BC", "C"
+    val depthFromCm: Int = 0,
+    val depthToCm: Int = 30,
+    val texture: TextureSol = TextureSol.INCONNUE,
+    val couleurMunsell: String = "",  // ex: "10YR 4/4"
+    val structure: String = "",       // ex: "Grumeleuse", "Polyédrique"
+    val notes: String = "",
+    val elemsGrossiersPct: Int = 0,          // % éléments grossiers
+    val hclTest: TestHCl = TestHCl.NEGATIF,  // réaction HCl sur l'horizon
+    val hydromorphieSigns: Boolean = false,  // traces de rouille / gley
+    val racines: DensiteRacines = DensiteRacines.MODEREE
+)
+
+data class DiagnosticPhoto(
+    val uri: String,
+    val legend: String = "",
+    val type: String = "Général" // ex: Paysage, Sol, Point dur
 )
 
 enum class Exposition(val labelFr: String, val azimut: Int?) {
@@ -98,3 +134,116 @@ enum class Drainage(val labelFr: String) {
     EXCESSIF("Excessif"), BON("Bon"), NORMAL("Normal"),
     IMPARFAIT("Imparfait"), MAUVAIS("Mauvais"), TRES_MAUVAIS("Très mauvais / Engorgé")
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  Relevé botanique par strates
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum class StrateVegetale(val labelFr: String, val shortLabel: String) {
+    ARBORESCENTE("Arborescente (> 7 m)", "Arb."),
+    ARBUSTIVE("Arbustive (1–7 m)", "Arbu."),
+    HERBACEE("Herbacée (< 1 m)", "Herb."),
+    MUSCALE_SEMIS("Muscicole / Semis", "Musc.")
+}
+
+enum class AbondanceDominance(val notation: String, val labelFr: String) {
+    TRACE("+", "Traces (présence rare)"),
+    UN("1", "Individus rares, recouvrement < 5 %"),
+    DEUX("2", "Peu abondant, recouvrement 5–25 %"),
+    TROIS("3", "Abondant, recouvrement 25–50 %"),
+    QUATRE("4", "Très abondant, recouvrement 50–75 %"),
+    CINQ("5", "Dominant, recouvrement > 75 %")
+}
+
+data class FloraEntry(
+    val speciesId: String,
+    val displayName: String = "",
+    val strate: StrateVegetale = StrateVegetale.HERBACEE,
+    val abondance: AbondanceDominance = AbondanceDominance.UN
+)
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  Racines par horizon
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum class DensiteRacines(val labelFr: String) {
+    NULLE("Nulle"),
+    RARE("Rare"),
+    MODEREE("Modérée"),
+    ABONDANTE("Abondante"),
+    TRES_ABONDANTE("Très abondante")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  Biodiversité
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum class MicroHabitat(val labelFr: String) {
+    CAVITES("Cavités"),
+    FISSURES("Fissures d'écorce"),
+    ECORCE_DECOL("Décollements d'écorce"),
+    CHAMPIGNONS("Champignons lignicoles"),
+    LIERRE("Lierre grimpant"),
+    BOIS_MORT_VOL("Bois mort volumineux au sol"),
+    LOGES_PICS("Loges de pics"),
+    NIDS("Nids / plateformes")
+}
+
+data class BiodiversiteData(
+    val boisMortSolVolM3: Double? = null,     // volume estimé bois mort au sol (m³/ha)
+    val boisMortDeboutNb: Int? = null,        // nb chandelles/stipes morts debout (/ha)
+    val microHabitats: Set<MicroHabitat> = emptySet(),
+    val tracesGibier: Boolean = false,
+    val notesGibier: String = "",
+    val notesBiodiversite: String = ""
+)
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  Description qualitative du peuplement
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum class TypeForet(val labelFr: String) {
+    PUBLIQUE("Forêt publique (domaniale / communale)"),
+    PRIVEE("Forêt privée"),
+    INCONNUE("Inconnue")
+}
+
+enum class RegimeSylvicole(val labelFr: String) {
+    FUTAIE_REGULIERE("Futaie régulière"),
+    FUTAIE_IRREGULIERE("Futaie irrégulière / Jardinage"),
+    TAILLIS("Taillis simple"),
+    TAILLIS_FUTAIE("Taillis sous futaie"),
+    INCONNUE("Inconnu")
+}
+
+enum class StructureVerticale(val labelFr: String) {
+    MONOSTRATE("Monostrate"),
+    BISTRATE("Bistrate"),
+    PLURISTRATE("Pluristrate"),
+    INCONNUE("Inconnue")
+}
+
+enum class EtatSanitaire(val labelFr: String) {
+    BON("Bon"),
+    MOYEN("Moyen"),
+    MEDIOCRE("Médiocre"),
+    CRITIQUE("Critique")
+}
+
+enum class RegenerationNaturelle(val labelFr: String) {
+    NULLE("Nulle"),
+    FAIBLE("Faible"),
+    BONNE("Bonne"),
+    ABONDANTE("Abondante"),
+    INCONNUE("Inconnue")
+}
+
+data class PeuplementDescription(
+    val typeForet: TypeForet = TypeForet.INCONNUE,
+    val regimeSylvicole: RegimeSylvicole = RegimeSylvicole.INCONNUE,
+    val ageEstimeAns: Int? = null,
+    val structureVerticale: StructureVerticale = StructureVerticale.INCONNUE,
+    val etatSanitaire: EtatSanitaire = EtatSanitaire.BON,
+    val regeneration: RegenerationNaturelle = RegenerationNaturelle.INCONNUE,
+    val notesPeuplement: String = ""
+)

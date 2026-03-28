@@ -10,6 +10,7 @@ data class Parcelle(
     val aspect: String?,
     val access: String?,
     val altitudeM: Double?,
+    val commune: String?,
     val objectifType: String?,
     val objectifVal: Double?,
     val tolerancePct: Double?,

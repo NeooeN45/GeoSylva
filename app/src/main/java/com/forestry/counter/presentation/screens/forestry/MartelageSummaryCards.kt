@@ -21,10 +21,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.Forest
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import com.forestry.counter.domain.usecase.fertility.ConfidenceLevel
+import com.forestry.counter.domain.usecase.fertility.FertilityClass
+import com.forestry.counter.domain.usecase.fertility.FertilityResult
+import com.forestry.counter.domain.usecase.fertility.ZoneCompatibility
 import com.forestry.counter.R
 import com.forestry.counter.domain.calculation.SanitySeverity
 import com.forestry.counter.domain.calculation.SanityWarning
@@ -32,6 +40,8 @@ import com.forestry.counter.domain.calculation.quality.WoodQualityGrade
 import com.forestry.counter.domain.model.Essence
 import com.forestry.counter.presentation.utils.ColorUtils
 import java.util.Locale
+import kotlin.math.PI
+import kotlin.math.abs
 
 /**
  * Carte Volume & Prix (inclut un indicateur de complétude si partiel).
@@ -91,8 +101,14 @@ internal fun VolumeCard(
                 )
             }
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                StatItem(label = stringResource(R.string.martelage_label_v_total), value = "$vTotalText m³")
-                StatItem(label = stringResource(R.string.martelage_label_v_per_ha), value = "$vPerHaText m³/ha")
+                StatItem(
+                    label = stringResource(R.string.martelage_label_v_total), value = "$vTotalText m³",
+                    info = "V total = volume bois fort tige sur pied.\nCalculé par tarif de cubage par essence (Algan/CNPF).\nSi hauteur manquante : estimée par relation H-D paramétrable."
+                )
+                StatItem(
+                    label = stringResource(R.string.martelage_label_v_per_ha), value = "$vPerHaText m³/ha",
+                    info = "V/ha = volume total ramené à l'hectare.\nRatioV/G (=V/G) compris entre 8 et 15 m indique une forêt équilibrée.\nSource : tarifs CNPF/ONF."
+                )
             }
             HorizontalDivider(modifier = Modifier.padding(vertical = 2.dp), color = volumeCardContent.copy(alpha = 0.15f))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -153,8 +169,14 @@ internal fun BasalAreaCard(
                 color = surfaceCardContent.copy(alpha = 0.7f)
             )
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                StatItem(label = stringResource(R.string.martelage_label_g_total), value = "${formatG(gTotal)} m²")
-                StatItem(label = stringResource(R.string.martelage_label_g_per_ha), value = "${formatG(gPerHa)} m²/ha")
+                StatItem(
+                    label = stringResource(R.string.martelage_label_g_total), value = "${formatG(gTotal)} m²",
+                    info = "G total = surface terrière totale de toutes les tiges.\nG = Σ(π × D²/4) pour chaque tige.\nExprimée en m²."
+                )
+                StatItem(
+                    label = stringResource(R.string.martelage_label_g_per_ha), value = "${formatG(gPerHa)} m²/ha",
+                    info = "G/ha = surface terrière ramenée à l'hectare.\nValeurs de référence : 10–15 m²/ha (forêt claire), 25–35 m²/ha (peuplement dense).\nObjectif sylvicole courant : 20–28 m²/ha."
+                )
             }
             if (surfaceHa != null || ratioVG != null) {
                 HorizontalDivider(modifier = Modifier.padding(vertical = 2.dp), color = surfaceCardContent.copy(alpha = 0.15f))
@@ -233,17 +255,35 @@ internal fun DensityCard(
                 color = densityCardContent.copy(alpha = 0.7f)
             )
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                StatItem(label = stringResource(R.string.martelage_label_n_total), value = "$nTotal")
-                StatItem(label = stringResource(R.string.martelage_label_n_per_ha), value = "${formatIntPerHa(nPerHa)}/ha")
+                StatItem(
+                    label = stringResource(R.string.martelage_label_n_total), value = "$nTotal",
+                    info = "N total : effectif mesuré dans la placette ou la parcelle."
+                )
+                StatItem(
+                    label = stringResource(R.string.martelage_label_n_per_ha), value = "${formatIntPerHa(nPerHa)}/ha",
+                    info = "N/ha = nombre de tiges / surface inventoriée (ha).\nDépend directement de la surface saisie."
+                )
             }
             HorizontalDivider(modifier = Modifier.padding(vertical = 2.dp), color = densityCardContent.copy(alpha = 0.15f))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                StatItem(label = stringResource(R.string.martelage_label_dm), value = "${formatDiameter(dm, placeholderDash)} cm")
-                StatItem(label = stringResource(R.string.martelage_label_dg), value = "${formatDiameter(dg, placeholderDash)} cm")
+                StatItem(
+                    label = stringResource(R.string.martelage_label_dm), value = "${formatDiameter(dm, placeholderDash)} cm",
+                    info = "Dm = diamètre moyen arithmétique.\nDm = Σ(Di) / N\nMesure à 1,30 m du sol (DHP)."
+                )
+                StatItem(
+                    label = stringResource(R.string.martelage_label_dg), value = "${formatDiameter(dg, placeholderDash)} cm",
+                    info = "Dg = diamètre de l'arbre de surface terrière moyenne.\nDg = √(4 × G/ha / (π × N/ha)) × 100\nReprésentatif de la structure du peuplement."
+                )
             }
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                StatItem(label = stringResource(R.string.martelage_label_hm), value = "${formatHeight(meanH, placeholderDash)} m")
-                StatItem(label = stringResource(R.string.martelage_label_hlorey), value = "${formatHeight(hLorey, placeholderDash)} m")
+                StatItem(
+                    label = stringResource(R.string.martelage_label_hm), value = "${formatHeight(meanH, placeholderDash)} m",
+                    info = "Hmoy = moyenne arithmétique des hauteurs mesurées.\nBasé sur les mesures terrain (dendromètre/perche/laser)."
+                )
+                StatItem(
+                    label = stringResource(R.string.martelage_label_hlorey), value = "${formatHeight(hLorey, placeholderDash)} m",
+                    info = "H Lorey = hauteur de l'arbre de surface terrière moyenne.\nH Lorey = Σ(Gi × Hi) / Σ(Gi)\nPondération par la surface terrière — plus représentative que Hmoy."
+                )
             }
             if (dMin != null || dMax != null || cvDiam != null) {
                 HorizontalDivider(modifier = Modifier.padding(vertical = 2.dp), color = densityCardContent.copy(alpha = 0.15f))
@@ -251,13 +291,15 @@ internal fun DensityCard(
                     if (dMin != null && dMax != null) {
                         StatItem(
                             label = stringResource(R.string.martelage_label_d_range),
-                            value = "${formatDiameter(dMin, placeholderDash)} – ${formatDiameter(dMax, placeholderDash)} cm"
+                            value = "${formatDiameter(dMin, placeholderDash)} – ${formatDiameter(dMax, placeholderDash)} cm",
+                            info = "Plage de diamètres : minimum et maximum des diamètres mesurés.\nUtile pour évaluer l'amplitude de la structure."
                         )
                     }
                     if (cvDiam != null) {
                         StatItem(
                             label = stringResource(R.string.martelage_label_cv_diam),
-                            value = String.format(Locale.getDefault(), "%.0f %%", cvDiam)
+                            value = String.format(Locale.getDefault(), "%.0f %%", cvDiam),
+                            info = "CV(D) = coefficient de variation des diamètres.\nCV = écart-type / Dm × 100\n< 20 % → peuplement régulier\n20–40 % → structure bi-étagée\n> 40 % → structure jardinée"
                         )
                     }
                 }
@@ -699,12 +741,40 @@ private fun StatItem(
     label: String,
     value: String,
     modifier: Modifier = Modifier,
-    color: androidx.compose.ui.graphics.Color = LocalContentColor.current
+    color: androidx.compose.ui.graphics.Color = LocalContentColor.current,
+    info: String? = null
 ) {
+    var showInfo by remember { mutableStateOf(false) }
     Column(modifier = modifier, horizontalAlignment = Alignment.Start) {
-        Text(label, style = MaterialTheme.typography.labelSmall, color = color.copy(alpha = 0.6f))
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(label, style = MaterialTheme.typography.labelSmall, color = color.copy(alpha = 0.6f))
+            if (info != null) {
+                Icon(
+                    Icons.Default.Info,
+                    contentDescription = "Info",
+                    tint = color.copy(alpha = 0.38f),
+                    modifier = Modifier
+                        .size(11.dp)
+                        .clickable { showInfo = true }
+                )
+            }
+        }
         Text(value, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold, color = color)
     }
+    if (showInfo && info != null) {
+        CalcInfoDialog(text = info, onDismiss = { showInfo = false })
+    }
+}
+
+@Composable
+private fun CalcInfoDialog(text: String, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        icon = { Icon(Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(24.dp)) },
+        title = { Text("Méthode de calcul", style = MaterialTheme.typography.titleSmall) },
+        text = { Text(text, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) },
+        confirmButton = { TextButton(onClick = onDismiss) { Text("Fermer") } }
+    )
 }
 
 /**
@@ -1204,6 +1274,178 @@ internal fun BiodiversityCard(
     } // AnimatedVisibility
 }
 
+/**
+ * Carte des classes de fertilité par essence (guides sylviculture ONF/CNPF).
+ */
+@Composable
+internal fun StandFertilityCard(
+    fertilityResults: List<FertilityResult>
+) {
+    if (fertilityResults.isEmpty()) return
+    var visible by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { visible = true }
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn(tween(500, delayMillis = 350)) +
+            slideInVertically(tween(500, delayMillis = 350, easing = FastOutSlowInEasing)) { it / 5 }
+    ) {
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(18.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        ) {
+            Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Icon(
+                        Icons.Default.Forest,
+                        contentDescription = null,
+                        tint = Color(0xFF2E7D32),
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(
+                        "Classes de fertilité du peuplement",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Text(
+                    "Estimation automatique — guides ONF/CNPF — hauteur dominante et dendrométrie",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                HorizontalDivider()
+                fertilityResults.forEachIndexed { idx, result ->
+                    val classColor = Color(result.fertilityClass.color)
+                    val confColor = when (result.confidence) {
+                        ConfidenceLevel.HIGH         -> Color(0xFF2E7D32)
+                        ConfidenceLevel.MEDIUM       -> Color(0xFFF9A825)
+                        ConfidenceLevel.LOW          -> Color(0xFFEF6C00)
+                        ConfidenceLevel.INSUFFICIENT -> Color(0xFF757575)
+                    }
+                    val zoneColor = when (result.zoneCompatibility) {
+                        ZoneCompatibility.OPTIMAL    -> Color(0xFF2E7D32)
+                        ZoneCompatibility.ACCEPTABLE -> Color(0xFFF9A825)
+                        ZoneCompatibility.SUBOPTIMAL -> Color(0xFFC62828)
+                    }
+                    val targetFrac = when (result.fertilityClass) {
+                        FertilityClass.I       -> 1.0f
+                        FertilityClass.II      -> 0.75f
+                        FertilityClass.III     -> 0.50f
+                        FertilityClass.IV      -> 0.25f
+                        FertilityClass.UNKNOWN -> 0.05f
+                    }
+                    val animFraction by animateFloatAsState(
+                        targetValue = targetFrac,
+                        animationSpec = tween(700, delayMillis = idx * 80, easing = FastOutSlowInEasing),
+                        label = "fert_$idx"
+                    )
+                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Surface(
+                                    color = classColor,
+                                    shape = RoundedCornerShape(8.dp)
+                                ) {
+                                    Text(
+                                        "Cl. ${result.fertilityClass.roman}",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = Color.White,
+                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                    )
+                                }
+                                Column {
+                                    Text(
+                                        result.essenceName,
+                                        style = MaterialTheme.typography.labelLarge,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                    Text(
+                                        result.fertilityClass.label,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = classColor,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                }
+                            }
+                            Column(
+                                horizontalAlignment = Alignment.End,
+                                verticalArrangement = Arrangement.spacedBy(2.dp)
+                            ) {
+                                result.dominantHeightM?.let {
+                                    Text(
+                                        "H₀ ≈ ${String.format(Locale.getDefault(), "%.1f", it)} m",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                }
+                                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                                    Surface(
+                                        color = confColor.copy(alpha = 0.12f),
+                                        shape = RoundedCornerShape(6.dp)
+                                    ) {
+                                        Text(
+                                            result.confidence.label,
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = confColor,
+                                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                        )
+                                    }
+                                    Surface(
+                                        color = zoneColor.copy(alpha = 0.12f),
+                                        shape = RoundedCornerShape(6.dp)
+                                    ) {
+                                        Text(
+                                            result.zoneCompatibility.icon + " Zone",
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = zoneColor,
+                                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        Box(
+                            Modifier.fillMaxWidth().height(7.dp).clip(RoundedCornerShape(4.dp))
+                                .background(MaterialTheme.colorScheme.outline.copy(alpha = 0.12f))
+                        ) {
+                            Box(
+                                Modifier.fillMaxHeight().fillMaxWidth(animFraction)
+                                    .clip(RoundedCornerShape(4.dp))
+                                    .background(
+                                        Brush.horizontalGradient(
+                                            listOf(classColor, classColor.copy(alpha = 0.6f))
+                                        )
+                                    )
+                            )
+                        }
+                        if (result.notes.isNotEmpty()) {
+                            Text(
+                                result.notes.first(),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                    if (idx < fertilityResults.size - 1) {
+                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                    }
+                }
+            }
+        }
+    }
+}
+
 @Composable
 private fun sanityMessage(w: SanityWarning): String {
     return when (w.code) {
@@ -1240,5 +1482,661 @@ private fun sanityMessage(w: SanityWarning): String {
         "revenue_ha_negative" -> stringResource(R.string.sanity_revenue_ha_negative)
         "revenue_ha_very_high" -> stringResource(R.string.sanity_revenue_ha_very_high, w.value ?: 0.0)
         else -> w.code
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Rapport de corroboration
+// ─────────────────────────────────────────────────────────────────────────────
+
+private enum class CorrStatus { OK, WARN, ERROR }
+
+private data class CorrCheck(
+    val label: String,
+    val valueText: String,
+    val status: CorrStatus,
+    val note: String
+)
+
+private fun buildCorroborationChecks(stats: MartelageStats): List<CorrCheck> {
+    val list = mutableListOf<CorrCheck>()
+
+    // 1. Ratio V/G
+    stats.ratioVG?.let { vg ->
+        val (st, note) = when {
+            vg < 4.0  -> CorrStatus.ERROR to "Très bas — hauteurs manquantes ou tarif inadapté"
+            vg < 6.0  -> CorrStatus.WARN  to "Bas — peuplement jeune/dense ou hauteurs sous-estimées"
+            vg > 22.0 -> CorrStatus.ERROR to "Très élevé — vérifier le tarif de cubage"
+            vg > 16.0 -> CorrStatus.WARN  to "Élevé — arbres de grande hauteur ou tarif surestimant"
+            else      -> CorrStatus.OK    to "Cohérent (norme indicative 8–15 m³/m²)"
+        }
+        list += CorrCheck("Ratio V/G", String.format(Locale.getDefault(), "%.1f m³/m²", vg), st, note)
+    }
+
+    // 2. Cohérence Dm/Dg
+    val dm = stats.dm; val dg = stats.dg
+    if (dm != null && dg != null && dg > 0.0) {
+        val r = dm / dg
+        val (st, note) = when {
+            r < 0.82 -> CorrStatus.WARN to "Étalée vers les gros diamètres — peuplement déformé ou sélectionné"
+            r > 1.08 -> CorrStatus.WARN to "Étalée vers les petits diamètres — régénération dominante ?"
+            else     -> CorrStatus.OK   to "Distribution diamétrique symétrique"
+        }
+        list += CorrCheck("Dm / Dg", String.format(Locale.getDefault(), "%.2f", r), st, note)
+    }
+
+    // 3. G/ha recalculé depuis N/ha × Dg²
+    if (dg != null && stats.nPerHa > 0.0 && stats.gPerHa > 0.0) {
+        val gCalc = stats.nPerHa * PI / 4.0 * (dg / 100.0) * (dg / 100.0)
+        val err = abs(gCalc - stats.gPerHa) / stats.gPerHa
+        val (st, note) = when {
+            err > 0.20 -> CorrStatus.ERROR to "Écart ${String.format(Locale.getDefault(), "%.0f", err * 100)}%% — diamètres ou surface manquants ?"
+            err > 0.10 -> CorrStatus.WARN  to "Écart ${String.format(Locale.getDefault(), "%.0f", err * 100)}%% — vérifier les tiges sans diamètre"
+            else       -> CorrStatus.OK    to "N/ha × Dg² × π/4 ≈ G/ha mesuré (cohérent)"
+        }
+        list += CorrCheck("G/ha recalculé", String.format(Locale.getDefault(), "%.2f m²/ha", gCalc), st, note)
+    }
+
+    // 4. Structure CV(D) — informatif
+    stats.cvDiam?.let { cv ->
+        val note = when {
+            cv < 15.0 -> "Futaie très régulière / équienne monospécifique"
+            cv < 30.0 -> "Futaie régulière normale"
+            cv < 50.0 -> "Mélange de classes — futaie irrégulière ou bi-étagée"
+            else      -> "Structure complexe — futaie jardinée ou peuplement mixte"
+        }
+        list += CorrCheck("Structure CV(D)", String.format(Locale.getDefault(), "%.0f%%", cv), CorrStatus.OK, note)
+    }
+
+    // 5. Intensité de coupe G%
+    stats.harvestGhaPct?.let { hg ->
+        val (st, note) = when {
+            hg > 40.0 -> CorrStatus.ERROR to "Très intense — risque de déstabilisation du résiduel"
+            hg > 30.0 -> CorrStatus.WARN  to "Fort — surveiller la résilience du peuplement résiduel"
+            hg > 20.0 -> CorrStatus.OK    to "Modéré à fort — conforme aux rotations sylvicoles"
+            else      -> CorrStatus.OK    to "Léger à modéré — conforme aux recommandations ONF/CNPF"
+        }
+        list += CorrCheck("Intensité coupe ΔG", String.format(Locale.getDefault(), "%.0f%%", hg), st, note)
+    }
+
+    return list
+}
+
+@Composable
+internal fun CorroborationReportCard(stats: MartelageStats) {
+    val checks = remember(
+        stats.ratioVG, stats.dm, stats.dg,
+        stats.nPerHa, stats.gPerHa, stats.cvDiam, stats.harvestGhaPct
+    ) { buildCorroborationChecks(stats) }
+    if (checks.isEmpty()) return
+
+    val worstStatus = checks.maxOf { it.status }
+    var visible by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { visible = true }
+
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn(tween(500, 80, FastOutSlowInEasing)) +
+                slideInVertically(tween(500, 80, FastOutSlowInEasing)) { it / 5 }
+    ) {
+        val headerColor = when (worstStatus) {
+            CorrStatus.ERROR -> MaterialTheme.colorScheme.error
+            CorrStatus.WARN  -> Color(0xFFF57C00)
+            CorrStatus.OK    -> Color(0xFF2E7D32)
+        }
+        val cardBg = MaterialTheme.colorScheme.surfaceVariant
+        val cardContent = ColorUtils.getContrastingTextColor(cardBg)
+        val okCount = checks.count { it.status == CorrStatus.OK }
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .shadow(4.dp, RoundedCornerShape(18.dp))
+                .clip(RoundedCornerShape(18.dp)),
+            colors = CardDefaults.cardColors(containerColor = cardBg, contentColor = cardContent)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Icon(
+                        Icons.Default.Info, null,
+                        tint = headerColor,
+                        modifier = Modifier.size(22.dp)
+                    )
+                    Text(
+                        "Rapport de corroboration",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Surface(
+                        color = headerColor.copy(alpha = 0.13f),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Text(
+                            "$okCount / ${checks.size} OK",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = headerColor,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+                }
+                Text(
+                    "Vérification croisée des indicateurs dendrométriques",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = cardContent.copy(alpha = 0.55f)
+                )
+                HorizontalDivider(color = cardContent.copy(alpha = 0.12f))
+                checks.forEach { check ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.Top,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        val (icon, tint) = when (check.status) {
+                            CorrStatus.OK    -> Icons.Default.Info    to Color(0xFF2E7D32)
+                            CorrStatus.WARN  -> Icons.Default.Warning to Color(0xFFF57C00)
+                            CorrStatus.ERROR -> Icons.Default.Error   to MaterialTheme.colorScheme.error
+                        }
+                        Icon(
+                            icon, null, tint = tint,
+                            modifier = Modifier.size(16.dp).padding(top = 2.dp)
+                        )
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            verticalArrangement = Arrangement.spacedBy(1.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    check.label,
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                                Text(
+                                    check.valueText,
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = cardContent.copy(alpha = 0.75f)
+                                )
+                            }
+                            Text(
+                                check.note,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = cardContent.copy(alpha = 0.55f)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Indicateurs sylvicoles
+// ─────────────────────────────────────────────────────────────────────────────
+
+@Composable
+internal fun SylviculturalKPIsCard(stats: MartelageStats) {
+    if (stats.dg == null && stats.meanH == null) return
+
+    var visible by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { visible = true }
+
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn(tween(500, 160, FastOutSlowInEasing)) +
+                slideInVertically(tween(500, 160, FastOutSlowInEasing)) { it / 5 }
+    ) {
+        val cardBg = MaterialTheme.colorScheme.surfaceVariant
+        val cardContent = ColorUtils.getContrastingTextColor(cardBg)
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .shadow(4.dp, RoundedCornerShape(18.dp))
+                .clip(RoundedCornerShape(18.dp)),
+            colors = CardDefaults.cardColors(containerColor = cardBg, contentColor = cardContent)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Icon(
+                        Icons.Default.Forest, null,
+                        tint = Color(0xFF2E7D32),
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(
+                        stringResource(R.string.sylv_kpi_card_title),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                HorizontalDivider(color = cardContent.copy(alpha = 0.12f))
+
+                val dg = stats.dg
+                val meanH = stats.meanH
+                val dominantCode = stats.perEssence.maxByOrNull { it.gPct }?.essenceCode ?: ""
+                val isResineuxDominant = dominantCode.uppercase().let { up ->
+                    up.contains("PIN") || up.contains("SAPIN") || up.contains("EPICEA") ||
+                    up.contains("DOUGLAS") || up.contains("MELEZE") || up.contains("CEDRE") ||
+                    up.contains("SEQUOIA") || up.contains("THUYA")
+                }
+
+                // Indice d'élancement H/D — résineux uniquement
+                if (dg != null && meanH != null && dg > 0.0 && isResineuxDominant) {
+                    val slend = meanH / (dg / 100.0)
+                    val slendVeryStable = stringResource(R.string.sylv_slend_very_stable)
+                    val slendStable = stringResource(R.string.sylv_slend_stable)
+                    val slendNormal = stringResource(R.string.sylv_slend_normal)
+                    val slendRisky = stringResource(R.string.sylv_slend_risky)
+                    val slendInfo = stringResource(R.string.sylv_slend_info)
+                    val (sc, sl) = when {
+                        slend < 70  -> Color(0xFF2E7D32) to slendVeryStable
+                        slend < 85  -> Color(0xFF558B2F) to slendStable
+                        slend < 100 -> Color(0xFFF9A825) to slendNormal
+                        else        -> Color(0xFFC62828) to slendRisky
+                    }
+                    SylvKPIRow(
+                        label = stringResource(R.string.sylv_slend_label),
+                        value = String.format(Locale.getDefault(), "%.0f", slend),
+                        statusLabel = sl, statusColor = sc, textColor = cardContent,
+                        info = slendInfo
+                    )
+                }
+
+                // G/ha — densité du peuplement
+                val gPerHa = stats.gPerHa
+                if (gPerHa > 0.0) {
+                    val gLow = stringResource(R.string.sylv_g_low_density)
+                    val gModerate = stringResource(R.string.sylv_g_moderate)
+                    val gNormal = stringResource(R.string.sylv_g_normal)
+                    val gDense = stringResource(R.string.sylv_g_dense)
+                    val gOver = stringResource(R.string.sylv_g_overstocked)
+                    val gInfo = stringResource(R.string.sylv_g_info)
+                    val (gc, gl) = when {
+                        gPerHa < 10.0 -> Color(0xFFEF6C00) to gLow
+                        gPerHa < 20.0 -> Color(0xFF558B2F) to gModerate
+                        gPerHa < 35.0 -> Color(0xFF2E7D32) to gNormal
+                        gPerHa < 50.0 -> Color(0xFFF9A825) to gDense
+                        else          -> Color(0xFFC62828) to gOver
+                    }
+                    SylvKPIRow(
+                        label = stringResource(R.string.sylv_g_label),
+                        value = "${formatG(gPerHa)} m²/ha",
+                        statusLabel = gl, statusColor = gc, textColor = cardContent,
+                        info = gInfo
+                    )
+                }
+
+                // H Lorey / H moy — hétérogénéité de hauteur
+                val hLorey = stats.hLorey
+                if (hLorey != null && meanH != null && meanH > 0.0) {
+                    val hr = hLorey / meanH
+                    val hHomo = stringResource(R.string.sylv_h_homogeneous)
+                    val hHetero = stringResource(R.string.sylv_h_slightly_hetero)
+                    val hIrreg = stringResource(R.string.sylv_h_irregular)
+                    val hInfo = stringResource(R.string.sylv_h_info)
+                    val (hc, hl) = when {
+                        hr < 1.05 -> Color(0xFF2E7D32) to hHomo
+                        hr < 1.15 -> Color(0xFF558B2F) to hHetero
+                        else      -> Color(0xFF1565C0) to hIrreg
+                    }
+                    SylvKPIRow(
+                        label = stringResource(R.string.sylv_h_label),
+                        value = String.format(Locale.getDefault(), "%.2f", hr),
+                        statusLabel = hl, statusColor = hc, textColor = cardContent,
+                        info = hInfo
+                    )
+                }
+
+                // N/ha — densité en tiges
+                val nPerHa = stats.nPerHa
+                if (nPerHa > 0.0) {
+                    val nSparse = stringResource(R.string.sylv_n_sparse)
+                    val nNormal = stringResource(R.string.sylv_g_normal)
+                    val nDense = stringResource(R.string.sylv_n_dense_stand)
+                    val nHigh = stringResource(R.string.sylv_n_high)
+                    val nVeryDense = stringResource(R.string.sylv_n_very_dense)
+                    val nInfo = stringResource(R.string.sylv_n_info)
+                    val (nc, nl) = when {
+                        nPerHa < 100  -> Color(0xFFEF6C00) to nSparse
+                        nPerHa < 300  -> Color(0xFF558B2F) to nNormal
+                        nPerHa < 700  -> Color(0xFF2E7D32) to nDense
+                        nPerHa < 1500 -> Color(0xFFF9A825) to nHigh
+                        else          -> Color(0xFFC62828) to nVeryDense
+                    }
+                    SylvKPIRow(
+                        label = stringResource(R.string.sylv_n_label),
+                        value = String.format(Locale.getDefault(), "%.0f tiges/ha", nPerHa),
+                        statusLabel = nl, statusColor = nc, textColor = cardContent,
+                        info = nInfo
+                    )
+                }
+
+                // Ratio V/G — cohérence volume / surface terrière
+                val ratioVG = stats.ratioVG
+                if (ratioVG != null && ratioVG > 0.0) {
+                    val vgVeryLow = stringResource(R.string.sylv_vg_very_low)
+                    val vgLow = stringResource(R.string.sylv_vg_low)
+                    val vgCoherent = stringResource(R.string.sylv_vg_coherent)
+                    val vgHigh = stringResource(R.string.sylv_vg_high)
+                    val vgVeryHigh = stringResource(R.string.sylv_vg_very_high)
+                    val vgInfo = stringResource(R.string.sylv_vg_info)
+                    val (vc, vl) = when {
+                        ratioVG < 4.0  -> Color(0xFFC62828) to vgVeryLow
+                        ratioVG < 7.0  -> Color(0xFFF9A825) to vgLow
+                        ratioVG < 16.0 -> Color(0xFF2E7D32) to vgCoherent
+                        ratioVG < 22.0 -> Color(0xFFF9A825) to vgHigh
+                        else           -> Color(0xFFC62828) to vgVeryHigh
+                    }
+                    SylvKPIRow(
+                        label = stringResource(R.string.sylv_vg_label),
+                        value = String.format(Locale.getDefault(), "%.1f m³/m²", ratioVG),
+                        statusLabel = vl, statusColor = vc, textColor = cardContent,
+                        info = vgInfo
+                    )
+                }
+
+                // Ratio Dg/Dm — symétrie de la distribution diamétrique
+                val dm = stats.dm; val dgV = stats.dg
+                if (dm != null && dgV != null && dm > 0.0 && dgV > 0.0) {
+                    val r = dm / dgV
+                    val dmdgLarge = stringResource(R.string.sylv_dmdg_skew_large)
+                    val dmdgSmall = stringResource(R.string.sylv_dmdg_skew_small)
+                    val dmdgSym = stringResource(R.string.sylv_dmdg_symmetric)
+                    val dmdgInfo = stringResource(R.string.sylv_dmdg_info)
+                    val (rc, rl) = when {
+                        r < 0.82 -> Color(0xFFF9A825) to dmdgLarge
+                        r > 1.08 -> Color(0xFFF9A825) to dmdgSmall
+                        else     -> Color(0xFF2E7D32) to dmdgSym
+                    }
+                    SylvKPIRow(
+                        label = stringResource(R.string.sylv_dmdg_label),
+                        value = String.format(Locale.getDefault(), "%.2f", r),
+                        statusLabel = rl, statusColor = rc, textColor = cardContent,
+                        info = dmdgInfo
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SylvKPIRow(
+    label: String,
+    value: String,
+    statusLabel: String,
+    statusColor: Color,
+    textColor: Color,
+    info: String? = null
+) {
+    var showInfo by remember { mutableStateOf(false) }
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(2.dp)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+                Text(
+                    label,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = textColor.copy(alpha = 0.65f)
+                )
+                if (info != null) {
+                    Icon(
+                        Icons.Default.Info,
+                        contentDescription = "Info",
+                        tint = textColor.copy(alpha = 0.32f),
+                        modifier = Modifier.size(11.dp).clickable { showInfo = true }
+                    )
+                }
+            }
+            Text(
+                value,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        Surface(
+            color = statusColor.copy(alpha = 0.13f),
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Text(
+                statusLabel,
+                style = MaterialTheme.typography.labelSmall,
+                color = statusColor,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+            )
+        }
+    }
+    if (showInfo && info != null) CalcInfoDialog(text = info, onDismiss = { showInfo = false })
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CARTE AIDE CONTEXTUELLE — QUALITÉ DES DONNÉES ET PROCHAINES ÉTAPES
+// ═══════════════════════════════════════════════════════════════════════════
+
+@Composable
+internal fun DataCompletenessCard(stats: MartelageStats) {
+    // ── Score de complétude (0–100) ──────────────────────────────────────
+    val completenessScore = run {
+        var score = 0
+        if (stats.nTotal > 0)                     score += 20
+        if (stats.volumeCompletenessPct > 0.5)     score += 20
+        if (stats.volumeCompletenessPct > 0.9)     score += 10
+        if (stats.qualityAssessedCount > 0)        score += 15
+        if (stats.qualityAssessedCount >= stats.qualityTotalCount && stats.qualityTotalCount > 0) score += 10
+        if (stats.surfaceHa > 0)                  score += 10
+        if (stats.biodiversity != null)            score += 10
+        if (stats.specialTrees.isNotEmpty())       score += 5
+        score.coerceIn(0, 100)
+    }
+
+    val scoreColor = when {
+        completenessScore >= 80 -> Color(0xFF2E7D32)
+        completenessScore >= 50 -> Color(0xFFF57C00)
+        else                    -> Color(0xFFC62828)
+    }
+    val scoreCompleteLabel = stringResource(R.string.data_quality_complete_label)
+    val scorePartialLabel = stringResource(R.string.data_quality_partial_label)
+    val scoreInsufficientLabel = stringResource(R.string.data_quality_insufficient_label)
+    val scoreLabel = when {
+        completenessScore >= 80 -> scoreCompleteLabel
+        completenessScore >= 50 -> scorePartialLabel
+        else                    -> scoreInsufficientLabel
+    }
+
+    // ── Liste des conseils contextuels ────────────────────────────────────
+    data class Tip(val icon: String, val title: String, val body: String, val urgent: Boolean = false)
+    val tips = buildList {
+        if (stats.nTotal < 10) add(Tip("📏", stringResource(R.string.tip_small_sample_title),
+            stringResource(R.string.tip_small_sample_body, stats.nTotal), urgent = true))
+        if (stats.surfaceHa <= 0.0) add(Tip("📐", stringResource(R.string.tip_no_surface_title),
+            stringResource(R.string.tip_no_surface_body), urgent = true))
+        if (stats.volumeCompletenessPct < 0.5) add(Tip("📡", stringResource(R.string.mandatory_heights_title),
+            stringResource(R.string.tip_missing_heights_body, (100 - stats.volumeCompletenessPct * 100).toInt()), urgent = true))
+        else if (stats.volumeCompletenessPct < 0.9) add(Tip("📡", stringResource(R.string.tip_some_heights_missing_title),
+            stringResource(R.string.tip_some_heights_missing_body, stats.missingHeightEssenceNames.take(3).joinToString(", "))))
+        if (stats.qualityAssessedCount == 0 && stats.nTotal > 0) add(Tip("🔍", stringResource(R.string.tip_quality_not_assessed_title),
+            stringResource(R.string.tip_quality_not_assessed_body)))
+        else if (stats.qualityAssessedCount < stats.qualityTotalCount / 2) add(Tip("🔍",
+            stringResource(R.string.tip_quality_partial_title_format, (stats.qualityAssessedCount * 100.0 / stats.qualityTotalCount.coerceAtLeast(1)).toInt()),
+            stringResource(R.string.tip_quality_partial_body)))
+        if (stats.sanityWarnings.any { it.severity == com.forestry.counter.domain.calculation.SanitySeverity.ERROR })
+            add(Tip("⚠️", stringResource(R.string.tip_sanity_errors_title),
+                stringResource(R.string.tip_sanity_errors_body), urgent = true))
+        if (stats.ratioVG != null && (stats.ratioVG < 4.0 || stats.ratioVG > 22.0))
+            add(Tip("🔢", stringResource(R.string.tip_vg_ratio_abnormal_title, "%.1f".format(stats.ratioVG)),
+                stringResource(R.string.tip_vg_ratio_abnormal_body)))
+        if (stats.nTotal >= 10 && stats.biodiversity == null) add(Tip("🌿", stringResource(R.string.tip_biodiversity_missing_title),
+            stringResource(R.string.tip_biodiversity_missing_body)))
+    }
+
+    // ── Recommandation tarif ───────────────────────────────────────────────
+    val tarif2 = stringResource(R.string.tarif_reco_2entry)
+    val tarifMixed = stringResource(R.string.tarif_reco_mixed)
+    val tarif1 = stringResource(R.string.tarif_reco_1entry)
+    val tarifReco = when {
+        stats.volumeCompletenessPct > 0.85 -> tarif2
+        stats.volumeCompletenessPct > 0.0  -> tarifMixed
+        else                               -> tarif1
+    }
+
+    var expanded by remember { mutableStateOf(false) }
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            // ── En-tête ──
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        stringResource(R.string.data_quality_title),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        scoreLabel,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = scoreColor,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+                // Score circulaire
+                Box(contentAlignment = Alignment.Center, modifier = Modifier.size(56.dp)) {
+                    CircularProgressIndicator(
+                        progress = { completenessScore / 100f },
+                        modifier = Modifier.fillMaxSize(),
+                        color = scoreColor,
+                        trackColor = scoreColor.copy(alpha = 0.15f),
+                        strokeWidth = 5.dp
+                    )
+                    Text(
+                        "$completenessScore%",
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = scoreColor
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            // ── Barre de progression ──
+            LinearProgressIndicator(
+                progress = { completenessScore / 100f },
+                modifier = Modifier.fillMaxWidth().height(6.dp).clip(RoundedCornerShape(3.dp)),
+                color = scoreColor,
+                trackColor = scoreColor.copy(alpha = 0.15f)
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            // ── Recommandation tarif ──
+            Surface(
+                color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.45f),
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                ) {
+                    Text("📊", style = MaterialTheme.typography.bodyMedium)
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        tarifReco,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
+
+            // ── Conseils contextuels ──
+            if (tips.isNotEmpty()) {
+                Spacer(Modifier.height(10.dp))
+                val visible = if (expanded) tips else tips.take(2)
+                visible.forEach { tip ->
+                    Spacer(Modifier.height(6.dp))
+                    Surface(
+                        color = if (tip.urgent)
+                            Color(0xFFC62828).copy(alpha = 0.08f)
+                        else
+                            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(10.dp),
+                            verticalAlignment = Alignment.Top
+                        ) {
+                            Text(tip.icon, style = MaterialTheme.typography.bodyMedium)
+                            Spacer(Modifier.width(8.dp))
+                            Column {
+                                Text(
+                                    tip.title,
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = if (tip.urgent) Color(0xFFC62828) else MaterialTheme.colorScheme.onSurface
+                                )
+                                Text(
+                                    tip.body,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
+                }
+                if (tips.size > 2) {
+                    Spacer(Modifier.height(6.dp))
+                    TextButton(
+                        onClick = { expanded = !expanded },
+                        modifier = Modifier.align(Alignment.End)
+                    ) {
+                        Text(
+                            if (expanded) stringResource(R.string.data_quality_tips_hide) else stringResource(R.string.data_quality_tips_more_format, tips.size - 2),
+                            style = MaterialTheme.typography.labelSmall
+                        )
+                    }
+                }
+            } else {
+                Spacer(Modifier.height(8.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("✅", style = MaterialTheme.typography.bodyMedium)
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        stringResource(R.string.data_quality_all_complete),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color(0xFF2E7D32)
+                    )
+                }
+            }
+        }
     }
 }

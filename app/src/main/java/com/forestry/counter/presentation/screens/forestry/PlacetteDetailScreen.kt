@@ -37,10 +37,19 @@ import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.EmojiNature
+import androidx.compose.material.icons.filled.Forest
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.sp
+import java.util.Calendar
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -84,6 +93,57 @@ private fun getPlacettePhotos(context: android.content.Context, placetteId: Stri
         ?.filter { it.extension.lowercase() == "jpg" }
         ?.sortedByDescending { it.lastModified() }
         ?: emptyList()
+
+@Composable
+private fun PlacetteDashboardCard(
+    totalTiges: Int,
+    essencesCount: Int,
+    usageByEssence: Map<String, Int>,
+    allEssences: List<com.forestry.counter.domain.model.Essence>,
+    modifier: Modifier = Modifier
+) {
+    val avenir  = usageByEssence.entries.filter { (code, _) -> allEssences.firstOrNull { it.code == code }?.categorie?.uppercase() == "AVENIR" }.sumOf { it.value }
+    val reserve = usageByEssence.entries.filter { (code, _) -> allEssences.firstOrNull { it.code == code }?.categorie?.uppercase() == "RESERVE" }.sumOf { it.value }
+    val enlever = usageByEssence.entries.filter { (code, _) -> allEssences.firstOrNull { it.code == code }?.categorie?.uppercase() == "ENLEVER" }.sumOf { it.value }
+    val biodiv  = usageByEssence.entries.filter { (code, _) -> allEssences.firstOrNull { it.code == code }?.categorie?.uppercase() == "BIODIV" }.sumOf { it.value }
+
+    ElevatedCard(modifier = modifier.fillMaxWidth(), shape = MaterialTheme.shapes.medium) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            DashStat("$totalTiges", "tiges", MaterialTheme.colorScheme.primary)
+            Box(modifier = Modifier.width(1.dp).height(36.dp).background(MaterialTheme.colorScheme.outlineVariant))
+            DashStat("$essencesCount", "essences", MaterialTheme.colorScheme.secondary)
+            Box(modifier = Modifier.width(1.dp).height(36.dp).background(MaterialTheme.colorScheme.outlineVariant))
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
+                if (avenir  > 0) CategChip("A $avenir",  Color(0xFF4CAF50))
+                if (reserve > 0) CategChip("R $reserve", Color(0xFF2196F3))
+                if (enlever > 0) CategChip("E $enlever", Color(0xFFF44336))
+                if (biodiv  > 0) CategChip("B $biodiv",  Color(0xFF26A69A))
+                if (avenir == 0 && reserve == 0 && enlever == 0 && biodiv == 0)
+                    Text("—", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
+    }
+}
+
+@Composable
+private fun DashStat(value: String, label: String, color: Color) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(value, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = color)
+        Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
+}
+
+@Composable
+private fun CategChip(text: String, color: Color) {
+    Surface(shape = CircleShape, color = color.copy(alpha = 0.15f)) {
+        Text(text, modifier = Modifier.padding(horizontal = 7.dp, vertical = 2.dp),
+            style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, color = color, fontSize = 11.sp)
+    }
+}
 
 private fun essenceColor(essence: Essence?): Color? {
     if (essence == null) return null
@@ -204,6 +264,9 @@ fun PlacetteDetailScreen(
         }
     }
 
+    // Onglet actif
+    var selectedTab by remember { mutableStateOf(0) }
+
     // Dialog ajout essence
     var showAddDialog by remember { mutableStateOf(false) }
     var query by remember { mutableStateOf("") }
@@ -224,8 +287,8 @@ fun PlacetteDetailScreen(
     Scaffold(
         snackbarHost = { SnackbarHost(snackbar) },
         topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.placette_essences_title)) },
+            MediumTopAppBar(
+                title = { Text(stringResource(R.string.placette_essences_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = {
                         playClickFeedback()
@@ -316,7 +379,36 @@ fun PlacetteDetailScreen(
             }
         }
     ) { padding ->
-        Column(modifier = Modifier.fillMaxSize().padding(padding).padding(12.dp)) {
+        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+            // Tableau de bord synthèse
+            if (tiges.isNotEmpty()) {
+                PlacetteDashboardCard(
+                    totalTiges    = tiges.size,
+                    essencesCount = presentEssences.size,
+                    usageByEssence = usageByEssence,
+                    allEssences   = allEssences,
+                    modifier      = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                )
+            }
+
+            // Onglets Essences / Évolution
+            TabRow(selectedTabIndex = selectedTab) {
+                Tab(selected = selectedTab == 0, onClick = { selectedTab = 0 },
+                    icon = { Icon(Icons.Default.Forest, null, modifier = Modifier.size(16.dp)) },
+                    text = { Text("Essences", style = MaterialTheme.typography.labelSmall) })
+                Tab(selected = selectedTab == 1, onClick = { selectedTab = 1 },
+                    icon = { Icon(Icons.Default.Analytics, null, modifier = Modifier.size(16.dp)) },
+                    text = { Text("Évolution", style = MaterialTheme.typography.labelSmall) })
+            }
+
+            if (selectedTab == 1) {
+                PlacetteEvolutionTab(
+                    tiges       = tiges,
+                    allEssences = allEssences,
+                    modifier    = Modifier.fillMaxSize().padding(12.dp)
+                )
+            } else Column(modifier = Modifier.fillMaxSize().padding(12.dp)) {
+
             // Barre de recherche animée
             androidx.compose.animation.AnimatedVisibility(
                 visible = searchActive,
@@ -492,8 +584,9 @@ fun PlacetteDetailScreen(
                     }
                 }
             }
-        }
-    }
+        } // end else Column (Essences tab)
+    } // end outer Column
+    } // end Scaffold
 
     if (showColorDialog && colorTargetEssence != null) {
         val target = colorTargetEssence!!
@@ -932,4 +1025,100 @@ private fun levenshtein(a: String, b: String): Int {
         }
     }
     return dp[b.length]
+}
+
+// ── Onglet Évolution multi-années ─────────────────────────────────────────────
+@Composable
+private fun PlacetteEvolutionTab(
+    tiges: List<com.forestry.counter.domain.model.Tige>,
+    allEssences: List<com.forestry.counter.domain.model.Essence>,
+    modifier: Modifier = Modifier
+) {
+    if (tiges.isEmpty()) {
+        Box(modifier = modifier, contentAlignment = Alignment.Center) {
+            Text("Aucune tige enregistrée.", style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        return
+    }
+
+    // Grouper par année
+    val byYear = remember(tiges) {
+        tiges.groupBy { tige ->
+            Calendar.getInstance().apply { timeInMillis = tige.timestamp }.get(Calendar.YEAR)
+        }.toSortedMap(reverseOrder())
+    }
+
+    if (byYear.size <= 1) {
+        Box(modifier = modifier, contentAlignment = Alignment.Center) {
+            Text("Les données d'évolution apparaîtront\nlorsque des tiges auront été saisies\nsur plusieurs années.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+        }
+        return
+    }
+
+    val years = byYear.keys.toList()
+    val allEssenceCodes = remember(tiges) { tiges.map { it.essenceCode }.distinct().sorted() }
+
+    LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        // En-tête chronologique
+        item {
+            Text("Évolution par année (${years.first()}–${years.last()})",
+                style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+        }
+
+        // Carte par année
+        byYear.forEach { (year, tigesYear) ->
+            item(key = year) {
+                val byEssence = tigesYear.groupBy { it.essenceCode }.mapValues { it.value.size }
+                val total = tigesYear.size
+                ElevatedCard(modifier = Modifier.fillMaxWidth()) {
+                    Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Surface(shape = RoundedCornerShape(8.dp),
+                                color = MaterialTheme.colorScheme.primaryContainer) {
+                                Text("$year", modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer)
+                            }
+                            Text("$total tige${if (total > 1) "s" else ""} · ${byEssence.size} essence${if (byEssence.size > 1) "s" else ""}",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                        // Barres par essence
+                        byEssence.entries.sortedByDescending { it.value }.take(8).forEach { (code, n) ->
+                            val essName = allEssences.firstOrNull { it.code == code }?.name ?: code
+                            val pct = n.toFloat() / total
+                            Column {
+                                Row(modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween) {
+                                    Text(essName, style = MaterialTheme.typography.labelSmall,
+                                        fontWeight = FontWeight.SemiBold,
+                                        modifier = Modifier.weight(1f))
+                                    Text("$n", style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                }
+                                LinearProgressIndicator(
+                                    progress = { pct },
+                                    modifier = Modifier.fillMaxWidth().height(5.dp)
+                                        .clip(RoundedCornerShape(3.dp)),
+                                    color = MaterialTheme.colorScheme.primary,
+                                    trackColor = MaterialTheme.colorScheme.surfaceVariant
+                                )
+                            }
+                        }
+                        if (byEssence.size > 8) {
+                            Text("+ ${byEssence.size - 8} autres essences",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

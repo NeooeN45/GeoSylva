@@ -1,87 +1,35 @@
 package com.forestry.counter.presentation.screens.forestry
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.animateIntAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Analytics
-import androidx.compose.material.icons.filled.BarChart
-import androidx.compose.material.icons.filled.Eco
-import androidx.compose.material.icons.filled.Forest
-import androidx.compose.material.icons.filled.Park
-import androidx.compose.material.icons.filled.PieChart
-import androidx.compose.material.icons.filled.Straighten
-import androidx.compose.material.icons.filled.Terrain
-import androidx.compose.material.icons.filled.WaterDrop
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.TrendingDown
+import androidx.compose.material.icons.filled.TrendingFlat
+import androidx.compose.material.icons.filled.TrendingUp
+import androidx.compose.material3.*
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.forestry.counter.R
@@ -95,22 +43,13 @@ import com.forestry.counter.domain.usecase.fertility.ConfidenceLevel
 import com.forestry.counter.domain.usecase.fertility.FertilityClass
 import com.forestry.counter.domain.usecase.fertility.FertilityClassifier
 import com.forestry.counter.domain.usecase.fertility.FertilityResult
-import com.forestry.counter.presentation.utils.AnimatedCounter
-import com.forestry.counter.presentation.utils.StaggerEntrance
-import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.PI
-import kotlin.math.abs
-import kotlin.math.cos
-import kotlin.math.ln
-import kotlin.math.sin
-import kotlin.math.sqrt
 
-// ── Couleurs palette dashboard ──
 private val CHART_COLORS = listOf(
-    Color(0xFF4CAF50), Color(0xFF2196F3), Color(0xFFF44336), Color(0xFFFF9800),
-    Color(0xFF9C27B0), Color(0xFF009688), Color(0xFF795548), Color(0xFF607D8B),
-    Color(0xFFE91E63), Color(0xFF3F51B5), Color(0xFFCDDC39), Color(0xFF00BCD4),
-    Color(0xFFFF5722), Color(0xFF8BC34A), Color(0xFF673AB7), Color(0xFFFFC107)
+    Color(0xFF2E7D32), Color(0xFF1565C0), Color(0xFFE65100), Color(0xFFC62828),
+    Color(0xFF6A1B9A), Color(0xFF00695C), Color(0xFFEF6C00), Color(0xFF283593)
 )
 
 private fun essenceDisplayColor(essence: Essence?, index: Int): Color {
@@ -118,6 +57,20 @@ private fun essenceDisplayColor(essence: Essence?, index: Int): Color {
         return try { Color(android.graphics.Color.parseColor(hex)) } catch (_: Exception) { CHART_COLORS[index % CHART_COLORS.size] }
     }
     return CHART_COLORS[index % CHART_COLORS.size]
+}
+
+data class CampaignData(
+    val label: String,
+    val timestamp: Long,
+    val tiges: List<Tige>,
+    val totalG: Double,
+    val totalTiges: Int,
+    val avgDiam: Double
+)
+
+enum class ReferenceMode(val label: String) {
+    INITIALE("Initiale"),
+    PRECEDENTE("Précédente")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -136,7 +89,72 @@ fun DashboardScreen(
     val parcelle by (parcelleRepository?.getParcelleById(parcelleId)
         ?: kotlinx.coroutines.flow.flowOf(null)).collectAsState(initial = null)
 
-    // ── Données agrégées ──
+    val campaigns = remember(tiges) {
+        val df = SimpleDateFormat("MM/yyyy", Locale.FRANCE)
+        tiges.groupBy { df.format(Date(it.timestamp)) }
+            .map { (label, list) ->
+                val totalG = list.sumOf { PI / 4.0 * (it.diamCm / 100.0).let { d -> d * d } }
+                val avgDiam = if (list.isEmpty()) 0.0 else list.sumOf { it.diamCm } / list.size
+                CampaignData(
+                    label = label,
+                    timestamp = list.minOf { it.timestamp },
+                    tiges = list,
+                    totalG = totalG,
+                    totalTiges = list.size,
+                    avgDiam = avgDiam
+                )
+            }
+            .sortedBy { it.timestamp }
+    }
+
+    var selectedTab by rememberSaveable { mutableIntStateOf(0) }
+    val tabs = listOf("Synthèse", "Évolution")
+
+    Scaffold(
+        topBar = {
+            Column {
+                TopAppBar(
+                    title = { Text(stringResource(R.string.dashboard_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold) },
+                    navigationIcon = {
+                        IconButton(onClick = onNavigateBack) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.back))
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface)
+                )
+                TabRow(
+                    selectedTabIndex = selectedTab,
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.primary,
+                    indicator = { tabPositions ->
+                        if (selectedTab < tabPositions.size) {
+                            TabRowDefaults.SecondaryIndicator(Modifier.tabIndicatorOffset(tabPositions[selectedTab]), color = MaterialTheme.colorScheme.primary)
+                        }
+                    }
+                ) {
+                    tabs.forEachIndexed { index, title ->
+                        Tab(
+                            selected = selectedTab == index,
+                            onClick = { selectedTab = index },
+                            text = { Text(title, fontWeight = FontWeight.SemiBold) }
+                        )
+                    }
+                }
+            }
+        }
+    ) { padding ->
+        Box(modifier = Modifier.fillMaxSize().padding(padding).background(MaterialTheme.colorScheme.surface)) {
+            if (selectedTab == 0) {
+                SyntheseTab(tiges, parcelle, essenceMap)
+            } else {
+                EvolutionTab(campaigns)
+            }
+        }
+    }
+}
+
+@Composable
+private fun SyntheseTab(tiges: List<Tige>, parcelle: com.forestry.counter.domain.model.Parcelle?, essenceMap: Map<String, Essence>) {
     val tigesByEssence = remember(tiges) {
         tiges.groupBy { it.essenceCode.uppercase() }
             .entries.sortedByDescending { it.value.size }
@@ -167,25 +185,19 @@ fun DashboardScreen(
             .mapValues { it.value.size }.toSortedMap()
     }
 
-    // ── Zone bioclimatique ──
     val climateZone = remember(tiges, parcelle) {
-        val altM = parcelle?.altitudeM
-            ?: tiges.mapNotNull { it.altitudeM }.average().takeIf { !it.isNaN() }
+        val altM = parcelle?.altitudeM ?: tiges.mapNotNull { it.altitudeM }.average().takeIf { !it.isNaN() }
         val wkt = tiges.mapNotNull { it.gpsWkt }.firstOrNull()
-        if (wkt != null) ClimateZone.detectFromWkt(wkt, altM)
-        else ClimateZone.UNKNOWN
+        if (wkt != null) ClimateZone.detectFromWkt(wkt, altM) else ClimateZone.UNKNOWN
     }
 
-    // ── Classification de fertilité ──
     val fertilityResults = remember(tiges, climateZone, essenceMap) {
         FertilityClassifier.classify(
-            tiges = tiges,
-            climateZone = climateZone,
+            tiges = tiges, climateZone = climateZone,
             essenceNames = essenceMap.mapValues { it.value.name }
         )
     }
 
-    // ── Coefficient de Liocourt ──
     val liocourtQ = remember(diamClasses) {
         if (diamClasses.size < 3) null
         else {
@@ -195,187 +207,64 @@ fun DashboardScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.dashboard_title), maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent,
-                    scrolledContainerColor = MaterialTheme.colorScheme.surface
-                ),
-                modifier = Modifier.drawBehind {
-                    drawRect(
-                        Brush.horizontalGradient(listOf(Color(0xFF1B5E20), Color(0xFF2E7D32), Color(0xFF1565C0)))
-                    )
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        if (tiges.isEmpty()) {
+            item {
+                Text(stringResource(R.string.dashboard_no_data), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        } else {
+            item {
+                DenseKpiGrid(
+                    totalTiges, speciesCount, avgDiam, totalG, avgHeight, climateZone
+                )
+            }
+            
+            item {
+                DenseDataSection("Répartition par Essence") {
+                    EssenceDataTable(tigesByEssence, gByEssence.associate { it.key to it.value }, totalTiges, essenceMap)
                 }
-            )
-        }
-    ) { padding ->
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(padding),
-            contentPadding = androidx.compose.foundation.layout.PaddingValues(
-                start = 16.dp, end = 16.dp, top = 12.dp, bottom = 32.dp
-            ),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            if (tiges.isEmpty()) {
+            }
+
+            if (diamClasses.isNotEmpty()) {
                 item {
-                    Box(Modifier.fillMaxWidth().padding(vertical = 64.dp), Alignment.Center) {
-                        Text(stringResource(R.string.dashboard_no_data),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    DenseDataSection("Classes de Diamètres (cm)") {
+                        DenseBarChart(diamClasses, "cm")
                     }
                 }
             }
 
-            // ── KPI hero grid ──
-            if (tiges.isNotEmpty()) item {
-                StaggerEntrance(0, staggerMs = 60) {
-                    PremiumKpiGrid(
-                        totalTiges = totalTiges, speciesCount = speciesCount,
-                        avgDiam = avgDiam, totalG = totalG,
-                        avgHeight = avgHeight, climateZone = climateZone
-                    )
-                }
-            }
-
-            // ── Donut essence ──
-            if (tigesByEssence.isNotEmpty()) item {
-                StaggerEntrance(1, staggerMs = 60) {
-                    PremiumDashboardCard(
-                        title = stringResource(R.string.dashboard_species_distribution),
-                        accentColor = Color(0xFF2E7D32),
-                        icon = Icons.Default.Park
-                    ) {
-                        AnimatedDonutChart(
-                            data = tigesByEssence.map { (code, list) ->
-                                Triple(essenceMap[code]?.name ?: code, list.size,
-                                    essenceDisplayColor(essenceMap[code], tigesByEssence.indexOfFirst { it.key == code }))
-                            },
-                            total = totalTiges
-                        )
+            if (heightClasses.isNotEmpty()) {
+                item {
+                    DenseDataSection("Classes de Hauteurs (m)") {
+                        DenseBarChart(heightClasses, "m")
                     }
                 }
             }
 
-            // ── Barres diamètres ──
-            if (diamClasses.isNotEmpty()) item {
-                StaggerEntrance(2, staggerMs = 60) {
-                    PremiumDashboardCard(
-                        title = stringResource(R.string.dashboard_diameter_distribution),
-                        accentColor = Color(0xFF1565C0),
-                        icon = Icons.Default.Straighten
-                    ) {
-                        AnimatedBarChart(
-                            classes = diamClasses,
-                            barGradient = Brush.verticalGradient(listOf(Color(0xFF42A5F5), Color(0xFF1565C0))),
-                            labelSuffix = " cm"
-                        )
+            item {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Column(Modifier.weight(1f)) {
+                        DenseDataSection("Qualité du Bois") {
+                            QualityDataTable(qualityDist, totalTiges)
+                        }
+                    }
+                    Column(Modifier.weight(1f)) {
+                        DenseDataSection("Structure Peuplement") {
+                            StandStructureTable(diamClasses, liocourtQ)
+                        }
                     }
                 }
             }
 
-            // ── Surface terrière par essence ──
-            if (gByEssence.isNotEmpty()) item {
-                StaggerEntrance(3, staggerMs = 60) {
-                    PremiumDashboardCard(
-                        title = stringResource(R.string.dashboard_basal_area_by_species),
-                        accentColor = Color(0xFF6A1B9A),
-                        icon = Icons.Default.Analytics
-                    ) {
-                        AnimatedHorizontalBars(
-                            data = gByEssence.map { (code, g) ->
-                                Triple(essenceMap[code]?.name ?: code, g,
-                                    essenceDisplayColor(essenceMap[code], gByEssence.indexOfFirst { it.key == code }))
-                            },
-                            maxVal = gByEssence.maxOfOrNull { it.value } ?: 1.0,
-                            valueFmt = { String.format("%.3f m²", it) }
-                        )
+            if (fertilityResults.isNotEmpty()) {
+                item {
+                    DenseDataSection("Fertilité Stationnelle") {
+                        FertilityDataTable(fertilityResults)
                     }
-                }
-            }
-
-            // ── Distribution des hauteurs ──
-            if (heightClasses.isNotEmpty()) item {
-                StaggerEntrance(4, staggerMs = 60) {
-                    PremiumDashboardCard(
-                        title = stringResource(R.string.dashboard_height_distribution),
-                        accentColor = Color(0xFF00695C),
-                        icon = Icons.Default.Forest
-                    ) {
-                        AnimatedBarChart(
-                            classes = heightClasses,
-                            barGradient = Brush.verticalGradient(listOf(Color(0xFF80CBC4), Color(0xFF00695C))),
-                            labelSuffix = " m",
-                            showCurve = true
-                        )
-                    }
-                }
-            }
-
-            // ── Structure peuplement ──
-            if (diamClasses.size >= 3) item {
-                StaggerEntrance(5, staggerMs = 60) {
-                    StandStructureCard(diamClasses = diamClasses, liocourtQ = liocourtQ)
-                }
-            }
-
-            // ── Répartition qualité ──
-            if (qualityDist.isNotEmpty()) item {
-                StaggerEntrance(6, staggerMs = 60) {
-                    PremiumDashboardCard(
-                        title = stringResource(R.string.dashboard_quality_distribution),
-                        accentColor = Color(0xFFE65100),
-                        icon = Icons.Default.Eco
-                    ) {
-                        AnimatedQualityBars(qualityDist, totalTiges)
-                    }
-                }
-            }
-
-            // ── Classification de fertilité ──
-            if (fertilityResults.isNotEmpty()) item {
-                StaggerEntrance(7, staggerMs = 60) {
-                    FertilityCard(results = fertilityResults, climateZone = climateZone)
-                }
-            }
-        }
-    }
-}
-
-// ════════════════════════════════════════════════
-// Composables internes
-// ════════════════════════════════════════════════
-
-// ── Premium KPI grid (6 cards, 3 per row) ──
-@Composable
-private fun PremiumKpiGrid(
-    totalTiges: Int, speciesCount: Int,
-    avgDiam: Double, totalG: Double,
-    avgHeight: Double, climateZone: ClimateZone
-) {
-    val animTiges by animateIntAsState(totalTiges, tween(900, easing = FastOutSlowInEasing), label = "kpi_tiges")
-    val animSp    by animateIntAsState(speciesCount, tween(900, 80, FastOutSlowInEasing), label = "kpi_sp")
-    val kpiItems = listOf(
-        Triple("Tiges", "$animTiges", Color(0xFF2E7D32)),
-        Triple("Essences", "$animSp", Color(0xFF1565C0)),
-        Triple("Ø moyen", "${String.format("%.1f", avgDiam)} cm", Color(0xFF6A1B9A)),
-        Triple("G total", "${String.format("%.3f", totalG)} m²", Color(0xFFBF360C)),
-        Triple("H moy.", if (avgHeight > 0) "${String.format("%.1f", avgHeight)} m" else "—", Color(0xFF00695C)),
-        Triple("Zone", climateZone.labelFr, Color(0xFF4527A0))
-    )
-    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        for (row in 0..1) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                for (col in 0..2) {
-                    val idx = row * 3 + col
-                    val (lbl, val_, accent) = kpiItems[idx]
-                    PremiumKpiCard(label = lbl, value = val_, accent = accent, modifier = Modifier.weight(1f))
                 }
             }
         }
@@ -383,506 +272,365 @@ private fun PremiumKpiGrid(
 }
 
 @Composable
-private fun PremiumKpiCard(label: String, value: String, accent: Color, modifier: Modifier = Modifier) {
-    var visible by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit) { visible = true }
-    AnimatedVisibility(visible, enter = fadeIn(tween(400)) + slideInVertically(tween(400)) { it / 3 }) {
-        Box(
-            modifier = modifier
-                .shadow(4.dp, RoundedCornerShape(14.dp))
-                .clip(RoundedCornerShape(14.dp))
-                .drawBehind {
-                    drawRect(Brush.verticalGradient(listOf(accent.copy(alpha = 0.18f), accent.copy(alpha = 0.06f))))
-                    drawRect(Brush.horizontalGradient(listOf(accent.copy(0.10f), Color.Transparent),
-                        endX = size.width * 0.5f))
-                }
-                .padding(horizontal = 10.dp, vertical = 12.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Box(Modifier.size(3.dp, 18.dp)
-                    .clip(RoundedCornerShape(2.dp))
-                    .background(accent))
-                Text(value, style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                Text(label, style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center, maxLines = 1)
+private fun EvolutionTab(campaigns: List<CampaignData>) {
+    if (campaigns.size < 2) {
+        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Icon(Icons.Default.TrendingUp, null, modifier = Modifier.size(48.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f))
+                Text(
+                    "Pas assez de données pour afficher une évolution.\nAu moins 2 campagnes (mois différents) sont requises.",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(horizontal = 32.dp)
+                )
             }
         }
+        return
     }
-}
 
-// ── Premium card container ──
-@Composable
-private fun PremiumDashboardCard(
-    title: String,
-    accentColor: Color,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    content: @Composable ColumnScope.() -> Unit
-) {
-    var visible by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit) { visible = true }
-    AnimatedVisibility(visible, enter = fadeIn(tween(500)) + slideInVertically(tween(500, easing = FastOutSlowInEasing)) { it / 6 }) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .shadow(6.dp, RoundedCornerShape(20.dp))
-                .clip(RoundedCornerShape(20.dp))
-                .background(MaterialTheme.colorScheme.surface)
-        ) {
-            Column {
-                // Header strip with gradient
-                Box(
-                    Modifier.fillMaxWidth().height(48.dp)
-                        .background(Brush.horizontalGradient(listOf(accentColor, accentColor.copy(alpha = 0.65f))))
-                        .padding(horizontal = 16.dp),
-                    contentAlignment = Alignment.CenterStart
+    var refMode by rememberSaveable { mutableStateOf(ReferenceMode.PRECEDENTE) }
+
+    val latest = campaigns.last()
+    val reference = if (refMode == ReferenceMode.INITIALE) campaigns.first() else campaigns[campaigns.size - 2]
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(12.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        item {
+            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                Text("Sélection de la référence", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Spacer(Modifier.height(8.dp))
+                Surface(
+                    shape = RoundedCornerShape(8.dp),
+                    color = MaterialTheme.colorScheme.surfaceVariant
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Icon(icon, null, tint = Color.White, modifier = Modifier.size(18.dp))
-                        Text(title, style = MaterialTheme.typography.titleSmall,
-                            fontWeight = FontWeight.SemiBold, color = Color.White)
-                    }
-                }
-                // Content area
-                Column(Modifier.padding(16.dp), content = content)
-            }
-        }
-    }
-}
-
-// ── Animated donut chart ──
-@Composable
-private fun AnimatedDonutChart(
-    data: List<Triple<String, Int, Color>>,
-    total: Int
-) {
-    var started by remember { mutableStateOf(false) }
-    val animatables = remember(data.size) { List(data.size) { Animatable(0f) } }
-    LaunchedEffect(data.size) {
-        started = true
-        data.forEachIndexed { i, (_, count, _) ->
-            val target = if (total > 0) 360f * count / total else 0f
-            launch {
-                animatables[i].animateTo(target, tween(900, i * 60, FastOutSlowInEasing))
-            }
-        }
-    }
-    val sweepAnims = animatables.map { it.value }
-
-    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Box(Modifier.size(170.dp), contentAlignment = Alignment.Center) {
-            Canvas(Modifier.size(150.dp)) {
-                val strokeW = 30.dp.toPx()
-                val r = (size.minDimension - strokeW) / 2f
-                val tl = Offset((size.width - 2*r - strokeW)/2f, (size.height - 2*r - strokeW)/2f)
-                val arcSz = Size(2*r + strokeW, 2*r + strokeW)
-                // Shadow ring
-                drawArc(Color.Black.copy(alpha=0.06f), -90f, 360f, false, tl, arcSz,
-                    style = Stroke(strokeW + 4.dp.toPx(), cap = StrokeCap.Round))
-                // Track ring
-                drawArc(Color.Gray.copy(alpha=0.07f), -90f, 360f, false, tl, arcSz,
-                    style = Stroke(strokeW, cap = StrokeCap.Round))
-                var startAngle = -90f
-                data.forEachIndexed { i, (_, count, color) ->
-                    val sweep = sweepAnims[i]
-                    if (sweep > 0.5f) {
-                        drawArc(color.copy(alpha=0.20f), startAngle, sweep - 1f, false, tl, arcSz,
-                            style = Stroke(strokeW + 7.dp.toPx(), cap = StrokeCap.Round))
-                        drawArc(color, startAngle, sweep - 1f, false, tl, arcSz,
-                            style = Stroke(strokeW, cap = StrokeCap.Round))
-                    }
-                    val targetSweep = if (total > 0) 360f * count / total else 0f
-                    startAngle += targetSweep
-                }
-            }
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                AnimatedCounter(total, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-                Text("tiges", style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-        }
-        Spacer(Modifier.width(12.dp))
-        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            data.take(10).forEachIndexed { i, (name, count, color) ->
-                key(i) {
-                    val pct = if (total > 0) count * 100f / total else 0f
-                    val animPct by animateFloatAsState(if (started) pct / 100f else 0f,
-                        tween(700, i * 55, FastOutSlowInEasing), label = "donut_leg_$i")
-                    Column {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Box(Modifier.size(8.dp).clip(CircleShape).background(color))
-                            Spacer(Modifier.width(6.dp))
-                            Text("$name", style = MaterialTheme.typography.bodySmall,
-                                maxLines = 1, overflow = TextOverflow.Ellipsis,
-                                modifier = Modifier.weight(1f))
-                            Text("${String.format("%.0f", pct)}%",
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        }
-                        Spacer(Modifier.height(2.dp))
-                        Box(Modifier.fillMaxWidth().height(3.dp).clip(RoundedCornerShape(2.dp))
-                            .background(color.copy(alpha = 0.15f))) {
-                            Box(Modifier.fillMaxHeight().fillMaxWidth(animPct)
-                                .clip(RoundedCornerShape(2.dp))
-                                .background(Brush.horizontalGradient(listOf(color, color.copy(0.6f)))))
+                    Row {
+                        ReferenceMode.entries.forEach { mode ->
+                            val selected = refMode == mode
+                            Box(
+                                modifier = Modifier
+                                    .clickable { refMode = mode }
+                                    .background(if (selected) MaterialTheme.colorScheme.primary else Color.Transparent)
+                                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                            ) {
+                                Text(
+                                    mode.label,
+                                    color = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
                         }
                     }
                 }
             }
-            if (data.size > 10) {
-                Text("+${data.size-10} ${stringResource(R.string.dashboard_others)}",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
         }
-    }
-}
 
-// ── Animated vertical bar chart (diameter, height) ──
-@Composable
-private fun AnimatedBarChart(
-    classes: Map<Int, Int>,
-    barGradient: Brush,
-    labelSuffix: String = "",
-    showCurve: Boolean = false
-) {
-    val maxCount = classes.values.maxOrNull() ?: 1
-    val entries = classes.entries.toList()
-    var started by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit) { started = true }
-    val labelColor = MaterialTheme.colorScheme.onSurfaceVariant
-    val maxBarH = 130.dp
-
-    Column {
-        Row(
-            modifier = Modifier.fillMaxWidth().height(maxBarH + 40.dp)
-                .horizontalScroll(rememberScrollState()),
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            verticalAlignment = Alignment.Bottom
-        ) {
-            entries.forEachIndexed { i, (cls, count) ->
-                key(i) {
-                    val fraction by animateFloatAsState(
-                        if (started) count.toFloat() / maxCount else 0f,
-                        spring(Spring.DampingRatioMediumBouncy, Spring.StiffnessLow),
-                        label = "bar_$i"
-                    )
-                    val barH = (maxBarH.value * fraction).coerceAtLeast(4f)
-                    Column(
-                        Modifier.width(38.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Bottom
-                    ) {
-                        if (fraction > 0.02f) Text("$count", fontSize = 9.sp, color = labelColor,
-                            style = MaterialTheme.typography.labelSmall)
-                        Spacer(Modifier.height(2.dp))
-                        Box(Modifier.width(26.dp).height(barH.dp)
-                            .clip(RoundedCornerShape(topStart = 5.dp, topEnd = 5.dp))
-                            .background(barGradient))
-                        Spacer(Modifier.height(3.dp))
-                        Text("$cls$labelSuffix", fontSize = 8.sp, color = labelColor,
-                            style = MaterialTheme.typography.labelSmall,
-                            textAlign = TextAlign.Center, maxLines = 1)
-                    }
-                }
-            }
-        }
-        if (showCurve && entries.size >= 3) {
-            Spacer(Modifier.height(6.dp))
-            val curveColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.35f)
-            Text("Distribution de fréquence", style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 2.dp))
-        }
-    }
-}
-
-// ── Animated horizontal bars (G per essence, etc.) ──
-@Composable
-private fun AnimatedHorizontalBars(
-    data: List<Triple<String, Double, Color>>,
-    maxVal: Double,
-    valueFmt: (Double) -> String = { String.format("%.3f", it) }
-) {
-    var started by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit) { started = true }
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        data.take(14).forEachIndexed { i, (name, v, color) ->
-            key(i) {
-                val frac by animateFloatAsState(
-                    if (started) (v / maxVal).toFloat().coerceIn(0f, 1f) else 0f,
-                    tween(800, i * 60, FastOutSlowInEasing), label = "hbar_$i"
-                )
-                Column {
-                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                        Text(name, style = MaterialTheme.typography.bodySmall,
-                            maxLines = 1, overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.weight(1f))
-                        Text(valueFmt(v), style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    }
-                    Spacer(Modifier.height(3.dp))
-                    Box(Modifier.fillMaxWidth().height(10.dp).clip(RoundedCornerShape(5.dp))
-                        .background(color.copy(alpha = 0.12f))) {
-                        Box(Modifier.fillMaxHeight().fillMaxWidth(frac)
-                            .clip(RoundedCornerShape(5.dp))
-                            .background(Brush.horizontalGradient(listOf(color, color.copy(0.55f)))))
-                        // Accent dot at end
-                        if (frac > 0.04f) Box(
-                            Modifier.size(10.dp).align(Alignment.CenterStart)
-                                .offset(x = (frac * 1f - 0.04f).coerceAtLeast(0f).let { 0.dp })
+        item {
+            Card(modifier = Modifier.fillMaxWidth()) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text("Comparaison : ${latest.label} vs ${reference.label}", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                    Spacer(Modifier.height(16.dp))
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        TrendBadge(
+                            modifier = Modifier.weight(1f),
+                            title = "Surf. Terrière",
+                            currentValue = String.format("%.2f m²", latest.totalG),
+                            delta = latest.totalG - reference.totalG,
+                            deltaFormat = { String.format("%+.2f", it) }
+                        )
+                        TrendBadge(
+                            modifier = Modifier.weight(1f),
+                            title = "Nb Tiges",
+                            currentValue = "${latest.totalTiges}",
+                            delta = (latest.totalTiges - reference.totalTiges).toDouble(),
+                            deltaFormat = { "${if (it > 0) "+" else ""}${it.toInt()}" }
+                        )
+                        TrendBadge(
+                            modifier = Modifier.weight(1f),
+                            title = "Diam. Moyen",
+                            currentValue = String.format("%.1f cm", latest.avgDiam),
+                            delta = latest.avgDiam - reference.avgDiam,
+                            deltaFormat = { String.format("%+.1f", it) }
                         )
                     }
                 }
             }
         }
+
+        item {
+            Text("Graphiques d'évolution", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 4.dp))
+            Spacer(Modifier.height(8.dp))
+            EvolutionChartCard("Surface Terrière (m²)", campaigns) { it.totalG.toFloat() }
+            Spacer(Modifier.height(12.dp))
+            EvolutionChartCard("Nombre de Tiges", campaigns) { it.totalTiges.toFloat() }
+            Spacer(Modifier.height(12.dp))
+            EvolutionChartCard("Diamètre Moyen (cm)", campaigns) { it.avgDiam.toFloat() }
+        }
     }
 }
 
-// ── Animated quality bars ──
-private val QUALITY_COLORS = listOf(
-    Color(0xFF2E7D32), Color(0xFF1565C0), Color(0xFFE65100), Color(0xFFC62828)
-)
-private val QUALITY_LABELS = listOf("A", "B", "C", "D")
+@Composable
+private fun TrendBadge(modifier: Modifier = Modifier, title: String, currentValue: String, delta: Double, deltaFormat: (Double) -> String) {
+    val color = when {
+        delta > 0.001 -> Color(0xFF2E7D32)
+        delta < -0.001 -> Color(0xFFC62828)
+        else -> MaterialTheme.colorScheme.onSurfaceVariant
+    }
+    val icon = when {
+        delta > 0.001 -> Icons.Default.TrendingUp
+        delta < -0.001 -> Icons.Default.TrendingDown
+        else -> Icons.Default.TrendingFlat
+    }
+    Surface(
+        modifier = modifier,
+        shape = RoundedCornerShape(8.dp),
+        color = color.copy(alpha = 0.08f)
+    ) {
+        Column(modifier = Modifier.padding(12.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(title, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Spacer(Modifier.height(4.dp))
+            Text(currentValue, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+            Spacer(Modifier.height(6.dp))
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                Icon(icon, null, tint = color, modifier = Modifier.size(16.dp))
+                Text(deltaFormat(delta), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, color = color)
+            }
+        }
+    }
+}
 
 @Composable
-private fun AnimatedQualityBars(dist: Map<Int, Int>, totalTiges: Int) {
-    val assessed = dist.values.sum()
-    var started by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit) { started = true }
-    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        dist.entries.toList().forEachIndexed { i, (gradeIdx, count) ->
-            key(i) {
-                val label = QUALITY_LABELS.getOrElse(gradeIdx) { "?" }
-                val color = QUALITY_COLORS.getOrElse(gradeIdx) { Color.Gray }
-                val pct = if (assessed > 0) count * 100f / assessed else 0f
-                val aFrac by animateFloatAsState(
-                    if (started) pct / 100f else 0f,
-                    tween(800, i * 80, FastOutSlowInEasing), label = "qual_$i"
-                )
-                Column {
-                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                        Box(Modifier.size(26.dp).clip(CircleShape)
-                            .background(color.copy(alpha = 0.15f)),
-                            contentAlignment = Alignment.Center) {
-                            Text(label, style = MaterialTheme.typography.labelSmall,
-                                fontWeight = FontWeight.Bold, color = color)
-                        }
-                        Spacer(Modifier.width(10.dp))
-                        Box(Modifier.weight(1f).height(16.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(color.copy(alpha = 0.10f))) {
-                            Box(Modifier.fillMaxHeight().fillMaxWidth(aFrac)
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(Brush.horizontalGradient(listOf(color, color.copy(0.5f)))))
-                        }
-                        Spacer(Modifier.width(10.dp))
-                        Text("$count (${String.format("%.0f",pct)}%)",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.width(68.dp), textAlign = TextAlign.End)
-                    }
+private fun EvolutionChartCard(title: String, campaigns: List<CampaignData>, valueSelector: (CampaignData) -> Float) {
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(title, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.height(16.dp))
+            val values = campaigns.map(valueSelector)
+            val maxVal = values.maxOrNull() ?: 1f
+            val minVal = values.minOrNull() ?: 0f
+            val range = (maxVal - minVal).coerceAtLeast(0.01f)
+            
+            val primaryColor = MaterialTheme.colorScheme.primary
+            Canvas(modifier = Modifier.fillMaxWidth().height(120.dp).padding(horizontal = 12.dp)) {
+                val w = size.width
+                val h = size.height
+                val stepX = if (values.size > 1) w / (values.size - 1) else w
+                
+                val points = values.mapIndexed { index, value ->
+                    val x = index * stepX
+                    val normalizedY = (value - minVal) / range
+                    val y = h - (normalizedY * h * 0.8f + h * 0.1f)
+                    Offset(x, y)
                 }
+                
+                for (i in 0 until points.size - 1) {
+                    drawLine(
+                        color = primaryColor.copy(alpha = 0.5f),
+                        start = points[i],
+                        end = points[i + 1],
+                        strokeWidth = 3.dp.toPx(),
+                        cap = StrokeCap.Round
+                    )
+                }
+                
+                points.forEach { point ->
+                    drawCircle(
+                        color = primaryColor,
+                        radius = 5.dp.toPx(),
+                        center = point
+                    )
+                    drawCircle(
+                        color = Color.White,
+                        radius = 2.5.dp.toPx(),
+                        center = point
+                    )
+                }
+            }
+            
+            Spacer(Modifier.height(12.dp))
+            Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                campaigns.forEach { c ->
+                    Text(c.label, style = MaterialTheme.typography.labelSmall, fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
+        }
+    }
+}
+
+
+@Composable
+private fun DenseKpiGrid(
+    totalTiges: Int, speciesCount: Int, avgDiam: Double, totalG: Double, avgHeight: Double, climateZone: ClimateZone
+) {
+    val items = listOf(
+        "N (tiges)" to totalTiges.toString(),
+        "G (m²)" to String.format("%.3f", totalG),
+        "Essences" to speciesCount.toString(),
+        "Ø moy (cm)" to String.format("%.1f", avgDiam),
+        "H moy (m)" to if (avgHeight > 0) String.format("%.1f", avgHeight) else "-",
+        "Zone" to climateZone.labelFr
+    )
+    Row(
+        Modifier.fillMaxWidth().border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(4.dp))
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        items.forEach { (label, value) ->
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 10.sp)
+                Text(value, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+            }
+        }
+    }
+}
+
+@Composable
+private fun DenseDataSection(title: String, content: @Composable () -> Unit) {
+    Column(
+        Modifier.fillMaxWidth()
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(4.dp))
+            .padding(8.dp)
+    ) {
+        Text(title, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+        HorizontalDivider(Modifier.padding(vertical = 6.dp), color = MaterialTheme.colorScheme.outlineVariant, thickness = 0.5.dp)
+        content()
+    }
+}
+
+@Composable
+private fun EssenceDataTable(
+    tigesData: List<Map.Entry<String, List<Tige>>>,
+    gData: Map<String, Double>,
+    totalTiges: Int,
+    essenceMap: Map<String, Essence>
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Text("Essence", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(2f))
+            Text("N", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, modifier = Modifier.width(30.dp), textAlign = TextAlign.End)
+            Text("%", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, modifier = Modifier.width(40.dp), textAlign = TextAlign.End)
+            Text("G (m²)", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, modifier = Modifier.width(50.dp), textAlign = TextAlign.End)
+        }
+        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha=0.5f), thickness = 0.5.dp)
+        tigesData.forEachIndexed { i, (code, list) ->
+            val name = essenceMap[code]?.name ?: code
+            val count = list.size
+            val pct = if (totalTiges > 0) count * 100.0 / totalTiges else 0.0
+            val g = gData[code] ?: 0.0
+            val color = essenceDisplayColor(essenceMap[code], i)
+            
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(6.dp).background(color, RoundedCornerShape(3.dp)))
+                Spacer(Modifier.width(6.dp))
+                Text(name, style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(2f), fontSize = 11.sp)
+                Text(count.toString(), style = MaterialTheme.typography.bodySmall, modifier = Modifier.width(30.dp), textAlign = TextAlign.End, fontSize = 11.sp)
+                Text(String.format("%.0f", pct), style = MaterialTheme.typography.bodySmall, modifier = Modifier.width(40.dp), textAlign = TextAlign.End, fontSize = 11.sp)
+                Text(String.format("%.3f", g), style = MaterialTheme.typography.bodySmall, modifier = Modifier.width(50.dp), textAlign = TextAlign.End, fontSize = 11.sp)
+            }
+            Box(Modifier.fillMaxWidth().height(2.dp).background(MaterialTheme.colorScheme.surfaceVariant)) {
+                Box(Modifier.fillMaxWidth((pct/100.0).toFloat()).height(2.dp).background(color))
+            }
+        }
+    }
+}
+
+@Composable
+private fun DenseBarChart(classes: Map<Int, Int>, unit: String) {
+    val maxVal = classes.values.maxOrNull() ?: 1
+    val keys = classes.keys.sorted()
+    
+    Row(
+        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.Bottom
+    ) {
+        keys.forEach { k ->
+            val v = classes[k] ?: 0
+            val frac = (v.toFloat() / maxVal).coerceAtLeast(0.01f)
+            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.width(26.dp)) {
+                Text(v.toString(), fontSize = 9.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Box(Modifier.width(18.dp).height((frac * 60).dp).background(MaterialTheme.colorScheme.primary.copy(alpha=0.8f), RoundedCornerShape(topStart = 2.dp, topEnd = 2.dp)))
+                Text(k.toString(), fontSize = 9.sp, fontWeight = FontWeight.SemiBold)
+            }
+        }
+    }
+}
+
+@Composable
+private fun QualityDataTable(dist: Map<Int, Int>, totalTiges: Int) {
+    val labels = listOf("A", "B", "C", "D")
+    val assessed = dist.values.sum()
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        labels.forEachIndexed { i, label ->
+            val count = dist[i] ?: 0
+            val pct = if (assessed > 0) count * 100.0 / assessed else 0.0
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(label, style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, modifier = Modifier.width(20.dp))
+                Text(count.toString(), style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f), fontSize = 11.sp)
+                Text(String.format("%.0f%%", pct), style = MaterialTheme.typography.bodySmall, fontSize = 11.sp, textAlign = TextAlign.End)
+            }
+            Box(Modifier.fillMaxWidth().height(3.dp).background(MaterialTheme.colorScheme.surfaceVariant)) {
+                Box(Modifier.fillMaxWidth((pct/100).toFloat()).height(3.dp).background(MaterialTheme.colorScheme.primary))
             }
         }
         if (assessed < totalTiges) {
-            Text(stringResource(R.string.dashboard_quality_unassessed, totalTiges - assessed),
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(top = 2.dp))
-        }
-    }
-}
-
-// ── Stand Structure card (Liocourt / structure analysis) ──
-@Composable
-private fun StandStructureCard(diamClasses: Map<Int, Int>, liocourtQ: Double?) {
-    val accentColor = Color(0xFF37474F)
-    Box(Modifier.fillMaxWidth().shadow(6.dp, RoundedCornerShape(20.dp))
-        .clip(RoundedCornerShape(20.dp)).background(MaterialTheme.colorScheme.surface)) {
-        Column {
-            Box(Modifier.fillMaxWidth().height(48.dp)
-                .background(Brush.horizontalGradient(listOf(accentColor, Color(0xFF546E7A))))
-                .padding(horizontal = 16.dp), contentAlignment = Alignment.CenterStart) {
-                Row(verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Icon(Icons.Default.Terrain, null, tint = Color.White, modifier = Modifier.size(18.dp))
-                    Text("Structure du peuplement", style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.SemiBold, color = Color.White)
-                }
-            }
-            Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                if (liocourtQ != null) {
-                    val qColor = when {
-                        liocourtQ in 1.1..1.8 -> Color(0xFF2E7D32)
-                        liocourtQ in 0.8..2.2  -> Color(0xFFE65100)
-                        else                    -> Color(0xFFC62828)
-                    }
-                    val structureLabel = when {
-                        liocourtQ in 1.1..1.8 -> "Régulière (Liocourt)"
-                        liocourtQ < 0.8       -> "Peuplement jeune ou homogène"
-                        liocourtQ > 2.2       -> "Structure irrégulière forte"
-                        else                  -> "Structure hétérogène"
-                    }
-                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically) {
-                        Column {
-                            Text("Coeff. de Liocourt (q)", style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            Text(String.format("%.2f", liocourtQ),
-                                style = MaterialTheme.typography.headlineSmall,
-                                fontWeight = FontWeight.Bold, color = qColor)
-                        }
-                        Box(Modifier.clip(RoundedCornerShape(8.dp))
-                            .background(qColor.copy(alpha = 0.12f))
-                            .padding(horizontal = 10.dp, vertical = 6.dp)) {
-                            Text(structureLabel, style = MaterialTheme.typography.labelSmall,
-                                color = qColor, fontWeight = FontWeight.Medium)
-                        }
-                    }
-                    Divider(color = MaterialTheme.colorScheme.outlineVariant)
-                }
-                // Number of diameter classes
-                val classesCount = diamClasses.size
-                val minDiam = diamClasses.keys.minOrNull() ?: 0
-                val maxDiam = diamClasses.keys.maxOrNull() ?: 0
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    StructureStat("Classes diam.", "$classesCount", Modifier.weight(1f))
-                    StructureStat("Ø min", "${minDiam} cm", Modifier.weight(1f))
-                    StructureStat("Ø max", "${maxDiam} cm", Modifier.weight(1f))
-                }
-            }
+            Text("Non qual.: ${totalTiges - assessed}", fontSize = 9.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
 
 @Composable
-private fun StructureStat(label: String, value: String, modifier: Modifier = Modifier) {
-    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(value, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-        Text(label, style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
+private fun StandStructureTable(diamClasses: Map<Int, Int>, liocourtQ: Double?) {
+    val classesCount = diamClasses.size
+    val minDiam = diamClasses.keys.minOrNull() ?: 0
+    val maxDiam = diamClasses.keys.maxOrNull() ?: 0
+    val lioText = liocourtQ?.let { String.format("%.2f", it) } ?: "-"
+    val lioLabel = when {
+        liocourtQ == null -> "N/A"
+        liocourtQ in 1.1..1.8 -> "Régulière"
+        liocourtQ < 0.8 -> "Homogène"
+        liocourtQ > 2.2 -> "Irrégulière"
+        else -> "Hétérogène"
     }
-}
 
-// ── Fertility classification card ──
-@Composable
-private fun FertilityCard(results: List<FertilityResult>, climateZone: ClimateZone) {
-    var started by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit) { started = true }
-    val accentColor = Color(0xFF1B5E20)
-
-    Box(Modifier.fillMaxWidth().shadow(8.dp, RoundedCornerShape(20.dp))
-        .clip(RoundedCornerShape(20.dp)).background(MaterialTheme.colorScheme.surface)) {
-        Column {
-            // Header
-            Box(Modifier.fillMaxWidth()
-                .background(Brush.horizontalGradient(listOf(accentColor, Color(0xFF2E7D32), Color(0xFF1565C0))))
-                .padding(horizontal = 16.dp, vertical = 12.dp)) {
-                Column {
-                    Row(verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Icon(Icons.Default.WaterDrop, null, tint = Color.White, modifier = Modifier.size(18.dp))
-                        Text("Classes de fertilité", style = MaterialTheme.typography.titleSmall,
-                            fontWeight = FontWeight.SemiBold, color = Color.White)
-                    }
-                    Spacer(Modifier.height(4.dp))
-                    Row(verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Icon(Icons.Default.Terrain, null, tint = Color.White.copy(0.8f), modifier = Modifier.size(14.dp))
-                        Text("Zone : ${climateZone.labelFr}",
-                            style = MaterialTheme.typography.labelSmall, color = Color.White.copy(0.85f))
-                    }
-                }
-            }
-
-            Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-                results.forEachIndexed { i, result ->
-                    key(i) {
-                        FertilityRow(result = result, index = i, started = started)
-                        if (i < results.lastIndex) Divider(color = MaterialTheme.colorScheme.outlineVariant.copy(0.5f))
-                    }
-                }
-                // Disclaimer
-                Text("Basé sur ONF/CNPF — indicatif. Sans âge connu, la précision dépend des mesures dendrométriques disponibles.",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.7f),
-                    modifier = Modifier.padding(top = 4.dp))
-            }
-        }
-    }
-}
-
-@Composable
-private fun FertilityRow(result: FertilityResult, index: Int, started: Boolean) {
-    val classColor = Color(result.fertilityClass.color.toInt())
-    val confAlpha = when (result.confidence) {
-        ConfidenceLevel.HIGH -> 1f
-        ConfidenceLevel.MEDIUM -> 0.85f
-        ConfidenceLevel.LOW -> 0.65f
-        ConfidenceLevel.INSUFFICIENT -> 0.45f
-    }
-    val animScore by animateFloatAsState(
-        if (started) 1f else 0f,
-        tween(600, index * 80, FastOutSlowInEasing), label = "fert_$index"
-    )
     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            // Class badge
-            Box(Modifier.size(40.dp).clip(RoundedCornerShape(10.dp))
-                .background(classColor.copy(alpha = 0.15f)),
-                contentAlignment = Alignment.Center) {
-                Text(result.fertilityClass.roman,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.ExtraBold, color = classColor.copy(confAlpha))
-            }
-            Column(Modifier.weight(1f)) {
-                Text(result.essenceName, style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                Text("${result.fertilityClass.label} · ${result.confidence.label}",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = classColor.copy(alpha = confAlpha * 0.9f))
-            }
-            Column(horizontalAlignment = Alignment.End) {
-                Text("${result.treeCount} t.",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
-                if (result.avgDiamCm > 0) Text("Ø ${String.format("%.0f",result.avgDiamCm)} cm",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Text("q Liocourt", style = MaterialTheme.typography.bodySmall, fontSize = 11.sp)
+            Text(lioText, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold, fontSize = 11.sp)
         }
-        // Progress bar representing class I..IV
-        val classOrdinal = when (result.fertilityClass) {
-            FertilityClass.I -> 1f; FertilityClass.II -> 0.75f
-            FertilityClass.III -> 0.5f; FertilityClass.IV -> 0.25f
-            else -> 0f
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Text("Type", style = MaterialTheme.typography.bodySmall, fontSize = 11.sp)
+            Text(lioLabel, style = MaterialTheme.typography.bodySmall, fontSize = 11.sp)
         }
-        Box(Modifier.fillMaxWidth().height(6.dp).clip(RoundedCornerShape(3.dp))
-            .background(classColor.copy(alpha = 0.10f))) {
-            Box(Modifier.fillMaxHeight().fillMaxWidth(classOrdinal * animScore)
-                .clip(RoundedCornerShape(3.dp))
-                .background(Brush.horizontalGradient(listOf(classColor, classColor.copy(0.5f)))))
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Text("Classes Ø", style = MaterialTheme.typography.bodySmall, fontSize = 11.sp)
+            Text(classesCount.toString(), style = MaterialTheme.typography.bodySmall, fontSize = 11.sp)
         }
-        // Height info
-        val heightStr = when {
-            result.dominantHeightM != null -> "H0 ~${String.format("%.1f",result.dominantHeightM)} m"
-            result.loreyHeightM != null    -> "HL ~${String.format("%.1f",result.loreyHeightM)} m"
-            else -> null
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Text("Min/Max", style = MaterialTheme.typography.bodySmall, fontSize = 11.sp)
+            Text("$minDiam / $maxDiam", style = MaterialTheme.typography.bodySmall, fontSize = 11.sp)
         }
-        if (heightStr != null || result.zoneCompatibility.icon != "✓") {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                if (heightStr != null) Text(heightStr,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
-                if (result.zoneCompatibility.icon != "✓") Text(
-                    "${result.zoneCompatibility.icon} ${result.zoneCompatibility.label}",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = when (result.zoneCompatibility) {
-                        com.forestry.counter.domain.usecase.fertility.ZoneCompatibility.SUBOPTIMAL -> Color(0xFFC62828)
-                        else -> MaterialTheme.colorScheme.onSurfaceVariant
-                    })
+    }
+}
+
+@Composable
+private fun FertilityDataTable(results: List<FertilityResult>) {
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Text("Essence", style = MaterialTheme.typography.labelSmall, modifier = Modifier.weight(1f))
+            Text("Classe", style = MaterialTheme.typography.labelSmall, modifier = Modifier.width(40.dp))
+            Text("Conf.", style = MaterialTheme.typography.labelSmall, modifier = Modifier.width(40.dp), textAlign = TextAlign.End)
+        }
+        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha=0.5f), thickness = 0.5.dp)
+        results.forEach { res ->
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(res.essenceName, style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f), fontSize = 11.sp)
+                Text(res.fertilityClass.roman, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold, modifier = Modifier.width(40.dp), fontSize = 11.sp)
+                Text(res.confidence.label, style = MaterialTheme.typography.bodySmall, modifier = Modifier.width(40.dp), textAlign = TextAlign.End, fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
     }

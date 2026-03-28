@@ -78,11 +78,19 @@ class UserPreferencesManager(private val context: Context) {
         // Onboarding
         val ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
         val IBP_ONBOARDING_SEEN = booleanPreferencesKey("ibp_onboarding_seen")
+        val STATION_TUTORIAL_COMPLETED = booleanPreferencesKey("station_tutorial_completed")
+        val RIPISYLVE_TUTORIAL_COMPLETED = booleanPreferencesKey("ripisylve_tutorial_completed")
     }
 
     // IBP onboarding
     val ibpOnboardingSeen: Flow<Boolean> = dataStore.data.map { prefs -> prefs[IBP_ONBOARDING_SEEN] ?: false }
     suspend fun setIbpOnboardingSeen() { dataStore.edit { it[IBP_ONBOARDING_SEEN] = true } }
+
+    val stationTutorialCompleted: Flow<Boolean> = dataStore.data.map { prefs -> prefs[STATION_TUTORIAL_COMPLETED] ?: false }
+    suspend fun setStationTutorialCompleted(completed: Boolean) { dataStore.edit { it[STATION_TUTORIAL_COMPLETED] = completed } }
+
+    val ripisylveTutorialCompleted: Flow<Boolean> = dataStore.data.map { prefs -> prefs[RIPISYLVE_TUTORIAL_COMPLETED] ?: false }
+    suspend fun setRipisylveTutorialCompleted(completed: Boolean) { dataStore.edit { it[RIPISYLVE_TUTORIAL_COMPLETED] = completed } }
 
     // Theme preferences
     val themeMode: Flow<ThemeMode> = dataStore.data.map { prefs ->
@@ -375,6 +383,9 @@ class UserPreferencesManager(private val context: Context) {
     private fun martelageHeightsKey(scopeKey: String) = stringPreferencesKey("martelage_heights_$scopeKey")
     private fun martelageNhaAvantKey(scopeKey: String) = doublePreferencesKey("martelage_nha_avant_$scopeKey")
     private fun martelageGhaAvantKey(scopeKey: String) = doublePreferencesKey("martelage_gha_avant_$scopeKey")
+    private fun martelageVhaAvantKey(scopeKey: String) = doublePreferencesKey("martelage_vha_avant_$scopeKey")
+    private fun martelageTargetVolumeKey(scopeKey: String) = doublePreferencesKey("martelage_target_volume_$scopeKey")
+    private fun martelageTargetRevenueKey(scopeKey: String) = doublePreferencesKey("martelage_target_revenue_$scopeKey")
 
     fun martelageSurfaceFlow(scopeKey: String): Flow<Double?> = dataStore.data.map { prefs ->
         prefs[martelageSurfaceKey(scopeKey)]
@@ -416,6 +427,39 @@ class UserPreferencesManager(private val context: Context) {
     suspend fun setMartelageGhaAvant(scopeKey: String, value: Double?) {
         dataStore.edit { prefs ->
             val key = martelageGhaAvantKey(scopeKey)
+            if (value == null) prefs.remove(key) else prefs[key] = value
+        }
+    }
+
+    fun martelageVhaAvantFlow(scopeKey: String): Flow<Double?> = dataStore.data.map { prefs ->
+        prefs[martelageVhaAvantKey(scopeKey)]
+    }
+
+    suspend fun setMartelageVhaAvant(scopeKey: String, value: Double?) {
+        dataStore.edit { prefs ->
+            val key = martelageVhaAvantKey(scopeKey)
+            if (value == null) prefs.remove(key) else prefs[key] = value
+        }
+    }
+
+    fun martelageTargetVolumeFlow(scopeKey: String): Flow<Double?> = dataStore.data.map { prefs ->
+        prefs[martelageTargetVolumeKey(scopeKey)]
+    }
+
+    suspend fun setMartelageTargetVolume(scopeKey: String, value: Double?) {
+        dataStore.edit { prefs ->
+            val key = martelageTargetVolumeKey(scopeKey)
+            if (value == null) prefs.remove(key) else prefs[key] = value
+        }
+    }
+
+    fun martelageTargetRevenueFlow(scopeKey: String): Flow<Double?> = dataStore.data.map { prefs ->
+        prefs[martelageTargetRevenueKey(scopeKey)]
+    }
+
+    suspend fun setMartelageTargetRevenue(scopeKey: String, value: Double?) {
+        dataStore.edit { prefs ->
+            val key = martelageTargetRevenueKey(scopeKey)
             if (value == null) prefs.remove(key) else prefs[key] = value
         }
     }

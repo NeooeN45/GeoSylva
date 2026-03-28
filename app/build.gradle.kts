@@ -22,8 +22,8 @@ android {
         applicationId = "com.forestry.counter"
         minSdk = 26
         targetSdk = 35
-        versionCode = 8
-        versionName = "2.0.0"
+        versionCode = 9
+        versionName = "2.1.0"
 
         val buildId = LocalDateTime.now()
             .format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"))
@@ -94,6 +94,8 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.12"
     }
+
+    assetPacks += ":dem_pack"
 
     packaging {
         resources {
@@ -205,6 +207,9 @@ dependencies {
 
     // MapLibre GL (Map mode)
     implementation("org.maplibre.gl:android-sdk:10.3.1")
+
+    // Play Asset Delivery (tuiles MNT embarquées)
+    implementation("com.google.android.play:asset-delivery-ktx:2.2.2")
 
     // OkHttp for HTTP calls (price sync)
     implementation("com.squareup.okhttp3:okhttp:4.12.0")

@@ -5,6 +5,7 @@ import com.forestry.counter.data.local.entity.RipisylveEntity
 import com.forestry.counter.domain.model.ripisylve.InadapteesMode
 import com.forestry.counter.domain.model.ripisylve.LargeurMode
 import com.forestry.counter.domain.model.ripisylve.RipisylveObservation
+import com.forestry.counter.domain.model.station.DiagnosticPhoto
 import com.forestry.counter.domain.repository.RipisylveRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -35,6 +36,8 @@ class RipisylveRepositoryImpl(private val dao: RipisylveDao) : RipisylveReposito
         observationDate = observationDate,
         createdAt = createdAt,
         updatedAt = updatedAt,
+        isDraft = isDraft,
+        photos = parsePhotos(photosJson),
         latitude = latitude,
         longitude = longitude,
         altitudeM = altitudeM,
@@ -63,8 +66,7 @@ class RipisylveRepositoryImpl(private val dao: RipisylveDao) : RipisylveReposito
         invasivesIdentifiees = invasivesCsv.split(",").filter { it.isNotBlank() },
         inadapteesMode = runCatching { InadapteesMode.valueOf(inadapteesMode) }.getOrDefault(InadapteesMode.ABSENCE),
         stabilitePct = stabilitePct,
-        globalNotes = globalNotes,
-        photoUris = photoUrisCsv.split(",").filter { it.isNotBlank() }
+        globalNotes = globalNotes
     )
 
     private fun RipisylveObservation.toEntity() = RipisylveEntity(
@@ -74,6 +76,8 @@ class RipisylveRepositoryImpl(private val dao: RipisylveDao) : RipisylveReposito
         observationDate = observationDate,
         createdAt = createdAt,
         updatedAt = updatedAt,
+        isDraft = isDraft,
+        photosJson = serializePhotos(photos),
         latitude = latitude,
         longitude = longitude,
         altitudeM = altitudeM,
@@ -102,7 +106,32 @@ class RipisylveRepositoryImpl(private val dao: RipisylveDao) : RipisylveReposito
         invasivesCsv = invasivesIdentifiees.joinToString(","),
         inadapteesMode = inadapteesMode.name,
         stabilitePct = stabilitePct,
-        globalNotes = globalNotes,
-        photoUrisCsv = photoUris.joinToString(",")
+        globalNotes = globalNotes
     )
+
+    private fun parsePhotos(json: String): List<DiagnosticPhoto> {
+        if (json.isBlank() || json == "[]") return emptyList()
+        return try {
+            val list = mutableListOf<DiagnosticPhoto>()
+            val cleaned = json.removeSurrounding("[", "]")
+            if (cleaned.isNotBlank()) {
+                cleaned.split(";;").forEach { item ->
+                    val parts = item.split("|")
+                    if (parts.size >= 3) {
+                        list.add(DiagnosticPhoto(uri = parts[0], legend = parts[1], type = parts[2]))
+                    }
+                }
+            }
+            list
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+    private fun serializePhotos(photos: List<DiagnosticPhoto>): String {
+        if (photos.isEmpty()) return "[]"
+        return photos.joinToString(";;", prefix = "[", postfix = "]") { 
+            "${it.uri}|${it.legend}|${it.type}"
+        }
+    }
 }

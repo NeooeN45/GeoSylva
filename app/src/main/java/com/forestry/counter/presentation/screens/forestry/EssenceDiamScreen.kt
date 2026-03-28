@@ -88,6 +88,11 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 import java.util.UUID
 
+import com.forestry.counter.domain.repository.StationRepository
+import com.forestry.counter.domain.usecase.station.StationDiagnosticEngine
+import com.forestry.counter.domain.usecase.autecology.AutecologyDatabase
+import com.forestry.counter.domain.model.station.StationObservation
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class, ExperimentalPermissionsApi::class)
 @Composable
 fun EssenceDiamScreen(
@@ -98,6 +103,7 @@ fun EssenceDiamScreen(
     calculator: ForestryCalculator?,
     userPreferences: UserPreferencesManager,
     essenceRepository: EssenceRepository? = null,
+    stationRepository: StationRepository? = null,
     onNavigateBack: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -111,6 +117,36 @@ fun EssenceDiamScreen(
     val animationsEnabled by userPreferences.animationsEnabled.collectAsState(initial = true)
     val haptic = rememberHapticFeedback()
     val sound = rememberSoundFeedback()
+
+    val stations by produceState(initialValue = emptyList<StationObservation>(), key1 = stationRepository, key2 = parcelleId) {
+        if (stationRepository != null) {
+            stationRepository.getByParcelle(parcelleId).collect {
+                value = it
+            }
+        }
+    }
+
+    // Nom d'essence résolu pour les dialogues
+    val essenceName by produceState<String>(initialValue = essenceCode, key1 = essenceRepository, key2 = essenceCode) {
+        value = try {
+            essenceRepository?.getEssenceByCode(essenceCode)?.first()?.name ?: essenceCode
+        } catch (_: Throwable) { essenceCode }
+    }
+
+    val essenceCompatibility by produceState<String?>(initialValue = null, key1 = essenceName, key2 = stations) {
+        val autecology = AutecologyDatabase.getByCodeOrName(essenceName)
+        val station = stations.maxByOrNull { it.observationDate } // latest station
+        if (autecology != null && station != null) {
+            val res = StationDiagnosticEngine.evaluateCompatibility(autecology, station)
+            value = when (res.compatibility) {
+                com.forestry.counter.domain.usecase.autecology.CompatibilityLevel.OPTIMUM -> "Optimum"
+                com.forestry.counter.domain.usecase.autecology.CompatibilityLevel.TOLERATED -> "Toléré"
+                com.forestry.counter.domain.usecase.autecology.CompatibilityLevel.INCOMPATIBLE -> "Incompatible: ${res.reasons.firstOrNull() ?: ""}"
+            }
+        } else {
+            value = null
+        }
+    }
 
     fun playClickFeedback() {
         if (hapticEnabled) {
@@ -271,13 +307,6 @@ fun EssenceDiamScreen(
         }
     }
 
-    // Nom d'essence résolu pour les dialogues
-    val essenceName by produceState<String>(initialValue = essenceCode, key1 = essenceRepository, key2 = essenceCode) {
-        value = try {
-            essenceRepository?.getEssenceByCode(essenceCode)?.first()?.name ?: essenceCode
-        } catch (_: Throwable) { essenceCode }
-    }
-
     // Tarif actif — déterminer si les hauteurs sont requises
     val activeTarifMethod by produceState<TarifMethod?>(initialValue = null, key1 = calculator) {
         value = try {
@@ -338,7 +367,18 @@ fun EssenceDiamScreen(
         snackbarHost = { SnackbarHost(snackbar) },
         topBar = {
             TopAppBar(
-                title = { Text(essenceName, maxLines = 1) },
+                title = { 
+                    Column {
+                        Text(essenceName, maxLines = 1) 
+                        if (essenceCompatibility != null) {
+                            Text(
+                                text = essenceCompatibility ?: "",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = safeNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
