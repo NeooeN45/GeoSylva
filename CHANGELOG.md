@@ -3,6 +3,73 @@
 All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com).
 
+## [Unreleased] — 2026-03-28
+
+### Added
+
+#### 🌲 Bases de données sylvicoles embarquées (100% offline)
+- **SylvicultureDatabase.kt** — 30 essences forestières françaises avec données complètes :
+  - Équations de cubage (Schumacher-Hall) pour volume à diamètre/hauteur donné
+  - Exigences stationnelles (pH, RU, altitude, drainage)
+  - Production et accroissement annuel
+  - Tolérances (chaleur, sécheresse, hydromorphie)
+  - Essences compatibles associées
+  - Résistances aux agents pathogènes et usages du bois
+  - IDs essences : QUPE, QUPES, QUPU, QUIL, QURU, FASY, CABE, PIAB, LADA, PSME, etc.
+
+- **PathoEntomoDB.kt** — Base de données ravageurs et maladies forestières :
+  - 20 agents pathogènes (champignons, insectes, bactéries, nématodes, acariens)
+  - Organismes réglementés : Chalarose du frêne, Phytophthora alni, Mort subite du chêne, Cynips du châtaignier, Xylella fastidiosa
+  - Niveaux de risque (FAIBLE, MODERE, ELEVE, CRITIQUE)
+  - Symptômes, facteurs favorables, méthodes de lutte préventive/curative
+  - Cibles par essence avec périodes de risque
+
+- **ForestHabitatCatalog.kt** — 18 habitats forestiers Natura 2000 et CORINE :
+  - Types : Hêtraie, Chênaie, Aulnaie-frênaie, Forêt alluviale, Pinède, etc.
+  - Espèces indicatrices par habitat
+  - Conditions stationnelles (pH, altitude, climat)
+  - Valeur patrimoniale et statut de conservation
+  - Fonction `matchByFlora()` pour identification par espèces présentes
+
+#### 🗺️ Données géographiques embarquées
+
+- **GeologyEmbeddedService.kt** — Carte géologique simplifiée France (~90 zones) :
+  - 13 lithologies (Granite, Calcaire, Craie, Schiste, Basalte, etc.)
+  - Roche mère, pH indicatif, texture, type de sol dominant
+  - Interpolation IDW pour estimation à position GPS
+
+- **NormalesClimatiques.kt** — Normales 1991-2020 par département (96 départements) :
+  - Températures (moy, min, max)
+  - Précipitations annuelles et saisonnières
+  - ETP, jours de gel, jours secs, ensoleillement
+  - Lookup par numéro de département ou position GPS
+
+- **EmbeddedSoilService.kt** — Données pédologiques (~110 points France) :
+  - pH de surface, RUM (mm), texture, drainage
+  - Interpolation IDW 100% offline
+
+- **EmbeddedDemService.kt** + **Play Asset Delivery** — MNT local SRTM :
+  - Lecture tuiles HGT 90m format NASA/CGIAR
+  - Calcul pente/exposition par algorithme Horn
+  - Fallback API SRTM si tuiles locales absentes
+  - Module `dem_pack` pour packaging ~160 tuiles France (~96 MB)
+
+#### 🧠 Intégration dans LocalBrainCore
+- Enrichissement de `GpsContext` avec :
+  - `geology` — contexte géologique (roche mère, pH, etc.)
+  - `normalesDept` — normales climatiques du département
+  - `soilPh`, `soilRumMm`, `soilTexture`, `soilDrainage` — données pédologiques
+  - `slopePct`, `aspectDeg`, `aspectLabel` — topographie
+  - `precipMmAn`, `tempMoyC`, `climateType` — données climatiques
+- Migrations Room 24→25→26 pour stockage cache
+
+### Technical
+- DB version 26 (migrations slope/aspect/climat 24→25, sol 25→26)
+- Module Play Asset Delivery `:dem_pack` créé
+- Dépendance `play-asset-delivery-ktx:2.2.2` ajoutée
+
+---
+
 ## [2.0.0] — 2026-03-06
 
 ### Added

@@ -34,10 +34,25 @@ GeoSylva remplace le carnet de terrain et les tableurs Excel par une **applicati
 | Export compliqué vers SIG | Export Shapefile, GeoJSON, CSV-XY en un clic |
 | Pas de réseau en forêt | 100% hors-ligne, tuiles cartographiques téléchargeables |
 | Analyse difficile sur le terrain | Tableau de bord visuel avec graphiques temps réel |
+| Pas d'accès aux données sylvicoles sur place | **Bases de données embarquées** : 30 essences, pathologies, habitats, sol, climat, géologie |
 
 ---
 
 ## ✨ Fonctionnalités
+
+### 🌲 Bases de données forestières embarquées (100% offline)
+
+- **SylvicultureDatabase** — 30 essences forestières françaises avec équations de cubage Schumacher-Hall, exigences stationnelles (pH, RU, altitude), tolérances, essences compatibles, résistances pathogènes. Cubage instantané : `V = exp(a + b·ln(D) + c·ln(H))`
+- **PathoEntomoDB** — 20 ravageurs/maladies avec symptômes, facteurs favorables, méthodes de lutte. Organismes réglementés : Chalarose, Phytophthora alni, Mort subite du chêne, Cynips, Xylella
+- **ForestHabitatCatalog** — 18 habitats Natura 2000/CORINE avec espèces indicatrices, conditions stationnelles, identification par flore `matchByFlora()`
+
+### 🗺️ Données géographiques embarquées (100% offline)
+
+- **GeologyEmbeddedService** — Carte géologique simplifiée France (~90 zones), 13 lithologies, pH indicatif, interpolation IDW
+- **NormalesClimatiques** — Normales 1991-2020 par département (96 dépts) : T, P, ETP, jours gel, ensoleillement
+- **EmbeddedSoilService** — Données pédologiques ~110 points France : pH, RUM, texture, drainage (IDW)
+- **EmbeddedDemService** + **Play Asset Delivery** — MNT local SRTM 90m, tuiles HGT NASA/CGIAR, calcul pente/exposition (algorithme Horn)
+- **LocalBrainCore** — Agrégation GPS contextuel : sol + géologie + normales climatiques + MNT + climat Open-Meteo
 
 ### 🌿 IBP — Indice de Biodiversité Potentielle (CNPF officiel)
 
