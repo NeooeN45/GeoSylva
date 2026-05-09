@@ -10,9 +10,9 @@ import android.net.Uri
 import com.forestry.counter.R
 import com.forestry.counter.domain.calculation.ProductBreakdownRow
 import com.forestry.counter.domain.model.Parcelle
-import com.forestry.counter.presentation.screens.forestry.BiodiversityIndex
-import com.forestry.counter.presentation.screens.forestry.MartelageStats
-import com.forestry.counter.presentation.screens.forestry.SpecialTreeEntry
+import com.forestry.counter.domain.calculation.BiodiversityIndex
+import com.forestry.counter.domain.calculation.MartelageStats
+import com.forestry.counter.domain.calculation.SpecialTreeEntry
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

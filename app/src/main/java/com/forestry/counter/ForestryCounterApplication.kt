@@ -36,7 +36,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+
 import com.forestry.counter.domain.parameters.ParameterKeys
 import com.forestry.counter.data.parameters.ParameterDefaults
 import com.forestry.counter.domain.model.ParameterItem
@@ -151,15 +151,19 @@ class ForestryCounterApplication : Application() {
         // Initialize preferences
         userPreferences = UserPreferencesManager(applicationContext)
 
-        // Apply saved app language at startup
-        try {
-            val lang = runBlocking { userPreferences.appLanguage.first() }
-            if (lang == "system") {
-                AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
-            } else {
-                AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(lang))
+        // Apply saved app language at startup (async to avoid blocking main thread)
+        CoroutineScope(Dispatchers.Main.immediate).launch {
+            try {
+                val lang = userPreferences.appLanguage.first()
+                if (lang == "system") {
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
+                } else {
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(lang))
+                }
+            } catch (e: Throwable) {
+                android.util.Log.w("ForestryApp", "Failed to apply saved language", e)
             }
-        } catch (_: Throwable) {}
+        }
 
         // Initialize use cases
         exportDataUseCase = ExportDataUseCase(

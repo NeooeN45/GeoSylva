@@ -273,8 +273,7 @@ class ForestryCalculator(
         return PI * radiusM.pow(2)
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    private fun fallbackF(diamCm: Double, method: String?): Double {
+    private fun fallbackF(_diamCm: Double, method: String?): Double {
         val base = when (method?.uppercase()) {
             "RAPIDE" -> 0.53
             "LENT" -> 0.48
@@ -287,7 +286,7 @@ class ForestryCalculator(
         essenceCode: String,
         diamCm: Double,
         heightM: Double?,
-        @Suppress("UNUSED_PARAMETER") method: String? = null
+        _method: String? = null
     ): Double? {
         val tarifSel = loadTarifSelection()
         val resolvedMethod = resolveTarifMethod(essenceCode, tarifSel)
@@ -304,7 +303,7 @@ class ForestryCalculator(
             essenceCode = tige.essenceCode,
             diamCm = tige.diamCm,
             heightM = tige.hauteurM,
-            method = null
+            _method = null
         )
     }
 
@@ -471,8 +470,8 @@ class ForestryCalculator(
         essenceCode: String,
         diamCm: Double,
         heightM: Double?,
-        @Suppress("UNUSED_PARAMETER") method: String?,
-        @Suppress("UNUSED_PARAMETER") coefs: List<CoefVolumeRange>,
+        _method: String?,
+        _coefs: List<CoefVolumeRange>,
         heightDefaults: List<HeightDefaultRange>,
         tarifSelection: TarifSelection? = null
     ): Double? {

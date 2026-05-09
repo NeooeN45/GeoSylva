@@ -1565,8 +1565,8 @@ fun SettingsSection(
     }
 }
 
+@Suppress("unused")
 @Composable
-@Suppress("UNUSED_PARAMETER")
 fun SettingsItem(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     title: String,

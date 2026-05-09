@@ -23,6 +23,9 @@ local.properties
 # Build logs
 buildlog.txt
 kotlinlog.txt
+build_errors.txt
+build_log.txt
+release_build.txt
 
 # OS files
 .DS_Store
@@ -35,6 +38,9 @@ desktop.ini
 
 # Scratch / reference code
 martelage_calcul/
+
+# Crash logs
+temp_crash_logs/
 
 # Captures / generated
 *.hprof

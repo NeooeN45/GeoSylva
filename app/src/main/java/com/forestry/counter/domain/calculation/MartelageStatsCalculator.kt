@@ -1,11 +1,5 @@
-package com.forestry.counter.presentation.screens.forestry
+package com.forestry.counter.domain.calculation
 
-import com.forestry.counter.domain.calculation.ClassSynthesis
-import com.forestry.counter.domain.calculation.ForestryCalculator
-import com.forestry.counter.domain.calculation.ForestrySynthesisParams
-import com.forestry.counter.domain.calculation.SanityChecker
-import com.forestry.counter.domain.calculation.SanityWarning
-import com.forestry.counter.domain.calculation.SynthesisTotals
 import com.forestry.counter.domain.calculation.quality.WoodQualityGrade
 import com.forestry.counter.domain.model.Essence
 import com.forestry.counter.domain.model.Tige

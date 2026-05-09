@@ -2,6 +2,9 @@ package com.forestry.counter.presentation.screens.forestry
 
 import android.Manifest
 import android.annotation.SuppressLint
+import com.forestry.counter.domain.calculation.MartelageStats
+import com.forestry.counter.domain.calculation.MartelageViewScope
+import com.forestry.counter.domain.calculation.computeMartelageStats
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -43,8 +46,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.RestartAlt
-import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.filled.Bluetooth
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.AttachMoney

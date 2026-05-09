@@ -1,9 +1,11 @@
 package com.forestry.counter.domain.location
 
-import android.annotation.SuppressLint
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Location
 import android.util.Log
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -81,13 +83,17 @@ object GpsAverager {
      * @param maxAccuracyM Précision max acceptée par lecture (filtre les lectures trop imprécises)
      * @param intervalMs Intervalle entre lectures
      */
-    @SuppressLint("MissingPermission")
     fun averageFlow(
         context: Context,
         targetReadings: Int = 5,
         maxAccuracyM: Float = 25f,
         intervalMs: Long = 800L
     ): Flow<GpsReadingProgress> = callbackFlow {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            close(SecurityException("Location permission not granted"))
+            return@callbackFlow
+        }
         val client = LocationServices.getFusedLocationProviderClient(context)
         val readings = mutableListOf<Location>()
         // Collecter des lectures supplémentaires pour le filtrage d'outliers
@@ -269,13 +275,17 @@ object GpsAverager {
      * et les outliers, puis calcule la moyenne pondérée.
      */
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
-    @SuppressLint("MissingPermission")
     suspend fun collectAndAverage(
         context: Context,
         targetReadings: Int = 5,
         maxAccuracyM: Float = 25f,
         timeoutMs: Long = 15_000L
     ): AveragedGpsResult? {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.w(TAG, "Location permission not granted, cannot collect GPS readings")
+            return null
+        }
         val client = LocationServices.getFusedLocationProviderClient(context)
         val readings = mutableListOf<Location>()
         // Collecter des lectures supplémentaires pour permettre le filtrage

@@ -37,7 +37,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import android.annotation.SuppressLint
 import android.content.Context
 import android.location.LocationManager
 import com.forestry.counter.R
@@ -122,14 +121,19 @@ fun IbpEvaluationScreen(
         }
     }
 
-    @SuppressLint("MissingPermission")
     fun captureGps() {
         try {
+            if (androidx.core.content.ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != android.content.pm.PackageManager.PERMISSION_GRANTED &&
+                androidx.core.content.ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                return
+            }
             val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 ?: lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
             if (loc != null) { gpsLat = loc.latitude; gpsLon = loc.longitude }
-        } catch (_: Exception) {}
+        } catch (e: SecurityException) {
+            android.util.Log.w("IbpEvaluation", "GPS permission denied", e)
+        }
     }
 
     LaunchedEffect(Unit) { captureGps() }
