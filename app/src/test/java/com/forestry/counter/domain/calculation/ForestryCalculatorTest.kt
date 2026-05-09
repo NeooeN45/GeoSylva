@@ -126,7 +126,7 @@ class ForestryCalculatorTest {
             essenceCode = "CH_SESSILE",
             diamCm = d,
             heightM = h,
-            method = null
+            _method = null
         )
 
         // Algan CH_SESSILE : V = a * D^b * H^c
