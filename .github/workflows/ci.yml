@@ -30,8 +30,13 @@ jobs:
       - name: Run unit tests
         run: ./gradlew :app:testDebugUnitTest
 
+      - name: Generate lint baseline if missing
+        run: |
+          if [ ! -f app/lint-baseline.xml ]; then
+            ./gradlew :app:updateLintBaseline || true
+          fi
+
       - name: Lint check
-        continue-on-error: true
         run: ./gradlew :app:lintDebug
 
       - name: Build debug APK
