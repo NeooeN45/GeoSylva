@@ -1,14 +1,10 @@
 package com.forestry.counter.data.work
 
 import android.content.Context
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import androidx.room.Room
-import com.forestry.counter.data.local.ForestryDatabase
-import com.forestry.counter.data.repository.CounterRepositoryImpl
-import com.forestry.counter.data.repository.FormulaRepositoryImpl
-import com.forestry.counter.data.repository.GroupRepositoryImpl
-import com.forestry.counter.domain.calculator.FormulaParser
+import com.forestry.counter.ForestryCounterApplication
 import com.forestry.counter.domain.usecase.export.ExportDataUseCase
 import java.io.File
 import java.text.SimpleDateFormat
@@ -18,20 +14,14 @@ class BackupWorker(appContext: Context, params: WorkerParameters) : CoroutineWor
     override suspend fun doWork(): Result {
         return try {
             val context = applicationContext
+            val app = context as ForestryCounterApplication
 
-            val db = Room.databaseBuilder(
+            val export = ExportDataUseCase(
                 context,
-                ForestryDatabase::class.java,
-                ForestryDatabase.DATABASE_NAME
-            ).build()
-
-            val parser = FormulaParser()
-
-            val groupRepo = GroupRepositoryImpl(db.groupDao(), db.counterDao(), db.formulaDao(), db.groupVariableDao())
-            val counterRepo = CounterRepositoryImpl(db.counterDao(), db.formulaDao(), db.groupVariableDao(), parser)
-            val formulaRepo = FormulaRepositoryImpl(db.formulaDao(), db.counterDao(), db.groupVariableDao(), parser)
-
-            val export = ExportDataUseCase(context, groupRepo, counterRepo, formulaRepo)
+                app.groupRepository,
+                app.counterRepository,
+                app.formulaRepository
+            )
 
             val dir = context.getExternalFilesDir("backups") ?: context.filesDir
             if (!dir.exists()) dir.mkdirs()
@@ -43,6 +33,7 @@ class BackupWorker(appContext: Context, params: WorkerParameters) : CoroutineWor
                 false -> Result.retry()
             }
         } catch (e: Exception) {
+            Log.e("BackupWorker", "Backup failed", e)
             Result.retry()
         }
     }

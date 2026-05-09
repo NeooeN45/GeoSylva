@@ -1,11 +1,10 @@
 package com.forestry.counter.data.work
 
 import android.content.Context
-import androidx.room.Room
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.forestry.counter.data.local.ForestryDatabase
-import com.forestry.counter.data.repository.ParameterRepositoryImpl
+import com.forestry.counter.ForestryCounterApplication
 import com.forestry.counter.domain.model.ParameterItem
 import com.forestry.counter.domain.parameters.ParameterKeys
 import kotlinx.coroutines.Dispatchers
@@ -17,13 +16,8 @@ import okhttp3.Request
 class PriceSyncWorker(appContext: Context, params: WorkerParameters) : CoroutineWorker(appContext, params) {
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
-            val context = applicationContext
-            val db = Room.databaseBuilder(
-                context,
-                ForestryDatabase::class.java,
-                ForestryDatabase.DATABASE_NAME
-            ).build()
-            val paramRepo = ParameterRepositoryImpl(db.parameterDao())
+            val app = applicationContext as ForestryCounterApplication
+            val paramRepo = app.parameterRepository
 
             // Determine URL (prefer input, else parameter, else fail)
             val urlFromInput = inputData.getString(KEY_URL)
@@ -40,6 +34,7 @@ class PriceSyncWorker(appContext: Context, params: WorkerParameters) : Coroutine
             paramRepo.setParameter(ParameterItem(ParameterKeys.PRIX_MARCHE, body))
             Result.success()
         } catch (e: Exception) {
+            Log.e("PriceSyncWorker", "Price sync failed", e)
             Result.retry()
         }
     }
