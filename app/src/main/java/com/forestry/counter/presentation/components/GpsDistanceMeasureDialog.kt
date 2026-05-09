@@ -1,7 +1,6 @@
 package com.forestry.counter.presentation.components
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
@@ -65,8 +64,11 @@ fun GpsDistanceMeasureDialog(
         } else null
     }
 
-    @SuppressLint("MissingPermission")
     fun requestLocation(onLocation: (Location) -> Unit) {
+        if (androidx.core.content.ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            androidx.core.content.ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
         loading = true
         accuracy = null
         val lm = context.getSystemService(android.content.Context.LOCATION_SERVICE) as LocationManager
