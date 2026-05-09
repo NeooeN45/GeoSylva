@@ -46,8 +46,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.RestartAlt
-import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.filled.Bluetooth
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.AttachMoney
