@@ -2,6 +2,9 @@ package com.forestry.counter.presentation.screens.forestry
 
 import android.Manifest
 import android.annotation.SuppressLint
+import com.forestry.counter.domain.calculation.MartelageStats
+import com.forestry.counter.domain.calculation.MartelageViewScope
+import com.forestry.counter.domain.calculation.computeMartelageStats
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility

@@ -26,7 +26,12 @@ import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Warning
 import com.forestry.counter.R
+import com.forestry.counter.domain.calculation.BiodiversityIndex
+import com.forestry.counter.domain.calculation.ClassDistEntry
+import com.forestry.counter.domain.calculation.PerEssenceStats
+import com.forestry.counter.domain.calculation.QualityDistEntry
 import com.forestry.counter.domain.calculation.SanitySeverity
+import com.forestry.counter.domain.calculation.SpecialTreeEntry
 import com.forestry.counter.domain.calculation.SanityWarning
 import com.forestry.counter.domain.calculation.quality.WoodQualityGrade
 import com.forestry.counter.domain.model.Essence
