@@ -1,5 +1,6 @@
 package com.forestry.counter.data.local
 
+import android.util.Log
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
@@ -8,6 +9,16 @@ import androidx.sqlite.db.SupportSQLiteDatabase
  * pour faciliter la maintenance et la testabilité.
  */
 object DatabaseMigrations {
+
+    private const val TAG = "DBMigrations"
+
+    private fun SupportSQLiteDatabase.execSafe(sql: String, migration: String) {
+        try {
+            execSQL(sql)
+        } catch (e: Throwable) {
+            Log.w(TAG, "Migration $migration: failed to execute [$sql]", e)
+        }
+    }
 
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(db: SupportSQLiteDatabase) {
@@ -52,64 +63,64 @@ object DatabaseMigrations {
 
     val MIGRATION_4_5 = object : Migration(4, 5) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN forestOwnerId TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN tolerancePct REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN samplingMode TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN sampleAreaM2 REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN targetSpeciesCsv TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("CREATE INDEX IF NOT EXISTS index_parcelles_forestOwnerId ON parcelles(forestOwnerId)") } catch (_: Throwable) {}
+            db.execSafe("ALTER TABLE parcelles ADD COLUMN forestOwnerId TEXT", "4→5")
+            db.execSafe("ALTER TABLE parcelles ADD COLUMN tolerancePct REAL", "4→5")
+            db.execSafe("ALTER TABLE parcelles ADD COLUMN samplingMode TEXT", "4→5")
+            db.execSafe("ALTER TABLE parcelles ADD COLUMN sampleAreaM2 REAL", "4→5")
+            db.execSafe("ALTER TABLE parcelles ADD COLUMN targetSpeciesCsv TEXT", "4→5")
+            db.execSafe("CREATE INDEX IF NOT EXISTS index_parcelles_forestOwnerId ON parcelles(forestOwnerId)", "4→5")
         }
     }
 
     val MIGRATION_5_6 = object : Migration(5, 6) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE placettes ADD COLUMN name TEXT") } catch (_: Throwable) {}
+            db.execSafe("ALTER TABLE placettes ADD COLUMN name TEXT", "5→6")
         }
     }
 
     val MIGRATION_6_7 = object : Migration(6, 7) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN numero INTEGER") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN categorie TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN qualite INTEGER") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN defauts TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN photoUri TEXT") } catch (_: Throwable) {}
+            db.execSafe("ALTER TABLE tiges ADD COLUMN numero INTEGER", "6→7")
+            db.execSafe("ALTER TABLE tiges ADD COLUMN categorie TEXT", "6→7")
+            db.execSafe("ALTER TABLE tiges ADD COLUMN qualite INTEGER", "6→7")
+            db.execSafe("ALTER TABLE tiges ADD COLUMN defauts TEXT", "6→7")
+            db.execSafe("ALTER TABLE tiges ADD COLUMN photoUri TEXT", "6→7")
         }
     }
 
     val MIGRATION_7_8 = object : Migration(7, 8) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN colorHex TEXT") } catch (_: Throwable) {}
+            db.execSafe("ALTER TABLE essences ADD COLUMN colorHex TEXT", "7→8")
         }
     }
 
     val MIGRATION_8_9 = object : Migration(8, 9) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN shape TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN slopePct REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN aspect TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN access TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN altitudeM REAL") } catch (_: Throwable) {}
+            db.execSafe("ALTER TABLE parcelles ADD COLUMN shape TEXT", "8→9")
+            db.execSafe("ALTER TABLE parcelles ADD COLUMN slopePct REAL", "8→9")
+            db.execSafe("ALTER TABLE parcelles ADD COLUMN aspect TEXT", "8→9")
+            db.execSafe("ALTER TABLE parcelles ADD COLUMN access TEXT", "8→9")
+            db.execSafe("ALTER TABLE parcelles ADD COLUMN altitudeM REAL", "8→9")
         }
     }
 
     val MIGRATION_9_10 = object : Migration(9, 10) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN qualiteDetail TEXT") } catch (_: Throwable) {}
+            db.execSafe("ALTER TABLE tiges ADD COLUMN qualiteDetail TEXT", "9→10")
         }
     }
 
     val MIGRATION_10_11 = object : Migration(10, 11) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN densiteBois REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN qualiteTypique TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN typeCoupePreferee TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN usageBois TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN vitesseCroissance TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN hauteurMaxM REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN diametreMaxCm REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN toleranceOmbre TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN remarques TEXT") } catch (_: Throwable) {}
+            db.execSafe("ALTER TABLE essences ADD COLUMN densiteBois REAL", "10→11")
+            db.execSafe("ALTER TABLE essences ADD COLUMN qualiteTypique TEXT", "10→11")
+            db.execSafe("ALTER TABLE essences ADD COLUMN typeCoupePreferee TEXT", "10→11")
+            db.execSafe("ALTER TABLE essences ADD COLUMN usageBois TEXT", "10→11")
+            db.execSafe("ALTER TABLE essences ADD COLUMN vitesseCroissance TEXT", "10→11")
+            db.execSafe("ALTER TABLE essences ADD COLUMN hauteurMaxM REAL", "10→11")
+            db.execSafe("ALTER TABLE essences ADD COLUMN diametreMaxCm REAL", "10→11")
+            db.execSafe("ALTER TABLE essences ADD COLUMN toleranceOmbre TEXT", "10→11")
+            db.execSafe("ALTER TABLE essences ADD COLUMN remarques TEXT", "10→11")
         }
     }
 
@@ -135,20 +146,20 @@ object DatabaseMigrations {
 
     val MIGRATION_12_13 = object : Migration(12, 13) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE ibp_evaluations ADD COLUMN growthConditions TEXT NOT NULL DEFAULT 'LOWLAND'") } catch (_: Throwable) {}
+            db.execSafe("ALTER TABLE ibp_evaluations ADD COLUMN growthConditions TEXT NOT NULL DEFAULT 'LOWLAND'", "12→13")
         }
     }
 
     val MIGRATION_13_14 = object : Migration(13, 14) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE ibp_evaluations ADD COLUMN ibpMode TEXT NOT NULL DEFAULT 'COMPLET'") } catch (_: Throwable) {}
+            db.execSafe("ALTER TABLE ibp_evaluations ADD COLUMN ibpMode TEXT NOT NULL DEFAULT 'COMPLET'", "13→14")
         }
     }
 
     val MIGRATION_14_15 = object : Migration(14, 15) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE ibp_evaluations ADD COLUMN latitude REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE ibp_evaluations ADD COLUMN longitude REAL") } catch (_: Throwable) {}
+            db.execSafe("ALTER TABLE ibp_evaluations ADD COLUMN latitude REAL", "14→15")
+            db.execSafe("ALTER TABLE ibp_evaluations ADD COLUMN longitude REAL", "14→15")
         }
     }
 
