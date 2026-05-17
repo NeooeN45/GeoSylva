@@ -164,7 +164,7 @@ class EndToEndIntegrationTest {
         
         // When - Traitement des données
         // Simuler le traitement à travers les couches
-        val processedData = testData.mapValues { (_, value ->
+        val processedData = testData.mapValues { (_, value) ->
             when (value) {
                 is String -> value.uppercase()
                 is Double -> String.format("%.2f", value)
