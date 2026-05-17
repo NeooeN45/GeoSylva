@@ -23,6 +23,13 @@ local.properties
 # Build logs
 buildlog.txt
 kotlinlog.txt
+build_errors.txt
+build_log.txt
+release_build.txt
+
+# Crash logs
+temp_crash_logs/
+*.txt
 
 # OS files
 .DS_Store
