@@ -41,6 +41,8 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.EmojiNature
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Science
+import androidx.compose.material.icons.filled.Water
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -132,6 +134,8 @@ fun PlacetteDetailScreen(
     onNavigateToDiametres: (parcelleId: String, placetteId: String, essenceCode: String) -> Unit,
     onNavigateToMartelage: (parcelleId: String, placetteId: String) -> Unit,
     onNavigateToIbp: ((parcelleId: String, placetteId: String) -> Unit)? = null,
+    onNavigateToStationDiag: ((parcelleId: String) -> Unit)? = null,
+    onNavigateToRipisylveDiag: ((parcelleId: String) -> Unit)? = null,
     onNavigateBack: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -240,6 +244,22 @@ fun PlacetteDetailScreen(
                         onNavigateToMartelage(parcelleId, placetteId)
                     }) {
                         Icon(Icons.Default.Straighten, contentDescription = stringResource(R.string.martelage))
+                    }
+                    if (onNavigateToStationDiag != null) {
+                        IconButton(onClick = {
+                            playClickFeedback()
+                            onNavigateToStationDiag(parcelleId)
+                        }) {
+                            Icon(Icons.Default.Science, contentDescription = stringResource(R.string.diag_station_btn), tint = Color(0xFF1565C0))
+                        }
+                    }
+                    if (onNavigateToRipisylveDiag != null) {
+                        IconButton(onClick = {
+                            playClickFeedback()
+                            onNavigateToRipisylveDiag(parcelleId)
+                        }) {
+                            Icon(Icons.Default.Water, contentDescription = stringResource(R.string.diag_ripisylve_btn), tint = Color(0xFF0277BD))
+                        }
                     }
                     if (onNavigateToIbp != null) {
                         IconButton(onClick = {

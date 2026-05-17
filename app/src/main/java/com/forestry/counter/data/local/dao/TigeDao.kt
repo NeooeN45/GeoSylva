@@ -59,4 +59,22 @@ interface TigeDao {
 
     @Query("DELETE FROM tiges WHERE placetteOwnerId = :placetteId AND essenceCode = :essenceCode")
     suspend fun deleteTigesByPlacetteAndEssence(placetteId: String, essenceCode: String)
+
+    @Query("""
+        UPDATE tiges
+        SET classeKraft = :classeKraft,
+            etatSanitaire = :etatSanitaire,
+            vigueur = :vigueur,
+            origine = :origine,
+            isTigeHabitat = :isTigeHabitat
+        WHERE tigeId = :tigeId
+    """)
+    suspend fun updateTigeSylviculture(
+        tigeId: String,
+        classeKraft: Int?,
+        etatSanitaire: String?,
+        vigueur: String?,
+        origine: String?,
+        isTigeHabitat: Boolean
+    ): Int
 }

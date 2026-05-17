@@ -92,4 +92,13 @@ interface TigeRepository {
         produit: String?,
         qualiteDetail: String?
     ): Boolean
+
+    suspend fun updateTigeSylviculture(
+        tigeId: String,
+        classeKraft: Int?,
+        etatSanitaire: String?,
+        vigueur: String?,
+        origine: String?,
+        isTigeHabitat: Boolean
+    ): Boolean
 }

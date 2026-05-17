@@ -47,8 +47,15 @@ import com.forestry.counter.presentation.screens.forestry.IbpHistoryScreen
 import com.forestry.counter.presentation.screens.forestry.IbpReferenceScreen
 import com.forestry.counter.presentation.screens.forestry.IbpDiagnosticScreen
 import com.forestry.counter.presentation.screens.forestry.IbpCompareScreen
+import com.forestry.counter.presentation.screens.forestry.DiagnosticMenuScreen
+import com.forestry.counter.presentation.screens.forestry.DiagnosticScreen
 import com.forestry.counter.presentation.screens.settings.PriceTablesEditorScreen
 import com.forestry.counter.presentation.screens.onboarding.OnboardingScreen
+import com.forestry.counter.presentation.screens.forestry.RipisylveDiagnosticScreen
+import com.forestry.counter.presentation.screens.forestry.StandClassificationScreen
+import com.forestry.counter.presentation.screens.forestry.TarifDocumentationScreen
+import com.forestry.counter.presentation.screens.packs.PackManagerScreen
+import com.forestry.counter.presentation.screens.forestry.SuperCorrelateurScreen
 import kotlinx.coroutines.launch
 
 sealed class Screen(val route: String) {
@@ -115,7 +122,25 @@ sealed class Screen(val route: String) {
     object IbpCompare : Screen("ibp/compare/{parcelleId}") {
         fun createRoute(parcelleId: String) = "ibp/compare/$parcelleId"
     }
+    object DiagnosticMenu : Screen("diagnostic/menu/{parcelleId}") {
+        fun createRoute(parcelleId: String) = "diagnostic/menu/$parcelleId"
+    }
+    object DiagnosticResult : Screen("diagnostic/result/{diagnosticId}") {
+        fun createRoute(diagnosticId: String) = "diagnostic/result/$diagnosticId"
+    }
     object Onboarding : Screen("onboarding")
+    object RipisylveDiagnostic : Screen("ripisylve/diagnostic/{parcelleId}") {
+        fun createRoute(parcelleId: String) = "ripisylve/diagnostic/$parcelleId"
+    }
+    object RipisylveDiagnosticStandalone : Screen("ripisylve/standalone")
+    object StandClassification : Screen("stand/classification/{parcelleId}") {
+        fun createRoute(parcelleId: String) = "stand/classification/$parcelleId"
+    }
+    object TarifDocs : Screen("settings/tarif_docs")
+    object PackManager : Screen("packs")
+    object SuperCorrelateur : Screen("super_correlateur/{parcelleId}") {
+        fun createRoute(parcelleId: String) = "super_correlateur/$parcelleId"
+    }
 }
 
 @Composable
@@ -351,6 +376,12 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                 onNavigateToMap = {
                     val scope = if (forestId != null) "forest_$forestId" else "all"
                     navController.navigate(Screen.Map.createRoute(scope))
+                },
+                onNavigateToDiagnostic = { pid ->
+                    navController.navigate(Screen.DiagnosticMenu.createRoute(pid))
+                },
+                onNavigateToIbp = { pid ->
+                    navController.navigate(Screen.IbpHistory.createRoute(pid))
                 }
             )
         }
@@ -382,6 +413,9 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                 },
                 onNavigateToDashboard = { pid ->
                     navController.navigate(Screen.Dashboard.createRoute(pid))
+                },
+                onNavigateToDiagnostic = { pid ->
+                    navController.navigate(Screen.DiagnosticMenu.createRoute(pid))
                 }
             )
         }
@@ -414,6 +448,12 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                 },
                 onNavigateToIbp = { pid, plid ->
                     navController.navigate(Screen.IbpEvaluation.createRoute(pid, plid))
+                },
+                onNavigateToStationDiag = { pid ->
+                    navController.navigate(Screen.DiagnosticMenu.createRoute(pid))
+                },
+                onNavigateToRipisylveDiag = { pid ->
+                    navController.navigate(Screen.RipisylveDiagnostic.createRoute(pid))
                 },
                 onNavigateBack = { navController.popBackStack() }
             )
@@ -455,6 +495,12 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                 },
                 onNavigateToIbpHistory = { pid, plid ->
                     navController.navigate(Screen.IbpHistory.createRoute(pid, plid))
+                },
+                onNavigateToSuperCorrelateur = { pid ->
+                    navController.navigate(Screen.SuperCorrelateur.createRoute(pid))
+                },
+                onNavigateToStandClassification = { pid ->
+                    navController.navigate(Screen.StandClassification.createRoute(pid))
                 },
                 onNavigateBack = { navController.popBackStack() }
             )
@@ -626,6 +672,44 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
         }
 
         composable(
+            route = Screen.DiagnosticMenu.route,
+            arguments = listOf(navArgument("parcelleId") { type = NavType.StringType }),
+            enterTransition = navEnterTransition,
+            exitTransition = navExitTransition,
+            popEnterTransition = navPopEnterTransition,
+            popExitTransition = navPopExitTransition
+        ) { backStackEntry ->
+            val parcelleId = backStackEntry.arguments?.getString("parcelleId") ?: return@composable
+            DiagnosticMenuScreen(
+                parcelleId           = parcelleId,
+                parcelleRepository   = app.parcelleRepository,
+                tigeRepository       = app.tigeRepository,
+                stationRepository    = app.stationEnvironnementaleRepository,
+                diagnosticRepository = app.diagnosticSylvicoleRepository,
+                onNavigateBack       = { navController.popBackStack() },
+                onNavigateToDiagnosticResult = { diagId ->
+                    navController.navigate(Screen.DiagnosticResult.createRoute(diagId))
+                }
+            )
+        }
+
+        composable(
+            route = Screen.DiagnosticResult.route,
+            arguments = listOf(navArgument("diagnosticId") { type = NavType.StringType }),
+            enterTransition = navEnterTransition,
+            exitTransition = navExitTransition,
+            popEnterTransition = navPopEnterTransition,
+            popExitTransition = navPopExitTransition
+        ) { backStackEntry ->
+            val diagnosticId = backStackEntry.arguments?.getString("diagnosticId") ?: return@composable
+            DiagnosticScreen(
+                diagnosticId         = diagnosticId,
+                diagnosticRepository = app.diagnosticSylvicoleRepository,
+                onNavigateBack       = { navController.popBackStack() }
+            )
+        }
+
+        composable(
             route = Screen.Groups.route,
             enterTransition = navEnterTransition,
             exitTransition = navExitTransition,
@@ -718,6 +802,93 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
             PriceTablesEditorScreen(
                 parameterRepository = app.parameterRepository,
                 onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            route = Screen.RipisylveDiagnostic.route,
+            arguments = listOf(navArgument("parcelleId") { type = NavType.StringType }),
+            enterTransition = navEnterTransition,
+            exitTransition = navExitTransition,
+            popEnterTransition = navPopEnterTransition,
+            popExitTransition = navPopExitTransition
+        ) { backStackEntry ->
+            val parcelleId = backStackEntry.arguments?.getString("parcelleId") ?: return@composable
+            RipisylveDiagnosticScreen(
+                parcelleId = parcelleId,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            route = Screen.RipisylveDiagnosticStandalone.route,
+            enterTransition = navEnterTransition,
+            exitTransition = navExitTransition,
+            popEnterTransition = navPopEnterTransition,
+            popExitTransition = navPopExitTransition
+        ) {
+            RipisylveDiagnosticScreen(
+                parcelleId = "",
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            route = Screen.StandClassification.route,
+            arguments = listOf(navArgument("parcelleId") { type = NavType.StringType }),
+            enterTransition = navEnterTransition,
+            exitTransition = navExitTransition,
+            popEnterTransition = navPopEnterTransition,
+            popExitTransition = navPopExitTransition
+        ) { backStackEntry ->
+            val parcelleId = backStackEntry.arguments?.getString("parcelleId") ?: return@composable
+            StandClassificationScreen(
+                parcelleId = parcelleId,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            route = Screen.TarifDocs.route,
+            enterTransition = navEnterTransition,
+            exitTransition = navExitTransition,
+            popEnterTransition = navPopEnterTransition,
+            popExitTransition = navPopExitTransition
+        ) {
+            TarifDocumentationScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            route = Screen.PackManager.route,
+            enterTransition = navEnterTransition,
+            exitTransition = navExitTransition,
+            popEnterTransition = navPopEnterTransition,
+            popExitTransition = navPopExitTransition
+        ) {
+            PackManagerScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            route = Screen.SuperCorrelateur.route,
+            arguments = listOf(navArgument("parcelleId") { type = NavType.StringType }),
+            enterTransition = navEnterTransition,
+            exitTransition = navExitTransition,
+            popEnterTransition = navPopEnterTransition,
+            popExitTransition = navPopExitTransition
+        ) { backStackEntry ->
+            val parcelleId = backStackEntry.arguments?.getString("parcelleId") ?: return@composable
+            SuperCorrelateurScreen(
+                parcelleId = parcelleId,
+                tigeRepository = app.tigeRepository,
+                stationRepository = app.stationRepository,
+                ripisylveRepository = app.ripisylveRepository,
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToStation = { navController.navigate(Screen.DiagnosticMenu.createRoute(parcelleId)) },
+                onNavigateToRipisylve = { navController.navigate(Screen.RipisylveDiagnostic.createRoute(parcelleId)) }
             )
         }
 

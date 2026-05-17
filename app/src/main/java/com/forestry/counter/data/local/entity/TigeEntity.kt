@@ -31,7 +31,8 @@ import androidx.room.PrimaryKey
         Index(name = "index_tiges_parcelleOwnerId", value = ["parcelleOwnerId"]),
         Index(name = "index_tiges_placetteOwnerId", value = ["placetteOwnerId"]),
         Index(name = "index_tiges_essenceCode", value = ["essenceCode"]),
-        Index(name = "index_tiges_diamCm", value = ["diamCm"])
+        Index(name = "index_tiges_diamCm", value = ["diamCm"]),
+        Index(name = "index_tiges_sessionId", value = ["sessionId"])
     ]
 )
 data class TigeEntity(
@@ -39,6 +40,7 @@ data class TigeEntity(
     val tigeId: String,
     val parcelleOwnerId: String,
     val placetteOwnerId: String?,
+    val sessionId: String?,
     val essenceCode: String,
     val diamCm: Double,
     val hauteurM: Double?,
@@ -55,5 +57,22 @@ data class TigeEntity(
     val qualite: Int?,
     val defauts: String?,
     val photoUri: String?,
-    val qualiteDetail: String?
+    val qualiteDetail: String?,
+
+    // Sylviculture avancée
+    val classeKraft: Int?,
+    val etatSanitaire: String?,
+    val vigueur: String?,
+    val origine: String?,
+    val typeCoupe: String?,
+
+    // Biomasse & carbone (allométrie embarquée)
+    val biomasseFusTonnes: Double?,
+    val carboneFusTonnes: Double?,
+
+    // Dendrométrie complémentaire
+    val coefficientElancement: Double?,
+    val houppierM: Double?,
+    val houppierPct: Double?,
+    val isTigeHabitat: Boolean
 )

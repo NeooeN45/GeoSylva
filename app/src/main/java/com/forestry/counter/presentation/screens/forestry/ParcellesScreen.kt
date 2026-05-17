@@ -25,6 +25,9 @@ import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Straighten
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.EmojiNature
+import androidx.compose.material.icons.filled.Science
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -70,7 +73,9 @@ fun ParcellesScreen(
     onNavigateToPlacettes: (String) -> Unit,
     onNavigateBack: (() -> Unit)? = null,
     onNavigateToMartelage: ((String) -> Unit)? = null,
-    onNavigateToMap: (() -> Unit)? = null
+    onNavigateToMap: (() -> Unit)? = null,
+    onNavigateToDiagnostic: ((String) -> Unit)? = null,
+    onNavigateToIbp: ((String) -> Unit)? = null
 ) {
     val scope = rememberCoroutineScope()
     val snackbar = remember { SnackbarHostState() }
@@ -338,6 +343,8 @@ fun ParcellesScreen(
                                             playClickFeedback()
                                             onNavigateToPlacettes(p.id)
                                         },
+                                        onNavigateToDiagnostic = onNavigateToDiagnostic?.let { nav -> { nav(p.id) } },
+                                        onNavigateToIbp = onNavigateToIbp?.let { nav -> { nav(p.id) } },
                                         onEdit = {
                                             playClickFeedback()
                                             editParcelle = p
@@ -596,8 +603,11 @@ private fun ParcelleCard(
     onClick: () -> Unit,
     onEdit: () -> Unit,
     onDelete: () -> Unit,
+    onNavigateToDiagnostic: (() -> Unit)? = null,
+    onNavigateToIbp: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
+    var menuExpanded by remember { mutableStateOf(false) }
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
     val scale by animateFloatAsState(
@@ -631,6 +641,30 @@ private fun ParcelleCard(
                     }
                     IconButton(onClick = onDelete) {
                         Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete_parcelle))
+                    }
+                    Box {
+                        IconButton(onClick = { menuExpanded = true }) {
+                            Icon(Icons.Default.MoreVert, contentDescription = "Plus d'options")
+                        }
+                        DropdownMenu(
+                            expanded = menuExpanded,
+                            onDismissRequest = { menuExpanded = false }
+                        ) {
+                            if (onNavigateToIbp != null) {
+                                DropdownMenuItem(
+                                    text = { Text("IBP Biodiversité") },
+                                    leadingIcon = { Icon(Icons.Default.EmojiNature, contentDescription = null) },
+                                    onClick = { menuExpanded = false; onNavigateToIbp() }
+                                )
+                            }
+                            if (onNavigateToDiagnostic != null) {
+                                DropdownMenuItem(
+                                    text = { Text("Diagnostic sylvicole") },
+                                    leadingIcon = { Icon(Icons.Default.Science, contentDescription = null) },
+                                    onClick = { menuExpanded = false; onNavigateToDiagnostic() }
+                                )
+                            }
+                        }
                     }
                 }
             }

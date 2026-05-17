@@ -1,4 +1,4 @@
-package com.forestry.counter.presentation.screens.forestry
+package com.forestry.counter.domain.calculation
 
 import com.forestry.counter.domain.calculation.ClassSynthesis
 import com.forestry.counter.domain.calculation.ForestryCalculator

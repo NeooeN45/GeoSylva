@@ -197,4 +197,23 @@ class TigeRepositoryImpl(
         tigeDao.updateTige(current.copy(qualite = qualite, produit = produit, qualiteDetail = qualiteDetail))
         return true
     }
+
+    override suspend fun updateTigeSylviculture(
+        tigeId: String,
+        classeKraft: Int?,
+        etatSanitaire: String?,
+        vigueur: String?,
+        origine: String?,
+        isTigeHabitat: Boolean
+    ): Boolean {
+        val updated = tigeDao.updateTigeSylviculture(
+            tigeId = tigeId,
+            classeKraft = classeKraft,
+            etatSanitaire = etatSanitaire,
+            vigueur = vigueur,
+            origine = origine,
+            isTigeHabitat = isTigeHabitat
+        )
+        return updated > 0
+    }
 }

@@ -83,6 +83,9 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.forestry.counter.domain.location.GpsAverager
 import com.forestry.counter.domain.location.GpsQuality
 import androidx.compose.material.icons.filled.Star
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -124,7 +127,9 @@ fun EssenceDiamScreen(
     // Profil GPS unique : équilibre rapidité + précision (6 lectures, max 20m, timeout 15s)
     fun captureGpsForTige(tigeId: String) {
         val appCtx = appContext
-        kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+        // Utiliser un scope approprié lié au cycle de vie pour éviter les memory leaks
+        val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+        scope.launch {
             val hasPermission = ContextCompat.checkSelfPermission(appCtx, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(appCtx, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
             if (!hasPermission) return@launch

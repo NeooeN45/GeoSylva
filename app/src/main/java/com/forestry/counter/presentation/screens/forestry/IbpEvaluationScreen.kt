@@ -39,7 +39,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.LocationManager
+import android.Manifest
+import androidx.core.content.ContextCompat
 import com.forestry.counter.R
 import com.forestry.counter.domain.model.*
 import com.forestry.counter.domain.repository.IbpRepository
@@ -122,9 +125,14 @@ fun IbpEvaluationScreen(
         }
     }
 
-    @SuppressLint("MissingPermission")
     fun captureGps() {
         try {
+            // Vérifier les permissions avant d'accéder à la localisation
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return // Permissions non accordées, ne pas tenter d'accéder à la localisation
+            }
+            
             val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 ?: lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)

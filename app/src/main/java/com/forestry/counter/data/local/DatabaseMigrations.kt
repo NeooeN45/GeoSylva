@@ -2,6 +2,7 @@ package com.forestry.counter.data.local
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.forestry.counter.data.local.migration.Migration15to26
 
 /**
  * Toutes les migrations Room de l'application, extraites de ForestryCounterApplication
@@ -152,11 +153,311 @@ object DatabaseMigrations {
         }
     }
 
+    val MIGRATION_26_27 = object : Migration(26, 27) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            // ── Table forets ──────────────────────────────────────────────────────
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS forets (
+                    foretId TEXT NOT NULL PRIMARY KEY,
+                    nom TEXT NOT NULL,
+                    proprietaireNom TEXT NOT NULL,
+                    proprietaireEmail TEXT,
+                    gestionnaireNom TEXT,
+                    typeForet TEXT,
+                    objectifGestion TEXT,
+                    psgNumero TEXT,
+                    psgDateExpiration INTEGER,
+                    departement TEXT,
+                    remarques TEXT,
+                    createdAt INTEGER NOT NULL,
+                    updatedAt INTEGER NOT NULL
+                )
+            """.trimIndent())
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_forets_proprietaireNom ON forets(proprietaireNom)")
+
+            // ── Table inventaire_sessions ─────────────────────────────────────────
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS inventaire_sessions (
+                    sessionId TEXT NOT NULL PRIMARY KEY,
+                    parcelleId TEXT NOT NULL,
+                    typeSession TEXT NOT NULL,
+                    dateDebut INTEGER NOT NULL,
+                    dateFin INTEGER,
+                    operateurNom TEXT,
+                    methode TEXT,
+                    intensiteEchantillonnagePct REAL,
+                    objectifSession TEXT,
+                    remarques TEXT,
+                    createdAt INTEGER NOT NULL,
+                    FOREIGN KEY(parcelleId) REFERENCES parcelles(parcelleId) ON DELETE CASCADE
+                )
+            """.trimIndent())
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_sessions_parcelleId ON inventaire_sessions(parcelleId)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_sessions_typeSession ON inventaire_sessions(typeSession)")
+
+            // ── Table stations_environnementales ─────────────────────────────────
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS stations_environnementales (
+                    stationId TEXT NOT NULL PRIMARY KEY,
+                    parcelleId TEXT NOT NULL,
+                    altitudeM REAL, slopePct REAL, aspectDeg REAL, aspectLabel TEXT,
+                    soilPh REAL, soilRumMm REAL, soilRufMm REAL, soilTexture TEXT, soilDrainage TEXT,
+                    soilProfondeurCm INTEGER, soilHydromorphieCm INTEGER, soilTypeWrb TEXT, soilPhTerrain REAL,
+                    rumClasseBdgsf TEXT, profondeurSolClasse TEXT, phSolForestier REAL, cOrganiqueTha REAL,
+                    typeWrbBdgsf TEXT, pierrositeClassePct TEXT,
+                    rocheMere TEXT, lithologie TEXT, phIndicatif REAL,
+                    tempMoyC REAL, tempMinJanvC REAL, tempMaxJuillC REAL, precipMmAn REAL,
+                    precipEteMm REAL, etpMm REAL, joursGel INTEGER, joursSecs INTEGER,
+                    ensoleilH REAL, climateType TEXT,
+                    idhe REAL, spei6Score REAL, indiceProductivite INTEGER, scoreVulnCC2050 INTEGER,
+                    codeSer TEXT, nomSer TEXT,
+                    dvfPrixMedianEurM2 REAL, dvfNbTransactions INTEGER, dvfDateFetch INTEGER,
+                    vulnerabiliteActuelle INTEGER, vulnerabilite2050 INTEGER,
+                    natura2000Code TEXT, natura2000Nom TEXT,
+                    znieffType1 INTEGER NOT NULL DEFAULT 0,
+                    znieffType2 INTEGER NOT NULL DEFAULT 0,
+                    isForetAncienne INTEGER NOT NULL DEFAULT 0,
+                    risqueIncendieZone TEXT, risqueInondation TEXT,
+                    surfaceCadastraleHa REAL, geometrieWkt TEXT, natureCadastraleCode TEXT,
+                    sourceDataQualityJson TEXT, fetchedAt INTEGER,
+                    FOREIGN KEY(parcelleId) REFERENCES parcelles(parcelleId) ON DELETE CASCADE
+                )
+            """.trimIndent())
+            db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS index_station_parcelleId ON stations_environnementales(parcelleId)")
+
+            // ── Table diagnostics_sylvicoles ──────────────────────────────────────
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS diagnostics_sylvicoles (
+                    diagnosticId TEXT NOT NULL PRIMARY KEY,
+                    parcelleId TEXT NOT NULL,
+                    sessionId TEXT,
+                    dateCreation INTEGER NOT NULL,
+                    operateurNom TEXT,
+                    scoreStation INTEGER, scorePeuplement INTEGER, scoreBiodiversite INTEGER,
+                    scoreRisque INTEGER, scoreGlobal INTEGER,
+                    gHa REAL, nHa INTEGER, vHa REAL, hoM REAL, hgM REAL, dgCm REAL,
+                    siteIndex REAL, accroissementIg REAL, accroissementIv REAL,
+                    biomasseTotalTonnes REAL, carboneTotalTonnes REAL,
+                    essencesRecommandeesJson TEXT, essencesDeconseillees TEXT,
+                    essencesVigilanceJson TEXT, risquesDetectesJson TEXT,
+                    recommandationsSylvicolesJson TEXT, typeSylviculturePreco TEXT,
+                    volumeEclairciePreco REAL, delaiInterventionAns INTEGER,
+                    syntheseTextuelle TEXT, algoVersion TEXT NOT NULL,
+                    dataSourcesJson TEXT, remarques TEXT,
+                    updatedAt INTEGER NOT NULL,
+                    FOREIGN KEY(parcelleId) REFERENCES parcelles(parcelleId) ON DELETE CASCADE,
+                    FOREIGN KEY(sessionId) REFERENCES inventaire_sessions(sessionId) ON DELETE SET NULL
+                )
+            """.trimIndent())
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_diag_parcelleId ON diagnostics_sylvicoles(parcelleId)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_diag_sessionId ON diagnostics_sylvicoles(sessionId)")
+
+            // ── Table observations_flore ──────────────────────────────────────────
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS observations_flore (
+                    observationId TEXT NOT NULL PRIMARY KEY,
+                    parcelleId TEXT NOT NULL,
+                    placetteId TEXT,
+                    sessionId TEXT,
+                    codeEspece TEXT NOT NULL,
+                    nomScientifique TEXT NOT NULL,
+                    nomCommun TEXT,
+                    abundanceDominance TEXT NOT NULL,
+                    strate TEXT NOT NULL,
+                    sociabilite INTEGER,
+                    indicateurEllenbergL INTEGER, indicateurEllenbergT INTEGER,
+                    indicateurEllenbergR INTEGER, indicateurEllenbergF INTEGER,
+                    indicateurEllenbergN INTEGER,
+                    isEspeceProtegee INTEGER NOT NULL DEFAULT 0,
+                    isEspeceIndicatrice INTEGER NOT NULL DEFAULT 0,
+                    dateSaisie INTEGER NOT NULL,
+                    createdAt INTEGER NOT NULL,
+                    FOREIGN KEY(parcelleId) REFERENCES parcelles(parcelleId) ON DELETE CASCADE,
+                    FOREIGN KEY(placetteId) REFERENCES placettes(placetteId) ON DELETE SET NULL,
+                    FOREIGN KEY(sessionId) REFERENCES inventaire_sessions(sessionId) ON DELETE SET NULL
+                )
+            """.trimIndent())
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_flore_parcelleId ON observations_flore(parcelleId)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_flore_placetteId ON observations_flore(placetteId)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_flore_sessionId ON observations_flore(sessionId)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_flore_codeEspece ON observations_flore(codeEspece)")
+
+            // ── Table arbres_habitat ──────────────────────────────────────────────
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS arbres_habitat (
+                    arbreHabitatId TEXT NOT NULL PRIMARY KEY,
+                    parcelleId TEXT NOT NULL,
+                    placetteId TEXT,
+                    sessionId TEXT,
+                    tigeId TEXT,
+                    essenceCode TEXT NOT NULL,
+                    diamCm REAL NOT NULL,
+                    hauteurM REAL,
+                    gpsWkt TEXT,
+                    cavitesBranches INTEGER NOT NULL DEFAULT 0,
+                    cavitesTronc INTEGER NOT NULL DEFAULT 0,
+                    logenBois INTEGER NOT NULL DEFAULT 0,
+                    ecorceDecolleeM2 REAL,
+                    epiphytesM2 REAL,
+                    bioticBoss INTEGER NOT NULL DEFAULT 0,
+                    dendrothelme INTEGER NOT NULL DEFAULT 0,
+                    lianes INTEGER NOT NULL DEFAULT 0,
+                    fissures INTEGER NOT NULL DEFAULT 0,
+                    boisMortSurPied INTEGER NOT NULL DEFAULT 0,
+                    boisMortSolM3 REAL,
+                    treemScore INTEGER,
+                    classeDiamHabitat TEXT,
+                    isArbreVivant INTEGER NOT NULL DEFAULT 1,
+                    isArbreRemarquable INTEGER NOT NULL DEFAULT 0,
+                    remarques TEXT,
+                    dateObservation INTEGER NOT NULL,
+                    FOREIGN KEY(parcelleId) REFERENCES parcelles(parcelleId) ON DELETE CASCADE,
+                    FOREIGN KEY(placetteId) REFERENCES placettes(placetteId) ON DELETE SET NULL,
+                    FOREIGN KEY(sessionId) REFERENCES inventaire_sessions(sessionId) ON DELETE SET NULL
+                )
+            """.trimIndent())
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_arbre_hab_parcelleId ON arbres_habitat(parcelleId)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_arbre_hab_placetteId ON arbres_habitat(placetteId)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_arbre_hab_sessionId ON arbres_habitat(sessionId)")
+
+            // ── Table valeurs_foncieres ───────────────────────────────────────────
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS valeurs_foncieres (
+                    valeurId TEXT NOT NULL PRIMARY KEY,
+                    parcelleId TEXT NOT NULL,
+                    dateEstimation INTEGER NOT NULL,
+                    valeurFonciereNuEurHa REAL,
+                    sourceValeurFonciere TEXT,
+                    prixMarcheRegionalEurHa REAL,
+                    volumeCommercialisableM3 REAL,
+                    valeurBoisSurPiedEur REAL,
+                    carboneTotalTonnes REAL,
+                    valeurCarboneLabelBcEur REAL,
+                    valeurTotalePatrimoineEur REAL,
+                    coutEclaircieEstimeEur REAL,
+                    coutRenouvellementEstimeEur REAL,
+                    revenuBrutAnnuelMoyenEur REAL,
+                    eligiblePsg INTEGER NOT NULL DEFAULT 0,
+                    eligibleDefiForet INTEGER NOT NULL DEFAULT 0,
+                    eligibleIfiExoneration INTEGER NOT NULL DEFAULT 0,
+                    eligibleDpa INTEGER NOT NULL DEFAULT 0,
+                    alertesFiscalesJson TEXT,
+                    remarques TEXT,
+                    updatedAt INTEGER NOT NULL,
+                    FOREIGN KEY(parcelleId) REFERENCES parcelles(parcelleId) ON DELETE CASCADE
+                )
+            """.trimIndent())
+            db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS index_valeur_parcelleId ON valeurs_foncieres(parcelleId)")
+
+            // ── Table alertes_sanitaires ──────────────────────────────────────────
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS alertes_sanitaires (
+                    alerteId TEXT NOT NULL PRIMARY KEY,
+                    parcelleId TEXT NOT NULL,
+                    sessionId TEXT,
+                    codePathogene TEXT NOT NULL,
+                    nomPathogene TEXT NOT NULL,
+                    niveauRisque TEXT NOT NULL,
+                    nbTigesAtteintes INTEGER,
+                    pctTigesAtteintes REAL,
+                    essencesCiblesJson TEXT,
+                    symptomesObservesJson TEXT,
+                    recommandationsJson TEXT,
+                    isOrganismeReglemente INTEGER NOT NULL DEFAULT 0,
+                    dateDetection INTEGER NOT NULL,
+                    isAlerteDsf INTEGER NOT NULL DEFAULT 0,
+                    remarques TEXT,
+                    FOREIGN KEY(parcelleId) REFERENCES parcelles(parcelleId) ON DELETE CASCADE,
+                    FOREIGN KEY(sessionId) REFERENCES inventaire_sessions(sessionId) ON DELETE SET NULL
+                )
+            """.trimIndent())
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_alerte_parcelleId ON alertes_sanitaires(parcelleId)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_alerte_sessionId ON alertes_sanitaires(sessionId)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_alerte_niveauRisque ON alertes_sanitaires(niveauRisque)")
+
+            // ── Table fertilite_essence_ser ───────────────────────────────────────
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS fertilite_essence_ser (
+                    fertiliteId TEXT NOT NULL PRIMARY KEY,
+                    essenceCode TEXT NOT NULL,
+                    codeSer TEXT NOT NULL,
+                    nomSer TEXT,
+                    classeStation INTEGER NOT NULL,
+                    hoRef100Ans REAL,
+                    gMaxRef REAL,
+                    accroissementRefM3HaAn REAL,
+                    conditionsRequisesJson TEXT,
+                    itineraireSylvicoleJson TEXT,
+                    sourceGuide TEXT NOT NULL
+                )
+            """.trimIndent())
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_fertilite_essence_ser ON fertilite_essence_ser(essenceCode, codeSer)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_fertilite_classeStation ON fertilite_essence_ser(classeStation)")
+
+            // ── Table projections_climatiques_ser ─────────────────────────────────
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS projections_climatiques_ser (
+                    projId TEXT NOT NULL PRIMARY KEY,
+                    codeSer TEXT NOT NULL,
+                    scenario TEXT NOT NULL,
+                    horizon INTEGER NOT NULL,
+                    deltaTMoyC REAL NOT NULL,
+                    deltaTEteC REAL NOT NULL,
+                    deltaPMmAn REAL NOT NULL,
+                    deltaPEteMm REAL NOT NULL,
+                    nbJoursChaudsSup INTEGER,
+                    speiDelta REAL,
+                    sourceGiec TEXT NOT NULL
+                )
+            """.trimIndent())
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_proj_ser_scenario ON projections_climatiques_ser(codeSer, scenario, horizon)")
+
+            // ── Extensions table parcelles ────────────────────────────────────────
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN foretId TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN codeInseeCommune TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN nomCommune TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN sectionCadastrale TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN numeroCadastral TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN contenanceCadastraleHa REAL") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN geometrieIgnWkt TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN natureCadastraleCode TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN localisationMode TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN codeSer TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN nomSer TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("CREATE INDEX IF NOT EXISTS index_parcelles_foretId ON parcelles(foretId)") } catch (_: Throwable) {}
+            try { db.execSQL("CREATE INDEX IF NOT EXISTS index_parcelles_codeInsee ON parcelles(codeInseeCommune)") } catch (_: Throwable) {}
+
+            // ── Extensions table placettes ────────────────────────────────────────
+            try { db.execSQL("ALTER TABLE placettes ADD COLUMN sessionId TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE placettes ADD COLUMN typeReleve TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE placettes ADD COLUMN referenceGpsWkt TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE placettes ADD COLUMN azimutRef REAL") } catch (_: Throwable) {}
+            try { db.execSQL("CREATE INDEX IF NOT EXISTS index_placettes_sessionId ON placettes(sessionId)") } catch (_: Throwable) {}
+
+            // ── Extensions table tiges ────────────────────────────────────────────
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN sessionId TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN classeKraft INTEGER") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN etatSanitaire TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN vigueur TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN origine TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN typeCoupe TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN biomasseFusTonnes REAL") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN carboneFusTonnes REAL") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN coefficientElancement REAL") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN houppierM REAL") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN houppierPct REAL") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN isTigeHabitat INTEGER NOT NULL DEFAULT 0") } catch (_: Throwable) {}
+            try { db.execSQL("CREATE INDEX IF NOT EXISTS index_tiges_sessionId ON tiges(sessionId)") } catch (_: Throwable) {}
+        }
+    }
+
     /** Liste ordonnée de toutes les migrations pour Room.databaseBuilder */
     val ALL = arrayOf(
         MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5,
         MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9,
         MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13,
-        MIGRATION_13_14, MIGRATION_14_15
+        MIGRATION_13_14, MIGRATION_14_15, Migration15to26, MIGRATION_26_27,
+        com.forestry.counter.data.local.migration.MIGRATION_27_28,
+        com.forestry.counter.data.local.migration.MIGRATION_28_29
     )
 }

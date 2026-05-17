@@ -817,6 +817,8 @@ fun SettingsScreen(
             if (tigeRepository != null && forestryCalculator != null) {
                 SettingsSection(title = stringResource(R.string.settings_section_forestry_exports)) {
                     var exportScope by remember { mutableStateOf("PROJECT") }
+                    
+                    val exportScopes = listOf("PROJECT", "PARCELLE", "PLACETTE")
                     var selectedParcelleId by remember { mutableStateOf<String?>(null) }
                     var selectedPlacetteId by remember { mutableStateOf<String?>(null) }
                     var parcelles by remember { mutableStateOf<List<Parcelle>>(emptyList()) }
@@ -1566,7 +1568,6 @@ fun SettingsSection(
 }
 
 @Composable
-@Suppress("UNUSED_PARAMETER")
 fun SettingsItem(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     title: String,

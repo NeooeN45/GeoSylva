@@ -184,6 +184,7 @@ fun Parcelle.toParcelleEntity(): ParcelleEntity {
     return ParcelleEntity(
         parcelleId = id,
         forestOwnerId = forestId,
+        foretId = null,
         name = name,
         surfaceHa = surfaceHa,
         shape = shape,
@@ -199,6 +200,16 @@ fun Parcelle.toParcelleEntity(): ParcelleEntity {
         targetSpeciesCsv = targetSpeciesCsv,
         srid = srid,
         remarks = remarks,
+        codeInseeCommune = null,
+        nomCommune = null,
+        sectionCadastrale = null,
+        numeroCadastral = null,
+        contenanceCadastraleHa = null,
+        geometrieIgnWkt = null,
+        natureCadastraleCode = null,
+        localisationMode = null,
+        codeSer = null,
+        nomSer = null,
         createdAt = createdAt,
         updatedAt = updatedAt
     )
@@ -228,6 +239,10 @@ fun Placette.toPlacetteEntity(): PlacetteEntity {
         rayonM = rayonM,
         surfaceM2 = surfaceM2,
         centerWkt = centerWkt,
+        sessionId = null,
+        typeReleve = null,
+        referenceGpsWkt = null,
+        azimutRef = null,
         createdAt = createdAt,
         updatedAt = updatedAt
     )
@@ -294,7 +309,19 @@ fun TigeEntity.toTige(): Tige {
         qualite = qualite,
         defauts = defauts?.split(',')?.map { it.trim() }?.filter { it.isNotEmpty() },
         photoUri = photoUri,
-        qualiteDetail = qualiteDetail
+        qualiteDetail = qualiteDetail,
+        classeKraft = classeKraft,
+        etatSanitaire = etatSanitaire,
+        vigueur = vigueur,
+        origine = origine,
+        typeCoupe = typeCoupe,
+        biomasseFusTonnes = biomasseFusTonnes,
+        carboneFusTonnes = carboneFusTonnes,
+        coefficientElancement = coefficientElancement,
+        houppierM = houppierM,
+        houppierPct = houppierPct,
+        isTigeHabitat = isTigeHabitat,
+        sessionId = sessionId
     )
 }
 
@@ -303,6 +330,7 @@ fun Tige.toTigeEntity(): TigeEntity {
         tigeId = id,
         parcelleOwnerId = parcelleId,
         placetteOwnerId = placetteId,
+        sessionId = sessionId,
         essenceCode = essenceCode,
         diamCm = diamCm,
         hauteurM = hauteurM,
@@ -319,7 +347,18 @@ fun Tige.toTigeEntity(): TigeEntity {
         qualite = qualite,
         defauts = defauts?.joinToString(","),
         photoUri = photoUri,
-        qualiteDetail = qualiteDetail
+        qualiteDetail = qualiteDetail,
+        classeKraft = classeKraft,
+        etatSanitaire = etatSanitaire,
+        vigueur = vigueur,
+        origine = origine,
+        typeCoupe = typeCoupe,
+        biomasseFusTonnes = biomasseFusTonnes,
+        carboneFusTonnes = carboneFusTonnes,
+        coefficientElancement = coefficientElancement,
+        houppierM = houppierM,
+        houppierPct = houppierPct,
+        isTigeHabitat = isTigeHabitat
     )
 }
 

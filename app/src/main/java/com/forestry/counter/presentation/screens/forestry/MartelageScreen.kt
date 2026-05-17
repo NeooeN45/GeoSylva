@@ -49,12 +49,15 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Analytics
+import androidx.compose.material.icons.filled.Forest
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
@@ -73,6 +76,16 @@ import com.forestry.counter.domain.calculation.ForestryCalculator
 import com.forestry.counter.domain.calculation.ForestrySynthesisParams
 import com.forestry.counter.domain.calculation.ClassSynthesis
 import com.forestry.counter.domain.calculation.SynthesisTotals
+import com.forestry.counter.domain.calculation.MartelageStats
+import com.forestry.counter.domain.calculation.MartelageViewScope
+import com.forestry.counter.domain.calculation.computeMartelageStats
+import com.forestry.counter.domain.classification.stand.StandClassificationCache
+import com.forestry.counter.domain.calculation.PerEssenceStats
+import com.forestry.counter.domain.calculation.ClassDistEntry
+import com.forestry.counter.domain.calculation.QualityDistEntry
+import com.forestry.counter.domain.calculation.SanityWarning
+import com.forestry.counter.domain.calculation.SpecialTreeEntry
+import com.forestry.counter.domain.calculation.BiodiversityIndex
 import com.forestry.counter.domain.calculation.tarifs.TarifMethod
 import com.forestry.counter.domain.calculation.tarifs.TarifSelection
 import com.forestry.counter.domain.calculation.tarifs.TarifCalculator
@@ -96,6 +109,9 @@ import kotlinx.coroutines.launch
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.forestry.counter.domain.model.ClimateZone
+import com.forestry.counter.domain.usecase.fertility.FertilityClassifier
+import com.forestry.counter.domain.usecase.fertility.FertilityResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
@@ -136,6 +152,8 @@ fun MartelageScreen(
     ibpRepository: IbpRepository? = null,
     onNavigateToIbp: ((parcelleId: String, placetteId: String) -> Unit)? = null,
     onNavigateToIbpHistory: ((parcelleId: String, placetteId: String?) -> Unit)? = null,
+    onNavigateToSuperCorrelateur: ((parcelleId: String) -> Unit)? = null,
+    onNavigateToStandClassification: ((parcelleId: String) -> Unit)? = null,
     onNavigateBack: () -> Unit
 ) {
     val snackbar = remember { SnackbarHostState() }
@@ -283,6 +301,19 @@ fun MartelageScreen(
 
     var selectedEssenceCodes by remember(availableEssences) {
         mutableStateOf(availableEssences.map { normalizeEssenceCode(it.code) }.toSet())
+    }
+
+    val martelageEssenceMap = remember(essences) { essences.associateBy { normalizeEssenceCode(it.code) } }
+    val martelageClimateZone = remember(tigesInScope) {
+        val wkt = tigesInScope.mapNotNull { it.gpsWkt }.firstOrNull()
+        if (wkt != null) ClimateZone.detectFromWkt(wkt, null) else ClimateZone.UNKNOWN
+    }
+    val fertilityResults: List<FertilityResult> = remember(tigesInScope, martelageClimateZone, martelageEssenceMap) {
+        FertilityClassifier.classify(
+            tiges = tigesInScope,
+            climateZone = martelageClimateZone,
+            essenceNames = martelageEssenceMap.mapValues { it.value.name }
+        )
     }
 
     // Paramètres communs au calcul (surface d'échantillonnage, Ho, hauteurs par classe)
@@ -816,113 +847,58 @@ fun MartelageScreen(
                         .animateContentSize(),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                // Contexte du périmètre
+                // ── En-tête compact ──
                 val scopeLabel = when (scope.uppercase(Locale.getDefault())) {
                     "PLACETTE" -> stringResource(R.string.martelage_scope_placette_desc)
                     "PARCELLE" -> stringResource(R.string.martelage_scope_parcelle_desc)
                     "FOREST" -> stringResource(R.string.martelage_scope_forest_desc)
                     else -> stringResource(R.string.martelage_scope_global_desc)
                 }
-                Text(scopeLabel, style = MaterialTheme.typography.bodyMedium)
+                val gpsCount = remember(tigesInScope) { tigesInScope.count { !it.gpsWkt.isNullOrBlank() } }
 
-                Spacer(modifier = Modifier.height(4.dp))
-
-                // Sélecteur de vue locale (Placette / Parcelle / Global)
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    if (placetteId != null) {
-                        FilterChip(
-                            selected = viewScope == MartelageViewScope.PLACETTE,
-                            onClick = { viewScope = MartelageViewScope.PLACETTE },
-                            label = { Text(stringResource(R.string.martelage_view_placette)) }
-                        )
-                    }
-                    if (parcelleId != null) {
-                        FilterChip(
-                            selected = viewScope == MartelageViewScope.PARCELLE,
-                            onClick = { viewScope = MartelageViewScope.PARCELLE },
-                            label = { Text(stringResource(R.string.martelage_view_parcelle)) }
-                        )
-                    }
-                    FilterChip(
-                        selected = viewScope == MartelageViewScope.GLOBAL,
-                        onClick = { viewScope = MartelageViewScope.GLOBAL },
-                        label = { Text(stringResource(R.string.martelage_view_global)) }
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                // En-tête et bouton d'ouverture du mini-menu de paramètres
-                Row(
+                ElevatedCard(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f))
                 ) {
-                    Text(
-                        stringResource(R.string.martelage_summary_title),
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
-                    ) {
-                        AssistChip(
-                            onClick = {
-                                playClickFeedback()
-                                showParamPanel = !showParamPanel
-                            },
-                            label = { Text(stringResource(R.string.martelage_parameters)) },
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Filled.Tune,
-                                    contentDescription = null
-                                )
-                            }
-                        )
-                    
-                    }
-                }
-
-                if (parcellesInScope.isNotEmpty()) {
-                    val includedNames = parcellesInScope.joinToString { it.name }
-                    Text(
-                        stringResource(R.string.martelage_included_parcelles_format, includedNames),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-
-                // Badge méthode de cubage + compteur GPS
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
-                ) {
-                    val gpsCount = remember(tigesInScope) {
-                        tigesInScope.count { !it.gpsWkt.isNullOrBlank() }
-                    }
-                    AssistChip(
-                        onClick = { showTarifMethodDialog = true },
-                        label = {
-                            Text(
-                                stringResource(R.string.martelage_cubage_method_current_format, currentTarifMethod.label),
-                                style = MaterialTheme.typography.labelSmall
+                    Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                        ) {
+                            Text(stringResource(R.string.martelage_summary_title), style = MaterialTheme.typography.titleLarge)
+                            AssistChip(
+                                onClick = { playClickFeedback(); showParamPanel = !showParamPanel },
+                                label = { Text(stringResource(R.string.martelage_parameters)) },
+                                leadingIcon = { Icon(Icons.Filled.Tune, contentDescription = null) }
                             )
-                        },
-                        leadingIcon = {
-                            Icon(Icons.Default.Tune, contentDescription = null, modifier = Modifier.size(16.dp))
                         }
-                    )
-                    if (gpsCount > 0) {
-                        AssistChip(
-                            onClick = { showExportDialog = true },
-                            label = {
-                                Text(stringResource(R.string.gps_count_label, gpsCount), style = MaterialTheme.typography.labelSmall)
-                            },
-                            leadingIcon = {
-                                Icon(Icons.Default.GpsFixed, contentDescription = null, modifier = Modifier.size(16.dp))
-                            }
-                        )
+                        Text(scopeLabel, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        if (parcellesInScope.isNotEmpty()) {
+                            Text(
+                                stringResource(R.string.martelage_included_parcelles_format, parcellesInScope.joinToString { it.name }),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                        Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                            if (placetteId != null) FilterChip(selected = viewScope == MartelageViewScope.PLACETTE, onClick = { viewScope = MartelageViewScope.PLACETTE }, label = { Text(stringResource(R.string.martelage_view_placette)) })
+                            if (parcelleId != null) FilterChip(selected = viewScope == MartelageViewScope.PARCELLE, onClick = { viewScope = MartelageViewScope.PARCELLE }, label = { Text(stringResource(R.string.martelage_view_parcelle)) })
+                            FilterChip(selected = viewScope == MartelageViewScope.GLOBAL, onClick = { viewScope = MartelageViewScope.GLOBAL }, label = { Text(stringResource(R.string.martelage_view_global)) })
+                        }
+                        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                            AssistChip(
+                                onClick = { showTarifMethodDialog = true },
+                                label = { Text(stringResource(R.string.martelage_cubage_method_current_format, currentTarifMethod.label), style = MaterialTheme.typography.labelSmall) },
+                                leadingIcon = { Icon(Icons.Default.Tune, contentDescription = null, modifier = Modifier.size(16.dp)) }
+                            )
+                            if (gpsCount > 0) AssistChip(
+                                onClick = { showExportDialog = true },
+                                label = { Text(stringResource(R.string.gps_count_label, gpsCount), style = MaterialTheme.typography.labelSmall) },
+                                leadingIcon = { Icon(Icons.Default.GpsFixed, contentDescription = null, modifier = Modifier.size(16.dp)) }
+                            )
+                        }
                     }
                 }
 
@@ -1384,25 +1360,28 @@ fun MartelageScreen(
                             Spacer(modifier = Modifier.height(8.dp))
                         }
 
-                        // ── Onglets ──
+                        // ── Onglets (TabRow fixe, pas de scroll) ──
+                        // Ordre : 0=Synthèse | 1=Valorisation | 2=Analyse | 3=Gestion
                         TabRow(selectedTabIndex = selectedTabIndex) {
                             Tab(
                                 selected = selectedTabIndex == 0,
                                 onClick = { selectedTabIndex = 0 },
-                                text = { Text(stringResource(R.string.tab_synthesis), style = MaterialTheme.typography.labelMedium) },
-                                icon = { Icon(Icons.Default.Dashboard, contentDescription = null, modifier = Modifier.size(18.dp)) }
+                                text = { Text(stringResource(R.string.tab_synthesis), style = MaterialTheme.typography.labelSmall, maxLines = 1) }
                             )
                             Tab(
                                 selected = selectedTabIndex == 1,
                                 onClick = { selectedTabIndex = 1 },
-                                text = { Text(stringResource(R.string.tab_valuation), style = MaterialTheme.typography.labelMedium) },
-                                icon = { Icon(Icons.Default.AttachMoney, contentDescription = null, modifier = Modifier.size(18.dp)) }
+                                text = { Text(stringResource(R.string.tab_valuation), style = MaterialTheme.typography.labelSmall, maxLines = 1) }
                             )
                             Tab(
                                 selected = selectedTabIndex == 2,
                                 onClick = { selectedTabIndex = 2 },
-                                text = { Text(stringResource(R.string.tab_analysis), style = MaterialTheme.typography.labelMedium) },
-                                icon = { Icon(Icons.Default.Analytics, contentDescription = null, modifier = Modifier.size(18.dp)) }
+                                text = { Text(stringResource(R.string.tab_analysis), style = MaterialTheme.typography.labelSmall, maxLines = 1) }
+                            )
+                            Tab(
+                                selected = selectedTabIndex == 3,
+                                onClick = { selectedTabIndex = 3 },
+                                text = { Text("Gestion", style = MaterialTheme.typography.labelSmall, maxLines = 1) }
                             )
                         }
 
@@ -1410,65 +1389,63 @@ fun MartelageScreen(
 
                         // ── TAB 0 : Synthèse ──
                         if (selectedTabIndex == 0) {
-                            VolumeCard(
-                                vTotalText = formatVolume(vTotalAnim.toDouble()),
-                                vPerHaText = formatVolume(vPerHaAnim.toDouble()),
-                                revenueTotalText = revenueTotalText,
-                                revenuePerHaText = revenuePerHaText,
-                                volumeAvailable = s.volumeAvailable,
-                                volumeCompletenessPct = s.volumeCompletenessPct
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            BasalAreaCard(
-                                gTotal = s.gTotal,
-                                gPerHa = s.gPerHa,
-                                surfaceHa = s.surfaceHa,
-                                ratioVG = s.ratioVG
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            DensityCard(
-                                nTotal = s.nTotal,
-                                nPerHa = s.nPerHa,
-                                dm = s.dm,
-                                meanH = s.meanH,
-                                dg = s.dg,
-                                hLorey = s.hLorey,
-                                dMin = s.dMin,
-                                dMax = s.dMax,
-                                cvDiam = s.cvDiam,
-                                placeholderDash = placeholderDash
-                            )
+                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                VolumeCard(
+                                    vTotalText = formatVolume(vTotalAnim.toDouble()),
+                                    vPerHaText = formatVolume(vPerHaAnim.toDouble()),
+                                    revenueTotalText = revenueTotalText,
+                                    revenuePerHaText = revenuePerHaText,
+                                    volumeAvailable = s.volumeAvailable,
+                                    volumeCompletenessPct = s.volumeCompletenessPct
+                                )
+                                BasalAreaCard(
+                                    gTotal = s.gTotal,
+                                    gPerHa = s.gPerHa,
+                                    surfaceHa = s.surfaceHa,
+                                    ratioVG = s.ratioVG
+                                )
+                                DensityCard(
+                                    nTotal = s.nTotal,
+                                    nPerHa = s.nPerHa,
+                                    dm = s.dm,
+                                    meanH = s.meanH,
+                                    dg = s.dg,
+                                    hLorey = s.hLorey,
+                                    dMin = s.dMin,
+                                    dMax = s.dMax,
+                                    cvDiam = s.cvDiam,
+                                    placeholderDash = placeholderDash
+                                )
+                                DataCompletenessCard(stats = s)
+                            }
                         }
 
                         // ── TAB 1 : Valorisation ──
                         if (selectedTabIndex == 1) {
                             AnimatedVisibility(visible = missingPriceVisible) {
                                 val pct = ((missingPriceVol / s.vTotal.coerceAtLeast(1e-9)) * 100.0).coerceIn(0.0, 100.0).roundToInt()
-                                Column {
-                                    val warnBg = MaterialTheme.colorScheme.errorContainer
-                                    val warnFg = ColorUtils.getContrastingTextColor(warnBg)
-                                    Card(
-                                        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)),
-                                        colors = CardDefaults.cardColors(containerColor = warnBg, contentColor = warnFg)
-                                    ) {
-                                        Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                                            Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                                Icon(Icons.Default.Warning, contentDescription = null)
-                                                Text(stringResource(R.string.martelage_missing_prices_title), style = MaterialTheme.typography.titleMedium)
-                                            }
-                                            Text(stringResource(R.string.martelage_missing_prices_desc, formatVolume(missingPriceVolAnim.toDouble()), pct), style = MaterialTheme.typography.bodyMedium)
-                                            if (s.unpricedEssenceNames.isNotEmpty()) {
-                                                val names = s.unpricedEssenceNames.take(3).joinToString(", ") + if (s.unpricedEssenceNames.size > 3) ellipsis else ""
-                                                Text(stringResource(R.string.martelage_missing_prices_essences, names), style = MaterialTheme.typography.bodySmall)
-                                            }
-                                            (onNavigateToPriceTablesEditor ?: onNavigateToSettings)?.let { nav ->
-                                                TextButton(onClick = { playClickFeedback(); nav() }) {
-                                                    Text(stringResource(R.string.martelage_configure_prices))
-                                                }
+                                val warnBg = MaterialTheme.colorScheme.errorContainer
+                                val warnFg = ColorUtils.getContrastingTextColor(warnBg)
+                                Card(
+                                    modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)),
+                                    colors = CardDefaults.cardColors(containerColor = warnBg, contentColor = warnFg)
+                                ) {
+                                    Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                                        Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                            Icon(Icons.Default.Warning, contentDescription = null)
+                                            Text(stringResource(R.string.martelage_missing_prices_title), style = MaterialTheme.typography.titleMedium)
+                                        }
+                                        Text(stringResource(R.string.martelage_missing_prices_desc, formatVolume(missingPriceVolAnim.toDouble()), pct), style = MaterialTheme.typography.bodyMedium)
+                                        if (s.unpricedEssenceNames.isNotEmpty()) {
+                                            val names = s.unpricedEssenceNames.take(3).joinToString(", ") + if (s.unpricedEssenceNames.size > 3) ellipsis else ""
+                                            Text(stringResource(R.string.martelage_missing_prices_essences, names), style = MaterialTheme.typography.bodySmall)
+                                        }
+                                        (onNavigateToPriceTablesEditor ?: onNavigateToSettings)?.let { nav ->
+                                            TextButton(onClick = { playClickFeedback(); nav() }) {
+                                                Text(stringResource(R.string.martelage_configure_prices))
                                             }
                                         }
                                     }
-                                    Spacer(modifier = Modifier.height(8.dp))
                                 }
                             }
 
@@ -1506,89 +1483,84 @@ fun MartelageScreen(
                                 breakdownByEssence = result
                             }
 
-                            s.perEssence.filter { it.vTotal > 0.0 }.forEach { ess ->
-                                val rows = breakdownByEssence[ess.essenceCode]
-                                if (!rows.isNullOrEmpty()) {
-                                    ProductBreakdownCard(essenceName = ess.essenceName, quality = ess.dominantQuality?.code, rows = rows)
-                                    Spacer(modifier = Modifier.height(8.dp))
+                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                s.perEssence.filter { it.vTotal > 0.0 }.forEach { ess ->
+                                    val rows = breakdownByEssence[ess.essenceCode]
+                                    if (!rows.isNullOrEmpty()) ProductBreakdownCard(essenceName = ess.essenceName, quality = ess.dominantQuality?.code, rows = rows)
                                 }
-                            }
-
-                            if (s.perEssence.isNotEmpty()) {
-                                val sortedPerEssence = remember(s.perEssence, essenceSortKey) {
-                                    when (essenceSortKey) {
-                                        "n"       -> s.perEssence.sortedByDescending { it.n }
-                                        "volume"  -> s.perEssence.sortedByDescending { it.vTotal }
-                                        "revenue" -> s.perEssence.sortedByDescending { it.revenueTotal ?: 0.0 }
-                                        "g"       -> s.perEssence.sortedByDescending { it.gTotal }
-                                        else      -> s.perEssence.sortedBy { it.essenceName }
+                                if (s.perEssence.isNotEmpty()) {
+                                    val sortedPerEssence = remember(s.perEssence, essenceSortKey) {
+                                        when (essenceSortKey) {
+                                            "n"       -> s.perEssence.sortedByDescending { it.n }
+                                            "volume"  -> s.perEssence.sortedByDescending { it.vTotal }
+                                            "revenue" -> s.perEssence.sortedByDescending { it.revenueTotal ?: 0.0 }
+                                            "g"       -> s.perEssence.sortedByDescending { it.gTotal }
+                                            else      -> s.perEssence.sortedBy { it.essenceName }
+                                        }
                                     }
-                                }
-                                val sortKeys = listOf(
-                                    "name" to stringResource(R.string.sort_name),
-                                    "n" to "N",
-                                    "g" to "G",
-                                    "volume" to "V",
-                                    "revenue" to stringResource(R.string.sort_revenue)
-                                )
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.spacedBy(6.dp),
-                                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
-                                ) {
-                                    Icon(Icons.AutoMirrored.Filled.Sort, contentDescription = null, modifier = Modifier.size(16.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
-                                    sortKeys.forEach { (key, label) ->
-                                        FilterChip(
-                                            selected = essenceSortKey == key,
-                                            onClick = { essenceSortKey = key },
-                                            label = { Text(label, style = MaterialTheme.typography.labelSmall) },
-                                            modifier = Modifier.height(28.dp)
-                                        )
+                                    val sortKeys = listOf(
+                                        "name" to stringResource(R.string.sort_name),
+                                        "n" to "N", "g" to "G", "volume" to "V",
+                                        "revenue" to stringResource(R.string.sort_revenue)
+                                    )
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                                    ) {
+                                        Icon(Icons.AutoMirrored.Filled.Sort, contentDescription = null, modifier = Modifier.size(16.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                                        sortKeys.forEach { (key, label) ->
+                                            FilterChip(selected = essenceSortKey == key, onClick = { essenceSortKey = key }, label = { Text(label, style = MaterialTheme.typography.labelSmall) }, modifier = Modifier.height(28.dp))
+                                        }
                                     }
+                                    PerEssenceTable(perEssence = sortedPerEssence, essences = essences, placeholderDash = placeholderDash, euroSymbol = euroSymbol)
                                 }
-                                Spacer(modifier = Modifier.height(4.dp))
-                                PerEssenceTable(perEssence = sortedPerEssence, essences = essences, placeholderDash = placeholderDash, euroSymbol = euroSymbol)
                             }
                         }
 
                         // ── TAB 2 : Analyse ──
                         if (selectedTabIndex == 2) {
-                            if (s.sanityWarnings.isNotEmpty()) {
-                                SanityWarningsCard(warnings = s.sanityWarnings)
-                                Spacer(modifier = Modifier.height(8.dp))
-                            }
-                            if (s.harvestNhaPct != null || s.harvestGhaPct != null) {
-                                HarvestSimulationCard(
+                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                if (s.sanityWarnings.isNotEmpty()) SanityWarningsCard(warnings = s.sanityWarnings)
+                                if (s.harvestNhaPct != null || s.harvestGhaPct != null) HarvestSimulationCard(
                                     harvestNhaPct = s.harvestNhaPct, harvestGhaPct = s.harvestGhaPct,
                                     residualNha = s.residualNha, residualGha = s.residualGha
                                 )
-                                Spacer(modifier = Modifier.height(8.dp))
+                                if (s.classDistribution.isNotEmpty()) ClassDistributionCard(classDistribution = s.classDistribution)
+                                if (s.qualityDistribution.isNotEmpty()) QualityDistributionCard(qualityDistribution = s.qualityDistribution, assessedCount = s.qualityAssessedCount, totalCount = s.qualityTotalCount)
+                                if (s.specialTrees.isNotEmpty()) SpecialTreesCard(specialTrees = s.specialTrees)
+                                s.biodiversity?.let { bio -> BiodiversityCard(bio = bio) }
+                                CorroborationReportCard(stats = s)
+                                SylviculturalKPIsCard(stats = s)
                             }
-                            if (s.classDistribution.isNotEmpty()) {
-                                ClassDistributionCard(classDistribution = s.classDistribution)
-                                Spacer(modifier = Modifier.height(8.dp))
+                        }
+
+                        // ── TAB 3 : Gestion ──
+                        if (selectedTabIndex == 3) {
+                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                TypelogiqueRapideCard(prefilledGPerHa = s.gPerHa)
+                                IbpMartelageCard(
+                                    ibpEval = latestIbp,
+                                    parcelleId = parcelleId,
+                                    placetteId = placetteId,
+                                    onNavigateToIbp = onNavigateToIbp,
+                                    onNavigateToHistory = onNavigateToIbpHistory,
+                                    evaluationCount = ibpEvaluations.size
+                                )
+                                if (fertilityResults.isNotEmpty()) StandFertilityCard(fertilityResults = fertilityResults)
+                                if (parcelleId != null && onNavigateToStandClassification != null) StandClassificationBannerCard(
+                                    stats = s,
+                                    onNavigateToClassification = {
+                                        playClickFeedback()
+                                        StandClassificationCache.lastStats = s
+                                        StandClassificationCache.lastParcelleId = parcelleId
+                                        onNavigateToStandClassification(parcelleId)
+                                    }
+                                )
+                                if (parcelleId != null && onNavigateToSuperCorrelateur != null) SuperCorrelateurBannerCard(
+                                    onClick = { playClickFeedback(); onNavigateToSuperCorrelateur(parcelleId) }
+                                )
                             }
-                            if (s.qualityDistribution.isNotEmpty()) {
-                                QualityDistributionCard(qualityDistribution = s.qualityDistribution, assessedCount = s.qualityAssessedCount, totalCount = s.qualityTotalCount)
-                                Spacer(modifier = Modifier.height(8.dp))
-                            }
-                            if (s.specialTrees.isNotEmpty()) {
-                                SpecialTreesCard(specialTrees = s.specialTrees)
-                                Spacer(modifier = Modifier.height(8.dp))
-                            }
-                            s.biodiversity?.let { bio ->
-                                BiodiversityCard(bio = bio)
-                                Spacer(modifier = Modifier.height(8.dp))
-                            }
-                            // IBP badge card
-                            IbpMartelageCard(
-                                ibpEval = latestIbp,
-                                parcelleId = parcelleId,
-                                placetteId = placetteId,
-                                onNavigateToIbp = onNavigateToIbp,
-                                onNavigateToHistory = onNavigateToIbpHistory,
-                                evaluationCount = ibpEvaluations.size
-                            )
                         }
                     }
 
@@ -1898,6 +1870,7 @@ fun MartelageScreen(
                                 )
                             }
                         }
+
                     }
                 }
             }
@@ -1964,6 +1937,195 @@ private fun ToCompleteBadge(modifier: Modifier = Modifier) {
     }
 }
 
+
+@Composable
+private fun SuperCorrelateurBannerCard(onClick: () -> Unit) {
+    Card(
+        modifier = androidx.compose.ui.Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = androidx.compose.ui.graphics.Color(0xFF1B5E20).copy(alpha = 0.10f)
+        ),
+        shape = RoundedCornerShape(12.dp),
+        onClick = onClick
+    ) {
+        Row(
+            modifier = androidx.compose.ui.Modifier.padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(14.dp),
+            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+        ) {
+            Surface(
+                shape = CircleShape,
+                color = androidx.compose.ui.graphics.Color(0xFF2E7D32).copy(alpha = 0.15f),
+                modifier = androidx.compose.ui.Modifier.size(48.dp)
+            ) {
+                Box(contentAlignment = androidx.compose.ui.Alignment.Center,
+                    modifier = androidx.compose.ui.Modifier.fillMaxSize()) {
+                    Icon(
+                        Icons.Default.Analytics,
+                        contentDescription = null,
+                        tint = androidx.compose.ui.graphics.Color(0xFF2E7D32),
+                        modifier = androidx.compose.ui.Modifier.size(28.dp)
+                    )
+                }
+            }
+            Column(modifier = androidx.compose.ui.Modifier.weight(1f)) {
+                Text(
+                    "Super Corrélateur",
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                    color = androidx.compose.ui.graphics.Color(0xFF1B5E20)
+                )
+                Text(
+                    "Corrélation multi-sources · Résilience 2050 · Plan d'action sylvicole",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            Icon(
+                Icons.Default.Analytics,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                modifier = androidx.compose.ui.Modifier.size(18.dp)
+            )
+        }
+    }
+}
+
+// ── Formulaire terrain typologique rapide ─────────────────────────────────────
+// Permet à un professionnel de saisir G + triangle (PB/BM/GB/TGB) directement
+// sans tiges individuelles, et obtient instantanément le code CNPF.
+
+@Composable
+private fun TypeSliderRow(
+    label: String,
+    value: Float,
+    onChg: (Float) -> Unit,
+    color: Color
+) {
+    Row(
+        Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Surface(
+            color = color.copy(alpha = 0.15f),
+            shape = RoundedCornerShape(4.dp),
+            modifier = Modifier.width(52.dp)
+        ) {
+            Text(
+                label,
+                Modifier.padding(4.dp),
+                style = MaterialTheme.typography.labelSmall,
+                color = color,
+                fontWeight = FontWeight.Bold,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+            )
+        }
+        Slider(
+            value = value,
+            onValueChange = onChg,
+            valueRange = 0f..100f,
+            steps = 99,
+            modifier = Modifier.weight(1f),
+            colors = SliderDefaults.colors(thumbColor = color, activeTrackColor = color)
+        )
+        Text(
+            "${value.toInt()}%",
+            style = MaterialTheme.typography.labelMedium,
+            modifier = Modifier.width(36.dp),
+            textAlign = androidx.compose.ui.text.style.TextAlign.End,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+private fun TypelogiqueRapideCard(prefilledGPerHa: Double? = null) {
+    var gPerHa by remember { mutableStateOf(prefilledGPerHa?.toFloat() ?: 20f) }
+    var pbPct  by remember { mutableFloatStateOf(40f) }
+    var bmPct  by remember { mutableFloatStateOf(40f) }
+    var gbPct  by remember { mutableFloatStateOf(15f) }
+    var tgbPct by remember { mutableFloatStateOf(5f) }
+
+    val total = pbPct + bmPct + gbPct + tgbPct
+    val ratio = if (total > 0) com.forestry.counter.domain.classification.stand.DiameterCategoryRatio(
+        pbPct  = (pbPct  / total * 100).toDouble(),
+        bmPct  = (bmPct  / total * 100).toDouble(),
+        gbPct  = (gbPct  / total * 100).toDouble(),
+        tgbPct = (tgbPct / total * 100).toDouble()
+    ) else null
+
+    val db = com.forestry.counter.domain.classification.stand.StandTypologyDatabase
+    val capital   = db.computeClassCapital(gPerHa.toDouble())
+    val structure = ratio?.cnpfStructureCode() ?: 0
+    val cnpfCode  = if (ratio != null) "F$capital$structure" else "—"
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(14.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                Icon(Icons.Default.Tune, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
+                Column(Modifier.weight(1f)) {
+                    Text("Saisie terrain rapide", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    Text("G + triangle sans tiges individuelles", style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                // Badge code CNPF en temps réel
+                Surface(color = MaterialTheme.colorScheme.secondary, shape = RoundedCornerShape(8.dp)) {
+                    Text(cnpfCode,
+                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Black,
+                        color = MaterialTheme.colorScheme.onSecondary)
+                }
+            }
+
+            HorizontalDivider()
+
+            // Surface terrière
+            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text("Surface terrière G", style = MaterialTheme.typography.labelMedium)
+                    Text("%.1f m²/ha  →  classe $capital".format(gPerHa),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+                }
+                Slider(value = gPerHa, onValueChange = { gPerHa = it }, valueRange = 0f..60f, steps = 119,
+                    modifier = Modifier.fillMaxWidth())
+            }
+
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+
+            // Triangle des structures
+            Text("Triangle des structures (% sur tiges précomptables ≥ 17.5 cm)",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant)
+
+            TypeSliderRow("PB",  pbPct,  { pbPct  = it }, Color(0xFF90CAF9))
+            TypeSliderRow("BM",  bmPct,  { bmPct  = it }, Color(0xFF1565C0))
+            TypeSliderRow("GB",  gbPct,  { gbPct  = it }, Color(0xFF0D47A1))
+            TypeSliderRow("TGB", tgbPct, { tgbPct = it }, Color(0xFF002171))
+
+            // Résumé structure et normalisation avertissement
+            if (total > 0 && ratio != null) {
+                Surface(color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f),
+                    shape = RoundedCornerShape(8.dp)) {
+                    Column(Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                        Text("Code CNPF : $cnpfCode  ·  Structure $structure  ·  GB+TGB = ${ratio.gbTgbPct.toInt()}%",
+                            style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer)
+                        Text("Les % sont normalisés automatiquement à 100%",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f))
+                    }
+                }
+            }
+        }
+    }
+}
 
 // Data classes et enums déplacés dans MartelageModels.kt
 

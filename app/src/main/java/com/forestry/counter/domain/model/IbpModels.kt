@@ -55,6 +55,11 @@ enum class IbpMode {
 /** Valid answer values: -1 (unanswered), 0, 2, 5 (IBP v3 scoring).
  *  schemaVersion=1 = legacy 0/1/2 system; schemaVersion=2 = current 0/2/5 system.
  *  counts: raw field measurements (BMg/ha, TGB/ha, dmh trees/ha, open %, …)
+ *  tremTypesPresents: liste des codes TreM détectés (ex: "TF1", "TF2", "TE1"…)
+ *  tremNbArbresHabitat: nb de tiges marquées isTigeHabitat dans la placette
+ *  continuiteForestiereAns: ancienneté estimée de la forêt (années, 0=inconnue)
+ *  continuiteSpatialePct: % de connectivité spatiale estimée (0–100)
+ *  isForetAncienneConfirmee: forêt ancienne (>200 ans) confirmée (isForetAncienne DB)
  */
 @Serializable
 data class IbpAnswers(
@@ -70,7 +75,14 @@ data class IbpAnswers(
     val hc: Int = -1,
     val schemaVersion: Int = 2,
     val details: Map<String, List<String>> = emptyMap(),
-    val counts: Map<String, Float> = emptyMap()
+    val counts: Map<String, Float> = emptyMap(),
+
+    // Enrichissement TreM (v3 — DB v27)
+    val tremTypesPresents: List<String> = emptyList(),
+    val tremNbArbresHabitat: Int = 0,
+    val continuiteForestiereAns: Int = 0,
+    val continuiteSpatialePct: Int = 0,
+    val isForetAncienneConfirmee: Boolean = false
 ) {
     fun getDetails(id: IbpCriterionId): List<String> = details[id.code] ?: emptyList()
     fun setDetails(id: IbpCriterionId, items: List<String>): IbpAnswers =

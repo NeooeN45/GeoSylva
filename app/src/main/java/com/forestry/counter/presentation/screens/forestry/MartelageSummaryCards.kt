@@ -23,15 +23,28 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.Forest
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Warning
+import com.forestry.counter.domain.usecase.fertility.ConfidenceLevel
+import com.forestry.counter.domain.usecase.fertility.FertilityClass
+import com.forestry.counter.domain.usecase.fertility.FertilityResult
+import com.forestry.counter.domain.usecase.fertility.ZoneCompatibility
 import com.forestry.counter.R
 import com.forestry.counter.domain.calculation.SanitySeverity
 import com.forestry.counter.domain.calculation.SanityWarning
 import com.forestry.counter.domain.calculation.quality.WoodQualityGrade
+import com.forestry.counter.domain.calculation.ClassDistEntry
+import com.forestry.counter.domain.calculation.QualityDistEntry
+import com.forestry.counter.domain.calculation.PerEssenceStats
+import com.forestry.counter.domain.calculation.MartelageStats
+import com.forestry.counter.domain.calculation.SpecialTreeEntry
+import com.forestry.counter.domain.calculation.BiodiversityIndex
 import com.forestry.counter.domain.model.Essence
 import com.forestry.counter.presentation.utils.ColorUtils
 import java.util.Locale
+import kotlin.math.PI
+import kotlin.math.abs
 
 /**
  * Carte Volume & Prix (inclut un indicateur de complétude si partiel).
@@ -1204,6 +1217,178 @@ internal fun BiodiversityCard(
     } // AnimatedVisibility
 }
 
+/**
+ * Carte des classes de fertilité par essence (guides sylviculture ONF/CNPF).
+ */
+@Composable
+internal fun StandFertilityCard(
+    fertilityResults: List<FertilityResult>
+) {
+    if (fertilityResults.isEmpty()) return
+    var visible by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { visible = true }
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn(tween(500, delayMillis = 350)) +
+            slideInVertically(tween(500, delayMillis = 350, easing = FastOutSlowInEasing)) { it / 5 }
+    ) {
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(18.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        ) {
+            Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Icon(
+                        Icons.Default.Forest,
+                        contentDescription = null,
+                        tint = Color(0xFF2E7D32),
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(
+                        "Classes de fertilité du peuplement",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Text(
+                    "Estimation automatique — guides ONF/CNPF — hauteur dominante et dendrométrie",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                HorizontalDivider()
+                fertilityResults.forEachIndexed { idx, result ->
+                    val classColor = Color(result.fertilityClass.color)
+                    val confColor = when (result.confidence) {
+                        ConfidenceLevel.HIGH         -> Color(0xFF2E7D32)
+                        ConfidenceLevel.MEDIUM       -> Color(0xFFF9A825)
+                        ConfidenceLevel.LOW          -> Color(0xFFEF6C00)
+                        ConfidenceLevel.INSUFFICIENT -> Color(0xFF757575)
+                    }
+                    val zoneColor = when (result.zoneCompatibility) {
+                        ZoneCompatibility.OPTIMAL    -> Color(0xFF2E7D32)
+                        ZoneCompatibility.ACCEPTABLE -> Color(0xFFF9A825)
+                        ZoneCompatibility.SUBOPTIMAL -> Color(0xFFC62828)
+                    }
+                    val targetFrac = when (result.fertilityClass) {
+                        FertilityClass.I       -> 1.0f
+                        FertilityClass.II      -> 0.75f
+                        FertilityClass.III     -> 0.50f
+                        FertilityClass.IV      -> 0.25f
+                        FertilityClass.UNKNOWN -> 0.05f
+                    }
+                    val animFraction by animateFloatAsState(
+                        targetValue = targetFrac,
+                        animationSpec = tween(700, delayMillis = idx * 80, easing = FastOutSlowInEasing),
+                        label = "fert_$idx"
+                    )
+                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Surface(
+                                    color = classColor,
+                                    shape = RoundedCornerShape(8.dp)
+                                ) {
+                                    Text(
+                                        "Cl. ${result.fertilityClass.roman}",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = Color.White,
+                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                    )
+                                }
+                                Column {
+                                    Text(
+                                        result.essenceName,
+                                        style = MaterialTheme.typography.labelLarge,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                    Text(
+                                        result.fertilityClass.label,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = classColor,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                }
+                            }
+                            Column(
+                                horizontalAlignment = Alignment.End,
+                                verticalArrangement = Arrangement.spacedBy(2.dp)
+                            ) {
+                                result.dominantHeightM?.let {
+                                    Text(
+                                        "H₀ ≈ ${String.format(Locale.getDefault(), "%.1f", it)} m",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                }
+                                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                                    Surface(
+                                        color = confColor.copy(alpha = 0.12f),
+                                        shape = RoundedCornerShape(6.dp)
+                                    ) {
+                                        Text(
+                                            result.confidence.label,
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = confColor,
+                                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                        )
+                                    }
+                                    Surface(
+                                        color = zoneColor.copy(alpha = 0.12f),
+                                        shape = RoundedCornerShape(6.dp)
+                                    ) {
+                                        Text(
+                                            result.zoneCompatibility.icon + " Zone",
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = zoneColor,
+                                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        Box(
+                            Modifier.fillMaxWidth().height(7.dp).clip(RoundedCornerShape(4.dp))
+                                .background(MaterialTheme.colorScheme.outline.copy(alpha = 0.12f))
+                        ) {
+                            Box(
+                                Modifier.fillMaxHeight().fillMaxWidth(animFraction)
+                                    .clip(RoundedCornerShape(4.dp))
+                                    .background(
+                                        Brush.horizontalGradient(
+                                            listOf(classColor, classColor.copy(alpha = 0.6f))
+                                        )
+                                    )
+                            )
+                        }
+                        if (result.notes.isNotEmpty()) {
+                            Text(
+                                result.notes.first(),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                    if (idx < fertilityResults.size - 1) {
+                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                    }
+                }
+            }
+        }
+    }
+}
+
 @Composable
 private fun sanityMessage(w: SanityWarning): String {
     return when (w.code) {
@@ -1240,5 +1425,573 @@ private fun sanityMessage(w: SanityWarning): String {
         "revenue_ha_negative" -> stringResource(R.string.sanity_revenue_ha_negative)
         "revenue_ha_very_high" -> stringResource(R.string.sanity_revenue_ha_very_high, w.value ?: 0.0)
         else -> w.code
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Rapport de corroboration
+// ─────────────────────────────────────────────────────────────────────────────
+
+private enum class CorrStatus { OK, WARN, ERROR }
+
+private data class CorrCheck(
+    val label: String,
+    val valueText: String,
+    val status: CorrStatus,
+    val note: String
+)
+
+private fun buildCorroborationChecks(stats: MartelageStats): List<CorrCheck> {
+    val list = mutableListOf<CorrCheck>()
+
+    // 1. Ratio V/G
+    stats.ratioVG?.let { vg ->
+        val (st, note) = when {
+            vg < 4.0  -> CorrStatus.ERROR to "Très bas — hauteurs manquantes ou tarif inadapté"
+            vg < 6.0  -> CorrStatus.WARN  to "Bas — peuplement jeune/dense ou hauteurs sous-estimées"
+            vg > 22.0 -> CorrStatus.ERROR to "Très élevé — vérifier le tarif de cubage"
+            vg > 16.0 -> CorrStatus.WARN  to "Élevé — arbres de grande hauteur ou tarif surestimant"
+            else      -> CorrStatus.OK    to "Cohérent (norme indicative 8–15 m³/m²)"
+        }
+        list += CorrCheck("Ratio V/G", String.format(Locale.getDefault(), "%.1f m³/m²", vg), st, note)
+    }
+
+    // 2. Cohérence Dm/Dg
+    val dm = stats.dm; val dg = stats.dg
+    if (dm != null && dg != null && dg > 0.0) {
+        val r = dm / dg
+        val (st, note) = when {
+            r < 0.82 -> CorrStatus.WARN to "Étalée vers les gros diamètres — peuplement déformé ou sélectionné"
+            r > 1.08 -> CorrStatus.WARN to "Étalée vers les petits diamètres — régénération dominante ?"
+            else     -> CorrStatus.OK   to "Distribution diamétrique symétrique"
+        }
+        list += CorrCheck("Dm / Dg", String.format(Locale.getDefault(), "%.2f", r), st, note)
+    }
+
+    // 3. G/ha recalculé depuis N/ha × Dg²
+    if (dg != null && stats.nPerHa > 0.0 && stats.gPerHa > 0.0) {
+        val gCalc = stats.nPerHa * PI / 4.0 * (dg / 100.0) * (dg / 100.0)
+        val err = abs(gCalc - stats.gPerHa) / stats.gPerHa
+        val (st, note) = when {
+            err > 0.20 -> CorrStatus.ERROR to "Écart ${String.format(Locale.getDefault(), "%.0f", err * 100)}%% — diamètres ou surface manquants ?"
+            err > 0.10 -> CorrStatus.WARN  to "Écart ${String.format(Locale.getDefault(), "%.0f", err * 100)}%% — vérifier les tiges sans diamètre"
+            else       -> CorrStatus.OK    to "N/ha × Dg² × π/4 ≈ G/ha mesuré (cohérent)"
+        }
+        list += CorrCheck("G/ha recalculé", String.format(Locale.getDefault(), "%.2f m²/ha", gCalc), st, note)
+    }
+
+    // 4. Structure CV(D) — informatif
+    stats.cvDiam?.let { cv ->
+        val note = when {
+            cv < 15.0 -> "Futaie très régulière / équienne monospécifique"
+            cv < 30.0 -> "Futaie régulière normale"
+            cv < 50.0 -> "Mélange de classes — futaie irrégulière ou bi-étagée"
+            else      -> "Structure complexe — futaie jardinée ou peuplement mixte"
+        }
+        list += CorrCheck("Structure CV(D)", String.format(Locale.getDefault(), "%.0f%%", cv), CorrStatus.OK, note)
+    }
+
+    // 5. Intensité de coupe G%
+    stats.harvestGhaPct?.let { hg ->
+        val (st, note) = when {
+            hg > 40.0 -> CorrStatus.ERROR to "Très intense — risque de déstabilisation du résiduel"
+            hg > 30.0 -> CorrStatus.WARN  to "Fort — surveiller la résilience du peuplement résiduel"
+            hg > 20.0 -> CorrStatus.OK    to "Modéré à fort — conforme aux rotations sylvicoles"
+            else      -> CorrStatus.OK    to "Léger à modéré — conforme aux recommandations ONF/CNPF"
+        }
+        list += CorrCheck("Intensité coupe ΔG", String.format(Locale.getDefault(), "%.0f%%", hg), st, note)
+    }
+
+    return list
+}
+
+@Composable
+internal fun CorroborationReportCard(stats: MartelageStats) {
+    val checks = remember(
+        stats.ratioVG, stats.dm, stats.dg,
+        stats.nPerHa, stats.gPerHa, stats.cvDiam, stats.harvestGhaPct
+    ) { buildCorroborationChecks(stats) }
+    if (checks.isEmpty()) return
+
+    val worstStatus = checks.maxOf { it.status }
+    var visible by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { visible = true }
+
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn(tween(500, 80, FastOutSlowInEasing)) +
+                slideInVertically(tween(500, 80, FastOutSlowInEasing)) { it / 5 }
+    ) {
+        val headerColor = when (worstStatus) {
+            CorrStatus.ERROR -> MaterialTheme.colorScheme.error
+            CorrStatus.WARN  -> Color(0xFFF57C00)
+            CorrStatus.OK    -> Color(0xFF2E7D32)
+        }
+        val cardBg = MaterialTheme.colorScheme.surfaceVariant
+        val cardContent = ColorUtils.getContrastingTextColor(cardBg)
+        val okCount = checks.count { it.status == CorrStatus.OK }
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .shadow(4.dp, RoundedCornerShape(18.dp))
+                .clip(RoundedCornerShape(18.dp)),
+            colors = CardDefaults.cardColors(containerColor = cardBg, contentColor = cardContent)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Icon(
+                        Icons.Default.Info, null,
+                        tint = headerColor,
+                        modifier = Modifier.size(22.dp)
+                    )
+                    Text(
+                        "Rapport de corroboration",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Surface(
+                        color = headerColor.copy(alpha = 0.13f),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Text(
+                            "$okCount / ${checks.size} OK",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = headerColor,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+                }
+                Text(
+                    "Vérification croisée des indicateurs dendrométriques",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = cardContent.copy(alpha = 0.55f)
+                )
+                HorizontalDivider(color = cardContent.copy(alpha = 0.12f))
+                checks.forEach { check ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.Top,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        val (icon, tint) = when (check.status) {
+                            CorrStatus.OK    -> Icons.Default.Info    to Color(0xFF2E7D32)
+                            CorrStatus.WARN  -> Icons.Default.Warning to Color(0xFFF57C00)
+                            CorrStatus.ERROR -> Icons.Default.Error   to MaterialTheme.colorScheme.error
+                        }
+                        Icon(
+                            icon, null, tint = tint,
+                            modifier = Modifier.size(16.dp).padding(top = 2.dp)
+                        )
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            verticalArrangement = Arrangement.spacedBy(1.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    check.label,
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                                Text(
+                                    check.valueText,
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = cardContent.copy(alpha = 0.75f)
+                                )
+                            }
+                            Text(
+                                check.note,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = cardContent.copy(alpha = 0.55f)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Indicateurs sylvicoles
+// ─────────────────────────────────────────────────────────────────────────────
+
+@Composable
+internal fun SylviculturalKPIsCard(stats: MartelageStats) {
+    if (stats.dg == null && stats.meanH == null) return
+
+    var visible by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { visible = true }
+
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn(tween(500, 160, FastOutSlowInEasing)) +
+                slideInVertically(tween(500, 160, FastOutSlowInEasing)) { it / 5 }
+    ) {
+        val cardBg = MaterialTheme.colorScheme.surfaceVariant
+        val cardContent = ColorUtils.getContrastingTextColor(cardBg)
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .shadow(4.dp, RoundedCornerShape(18.dp))
+                .clip(RoundedCornerShape(18.dp)),
+            colors = CardDefaults.cardColors(containerColor = cardBg, contentColor = cardContent)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Icon(
+                        Icons.Default.Forest, null,
+                        tint = Color(0xFF2E7D32),
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(
+                        "Indicateurs sylvicoles",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                HorizontalDivider(color = cardContent.copy(alpha = 0.12f))
+
+                val dg = stats.dg
+                val meanH = stats.meanH
+                val dominantCode = stats.perEssence.maxByOrNull { it.gPct }?.essenceCode ?: ""
+                val isResineuxDominant = dominantCode.uppercase().let { up ->
+                    up.contains("PIN") || up.contains("SAPIN") || up.contains("EPICEA") ||
+                    up.contains("DOUGLAS") || up.contains("MELEZE") || up.contains("CEDRE") ||
+                    up.contains("SEQUOIA") || up.contains("THUYA")
+                }
+
+                // Indice d'élancement H/D — résineux uniquement (non pertinent pour feuillus)
+                if (dg != null && meanH != null && dg > 0.0 && isResineuxDominant) {
+                    val slend = meanH / (dg / 100.0)
+                    val (sc, sl) = when {
+                        slend < 70  -> Color(0xFF2E7D32) to "Très stable"
+                        slend < 85  -> Color(0xFF558B2F) to "Stable"
+                        slend < 100 -> Color(0xFFF9A825) to "Normal"
+                        else        -> Color(0xFFC62828) to "Élancé — risque vent"
+                    }
+                    SylvKPIRow(
+                        label = "Élancement H/D (résineux)",
+                        value = String.format(Locale.getDefault(), "%.0f", slend),
+                        statusLabel = sl, statusColor = sc, textColor = cardContent
+                    )
+                }
+
+                // G/ha — densité du peuplement
+                val gPerHa = stats.gPerHa
+                if (gPerHa > 0.0) {
+                    val (gc, gl) = when {
+                        gPerHa < 10.0 -> Color(0xFFEF6C00) to "Densité faible"
+                        gPerHa < 20.0 -> Color(0xFF558B2F) to "Densité modérée"
+                        gPerHa < 35.0 -> Color(0xFF2E7D32) to "Densité normale"
+                        gPerHa < 50.0 -> Color(0xFFF9A825) to "Peuplement dense"
+                        else          -> Color(0xFFC62828) to "Surpeuplement"
+                    }
+                    SylvKPIRow(
+                        label = "Surface terrière G/ha",
+                        value = String.format(Locale.getDefault(), "%.1f m²/ha", gPerHa),
+                        statusLabel = gl, statusColor = gc, textColor = cardContent
+                    )
+                }
+
+                // H Lorey / H moy — hétérogénéité de hauteur
+                val hLorey = stats.hLorey
+                if (hLorey != null && meanH != null && meanH > 0.0) {
+                    val hr = hLorey / meanH
+                    val hl = when {
+                        hr < 1.05 -> "Peuplement homogène (futaie régulière)"
+                        hr < 1.15 -> "Légère hétérogénéité — normal"
+                        else      -> "Forte hétérogénéité — futaie irrégulière"
+                    }
+                    SylvKPIRow(
+                        label = "H Lorey / H moy",
+                        value = String.format(Locale.getDefault(), "%.2f", hr),
+                        statusLabel = hl, statusColor = Color(0xFF1565C0), textColor = cardContent
+                    )
+                }
+
+                // N/ha — contexte densité tige
+                val nPerHa = stats.nPerHa
+                if (nPerHa > 0.0) {
+                    val (nc, nl) = when {
+                        nPerHa < 100  -> Color(0xFFEF6C00) to "Peuplement clair"
+                        nPerHa < 300  -> Color(0xFF558B2F) to "Densité normale"
+                        nPerHa < 700  -> Color(0xFF2E7D32) to "Peuplement fourni"
+                        nPerHa < 1500 -> Color(0xFFF9A825) to "Densité élevée"
+                        else          -> Color(0xFFC62828) to "Très dense — concurrence forte"
+                    }
+                    SylvKPIRow(
+                        label = "Densité N/ha",
+                        value = String.format(Locale.getDefault(), "%.0f tiges/ha", nPerHa),
+                        statusLabel = nl, statusColor = nc, textColor = cardContent
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SylvKPIRow(
+    label: String,
+    value: String,
+    statusLabel: String,
+    statusColor: Color,
+    textColor: Color
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(2.dp)
+        ) {
+            Text(
+                label,
+                style = MaterialTheme.typography.labelMedium,
+                color = textColor.copy(alpha = 0.65f)
+            )
+            Text(
+                value,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        Surface(
+            color = statusColor.copy(alpha = 0.13f),
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Text(
+                statusLabel,
+                style = MaterialTheme.typography.labelSmall,
+                color = statusColor,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+            )
+        }
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CARTE AIDE CONTEXTUELLE — QUALITÉ DES DONNÉES ET PROCHAINES ÉTAPES
+// ═══════════════════════════════════════════════════════════════════════════
+
+@Composable
+internal fun DataCompletenessCard(stats: MartelageStats) {
+    // ── Score de complétude (0–100) ──────────────────────────────────────
+    val completenessScore = run {
+        var score = 0
+        if (stats.nTotal > 0)                     score += 20
+        if (stats.volumeCompletenessPct > 0.5)     score += 20
+        if (stats.volumeCompletenessPct > 0.9)     score += 10
+        if (stats.qualityAssessedCount > 0)        score += 15
+        if (stats.qualityAssessedCount >= stats.qualityTotalCount && stats.qualityTotalCount > 0) score += 10
+        if (stats.surfaceHa > 0)                  score += 10
+        if (stats.biodiversity != null)            score += 10
+        if (stats.specialTrees.isNotEmpty())       score += 5
+        score.coerceIn(0, 100)
+    }
+
+    val scoreColor = when {
+        completenessScore >= 80 -> Color(0xFF2E7D32)
+        completenessScore >= 50 -> Color(0xFFF57C00)
+        else                    -> Color(0xFFC62828)
+    }
+    val scoreLabel = when {
+        completenessScore >= 80 -> "Données complètes"
+        completenessScore >= 50 -> "Données partielles"
+        else                    -> "Données insuffisantes"
+    }
+
+    // ── Liste des conseils contextuels ────────────────────────────────────
+    data class Tip(val icon: String, val title: String, val body: String, val urgent: Boolean = false)
+    val tips = buildList {
+        if (stats.nTotal < 10) add(Tip("📏", "Échantillon réduit",
+            "Seulement ${stats.nTotal} tige(s). La précision des indicateurs est faible. Visez ≥ 30 tiges pour une analyse fiable.", urgent = true))
+        if (stats.surfaceHa <= 0.0) add(Tip("📐", "Surface non renseignée",
+            "Sans surface connue, les indicateurs /ha sont incorrects. Renseignez la surface de la parcelle.", urgent = true))
+        if (stats.volumeCompletenessPct < 0.5) add(Tip("📡", "Hauteurs manquantes",
+            "${(100 - stats.volumeCompletenessPct * 100).toInt()}% des tiges n'ont pas de hauteur. " +
+            "Utilisez un tarif 1 entrée (Schaeffer, IFN Rapide ou Chaudé) ou saisissez des hauteurs d'arbres-type.", urgent = true))
+        else if (stats.volumeCompletenessPct < 0.9) add(Tip("📡", "Quelques hauteurs manquantes",
+            "${stats.missingHeightEssenceNames.take(3).joinToString(", ")} — " +
+            "l'application estime le volume pour ces essences via tarif 1 entrée."))
+        if (stats.qualityAssessedCount == 0 && stats.nTotal > 0) add(Tip("🔍", "Qualité non évaluée",
+            "Aucune tige n'a de classe de qualité (A–D ou 1–5). L'évaluation qualité améliore l'estimation de valorisation."))
+        else if (stats.qualityAssessedCount < stats.qualityTotalCount / 2) add(Tip("🔍", "Qualité évaluée sur ${(stats.qualityAssessedCount * 100.0 / stats.qualityTotalCount.coerceAtLeast(1)).toInt()}% des tiges",
+            "Complétez l'évaluation qualité pour un rapport de valorisation plus précis."))
+        if (stats.sanityWarnings.any { it.severity == com.forestry.counter.domain.calculation.SanitySeverity.ERROR })
+            add(Tip("⚠️", "Erreurs de cohérence détectées",
+                "Des incohérences critiques ont été détectées dans les données. Consultez l'onglet Alertes sanitaires.", urgent = true))
+        if (stats.ratioVG != null && (stats.ratioVG < 4.0 || stats.ratioVG > 22.0))
+            add(Tip("🔢", "Ratio V/G anormal (${stats.ratioVG.let { "%.1f".format(it) }} m³/m²)",
+                "Ce ratio suggère un problème de tarif ou des hauteurs aberrantes. Vérifiez le tarif sélectionné."))
+        if (stats.nTotal >= 10 && stats.biodiversity == null) add(Tip("🌿", "Biodiversité non calculée",
+            "Relancez le calcul avec les paramètres IBP pour obtenir l'indice de biodiversité de la parcelle."))
+    }
+
+    // ── Recommandation tarif ───────────────────────────────────────────────
+    val tarifReco = when {
+        stats.volumeCompletenessPct > 0.85 -> "Tarif 2 entrées recommandé (Algan, Schaeffer 2E, IFN Lent) — hauteurs disponibles."
+        stats.volumeCompletenessPct > 0.0  -> "Tarif mixte : 2 entrées où disponible, sinon Chaudé ou IFN Rapide pour les tiges sans hauteur."
+        else                               -> "Tarif 1 entrée recommandé : Chaudé (arbres sur pied) pour feuillus, IFN Rapide pour résineux."
+    }
+
+    var expanded by remember { mutableStateOf(false) }
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            // ── En-tête ──
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        "Qualité des données",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        scoreLabel,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = scoreColor,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+                // Score circulaire
+                Box(contentAlignment = Alignment.Center, modifier = Modifier.size(56.dp)) {
+                    CircularProgressIndicator(
+                        progress = { completenessScore / 100f },
+                        modifier = Modifier.fillMaxSize(),
+                        color = scoreColor,
+                        trackColor = scoreColor.copy(alpha = 0.15f),
+                        strokeWidth = 5.dp
+                    )
+                    Text(
+                        "$completenessScore%",
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = scoreColor
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            // ── Barre de progression ──
+            LinearProgressIndicator(
+                progress = { completenessScore / 100f },
+                modifier = Modifier.fillMaxWidth().height(6.dp).clip(RoundedCornerShape(3.dp)),
+                color = scoreColor,
+                trackColor = scoreColor.copy(alpha = 0.15f)
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            // ── Recommandation tarif ──
+            Surface(
+                color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.45f),
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                ) {
+                    Text("📊", style = MaterialTheme.typography.bodyMedium)
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        tarifReco,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
+
+            // ── Conseils contextuels ──
+            if (tips.isNotEmpty()) {
+                Spacer(Modifier.height(10.dp))
+                val visible = if (expanded) tips else tips.take(2)
+                visible.forEach { tip ->
+                    Spacer(Modifier.height(6.dp))
+                    Surface(
+                        color = if (tip.urgent)
+                            Color(0xFFC62828).copy(alpha = 0.08f)
+                        else
+                            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(10.dp),
+                            verticalAlignment = Alignment.Top
+                        ) {
+                            Text(tip.icon, style = MaterialTheme.typography.bodyMedium)
+                            Spacer(Modifier.width(8.dp))
+                            Column {
+                                Text(
+                                    tip.title,
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = if (tip.urgent) Color(0xFFC62828) else MaterialTheme.colorScheme.onSurface
+                                )
+                                Text(
+                                    tip.body,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
+                }
+                if (tips.size > 2) {
+                    Spacer(Modifier.height(6.dp))
+                    TextButton(
+                        onClick = { expanded = !expanded },
+                        modifier = Modifier.align(Alignment.End)
+                    ) {
+                        Text(
+                            if (expanded) "Masquer ▲" else "Voir ${tips.size - 2} conseil(s) supplémentaire(s) ▼",
+                            style = MaterialTheme.typography.labelSmall
+                        )
+                    }
+                }
+            } else {
+                Spacer(Modifier.height(8.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("✅", style = MaterialTheme.typography.bodyMedium)
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        "Toutes les données clés sont renseignées. Le rapport est complet.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color(0xFF2E7D32)
+                    )
+                }
+            }
+        }
     }
 }

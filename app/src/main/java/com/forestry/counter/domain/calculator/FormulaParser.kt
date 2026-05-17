@@ -56,7 +56,7 @@ class FormulaParser {
     private fun preprocessExpression(
         expression: String,
         counters: List<Counter>,
-        @Suppress("UNUSED_PARAMETER") variables: Map<String, Double>
+        variables: Map<String, Double>
     ): String {
         var processed = expression
 

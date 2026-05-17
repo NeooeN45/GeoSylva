@@ -65,10 +65,17 @@ fun GpsDistanceMeasureDialog(
         } else null
     }
 
-    @SuppressLint("MissingPermission")
     fun requestLocation(onLocation: (Location) -> Unit) {
         loading = true
         accuracy = null
+        
+        // Vérifier les permissions avant d'accéder à la localisation
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            loading = false
+            return
+        }
+        
         val lm = context.getSystemService(android.content.Context.LOCATION_SERVICE) as LocationManager
         val provider = when {
             lm.isProviderEnabled(LocationManager.GPS_PROVIDER) -> LocationManager.GPS_PROVIDER

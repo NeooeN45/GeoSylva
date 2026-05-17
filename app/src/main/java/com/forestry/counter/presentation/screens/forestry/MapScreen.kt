@@ -2,9 +2,11 @@ package com.forestry.counter.presentation.screens.forestry
 
 import android.Manifest
 import android.content.Context
+import com.forestry.counter.BuildConfig
 import android.content.pm.PackageManager
 import android.util.Log
 import android.widget.Toast
+import com.forestry.counter.network.SecureHttpClient
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -299,28 +301,38 @@ private fun applyShapefileOverlay(
 
     // 2. Lire le fichier GeoJSON
     if (!geoJsonFile.exists()) {
-        Log.e(TAG, "SHP: GeoJSON file not found: ${geoJsonFile.absolutePath}")
+        if (BuildConfig.DEBUG) {
+            Log.e(TAG, "SHP: GeoJSON file not found: ${geoJsonFile.absolutePath}")
+        }
         return "ERR: file not found"
     }
     val geoJson: String
     try {
         geoJson = geoJsonFile.readText(Charsets.UTF_8)
     } catch (e: Throwable) {
-        Log.e(TAG, "SHP: failed to read GeoJSON file", e)
+        if (BuildConfig.DEBUG) {
+            Log.e(TAG, "SHP: failed to read GeoJSON file", e)
+        }
         return "ERR: read failed: ${e.message}"
     }
     if (geoJson.length < 10) {
-        Log.e(TAG, "SHP: GeoJSON too short (${geoJson.length} chars)")
+        if (BuildConfig.DEBUG) {
+            Log.e(TAG, "SHP: GeoJSON too short (${geoJson.length} chars)")
+        }
         return "ERR: file too short (${geoJson.length})"
     }
-    Log.d(TAG, "SHP: read ${geoJson.length} chars from ${geoJsonFile.name}")
-    Log.d(TAG, "SHP: first 200 chars: ${geoJson.take(200)}")
+    if (BuildConfig.DEBUG) {
+        Log.d(TAG, "SHP: read ${geoJson.length} chars from ${geoJsonFile.name}")
+        // Ne pas logger le contenu du GeoJSON en production (données sensibles)
+    }
 
     // 3. Valider le JSON avant de passer à MapLibre
     try {
         org.json.JSONObject(geoJson)
     } catch (e: Throwable) {
-        Log.e(TAG, "SHP: INVALID JSON — ${e.message}")
+        if (BuildConfig.DEBUG) {
+            Log.e(TAG, "SHP: INVALID JSON — ${e.message}")
+        }
         return "ERR: invalid JSON: ${e.message?.take(80)}"
     }
 
@@ -348,10 +360,14 @@ private fun applyShapefileOverlay(
 
         source.setGeoJson(geoJson)
 
-        Log.i(TAG, "SHP: fill+line OK — ${overlay.featureCount} features")
+        if (BuildConfig.DEBUG) {
+            Log.i(TAG, "SHP: fill+line OK — ${overlay.featureCount} features")
+        }
 
     } catch (e: Throwable) {
-        Log.e(TAG, "SHP: failed to apply fill/line", e)
+        if (BuildConfig.DEBUG) {
+            Log.e(TAG, "SHP: failed to apply fill/line", e)
+        }
         return "ERR: apply failed: ${e.message?.take(80)}"
     }
 
@@ -365,7 +381,9 @@ private fun applyShapefileOverlay(
             } else {
                 overlay.labelFields.joinToString("\n") { "{${it.key}}" }
             }
-            Log.d(TAG, "SHP: adding labels with expr='$textExpr'")
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "SHP: adding labels with expr='$textExpr'")
+            }
             style.addLayer(
                 SymbolLayer(SHP_LABEL_ID, SHP_SOURCE_ID).withProperties(
                     PropertyFactory.textField(textExpr),
@@ -379,9 +397,13 @@ private fun applyShapefileOverlay(
                 )
             )
             labelStatus = " +labels"
-            Log.i(TAG, "SHP: labels OK")
+            if (BuildConfig.DEBUG) {
+                Log.i(TAG, "SHP: labels OK")
+            }
         } catch (e: Throwable) {
-            Log.e(TAG, "SHP: labels FAILED", e)
+            if (BuildConfig.DEBUG) {
+                Log.e(TAG, "SHP: labels FAILED", e)
+            }
             labelStatus = " labels ERR: ${e.message?.take(50)}"
         }
     }
@@ -751,8 +773,15 @@ private fun offlineLocalStyle(name: String = "Offline Local"): String {
 /**
  * Builds a raster-only MapLibre style JSON from a single tile URL template.
  * This is more reliable than inline multi-line JSON strings.
+ * Sécurisé avec certificate pinning pour les URLs externes.
  */
 private fun rasterStyle(name: String, tileUrl: String, tileSize: Int = 256, maxZoom: Int = 19): String {
+    // Valider que l'URL utilise un domaine sécurisé
+    if (!SecureHttpClient.isSecureDomain(tileUrl)) {
+        Log.e(TAG, "URL de tuile non sécurisée détectée: $tileUrl")
+        throw SecurityException("URL de tuile non sécurisée: $tileUrl")
+    }
+    
     return """{
   "version": 8,
   "name": "$name",

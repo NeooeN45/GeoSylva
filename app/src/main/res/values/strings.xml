@@ -279,6 +279,8 @@
     <string name="dashboard_basal_area_by_species">Basal area by species (m²)</string>
     <string name="dashboard_others">others</string>
     <string name="dashboard_button">Dashboard</string>
+    <string name="diag_station_btn">Station diag.</string>
+    <string name="diag_ripisylve_btn">Riparian diag.</string>
     <string name="dashboard_height_distribution">Height distribution (m)</string>
     <string name="dashboard_quality_distribution">Quality grade distribution</string>
     <string name="dashboard_species_count">Species</string>
@@ -901,6 +903,34 @@
     <string name="onboarding_ibp_b1">10 criteria A–J: deadwood, microhabitats, veteran trees, forest continuity…</string>
     <string name="onboarding_ibp_b2">Biodiversity dashboard: radar chart, priority actions, potential gain</string>
     <string name="onboarding_ibp_b3">QGIS export (GeoJSON + CSV + QML style) and temporal comparison</string>
+    <!-- Onboarding — Martelage -->
+    <string name="onboarding_marking_title">Intelligent Timber Marking</string>
+    <string name="onboarding_marking_desc">Plan and simulate your thinning operations with a full dendrometric dashboard: basal area, volumes, harvest rates and economic projections.</string>
+    <string name="onboarding_marking_b1">Real-time marking stats: before/after basal area, harvest %, N/ha</string>
+    <string name="onboarding_marking_b2">CNPF typology (F1–F5), stand stability and biodiversity indicators</string>
+    <string name="onboarding_marking_b3">PDF synthesis report and CSV export for timber sale files</string>
+
+    <!-- Onboarding — Station Diagnostic -->
+    <string name="onboarding_station_title">Station Diagnostic</string>
+    <string name="onboarding_station_desc">Assess the ecological conditions of your stand: soil, climate, hydrology, topography. A multi-criteria engine guides silvicultural recommendations.</string>
+    <string name="onboarding_station_b1">Soil profile: texture, pH, trophic level, hydromorphology</string>
+    <string name="onboarding_station_b2">Species compatibility matrix with resilience scoring</string>
+    <string name="onboarding_station_b3">DRIAS 2050 climate projections with drought risk assessment</string>
+
+    <!-- Onboarding — Super Corrélateur -->
+    <string name="onboarding_corr_title">Climate Correlator</string>
+    <string name="onboarding_corr_desc">Cross your stand data with climate projections to identify the best-adapted species for 2050 — based on GIEC SSP scenarios.</string>
+    <string name="onboarding_corr_b1">Species × climate zone compatibility (current and 2050)</string>
+    <string name="onboarding_corr_b2">Climate change resilience score per species (1–5)</string>
+    <string name="onboarding_corr_b3">Prioritized silvicultural transition recommendations</string>
+
+    <!-- Onboarding — Flore / IBP enrichi -->
+    <string name="onboarding_flora_title">Plant Indicator Survey</string>
+    <string name="onboarding_flora_desc">Identify and record vascular plant indicator species to refine the station diagnosis and enrich the biodiversity assessment.</string>
+    <string name="onboarding_flora_b1">500+ vascular species database with Ellenberg values</string>
+    <string name="onboarding_flora_b2">Automatic inference of soil pH, moisture and trophic level</string>
+    <string name="onboarding_flora_b3">Family browser and fuzzy-search autocomplete</string>
+
     <string name="onboarding_start">Get started</string>
     <string name="onboarding_next">Next</string>
     <string name="onboarding_skip">Skip</string>

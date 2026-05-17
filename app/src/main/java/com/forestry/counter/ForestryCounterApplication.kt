@@ -7,25 +7,41 @@ import com.forestry.counter.data.local.DatabaseMigrations
 import com.forestry.counter.data.local.CanonicalEssences
 import com.forestry.counter.data.preferences.UserPreferencesManager
 import com.forestry.counter.data.repository.CounterRepositoryImpl
+import com.forestry.counter.data.repository.DiagnosticSylvicoleRepositoryImpl
+import com.forestry.counter.data.repository.ForetRepositoryImpl
 import com.forestry.counter.data.repository.FormulaRepositoryImpl
 import com.forestry.counter.data.repository.GroupRepositoryImpl
+import com.forestry.counter.data.repository.InventaireSessionRepositoryImpl
+import com.forestry.counter.data.repository.ObservationFloreRepositoryImpl
 import com.forestry.counter.data.repository.ParcelleRepositoryImpl
 import com.forestry.counter.data.repository.PlacetteRepositoryImpl
 import com.forestry.counter.data.repository.EssenceRepositoryImpl
+import com.forestry.counter.data.repository.StationEnvironnementaleRepositoryImpl
 import com.forestry.counter.data.repository.TigeRepositoryImpl
 import com.forestry.counter.data.repository.ParameterRepositoryImpl
+import com.forestry.counter.data.repository.ValeurFonciereRepositoryImpl
+import com.forestry.counter.data.repository.RipisylveRepositoryImpl
+import com.forestry.counter.data.repository.StationRepositoryImpl
+import com.forestry.counter.domain.repository.RipisylveRepository
+import com.forestry.counter.domain.repository.StationRepository
 import com.forestry.counter.domain.calculator.FormulaParser
 import com.forestry.counter.domain.calculation.ForestryCalculator
 import com.forestry.counter.domain.calculation.PeuplementAvantCoupeCalculator
 import com.forestry.counter.domain.repository.CounterRepository
+import com.forestry.counter.domain.repository.DiagnosticSylvicoleRepository
+import com.forestry.counter.domain.repository.ForetRepository
 import com.forestry.counter.domain.repository.FormulaRepository
 import com.forestry.counter.domain.repository.GroupRepository
+import com.forestry.counter.domain.repository.InventaireSessionRepository
+import com.forestry.counter.domain.repository.ObservationFloreRepository
 import com.forestry.counter.domain.repository.ParcelleRepository
 import com.forestry.counter.domain.repository.PlacetteRepository
 import com.forestry.counter.domain.repository.EssenceRepository
+import com.forestry.counter.domain.repository.StationEnvironnementaleRepository
 import com.forestry.counter.domain.repository.TigeRepository
 import com.forestry.counter.domain.repository.IbpRepository
 import com.forestry.counter.domain.repository.ParameterRepository
+import com.forestry.counter.domain.repository.ValeurFonciereRepository
 import com.forestry.counter.data.repository.IbpRepositoryImpl
 import com.forestry.counter.domain.usecase.export.ExportDataUseCase
 import com.forestry.counter.domain.usecase.import.ImportDataUseCase
@@ -34,14 +50,18 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import com.forestry.counter.domain.parameters.ParameterKeys
 import com.forestry.counter.data.parameters.ParameterDefaults
 import com.forestry.counter.domain.model.ParameterItem
+import com.forestry.counter.data.sylviculture.SylvicultureDataSeeder
+import com.forestry.counter.domain.location.LocalisationResolverService
 
 class ForestryCounterApplication : Application() {
+
+    private val applicationScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     // Database
     lateinit var database: ForestryDatabase
@@ -65,6 +85,26 @@ class ForestryCounterApplication : Application() {
     lateinit var parameterRepository: ParameterRepository
         private set
     lateinit var ibpRepository: IbpRepository
+        private set
+    lateinit var foretRepository: ForetRepository
+        private set
+    lateinit var inventaireSessionRepository: InventaireSessionRepository
+        private set
+    lateinit var stationEnvironnementaleRepository: StationEnvironnementaleRepository
+        private set
+    lateinit var diagnosticSylvicoleRepository: DiagnosticSylvicoleRepository
+        private set
+    lateinit var observationFloreRepository: ObservationFloreRepository
+        private set
+    lateinit var valeurFonciereRepository: ValeurFonciereRepository
+        private set
+    lateinit var ripisylveRepository: RipisylveRepository
+        private set
+    lateinit var stationRepository: StationRepository
+        private set
+
+    // Services
+    lateinit var localisationResolverService: LocalisationResolverService
         private set
 
     // Preferences
@@ -139,6 +179,15 @@ class ForestryCounterApplication : Application() {
         tigeRepository = TigeRepositoryImpl(database.tigeDao())
         parameterRepository = ParameterRepositoryImpl(database.parameterDao())
         ibpRepository = IbpRepositoryImpl(database.ibpEvaluationDao())
+        foretRepository = ForetRepositoryImpl(database.foretDao())
+        inventaireSessionRepository = InventaireSessionRepositoryImpl(database.inventaireSessionDao())
+        stationEnvironnementaleRepository = StationEnvironnementaleRepositoryImpl(database.stationEnvironnementaleDao())
+        diagnosticSylvicoleRepository = DiagnosticSylvicoleRepositoryImpl(database.diagnosticSylvicoleDao())
+        observationFloreRepository = ObservationFloreRepositoryImpl(database.observationFloreDao())
+        valeurFonciereRepository = ValeurFonciereRepositoryImpl(database.valeurFonciereDao())
+        ripisylveRepository = RipisylveRepositoryImpl(database.ripisylveDao())
+        stationRepository = StationRepositoryImpl(database.stationDao())
+        localisationResolverService = LocalisationResolverService(parcelleRepository, stationEnvironnementaleRepository)
 
         // Initialize forestry calculator
         forestryCalculator = ForestryCalculator(parameterRepository)
@@ -151,15 +200,7 @@ class ForestryCounterApplication : Application() {
         // Initialize preferences
         userPreferences = UserPreferencesManager(applicationContext)
 
-        // Apply saved app language at startup
-        try {
-            val lang = runBlocking { userPreferences.appLanguage.first() }
-            if (lang == "system") {
-                AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
-            } else {
-                AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(lang))
-            }
-        } catch (_: Throwable) {}
+        applyAppLocale()
 
         // Initialize use cases
         exportDataUseCase = ExportDataUseCase(
@@ -176,105 +217,76 @@ class ForestryCounterApplication : Application() {
             formulaRepository
         )
 
-        // Seed default forestry parameters and essences if missing
-        CoroutineScope(Dispatchers.IO).launch {
-            val classes = parameterRepository.getParameter(ParameterKeys.CLASSES_DIAM).first()
-            if (classes == null || !classes.valueJson.contains("500")) {
-                parameterRepository.setParameter(
-                    ParameterItem(
-                        key = ParameterKeys.CLASSES_DIAM,
-                        valueJson = ParameterDefaults.classesDiametreJson
-                    )
-                )
-            }
-            val coefs = parameterRepository.getParameter(ParameterKeys.COEFS_VOLUME).first()
-            if (coefs == null || !coefs.valueJson.contains("500")) {
-                parameterRepository.setParameter(
-                    ParameterItem(
-                        key = ParameterKeys.COEFS_VOLUME,
-                        valueJson = ParameterDefaults.coefsVolumeJson
-                    )
-                )
-            }
-            val heights = parameterRepository.getParameter(ParameterKeys.HAUTEURS_DEFAUT).first()
-            if (heights == null || !heights.valueJson.contains("\"max\":500")) {
-                parameterRepository.setParameter(
-                    ParameterItem(
-                        key = ParameterKeys.HAUTEURS_DEFAUT,
-                        valueJson = ParameterDefaults.hauteursDefautJson
-                    )
-                )
-            }
+        applicationScope.launch { seedSylvicultureData() }
+        applicationScope.launch { seedForestryParameters() }
+    }
 
-            val rules = parameterRepository.getParameter(ParameterKeys.RULES_PRODUITS).first()
-            if (rules == null) {
-                parameterRepository.setParameter(
-                    ParameterItem(
-                        key = ParameterKeys.RULES_PRODUITS,
-                        valueJson = ParameterDefaults.reglesProduitsJson
-                    )
-                )
-            }
-            val prices = parameterRepository.getParameter(ParameterKeys.PRIX_MARCHE).first()
-            if (prices == null) {
-                parameterRepository.setParameter(
-                    ParameterItem(
-                        key = ParameterKeys.PRIX_MARCHE,
-                        valueJson = ParameterDefaults.prixMarcheJson
-                    )
-                )
-            }
-            val heightModes = parameterRepository.getParameter(ParameterKeys.HEIGHT_MODES).first()
-            if (heightModes == null) {
-                parameterRepository.setParameter(
-                    ParameterItem(
-                        key = ParameterKeys.HEIGHT_MODES,
-                        valueJson = "[]"
-                    )
-                )
-            }
-
-            // Tarif de cubage par défaut : Algan (le plus polyvalent)
-            val tarifSel = parameterRepository.getParameter(ParameterKeys.TARIF_SELECTION).first()
-            if (tarifSel == null) {
-                parameterRepository.setParameter(
-                    ParameterItem(
-                        key = ParameterKeys.TARIF_SELECTION,
-                        valueJson = """{"method":"ALGAN"}"""
-                    )
-                )
-            }
-
-            val ess = essenceRepository.getAllEssences().first()
-            if (ess.isEmpty()) {
-                essenceRepository.insertEssences(CanonicalEssences.ALL)
-            } else {
-                val existingCodes = ess.map { it.code }.toSet()
-                val canonicalMap = CanonicalEssences.ALL.associateBy { it.code }
-
-                // Insert new essences not yet in database
-                val missing = CanonicalEssences.ALL.filter { it.code !in existingCodes }
-                if (missing.isNotEmpty()) {
-                    essenceRepository.insertEssences(missing)
+    private fun applyAppLocale() {
+        CoroutineScope(Dispatchers.Main + SupervisorJob()).launch {
+            runCatching {
+                val lang = userPreferences.appLanguage.first()
+                if (lang == "system") {
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
+                } else {
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(lang))
                 }
+            }
+        }
+    }
 
-                // Enrich existing essences with new forestry fields if still empty
-                for (existing in ess) {
-                    val canonical = canonicalMap[existing.code] ?: continue
-                    if (existing.densiteBois == null && canonical.densiteBois != null) {
-                        essenceRepository.updateEssence(existing.copy(
-                            densiteBois = canonical.densiteBois,
-                            qualiteTypique = existing.qualiteTypique ?: canonical.qualiteTypique,
-                            typeCoupePreferee = existing.typeCoupePreferee ?: canonical.typeCoupePreferee,
-                            usageBois = existing.usageBois ?: canonical.usageBois,
-                            vitesseCroissance = existing.vitesseCroissance ?: canonical.vitesseCroissance,
-                            hauteurMaxM = existing.hauteurMaxM ?: canonical.hauteurMaxM,
-                            diametreMaxCm = existing.diametreMaxCm ?: canonical.diametreMaxCm,
-                            toleranceOmbre = existing.toleranceOmbre ?: canonical.toleranceOmbre,
-                            remarques = existing.remarques ?: canonical.remarques
-                        ))
-                    }
-                }
+    private suspend fun seedSylvicultureData() {
+        SylvicultureDataSeeder(
+            database.fertiliteEssenceSerDao(),
+            database.projectionClimatiqueSerDao()
+        ).seedIfEmpty()
+    }
+
+    private suspend fun seedForestryParameters() {
+        seedParameterIfMissing(ParameterKeys.CLASSES_DIAM, ParameterDefaults.classesDiametreJson) { !it.contains("500") }
+        seedParameterIfMissing(ParameterKeys.COEFS_VOLUME, ParameterDefaults.coefsVolumeJson) { !it.contains("500") }
+        seedParameterIfMissing(ParameterKeys.HAUTEURS_DEFAUT, ParameterDefaults.hauteursDefautJson) { !it.contains("\"max\":500") }
+        seedParameterIfMissing(ParameterKeys.RULES_PRODUITS, ParameterDefaults.reglesProduitsJson)
+        seedParameterIfMissing(ParameterKeys.PRIX_MARCHE, ParameterDefaults.prixMarcheJson)
+        seedParameterIfMissing(ParameterKeys.HEIGHT_MODES, "[]")
+        seedParameterIfMissing(ParameterKeys.TARIF_SELECTION, """{"method":"ALGAN"}""")
+        seedEssences()
+    }
+
+    private suspend fun seedParameterIfMissing(
+        key: String,
+        defaultJson: String,
+        isStale: (String) -> Boolean = { false }
+    ) {
+        val existing = parameterRepository.getParameter(key).first()
+        if (existing == null || isStale(existing.valueJson)) {
+            parameterRepository.setParameter(ParameterItem(key = key, valueJson = defaultJson))
+        }
+    }
+
+    private suspend fun seedEssences() {
+        val existing = essenceRepository.getAllEssences().first()
+        if (existing.isEmpty()) {
+            essenceRepository.insertEssences(CanonicalEssences.ALL)
+            return
+        }
+        val existingCodes = existing.map { it.code }.toSet()
+        val canonicalMap = CanonicalEssences.ALL.associateBy { it.code }
+        val missing = CanonicalEssences.ALL.filter { it.code !in existingCodes }
+        if (missing.isNotEmpty()) essenceRepository.insertEssences(missing)
+        for (tige in existing) {
+            val canonical = canonicalMap[tige.code] ?: continue
+            if (tige.densiteBois == null && canonical.densiteBois != null) {
+                essenceRepository.updateEssence(tige.copy(
+                    densiteBois       = canonical.densiteBois,
+                    qualiteTypique    = tige.qualiteTypique    ?: canonical.qualiteTypique,
+                    typeCoupePreferee = tige.typeCoupePreferee ?: canonical.typeCoupePreferee,
+                    usageBois         = tige.usageBois         ?: canonical.usageBois,
+                    vitesseCroissance = tige.vitesseCroissance ?: canonical.vitesseCroissance,
+                    hauteurMaxM       = tige.hauteurMaxM       ?: canonical.hauteurMaxM,
+                    diametreMaxCm     = tige.diametreMaxCm     ?: canonical.diametreMaxCm,
+                    toleranceOmbre    = tige.toleranceOmbre    ?: canonical.toleranceOmbre,
+                    remarques         = tige.remarques         ?: canonical.remarques
+                ))
             }
         }
     }

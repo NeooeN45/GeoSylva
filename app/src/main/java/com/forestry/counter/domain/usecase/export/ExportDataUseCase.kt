@@ -245,20 +245,18 @@ class ExportDataUseCase(
         )
     }
 
-    @Suppress("UNUSED_PARAMETER")
     private fun exportLongLayout(writer: CSVWriter, groups: List<Group>) {
         // Kept for future refactor; currently implemented inline in exportToCsv
         writer.writeNext(arrayOf("GroupID", "GroupName", "CounterID", "CounterName", "Value", "Step", "Min", "Max", "Target", "Tags"))
     }
 
-    @Suppress("UNUSED_PARAMETER")
     private fun exportPivotLayout(writer: CSVWriter, groups: List<Group>) {
         // Pivot layout implementation
         // This would create a matrix format suitable for forestry data
     }
 
     private fun buildCsvData(
-        @Suppress("UNUSED_PARAMETER") group: Group,
+        group: Group,
         counters: List<Counter>
     ): String {
         val sb = StringBuilder()

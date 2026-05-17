@@ -101,7 +101,7 @@ class ImportDataUseCase(
     suspend fun importFromCsv(
         uri: Uri,
         groupId: String,
-        @Suppress("UNUSED_PARAMETER") mode: ImportMode = ImportMode.MERGE,
+        mode: ImportMode = ImportMode.MERGE,
         separator: Char = ',',
         hasHeader: Boolean = true
     ): Result<ImportResult> {
@@ -181,7 +181,7 @@ class ImportDataUseCase(
         uri: Uri,
         groupId: String,
         sheetIndex: Int = 0,
-        @Suppress("UNUSED_PARAMETER") mode: ImportMode = ImportMode.MERGE
+        mode: ImportMode = ImportMode.MERGE
     ): Result<ImportResult> {
         return try {
             var importedCount = 0

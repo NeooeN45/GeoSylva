@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.Assessment
 import androidx.compose.material.icons.filled.Straighten
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -67,7 +68,8 @@ fun PlacettesScreen(
     onNavigateBack: () -> Unit,
     onNavigateToMartelageForParcelle: ((String) -> Unit)? = null,
     onNavigateToMap: ((String) -> Unit)? = null,
-    onNavigateToDashboard: ((String) -> Unit)? = null
+    onNavigateToDashboard: ((String) -> Unit)? = null,
+    onNavigateToDiagnostic: ((String) -> Unit)? = null
 ) {
     val scope = rememberCoroutineScope()
     val snackbar = remember { SnackbarHostState() }
@@ -167,6 +169,14 @@ fun PlacettesScreen(
                         }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back)) }
                     },
                     actions = {
+                        if (onNavigateToDiagnostic != null) {
+                            IconButton(onClick = {
+                                playClickFeedback()
+                                onNavigateToDiagnostic(parcelleId)
+                            }) {
+                                Icon(Icons.Default.Assessment, contentDescription = "Diagnostic sylvicole")
+                            }
+                        }
                         if (onNavigateToDashboard != null) {
                             IconButton(onClick = {
                                 playClickFeedback()

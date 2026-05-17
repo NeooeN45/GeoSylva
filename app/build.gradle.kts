@@ -22,8 +22,8 @@ android {
         applicationId = "com.forestry.counter"
         minSdk = 26
         targetSdk = 35
-        versionCode = 8
-        versionName = "2.0.0"
+        versionCode = 9
+        versionName = "2.3.0"
 
         val buildId = LocalDateTime.now()
             .format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"))
@@ -105,13 +105,16 @@ android {
             excludes += "META-INF/NOTICE.txt"
         }
     }
+
 }
 
+/*
 ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
     arg("room.incremental", "true")
     arg("room.expandProjection", "true")
 }
+*/
 
 dependencies {
     // Core Android
@@ -209,6 +212,10 @@ dependencies {
     // OkHttp for HTTP calls (price sync)
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
+    // Security dependencies
+    // implementation("net.sqlcipher:android-database-sqlcipher:4.2.0") // Temporairement désactivé
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+
     // Testing
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
@@ -217,4 +224,6 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(composeBom)
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 }
