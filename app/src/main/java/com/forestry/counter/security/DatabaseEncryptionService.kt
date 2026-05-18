@@ -1,8 +1,7 @@
 package com.forestry.counter.security
 
 import android.content.Context
-import android.security.keystore.KeyGenParameterSpec
-import android.security.keystore.KeyProperties
+import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 
@@ -21,7 +20,7 @@ object DatabaseEncryptionService {
         true
     }.getOrDefault(false)
 
-    private fun buildEncryptedPrefs(context: Context): EncryptedSharedPreferences {
+    private fun buildEncryptedPrefs(context: Context): SharedPreferences {
         val masterKey = MasterKey.Builder(context, KEY_ALIAS)
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()

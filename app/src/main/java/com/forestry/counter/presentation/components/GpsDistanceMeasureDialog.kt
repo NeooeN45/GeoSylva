@@ -244,10 +244,11 @@ fun GpsDistanceMeasureDialog(
 
                 // Recap positions
                 if (pos1 != null) {
+                    val p1 = pos1 ?: return@Column
                     Text(
                         "📍 " + stringResource(R.string.gps_distance_pos1_recorded,
-                            String.format("%.5f", pos1.latitude),
-                            String.format("%.5f", pos1.longitude)),
+                            String.format("%.5f", p1.latitude),
+                            String.format("%.5f", p1.longitude)),
                         style = MaterialTheme.typography.labelSmall,
                         color = Color(0xFF2E7D32)
                     )

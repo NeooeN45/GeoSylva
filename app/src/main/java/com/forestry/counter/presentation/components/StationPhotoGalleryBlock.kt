@@ -258,8 +258,9 @@ private fun PhotoThumbnailCard(
             .clickable(onClick = onFullscreen)
     ) {
         if (bitmap != null) {
+            val bmp = bitmap ?: return@Box
             Image(
-                bitmap = bitmap.asImageBitmap(),
+                bitmap = bmp.asImageBitmap(),
                 contentDescription = photo.legend,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
@@ -477,7 +478,8 @@ private fun PhotoFullscreenDialog(photo: DiagnosticPhoto, onDismiss: () -> Unit)
                     IconButton(onClick = onDismiss) { Icon(Icons.Default.Close, "Fermer") }
                 }
                 if (bitmap != null) {
-                    Image(bitmap.asImageBitmap(), null, modifier = Modifier.fillMaxWidth().aspectRatio(4f/3f), contentScale = ContentScale.Fit)
+                    val bmp = bitmap ?: return@Column
+                    Image(bmp.asImageBitmap(), null, modifier = Modifier.fillMaxWidth().aspectRatio(4f/3f), contentScale = ContentScale.Fit)
                 }
                 if (photo.legend.isNotBlank()) {
                     Text(photo.legend, style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(12.dp), color = StationDiagColors.textSecondary)

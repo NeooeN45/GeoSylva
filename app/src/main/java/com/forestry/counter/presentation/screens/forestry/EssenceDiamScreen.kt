@@ -1062,7 +1062,7 @@ fun EssenceDiamScreen(
     }
 
     if (showSpecialDialog && specialType != null) {
-        val type = specialType
+        val type = specialType ?: return
         val titleRes = when (type) {
             SpecialTreeType.DEPERISSANT -> R.string.add_dying_tree_title
             SpecialTreeType.ARBRE_BIO -> R.string.add_bio_tree_title

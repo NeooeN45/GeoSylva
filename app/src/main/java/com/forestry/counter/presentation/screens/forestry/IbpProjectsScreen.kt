@@ -439,13 +439,14 @@ private fun IbpCreateDialog(
                         }
                     }
                 } else {
+                    val sp = selectedParcelle
                     TextButton(
                         onClick = { selectedParcelle = null; selectedPlacette = null },
                         contentPadding = PaddingValues(horizontal = 0.dp)
                     ) {
                         Icon(Icons.Default.ArrowBack, contentDescription = null, modifier = Modifier.size(16.dp))
                         Spacer(Modifier.width(4.dp))
-                        Text(selectedParcelle.name, style = MaterialTheme.typography.labelMedium)
+                        Text(sp?.name ?: "", style = MaterialTheme.typography.labelMedium)
                     }
                     HorizontalDivider()
                     Spacer(Modifier.height(4.dp))

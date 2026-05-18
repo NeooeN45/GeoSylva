@@ -217,7 +217,7 @@ dependencies {
 
     // Security dependencies
     // implementation("net.sqlcipher:android-database-sqlcipher:4.2.0") // Temporairement désactivé
-    implementation("androidx.security:security-crypto:1.0.0")
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
 
     // Testing
     testImplementation("junit:junit:4.13.2")

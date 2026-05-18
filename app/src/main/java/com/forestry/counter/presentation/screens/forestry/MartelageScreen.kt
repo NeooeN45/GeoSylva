@@ -1150,9 +1150,10 @@ fun MartelageScreen(
                                             style = MaterialTheme.typography.bodySmall,
                                             color = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
-                                        if (currentTarifNumero != null) {
+                                        val tarifNum = currentTarifNumero
+                                        if (tarifNum != null) {
                                             Text(
-                                                stringResource(R.string.martelage_cubage_method_numero_format, currentTarifNumero),
+                                                stringResource(R.string.martelage_cubage_method_numero_format, tarifNum),
                                                 style = MaterialTheme.typography.bodySmall,
                                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                                             )
@@ -1285,10 +1286,9 @@ fun MartelageScreen(
                         }
                     }
 
-                    if (!missingParams && stats != null) {
+                    val s = stats
+                    if (!missingParams && s != null) {
                         Spacer(modifier = Modifier.height(12.dp))
-
-                        val s = stats
 
                         val vTotalAnim by animateFloatAsState(
                             targetValue = s.vTotal.toFloat(),

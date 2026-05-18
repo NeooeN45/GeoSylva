@@ -1265,10 +1265,11 @@ fun MapScreen(
                             )
                         }
                     }) {
+                        val op = offlineProgress
                         Icon(
                             Icons.Default.CloudDownload,
                             contentDescription = stringResource(R.string.offline_download),
-                            tint = if (offlineProgress != null && !offlineProgress.isComplete)
+                            tint = if (op != null && !op.isComplete)
                                 MaterialTheme.colorScheme.primary
                             else MaterialTheme.colorScheme.onSurface
                         )
@@ -1646,7 +1647,7 @@ fun MapScreen(
                                 }
                             }
                         } else {
-                            val ov = shpOverlay
+                            val ov = shpOverlay ?: return@Column
 
                             // ── Info + Visibilité ──
                             Row(

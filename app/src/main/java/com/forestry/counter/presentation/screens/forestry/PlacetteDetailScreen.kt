@@ -516,7 +516,7 @@ fun PlacetteDetailScreen(
     }
 
     if (showColorDialog && colorTargetEssence != null) {
-        val target = colorTargetEssence
+        val target = colorTargetEssence ?: return
         AppMiniDialog(
             onDismissRequest = { showColorDialog = false },
             animationsEnabled = animationsEnabled,
@@ -578,7 +578,7 @@ fun PlacetteDetailScreen(
     }
 
     if (showEssenceActionsDialog && actionTargetEssenceCode != null) {
-        val code = actionTargetEssenceCode
+        val code = actionTargetEssenceCode ?: return
         val e = allEssences.firstOrNull { it.code == code }
         val name = e?.name ?: code
         AppMiniDialog(
@@ -676,7 +676,7 @@ fun PlacetteDetailScreen(
     }
 
     if (deleteTargetEssenceCode != null) {
-        val code = deleteTargetEssenceCode
+        val code = deleteTargetEssenceCode ?: return
         val e = allEssences.firstOrNull { it.code == code }
         val name = e?.name ?: code
         val uses = usageByEssence[code] ?: 0

@@ -87,7 +87,10 @@ fun DiagnosticScreen(
             diagnostic == null -> Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
                 Text("Diagnostic introuvable", color = MaterialTheme.colorScheme.error)
             }
-            else -> DiagnosticContent(diag = diagnostic, paddingValues = padding)
+            else -> {
+                val diag = diagnostic ?: return@Scaffold
+                DiagnosticContent(diag = diag, paddingValues = padding)
+            }
         }
     }
 }

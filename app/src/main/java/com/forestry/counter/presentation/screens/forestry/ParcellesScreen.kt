@@ -521,8 +521,8 @@ fun ParcellesScreen(
         }
     }
 
-    if (deleteParcelle != null) {
-        val p = deleteParcelle
+    val p = deleteParcelle
+    if (p != null) {
         AppMiniDialog(
             onDismissRequest = { deleteParcelle = null },
             animationsEnabled = animationsEnabled,
