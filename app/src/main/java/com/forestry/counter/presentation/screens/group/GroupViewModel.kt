@@ -70,7 +70,7 @@ class GroupViewModel(
                     id = UUID.randomUUID().toString(),
                     groupId = groupId,
                     name = "Formula for $name",
-                    expression = expression!!.trim(),
+                    expression = expression?.trim() ?: "",
                     description = null
                 )
                 formulaRepository.insertFormula(formula)

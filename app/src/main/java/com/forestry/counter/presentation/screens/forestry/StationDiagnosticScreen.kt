@@ -380,7 +380,7 @@ fun StationDiagnosticScreen(
 
             // ── F3. Avenir Climatique DRIAS ───────────────────────────────
             val climateZone = if (gpsLat != null && gpsLon != null)
-                ClimateZone.detect(gpsLat!!, gpsLon!!, altitudeM.toDoubleOrNull())
+                ClimateZone.detect(gpsLat, gpsLon, altitudeM.toDoubleOrNull())
             else ClimateZone.UNKNOWN
             AvenirClimatBlock(zone = climateZone, modifier = Modifier.padding(horizontal = 12.dp))
             Spacer(Modifier.height(6.dp))
@@ -1376,7 +1376,7 @@ private fun WhatToVerifyBlock(
 private fun buildVerificationChecklist(station: StationObservation): List<Pair<String, Boolean>> =
     listOf(
         "Test à l'eau oxygénée / HCl sur sol frais" to (station.testHcl != TestHCl.NEGATIF || station.rocheMere.isNotBlank()),
-        "Mesure profondeur sol (bâton ou tarière)" to (station.profondeurSolCm != null && station.profondeurSolCm!! > 0),
+        "Mesure profondeur sol (bâton ou tarière)" to ((station.profondeurSolCm ?: 0) > 0),
         "Observation texture sol (triangle textural)" to (station.texture != TextureSol.INCONNUE),
         "Type d'humus identifié (mor/moder/mull)" to (station.humus != TypeHumus.INCONNU),
         "Espèces indicatrices notées (min. 3)" to (station.especesIndicatrices.size >= 3),

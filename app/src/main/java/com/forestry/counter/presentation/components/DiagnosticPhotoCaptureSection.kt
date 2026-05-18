@@ -150,7 +150,7 @@ fun DiagnosticPhotoCaptureSection(
             },
             confirmButton = {
                 Button(onClick = {
-                    onAddPhoto(pendingUri!!, legendText, selectedType)
+                    pendingUri?.let { uri -> onAddPhoto(uri, legendText, selectedType) }
                     pendingUri = null
                     legendText = ""
                     showTypeDialog = false

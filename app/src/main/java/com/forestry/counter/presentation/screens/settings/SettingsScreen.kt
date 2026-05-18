@@ -665,7 +665,7 @@ fun SettingsScreen(
                 val currentLabel = stringResource(tarifLabelRes)
                 val subtitle = if (currentTarifNumero != null) {
                     stringResource(R.string.settings_tarif_current_format, currentLabel) +
-                        " — " + stringResource(R.string.settings_tarif_numero_format, currentTarifNumero!!)
+                        " — " + stringResource(R.string.settings_tarif_numero_format, currentTarifNumero)
                 } else {
                     stringResource(R.string.settings_tarif_current_format, currentLabel)
                 }
@@ -684,7 +684,7 @@ fun SettingsScreen(
                         supportingContent = {
                             Text(
                                 if (currentTarifNumero != null) {
-                                    stringResource(R.string.settings_tarif_numero_format, currentTarifNumero!!)
+                                    stringResource(R.string.settings_tarif_numero_format, currentTarifNumero)
                                 } else {
                                     stringResource(R.string.tarif_numero_range_format, range.first, range.last)
                                 }
@@ -834,7 +834,7 @@ fun SettingsScreen(
 
                     LaunchedEffect(selectedParcelleId, placetteRepository) {
                         if (selectedParcelleId != null && placetteRepository != null) {
-                            placettes = placetteRepository.getPlacettesByParcelle(selectedParcelleId!!).first()
+                            placettes = placetteRepository.getPlacettesByParcelle(selectedParcelleId).first()
                         } else {
                             placettes = emptyList()
                         }

@@ -246,8 +246,8 @@ fun GpsDistanceMeasureDialog(
                 if (pos1 != null) {
                     Text(
                         "📍 " + stringResource(R.string.gps_distance_pos1_recorded,
-                            String.format("%.5f", pos1!!.latitude),
-                            String.format("%.5f", pos1!!.longitude)),
+                            String.format("%.5f", pos1.latitude),
+                            String.format("%.5f", pos1.longitude)),
                         style = MaterialTheme.typography.labelSmall,
                         color = Color(0xFF2E7D32)
                     )

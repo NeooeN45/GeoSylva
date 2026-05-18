@@ -111,14 +111,15 @@ fun IbpEvaluationScreen(
 
     LaunchedEffect(existing) {
         if (!initialized && existing != null) {
-            answers = existing!!.answers
-            evaluatorName = existing!!.evaluatorName
-            globalNote = existing!!.globalNote
-            observationDate = existing!!.observationDate
-            growthConditionsStr = existing!!.growthConditions.name
-            ibpModeStr = existing!!.ibpMode.name
-            if (gpsLat == null) gpsLat = existing!!.latitude
-            if (gpsLon == null) gpsLon = existing!!.longitude
+            val e = existing
+            answers = e.answers
+            evaluatorName = e.evaluatorName
+            globalNote = e.globalNote
+            observationDate = e.observationDate
+            growthConditionsStr = e.growthConditions.name
+            ibpModeStr = e.ibpMode.name
+            if (gpsLat == null) gpsLat = e.latitude
+            if (gpsLon == null) gpsLon = e.longitude
             initialized = true
         } else if (!initialized && evaluationId == null) {
             initialized = true
@@ -1261,7 +1262,7 @@ fun IbpMartelageCard(
             }
             Column(horizontalAlignment = Alignment.End) {
                 if (canNavigate) {
-                    TextButton(onClick = { onNavigateToIbp!!(parcelleId!!, placetteId!!) }) {
+                    TextButton(onClick = { onNavigateToIbp?.invoke(parcelleId ?: return@TextButton, placetteId ?: return@TextButton) }) {
                         Text(if (ibpEval != null) stringResource(R.string.ibp_edit) else stringResource(R.string.ibp_start))
                     }
                 }

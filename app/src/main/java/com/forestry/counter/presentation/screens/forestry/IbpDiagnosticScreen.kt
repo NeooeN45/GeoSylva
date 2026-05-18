@@ -273,25 +273,25 @@ private fun computePriorityActions(eval: IbpEvaluation): List<DiagAction> {
     // Actionable criteria (group A, manageable)
     if ((scores[IbpCriterionId.BMS] ?: -1) < 5)
         actions += DiagAction("Créer/conserver des chicots debout",
-            "Objectif ≥3 BMg/ha (D>37,5cm) — anneler des arbres sénescents", 5 - maxOf(scores[IbpCriterionId.BMS]!!, 0), "Court terme")
+            "Objectif ≥3 BMg/ha (D>37,5cm) — anneler des arbres sénescents", 5 - maxOf(scores[IbpCriterionId.BMS] ?: 0, 0), "Court terme")
     if ((scores[IbpCriterionId.BMC] ?: -1) < 5)
         actions += DiagAction("Laisser du bois mort au sol",
-            "Objectif ≥3 BMg/ha couchés — ne pas sortir les houppiers", 5 - maxOf(scores[IbpCriterionId.BMC]!!, 0), "Court terme")
+            "Objectif ≥3 BMg/ha couchés — ne pas sortir les houppiers", 5 - maxOf(scores[IbpCriterionId.BMC] ?: 0, 0), "Court terme")
     if ((scores[IbpCriterionId.DMH] ?: -1) < 5)
         actions += DiagAction("Désigner des arbres à dendromicrohabitats",
-            "Marquer ≥5 arbres/ha porteurs de cavités, carpophores, coulées", 5 - maxOf(scores[IbpCriterionId.DMH]!!, 0), "Court terme")
+            "Marquer ≥5 arbres/ha porteurs de cavités, carpophores, coulées", 5 - maxOf(scores[IbpCriterionId.DMH] ?: 0, 0), "Court terme")
     if ((scores[IbpCriterionId.GB] ?: -1) < 5)
         actions += DiagAction("Réserver les très gros bois (TGB)",
-            "Exempter de coupe tous arbres D>67,5cm — objectif ≥5/ha", 5 - maxOf(scores[IbpCriterionId.GB]!!, 0), "Moyen terme")
+            "Exempter de coupe tous arbres D>67,5cm — objectif ≥5/ha", 5 - maxOf(scores[IbpCriterionId.GB] ?: 0, 0), "Moyen terme")
     if ((scores[IbpCriterionId.VS] ?: -1) < 5)
         actions += DiagAction("Créer des trouées florifères",
-            "Objectif 1–5% de milieux ouverts florifères — trouées, layons larges", 5 - maxOf(scores[IbpCriterionId.VS]!!, 0), "Moyen terme")
+            "Objectif 1–5% de milieux ouverts florifères — trouées, layons larges", 5 - maxOf(scores[IbpCriterionId.VS] ?: 0, 0), "Moyen terme")
     if ((scores[IbpCriterionId.E1] ?: -1) < 5)
         actions += DiagAction("Enrichir en essences autochtones",
-            "Introduire 2–4 genres supplémentaires — sorbier, alisier, cornouiller…", 5 - maxOf(scores[IbpCriterionId.E1]!!, 0), "Long terme")
+            "Introduire 2–4 genres supplémentaires — sorbier, alisier, cornouiller…", 5 - maxOf(scores[IbpCriterionId.E1] ?: 0, 0), "Long terme")
     if ((scores[IbpCriterionId.E2] ?: -1) < 5)
         actions += DiagAction("Favoriser la stratification verticale",
-            "Maintenir/développer strate arbustive et herbacée — réduire densité", 5 - maxOf(scores[IbpCriterionId.E2]!!, 0), "Long terme")
+            "Maintenir/développer strate arbustive et herbacée — réduire densité", 5 - maxOf(scores[IbpCriterionId.E2] ?: 0, 0), "Long terme")
 
     return actions.sortedByDescending { it.gainPts }.take(5)
 }

@@ -445,7 +445,7 @@ private fun IbpCreateDialog(
                     ) {
                         Icon(Icons.Default.ArrowBack, contentDescription = null, modifier = Modifier.size(16.dp))
                         Spacer(Modifier.width(4.dp))
-                        Text(selectedParcelle!!.name, style = MaterialTheme.typography.labelMedium)
+                        Text(selectedParcelle.name, style = MaterialTheme.typography.labelMedium)
                     }
                     HorizontalDivider()
                     Spacer(Modifier.height(4.dp))
