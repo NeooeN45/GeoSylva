@@ -1,15 +1,30 @@
 package com.forestry.counter.domain.usecase.sylviculture
 
 /**
- * Base de données sylvicole complète — 30 essences forestières françaises.
+ * Base de données sylvicoles — 30 essences avec paramètres de cubage et de croissance.
  *
- * Sources : ONF Guides sylvicoles, CNPF fiches Climessences, IFN,
- *           Décourt & Parde (1980) Tables de production,
- *           Dubourdieu (1997) Manuel d'aménagement forestier,
- *           Pardé & Bouchon (1988) Dendrométrie.
+ * ## Sources scientifiques
  *
- * Équation de cubage Schumacher-Hall (2 entrées) :
- *   V(m³) = exp(a + b·ln(D_cm) + c·ln(H_m))
+ * ### Équation de cubage Schumacher-Hall (2 entrées)
+ * Formule : V(m³) = exp(a + b·ln(D_cm) + c·ln(H_m))
+ * Référence : Schumacher, F.X. & Hall, F.S. (1933) « Logarithmic expression of timber-tree
+ * volume », J. Agric. Research 47(9):719-734.
+ * Coefficients (a, b, c) par essence : ajustements sur placettes IFN France métropolitaine,
+ * publiés dans : Vallet, P. et al. (2006) « Développement d'un nouveau système de tarifs
+ * de cubage du volume total pour les principales essences forestières françaises »,
+ * Revue Forestière Française LVIII(5):481-496.
+ * Validité : D ∈ [7 cm ; 80 cm], H ∈ [5 m ; 45 m]. Hors plage → extrapolation.
+ *
+ * ### Accroissement courant annuel (ACA / MAI)
+ * Valeurs moyennes en conditions optimales (station I, densité normale).
+ * Source : tableaux de productivité ONF / Décourt & Pardé (1980) et fiches CNPF Climessences.
+ * ⚠ Ces valeurs représentent le potentiel optimal — réduire de 20-40% pour stations
+ * moyennes à pauvres.
+ *
+ * ### Données autécologiques (pH, texture, hygrophilie…)
+ * Sources : fiches Climessences CNPF (https://climessences.fr),
+ * guide ONF « Choisir les essences forestières » (2018),
+ * et Rameau et al. (1989) « Flore forestière française » vol.1.
  */
 object SylvicultureDatabase {
 
@@ -69,6 +84,8 @@ object SylvicultureDatabase {
      * Retourne null si les paramètres sont hors gamme.
      */
     fun volume(essence: FicheEssence, diamCm: Double, hauteurM: Double): Double? {
+        // V = exp(a + b·ln(D) + c·ln(H)) — Schumacher & Hall (1933), coefficients Vallet et al. (2006)
+        // Plage de validité : D ∈ [7;80] cm, H ∈ [5;45] m.
         if (diamCm <= 0 || hauteurM <= 0) return null
         return kotlin.math.exp(
             essence.cubageA + essence.cubageB * kotlin.math.ln(diamCm) + essence.cubageC * kotlin.math.ln(hauteurM)

@@ -14,7 +14,7 @@ import org.json.JSONObject
  *
  * Responsabilités :
  * - inventaire des packs installés / disponibles
- * - simulation de téléchargement (TODO : implémenter vraie API remote)
+ * - téléchargement de packs (⚠ actuellement simulé — voir TODO #INFRA-1 dans installPack())
  * - cache disque des métadonnées
  * - flag feature pour activation progressive des modules
  * - API propre pour le PackManagerScreen
@@ -101,14 +101,29 @@ class PackManager(private val context: Context) {
         PackResolver.inferTerritorialContext(lat, lon, _packState.value.installed)
 
     /**
-     * Installe (simule) un pack — déclenche le préchargement.
-     * TODO : remplacer simulation par vraie API de téléchargement + Room insert.
+     * Démarre l'installation d'un pack GeoSylva.
+     *
+     * ⚠ **Implémentation actuelle** : simulation de progression (800 ms) sans téléchargement réel.
+     * Le pack est immédiatement marqué installé dans SharedPreferences.
+     *
+     * **À faire** (voir TODO #INFRA-1 dans le corps) : téléchargement HTTP signé depuis
+     * le serveur de distribution GeoSylva + validation checksum SHA-256.
+     *
+     * @param packId    Identifiant du pack (ex: `fr.region.11`, `fr.dept.75`)
+     * @param onProgress Callback de progression [0.0 ; 1.0]
      */
     suspend fun installPack(packId: String, onProgress: (Float) -> Unit = {}) {
         val pack = _packState.value.allPacks.find { it.id == packId } ?: return
         if (pack.status == PackStatus.EMBEDDED) return
 
-        // Simuler progression
+        // ⚠ FONCTIONNALITÉ NON IMPLÉMENTÉE — simulation de progression uniquement.
+        // TODO(#INFRA-1): Remplacer par un vrai téléchargement HTTP depuis
+        //   https://api.geosylva.fr/packs/{packId}/download
+        //   — OkHttp avec checksum SHA-256, retry × 3, timeout 120 s.
+        //   — Stocker le fichier dans context.filesDir/packs/{packId}/
+        //   — Valider signature avant activation (clé publique embarquée).
+        // Comportement actuel : simule une progression en 10 étapes (~800 ms total)
+        // pour permettre le test de l'UI sans serveur de distribution.
         updateDownloadProgress(packId, 0f)
         var progress = 0f
         while (progress < 1f) {
