@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "GéoSylva"
 include(":app")
+include(":dem_pack")

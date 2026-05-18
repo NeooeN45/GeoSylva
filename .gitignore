@@ -15,6 +15,12 @@ keystore/
 *.prj
 *.cpg
 
+# Tuiles DEM SRTM (binaires volumineux ~1.4 GB, copiés via script)
+# Voir scripts/copy_dem_tiles.ps1 pour synchroniser depuis le disque D:
+dem_pack/src/main/assets/dem_tiles/*.hgt
+dem_pack/src/main/assets/dem_tiles/**/*.hgt
+dem_pack/src/main/assets/dem_tiles/*.zip
+
 # IDE
 .idea/
 *.iml

@@ -106,6 +106,9 @@ android {
         }
     }
 
+    // Asset Pack pour les tuiles DEM SRTM (offline elevation data)
+    assetPacks += ":dem_pack"
+
 }
 
 /*
