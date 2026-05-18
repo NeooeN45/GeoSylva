@@ -70,9 +70,16 @@ fun StationDiagnosticScreen(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val diagnostics by stationRepository.getByParcelle(parcelleId).collectAsState(initial = emptyList())
+    val viewModel = remember(parcelleId) {
+        StationDiagnosticViewModel(
+            parcelleId         = parcelleId,
+            stationRepository  = stationRepository,
+            preferencesManager = preferencesManager
+        )
+    }
+    val diagnostics by viewModel.diagnostics.collectAsState()
 
-    val tutorialCompleted by preferencesManager.stationTutorialCompleted.collectAsState(initial = true)
+    val tutorialCompleted by viewModel.tutorialCompleted.collectAsState()
     var showTutorial by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(tutorialCompleted) {
@@ -199,7 +206,7 @@ fun StationDiagnosticScreen(
 
         scope.launch {
             val now = System.currentTimeMillis()
-            stationRepository.save(
+            viewModel.saveObservation(
                 currentStation.copy(
                     id = if (currentStation.id.isBlank()) UUID.randomUUID().toString() else currentStation.id,
                     parcelleId = parcelleId,
@@ -226,7 +233,7 @@ fun StationDiagnosticScreen(
             icon = Icons.Default.Terrain,
             onDismiss = {
                 showTutorial = false
-                scope.launch { preferencesManager.setStationTutorialCompleted(true) }
+                viewModel.markTutorialCompleted()
             }
         )
     }
