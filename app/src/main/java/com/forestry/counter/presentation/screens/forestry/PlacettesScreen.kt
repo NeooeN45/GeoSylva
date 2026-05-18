@@ -392,7 +392,7 @@ fun PlacettesScreen(
     }
 
     if (deletePlacette != null) {
-        val p = deletePlacette
+        val p = deletePlacette ?: return
         AppMiniDialog(
             onDismissRequest = { deletePlacette = null },
             animationsEnabled = animationsEnabled,

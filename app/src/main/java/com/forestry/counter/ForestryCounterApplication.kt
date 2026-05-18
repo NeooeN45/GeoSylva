@@ -222,14 +222,18 @@ class ForestryCounterApplication : Application() {
     }
 
     private fun applyAppLocale() {
-        CoroutineScope(Dispatchers.Main + SupervisorJob()).launch {
-            runCatching {
+        // Utilise applicationScope (lié au cycle de vie de l'Application) plutôt qu'un
+        // CoroutineScope orphelin qui causerait un memory leak (SupervisorJob non annulé).
+        applicationScope.launch(Dispatchers.Main) {
+            try {
                 val lang = userPreferences.appLanguage.first()
                 if (lang == "system") {
                     AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
                 } else {
                     AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(lang))
                 }
+            } catch (e: Exception) {
+                android.util.Log.w("ForestryApp", "Impossible d'appliquer la locale : ${e.message}")
             }
         }
     }

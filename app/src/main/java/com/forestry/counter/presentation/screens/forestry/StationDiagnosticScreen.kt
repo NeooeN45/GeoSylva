@@ -379,8 +379,10 @@ fun StationDiagnosticScreen(
             }
 
             // ── F3. Avenir Climatique DRIAS ───────────────────────────────
-            val climateZone = if (gpsLat != null && gpsLon != null)
-                ClimateZone.detect(gpsLat, gpsLon, altitudeM.toDoubleOrNull())
+            val lat = gpsLat
+            val lon = gpsLon
+            val climateZone = if (lat != null && lon != null)
+                ClimateZone.detect(lat, lon, altitudeM.toDoubleOrNull())
             else ClimateZone.UNKNOWN
             AvenirClimatBlock(zone = climateZone, modifier = Modifier.padding(horizontal = 12.dp))
             Spacer(Modifier.height(6.dp))

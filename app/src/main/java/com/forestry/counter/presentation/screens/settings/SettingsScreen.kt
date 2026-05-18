@@ -663,9 +663,10 @@ fun SettingsScreen(
                     TarifMethod.COEF_FORME -> R.string.tarif_method_coef_forme
                 }
                 val currentLabel = stringResource(tarifLabelRes)
-                val subtitle = if (currentTarifNumero != null) {
+                val tarifNum = currentTarifNumero
+                val subtitle = if (tarifNum != null) {
                     stringResource(R.string.settings_tarif_current_format, currentLabel) +
-                        " — " + stringResource(R.string.settings_tarif_numero_format, currentTarifNumero)
+                        " — " + stringResource(R.string.settings_tarif_numero_format, tarifNum)
                 } else {
                     stringResource(R.string.settings_tarif_current_format, currentLabel)
                 }
@@ -682,9 +683,10 @@ fun SettingsScreen(
                     ListItem(
                         headlineContent = { Text(stringResource(R.string.settings_tarif_numero_label)) },
                         supportingContent = {
+                            val tn = currentTarifNumero
                             Text(
-                                if (currentTarifNumero != null) {
-                                    stringResource(R.string.settings_tarif_numero_format, currentTarifNumero)
+                                if (tn != null) {
+                                    stringResource(R.string.settings_tarif_numero_format, tn)
                                 } else {
                                     stringResource(R.string.tarif_numero_range_format, range.first, range.last)
                                 }
@@ -833,8 +835,10 @@ fun SettingsScreen(
                     }
 
                     LaunchedEffect(selectedParcelleId, placetteRepository) {
-                        if (selectedParcelleId != null && placetteRepository != null) {
-                            placettes = placetteRepository.getPlacettesByParcelle(selectedParcelleId).first()
+                        val parcelleId = selectedParcelleId
+                        val repo = placetteRepository
+                        if (parcelleId != null && repo != null) {
+                            placettes = repo.getPlacettesByParcelle(parcelleId).first()
                         } else {
                             placettes = emptyList()
                         }
