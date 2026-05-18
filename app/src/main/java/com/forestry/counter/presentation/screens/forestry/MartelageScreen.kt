@@ -156,6 +156,21 @@ fun MartelageScreen(
     onNavigateToStandClassification: ((parcelleId: String) -> Unit)? = null,
     onNavigateBack: () -> Unit
 ) {
+    val viewModel = remember(scope, forestId, parcelleId, placetteId) {
+        MartelageViewModel(
+            scope = scope,
+            forestId = forestId,
+            parcelleId = parcelleId,
+            placetteId = placetteId,
+            essenceRepository = essenceRepository,
+            tigeRepository = tigeRepository,
+            parcelleRepository = parcelleRepository,
+            forestryCalculator = forestryCalculator,
+            userPreferences = userPreferences,
+            ibpRepository = ibpRepository
+        )
+    }
+
     val snackbar = remember { SnackbarHostState() }
     val context = LocalContext.current
 
@@ -168,7 +183,7 @@ fun MartelageScreen(
     val haptic = rememberHapticFeedback()
     val sound = rememberSoundFeedback()
 
-    val parcelles by parcelleRepository.getAllParcelles().collectAsState(initial = emptyList())
+    val parcelles by viewModel.parcelles.collectAsState()
 
     // Clé de portée pour mémoriser les paramètres par parcelle / placette
     val scopeKey = remember(scope, forestId, parcelleId, placetteId) {
@@ -244,7 +259,7 @@ fun MartelageScreen(
 
     // Données de base
     val essences by essenceRepository.getAllEssences().collectAsState(initial = emptyList())
-    val allTiges by tigeRepository.getAllTiges().collectAsState(initial = emptyList())
+    val allTiges by viewModel.allTiges.collectAsState()
 
     // Parcelles incluses dans le périmètre courant
     val parcellesInScope = remember(parcelles, scope, forestId, parcelleId) {
