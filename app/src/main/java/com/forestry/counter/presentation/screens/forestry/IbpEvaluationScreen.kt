@@ -71,12 +71,19 @@ fun IbpEvaluationScreen(
     val scope = rememberCoroutineScope()
     val snackbar = remember { SnackbarHostState() }
 
-    // Load existing evaluation if editing
-    val existingFlow = remember(ibpRepository, evaluationId) {
-        if (evaluationId != null) ibpRepository.getById(evaluationId)
-        else kotlinx.coroutines.flow.flowOf(null)
+    // ── ViewModel ────────────────────────────────────────────────────
+    val viewModel = remember(parcelleId, placetteId, evaluationId) {
+        IbpEvaluationViewModel(
+            parcelleId         = parcelleId,
+            placetteId         = placetteId,
+            evaluationId       = evaluationId,
+            ibpRepository      = ibpRepository,
+            placetteRepository = placetteRepository
+        )
     }
-    val existing by existingFlow.collectAsState(initial = null)
+    val existing by viewModel.existingEvaluation.collectAsState()
+    val placette by viewModel.placette.collectAsState()
+    val placetteLabel by viewModel.placetteLabel.collectAsState()
 
     val ibpAnswersSaver = remember {
         val key = "ibp_answers_json"
@@ -103,23 +110,17 @@ fun IbpEvaluationScreen(
     val growthConditions = runCatching { IbpGrowthConditions.valueOf(growthConditionsStr) }.getOrElse { IbpGrowthConditions.LOWLAND }
     val ibpMode = runCatching { IbpMode.valueOf(ibpModeStr) }.getOrElse { IbpMode.COMPLET }
 
-    val placetteFlow = remember(placetteRepository, placetteId) {
-        placetteRepository?.getPlacetteById(placetteId) ?: kotlinx.coroutines.flow.flowOf(null)
-    }
-    val placette by placetteFlow.collectAsState(initial = null)
-    val placetteLabel = placette?.name?.takeIf { it.isNotBlank() } ?: placetteId.take(8)
-
     LaunchedEffect(existing) {
-        if (!initialized && existing != null) {
-            val e = existing
-            answers = e.answers
-            evaluatorName = e.evaluatorName
-            globalNote = e.globalNote
-            observationDate = e.observationDate
-            growthConditionsStr = e.growthConditions.name
-            ibpModeStr = e.ibpMode.name
-            if (gpsLat == null) gpsLat = e.latitude
-            if (gpsLon == null) gpsLon = e.longitude
+        val ex = existing
+        if (!initialized && ex != null) {
+            answers = ex.answers
+            evaluatorName = ex.evaluatorName
+            globalNote = ex.globalNote
+            observationDate = ex.observationDate
+            growthConditionsStr = ex.growthConditions.name
+            ibpModeStr = ex.ibpMode.name
+            if (gpsLat == null) gpsLat = ex.latitude
+            if (gpsLon == null) gpsLon = ex.longitude
             initialized = true
         } else if (!initialized && evaluationId == null) {
             initialized = true
@@ -204,7 +205,7 @@ fun IbpEvaluationScreen(
                 latitude = gpsLat,
                 longitude = gpsLon
             )
-            ibpRepository.save(eval)
+            viewModel.saveEvaluation(eval)
             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
             snackbar.showSnackbar(context.getString(R.string.ibp_saved))
         }
@@ -450,7 +451,7 @@ fun IbpEvaluationScreen(
                 TextButton(onClick = {
                     showDeleteDialog = false
                     scope.launch {
-                        if (evaluationId != null) ibpRepository.delete(evaluationId)
+                        if (evaluationId != null) viewModel.deleteEvaluation(evaluationId)
                         onNavigateBack()
                     }
                 }, colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error)) {
