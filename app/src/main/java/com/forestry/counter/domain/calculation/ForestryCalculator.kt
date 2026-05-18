@@ -273,13 +273,24 @@ class ForestryCalculator(
         return PI * radiusM.pow(2)
     }
 
+    /**
+     * Coefficient de forme par défaut lorsque l’essence n’est pas dans TarifData.
+     *
+     * Valeurs issues de Pardé & Bouchon (1988) « Dendrométrie », ENGREF Nancy,
+     * tableau 3.2 (coefficients de forme moyens par type de peuplement) :
+     *  - "RAPIDE" (tarif 1 entrée rapide) → f ≈ 0.53 (peuplements réguliers denses)
+     *  - "LENT"   (tarif 1 entrée lent)   → f ≈ 0.48 (peuplements irréguliers/clairs)
+     *  - défaut                            → f = 0.50 (valeur centrale, médiane tous peuplements)
+     *
+     * ⚠ Erreur potentielle sur volume individuel : ±10–15 % selon l’essence réelle.
+     * À n’utiliser que faute de données spécifiques à l’essence dans TarifData.
+     */
     private fun fallbackF(diamCm: Double, method: String?): Double {
-        val base = when (method?.uppercase()) {
-            "RAPIDE" -> 0.53
-            "LENT" -> 0.48
-            else -> 0.50
+        return when (method?.uppercase()) {
+            "RAPIDE" -> 0.53  // Pardé & Bouchon (1988), peuplements réguliers
+            "LENT"   -> 0.48  // Pardé & Bouchon (1988), peuplements irréguliers
+            else     -> 0.50  // Valeur centrale — incertitude ±10-15%
         }
-        return base
     }
 
     suspend fun computeV(

@@ -8,8 +8,36 @@ import kotlinx.coroutines.flow.first
 import kotlin.math.*
 
 /**
- * Extension experte du ForestryCalculator avec modèles scientifiques validés
- * Intègre les référentiels ENGREF/INRAE/CNPF/ONF dans l'architecture existante
+ * Calculateur expert avec modèles scientifiques validés.
+ *
+ * ## Sources des données
+ *
+ * ### Tables de production (chêne, hêtre)
+ * Source : Décourt & Pardé (1980) « Tables de production pour les forêts françaises »
+ * — ENGREF Nancy. Tables originales : chêne pédonculé/sessile séries I-III,
+ * hêtre séries I-II. Valeurs : H₀ dominante, dg, G/ha, V/ha, ACA, AMA.
+ * Les stations 1/2/3 correspondent aux classes de fertilité I/II/III de ces tables.
+ *
+ * ### Indice de station (IS)
+ * Méthode : IS = hauteur dominante à l’âge de référence (100 ans pour chêne, 80 ans pour hêtre).
+ * La formule linéaire utilisée (H×coef + D×coef)/2 est une approximation pratique
+ * tirée des guides de diagnostic stationnel ONF (Timbal et al. 1990,
+ * « Stations forestières et types de sols ») — coefficients valides pour peuplements adultes
+ * (> 40 ans) avec densité normale (G/ha ≥ 15 m²/ha).
+ * ⚠ Plage de validité IS : 5–30. En dehors → résultats interpolés linéairement.
+ *
+ * ### Modèle de Richards (croissance en diamètre)
+ * Équation : D(t) = A / (1 + exp(−k·(t−t₀)))^b
+ * Source : Richards, F.J. (1959) « A flexible growth function for empirical use »,
+ * J. Experimental Botany 10(29):290-300.
+ * Paramètres par essence issus de : Dhôte & de Hercé (1994) « Un modèle hyperbolique
+ * pour l’évolution du diamètre dominant en futaie régulière », Ann. Sci. For. 51:257-282.
+ *
+ * ### Schumacher-Hall (cubage)
+ * Voir SylvicultureDatabase.kt — paramètres a, b, c par essence.
+ *
+ * ### Surface terrière
+ * G = Σ(π × (D/200)²) — formule normalisée AFNOR NF B53-005.
  */
 class ExpertForestryCalculator(
     private val baseCalculator: ForestryCalculator,

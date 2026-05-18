@@ -4,9 +4,30 @@ import com.forestry.counter.domain.model.ClimateZone
 import kotlin.math.roundToInt
 
 /**
- * Base de données DRIAS — Projections climatiques pour les forêts françaises.
- * Sources : DRIAS-2020, CNRM-CM6 / IPSL-CM6, scénarios GIEC CMIP6 SSP245 et SSP585.
- * Période de référence : 1981–2010.
+ * Projections climatiques DRIAS pour les zones bioclimatiques françaises.
+ *
+ * ## Sources
+ * - Données : portail DRIAS-2020 (Météo-France / CNRS CERFACS / IPSL)
+ *   https://www.drias-climat.fr — accès public, dernier accès janvier 2025.
+ * - Modèles climatiques : CNRM-CM6-1 (Météo-France) et IPSL-CM6A-LR (IPSL).
+ * - Scénarios : CMIP6 SSP2-4.5 (bas) et SSP5-8.5 (haut), horizon 2050 (2041-2060).
+ * - Période de référence : 1981–2010.
+ *
+ * ## Méthode d’agrégation
+ * Les deltas (ΔT, ΔP, ΔETP) sont les médianes des ensembles multi-modèles DRIAS
+ * pour chaque grande zone bioclimatique française (5 zones).
+ * ⚠ Pas d’intervalle de confiance stocké ici — utiliser les plages DRIAS directement
+ * pour toute communication scientifique.
+ *
+ * ## Indice de stress [0–1] — stressIndex()
+ * Formule ad-hoc de synthèse : (ΔT/4 − ΔP/20 + ΔETP/30) / 3, clampé [0,1].
+ * Diviseurs calibrés sur seuils agronomiques usuels (ΔT critique ≈ 4°C pour résineux,
+ * ΔP −20% seuil de déficit hydrique, ΔETP +30% en conditions de canicule prolongée).
+ * ⚠ Indicateur de synthèse uniquement — pas une métrique climatologique publiée.
+ *
+ * ## Limitation
+ * 5 zones bioclimatiques = résolution grossière. Pour des projections à l’échelle
+ * de la parcelle, utiliser directement les données DRIAS maillées (8 km).
  */
 object DRIASDatabase {
 
@@ -60,6 +81,8 @@ object DRIASDatabase {
             val tempFactor = deltaTSsp585_2050 / 4.0
             val precipFactor = -deltaPrecipSsp585Pct / 20.0
             val etpFactor = deltaEtpPct / 30.0
+            // Diviseurs : ΔT/4 (seuil critique résineux ≈4°C), ΔP/20 (déficit hydrique ≈−20%),
+            // ΔETP/30 (canicule prolongée ≈+30%). Formule de synthèse non publiée — indicateur seul.
             return ((tempFactor + precipFactor + etpFactor) / 3.0).coerceIn(0.0, 1.0)
         }
 
