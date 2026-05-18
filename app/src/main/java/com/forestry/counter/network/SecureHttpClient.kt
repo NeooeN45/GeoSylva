@@ -45,7 +45,7 @@ object SecureHttpClient {
         if (enableLogging && isDebugBuild()) {
             builder.addInterceptor(Interceptor { chain ->
                 val req = chain.request()
-                android.util.Log.d("SecureHttpClient", "→ ${req.method} ${req.url}")
+                android.util.Log.d("SecureHttpClient", "→ ${req.method} ${req.url.host}")
                 val resp: Response = chain.proceed(req)
                 android.util.Log.d("SecureHttpClient", "← ${resp.code}")
                 resp

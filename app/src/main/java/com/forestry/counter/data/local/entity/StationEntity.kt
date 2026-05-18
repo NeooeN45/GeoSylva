@@ -1,6 +1,8 @@
 package com.forestry.counter.data.local.entity
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.forestry.counter.domain.model.station.Drainage
 import com.forestry.counter.domain.model.station.Exposition
@@ -12,7 +14,18 @@ import com.forestry.counter.domain.model.station.TextureSol
 import com.forestry.counter.domain.model.station.TypeHumus
 import com.forestry.counter.domain.model.station.DiagnosticPhoto
 
-@Entity(tableName = "station_diagnostics")
+@Entity(
+    tableName = "station_diagnostics",
+    foreignKeys = [
+        ForeignKey(
+            entity = ParcelleEntity::class,
+            parentColumns = ["parcelleId"],
+            childColumns = ["parcelleId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index(name = "index_station_diagnostics_parcelleId", value = ["parcelleId"])]
+)
 data class StationEntity(
     @PrimaryKey val id: String,
     val parcelleId: String,

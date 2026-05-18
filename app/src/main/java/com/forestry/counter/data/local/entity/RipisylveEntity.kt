@@ -1,12 +1,25 @@
 package com.forestry.counter.data.local.entity
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.forestry.counter.domain.model.ripisylve.InadapteesMode
 import com.forestry.counter.domain.model.ripisylve.LargeurMode
 import com.forestry.counter.domain.model.ripisylve.RipisylveObservation
 
-@Entity(tableName = "ripisylve_observation")
+@Entity(
+    tableName = "ripisylve_observation",
+    foreignKeys = [
+        ForeignKey(
+            entity = ParcelleEntity::class,
+            parentColumns = ["parcelleId"],
+            childColumns = ["parcelleId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index(name = "index_ripisylve_parcelleId", value = ["parcelleId"])]
+)
 data class RipisylveEntity(
     @PrimaryKey val id: String,
     val parcelleId: String,

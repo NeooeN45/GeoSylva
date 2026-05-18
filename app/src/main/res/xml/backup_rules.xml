@@ -1,7 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<full-backup-content>
-    <include domain="database" path="forestry_counter.db"/>
-    <include domain="database" path="forestry_counter.db-wal"/>
-    <include domain="database" path="forestry_counter.db-shm"/>
-    <include domain="file" path="datastore/user_preferences.preferences_pb"/>
-</full-backup-content>
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Regles de sauvegarde Android (API < 31).
+    La base de donnees et les preferences sont exclues du backup cloud
+    car elles contiennent des donnees sensibles (coordonnees GPS, donnees forestieres).
+    L'utilisateur peut exporter ses donnees via la fonction Export de l'app.
+-->
+<full-backup-content>
+    <exclude domain="database" path="forestry_counter.db"/>
+    <exclude domain="database" path="forestry_counter.db-wal"/>
+    <exclude domain="database" path="forestry_counter.db-shm"/>
+    <exclude domain="file" path="datastore/user_preferences.preferences_pb"/>
+</full-backup-content>
