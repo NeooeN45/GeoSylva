@@ -46,7 +46,7 @@ object RipisylvePdfExporter {
         fun startPage() {
             val info = PdfDocument.PageInfo.Builder(PAGE_W, PAGE_H, pageNum).create()
             page = doc.startPage(info)
-            canvas = page!!.canvas
+            canvas = requireNotNull(page) { "PdfDocument.startPage returned null" }.canvas
             y = MARGIN + 10f
         }
 

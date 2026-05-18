@@ -454,19 +454,20 @@ class AdvancedCalculationEngine {
         tiges: List<TigeEntity>,
         parcelle: ParcelleEntity?
     ): AdvancedCalculationEntity {
-        val validTiges = tiges.filter { 
-            it.diamCm > 0 && it.hauteurM != null && it.hauteurM!! > 0 
+        val validTiges = tiges.mapNotNull { tige ->
+            val h = tige.hauteurM ?: return@mapNotNull null
+            if (tige.diamCm > 0 && h > 0) tige to h else null
         }
-        
+
         if (validTiges.size < 10) {
             return calculation.copy(
                 result = 0.0,
                 error = "Pas assez de données pour l'analyse de corrélation"
             )
         }
-        
-        val diameters = validTiges.map { it.diamCm }
-        val heights = validTiges.map { it.hauteurM!! }
+
+        val diameters = validTiges.map { it.first.diamCm }
+        val heights = validTiges.map { it.second }
         
         val correlation = calculatePearsonCorrelation(diameters, heights)
         

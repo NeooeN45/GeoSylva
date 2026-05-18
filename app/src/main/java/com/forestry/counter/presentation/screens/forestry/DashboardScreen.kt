@@ -159,7 +159,7 @@ fun DashboardScreen(
         if (tigesWithHeight.isEmpty()) 0.0 else tigesWithHeight.sumOf { it.hauteurM ?: 0.0 } / tigesWithHeight.size
     }
     val heightClasses = remember(tigesWithHeight) {
-        tigesWithHeight.groupBy { ((it.hauteurM!! / 2).toInt() * 2) }
+        tigesWithHeight.groupBy { (((it.hauteurM ?: 0.0) / 2).toInt() * 2) }
             .toSortedMap().mapValues { it.value.size }
     }
     val qualityDist = remember(tiges) {

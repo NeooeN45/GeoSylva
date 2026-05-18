@@ -1,5 +1,6 @@
 package com.forestry.counter.data.local
 
+import android.util.Log
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.forestry.counter.data.local.migration.Migration15to26
@@ -9,6 +10,8 @@ import com.forestry.counter.data.local.migration.Migration15to26
  * pour faciliter la maintenance et la testabilité.
  */
 object DatabaseMigrations {
+
+    private const val TAG = "DatabaseMigrations"
 
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(db: SupportSQLiteDatabase) {
@@ -53,64 +56,64 @@ object DatabaseMigrations {
 
     val MIGRATION_4_5 = object : Migration(4, 5) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN forestOwnerId TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN tolerancePct REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN samplingMode TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN sampleAreaM2 REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN targetSpeciesCsv TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("CREATE INDEX IF NOT EXISTS index_parcelles_forestOwnerId ON parcelles(forestOwnerId)") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN forestOwnerId TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN tolerancePct REAL") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN samplingMode TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN sampleAreaM2 REAL") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN targetSpeciesCsv TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("CREATE INDEX IF NOT EXISTS index_parcelles_forestOwnerId ON parcelles(forestOwnerId)") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
         }
     }
 
     val MIGRATION_5_6 = object : Migration(5, 6) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE placettes ADD COLUMN name TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE placettes ADD COLUMN name TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
         }
     }
 
     val MIGRATION_6_7 = object : Migration(6, 7) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN numero INTEGER") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN categorie TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN qualite INTEGER") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN defauts TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN photoUri TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN numero INTEGER") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN categorie TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN qualite INTEGER") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN defauts TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN photoUri TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
         }
     }
 
     val MIGRATION_7_8 = object : Migration(7, 8) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN colorHex TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE essences ADD COLUMN colorHex TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
         }
     }
 
     val MIGRATION_8_9 = object : Migration(8, 9) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN shape TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN slopePct REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN aspect TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN access TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN altitudeM REAL") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN shape TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN slopePct REAL") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN aspect TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN access TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN altitudeM REAL") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
         }
     }
 
     val MIGRATION_9_10 = object : Migration(9, 10) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN qualiteDetail TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN qualiteDetail TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
         }
     }
 
     val MIGRATION_10_11 = object : Migration(10, 11) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN densiteBois REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN qualiteTypique TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN typeCoupePreferee TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN usageBois TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN vitesseCroissance TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN hauteurMaxM REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN diametreMaxCm REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN toleranceOmbre TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE essences ADD COLUMN remarques TEXT") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE essences ADD COLUMN densiteBois REAL") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE essences ADD COLUMN qualiteTypique TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE essences ADD COLUMN typeCoupePreferee TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE essences ADD COLUMN usageBois TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE essences ADD COLUMN vitesseCroissance TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE essences ADD COLUMN hauteurMaxM REAL") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE essences ADD COLUMN diametreMaxCm REAL") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE essences ADD COLUMN toleranceOmbre TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE essences ADD COLUMN remarques TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
         }
     }
 
@@ -136,20 +139,20 @@ object DatabaseMigrations {
 
     val MIGRATION_12_13 = object : Migration(12, 13) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE ibp_evaluations ADD COLUMN growthConditions TEXT NOT NULL DEFAULT 'LOWLAND'") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE ibp_evaluations ADD COLUMN growthConditions TEXT NOT NULL DEFAULT 'LOWLAND'") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
         }
     }
 
     val MIGRATION_13_14 = object : Migration(13, 14) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE ibp_evaluations ADD COLUMN ibpMode TEXT NOT NULL DEFAULT 'COMPLET'") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE ibp_evaluations ADD COLUMN ibpMode TEXT NOT NULL DEFAULT 'COMPLET'") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
         }
     }
 
     val MIGRATION_14_15 = object : Migration(14, 15) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            try { db.execSQL("ALTER TABLE ibp_evaluations ADD COLUMN latitude REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE ibp_evaluations ADD COLUMN longitude REAL") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE ibp_evaluations ADD COLUMN latitude REAL") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE ibp_evaluations ADD COLUMN longitude REAL") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
         }
     }
 
@@ -413,41 +416,41 @@ object DatabaseMigrations {
             db.execSQL("CREATE INDEX IF NOT EXISTS index_proj_ser_scenario ON projections_climatiques_ser(codeSer, scenario, horizon)")
 
             // ── Extensions table parcelles ────────────────────────────────────────
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN foretId TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN codeInseeCommune TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN nomCommune TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN sectionCadastrale TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN numeroCadastral TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN contenanceCadastraleHa REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN geometrieIgnWkt TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN natureCadastraleCode TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN localisationMode TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN codeSer TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN nomSer TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("CREATE INDEX IF NOT EXISTS index_parcelles_foretId ON parcelles(foretId)") } catch (_: Throwable) {}
-            try { db.execSQL("CREATE INDEX IF NOT EXISTS index_parcelles_codeInsee ON parcelles(codeInseeCommune)") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN foretId TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN codeInseeCommune TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN nomCommune TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN sectionCadastrale TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN numeroCadastral TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN contenanceCadastraleHa REAL") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN geometrieIgnWkt TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN natureCadastraleCode TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN localisationMode TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN codeSer TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE parcelles ADD COLUMN nomSer TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("CREATE INDEX IF NOT EXISTS index_parcelles_foretId ON parcelles(foretId)") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("CREATE INDEX IF NOT EXISTS index_parcelles_codeInsee ON parcelles(codeInseeCommune)") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
 
             // ── Extensions table placettes ────────────────────────────────────────
-            try { db.execSQL("ALTER TABLE placettes ADD COLUMN sessionId TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE placettes ADD COLUMN typeReleve TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE placettes ADD COLUMN referenceGpsWkt TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE placettes ADD COLUMN azimutRef REAL") } catch (_: Throwable) {}
-            try { db.execSQL("CREATE INDEX IF NOT EXISTS index_placettes_sessionId ON placettes(sessionId)") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE placettes ADD COLUMN sessionId TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE placettes ADD COLUMN typeReleve TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE placettes ADD COLUMN referenceGpsWkt TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE placettes ADD COLUMN azimutRef REAL") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("CREATE INDEX IF NOT EXISTS index_placettes_sessionId ON placettes(sessionId)") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
 
             // ── Extensions table tiges ────────────────────────────────────────────
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN sessionId TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN classeKraft INTEGER") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN etatSanitaire TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN vigueur TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN origine TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN typeCoupe TEXT") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN biomasseFusTonnes REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN carboneFusTonnes REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN coefficientElancement REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN houppierM REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN houppierPct REAL") } catch (_: Throwable) {}
-            try { db.execSQL("ALTER TABLE tiges ADD COLUMN isTigeHabitat INTEGER NOT NULL DEFAULT 0") } catch (_: Throwable) {}
-            try { db.execSQL("CREATE INDEX IF NOT EXISTS index_tiges_sessionId ON tiges(sessionId)") } catch (_: Throwable) {}
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN sessionId TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN classeKraft INTEGER") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN etatSanitaire TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN vigueur TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN origine TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN typeCoupe TEXT") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN biomasseFusTonnes REAL") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN carboneFusTonnes REAL") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN coefficientElancement REAL") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN houppierM REAL") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN houppierPct REAL") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("ALTER TABLE tiges ADD COLUMN isTigeHabitat INTEGER NOT NULL DEFAULT 0") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
+            try { db.execSQL("CREATE INDEX IF NOT EXISTS index_tiges_sessionId ON tiges(sessionId)") } catch (e: Throwable) { Log.w(TAG, "Migration ALTER TABLE ignorée (colonne déjà existante ?): ${e.message}") }
         }
     }
 

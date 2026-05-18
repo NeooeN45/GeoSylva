@@ -281,7 +281,8 @@ object CorrelationEngine {
         }
 
         // Hydromorphie station ↔ score ripisylve
-        if (station.hydromorphieProfondeurCm != null && station.hydromorphieProfondeurCm!! < 40
+        val hydromorphie = station.hydromorphieProfondeurCm
+        if (hydromorphie != null && hydromorphie < 40
             && ripScore.fonctionnalite in listOf(RipisylveFonctionnalite.BONNE, RipisylveFonctionnalite.TRES_BONNE)) {
             confirmations += CorrelationFact(
                 DataSource.STATION, DataSource.RIPISYLVE,

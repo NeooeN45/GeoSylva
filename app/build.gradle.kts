@@ -177,15 +177,15 @@ dependencies {
     implementation("com.opencsv:opencsv:5.9")
 
     // Excel (Apache POI - lite version for Android)
-    implementation("org.apache.poi:poi:5.2.5") {
+    implementation("org.apache.poi:poi:5.5.1") {
         exclude(group = "org.apache.logging.log4j", module = "log4j-api")
         exclude(group = "org.apache.xmlbeans", module = "xmlbeans")
     }
-    implementation("org.apache.poi:poi-ooxml:5.2.5") {
+    implementation("org.apache.poi:poi-ooxml:5.5.1") {
         exclude(group = "org.apache.logging.log4j", module = "log4j-api")
         exclude(group = "org.apache.xmlbeans", module = "xmlbeans")
     }
-    implementation("org.apache.poi:poi-ooxml-lite:5.2.5") {
+    implementation("org.apache.poi:poi-ooxml-lite:5.5.1") {
         exclude(group = "org.apache.logging.log4j", module = "log4j-api")
         exclude(group = "org.apache.xmlbeans", module = "xmlbeans")
     }
@@ -217,7 +217,7 @@ dependencies {
 
     // Security dependencies
     // implementation("net.sqlcipher:android-database-sqlcipher:4.2.0") // Temporairement désactivé
-    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+    implementation("androidx.security:security-crypto:1.0.0")
 
     // Testing
     testImplementation("junit:junit:4.13.2")

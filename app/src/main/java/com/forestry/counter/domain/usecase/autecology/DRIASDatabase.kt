@@ -131,7 +131,9 @@ object DRIASDatabase {
     )
 
     fun getProjection(zone: ClimateZone): DRIASProjection =
-        PROJECTIONS[zone] ?: PROJECTIONS[ClimateZone.UNKNOWN]!!
+        PROJECTIONS[zone]
+            ?: PROJECTIONS[ClimateZone.UNKNOWN]
+            ?: error("DRIASDatabase: projection manquante pour zone=$zone et UNKNOWN absent")
 
     fun computeVulnerabilityScore(zone: ClimateZone): Float {
         val p = getProjection(zone)
