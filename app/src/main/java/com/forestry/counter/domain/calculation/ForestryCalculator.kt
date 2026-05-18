@@ -180,7 +180,7 @@ class ForestryCalculator(
     suspend fun diameterClasses(): List<Int> {
         val item = parameterRepository.getParameter(ParameterKeys.CLASSES_DIAM).first()
         return runCatching {
-            if (item?.valueJson.isNullOrBlank()) emptyList() else json.decodeFromString<List<Int>>(item!!.valueJson)
+            item?.valueJson?.takeIf { it.isNotBlank() }?.let { json.decodeFromString<List<Int>>(it) } ?: emptyList()
         }.getOrElse { emptyList() }
     }
 

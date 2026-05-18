@@ -93,8 +93,12 @@ class TreeNavigator(private val context: Context) : SensorEventListener {
             }
         }
 
+        val callback = locationCallback ?: run {
+            _state.value = NavigationState()
+            return false
+        }
         try {
-            fusedClient?.requestLocationUpdates(request, locationCallback!!, Looper.getMainLooper())
+            fusedClient?.requestLocationUpdates(request, callback, Looper.getMainLooper())
         } catch (_: SecurityException) {
             _state.value = NavigationState()
             return false

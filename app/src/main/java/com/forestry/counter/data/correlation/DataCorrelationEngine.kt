@@ -52,14 +52,14 @@ class DataCorrelationEngine {
         tiges: List<TigeEntity>,
         parcelleId: String
     ): DataCorrelationEntity? {
-        val validTiges = tiges.filter { 
-            it.diamCm > 0 && it.hauteurM != null && it.hauteurM!! > 0 
+        val validTiges = tiges.filter {
+            it.diamCm > 0 && (it.hauteurM ?: 0.0) > 0
         }
-        
+
         if (validTiges.size < 10) return null
-        
+
         val diameters = validTiges.map { it.diamCm }
-        val heights = validTiges.map { it.hauteurM!! }
+        val heights = validTiges.mapNotNull { it.hauteurM }
         
         val correlation = pearsonCorrelation(diameters, heights)
         val pValue = calculatePValue(correlation, validTiges.size)
@@ -106,7 +106,7 @@ class DataCorrelationEngine {
             if (cluster.size >= 5) {
                 // Analyser les caractéristiques du cluster
                 val avgDiameter = cluster.map { it.diamCm }.average()
-                val avgHeight = cluster.filter { it.hauteurM != null }.map { it.hauteurM!! }.average()
+                val avgHeight = cluster.mapNotNull { it.hauteurM }.average()
                 
                 // Corrélation spatiale de croissance
                 val spatialCorrelation = DataCorrelationEntity(
@@ -212,7 +212,7 @@ class DataCorrelationEngine {
         qualityGroups.forEach { (quality, group) ->
             if (group.size >= 5) {
                 val avgDiameter = group.map { it.diamCm }.average()
-                val avgHeight = group.filter { it.hauteurM != null }.map { it.hauteurM!! }.average()
+                val avgHeight = group.mapNotNull { it.hauteurM }.average()
                 
                 val qualityCorrelation = DataCorrelationEntity(
                     correlationId = "quality_${quality}_$parcelleId",

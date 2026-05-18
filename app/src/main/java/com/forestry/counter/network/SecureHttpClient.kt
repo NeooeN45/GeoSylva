@@ -27,26 +27,19 @@ object SecureHttpClient {
             .writeTimeout(60, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
         
-        // Certificate pinning pour les domaines externes
-        val certificatePinner = CertificatePinner.Builder()
-            // MapLibre Demo Tiles
-            .add("demotiles.maplibre.org", 
-                "sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=")
-            // OpenTopoMap
-            .add("tile.opentopomap.org", 
-                "sha256/BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=")
-            // CartoDB
-            .add("basemaps.cartocdn.com", 
-                "sha256/CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC=")
-            // ArcGIS Online
-            .add("server.arcgisonline.com", 
-                "sha256/DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD=")
-            // Géoportail France
-            .add("data.geopf.fr", 
-                "sha256/EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE=")
-            .build()
-        
-        builder.certificatePinner(certificatePinner)
+        // NOTE: Certificate pinning désactivé — les hashes placeholder doivent être remplacés
+        // par les vrais hashes SHA-256 avant activation en production.
+        // Commande pour obtenir les hashes :
+        //   openssl s_client -connect domain.com:443 | openssl x509 -pubkey -noout |
+        //   openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64
+        // val certificatePinner = CertificatePinner.Builder()
+        //     .add("demotiles.maplibre.org", "sha256/<REAL_HASH>")
+        //     .add("tile.opentopomap.org",   "sha256/<REAL_HASH>")
+        //     .add("basemaps.cartocdn.com",  "sha256/<REAL_HASH>")
+        //     .add("server.arcgisonline.com","sha256/<REAL_HASH>")
+        //     .add("data.geopf.fr",          "sha256/<REAL_HASH>")
+        //     .build()
+        // builder.certificatePinner(certificatePinner)
         
         // Logging minimal uniquement en mode DEBUG
         if (enableLogging && isDebugBuild()) {
@@ -105,12 +98,15 @@ object SecureHttpClient {
      * À utiliser pendant le développement pour récupérer les vrais hashes.
      */
     fun getCurrentCertificateHashes(): Map<String, String> {
+        // Placeholder - remplacer par les vrais hashes SHA-256 avant activation du pinning :
+        // openssl s_client -connect domain.com:443 | openssl x509 -pubkey -noout |
+        // openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64
         return mapOf(
-            "demotiles.maplibre.org" to "sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-            "tile.opentopomap.org" to "sha256/BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=",
-            "basemaps.cartocdn.com" to "sha256/CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC=",
-            "server.arcgisonline.com" to "sha256/DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD=",
-            "data.geopf.fr" to "sha256/EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE="
+            "demotiles.maplibre.org"  to "sha256/<TODO_REAL_HASH>",
+            "tile.opentopomap.org"    to "sha256/<TODO_REAL_HASH>",
+            "basemaps.cartocdn.com"   to "sha256/<TODO_REAL_HASH>",
+            "server.arcgisonline.com" to "sha256/<TODO_REAL_HASH>",
+            "data.geopf.fr"           to "sha256/<TODO_REAL_HASH>"
         )
         // NOTE: Ces hashes doivent être remplacés par les vrais hashes SHA-256
         // Utiliser: openssl s_client -connect domain.com:443 | openssl x509 -pubkey -noout | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64

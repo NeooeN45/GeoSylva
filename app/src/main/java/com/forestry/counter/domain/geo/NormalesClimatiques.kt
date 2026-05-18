@@ -42,14 +42,12 @@ object NormalesClimatiques {
 
     /** Retourne les normales les plus proches par IDW lat/lon (fallback si département inconnu). */
     fun getByLocation(lat: Double, lon: Double): NormalesDept {
-        data class Pt(val d: Double, val norm: NormalesDept)
-        val sorted = ALL.map { n ->
-            val dlat = lat - DEPT_CENTROIDS[n.numDept]?.first!!
-            val dlon = lon - DEPT_CENTROIDS[n.numDept]?.second!!
-            val dist = Math.sqrt(dlat * dlat + dlon * dlon).coerceAtLeast(1e-6)
-            Pt(dist, n)
-        }.sortedBy { it.d }
-        return sorted.first().norm
+        return ALL.minByOrNull { n ->
+            val centroid = DEPT_CENTROIDS[n.numDept] ?: return@minByOrNull Double.MAX_VALUE
+            val dlat = lat - centroid.first
+            val dlon = lon - centroid.second
+            Math.sqrt(dlat * dlat + dlon * dlon).coerceAtLeast(1e-6)
+        } ?: ALL.first()
     }
 
     // ─── Centroides des départements ──────────────────────────────────────────

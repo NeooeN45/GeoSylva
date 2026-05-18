@@ -162,8 +162,8 @@ class ExpertForestryCalculator(
                 val age2 = sortedAges[i + 1]
                 
                 if (age in age1..age2) {
-                    val data1 = stationData[age1]!!
-                    val data2 = stationData[age2]!!
+                    val data1 = stationData[age1] ?: continue
+                    val data2 = stationData[age2] ?: continue
                     val ratio = (age - age1).toDouble() / (age2 - age1)
                     
                     return ProductionData(

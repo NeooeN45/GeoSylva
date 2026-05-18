@@ -154,7 +154,8 @@ class EnhancedForestryCalculator(
         val croissanceFuture = expertCalculator.richardsGrowthModel(essenceCode, ageCible, classeStation)
         
         val accroissementTotal = croissanceFuture - croissanceActuelle
-        val accroissementAnnuelMoyen = accroissementTotal / (ageCible - ageActuel)
+        val deltaAge = ageCible - ageActuel
+        val accroissementAnnuelMoyen = if (deltaAge > 0) accroissementTotal / deltaAge else 0.0
         
         // Prédiction de volume
         val hauteurActuelle = estimateHauteurFromDiameter(diametreActuel, essenceCode)

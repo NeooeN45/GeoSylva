@@ -105,8 +105,12 @@ class GpsParcelTracer(private val context: Context) {
             }
         }
 
+        val callback = locationCallback ?: run {
+            _state.value = TraceState()
+            return false
+        }
         try {
-            fusedClient?.requestLocationUpdates(request, locationCallback!!, Looper.getMainLooper())
+            fusedClient?.requestLocationUpdates(request, callback, Looper.getMainLooper())
         } catch (e: SecurityException) {
             _state.value = TraceState()
             return false

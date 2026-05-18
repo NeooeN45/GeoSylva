@@ -131,7 +131,8 @@ class CounterRepositoryImpl(
             .associate { it.name to it.value }
 
         computedCounters.forEach { computed ->
-            val formula = formulaDao.getFormulaById(computed.formulaId!!) ?: return@forEach
+            val formulaId = computed.formulaId ?: return@forEach
+            val formula = formulaDao.getFormulaById(formulaId) ?: return@forEach
             
             val result = formulaParser.evaluate(
                 expression = formula.expression,
