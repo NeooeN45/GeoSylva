@@ -1,6 +1,6 @@
 package com.forestry.counter.data.correlation
 
-import com.forestry.counter.data.local.entity.DataCorrelationEntity
+import com.forestry.counter.data.local.entity.CorrelationType
 import com.forestry.counter.data.local.entity.TigeEntity
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
@@ -32,7 +32,7 @@ class DataCorrelationEngineTest {
             it.sourceField == "diamCm" && it.targetField == "hauteurM"
         }
         assertNotNull(diamHeightCorrelation)
-        assertEquals(DataCorrelationEntity.CorrelationType.LINEAR, diamHeightCorrelation.correlationType)
+        assertEquals(CorrelationType.LINEAR, diamHeightCorrelation.correlationType)
         assertTrue(diamHeightCorrelation.correlationStrength > 0.5)
     }
     
@@ -47,7 +47,7 @@ class DataCorrelationEngineTest {
         
         // Then
         val spatialCorrelations = correlations.filter { 
-            it.correlationType == DataCorrelationEntity.CorrelationType.SPATIAL
+            it.correlationType == CorrelationType.SPATIAL
         }
         assertTrue(spatialCorrelations.isNotEmpty())
     }
@@ -63,7 +63,7 @@ class DataCorrelationEngineTest {
         
         // Then
         val temporalCorrelations = correlations.filter { 
-            it.correlationType == DataCorrelationEntity.CorrelationType.TEMPORAL
+            it.correlationType == CorrelationType.TEMPORAL
         }
         assertTrue(temporalCorrelations.isNotEmpty())
     }
@@ -149,7 +149,19 @@ class DataCorrelationEngineTest {
             qualite = 3,
             defauts = null,
             photoUri = null,
-            qualiteDetail = null
+            qualiteDetail = null,
+            sessionId = null,
+            classeKraft = null,
+            etatSanitaire = null,
+            vigueur = null,
+            origine = null,
+            typeCoupe = null,
+            biomasseFusTonnes = null,
+            carboneFusTonnes = null,
+            coefficientElancement = null,
+            houppierM = null,
+            houppierPct = null,
+            isTigeHabitat = false
         )
     }
 }

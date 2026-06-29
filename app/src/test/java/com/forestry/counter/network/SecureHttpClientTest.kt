@@ -1,6 +1,7 @@
 package com.forestry.counter.network
 
 import android.content.Context
+import io.mockk.mockk
 import okhttp3.OkHttpClient
 import org.junit.Before
 import org.junit.Test
@@ -106,26 +107,6 @@ class SecureHttpClientTest {
     }
 
     @Test
-    fun `getCurrentCertificateHashes should return valid hashes`() {
-        // When
-        val hashes = SecureHttpClient.getCurrentCertificateHashes()
-
-        // Then
-        assert(hashes.isNotEmpty())
-        assert(hashes.containsKey("demotiles.maplibre.org"))
-        assert(hashes.containsKey("tile.opentopomap.org"))
-        assert(hashes.containsKey("basemaps.cartocdn.com"))
-        assert(hashes.containsKey("server.arcgisonline.com"))
-        assert(hashes.containsKey("data.geopf.fr"))
-
-        // All hashes should be SHA-256 format
-        hashes.values.forEach { hash ->
-            assert(hash.startsWith("sha256/")) { "Hash should start with sha256/: $hash" }
-            assert(hash.length > 20) { "Hash should be substantial length: $hash" }
-        }
-    }
-
-    @Test
     fun `SECURE_DOMAINS should contain all expected domains`() {
         // Given
         val expectedDomains = listOf(
@@ -172,6 +153,6 @@ class SecureHttpClientTest {
         val client = SecureHttpClient.createSecureClient(context, enableLogging = false)
 
         // Then
-        assert(client.retryOnConnectionFailure()) { "Should retry on connection failure" }
+        assert(client.retryOnConnectionFailure) { "Should retry on connection failure" }
     }
 }

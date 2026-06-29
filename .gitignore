@@ -41,6 +41,7 @@ temp_crash_logs/
 .DS_Store
 Thumbs.db
 desktop.ini
+nul
 
 # Archives & large files at root
 /*.zip

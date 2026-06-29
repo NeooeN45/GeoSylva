@@ -231,7 +231,7 @@ class ConfidenceEngineTest {
     // ── RipisylveScore.confidenceLevel ────────────────────────────────────────
 
     @Test
-    fun `confidenceLevel FORTE si confidenceScore >= 70`() {
+    fun `confidenceLevel FORTE si confidenceScore superieur ou egal a 70`() {
         val score = minimalRipisylveScore().copy(confidenceScore = 75)
         assertEquals(DiagConfidence.FORTE, score.confidenceLevel)
     }
@@ -312,7 +312,7 @@ class ConfidenceEngineTest {
     // ── isReliable ────────────────────────────────────────────────────────────
 
     @Test
-    fun `isReliable vrai si score >= 60`() {
+    fun `isReliable vrai si score superieur ou egal a 60`() {
         val report = ConfidenceEngine.computeStationConfidence(fullStation())
         if (report.score >= 60) assertTrue(report.isReliable())
         else assertFalse(report.isReliable())

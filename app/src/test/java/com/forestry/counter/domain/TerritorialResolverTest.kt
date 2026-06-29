@@ -54,8 +54,8 @@ class TerritorialResolverTest {
     fun `Score de confiance eleve pour grands centres urbains`() {
         val result = TerritorialResolver.resolve(48.8566, 2.3522) // Paris
         assertTrue(
-            "Score confiance devrait être > 0.5 pour Paris, obtenu ${result.confidenceScore}",
-            result.confidenceScore > 0.5
+            "Score confiance devrait être > 50 pour Paris, obtenu ${result.confidenceGps}",
+            result.confidenceGps > 50
         )
     }
 
@@ -63,8 +63,8 @@ class TerritorialResolverTest {
     fun `Score de confiance faible pour point distant de tous centroides`() {
         val result = TerritorialResolver.resolve(51.0, -0.5) // hors France
         assertTrue(
-            "Score confiance devrait être < 0.5 hors France, obtenu ${result.confidenceScore}",
-            result.confidenceScore < 0.5
+            "Score confiance devrait être < 50 hors France, obtenu ${result.confidenceGps}",
+            result.confidenceGps < 50
         )
     }
 

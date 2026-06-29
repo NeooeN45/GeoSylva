@@ -216,8 +216,8 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     // Security dependencies
-    // implementation("net.sqlcipher:android-database-sqlcipher:4.2.0") // Temporairement désactivé
-    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+    // SQLCipher (chiffrement DB) — désactivé, à réactiver dans la phase chiffrement (feature concours)
+    // implementation("net.sqlcipher:android-database-sqlcipher:4.2.0")
 
     // Testing
     testImplementation("junit:junit:4.13.2")

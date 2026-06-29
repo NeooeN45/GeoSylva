@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-// import com.forestry.counter.security.DatabaseEncryptionService — désactivé (SQLCipher commenté)
 import com.forestry.counter.data.local.dao.AlerteSanitaireDao
 import com.forestry.counter.data.local.dao.ArbreHabitatDao
 import com.forestry.counter.data.local.dao.CounterDao
@@ -119,22 +118,15 @@ abstract class ForestryDatabase : RoomDatabase() {
 
     companion object {
         const val DATABASE_NAME = "forestry_counter.db"
-        
+
         /**
-         * Crée une instance de la base de données chiffrée avec SQLCipher.
-         * 
+         * Crée une instance de la base de données.
+         * Le chiffrement SQLCipher sera réactivé dans la phase chiffrement (feature concours).
+         *
          * @param context Contexte de l'application
          * @param migrations Liste des migrations à appliquer
-         * @return Instance de ForestryDatabase chiffrée
+         * @return Instance de ForestryDatabase
          */
-        // createEncryptedDatabase désactivé — SQLCipher commenté dans DatabaseEncryptionService
-        // fun createEncryptedDatabase(context: Context, migrations: Array<Migration>): ForestryDatabase
-        
-        /**
-         * Crée une instance de la base de données non chiffrée (pour compatibilité).
-         * @deprecated Utiliser createEncryptedDatabase() pour la sécurité
-         */
-        @Deprecated("Utiliser createEncryptedDatabase() pour la sécurité")
         fun createDatabase(context: Context, migrations: Array<Migration>): ForestryDatabase {
             return Room.databaseBuilder(
                 context.applicationContext,
