@@ -37,6 +37,24 @@ GeoSylva remplace le carnet de terrain et les tableurs Excel par une **applicati
 
 ---
 
+## 💼 Opportunité & vision
+
+> **GeoSylva digitalise l'inventaire forestier de terrain** — un marché aujourd'hui dominé
+> par le papier, les tableurs et des logiciels SIG de bureau inadaptés au terrain.
+
+| | |
+|---|---|
+| 🌳 **Marché** | Forêt métropolitaine ≈ **17 M ha** (~31 % du territoire), **~3,5 M de propriétaires privés**, filière forêt-bois ≈ **400 000 emplois**. Utilisateurs cibles : experts forestiers, coopératives, ONF, CRPF/CNPF, techniciens et propriétaires gestionnaires.<sup>(chiffres publics à confirmer en due diligence)</sup> |
+| 🎯 **Problème** | L'inventaire et le martelage se font encore au carnet papier + Excel : lent, source d'erreurs, sans GPS, sans calculs normalisés, ré-saisie au bureau. |
+| 💡 **Solution** | Une app Android **tout-en-un, 100 % hors-ligne** : saisie terrain, GPS de précision, 7 méthodes de cubage, IBP CNPF officiel, cartographie 12 couches, exports SIG/PDF. |
+| 💰 **Modèle économique** | **Double licence** : open source AGPL-3.0 (adoption, confiance, communauté) + **licence commerciale** pour intégrations propriétaires/SaaS. Potentiel d'abonnement pro & modules entreprise. |
+| 🛡️ **Atouts différenciants** | IBP CNPF officiel, chiffrement SQLCipher, conformité RGPD documentée, 420+ tests, architecture Clean — **maturité technique rare** pour un produit de ce stade. |
+
+📄 **Dossier détaillé pour investisseurs & partenaires → [INVESTORS.md](INVESTORS.md)**
+🤝 **Contact direct** : hydrogene.bonde@gmail.com — *licence commerciale, partenariat, investissement.*
+
+---
+
 ## ✨ Fonctionnalités
 
 ### 🌿 IBP — Indice de Biodiversité Potentielle (CNPF officiel)
@@ -235,7 +253,7 @@ app/src/main/java/com/forestry/counter/
 
 ```bash
 # 1. Cloner le repository
-git clone https://github.com/NeooeN45/GeoSylva-new.git
+git clone https://github.com/NeooeN45/GeoSylva.git
 cd GeoSylva
 
 # 2. Ouvrir dans Android Studio

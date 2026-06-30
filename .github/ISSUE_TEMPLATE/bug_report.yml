@@ -1,0 +1,45 @@
+name: 🐛 Signaler un bug
+description: Un comportement inattendu sur le terrain ou dans l'app
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de prendre le temps de signaler ce problème — vos retours terrain guident directement le développement. 🌲
+  - type: textarea
+    id: description
+    attributes:
+      label: Description du problème
+      description: Que s'est-il passé ? Qu'attendiez-vous à la place ?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Étapes pour reproduire
+      placeholder: |
+        1. Ouvrir l'écran …
+        2. Toucher …
+        3. Observer …
+    validations:
+      required: true
+  - type: input
+    id: android
+    attributes:
+      label: Version Android & modèle d'appareil
+      placeholder: "Android 13 — Samsung Galaxy S22"
+    validations:
+      required: true
+  - type: input
+    id: appversion
+    attributes:
+      label: Version de GeoSylva
+      placeholder: "2.4.0"
+    validations:
+      required: false
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Captures d'écran (optionnel)
+      description: Glissez-déposez vos captures ici.

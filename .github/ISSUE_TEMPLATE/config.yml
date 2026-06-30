@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions & retours d'usage
+    url: https://github.com/NeooeN45/GeoSylva/discussions
+    about: Partagez vos cas d'usage terrain, posez des questions, proposez des idées.
+  - name: 🤝 Contact partenariats / investisseurs
+    url: mailto:hydrogene.bonde@gmail.com
+    about: Discuter d'une licence commerciale, d'un partenariat ou d'un investissement.
+  - name: 🔒 Vulnérabilité de sécurité
+    url: https://github.com/NeooeN45/GeoSylva/blob/main/SECURITY.md
+    about: Signalez une faille de manière responsable (jamais en public).

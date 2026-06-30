@@ -1,0 +1,36 @@
+name: 💡 Proposer une fonctionnalité
+description: Une idée pour améliorer GeoSylva
+title: "[Idée] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Les meilleures idées viennent du terrain. Merci de partager la vôtre ! 🌲
+  - type: textarea
+    id: problem
+    attributes:
+      label: Quel problème résout cette idée ?
+      description: Décrivez le besoin terrain ou la frustration actuelle.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solution proposée
+      description: Comment imaginez-vous que GeoSylva réponde à ce besoin ?
+    validations:
+      required: true
+  - type: dropdown
+    id: profile
+    attributes:
+      label: Votre profil
+      options:
+        - Expert forestier
+        - Technicien / agent ONF / CRPF
+        - Coopérative forestière
+        - Propriétaire forestier
+        - Étudiant / chercheur
+        - Autre
+    validations:
+      required: false
