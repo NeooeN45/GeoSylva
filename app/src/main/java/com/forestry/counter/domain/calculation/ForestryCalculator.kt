@@ -730,11 +730,20 @@ class ForestryCalculator(
         }
     }
 
-    private fun priceFor(essence: String, product: String, diamClass: Int, prices: List<PriceEntry>, qualityCode: String? = null): Double? {
+    private fun priceFor(
+        essence: String,
+        product: String,
+        diamClass: Int,
+        prices: List<PriceEntry>,
+        qualityCode: String? = null,
+        region: com.forestry.counter.domain.calculation.pricing.GrecoRegion? = null
+    ): Double? {
         // C-PRIX-PRO : Utilisation du moteur de calcul professionnel (8 coefficients).
         // Le moteur cherche le prix de référence dans PriceEntry (en résolvant les alias d'essence),
         // applique le coefficient qualité (NF EN 1316/1927), puis les autres coefficients.
         // Retourne null si aucun prix PriceEntry trouvé (pour préserver le fallback ForestryCalculator).
+        // `region` (GRECO) est transmis au moteur pour appliquer le coefficient régional ;
+        // tant que l'UI ne fournit pas la région détectée, il vaut null (×1.0).
         val candidates = essenceCodeCandidates(essence)
         return ProPricingEngine.calculateFromEntryOnly(
             essenceCode = essence,
@@ -743,7 +752,8 @@ class ForestryCalculator(
             qualityGrade = qualityCode,
             prices = prices,
             position = SalePosition.SUR_PIED,
-            essenceCandidates = candidates
+            essenceCandidates = candidates,
+            region = region
         )
     }
 }

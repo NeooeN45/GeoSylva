@@ -65,11 +65,22 @@ object RegionalCoefficients {
     )
 
     /**
+     * Index normalisé (code essence en MAJUSCULES) — évite les ratés silencieux
+     * quand l'appelant passe un alias minuscule ou avec espaces (cf. bug casse A4).
+     */
+    private val normalizedEssenceGreco: Map<Pair<String, GrecoRegion>, Double> =
+        essenceGrecoCoefficients.entries.associate { (key, value) ->
+            (key.first.trim().uppercase() to key.second) to value
+        }
+
+    /**
      * Retourne le coefficient régional pour une essence dans une GRECO.
      * Priorité : coefficient spécifique essence×GRECO > coefficient GRECO moyen.
+     * Insensible à la casse / aux espaces sur le code essence.
      */
     fun coefficient(essenceCode: String, region: GrecoRegion): Double {
-        val specific = essenceGrecoCoefficients[essenceCode to region]
+        val key = essenceCode.trim().uppercase()
+        val specific = normalizedEssenceGreco[key to region]
         if (specific != null) return specific
         return grecoCoefficients[region] ?: 1.0
     }

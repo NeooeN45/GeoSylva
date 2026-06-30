@@ -333,11 +333,19 @@ enum class WoodDefect(
         /**
          * Calcule la dépréciation cumulée plafonnée pour une liste de défauts.
          * Retourne une fraction 0-1 (ex: 0.35 = -35%).
+         *
+         * Cumul MULTIPLICATIF (et non additif) : la valeur résiduelle est le produit
+         * des (1 - dᵢ). Exemple : deux défauts à 50 % → 1-(0,5×0,5) = 75 % (et non 100 %).
+         * Plus conforme à la pratique d'évaluation : chaque défaut s'applique sur la
+         * valeur déjà dépréciée par les précédents. Résultat plafonné à MAX_TOTAL_DEPRECIATION.
          */
         fun cumulativeDepreciation(defects: List<Pair<WoodDefect, DefectSeverity>>): Double {
             if (defects.isEmpty()) return 0.0
-            val raw = defects.sumOf { (defect, severity) -> defect.depreciation(severity) }
-            return raw.coerceAtMost(MAX_TOTAL_DEPRECIATION)
+            val retainedValue = defects.fold(1.0) { acc, (defect, severity) ->
+                acc * (1.0 - defect.depreciation(severity))
+            }
+            val depreciation = 1.0 - retainedValue
+            return depreciation.coerceAtMost(MAX_TOTAL_DEPRECIATION)
         }
     }
 }

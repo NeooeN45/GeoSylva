@@ -41,17 +41,41 @@ object ProPricingEngine {
     fun calculate(context: PricingContext): PricingResult {
         val warnings = mutableListOf<String>()
 
-        // 1. Prix de référence (lookup dans PriceEntry)
-        val basePrice = findBasePrice(context) ?: run {
-            warnings.add("Aucun prix de référence trouvé pour ${context.essenceCode}/${context.product}/${context.diamCm}cm — utilisation du fallback DefaultProductPrices")
-            fallbackPrice(context)
-        }
-        val baseSource = if (basePrice == fallbackPrice(context)) {
-            "Fallback DefaultProductPrices (essence=${context.essenceCode})"
+        // 1. Prix de référence (lookup dans PriceEntry) — un seul booléen `fromEntry`
+        //    évite de recalculer le fallback et de comparer deux Double avec ==.
+        val entryPrice = findBasePrice(
+            essenceCandidates = listOf(context.essenceCode),
+            product = context.product,
+            diam = context.diamCm,
+            quality = context.qualityGrade,
+            prices = context.prices
+        )
+        val basePrice: Double
+        val baseSource: String
+        if (entryPrice != null) {
+            basePrice = entryPrice
+            baseSource = "PriceEntry (${context.essenceCode}/${context.product}, ${context.diamCm}cm, ${context.year})"
         } else {
-            "PriceEntry (${context.essenceCode}/${context.product}, ${context.diamCm}cm, ${context.year})"
+            basePrice = fallbackPrice(context)
+            baseSource = "Fallback DefaultProductPrices (essence=${context.essenceCode})"
+            warnings.add("Aucun prix de référence trouvé pour ${context.essenceCode}/${context.product}/${context.diamCm}cm — utilisation du fallback DefaultProductPrices")
         }
 
+        return buildResult(context, basePrice, baseSource, warnings)
+    }
+
+    /**
+     * Construit le [PricingResult] complet à partir d'un prix de base déjà résolu.
+     * SOURCE DE VÉRITÉ UNIQUE des coefficients : tout calcul de prix passe par ici,
+     * ce qui interdit toute divergence entre les chemins d'appel (calculate /
+     * calculateFromEntryOnly). Le prix final utilise `breakdown.totalCoefficient`.
+     */
+    private fun buildResult(
+        context: PricingContext,
+        basePrice: Double,
+        baseSource: String,
+        warnings: MutableList<String>
+    ): PricingResult {
         // 2. Coefficient qualité (NF EN 1316-1 / NF EN 1927)
         val qualityCoef = PriceCalculator.getQualityCoefficient(context.essenceCode, context.qualityGrade)
         val qualitySource = if (context.qualityGrade != null) {
@@ -137,64 +161,6 @@ object ProPricingEngine {
     }
 
     /**
-     * Recherche le prix de référence dans la table PriceEntry.
-     * Priorité : essence exacte + qualité exacte > essence exacte sans qualité >
-     *            wildcard essence + qualité > wildcard essence sans qualité.
-     */
-    private fun findBasePrice(context: PricingContext): Double? {
-        val prices = context.prices
-        if (prices.isEmpty()) return null
-
-        val essence = context.essenceCode.trim().uppercase()
-        val product = context.product.trim().uppercase()
-        val diam = context.diamCm
-        val quality = context.qualityGrade?.trim()?.uppercase()
-
-        // Pass 1 : essence exacte, qualité exacte
-        prices.firstOrNull { entry ->
-            entry.essence.trim().equals(essence, true) &&
-                entry.product.trim().equals(product, true) &&
-                diam >= entry.min && diam <= entry.max &&
-                entry.quality?.trim()?.uppercase() == quality
-        }?.let { return it.eurPerM3 }
-
-        // Pass 2 : essence exacte, qualité agnostique (quality null ou "*")
-        prices.firstOrNull { entry ->
-            entry.essence.trim().equals(essence, true) &&
-                entry.product.trim().equals(product, true) &&
-                diam >= entry.min && diam <= entry.max &&
-                (entry.quality == null || entry.quality.trim() == "*")
-        }?.let { return it.eurPerM3 }
-
-        // Pass 3 : wildcard essence "*", qualité exacte
-        if (quality != null) {
-            prices.firstOrNull { entry ->
-                entry.essence.trim() == "*" &&
-                    entry.product.trim().equals(product, true) &&
-                    diam >= entry.min && diam <= entry.max &&
-                    entry.quality?.trim()?.uppercase() == quality
-            }?.let { return it.eurPerM3 }
-        }
-
-        // Pass 4 : wildcard essence "*", qualité agnostique
-        prices.firstOrNull { entry ->
-            entry.essence.trim() == "*" &&
-                entry.product.trim().equals(product, true) &&
-                diam >= entry.min && diam <= entry.max &&
-                (entry.quality == null || entry.quality.trim() == "*")
-        }?.let { return it.eurPerM3 }
-
-        // Pass 5 : wildcard produit "*"
-        prices.firstOrNull { entry ->
-            entry.essence.trim().equals(essence, true) &&
-                entry.product.trim() == "*" &&
-                diam >= entry.min && diam <= entry.max
-        }?.let { return it.eurPerM3 }
-
-        return null
-    }
-
-    /**
      * Fallback : utilise DefaultProductPrices si aucune entrée PriceEntry trouvée.
      */
     private fun fallbackPrice(context: PricingContext): Double {
@@ -236,7 +202,12 @@ object ProPricingEngine {
      * Utilisé par ForestryCalculator pour préserver la logique de fallback existante
      * (essai defaultProd → DefaultProductPrices).
      *
+     * Passe désormais par [buildResult] : même logique de coefficients que [calculate],
+     * donc AUCUNE divergence possible entre les deux chemins. Le coefficient régional
+     * est appliqué si `region` est fourni (sinon ×1.0).
+     *
      * @param essenceCandidates liste de codes d'essence candidats (alias inclus)
+     * @param region GRECO de la parcelle (null = pas d'ajustement régional)
      */
     fun calculateFromEntryOnly(
         essenceCode: String,
@@ -245,23 +216,29 @@ object ProPricingEngine {
         qualityGrade: String? = null,
         prices: List<PriceEntry> = emptyList(),
         position: SalePosition = SalePosition.SUR_PIED,
-        essenceCandidates: List<String> = listOf(essenceCode)
+        essenceCandidates: List<String> = listOf(essenceCode),
+        region: GrecoRegion? = null
     ): Double? {
-        val basePrice = findBasePriceWithCandidates(essenceCandidates, product, diamCm, qualityGrade, prices) ?: return null
-        val qualityCoef = PriceCalculator.getQualityCoefficient(essenceCode, qualityGrade)
-        val defectNet = 1.0 - WoodDefect.cumulativeDepreciation(emptyList())
-        val lotCoef = LotSizeCoefficients.coefficient(null)
-        return basePrice * qualityCoef * defectNet *
-            Accessibility.FACILE.coefficient * SaleSeason.NEUTRE.coefficient *
-            Certification.AUCUNE.coefficient * lotCoef * position.coefficient
+        val basePrice = findBasePrice(essenceCandidates, product, diamCm, qualityGrade, prices) ?: return null
+        val context = PricingContext(
+            essenceCode = essenceCode,
+            product = product,
+            diamCm = diamCm,
+            qualityGrade = qualityGrade,
+            prices = prices,
+            region = region,
+            position = position
+        )
+        return buildResult(context, basePrice, "PriceEntry", mutableListOf()).finalPricePerM3
     }
 
     /**
      * Recherche le prix de référence dans PriceEntry en essayant plusieurs codes d'essence candidats.
+     * Source de vérité UNIQUE du lookup (utilisée par calculate et calculateFromEntryOnly).
      * Priorité : essence exacte + qualité exacte > essence exacte sans qualité >
      *            wildcard essence + qualité > wildcard essence sans qualité.
      */
-    private fun findBasePriceWithCandidates(
+    private fun findBasePrice(
         essenceCandidates: List<String>,
         product: String,
         diam: Int,
