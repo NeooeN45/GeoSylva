@@ -540,14 +540,14 @@ fun PlacetteDetailScreen(
                     }
                 }
                 LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.padding(bottom = 10.dp)
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    modifier = Modifier.padding(bottom = 8.dp)
                 ) {
                     items(photoFiles, key = { it.absolutePath }) { file ->
                         val bmp = remember(file.absolutePath) {
                             runCatching {
                                 BitmapFactory.decodeFile(file.absolutePath)
-                                    ?.let { android.graphics.Bitmap.createScaledBitmap(it, 120, 120, true) }
+                                    ?.let { android.graphics.Bitmap.createScaledBitmap(it, 96, 96, true) }
                                     ?.asImageBitmap()
                             }.getOrNull()
                         }
@@ -556,7 +556,7 @@ fun PlacetteDetailScreen(
                             shape = MaterialTheme.shapes.small,
                             border = if (isSelected) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null,
                             modifier = Modifier
-                                .size(80.dp)
+                                .size(64.dp)
                                 .combinedClickable(
                                     onClick = {
                                         playClickFeedback()
