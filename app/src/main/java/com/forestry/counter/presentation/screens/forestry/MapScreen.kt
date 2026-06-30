@@ -1104,6 +1104,8 @@ fun MapScreen(
     // Initialiser MapLibre de façon synchrone AVANT toute création de MapView
     remember(context) {
         try { Mapbox.getInstance(context) } catch (e: Throwable) { Log.w(TAG, "Mapbox.getInstance failed", e) }
+        // Configurer le client HTTP MapLibre : cache 50MB + retry backoff + User-Agent conforme
+        com.forestry.counter.domain.location.MapLibreHttpConfig.configure(context)
         true
     }
 
