@@ -264,28 +264,45 @@ private fun removeMeasLayers(style: Style) {
 }
 
 private fun renderMeasureOnMap(style: Style, pts: List<LatLng>, mode: MeasureMode, lineColor: Int = android.graphics.Color.parseColor("#FF6F00")) {
-    removeMeasLayers(style)
-    if (pts.isEmpty()) return
+    if (pts.isEmpty()) {
+        removeMeasLayers(style)
+        return
+    }
+
+    // Optimisation : mettre à jour les sources existantes via setGeoJson()
     if (pts.size >= 2) {
-        style.addSource(GeoJsonSource(MEAS_LINE_SRC, measLineGeoJson(pts, mode == MeasureMode.AREA)))
+        val lineJson = measLineGeoJson(pts, mode == MeasureMode.AREA)
+        val existingLineSrc = style.getSource(MEAS_LINE_SRC) as? GeoJsonSource
+        if (existingLineSrc != null) {
+            existingLineSrc.setGeoJson(lineJson)
+        } else {
+            style.addSource(GeoJsonSource(MEAS_LINE_SRC, lineJson))
+            style.addLayer(
+                LineLayer(MEAS_LINE_LYR, MEAS_LINE_SRC).withProperties(
+                    PropertyFactory.lineColor(lineColor),
+                    PropertyFactory.lineWidth(2.5f),
+                    PropertyFactory.lineOpacity(0.9f)
+                )
+            )
+        }
+    }
+
+    val ptsJson = measPtsGeoJson(pts)
+    val existingPtsSrc = style.getSource(MEAS_PTS_SRC) as? GeoJsonSource
+    if (existingPtsSrc != null) {
+        existingPtsSrc.setGeoJson(ptsJson)
+    } else {
+        style.addSource(GeoJsonSource(MEAS_PTS_SRC, ptsJson))
         style.addLayer(
-            LineLayer(MEAS_LINE_LYR, MEAS_LINE_SRC).withProperties(
-                PropertyFactory.lineColor(lineColor),
-                PropertyFactory.lineWidth(2.5f),
-                PropertyFactory.lineOpacity(0.9f)
+            CircleLayer(MEAS_PTS_LYR, MEAS_PTS_SRC).withProperties(
+                PropertyFactory.circleColor(lineColor),
+                PropertyFactory.circleRadius(6f),
+                PropertyFactory.circleStrokeColor(android.graphics.Color.WHITE),
+                PropertyFactory.circleStrokeWidth(2f),
+                PropertyFactory.circleOpacity(0.95f)
             )
         )
     }
-    style.addSource(GeoJsonSource(MEAS_PTS_SRC, measPtsGeoJson(pts)))
-    style.addLayer(
-        CircleLayer(MEAS_PTS_LYR, MEAS_PTS_SRC).withProperties(
-            PropertyFactory.circleColor(lineColor),
-            PropertyFactory.circleRadius(6f),
-            PropertyFactory.circleStrokeColor(android.graphics.Color.WHITE),
-            PropertyFactory.circleStrokeWidth(2f),
-            PropertyFactory.circleOpacity(0.95f)
-        )
-    )
 }
 
 /**
@@ -506,10 +523,19 @@ private fun renderTigesOnMap(
     essenceMap: Map<String, Essence>,
     essenceColors: Map<String, Int>
 ) {
-    removeTigeLayers(style)
+    val geoJson = buildTigesGeoJson(geoTiges, essenceMap, essenceColors)
+
+    // Optimisation : si la source existe déjà, on met à jour les données
+    // via setGeoJson() sans recréer source + layers (gain perf majeur).
+    val existingSource = style.getSource(TIGE_SOURCE_ID) as? GeoJsonSource
+    if (existingSource != null) {
+        existingSource.setGeoJson(geoJson)
+        return
+    }
+
+    // Premier rendu (ou après switch style) : créer source + layers
     if (geoTiges.isEmpty()) return
 
-    val geoJson = buildTigesGeoJson(geoTiges, essenceMap, essenceColors)
     val source = GeoJsonSource(
         TIGE_SOURCE_ID,
         geoJson,
@@ -517,6 +543,8 @@ private fun renderTigesOnMap(
             .withCluster(true)
             .withClusterRadius(50)
             .withClusterMaxZoom(13)
+            .withBuffer(8)
+            .withTolerance(0.5f)
     )
     style.addSource(source)
 
@@ -623,52 +651,61 @@ private fun renderTigesOnMap(
  * Dessine le tracé GPS (ligne + polygone + points) sur la carte.
  */
 private fun renderTraceOnMap(style: Style, tracer: GpsParcelTracer) {
-    // Remove existing trace layers
-    try { style.removeLayer(TRACE_POINTS_LAYER_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: TRACE_POINTS_LAYER_ID", e) }
-    try { style.removeLayer(TRACE_LINE_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: TRACE_LINE_ID", e) }
-    try { style.removeLayer(TRACE_FILL_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: TRACE_FILL_ID", e) }
-    try { style.removeSource(TRACE_POINTS_SOURCE_ID) } catch (e: Throwable) { Log.w(TAG, "removeSource failed: TRACE_POINTS_SOURCE_ID", e) }
-    try { style.removeSource(TRACE_SOURCE_ID) } catch (e: Throwable) { Log.w(TAG, "removeSource failed: TRACE_SOURCE_ID", e) }
-
     val state = tracer.state.value
-    if (state.points.isEmpty()) return
+    if (state.points.isEmpty()) {
+        // Nettoyer si pas de points
+        try { style.removeLayer(TRACE_POINTS_LAYER_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: TRACE_POINTS_LAYER_ID", e) }
+        try { style.removeLayer(TRACE_LINE_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: TRACE_LINE_ID", e) }
+        try { style.removeLayer(TRACE_FILL_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: TRACE_FILL_ID", e) }
+        try { style.removeSource(TRACE_POINTS_SOURCE_ID) } catch (e: Throwable) { Log.w(TAG, "removeSource failed: TRACE_POINTS_SOURCE_ID", e) }
+        try { style.removeSource(TRACE_SOURCE_ID) } catch (e: Throwable) { Log.w(TAG, "removeSource failed: TRACE_SOURCE_ID", e) }
+        return
+    }
 
-    // Polygon fill + line (if ≥3 points)
     val polyJson = tracer.toGeoJsonPolygon()
     val lineJson = tracer.toGeoJsonLine()
     val geom = polyJson ?: lineJson ?: return
 
-    style.addSource(GeoJsonSource(TRACE_SOURCE_ID, geom))
-
-    if (polyJson != null) {
+    // Optimisation : mettre à jour la source existante via setGeoJson()
+    val existingTraceSource = style.getSource(TRACE_SOURCE_ID) as? GeoJsonSource
+    if (existingTraceSource != null) {
+        existingTraceSource.setGeoJson(geom)
+    } else {
+        style.addSource(GeoJsonSource(TRACE_SOURCE_ID, geom))
+        if (polyJson != null) {
+            style.addLayer(
+                FillLayer(TRACE_FILL_ID, TRACE_SOURCE_ID).withProperties(
+                    PropertyFactory.fillColor(android.graphics.Color.parseColor("#1B5E20")),
+                    PropertyFactory.fillOpacity(0.20f)
+                )
+            )
+        }
         style.addLayer(
-            FillLayer(TRACE_FILL_ID, TRACE_SOURCE_ID).withProperties(
-                PropertyFactory.fillColor(android.graphics.Color.parseColor("#1B5E20")),
-                PropertyFactory.fillOpacity(0.20f)
+            LineLayer(TRACE_LINE_ID, TRACE_SOURCE_ID).withProperties(
+                PropertyFactory.lineColor(android.graphics.Color.parseColor("#2E7D32")),
+                PropertyFactory.lineWidth(3f),
+                PropertyFactory.lineOpacity(0.9f)
             )
         )
     }
 
-    style.addLayer(
-        LineLayer(TRACE_LINE_ID, TRACE_SOURCE_ID).withProperties(
-            PropertyFactory.lineColor(android.graphics.Color.parseColor("#2E7D32")),
-            PropertyFactory.lineWidth(3f),
-            PropertyFactory.lineOpacity(0.9f)
-        )
-    )
-
     // Points
     val pointsJson = tracer.toGeoJsonPoints()
-    style.addSource(GeoJsonSource(TRACE_POINTS_SOURCE_ID, pointsJson))
-    style.addLayer(
-        CircleLayer(TRACE_POINTS_LAYER_ID, TRACE_POINTS_SOURCE_ID).withProperties(
-            PropertyFactory.circleColor(android.graphics.Color.parseColor("#4CAF50")),
-            PropertyFactory.circleRadius(5f),
-            PropertyFactory.circleStrokeColor(android.graphics.Color.WHITE),
-            PropertyFactory.circleStrokeWidth(2f),
-            PropertyFactory.circleOpacity(0.95f)
+    val existingPointsSource = style.getSource(TRACE_POINTS_SOURCE_ID) as? GeoJsonSource
+    if (existingPointsSource != null) {
+        existingPointsSource.setGeoJson(pointsJson)
+    } else {
+        style.addSource(GeoJsonSource(TRACE_POINTS_SOURCE_ID, pointsJson))
+        style.addLayer(
+            CircleLayer(TRACE_POINTS_LAYER_ID, TRACE_POINTS_SOURCE_ID).withProperties(
+                PropertyFactory.circleColor(android.graphics.Color.parseColor("#4CAF50")),
+                PropertyFactory.circleRadius(5f),
+                PropertyFactory.circleStrokeColor(android.graphics.Color.WHITE),
+                PropertyFactory.circleStrokeWidth(2f),
+                PropertyFactory.circleOpacity(0.95f)
+            )
         )
-    )
+    }
 }
 
 /**
@@ -2411,7 +2448,7 @@ fun MapScreen(
                             stringResource(R.string.trace_title),
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Bold,
-                            color = if (traceState.isRecording) Color(0xFF2E7D32)
+                            color = if (traceState.isRecording) SemanticSuccess
                                     else MaterialTheme.colorScheme.onSurface
                         )
                         Text(
@@ -2423,7 +2460,7 @@ fun MapScreen(
                                 stringResource(R.string.trace_surface_ha, String.format(Locale.getDefault(), "%.4f", ha)),
                                 style = MaterialTheme.typography.bodySmall,
                                 fontWeight = FontWeight.SemiBold,
-                                color = Color(0xFF2E7D32)
+                                color = SemanticSuccess
                             )
                         }
                         traceState.perimeterM?.let { p ->
@@ -2451,7 +2488,7 @@ fun MapScreen(
                                             }
                                         } catch (e: Throwable) { Log.w(TAG, "addManualPoint from lastKnownLocation failed", e) }
                                     },
-                                    containerColor = Color(0xFF4CAF50),
+                                    containerColor = AccentGreen,
                                     contentColor = Color.White,
                                     shape = RoundedCornerShape(10.dp),
                                     modifier = Modifier.size(36.dp)
@@ -2471,7 +2508,7 @@ fun MapScreen(
                                 // Stop recording
                                 SmallFloatingActionButton(
                                     onClick = { gpsTracer.stopRecording() },
-                                    containerColor = Color(0xFFC62828),
+                                    containerColor = SemanticError,
                                     contentColor = Color.White,
                                     shape = RoundedCornerShape(10.dp),
                                     modifier = Modifier.size(36.dp)
@@ -2486,7 +2523,7 @@ fun MapScreen(
                                             traceName = ""
                                             showTraceSaveDialog = true
                                         },
-                                        containerColor = Color(0xFF2E7D32),
+                                        containerColor = SemanticSuccess,
                                         contentColor = Color.White,
                                         shape = RoundedCornerShape(10.dp),
                                         modifier = Modifier.size(36.dp)
@@ -2541,14 +2578,14 @@ fun MapScreen(
                             Icon(
                                 Icons.Default.Straighten,
                                 contentDescription = stringResource(R.string.cd_straighten),
-                                tint = Color(0xFFFF6F00),
+                                tint = MartelageEnlever,
                                 modifier = Modifier.size(16.dp)
                             )
                             Text(
                                 stringResource(R.string.measure_tool_title),
                                 style = MaterialTheme.typography.labelMedium,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFFFF6F00)
+                                color = MartelageEnlever
                             )
                         }
                         Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -2557,7 +2594,7 @@ fun MapScreen(
                                 val sel = measureMode == mode
                                 Surface(
                                     onClick = { if (measureMode != mode) { measureMode = mode; measurePoints = emptyList() } },
-                                    color = if (sel) Color(0xFFFF6F00) else MaterialTheme.colorScheme.surfaceVariant,
+                                    color = if (sel) MartelageEnlever else MaterialTheme.colorScheme.surfaceVariant,
                                     shape = RoundedCornerShape(8.dp),
                                     modifier = Modifier.height(26.dp)
                                 ) {
@@ -2705,7 +2742,7 @@ fun MapScreen(
                                 if (measurePoints.size >= 2) {
                                     SmallFloatingActionButton(
                                         onClick = { measureSaveName = ""; showMeasureSaveDialog = true },
-                                        containerColor = Color(0xFFFF6F00),
+                                        containerColor = MartelageEnlever,
                                         contentColor = Color.White,
                                         shape = RoundedCornerShape(10.dp),
                                         modifier = Modifier.size(34.dp)
@@ -2779,11 +2816,11 @@ fun MapScreen(
                                                     if (mode == MeasureMode.AREA) Icons.Default.Map else Icons.Default.Straighten,
                                                     contentDescription = if (mode == MeasureMode.AREA) stringResource(R.string.cd_map) else stringResource(R.string.cd_straighten),
                                                     modifier = Modifier.size(14.dp),
-                                                    tint = Color(0xFFFF6F00)
+                                                    tint = MartelageEnlever
                                                 )
                                                 Column(Modifier.weight(1f)) {
                                                     Text(name, style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, maxLines = 1)
-                                                    Text(value, style = MaterialTheme.typography.labelSmall, color = Color(0xFFFF6F00))
+                                                    Text(value, style = MaterialTheme.typography.labelSmall, color = MartelageEnlever)
                                                 }
                                             }
                                         }
@@ -2809,7 +2846,7 @@ fun MapScreen(
                         measureActive = !measureActive
                         if (!measureActive) measurePoints = emptyList()
                     },
-                    containerColor = if (measureActive) Color(0xFFFF6F00) else MaterialTheme.colorScheme.secondaryContainer,
+                    containerColor = if (measureActive) MartelageEnlever else MaterialTheme.colorScheme.secondaryContainer,
                     contentColor = if (measureActive) Color.White else MaterialTheme.colorScheme.onSecondaryContainer,
                     shape = RoundedCornerShape(14.dp)
                 ) {
@@ -2856,7 +2893,7 @@ fun MapScreen(
                             }
                             gpsTracer.startRecording()
                         },
-                        containerColor = Color(0xFF2E7D32),
+                        containerColor = SemanticSuccess,
                         contentColor = Color.White,
                         shape = RoundedCornerShape(14.dp)
                     ) {
@@ -3060,7 +3097,7 @@ fun MapScreen(
                             stringResource(R.string.measure_panel_distance, t),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
-                            color = Color(0xFFFF6F00)
+                            color = MartelageEnlever
                         )
                     }
                     if (measureMode == MeasureMode.AREA && measurePoints.size >= 3) {
@@ -3071,7 +3108,7 @@ fun MapScreen(
                             stringResource(R.string.measure_panel_area, t),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
-                            color = Color(0xFFFF6F00)
+                            color = MartelageEnlever
                         )
                     }
                     Text(
