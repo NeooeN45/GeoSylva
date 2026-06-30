@@ -107,7 +107,22 @@ GeoSylva remplace le carnet de terrain et les tableurs Excel par une **applicati
 - **Qualité bois A/B/C/D** avec multiplicateurs automatiques (A=×2.5, B=×1.5, C=×1.0, D=×0.4)
 - **Ventilation par produit** — décomposition du volume par essence (BO/BI/BCh/PATE) avec valorisation détaillée
 
-### 📤 Exports professionnels
+### � Évolution des placettes
+
+- **Onglet Évolution** — chaque placette dispose d'un onglet "Évolution" à côté des essences, regroupant les tiges par année d'inventaire
+- **Cartes par année** — vue synthétique : nombre de tiges, essences, diamètre moyen, répartition par catégorie de martelage (Avenir, Réserve, Enlever, Dépérir, Biodiversité)
+- **Page détaillée par année** — clic sur une année pour accéder à une page complète :
+  - **Indicateurs globaux** — grille de tuiles : Tiges, Essences, Dm, Dg, G, G/ha, N/ha, Hm, Hg, Volume, V/ha, Biomasse, Carbone, Tiges habitat
+  - **Distribution des diamètres** — histogramme animé par classes de 5 cm
+  - **Évolution temporelle** — line charts canvas (tiges, Dm, G) sur toutes les années disponibles
+  - **Tableau par essence** — trié par % surface terrière (nom, N, Dm, G, V, % peuplement)
+  - **Catégories de martelage** — barres animées colorées avec proportions
+  - **Indicateurs dendrométriques** — liste détaillée avec unités (Dg, G, N/ha, Hm, Hg, V/ha)
+- **Calculs dendrométriques** — Dm (diamètre moyen), Dg (diamètre quadratique), G (surface terrière AFNOR), Hm (hauteur moyenne), Hg (hauteur de Lorey), volume estimé, biomasse et carbone
+- **Surface automatique** — G/ha et N/ha calculés depuis le rayon ou la surface de la placette
+- **100% Canvas custom** — tous les graphiques sont en Canvas Compose natif, sans dépendance externe
+
+### �📤 Exports professionnels
 
 - **PDF** — rapport A4 avec tableaux dendrométriques, valorisation par essence
 - **Shapefile** (SHP/SHX/DBF/PRJ) — ESRI compatible pour QGIS / ArcGIS

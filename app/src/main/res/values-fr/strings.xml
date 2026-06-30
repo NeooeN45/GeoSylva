@@ -279,6 +279,8 @@
     <string name="dashboard_basal_area_by_species">Surface terrière par essence (m²)</string>
     <string name="dashboard_others">autres</string>
     <string name="dashboard_button">Tableau de bord</string>
+    <string name="diag_station_btn">Diag. station</string>
+    <string name="diag_ripisylve_btn">Diag. ripisylve</string>
     <string name="dashboard_height_distribution">Distribution des hauteurs (m)</string>
     <string name="dashboard_quality_distribution">Répartition par qualité</string>
     <string name="dashboard_species_count">Essences</string>
@@ -427,6 +429,68 @@
 
     <string name="placette_essences_title">Placette - Essences</string>
     <string name="placette_essences_empty_desc">Aucune essence. Appuyez sur + pour ajouter.</string>
+    <string name="placette_tab_essences">Essences</string>
+    <string name="placette_tab_evolution">Évolution</string>
+    <string name="placette_evolution_empty">Aucune tige enregistrée.</string>
+    <string name="placette_evolution_empty_desc">Les données d\'évolution apparaîtront lorsque des tiges auront été saisies sur plusieurs années.</string>
+    <string name="placette_evolution_by_year">Évolution par année (%1$d)</string>
+    <string name="placette_evolution_stems_format">%1$d tiges · %2$d essences</string>
+    <string name="placette_evolution_diam_mean">Diamètre moyen</string>
+    <string name="placette_evolution_diam_mean_format">%1$.1f cm</string>
+    <string name="placette_evolution_no_category">Non catégorisé</string>
+    <!-- Page Évolution détaillée -->
+    <string name="evolution_detail_title">Évolution %1$d</string>
+    <string name="evolution_detail_stems">Tiges</string>
+    <string name="evolution_detail_species">Essences</string>
+    <string name="evolution_detail_dm">Diamètre moyen (Dm)</string>
+    <string name="evolution_detail_dg">Diamètre quadratique (Dg)</string>
+    <string name="evolution_detail_g">Surface terrière (G)</string>
+    <string name="evolution_detail_g_per_ha">G / ha</string>
+    <string name="evolution_detail_n_per_ha">N / ha</string>
+    <string name="evolution_detail_hm">Hauteur moyenne (Hm)</string>
+    <string name="evolution_detail_hg">Hauteur de Lorey (Hg)</string>
+    <string name="evolution_detail_volume">Volume</string>
+    <string name="evolution_detail_v_per_ha">V / ha</string>
+    <string name="evolution_detail_biomass">Biomasse</string>
+    <string name="evolution_detail_carbon">Carbone</string>
+    <string name="evolution_detail_habitat_trees">Tiges habitat</string>
+    <string name="evolution_detail_section_global">Indicateurs globaux</string>
+    <string name="evolution_detail_section_distribution">Distribution des diamètres</string>
+    <string name="evolution_detail_section_temporal">Évolution temporelle</string>
+    <string name="evolution_detail_section_by_essence">Par essence</string>
+    <string name="evolution_detail_section_categories">Catégories de martelage</string>
+    <string name="evolution_detail_section_dendro">Indicateurs dendrométriques</string>
+    <string name="evolution_detail_table_essence">Essence</string>
+    <string name="evolution_detail_table_stems">Tiges</string>
+    <string name="evolution_detail_table_dm">Dm (cm)</string>
+    <string name="evolution_detail_table_g">G (m²)</string>
+    <string name="evolution_detail_table_v">V (m³)</string>
+    <string name="evolution_detail_table_pct">% peuplement</string>
+    <string name="evolution_detail_no_data">Aucune donnée pour cette année.</string>
+    <string name="evolution_detail_no_heights">Aucune hauteur enregistrée — volume et hauteur de Lorey indisponibles.</string>
+    <string name="evolution_detail_chart_stems">Tiges</string>
+    <string name="evolution_detail_chart_diam">Classe de diamètre (cm)</string>
+    <string name="evolution_detail_chart_n">Nombre de tiges</string>
+    <string name="evolution_detail_temporal_stems">Tiges</string>
+    <string name="evolution_detail_temporal_dm">Diamètre moyen (cm)</string>
+    <string name="evolution_detail_temporal_g">Surface terrière (m²)</string>
+    <string name="evolution_detail_unit_cm">cm</string>
+    <string name="evolution_detail_unit_m2">m²</string>
+    <string name="evolution_detail_unit_m2_ha">m²/ha</string>
+    <string name="evolution_detail_unit_m3">m³</string>
+    <string name="evolution_detail_unit_m3_ha">m³/ha</string>
+    <string name="evolution_detail_unit_t">t</string>
+    <string name="evolution_detail_unit_stems_ha">tiges/ha</string>
+    <string name="evolution_detail_section_stems">Détail des tiges</string>
+    <string name="evolution_detail_stem_diam">Diamètre</string>
+    <string name="evolution_detail_stem_height">Hauteur</string>
+    <string name="evolution_detail_stem_category">Catégorie</string>
+    <string name="evolution_detail_stem_quality">Qualité</string>
+    <string name="evolution_detail_stem_number">N°</string>
+    <string name="evolution_detail_stem_no_height">—</string>
+    <string name="evolution_detail_stem_no_category">—</string>
+    <string name="evolution_detail_stems_count_format">%1$d tiges</string>
+    <string name="evolution_detail_donut_title">Répartition par catégorie</string>
     <string name="reorder">Réorganiser</string>
     <string name="move_up">Monter</string>
     <string name="move_down">Descendre</string>
@@ -900,6 +964,26 @@
     <string name="onboarding_ibp_b1">10 critères A–J : bois mort, micro-habitats, très gros bois, ancienneté…</string>
     <string name="onboarding_ibp_b2">Tableau de bord biodiversité : radar, actions prioritaires, gain potentiel</string>
     <string name="onboarding_ibp_b3">Export QGIS (GeoJSON + CSV + style QML) et comparaison temporelle</string>
+    <string name="onboarding_marking_title">Martelage intelligent</string>
+    <string name="onboarding_marking_desc">Planifiez et simulez vos coupes avec un tableau de bord dendrométrique complet : surface terrière, volumes, taux de prélèvement et projections économiques.</string>
+    <string name="onboarding_marking_b1">Statistiques de martelage en temps réel : surface terrière avant/après, % de prélèvement, N/ha</string>
+    <string name="onboarding_marking_b2">Typologie CNPF (F1–F5), stabilité du peuplement et indicateurs de biodiversité</string>
+    <string name="onboarding_marking_b3">Rapport PDF de synthèse et export CSV pour les dossiers de vente de bois</string>
+    <string name="onboarding_station_title">Diagnostic de station</string>
+    <string name="onboarding_station_desc">Évaluez les conditions écologiques de votre peuplement : sol, climat, hydrologie, topographie. Un moteur multi-critères guide les recommandations sylvicoles.</string>
+    <string name="onboarding_station_b1">Profil de sol : texture, pH, niveau trophique, hydromorphie</string>
+    <string name="onboarding_station_b2">Matrice de compatibilité des essences avec score de résilience</string>
+    <string name="onboarding_station_b3">Projections climatiques DRIAS 2050 avec évaluation du risque de sécheresse</string>
+    <string name="onboarding_corr_title">Corrélateur climatique</string>
+    <string name="onboarding_corr_desc">Croisez les données de votre peuplement avec les projections climatiques pour identifier les essences les mieux adaptées à 2050 — basé sur les scénarios SSP du GIEC.</string>
+    <string name="onboarding_corr_b1">Compatibilité essence × zone climatique (actuelle et 2050)</string>
+    <string name="onboarding_corr_b2">Score de résilience au changement climatique par essence (1–5)</string>
+    <string name="onboarding_corr_b3">Recommandations de transition sylvicole priorisées</string>
+    <string name="onboarding_flora_title">Inventaire flore indicatrice</string>
+    <string name="onboarding_flora_desc">Identifiez et enregistrez les espèces végétales indicatrices pour affiner le diagnostic de station et enrichir l\'évaluation de la biodiversité.</string>
+    <string name="onboarding_flora_b1">Base de 500+ espèces vasculaires avec valeurs d\'Ellenberg</string>
+    <string name="onboarding_flora_b2">Inférence automatique du pH, de l\'humidité et du niveau trophique du sol</string>
+    <string name="onboarding_flora_b3">Navigateur par famille et recherche floue avec autocomplétion</string>
     <string name="onboarding_start">Commencer</string>
     <string name="onboarding_next">Suivant</string>
     <string name="onboarding_skip">Passer</string>
@@ -1560,4 +1644,471 @@
     <string name="cd_tune">Ajuster</string>
     <string name="cd_swap">Permuter</string>
     <string name="cd_summary">Synthèse</string>
+
+    <!-- ===== SuperCorrelateurScreen ===== -->
+    <string name="supercorr_title">Super Corrélateur</string>
+    <string name="supercorr_subtitle">Intelligence forestière multi-sources</string>
+    <string name="supercorr_loading">Analyse en cours…</string>
+    <string name="supercorr_error">Erreur lors du calcul</string>
+    <string name="supercorr_alertes_critiques">Alertes sanitaires critiques</string>
+    <string name="supercorr_plan_action">Plan d\'action sylvicole</string>
+    <string name="supercorr_bilan_essence">Bilan par essence &amp; résilience 2050</string>
+    <string name="supercorr_essences_recommandees">Essences recommandées pour l\'avenir</string>
+    <string name="supercorr_risques_climatiques">Risques climatiques identifiés</string>
+    <string name="supercorr_alertes_sanitaires">Alertes sanitaires</string>
+    <string name="supercorr_ameliorer_precision">Améliorer la précision</string>
+    <string name="supercorr_donnees_supplementaires">Des données supplémentaires amélioreraient la qualité du diagnostic.</string>
+    <string name="supercorr_diag_station">Diag. Station</string>
+    <string name="supercorr_diag_ripisylve">Diag. Ripisylve</string>
+    <string name="supercorr_score_resilience">Score de résilience</string>
+    <string name="supercorr_chip_dendro">Dendro</string>
+    <string name="supercorr_chip_station">Station</string>
+    <string name="supercorr_chip_ripisylve">Ripisylve</string>
+    <string name="supercorr_chip_climat">Climat</string>
+    <string name="supercorr_zone">Zone : %1$s</string>
+    <string name="supercorr_tiges_basal">%1$d tiges (%2$d%% G)</string>
+    <string name="supercorr_cc_resilience">CC %1$d/5</string>
+    <string name="supercorr_station_compat">Station : %1$s</string>
+    <string name="supercorr_priorite_1">Priorité 1</string>
+    <string name="supercorr_priorite_2">Priorité 2</string>
+    <string name="supercorr_opportuniste">Opportuniste</string>
+    <string name="supercorr_resilience_cc">Résilience CC : %1$d/5</string>
+    <string name="supercorr_horizon">Horizon : %1$s</string>
+    <string name="supercorr_essences_concernees">Essences : %1$s</string>
+    <string name="supercorr_concerne">Concerne : %1$s</string>
+    <string name="supercorr_sources_donnees">Sources de données</string>
+    <string name="supercorr_completude">Complétude : %1$d%%</string>
+    <string name="supercorr_source_tiges">Tiges (%1$d)</string>
+    <string name="supercorr_source_gps">GPS</string>
+    <string name="supercorr_synthese">Synthèse</string>
+
+    <!-- ===== StandClassificationScreen ===== -->
+    <string name="standclass_title">Classification du Peuplement</string>
+    <string name="standclass_no_data">Aucune donnée disponible</string>
+    <string name="standclass_no_data_desc">Lancez un martelage sur cette parcelle pour obtenir la classification.</string>
+    <string name="standclass_identified">Peuplement identifié</string>
+    <string name="standclass_code_cnpf">Code CNPF : %1$s</string>
+    <string name="standclass_triangle">Triangle de structure</string>
+    <string name="standclass_triangle_desc">Régime × Capital G × Structure 1–9</string>
+    <string name="standclass_position">Position : %1$s</string>
+    <string name="standclass_gb_tgb">GB + TGB cumulés : %1$.0f%%</string>
+    <string name="standclass_dist_unavailable">Distribution par classes indisponible</string>
+    <string name="standclass_implications">Implications sylvicoles</string>
+    <string name="standclass_strengths">Atouts du peuplement</string>
+    <string name="standclass_risks">Risques identifiés</string>
+    <string name="standclass_srgs">Parcours SRGS régional</string>
+    <string name="standclass_srgs_desc">Schéma Régional de Gestion Sylvicole</string>
+    <string name="standclass_regime">Régime</string>
+    <string name="standclass_structure_cnpf">Structure CNPF</string>
+    <string name="standclass_objective">Objectif suggéré : %1$s</string>
+
+    <!-- ===== RipisylveDiagnosticScreen ===== -->
+    <string name="ripi_title">Diagnostic Ripisylve</string>
+    <string name="ripi_calculate">Calculer</string>
+    <string name="ripi_modify">Modifier l\'observation</string>
+    <string name="ripi_section_continuite">1. Continuité boisée</string>
+    <string name="ripi_section_largeur">2. Largeur de la ripisylve</string>
+    <string name="ripi_section_strates">3. Structure verticale</string>
+    <string name="ripi_section_diversite">4. Diversité spécifique</string>
+    <string name="ripi_section_penalites">5. Pénalités</string>
+    <string name="ripi_continuite_label">Couverture linéaire par les houppiers (%)</string>
+    <string name="ripi_points">+%1$d pts</string>
+    <string name="ripi_strate_herbacee">Strate herbacée (≤ 70 cm)</string>
+    <string name="ripi_strate_arbustive">Strate arbustive (70 cm – 7 m)</string>
+    <string name="ripi_strate_arborescente">Strate arborescente (≥ 7 m)</string>
+    <string name="ripi_nb_especes">Nombre d\'espèces ligneuses observées</string>
+    <string name="ripi_tpb">Classes de diamètre : TPB (≤7 cm)</string>
+    <string name="ripi_petit_bois">Petit bois (7–20 cm)</string>
+    <string name="ripi_moyen_bois">Moyen bois (20–40 cm)</string>
+    <string name="ripi_gros_bois">Gros bois (≥40 cm)</string>
+    <string name="ripi_invasives_label">Espèces invasives (%)</string>
+    <string name="ripi_sanitaire_label">État sanitaire dégradé (%)</string>
+    <string name="ripi_stabilite_label">Instabilité / affouillement (%)</string>
+    <string name="ripi_score_estime">Score estimé</string>
+    <string name="ripi_positif">Positif : +%1$d</string>
+    <string name="ripi_penalite">Pénalité : %1$d</string>
+    <string name="ripi_points_forts">Points forts</string>
+    <string name="ripi_points_faibles">Points faibles</string>
+    <string name="ripi_plan_action">Plan d\'action</string>
+    <string name="ripi_invasives_detectees">⚠ Espèces invasives détectées</string>
+
+    <!-- DashboardScreen -->
+    <string name="dashboard_tiges_unit">tiges</string>
+    <string name="dashboard_freq_dist">Distribution de fréquence</string>
+    <string name="dashboard_stand_structure">Structure du peuplement</string>
+    <string name="dashboard_liocourt_coeff">Coeff. de Liocourt (q)</string>
+    <string name="dashboard_structure_regular">Régulière (Liocourt)</string>
+    <string name="dashboard_structure_young">Peuplement jeune ou homogène</string>
+    <string name="dashboard_structure_irregular">Structure irrégulière forte</string>
+    <string name="dashboard_structure_heterogeneous">Structure hétérogène</string>
+    <string name="dashboard_classes_diam">Classes diam.</string>
+    <string name="dashboard_diam_min">Ø min</string>
+    <string name="dashboard_diam_max">Ø max</string>
+    <string name="dashboard_fertility_classes">Classes de fertilité</string>
+    <string name="dashboard_zone_format">Zone : %1$s</string>
+    <string name="dashboard_fertility_disclaimer">Basé sur ONF/CNPF — indicatif. Sans âge connu, la précision dépend des mesures dendrométriques disponibles.</string>
+    <string name="dashboard_tree_count_format">%1$d t.</string>
+    <string name="dashboard_avg_diam_format">Ø %1$.0f cm</string>
+    <string name="dashboard_height_h0_format">H0 ~%1$.1f m</string>
+    <string name="dashboard_height_hl_format">HL ~%1$.1f m</string>
+
+    <!-- ExpertIbpExtension -->
+    <string name="expertibp_title">🎯 Analyse Expert Forestier</string>
+    <string name="expertibp_station_title">📍 Analyse Stationnelle</string>
+    <string name="expertibp_station_index">Indice de station (IA):</string>
+    <string name="expertibp_station_index_value">%1$d/30</string>
+    <string name="expertibp_station_class">Classe de station:</string>
+    <string name="expertibp_station_class_value">Station %1$s</string>
+    <string name="expertibp_fertility_class">Classe de fertilité:</string>
+    <string name="expertibp_fertility_class_value">F%1$d</string>
+    <string name="expertibp_basal_area">Surface terrière:</string>
+    <string name="expertibp_basal_area_value">%1$.1f m²/ha</string>
+    <string name="expertibp_production_title">📊 Données de Production ONF</string>
+    <string name="expertibp_mean_height">Hauteur moyenne ONF:</string>
+    <string name="expertibp_mean_height_value">%1$.1f m</string>
+    <string name="expertibp_mean_diam">Diamètre moyen ONF:</string>
+    <string name="expertibp_mean_diam_value">%1$.1f cm</string>
+    <string name="expertibp_total_volume">Volume total ONF:</string>
+    <string name="expertibp_total_volume_value">%1$.0f m³/ha</string>
+    <string name="expertibp_annual_increment">Accroissement annuel:</string>
+    <string name="expertibp_annual_increment_value">%1$.1f m³/ha/an</string>
+    <string name="expertibp_production_unavailable">Données de production non disponibles pour cette essence</string>
+    <string name="expertibp_growth_title">🌱 Analyse de Croissance</string>
+    <string name="expertibp_current_mean_diam">Diamètre moyen actuel:</string>
+    <string name="expertibp_current_mean_diam_value">%1$.1f cm</string>
+    <string name="expertibp_current_mean_height">Hauteur moyenne actuelle:</string>
+    <string name="expertibp_current_mean_height_value">%1$.1f m</string>
+    <string name="expertibp_mean_increment">Accroissement moyen (AMA):</string>
+    <string name="expertibp_mean_increment_value">%1$.2f cm/an</string>
+    <string name="expertibp_current_increment">Accroissement actuel (ACA):</string>
+    <string name="expertibp_current_increment_value">%1$.2f cm/an</string>
+    <string name="expertibp_prediction_10y">Prédiction 10 ans:</string>
+    <string name="expertibp_prediction_10y_value">%1$.1f cm</string>
+    <string name="expertibp_optimal_harvest_diam">Ø exploitation optimal:</string>
+    <string name="expertibp_optimal_harvest_diam_value">%1$d cm</string>
+    <string name="expertibp_optimal_harvest_age">Âge exploitation optimal:</string>
+    <string name="expertibp_optimal_harvest_age_value">%1$d ans</string>
+    <string name="expertibp_recommendations_title">💡 Recommandations Sylvicoles</string>
+    <string name="expertibp_optimal_species">Essences optimales:</string>
+    <string name="expertibp_planting_density">Densité plantation:</string>
+    <string name="expertibp_planting_density_value">%1$d tiges/ha</string>
+    <string name="expertibp_first_thinning">Première éclaircie:</string>
+    <string name="expertibp_first_thinning_value">%1$d ans</string>
+    <string name="expertibp_recommendations_label">Recommandations:</string>
+    <string name="expertibp_recommendation_bullet">• %1$s</string>
+
+    <!-- TigeSylvicultureDialog -->
+    <string name="tigesyl_title">Sylviculture avancée</string>
+    <string name="tigesyl_essence_diam_format">%1$s — ⌀ %2$s cm</string>
+    <string name="tigesyl_kraft_class">Classe de Kraft (dominance)</string>
+    <string name="tigesyl_health_state">État sanitaire</string>
+    <string name="tigesyl_health_sain">Sain</string>
+    <string name="tigesyl_health_moyen">Moyen</string>
+    <string name="tigesyl_health_mauvais">Mauvais</string>
+    <string name="tigesyl_health_mort">Mort</string>
+    <string name="tigesyl_vigor">Vigueur</string>
+    <string name="tigesyl_vigor_forte">Forte</string>
+    <string name="tigesyl_vigor_moyenne">Moyenne</string>
+    <string name="tigesyl_vigor_faible">Faible</string>
+    <string name="tigesyl_origin">Origine</string>
+    <string name="tigesyl_origin_franc_pied">Franc pied</string>
+    <string name="tigesyl_origin_taillis">Taillis</string>
+    <string name="tigesyl_origin_plantation">Plantation</string>
+    <string name="tigesyl_origin_natural">Régénération naturelle</string>
+    <string name="tigesyl_habitat_tree">Arbre habitat (TreM)</string>
+    <string name="tigesyl_habitat_yes">Oui — potentiel TreM</string>
+    <string name="tigesyl_habitat_no">Non</string>
+    <string name="tigesyl_validate">Valider</string>
+    <string name="tigesyl_cancel">Annuler</string>
+    <string name="tigesyl_kraft_1">1 — Élite / Co-dominant dominant</string>
+    <string name="tigesyl_kraft_2">2 — Co-dominant</string>
+    <string name="tigesyl_kraft_3">3 — Dominé</string>
+    <string name="tigesyl_kraft_4">4 — Supprimé</string>
+    <string name="tigesyl_kraft_5">5 — Dépérissant/mort</string>
+
+    <!-- MapScreen -->
+    <string name="map_diam_format">⌀ %1$d cm</string>
+    <string name="map_precision_format">±%1$s m</string>
+    <string name="map_no_saved_measures">Aucune mesure sauvegardée</string>
+
+    <!-- MartelageScreen -->
+    <string name="martelage_g_per_ha_class_format">%1$.1f m²/ha  →  classe %2$s</string>
+    <string name="martelage_cnpf_info">Code CNPF : %1$s  ·  Structure %2$s  ·  GB+TGB = %3$d%%</string>
+
+    <!-- TarifDocumentationScreen -->
+    <string name="tarifdoc_tab_databases">Bases de données</string>
+    <string name="tarifdoc_tab_tarifs">Tarifs</string>
+    <string name="tarifdoc_tab_formulas">Formules</string>
+    <string name="tarifdoc_title">Documentation Tarifs</string>
+    <string name="tarifdoc_tarif_num_format">n°%1$d</string>
+    <string name="tarifdoc_db_ifn_title">IFN — Inventaire Forestier National</string>
+    <string name="tarifdoc_db_ifn_subtitle">Base de données cubages nationaux</string>
+    <string name="tarifdoc_db_ifn_content">Tarifs de cubage établis par l\'IGN sur la base des inventaires IFN couvrant l\'ensemble du territoire métropolitain. Utilisés pour les essences non couvertes par des tarifs locaux.</string>
+    <string name="tarifdoc_db_schaeffer1_title">Schaeffer 1 entrée</string>
+    <string name="tarifdoc_db_schaeffer1_subtitle">Volume par diamètre seul</string>
+    <string name="tarifdoc_db_schaeffer1_content">Tarif 1 entrée basé uniquement sur le diamètre à 1,30 m. Précision ±15–25%. Recommandé quand les hauteurs ne sont pas disponibles. Valable pour peuplements homogènes.</string>
+    <string name="tarifdoc_db_schaeffer2_title">Schaeffer 2 entrées</string>
+    <string name="tarifdoc_db_schaeffer2_subtitle">Volume par diamètre et hauteur</string>
+    <string name="tarifdoc_db_schaeffer2_content">Tarif 2 entrées intégrant diamètre ET hauteur. Précision ±8–12%. Recommandé pour les évaluations précises de cubage. Nécessite la mesure des hauteurs dominantes.</string>
+    <string name="tarifdoc_db_algan_title">Algan (Allométrie régionale)</string>
+    <string name="tarifdoc_db_algan_subtitle">Equations alloméetriques INRAE</string>
+    <string name="tarifdoc_db_algan_content">Équations allométriques développées par l\'INRAE pour les principales essences forestières françaises. Intègrent la variabilité régionale et la forme des arbres.</string>
+    <string name="tarifdoc_db_chaude_title">Chaudé (1991)</string>
+    <string name="tarifdoc_db_chaude_subtitle">Tarifs groupes d\'essences</string>
+    <string name="tarifdoc_db_chaude_content">Tarifs par groupes d\'essences établis par Pierre Chaudé. Largement utilisés en sylviculture privée française. Disponibles pour les principales essences de production.</string>
+
+    <string name="stationdiag_title">Relevé de Station</string>
+    <string name="stationdiag_draft">Brouillon</string>
+    <string name="stationdiag_finalize_btn">Finaliser</string>
+    <string name="stationdiag_commune">Commune</string>
+    <string name="stationdiag_alt_m">Alt (m)</string>
+    <string name="stationdiag_gps_format">GPS : %1$.5f°N, %2$.5f°E</string>
+    <string name="stationdiag_slope_pct">Pente (%)</string>
+    <string name="stationdiag_water_dist_m">Dist. Eau (m)</string>
+    <string name="stationdiag_exposition">Exposition</string>
+    <string name="stationdiag_position_topo">Position Topo</string>
+    <string name="stationdiag_depth_cm">Prof. (cm)</string>
+    <string name="stationdiag_texture">Texture</string>
+    <string name="stationdiag_pierrosite">Pierrosité</string>
+    <string name="stationdiag_humus">Humus</string>
+    <string name="stationdiag_drainage">Drainage</string>
+    <string name="stationdiag_test_hcl">Test HCl</string>
+    <string name="stationdiag_ph_est">pH (est.)</string>
+    <string name="stationdiag_tasks_cm">Tâches (cm)</string>
+    <string name="stationdiag_bedrock_obs">Roche Mère (obs.)</string>
+    <string name="stationdiag_report_validation">Validation du rapport</string>
+    <string name="stationdiag_photos_required_format">Au moins %1$d photos requises pour finaliser (ex: profil sol, paysage, végétation). %2$d/%1$d ajoutées.</string>
+    <string name="stationdiag_station_diagnosis">DIAGNOSTIC STATIONNEL</string>
+    <string name="stationdiag_confidence_format">Confiance : %1$s</string>
+    <string name="stationdiag_engorgement_warning">⚠ Engorgement</string>
+    <string name="stationdiag_depiecement_warning">⚠ Dépiècement</string>
+    <string name="stationdiag_assets">Atouts</string>
+    <string name="stationdiag_constraints">Contraintes</string>
+    <string name="stationdiag_history_format">Historique (%1$d relevés)</string>
+    <string name="stationdiag_unknown_location">Lieu inconnu</string>
+    <string name="stationdiag_history_location_format">%1$s — Alt. %2$s m</string>
+    <string name="stationdiag_forest_station">STATION FORESTIÈRE</string>
+    <string name="stationdiag_hcl_format">HCl : %1$s</string>
+    <string name="stationdiag_species_outside_db">Espèces hors base (séparées par virgules)</string>
+    <string name="stationdiag_observed_categories">Catégories observées</string>
+    <string name="stationdiag_vegetation_notes">Notes végétation</string>
+    <string name="stationdiag_suggested_observations">Observations suggérées</string>
+    <string name="stationdiag_gradient_evolution_format">Évolution des gradients (%1$d relevés)</string>
+    <string name="stationdiag_identified_risks">Risques identifiés</string>
+    <string name="stationdiag_drought_resistant_essences_format">Essences résistantes à la sécheresse — %1$s</string>
+    <string name="stationdiag_climate_vulnerability_score">Score vulnérabilité climatique</string>
+    <string name="stationdiag_score_over_100_format">%1$d / 100</string>
+    <string name="stationdiag_essence_compatibility_format">Compatibilité essences (%1$d)</string>
+    <string name="stationdiag_tap_for_details">Tapez pour détails</string>
+    <string name="stationdiag_auto_deductions">Déductions automatiques</string>
+    <string name="stationdiag_coherence_taxons_format">%1$s — %2$d taxons analysés</string>
+    <string name="stationdiag_advice_format">Conseil : %1$s</string>
+    <string name="stationdiag_cross_deductions_format">Déductions croisées (%1$d)</string>
+
+    <!-- i18n : DiagnosticMenuScreen (I-C2) -->
+    <string name="diagmenu_title">Diagnostic sylvicole</string>
+    <string name="diagmenu_analysis_in_progress">Analyse en cours…</string>
+    <string name="diagmenu_launch_diagnostic">Lancer le diagnostic</string>
+    <string name="diagmenu_relaunch_analysis">Relancer l\'analyse</string>
+    <string name="diagmenu_ser_format">SER %1$s — %2$s</string>
+    <string name="diagmenu_ser_unresolved">SER non résolue — localisation requise</string>
+    <string name="diagmenu_prerequisites">Pré-requis</string>
+    <string name="diagmenu_last_diagnostic">Dernier diagnostic</string>
+    <string name="diagmenu_algo_cnpf">Algorithme CNPF déterministe</string>
+    <string name="diagmenu_algo_description">Scoring multi-critères : fertilité SER × 40%%, adéquation climatique × 20%%, sol × 20%%, résilience CC2050 × 10%%, risques sanitaires × 10%%. 20 essences évaluées.</string>
+    <string name="diagmenu_prereq_station">Station environnementale (sol, climat, SER)</string>
+    <string name="diagmenu_prereq_stand">Peuplement (placettes &amp; tiges inventoriées)</string>
+    <string name="diagmenu_error_format">Erreur : %1$s</string>
+    <string name="diagmenu_error_unknown">inconnue</string>
+
+    <!-- i18n : DiagnosticScreen extras (I-C2) -->
+    <string name="diagscreen_not_found">Diagnostic introuvable</string>
+    <string name="diagscreen_essences_adequation">Essences — adéquation station</string>
+    <string name="diagscreen_recommendations">Recommandations</string>
+
+    <!-- i18n : StationHeaderCard (I-C2) -->
+    <string name="stationheader_parcelle_format">Parcelle %1$s</string>
+    <string name="stationheader_gps_coords_format">%1$.4f°N  %2$.4f°E  %3$s</string>
+    <string name="stationheader_altitude_m_format">• %1$d m</string>
+    <string name="stationheader_gps_not_captured">GPS non capturé</string>
+    <string name="stationheader_draft_badge">BROUILLON</string>
+    <string name="stationheader_forest_station">STATION FORESTIÈRE</string>
+    <string name="stationheader_finalize">Finaliser</string>
+    <string name="stationheader_action_photo">Photo</string>
+    <string name="stationheader_action_export">Export</string>
+    <string name="stationheader_action_draft">Brouillon</string>
+
+    <!-- i18n : CortegeQualityBlock (I-C2) -->
+    <string name="cortege_taxons_analyzed_format">%1$d taxons analysés / %2$d total</string>
+    <string name="cortege_credibility_gradients">Crédibilité des gradients</string>
+    <string name="cortege_conflicts_detected">Conflits détectés</string>
+    <string name="cortege_conflict_format">%1$s : %2$s ↔ %3$s</string>
+    <string name="cortege_direction_dry">→ Sec</string>
+    <string name="cortege_direction_fresh">→ Frais/humide</string>
+
+    <!-- i18n : FloraFamilyBrowserSheet (I-C2) -->
+    <string name="flora_select_species">Sélectionner des espèces</string>
+
+    <!-- i18n : IbpCompareScreen -->
+    <string name="ibpcompare_title">Évolution temporelle IBP</string>
+    <string name="ibpcompare_need_two">Il faut au moins 2 évaluations\npour voir l\'évolution</string>
+    <string name="ibpcompare_by_criterion">Évolution par critère</string>
+    <string name="ibpcompare_count">%1$d évaluations comparées</string>
+    <string name="ibpcompare_delta_pts">%1$s%2$d pts</string>
+    <string name="ibpcompare_evolution">évolution</string>
+    <string name="ibpcompare_score_total">Score total /50</string>
+    <string name="ibpcompare_group_a_vs_b">Groupe A vs Groupe B</string>
+    <string name="ibpcompare_group_a_35">Groupe A /35</string>
+    <string name="ibpcompare_group_b_15">Groupe B /15</string>
+    <string name="ibpcompare_summary_table">Tableau récapitulatif</string>
+    <string name="ibpcompare_criterion">Critère</string>
+    <string name="ibpcompare_total">Total</string>
+
+    <!-- i18n : IbpDiagnosticScreen -->
+    <string name="ibpdiag_title">Diagnostic Biodiversité</string>
+    <string name="ibpdiag_no_eval">Aucune évaluation IBP\npour cette parcelle</string>
+    <string name="ibpdiag_score_global">Score IBP Global</string>
+    <string name="ibpdiag_completeness">Complétude</string>
+    <string name="ibpdiag_radar_profile">Profil radar A–J</string>
+    <string name="ibpdiag_criteria_detail">Détail des critères</string>
+    <string name="ibpdiag_priority_actions">Actions prioritaires</string>
+    <string name="ibpdiag_gain_pts">+%1$d pts</string>
+    <string name="ibpdiag_potential">Potentiel d\'amélioration</string>
+    <string name="ibpdiag_current">Actuel</string>
+    <string name="ibpdiag_potential_group_a">Potentiel groupe A</string>
+    <string name="ibpdiag_potential_hint">+%1$d pts accessibles par gestion du peuplement (groupe A)</string>
+    <string name="ibpdiag_evolution_count">Évolution (%1$d évaluations)</string>
+    <string name="ibpdiag_score_initial_to_current">Score initial %1$d → actuel %2$d</string>
+    <string name="ibpdiag_delta_pts">%1$s%2$d pts</string>
+
+    <!-- i18n : IbpReferenceScreen -->
+    <string name="ibpref_title">Guide IBP Terrain</string>
+    <string name="ibpref_criteria_sheets">Fiches critères A–J</string>
+    <string name="ibpref_ibp_full">IBP – Indice de Biodiversité Potentielle</string>
+    <string name="ibpref_method">Méthode CNPF / IDF – Version 3.2</string>
+    <string name="ibpref_intro">L\'IBP évalue la biodiversité potentielle d\'un peuplement forestier en notant 10 critères répartis en deux groupes (A–G = Peuplement &amp; Gestion ; H–J = Contexte). Chaque critère vaut 0, 2 ou 5 points. Score total sur 50 points.</string>
+    <string name="ibpref_levels">Niveaux IBP</string>
+    <string name="ibpref_range_pts">%1$d–%2$d pts</string>
+    <string name="ibpref_group_a_peuplement">Groupe A (Peuplement)</string>
+    <string name="ibpref_group_b_contexte">Groupe B (Contexte)</string>
+    <string name="ibpref_modes">Modes d\'évaluation</string>
+    <string name="ibpref_mode_complet_label">Complet (A–J)</string>
+    <string name="ibpref_mode_complet_desc">Évaluation complète des 10 critères. Recommandé pour une première visite ou bilan biodiversité.</string>
+    <string name="ibpref_mode_rapide_label">Rapide (A,C,E,F,H)</string>
+    <string name="ibpref_mode_rapide_desc">5 critères essentiels pour une évaluation terrain rapide en moins de 30 min.</string>
+    <string name="ibpref_mode_bois_mort_label">Bois mort (C,D,E)</string>
+    <string name="ibpref_mode_bois_mort_desc">Focus sur les critères de bois mort et gros bois. Idéal après coupe ou inventaire.</string>
+    <string name="ibpref_mode_contexte_label">Contexte (H,I,J)</string>
+    <string name="ibpref_mode_contexte_desc">Critères de contexte écologique uniquement. Sur carte/Géoportail possible.</string>
+    <string name="ibpref_mode_peuplement_label">Peuplement (A–G)</string>
+    <string name="ibpref_mode_peuplement_desc">Groupe A uniquement. Pour évaluation intra-peuplement sans contexte paysager.</string>
+    <string name="ibpref_thresholds">Seuils de notation</string>
+    <string name="ibpref_pts">%1$d pts</string>
+    <string name="ibpref_protocol">Protocole terrain</string>
+    <string name="ibpref_source">Source : CNPF / IDF – IBP v3.2 (2020)</string>
+    <string name="ibpref_references">Gurnell et al. (2009) &amp; Larrieu et al. (2012)</string>
+
+    <!-- i18n : IbpEvaluationScreen extras -->
+    <string name="ibpeval_over_50"> / 50</string>
+    <string name="ibpeval_context_vs_peuplement">IBP Contexte vs Peuplement &amp; Gestion</string>
+    <string name="ibpeval_peuplement_ag">Peuplement A–G : %1$s</string>
+    <string name="ibpeval_contexte_hj">Contexte H–J : %1$s</string>
+    <string name="ibpeval_peuplement_axis">← Peuplement et Gestion (A–G) / 35 →</string>
+    <string name="ibpeval_big_tree_count_title">Comptage terrain – arbres vivants (arbres/ha)</string>
+    <string name="ibpeval_open_habitat_threshold">Seuil optimal : 1–5 % → 5 pts | >0 % → 2 pts | 0 % → 0 pt</string>
+    <string name="ibpeval_tgb_subalpine">TGB (∅>47.5 cm) /ha</string>
+    <string name="ibpeval_tgb_default">TGB (∅>67.5 cm) /ha</string>
+    <string name="ibpeval_gb_subalpine">GB (∅ 27.5–47.5 cm) /ha</string>
+    <string name="ibpeval_gb_default">GB (∅ 47.5–67.5 cm) /ha</string>
+    <string name="ibpeval_hint_example">ex : 5.0</string>
+    <string name="ibpeval_badge_5_pts">→ 5 pts</string>
+    <string name="ibpeval_badge_2_pts">→ 2 pts</string>
+    <string name="ibpeval_badge_0_pt">→ 0 pt</string>
+    <string name="ibpeval_dmh_count_label">Arbres porteurs de ≥1 dmh (arbres/ha)</string>
+    <string name="ibpeval_zone_0">0%</string>
+    <string name="ibpeval_zone_low">&lt;1% ou &gt;5%</string>
+    <string name="ibpeval_zone_optimal">1–5%</string>
+
+    <!-- StationDiagnosticScreen (i18n) -->
+    <string name="station_diag_title">Diagnostic de Station</string>
+    <string name="station_diag_export_pdf">Exporter PDF</string>
+    <string name="station_diag_topo_sol">Topographie &amp; Sol</string>
+    <string name="station_diag_manual_gradients">Gradients manuels</string>
+    <string name="station_diag_photos_validation">Photos &amp; Validation</string>
+    <string name="station_diag_auto_context">Contexte auto-déduit</string>
+    <string name="station_diag_gps_coords">Coordonnées GPS</string>
+    <string name="station_diag_altitude">Altitude</string>
+    <string name="station_diag_slope">Pente</string>
+    <string name="station_diag_points_to_verify">Points à vérifier / observer</string>
+    <string name="station_diag_flora_cortege">Cortège floristique</string>
+    <string name="station_diag_flora_placeholder">Ex: fougère, oxalide, ronce, muguet…</string>
+    <string name="station_diag_computed_gradients">Gradients calculés (flore)</string>
+    <string name="station_diag_conflits">Conflits détectés (%1$d)</string>
+    <string name="station_diag_climate_future">Avenir Climatique (DRIAS 2021)</string>
+    <string name="station_diag_zone">Zone %1$s</string>
+    <string name="station_diag_warming_2050">Réchauffement 2050\n(SSP8.5)</string>
+    <string name="station_diag_summer_precip_2050">Précipit. été 2050\n(SSP8.5)</string>
+    <string name="station_diag_drought_per_year_2050">Sécheresse/an\n2050</string>
+
+    <!-- i18n : MartelageSummaryCards -->
+    <string name="martelage_elancement_hd">Élancement H/D (résineux)</string>
+    <string name="martelage_surface_terriere">Surface terrière G/ha</string>
+    <string name="martelage_densite_nha">Densité N/ha</string>
+
+    <!-- i18n : MapScreen -->
+    <string name="map_mesures_sauvegardees">Mesures sauvegardées</string>
+
+    <!-- i18n : OnboardingScreen -->
+    <string name="onboarding_version_info">Version 2.1 · Offline-first · CNPF</string>
+
+    <!-- i18n : ProductBreakdownCard -->
+    <string name="product_qualite">Qualité %1$s</string>
+
+    <!-- i18n : CortegeQualityBlock titles -->
+    <string name="cortege_suffisant">Cortège suffisant</string>
+    <string name="cortege_partiel">Cortège partiel</string>
+    <string name="cortege_contradictoire">Cortège contradictoire</string>
+    <string name="cortege_trop_pauvre">Cortège trop pauvre</string>
+
+    <!-- i18n : SmartSummaryCard -->
+    <string name="smart_facteur_limitant">Facteur limitant</string>
+    <string name="smart_hydrique">Hydrique</string>
+    <string name="smart_trophique">Trophique</string>
+
+    <!-- i18n : DiagnosticComponents -->
+    <string name="diag_photos_terrain">Photos de terrain (%1$d%2$s)</string>
+    <string name="diag_ajouter_photo">Ajouter une photo</string>
+    <string name="diag_compris">Compris</string>
+
+    <!-- i18n : RipisylveFunctionalDiagBlock -->
+    <string name="ripi_func_title">Diagnostic Fonctionnel Ripisylve</string>
+    <string name="ripi_func_strates">strate(s)</string>
+    <string name="ripi_func_microhabitats">microhabitat(s)</string>
+    <string name="ripi_func_classes_diam">classe(s) Ø</string>
+
+    <!-- i18n : TipCard -->
+    <string name="tip_close">Fermer</string>
+
+    <!-- i18n : ConfidenceCard -->
+    <string name="conf_points_forts">Points forts (%1$d)</string>
+    <string name="conf_limites">Limites (%1$d)</string>
+    <string name="conf_contradictions">Contradictions (%1$d)</string>
+
+    <!-- i18n : StationDiagTheme -->
+    <string name="station_theme_corriger">Corriger</string>
+
+    <!-- i18n : StandClassificationBannerCard -->
+    <string name="standclass_typologique_cnpf">Typologique CNPF</string>
+
+    <!-- i18n : IbpTremPanel -->
+    <string name="ibp_foret_ancienne_db">Forêt ancienne confirmée en DB</string>
+    <string name="ibp_anciennete_estimee">Ancienneté estimée</string>
+    <string name="ibp_connectivite_spatiale">Connectivité spatiale</string>
+
+    <!-- i18n : SmartPlantInputField -->
+    <string name="smart_parcourir">Parcourir</string>
+
+    <!-- i18n : TreeHeightMeasureDialog -->
+    <string name="tree_height_placeholder">ex : 15</string>
+
 </resources>

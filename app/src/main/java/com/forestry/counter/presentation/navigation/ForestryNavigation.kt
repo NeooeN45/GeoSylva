@@ -44,6 +44,10 @@ sealed class Screen(val route: String) {
     object PlacetteDetail : Screen("placette/{parcelleId}/{placetteId}") {
         fun createRoute(parcelleId: String, placetteId: String) = "placette/$parcelleId/$placetteId"
     }
+    object PlacetteEvolution : Screen("placette/{parcelleId}/{placetteId}/evolution/{year}") {
+        fun createRoute(parcelleId: String, placetteId: String, year: Int) =
+            "placette/$parcelleId/$placetteId/evolution/$year"
+    }
     object Martelage : Screen("martelage/{scope}/{forestId}/{parcelleId}/{placetteId}") {
         fun forGlobal(): String = "martelage/GLOBAL/none/none/none"
         fun forForest(forestId: String): String = "martelage/FOREST/$forestId/none/none"

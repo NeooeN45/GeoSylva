@@ -18,6 +18,7 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -45,6 +46,7 @@ import androidx.compose.material.icons.filled.EmojiNature
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Science
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Water
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,6 +67,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.forestry.counter.R
 import com.forestry.counter.domain.model.Essence
+import com.forestry.counter.domain.model.Tige
 import com.forestry.counter.domain.repository.EssenceRepository
 import com.forestry.counter.domain.repository.PlacetteRepository
 import com.forestry.counter.domain.repository.TigeRepository
@@ -141,6 +144,7 @@ fun PlacetteDetailScreen(
     onNavigateToIbp: ((parcelleId: String, placetteId: String) -> Unit)? = null,
     onNavigateToStationDiag: ((parcelleId: String) -> Unit)? = null,
     onNavigateToRipisylveDiag: ((parcelleId: String) -> Unit)? = null,
+    onNavigateToEvolution: ((parcelleId: String, placetteId: String, year: Int) -> Unit)? = null,
     onNavigateBack: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -189,6 +193,7 @@ fun PlacetteDetailScreen(
     var reorderMode by remember { mutableStateOf(false) }
     var draggingCode by remember { mutableStateOf<String?>(null) }
     var dragAccum by remember { mutableStateOf(0f) }
+    var selectedTab by remember { mutableIntStateOf(0) }
     val density = LocalDensity.current
     val itemStepPx = with(density) { (84.dp + 12.dp).toPx() }
 
@@ -250,7 +255,7 @@ fun PlacetteDetailScreen(
         snackbarHost = { SnackbarHost(snackbar) },
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.placette_essences_title)) },
+                title = {},
                 navigationIcon = {
                     IconButton(onClick = {
                         playClickFeedback()
@@ -260,36 +265,7 @@ fun PlacetteDetailScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = {
-                        playClickFeedback()
-                        onNavigateToMartelage(parcelleId, placetteId)
-                    }) {
-                        Icon(Icons.Default.Straighten, contentDescription = stringResource(R.string.martelage))
-                    }
-                    if (onNavigateToStationDiag != null) {
-                        IconButton(onClick = {
-                            playClickFeedback()
-                            onNavigateToStationDiag(parcelleId)
-                        }) {
-                            Icon(Icons.Default.Science, contentDescription = stringResource(R.string.diag_station_btn), tint = Color(0xFF1565C0))
-                        }
-                    }
-                    if (onNavigateToRipisylveDiag != null) {
-                        IconButton(onClick = {
-                            playClickFeedback()
-                            onNavigateToRipisylveDiag(parcelleId)
-                        }) {
-                            Icon(Icons.Default.Water, contentDescription = stringResource(R.string.diag_ripisylve_btn), tint = Color(0xFF0277BD))
-                        }
-                    }
-                    if (onNavigateToIbp != null) {
-                        IconButton(onClick = {
-                            playClickFeedback()
-                            onNavigateToIbp(parcelleId, placetteId)
-                        }) {
-                            Icon(Icons.Default.EmojiNature, contentDescription = stringResource(R.string.ibp_start), tint = Color(0xFF2E7D32))
-                        }
-                    }
+                    // Action principale : recherche (toujours visible)
                     IconButton(onClick = {
                         playClickFeedback()
                         searchActive = !searchActive
@@ -300,6 +276,7 @@ fun PlacetteDetailScreen(
                             contentDescription = stringResource(R.string.search_essences)
                         )
                     }
+                    // Menu overflow : diagnostics + actions secondaires
                     Box {
                         IconButton(onClick = { showMoreMenu = true }) {
                             Icon(Icons.Default.MoreVert, contentDescription = null)
@@ -308,6 +285,51 @@ fun PlacetteDetailScreen(
                             expanded = showMoreMenu,
                             onDismissRequest = { showMoreMenu = false }
                         ) {
+                            // ── Diagnostics & outils ──
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.martelage)) },
+                                leadingIcon = { Icon(Icons.Default.Straighten, contentDescription = null) },
+                                onClick = {
+                                    showMoreMenu = false
+                                    playClickFeedback()
+                                    onNavigateToMartelage(parcelleId, placetteId)
+                                }
+                            )
+                            if (onNavigateToStationDiag != null) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.diag_station_btn)) },
+                                    leadingIcon = { Icon(Icons.Default.Science, contentDescription = null, tint = Color(0xFF1565C0)) },
+                                    onClick = {
+                                        showMoreMenu = false
+                                        playClickFeedback()
+                                        onNavigateToStationDiag(parcelleId)
+                                    }
+                                )
+                            }
+                            if (onNavigateToRipisylveDiag != null) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.diag_ripisylve_btn)) },
+                                    leadingIcon = { Icon(Icons.Default.Water, contentDescription = null, tint = Color(0xFF0277BD)) },
+                                    onClick = {
+                                        showMoreMenu = false
+                                        playClickFeedback()
+                                        onNavigateToRipisylveDiag(parcelleId)
+                                    }
+                                )
+                            }
+                            if (onNavigateToIbp != null) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.ibp_start)) },
+                                    leadingIcon = { Icon(Icons.Default.EmojiNature, contentDescription = null, tint = Color(0xFF2E7D32)) },
+                                    onClick = {
+                                        showMoreMenu = false
+                                        playClickFeedback()
+                                        onNavigateToIbp(parcelleId, placetteId)
+                                    }
+                                )
+                            }
+                            HorizontalDivider()
+                            // ── Actions de gestion ──
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.reorder)) },
                                 leadingIcon = { Icon(Icons.Default.SwapVert, contentDescription = stringResource(R.string.cd_swap)) },
@@ -366,6 +388,49 @@ fun PlacetteDetailScreen(
         }
     ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding).padding(12.dp)) {
+            // ── Titre centré entre top bar et tabs ───────────────────────────────────
+            Text(
+                text = stringResource(R.string.placette_essences_title),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp)
+            )
+            Spacer(Modifier.height(4.dp))
+
+            // ── TabRow : Essences / Évolution ──────────────────────────────────────
+            TabRow(
+                selectedTabIndex = selectedTab,
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.primary
+            ) {
+                Tab(
+                    selected = selectedTab == 0,
+                    onClick = { playClickFeedback(); selectedTab = 0 },
+                    text = { Text(stringResource(R.string.placette_tab_essences)) }
+                )
+                Tab(
+                    selected = selectedTab == 1,
+                    onClick = { playClickFeedback(); selectedTab = 1 },
+                    text = { Text(stringResource(R.string.placette_tab_evolution)) }
+                )
+            }
+            Spacer(Modifier.height(8.dp))
+
+            Crossfade(
+                targetState = selectedTab,
+                animationSpec = if (animationsEnabled) {
+                    tween(durationMillis = 220, easing = FastOutSlowInEasing)
+                } else {
+                    tween(durationMillis = 0)
+                },
+                label = "placetteTabCrossfade"
+            ) { tab ->
+                when (tab) {
+                    0 -> Column {
             // Barre de recherche animée
             androidx.compose.animation.AnimatedVisibility(
                 visible = searchActive,
@@ -541,6 +606,18 @@ fun PlacetteDetailScreen(
                     }
                 }
             }
+                    } // fin tab 0 Column
+                    1 -> PlacetteEvolutionTab(
+                        tiges = tiges,
+                        allEssences = allEssences,
+                        animationsEnabled = animationsEnabled,
+                        onYearClick = { clickedYear ->
+                            playClickFeedback()
+                            onNavigateToEvolution?.invoke(parcelleId, placetteId, clickedYear)
+                        }
+                    )
+                }
+            } // fin tab Crossfade
         }
     }
 
@@ -981,4 +1058,192 @@ private fun levenshtein(a: String, b: String): Int {
         }
     }
     return dp[b.length]
+}
+
+// ── Onglet Évolution : évolution des tiges par année ──────────────────────────
+
+@Composable
+private fun PlacetteEvolutionTab(
+    tiges: List<Tige>,
+    allEssences: List<Essence>,
+    animationsEnabled: Boolean,
+    onYearClick: (Int) -> Unit = {}
+) {
+    val context = LocalContext.current
+
+    // Grouper les tiges par année (extraite du timestamp)
+    val tigesByYear = remember(tiges) {
+        tiges.groupBy { tige ->
+            val cal = java.util.Calendar.getInstance().apply { timeInMillis = tige.timestamp }
+            cal.get(java.util.Calendar.YEAR)
+        }.toSortedMap(reverseOrder())
+    }
+
+    if (tiges.isEmpty()) {
+        // État vide : aucune tige enregistrée
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                Icons.Default.Science,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(48.dp)
+            )
+            Spacer(Modifier.height(12.dp))
+            Text(
+                stringResource(R.string.placette_evolution_empty),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Spacer(Modifier.height(4.dp))
+            Text(
+                stringResource(R.string.placette_evolution_empty_desc),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+            )
+        }
+        return
+    }
+
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(bottom = 80.dp)
+    ) {
+        item {
+            Text(
+                stringResource(R.string.placette_evolution_by_year, tigesByYear.size),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold
+            )
+        }
+
+        tigesByYear.forEach { (year, yearTiges) ->
+            item(key = "year-$year") {
+                YearEvolutionCard(
+                    year = year,
+                    yearTiges = yearTiges,
+                    allEssences = allEssences,
+                    animationsEnabled = animationsEnabled,
+                    onClick = { onYearClick(year) }
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun YearEvolutionCard(
+    year: Int,
+    yearTiges: List<Tige>,
+    allEssences: List<Essence>,
+    animationsEnabled: Boolean,
+    onClick: () -> Unit = {}
+) {
+    val essenceCount = yearTiges.map { it.essenceCode }.distinct().size
+    val meanDiam = yearTiges.map { it.diamCm }.average()
+
+    // Grouper par catégorie de martelage
+    val byCategory = remember(yearTiges) {
+        yearTiges.groupBy { it.categorie?.uppercase()?.trim() ?: "AUTRE" }
+    }
+
+    Surface(
+        shape = MaterialTheme.shapes.medium,
+        tonalElevation = 2.dp,
+        modifier = Modifier
+            .fillMaxWidth()
+            .combinedClickable(onClick = onClick)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            // En-tête année + stats
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    year.toString(),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Icon(
+                    Icons.Default.KeyboardArrowRight,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Column(horizontalAlignment = Alignment.End) {
+                    Text(
+                        stringResource(R.string.placette_evolution_stems_format, yearTiges.size, essenceCount),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        stringResource(R.string.placette_evolution_diam_mean_format, meanDiam),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            // Répartition par catégorie de martelage
+            byCategory.forEach { (category, catTiges) ->
+                val catColor = martelageCategoryColor(category)
+                val catLabel = martelageCategoryLabel(category)
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Surface(
+                        color = catColor,
+                        shape = MaterialTheme.shapes.small,
+                        modifier = Modifier.size(12.dp)
+                    ) {}
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        catLabel,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text(
+                        catTiges.size.toString(),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = catColor
+                    )
+                }
+            }
+        }
+    }
+}
+
+private fun martelageCategoryColor(category: String): Color = when (category) {
+    "AVENIR" -> Color(0xFF4CAF50)
+    "RESERVE" -> Color(0xFF2196F3)
+    "ENLEVER" -> Color(0xFFF44336)
+    "DEPERIR" -> Color(0xFFFF9800)
+    "BIODIV" -> Color(0xFF26A69A)
+    "AUTRE" -> Color(0xFF607D8B)
+    else -> Color(0xFF607D8B)
+}
+
+private fun martelageCategoryLabel(category: String): String = when (category) {
+    "AVENIR" -> "Avenir"
+    "RESERVE" -> "Réserve"
+    "ENLEVER" -> "Enlever"
+    "DEPERIR" -> "Dépérir"
+    "BIODIV" -> "Biodiversité"
+    "AUTRE" -> "Non catégorisé"
+    else -> category.lowercase().replaceFirstChar { it.uppercase() }
 }

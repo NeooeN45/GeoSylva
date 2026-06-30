@@ -12,6 +12,7 @@ import com.forestry.counter.presentation.screens.forestry.MapScreen
 import com.forestry.counter.presentation.screens.forestry.MartelageScreen
 import com.forestry.counter.presentation.screens.forestry.ParcellesScreen
 import com.forestry.counter.presentation.screens.forestry.PlacetteDetailScreen
+import com.forestry.counter.presentation.screens.forestry.PlacetteEvolutionScreen
 import com.forestry.counter.presentation.screens.forestry.PlacettesScreen
 import com.forestry.counter.presentation.screens.groups.GroupsScreen
 
@@ -162,6 +163,34 @@ fun NavGraphBuilder.forestryFlowNavGraph(
             onNavigateToRipisylveDiag = { pid ->
                 navController.navigate(Screen.RipisylveDiagnostic.createRoute(pid))
             },
+            onNavigateToEvolution = { pid, plid, year ->
+                navController.navigate(Screen.PlacetteEvolution.createRoute(pid, plid, year))
+            },
+            onNavigateBack = { navController.popBackStack() }
+        )
+    }
+
+    composable(
+        route = Screen.PlacetteEvolution.route,
+        arguments = listOf(
+            navArgument("parcelleId") { type = NavType.StringType },
+            navArgument("placetteId") { type = NavType.StringType },
+            navArgument("year") { type = NavType.IntType }
+        ),
+        enterTransition = transitions.enter,
+        exitTransition = transitions.exit,
+        popEnterTransition = transitions.popEnter,
+        popExitTransition = transitions.popExit,
+    ) { backStackEntry ->
+        val parcelleId = backStackEntry.arguments?.getString("parcelleId") ?: return@composable
+        val placetteId = backStackEntry.arguments?.getString("placetteId") ?: return@composable
+        val year = backStackEntry.arguments?.getInt("year") ?: return@composable
+        PlacetteEvolutionScreen(
+            placetteId = placetteId,
+            year = year,
+            tigeRepository = app.tigeRepository,
+            essenceRepository = app.essenceRepository,
+            placetteRepository = app.placetteRepository,
             onNavigateBack = { navController.popBackStack() }
         )
     }
