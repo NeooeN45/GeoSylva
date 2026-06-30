@@ -14,9 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.forestry.counter.R
 import com.forestry.counter.domain.model.ripisylve.ConsigneGestion
 import com.forestry.counter.domain.model.ripisylve.RipisylveFonctionnalite
 import com.forestry.counter.domain.model.ripisylve.RipisylveObservation
@@ -42,7 +44,7 @@ fun RipisylveFunctionalDiagBlock(
     val score = remember(observation) { RipisylveScorer.score(observation) }
 
     CollapsibleBlock(
-        title      = "Diagnostic Fonctionnel Ripisylve",
+        title      = stringResource(R.string.ripi_func_title),
         icon       = Icons.Default.Water,
         accentColor = Color(score.fonctionnalite.colorHex),
         initiallyExpanded = true,
@@ -133,19 +135,19 @@ fun RipisylveFunctionalDiagBlock(
             ) {
                 MiniStatCard(
                     label    = "${score.nbStrates}",
-                    sublabel = "strate(s)",
+                    sublabel = stringResource(R.string.ripi_func_strates),
                     color    = Color(0xFF2E7D32),
                     modifier = Modifier.weight(1f)
                 )
                 MiniStatCard(
                     label    = "${score.nbMicrohabitats}",
-                    sublabel = "microhabitat(s)",
+                    sublabel = stringResource(R.string.ripi_func_microhabitats),
                     color    = Color(0xFF6A1B9A),
                     modifier = Modifier.weight(1f)
                 )
                 MiniStatCard(
                     label    = "${score.nbClassesDiam}",
-                    sublabel = "classe(s) Ø",
+                    sublabel = stringResource(R.string.ripi_func_classes_diam),
                     color    = Color(0xFF795548),
                     modifier = Modifier.weight(1f)
                 )

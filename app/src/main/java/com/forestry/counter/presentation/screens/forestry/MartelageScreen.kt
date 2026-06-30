@@ -107,6 +107,9 @@ import com.forestry.counter.presentation.utils.rememberSoundFeedback
 import com.forestry.counter.presentation.utils.ColorUtils
 import com.forestry.counter.domain.calculation.PriceCalculator
 import com.forestry.counter.domain.calculation.ProductBreakdownRow
+import com.forestry.counter.domain.calculation.EssenceAliases
+import com.forestry.counter.domain.calculation.pricing.GrecoRegion
+import com.forestry.counter.domain.geo.GrecoDetector
 import kotlinx.coroutines.launch
 import com.forestry.counter.domain.model.ClimateZone
 import com.forestry.counter.domain.usecase.fertility.FertilityClassifier
@@ -886,7 +889,7 @@ fun MartelageScreen(
                             AssistChip(
                                 onClick = { playClickFeedback(); showParamPanel = !showParamPanel },
                                 label = { Text(stringResource(R.string.martelage_parameters)) },
-                                leadingIcon = { Icon(Icons.Filled.Tune, contentDescription = null) }
+                                leadingIcon = { Icon(Icons.Filled.Tune, contentDescription = "Paramètres") }
                             )
                         }
                         Text(scopeLabel, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -1467,6 +1470,10 @@ fun MartelageScreen(
                             // Ventilation produits par essence
                             LaunchedEffect(s.perEssence) {
                                 val prices = forestryCalculator.loadPriceEntries()
+                                // Déduction automatique de la GRECO à partir du code commune de la parcelle
+                                val greco: GrecoRegion? = parcellesInScope
+                                    .firstNotNullOfOrNull { it.codeInseeCommune }
+                                    ?.let { GrecoDetector.fromCodeCommune(it) }
                                 val result = mutableMapOf<String, List<ProductBreakdownRow>>()
                                 s.perEssence.forEach { ess ->
                                     if (ess.vTotal <= 0.0) return@forEach
@@ -1481,9 +1488,11 @@ fun MartelageScreen(
                                         diam >= 15 -> mapOf("BI" to v * 0.40, "BCh" to v * 0.35, "PATE" to v * 0.25)
                                         else       -> mapOf("BCh" to v * 0.50, "PATE" to v * 0.50)
                                     }
-                                    val baseBreakdown = PriceCalculator.buildBreakdown(
+                                    val candidates = EssenceAliases.candidates(ess.essenceCode)
+                                    val baseBreakdown = PriceCalculator.buildBreakdownWithReport(
                                         prices = prices, essenceCode = ess.essenceCode,
-                                        volumeByProduct = products, diamCm = diam, quality = q
+                                        volumeByProduct = products, diamCm = diam, quality = q,
+                                        greco = greco, essenceCandidates = candidates
                                     )
                                     // Align product breakdown total with authoritative synthesis revenue
                                     val synRevenue = ess.revenueTotal
@@ -1977,7 +1986,7 @@ private fun SuperCorrelateurBannerCard(onClick: () -> Unit) {
                     modifier = androidx.compose.ui.Modifier.fillMaxSize()) {
                     Icon(
                         Icons.Default.Analytics,
-                        contentDescription = null,
+                        contentDescription = "Super corrélateur",
                         tint = androidx.compose.ui.graphics.Color(0xFF2E7D32),
                         modifier = androidx.compose.ui.Modifier.size(28.dp)
                     )
@@ -1998,7 +2007,7 @@ private fun SuperCorrelateurBannerCard(onClick: () -> Unit) {
             }
             Icon(
                 Icons.Default.Analytics,
-                contentDescription = null,
+                contentDescription = "Ouvrir",
                 tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
                 modifier = androidx.compose.ui.Modifier.size(18.dp)
             )
@@ -2104,7 +2113,7 @@ private fun TypelogiqueRapideCard(prefilledGPerHa: Double? = null) {
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Text(stringResource(R.string.martelage_basal_area_g), style = MaterialTheme.typography.labelMedium)
-                    Text("%.1f m²/ha  →  classe $capital".format(gPerHa),
+                    Text(stringResource(R.string.martelage_g_per_ha_class_format, gPerHa, capital),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
                 }
@@ -2129,7 +2138,7 @@ private fun TypelogiqueRapideCard(prefilledGPerHa: Double? = null) {
                 Surface(color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f),
                     shape = RoundedCornerShape(8.dp)) {
                     Column(Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-                        Text("Code CNPF : $cnpfCode  ·  Structure $structure  ·  GB+TGB = ${ratio.gbTgbPct.toInt()}%",
+                        Text(stringResource(R.string.martelage_cnpf_info, cnpfCode, structure, ratio.gbTgbPct.toInt()),
                             style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.onSecondaryContainer)
                         Text(stringResource(R.string.martelage_pct_normalized),

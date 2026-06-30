@@ -19,10 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.forestry.counter.R
 import com.forestry.counter.domain.model.ClimateZone
 import com.forestry.counter.domain.model.Tige
 import com.forestry.counter.domain.model.ripisylve.RipisylveObservation
@@ -82,14 +84,14 @@ fun SuperCorrelateurScreen(
             TopAppBar(
                 title = {
                     Column {
-                        Text("Super Corrélateur", fontWeight = FontWeight.Bold)
-                        Text("Intelligence forestière multi-sources", style = MaterialTheme.typography.labelSmall,
+                        Text(stringResource(R.string.supercorr_title), fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.supercorr_subtitle), style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -102,7 +104,7 @@ fun SuperCorrelateurScreen(
             Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     CircularProgressIndicator()
-                    Text("Analyse en cours…", style = MaterialTheme.typography.bodyMedium,
+                    Text(stringResource(R.string.supercorr_loading), style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
@@ -110,7 +112,7 @@ fun SuperCorrelateurScreen(
             val res = result
             if (res == null) {
                 Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
-                    Text("Erreur lors du calcul", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.supercorr_error), color = MaterialTheme.colorScheme.error)
                 }
             } else {
                 CorrelateurContent(
@@ -146,7 +148,7 @@ private fun CorrelateurContent(
         val critiques = result.alertesSanitaires.filter { it.niveau == NiveauAlerte.CRITIQUE }
         if (critiques.isNotEmpty()) {
             item {
-                Text("Alertes sanitaires critiques", style = MaterialTheme.typography.titleSmall,
+                Text(stringResource(R.string.supercorr_alertes_critiques), style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.padding(horizontal = 4.dp))
             }
@@ -156,33 +158,33 @@ private fun CorrelateurContent(
         // ── Plan d'action (actions immédiates d'abord)
         if (result.planActionSylvicole.isNotEmpty()) {
             item {
-                SectionHeader("Plan d'action sylvicole", Icons.Default.Assignment)
+                SectionHeader(stringResource(R.string.supercorr_plan_action), Icons.Default.Assignment)
             }
             items(result.planActionSylvicole) { action -> ActionCard(action) }
         }
 
         // ── Bilan par essence
         if (result.essencesBilan.isNotEmpty()) {
-            item { SectionHeader("Bilan par essence & résilience 2050", Icons.Default.Forest) }
+            item { SectionHeader(stringResource(R.string.supercorr_bilan_essence), Icons.Default.Forest) }
             items(result.essencesBilan) { bilan -> EssenceBilanCard(bilan) }
         }
 
         // ── Essences recommandées futur
         if (result.essencesRecommandeesFutur.isNotEmpty()) {
-            item { SectionHeader("Essences recommandées pour l'avenir", Icons.Default.EmojiNature) }
+            item { SectionHeader(stringResource(R.string.supercorr_essences_recommandees), Icons.Default.EmojiNature) }
             items(result.essencesRecommandeesFutur.take(6)) { reco -> EssenceRecoCard(reco) }
         }
 
         // ── Risques climatiques
         if (result.risquesClimatiques.isNotEmpty()) {
-            item { SectionHeader("Risques climatiques identifiés", Icons.Default.Warning) }
+            item { SectionHeader(stringResource(R.string.supercorr_risques_climatiques), Icons.Default.Warning) }
             items(result.risquesClimatiques) { risque -> RisqueCard(risque) }
         }
 
         // ── Autres alertes sanitaires
         val autresAlertes = result.alertesSanitaires.filter { it.niveau != NiveauAlerte.CRITIQUE }
         if (autresAlertes.isNotEmpty()) {
-            item { SectionHeader("Alertes sanitaires", Icons.Default.BugReport) }
+            item { SectionHeader(stringResource(R.string.supercorr_alertes_sanitaires), Icons.Default.BugReport) }
             items(autresAlertes) { alerte -> AlerteSanitaireCard(alerte) }
         }
 
@@ -197,19 +199,19 @@ private fun CorrelateurContent(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text("Améliorer la précision", style = MaterialTheme.typography.titleSmall,
+                        Text(stringResource(R.string.supercorr_ameliorer_precision), style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold)
-                        Text("Des données supplémentaires amélioreraient la qualité du diagnostic.",
+                        Text(stringResource(R.string.supercorr_donnees_supplementaires),
                             style = MaterialTheme.typography.bodySmall)
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             if (!result.datasources.hasStation) {
                                 OutlinedButton(onClick = onNavigateToStation, modifier = Modifier.weight(1f)) {
-                                    Text("Diag. Station", fontSize = 12.sp)
+                                    Text(stringResource(R.string.supercorr_diag_station), fontSize = 12.sp)
                                 }
                             }
                             if (!result.datasources.hasRipisylve) {
                                 OutlinedButton(onClick = onNavigateToRipisylve, modifier = Modifier.weight(1f)) {
-                                    Text("Diag. Ripisylve", fontSize = 12.sp)
+                                    Text(stringResource(R.string.supercorr_diag_ripisylve), fontSize = 12.sp)
                                 }
                             }
                         }
@@ -242,7 +244,7 @@ private fun ResilienceScoreCard(score: SuperCorrelateurEngine.ResilienceScore, z
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column {
-                    Text("Score de résilience", style = MaterialTheme.typography.titleMedium,
+                    Text(stringResource(R.string.supercorr_score_resilience), style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold)
                     Text(score.labelFr, style = MaterialTheme.typography.bodyMedium,
                         color = globalColor, fontWeight = FontWeight.SemiBold)
@@ -266,15 +268,15 @@ private fun ResilienceScoreCard(score: SuperCorrelateurEngine.ResilienceScore, z
 
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 score.dendro?.let {
-                    ScoreChip("Dendro", it, Modifier.weight(1f))
+                    ScoreChip(stringResource(R.string.supercorr_chip_dendro), it, Modifier.weight(1f))
                 }
                 score.station?.let {
-                    ScoreChip("Station", it, Modifier.weight(1f))
+                    ScoreChip(stringResource(R.string.supercorr_chip_station), it, Modifier.weight(1f))
                 }
                 score.ripisylve?.let {
-                    ScoreChip("Ripisylve", it, Modifier.weight(1f))
+                    ScoreChip(stringResource(R.string.supercorr_chip_ripisylve), it, Modifier.weight(1f))
                 }
-                ScoreChip("Climat", score.climatiqueAdaptation, Modifier.weight(1f))
+                ScoreChip(stringResource(R.string.supercorr_chip_climat), score.climatiqueAdaptation, Modifier.weight(1f))
             }
 
             Row(
@@ -284,7 +286,7 @@ private fun ResilienceScoreCard(score: SuperCorrelateurEngine.ResilienceScore, z
                 Icon(Icons.Default.LocationOn, null,
                     modifier = Modifier.size(14.dp),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant)
-                Text("Zone : ${zone.labelFr}", style = MaterialTheme.typography.bodySmall,
+                Text(stringResource(R.string.supercorr_zone, zone.labelFr), style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
@@ -343,13 +345,13 @@ private fun EssenceBilanCard(bilan: SuperCorrelateurEngine.EssenceBilan) {
                     Text(bilan.nameFr, style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
-                Icon(if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore, null,
+                Icon(if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore, contentDescription = stringResource(if (expanded) R.string.cd_collapse else R.string.cd_expand),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
             }
 
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 StatusPill(
-                    text = "${bilan.nTiges} tiges (${bilan.pctBasalArea.toInt()}% G)",
+                    text = stringResource(R.string.supercorr_tiges_basal, bilan.nTiges, bilan.pctBasalArea.toInt()),
                     color = MaterialTheme.colorScheme.primary
                 )
                 StatusPill(
@@ -357,14 +359,14 @@ private fun EssenceBilanCard(bilan: SuperCorrelateurEngine.EssenceBilan) {
                     color = futureColor
                 )
                 StatusPill(
-                    text = "CC ${bilan.climateChangeResilience}/5",
+                    text = stringResource(R.string.supercorr_cc_resilience, bilan.climateChangeResilience),
                     color = resilienceColor(bilan.climateChangeResilience * 20)
                 )
             }
 
             if (expanded) {
                 Divider(modifier = Modifier.padding(vertical = 4.dp))
-                StatusPill("Station : ${bilan.compatibility.label}", color = compatColor,
+                StatusPill(stringResource(R.string.supercorr_station_compat, bilan.compatibility.label), color = compatColor,
                     modifier = Modifier.fillMaxWidth())
                 if (bilan.alertes.isNotEmpty()) {
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -396,9 +398,9 @@ private fun EssenceRecoCard(reco: SuperCorrelateurEngine.EssenceRecommandation) 
         else -> Color(0xFF4CAF50)
     }
     val priorityLabel = when (reco.priority) {
-        1    -> "Priorité 1"
-        2    -> "Priorité 2"
-        else -> "Opportuniste"
+        1    -> stringResource(R.string.supercorr_priorite_1)
+        2    -> stringResource(R.string.supercorr_priorite_2)
+        else -> stringResource(R.string.supercorr_opportuniste)
     }
 
     Card(
@@ -415,10 +417,10 @@ private fun EssenceRecoCard(reco: SuperCorrelateurEngine.EssenceRecommandation) 
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                     Text(reco.nameFr, style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Bold)
+                        fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
                     StatusPill(priorityLabel, color = priorityColor)
                 }
-                StatusPill("Résilience CC : ${reco.climateResilience}/5",
+                StatusPill(stringResource(R.string.supercorr_resilience_cc, reco.climateResilience),
                     color = resilienceColor(reco.climateResilience * 20))
                 Text(reco.rationale, style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 3,
@@ -500,12 +502,12 @@ private fun RisqueCard(risque: com.forestry.counter.domain.usecase.correlateur.R
                         tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(18.dp))
                 }
             }
-            Text("Horizon : ${risque.horizon}", style = MaterialTheme.typography.labelSmall,
+            Text(stringResource(R.string.supercorr_horizon, risque.horizon), style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
             if (expanded) {
                 Text(risque.description, style = MaterialTheme.typography.bodySmall)
                 if (risque.essencesConcernees.isNotEmpty()) {
-                    Text("Essences : ${risque.essencesConcernees.joinToString(", ")}",
+                    Text(stringResource(R.string.supercorr_essences_concernees, risque.essencesConcernees.joinToString(", ")),
                         style = MaterialTheme.typography.labelSmall, color = color)
                 }
             }
@@ -537,7 +539,7 @@ private fun AlerteSanitaireCard(alerte: SuperCorrelateurEngine.AlerteSanitaire) 
                 Text(alerte.description, style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
                 if (alerte.essencesConcernees.isNotEmpty()) {
-                    Text("Concerne : ${alerte.essencesConcernees.joinToString(", ")}",
+                    Text(stringResource(R.string.supercorr_concerne, alerte.essencesConcernees.joinToString(", ")),
                         style = MaterialTheme.typography.labelSmall, color = color)
                 }
             }
@@ -558,9 +560,9 @@ private fun DataSourcesCard(ds: SuperCorrelateurEngine.DataSources) {
         Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically) {
-                Text("Sources de données", style = MaterialTheme.typography.titleSmall,
+                Text(stringResource(R.string.supercorr_sources_donnees), style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold)
-                Text("Complétude : ${ds.completeness}%", style = MaterialTheme.typography.labelSmall,
+                Text(stringResource(R.string.supercorr_completude, ds.completeness), style = MaterialTheme.typography.labelSmall,
                     color = resilienceColor(ds.completeness))
             }
             LinearProgressIndicator(
@@ -569,10 +571,10 @@ private fun DataSourcesCard(ds: SuperCorrelateurEngine.DataSources) {
                 color = resilienceColor(ds.completeness)
             )
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                DataSourceChip("Tiges (${ds.nbTiges})", ds.hasDendro, Icons.Default.Forest, Modifier.weight(1f))
-                DataSourceChip("Station", ds.hasStation, Icons.Default.Landscape, Modifier.weight(1f))
-                DataSourceChip("Ripisylve", ds.hasRipisylve, Icons.Default.Water, Modifier.weight(1f))
-                DataSourceChip("GPS", ds.hasGPS, Icons.Default.LocationOn, Modifier.weight(1f))
+                DataSourceChip(stringResource(R.string.supercorr_source_tiges, ds.nbTiges), ds.hasDendro, Icons.Default.Forest, Modifier.weight(1f))
+                DataSourceChip(stringResource(R.string.supercorr_chip_station), ds.hasStation, Icons.Default.Landscape, Modifier.weight(1f))
+                DataSourceChip(stringResource(R.string.supercorr_chip_ripisylve), ds.hasRipisylve, Icons.Default.Water, Modifier.weight(1f))
+                DataSourceChip(stringResource(R.string.supercorr_source_gps), ds.hasGPS, Icons.Default.LocationOn, Modifier.weight(1f))
             }
         }
     }
@@ -607,9 +609,9 @@ private fun SyntheseCard(synthese: String) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Icon(Icons.Default.Summarize, null, tint = MaterialTheme.colorScheme.primary)
-                Text("Synthèse", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.supercorr_synthese), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
             }
-            Text(synthese, style = MaterialTheme.typography.bodyMedium, lineHeight = 20.sp)
+            Text(synthese, style = MaterialTheme.typography.bodyMedium, lineHeight = 20.sp, maxLines = 3, overflow = TextOverflow.Ellipsis)
         }
     }
 }

@@ -337,7 +337,7 @@ fun GroupsScreen(
                                             verticalAlignment = Alignment.CenterVertically,
                                             horizontalArrangement = Arrangement.spacedBy(12.dp)
                                         ) {
-                                            Icon(Icons.Default.Forest, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
+                                            Icon(Icons.Default.Forest, contentDescription = stringResource(R.string.cd_forest), tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
                                             Text(g.name, style = MaterialTheme.typography.bodyMedium)
                                         }
                                     }
@@ -422,7 +422,7 @@ fun GroupsScreen(
                                             verticalAlignment = Alignment.CenterVertically,
                                             horizontalArrangement = Arrangement.spacedBy(12.dp)
                                         ) {
-                                            Icon(Icons.Default.Forest, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
+                                            Icon(Icons.Default.Forest, contentDescription = stringResource(R.string.cd_forest), tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
                                             Text(g.name, style = MaterialTheme.typography.bodyMedium)
                                         }
                                     }
@@ -534,7 +534,7 @@ fun GroupsScreen(
                         val autoSelected = cleanedColor.isBlank()
                         Surface(
                             modifier = Modifier
-                                .size(40.dp)
+                                .size(48.dp)
                                 .clickable { colorHex = "" },
                             color = MaterialTheme.colorScheme.surface,
                             shape = CircleShape,
@@ -557,7 +557,7 @@ fun GroupsScreen(
                             val selected = cleanedColor.equals(hex, ignoreCase = true)
                             Surface(
                                 modifier = Modifier
-                                    .size(40.dp)
+                                    .size(48.dp)
                                     .clickable { colorHex = hex },
                                 color = col,
                                 shape = CircleShape,
@@ -780,7 +780,7 @@ fun GroupCard(
                     Box {
                         IconButton(
                             onClick = { showMenu = true },
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(48.dp)
                         ) {
                             Icon(
                                 Icons.Default.MoreVert,
@@ -847,7 +847,7 @@ fun GroupCard(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(8.dp)
-                    .size(20.dp)
+                    .size(48.dp)
                     .clickable { onToggleSelected() }
             ) {
                 Box(
@@ -981,7 +981,7 @@ fun CreateGroupDialog(
             val autoSelected = colorHex.isBlank()
             Surface(
                 modifier = Modifier
-                    .size(40.dp)
+                    .size(48.dp)
                     .clickable { colorHex = "" },
                 color = MaterialTheme.colorScheme.surface,
                 shape = CircleShape,
@@ -1017,7 +1017,7 @@ fun CreateGroupDialog(
                 val selected = cleanedColor.equals(hex, ignoreCase = true)
                 Surface(
                     modifier = Modifier
-                        .size(40.dp)
+                        .size(48.dp)
                         .clickable { colorHex = hex },
                     color = col,
                     shape = CircleShape,

@@ -56,6 +56,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -518,7 +519,9 @@ fun EssenceDiamScreen(
                         Text(
                             text = "$heightSetCount/$heightTotalPopulated",
                             style = MaterialTheme.typography.labelSmall,
-                            color = if (heightMissingCount > 0) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
+                            color = if (heightMissingCount > 0) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
@@ -765,7 +768,7 @@ fun EssenceDiamScreen(
                 ) {
                     Icon(
                         Icons.Default.Height,
-                        contentDescription = null,
+                        contentDescription = stringResource(R.string.cd_height),
                         modifier = Modifier.size(16.dp)
                     )
                     Spacer(modifier = Modifier.width(6.dp))
@@ -998,7 +1001,7 @@ fun EssenceDiamScreen(
                             ) {
                                 Icon(
                                     Icons.Default.Height,
-                                    contentDescription = null,
+                                    contentDescription = stringResource(R.string.cd_height),
                                     modifier = Modifier.size(14.dp),
                                     tint = MaterialTheme.colorScheme.error
                                 )
@@ -1012,7 +1015,9 @@ fun EssenceDiamScreen(
                             Text(
                                 list.joinToString("  ·  ") { d -> "$d cm" },
                                 style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.85f)
+                                color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.85f),
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis
                             )
                         }
                     }
@@ -1133,20 +1138,23 @@ fun EssenceDiamScreen(
                     value = specialDiameterInput,
                     onValueChange = { specialDiameterInput = it },
                     label = { Text(stringResource(R.string.diameter_cm_label)) },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true
                 )
                 OutlinedTextField(
                     value = specialHeightInput,
                     onValueChange = { specialHeightInput = it },
                     label = { Text(stringResource(R.string.height_m_optional_label)) },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true
                 )
                 if (type == SpecialTreeType.PARASITE) {
                     OutlinedTextField(
                         value = specialParasiteInput,
                         onValueChange = { specialParasiteInput = it },
                         label = { Text(stringResource(R.string.special_tree_parasite)) },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true
                     )
                 }
                 OutlinedTextField(

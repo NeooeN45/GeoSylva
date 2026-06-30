@@ -18,11 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.forestry.counter.R
 import com.forestry.counter.domain.usecase.florist.*
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -131,7 +133,7 @@ fun SmartPlantInputField(
             ) {
                 Icon(Icons.Default.List, null, modifier = Modifier.size(13.dp))
                 Spacer(Modifier.width(4.dp))
-                Text("Parcourir", style = MaterialTheme.typography.labelSmall)
+                Text(stringResource(R.string.smart_parcourir), style = MaterialTheme.typography.labelSmall)
             }
         }
 

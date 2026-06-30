@@ -12,9 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.forestry.counter.R
 import com.forestry.counter.domain.model.station.StationObservation
 import com.forestry.counter.domain.usecase.florist.GradientInferenceEngine
 import com.forestry.counter.domain.usecase.station.StationDiagnosticEngine
@@ -90,7 +92,7 @@ fun SmartSummaryCard(
                 ) {
                     Icon(Icons.Default.Warning, null, tint = StationDiagColors.ochrePrimary, modifier = Modifier.size(16.dp))
                     Column {
-                        Text("Facteur limitant", style = MaterialTheme.typography.labelSmall, color = StationDiagColors.ochrePrimary, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.smart_facteur_limitant), style = MaterialTheme.typography.labelSmall, color = StationDiagColors.ochrePrimary, fontWeight = FontWeight.Bold)
                         Text(facteurLimitant, style = MaterialTheme.typography.bodySmall, color = StationDiagColors.textPrimary)
                     }
                 }
@@ -108,7 +110,7 @@ fun SmartSummaryCard(
         Spacer(Modifier.height(8.dp))
 
         GradientBarRow(
-            label = "Hydrique",
+            label = stringResource(R.string.smart_hydrique),
             terrainFrac = animH,
             floreFrac = floraGradients?.hydrique?.let { (it / 7f).toFloat() },
             terrainColor = StationDiagColors.waterBlue,
@@ -118,7 +120,7 @@ fun SmartSummaryCard(
         )
         Spacer(Modifier.height(8.dp))
         GradientBarRow(
-            label = "Trophique",
+            label = stringResource(R.string.smart_trophique),
             terrainFrac = animT,
             floreFrac = floraGradients?.trophique?.let { (it / 6f).toFloat() },
             terrainColor = StationDiagColors.soilBrown,
@@ -131,8 +133,8 @@ fun SmartSummaryCard(
         if (floraGradients != null) {
             Spacer(Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                LegendDot(StationDiagColors.soilBrown, "Station terrain")
-                LegendDot(StationDiagColors.forestGreen, "Flore (Ellenberg)")
+                LegendDot(StationDiagColors.soilBrown, stringResource(R.string.smart_station_terrain))
+                LegendDot(StationDiagColors.forestGreen, stringResource(R.string.smart_flore_ellenberg))
             }
         }
 

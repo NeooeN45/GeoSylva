@@ -25,10 +25,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.forestry.counter.R
 import com.forestry.counter.domain.model.IbpCriterionId
 import com.forestry.counter.domain.model.IbpEvaluation
 import com.forestry.counter.domain.model.IbpGroup
@@ -49,10 +52,10 @@ fun IbpDiagnosticScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Diagnostic Biodiversité", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.ibpdiag_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -68,8 +71,9 @@ fun IbpDiagnosticScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Icon(Icons.Default.EmojiNature, contentDescription = null,
                         modifier = Modifier.size(64.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = .4f))
-                    Text("Aucune évaluation IBP\npour cette parcelle",
-                        textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.ibpdiag_no_eval),
+                        textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 2, overflow = TextOverflow.Ellipsis)
                 }
             }
         } else {
@@ -106,7 +110,7 @@ private fun DiagnosticScoreHeader(eval: IbpEvaluation) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text("Score IBP Global", style = MaterialTheme.typography.labelLarge, color = Color.White.copy(alpha = .85f))
+            Text(stringResource(R.string.ibpdiag_score_global), style = MaterialTheme.typography.labelLarge, color = Color.White.copy(alpha = .85f))
             val animatedScorePctA by animateIntAsState(
                 targetValue = eval.scoreAPct.coerceAtLeast(0),
                 animationSpec = tween(1200, easing = FastOutSlowInEasing),
@@ -127,17 +131,17 @@ private fun DiagnosticScoreHeader(eval: IbpEvaluation) {
             HorizontalDivider(color = Color.White.copy(alpha = .3f))
             Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Groupe A", style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = .8f))
+                    Text(stringResource(R.string.ibp_group_a_short), style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = .8f))
                     Text("${eval.scoreA}/35 (${eval.scoreAPct}%)", style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold, color = Color.White)
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Groupe B", style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = .8f))
+                    Text(stringResource(R.string.ibp_group_b_short), style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = .8f))
                     Text("${eval.scoreB}/15 (${eval.scoreBPct}%)", style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold, color = Color.White)
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Complétude", style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = .8f))
+                    Text(stringResource(R.string.ibpdiag_completeness), style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = .8f))
                     val pct = (IbpCriterionId.ALL.count { eval.answers.get(it) >= 0 } * 10)
                     Text("$pct%", style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold, color = Color.White)
@@ -158,7 +162,7 @@ private fun DiagnosticRadarCard(eval: IbpEvaluation) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Icon(Icons.Default.TrackChanges,
                     contentDescription = null, tint = Color(0xFF1B5E20), modifier = Modifier.size(20.dp))
-                Text("Profil radar A–J", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.ibpdiag_radar_profile), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
             }
             val scores = IbpCriterionId.ALL.map { cid -> eval.answers.get(cid).coerceAtLeast(0).toFloat() / 5f }
             IbpDiagnosticRadar(scores = scores, labels = IbpCriterionId.ALL.map { it.displayCode })
@@ -231,7 +235,8 @@ private fun DiagnosticCriteriaTable(eval: IbpEvaluation) {
         elevation = CardDefaults.cardElevation(2.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text("Détail des critères", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.ibpdiag_criteria_detail), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold,
+                maxLines = 1, overflow = TextOverflow.Ellipsis)
             IbpCriterionId.ALL.forEachIndexed { cidIdx, cid ->
                 val score = eval.answers.get(cid)
                 val color = when (score) { 5 -> Color(0xFF2E7D32); 2 -> Color(0xFFF9A825); 0 -> Color(0xFFC62828); else -> Color(0xFFBDBDBD) }
@@ -253,7 +258,7 @@ private fun DiagnosticCriteriaTable(eval: IbpEvaluation) {
                             modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp))
                     }
                     Text(ibpCriterionShortName(cid), style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier.weight(1f))
+                        modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
                     // Animated progress bar
                     Box(Modifier.width(80.dp).height(8.dp).clip(RoundedCornerShape(4.dp)).background(Color(0xFFE0E0E0))) {
                         Box(Modifier.fillMaxHeight().fillMaxWidth(animFraction).clip(RoundedCornerShape(4.dp)).background(color))
@@ -313,7 +318,7 @@ private fun DiagnosticPriorityActions(eval: IbpEvaluation) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Icon(Icons.Default.EmojiObjects, contentDescription = null, tint = Color(0xFFF9A825), modifier = Modifier.size(20.dp))
-                Text("Actions prioritaires", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.ibpdiag_priority_actions), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
             }
             actions.forEachIndexed { idx, action ->
                 val effortColor = when (action.effort) {
@@ -327,15 +332,17 @@ private fun DiagnosticPriorityActions(eval: IbpEvaluation) {
                     }
                     Column(Modifier.weight(1f)) {
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Text(action.title, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
+                            Text(action.title, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier.weight(1f), maxLines = 2, overflow = TextOverflow.Ellipsis)
                             Surface(color = Color(0xFF2E7D32), shape = RoundedCornerShape(6.dp)) {
-                                Text("+${action.gainPts} pts", style = MaterialTheme.typography.labelSmall,
+                                Text(stringResource(R.string.ibpdiag_gain_pts, action.gainPts), style = MaterialTheme.typography.labelSmall,
                                     color = Color.White, fontWeight = FontWeight.Bold,
                                     modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
                             }
                         }
                         Text(action.detail, style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 3, overflow = TextOverflow.Ellipsis)
                         Surface(color = effortColor.copy(alpha = .12f), shape = RoundedCornerShape(6.dp)) {
                             Text(action.effort, style = MaterialTheme.typography.labelSmall, color = effortColor,
                                 fontWeight = FontWeight.SemiBold,
@@ -368,7 +375,7 @@ private fun DiagnosticPotentialCard(eval: IbpEvaluation) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Icon(Icons.Default.TrendingUp, contentDescription = null, tint = Color(0xFF2E7D32), modifier = Modifier.size(20.dp))
-                Text("Potentiel d'amélioration", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.ibpdiag_potential), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -376,13 +383,13 @@ private fun DiagnosticPotentialCard(eval: IbpEvaluation) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Actuel", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.ibpdiag_current), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Text("$current", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.ExtraBold, color = currentColor)
                     Text(ibpLevelLabel(currentLevel), style = MaterialTheme.typography.labelSmall, color = currentColor, fontWeight = FontWeight.SemiBold)
                 }
                 Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Potentiel groupe A", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.ibpdiag_potential_group_a), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Text("$potential", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.ExtraBold, color = potentialColor)
                     Text(ibpLevelLabel(potentialLevel), style = MaterialTheme.typography.labelSmall, color = potentialColor, fontWeight = FontWeight.SemiBold)
                 }
@@ -393,9 +400,10 @@ private fun DiagnosticPotentialCard(eval: IbpEvaluation) {
                 color = currentColor,
                 trackColor = potentialColor.copy(alpha = .25f)
             )
-            Text("+$maxActionable pts accessibles par gestion du peuplement (groupe A)",
+            Text(stringResource(R.string.ibpdiag_potential_hint, maxActionable),
                 style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+                textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth(),
+                maxLines = 2, overflow = TextOverflow.Ellipsis)
         }
     }
 }
@@ -419,12 +427,13 @@ private fun DiagnosticTrendSummary(evals: List<IbpEvaluation>) {
         ) {
             Icon(trendIcon, contentDescription = null, tint = trendColor, modifier = Modifier.size(28.dp))
             Column(Modifier.weight(1f)) {
-                Text("Évolution (${evals.size} évaluations)", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-                Text("Score initial ${first.scoreTotal} → actuel ${last.scoreTotal}",
-                    style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(R.string.ibpdiag_evolution_count, evals.size), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.ibpdiag_score_initial_to_current, first.scoreTotal, last.scoreTotal),
+                    style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
             Surface(color = trendColor, shape = RoundedCornerShape(10.dp)) {
-                Text("${if (delta > 0) "+" else ""}$delta pts", style = MaterialTheme.typography.labelLarge,
+                Text(stringResource(R.string.ibpdiag_delta_pts, if (delta > 0) "+" else "", delta), style = MaterialTheme.typography.labelLarge,
                     color = Color.White, fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp))
             }

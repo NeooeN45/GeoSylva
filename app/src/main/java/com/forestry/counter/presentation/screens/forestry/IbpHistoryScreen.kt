@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.forestry.counter.R
 import com.forestry.counter.domain.model.IbpEvaluation
@@ -85,7 +86,7 @@ fun IbpHistoryScreen(
                 title = { Text(stringResource(R.string.ibp_history_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 },
                 actions = {
@@ -94,7 +95,7 @@ fun IbpHistoryScreen(
                             val ts = SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(java.util.Date())
                             csvLauncher.launch("IBP_export_$ts.csv")
                         }) {
-                            Icon(Icons.Default.TableChart, contentDescription = "Export CSV")
+                            Icon(Icons.Default.TableChart, contentDescription = stringResource(R.string.cd_export))
                         }
                     }
                 },
@@ -106,7 +107,7 @@ fun IbpHistoryScreen(
         floatingActionButton = {
             if (placetteId != null) {
                 FloatingActionButton(onClick = { onOpenEvaluation(parcelleId, placetteId, null) }) {
-                    Icon(Icons.Default.Add, contentDescription = stringResource(R.string.ibp_new_evaluation))
+                    Icon(Icons.Default.Add, contentDescription = stringResource(R.string.cd_add))
                 }
             }
         }
@@ -226,15 +227,15 @@ private fun IbpHistoryItem(
             ) {
                 Column(Modifier.weight(1f)) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(dateStr, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
+                        Text(dateStr, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         if (showPlacette && placetteName != null) {
                             Surface(color = MaterialTheme.colorScheme.secondaryContainer, shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)) {
-                                Text(placetteName, style = MaterialTheme.typography.labelSmall, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
+                                Text(placetteName, style = MaterialTheme.typography.labelSmall, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp), maxLines = 1, overflow = TextOverflow.Ellipsis)
                             }
                         }
                     }
                     if (eval.evaluatorName.isNotBlank()) {
-                        Text(eval.evaluatorName, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(eval.evaluatorName, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     }
                 }
                 Spacer(Modifier.width(8.dp))
@@ -247,8 +248,8 @@ private fun IbpHistoryItem(
                     val pct = (eval.answers.answeredCount * 10)
                     Text("$pct%", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
-                IconButton(onClick = { expanded = !expanded }) {
-                    Icon(if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore, contentDescription = null)
+                IconButton(onClick = { expanded = !expanded }, modifier = Modifier.size(48.dp)) {
+                    Icon(if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore, contentDescription = if (expanded) stringResource(R.string.cd_collapse) else stringResource(R.string.cd_expand))
                 }
             }
 
@@ -259,7 +260,7 @@ private fun IbpHistoryItem(
                         Spacer(Modifier.height(8.dp))
                     }
                     if (eval.globalNote.isNotBlank()) {
-                        Text(eval.globalNote, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(eval.globalNote, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         Spacer(Modifier.height(8.dp))
                     }
                     Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {

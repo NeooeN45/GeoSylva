@@ -187,7 +187,7 @@ object ClimateContextService {
             }
             obj.put(key, entry)
             file.writeText(obj.toString())
-        } catch (_: Exception) {}
+        } catch (e: Exception) { android.util.Log.w("ClimateContext", "Cache write failed", e) }
     }
 
     fun clearCache(context: Context) {

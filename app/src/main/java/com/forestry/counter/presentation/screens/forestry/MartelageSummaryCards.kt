@@ -1038,6 +1038,8 @@ internal fun BiodiversityCard(
                     stringResource(R.string.biodiversity_title),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.weight(1f)
                 )
                 Surface(
@@ -1256,7 +1258,9 @@ internal fun StandFertilityCard(
                     Text(
                         "Classes de fertilité du peuplement",
                         style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
                 Text(
@@ -1560,6 +1564,8 @@ internal fun CorroborationReportCard(stats: MartelageStats) {
                         "Rapport de corroboration",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f)
                     )
                     Surface(
@@ -1670,7 +1676,9 @@ internal fun SylviculturalKPIsCard(stats: MartelageStats) {
                     Text(
                         "Indicateurs sylvicoles",
                         style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
                 HorizontalDivider(color = cardContent.copy(alpha = 0.12f))
@@ -1694,7 +1702,7 @@ internal fun SylviculturalKPIsCard(stats: MartelageStats) {
                         else        -> Color(0xFFC62828) to "Élancé — risque vent"
                     }
                     SylvKPIRow(
-                        label = "Élancement H/D (résineux)",
+                        label = stringResource(R.string.martelage_elancement_hd),
                         value = String.format(Locale.getDefault(), "%.0f", slend),
                         statusLabel = sl, statusColor = sc, textColor = cardContent
                     )
@@ -1711,7 +1719,7 @@ internal fun SylviculturalKPIsCard(stats: MartelageStats) {
                         else          -> Color(0xFFC62828) to "Surpeuplement"
                     }
                     SylvKPIRow(
-                        label = "Surface terrière G/ha",
+                        label = stringResource(R.string.martelage_surface_terriere),
                         value = String.format(Locale.getDefault(), "%.1f m²/ha", gPerHa),
                         statusLabel = gl, statusColor = gc, textColor = cardContent
                     )
@@ -1744,7 +1752,7 @@ internal fun SylviculturalKPIsCard(stats: MartelageStats) {
                         else          -> Color(0xFFC62828) to "Très dense — concurrence forte"
                     }
                     SylvKPIRow(
-                        label = "Densité N/ha",
+                        label = stringResource(R.string.martelage_densite_nha),
                         value = String.format(Locale.getDefault(), "%.0f tiges/ha", nPerHa),
                         statusLabel = nl, statusColor = nc, textColor = cardContent
                     )

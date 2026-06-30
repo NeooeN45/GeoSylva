@@ -14,8 +14,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.forestry.counter.R
 
 /**
  * Global set of dismissed tip keys — persists across recompositions for the
@@ -93,7 +95,7 @@ fun TipCard(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
-                        contentDescription = "Fermer",
+                        contentDescription = stringResource(R.string.tip_close),
                         modifier = Modifier.size(16.dp),
                         tint = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.6f)
                     )

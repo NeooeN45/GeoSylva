@@ -23,9 +23,12 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.forestry.counter.R
 import com.forestry.counter.domain.model.IbpCriterionId
 import com.forestry.counter.domain.model.IbpEvaluation
 import com.forestry.counter.domain.model.IbpLevel
@@ -49,10 +52,10 @@ fun IbpCompareScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Évolution temporelle IBP", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.ibpcompare_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -70,7 +73,7 @@ fun IbpCompareScreen(
                     Icon(Icons.Default.Timeline, contentDescription = null,
                         modifier = Modifier.size(64.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = .4f))
-                    Text("Il faut au moins 2 évaluations\npour voir l'évolution",
+                    Text(stringResource(R.string.ibpcompare_need_two),
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
@@ -84,7 +87,7 @@ fun IbpCompareScreen(
                 item { CompareTotalScoreChart(evals, dateFormat) }
                 item { CompareGroupABChart(evals, dateFormat) }
                 item {
-                    Text("Évolution par critère",
+                    Text(stringResource(R.string.ibpcompare_by_criterion),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.ExtraBold,
                         modifier = Modifier.padding(start = 16.dp, top = 20.dp, bottom = 4.dp))
@@ -120,18 +123,20 @@ private fun CompareHeader(evals: List<IbpEvaluation>, fmt: SimpleDateFormat) {
             horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             Icon(trendIcon, contentDescription = null, tint = Color.White, modifier = Modifier.size(40.dp))
             Column(Modifier.weight(1f)) {
-                Text("${evals.size} évaluations comparées",
-                    style = MaterialTheme.typography.labelMedium, color = Color.White.copy(alpha = .8f))
+                Text(stringResource(R.string.ibpcompare_count, evals.size),
+                    style = MaterialTheme.typography.labelMedium, color = Color.White.copy(alpha = .8f),
+                    maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Text("${fmt.format(Date(first.observationDate))} → ${fmt.format(Date(last.observationDate))}",
-                    style = MaterialTheme.typography.bodySmall, color = Color.White.copy(alpha = .7f))
+                    style = MaterialTheme.typography.bodySmall, color = Color.White.copy(alpha = .7f),
+                    maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
             Surface(color = trendColor, shape = RoundedCornerShape(12.dp)) {
                 Column(modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("${if (delta >= 0) "+" else ""}$delta pts",
+                    Text(stringResource(R.string.ibpcompare_delta_pts, if (delta >= 0) "+" else "", delta),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.ExtraBold, color = Color.White)
-                    Text("évolution", style = MaterialTheme.typography.labelSmall,
+                    Text(stringResource(R.string.ibpcompare_evolution), style = MaterialTheme.typography.labelSmall,
                         color = Color.White.copy(alpha = .8f))
                 }
             }
@@ -145,7 +150,7 @@ private fun CompareTotalScoreChart(evals: List<IbpEvaluation>, fmt: SimpleDateFo
     Card(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
         elevation = CardDefaults.cardElevation(2.dp)) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Score total /50", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.ibpcompare_score_total), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
             val scores = evals.map { it.scoreTotal.coerceAtLeast(0).toFloat() }
             val labels = evals.map { fmt.format(Date(it.observationDate)) }
             SparklineChart(
@@ -155,10 +160,11 @@ private fun CompareTotalScoreChart(evals: List<IbpEvaluation>, fmt: SimpleDateFo
             )
             // Level zones legend
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
-                listOf("Très faible" to Color(0xFFC62828), "Moyen" to Color(0xFFF9A825), "Bon" to Color(0xFF2E7D32)).forEach { (l, c) ->
+                listOf(stringResource(R.string.ibp_level_very_low) to Color(0xFFC62828), stringResource(R.string.ibp_level_medium) to Color(0xFFF9A825), stringResource(R.string.ibp_level_good) to Color(0xFF2E7D32)).forEach { (l, c) ->
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                         Box(Modifier.size(8.dp).clip(CircleShape).background(c))
-                        Text(l, style = MaterialTheme.typography.labelSmall, color = c)
+                        Text(l, style = MaterialTheme.typography.labelSmall, color = c,
+                            maxLines = 1, overflow = TextOverflow.Ellipsis)
                     }
                 }
             }
@@ -172,7 +178,7 @@ private fun CompareGroupABChart(evals: List<IbpEvaluation>, fmt: SimpleDateForma
     Card(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
         elevation = CardDefaults.cardElevation(2.dp)) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Groupe A vs Groupe B", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.ibpcompare_group_a_vs_b), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
             val scoresA = evals.map { it.scoreA.coerceAtLeast(0).toFloat() }
             val scoresB = evals.map { it.scoreB.coerceAtLeast(0).toFloat() }
             val labels = evals.map { fmt.format(Date(it.observationDate)) }
@@ -188,11 +194,11 @@ private fun CompareGroupABChart(evals: List<IbpEvaluation>, fmt: SimpleDateForma
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     Box(Modifier.size(10.dp).clip(CircleShape).background(Color(0xFF2E7D32)))
-                    Text("Groupe A /35", style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.ibpcompare_group_a_35), style = MaterialTheme.typography.labelSmall)
                 }
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     Box(Modifier.size(10.dp).clip(CircleShape).background(Color(0xFF1565C0)))
-                    Text("Groupe B /15", style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.ibpcompare_group_b_15), style = MaterialTheme.typography.labelSmall)
                 }
             }
         }
@@ -251,10 +257,10 @@ private fun CompareDataTable(evals: List<IbpEvaluation>, fmt: SimpleDateFormat) 
     Card(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
         elevation = CardDefaults.cardElevation(2.dp)) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text("Tableau récapitulatif", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.ibpcompare_summary_table), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
             // Header
             Row(modifier = Modifier.fillMaxWidth()) {
-                Text("Critère", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold,
+                Text(stringResource(R.string.ibpcompare_criterion), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.width(44.dp))
                 evals.forEach { ev ->
                     Text(fmt.format(Date(ev.observationDate)), style = MaterialTheme.typography.labelSmall,
@@ -280,7 +286,7 @@ private fun CompareDataTable(evals: List<IbpEvaluation>, fmt: SimpleDateFormat) 
             HorizontalDivider()
             // Total row
             Row(modifier = Modifier.fillMaxWidth()) {
-                Text("Total", style = MaterialTheme.typography.labelSmall,
+                Text(stringResource(R.string.ibpcompare_total), style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.ExtraBold, modifier = Modifier.width(44.dp))
                 evals.forEach { ev ->
                     val score = ev.scoreTotal

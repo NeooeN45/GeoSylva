@@ -7,7 +7,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.forestry.counter.R
 import com.forestry.counter.domain.usecase.florist.FloristDatabase
 import com.forestry.counter.domain.usecase.florist.TypeMilieu
 
@@ -26,7 +28,7 @@ fun FloraFamilyBrowserSheet(
     }
     ModalBottomSheet(onDismissRequest = onDismiss, shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Sélectionner des espèces", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.flora_select_species), style = MaterialTheme.typography.titleMedium)
             Spacer(Modifier.height(8.dp))
             LazyColumn(modifier = Modifier.fillMaxHeight(0.7f)) {
                 items(species) { (id, name) ->

@@ -12,9 +12,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.forestry.counter.R
 import com.forestry.counter.domain.calculation.ExpertForestryCalculator
 import com.forestry.counter.domain.model.Tige
 import kotlinx.coroutines.launch
@@ -100,7 +102,7 @@ fun ExpertIbpAnalysisSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "🎯 Analyse Expert Forestier",
+                text = stringResource(R.string.expertibp_title),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -158,7 +160,7 @@ fun ExpertIbpAnalysisSection(
 private fun ExpertStationSection(analysis: ExpertAnalysisResult) {
     Column {
         Text(
-            text = "📍 Analyse Stationnelle",
+            text = stringResource(R.string.expertibp_station_title),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
@@ -171,9 +173,9 @@ private fun ExpertStationSection(analysis: ExpertAnalysisResult) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Indice de station (IA):")
+            Text(stringResource(R.string.expertibp_station_index))
             Text(
-                text = "${analysis.indiceStation.toInt()}/30",
+                text = stringResource(R.string.expertibp_station_index_value, analysis.indiceStation.toInt()),
                 fontWeight = FontWeight.Bold,
                 color = when {
                     analysis.indiceStation < 10 -> Color.Red
@@ -188,9 +190,9 @@ private fun ExpertStationSection(analysis: ExpertAnalysisResult) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Classe de station:")
+            Text(stringResource(R.string.expertibp_station_class))
             Text(
-                text = "Station ${analysis.classeStation}",
+                text = stringResource(R.string.expertibp_station_class_value, analysis.classeStation),
                 fontWeight = FontWeight.Bold
             )
         }
@@ -200,9 +202,9 @@ private fun ExpertStationSection(analysis: ExpertAnalysisResult) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Classe de fertilité:")
+            Text(stringResource(R.string.expertibp_fertility_class))
             Text(
-                text = "F${analysis.fertilité.classe}",
+                text = stringResource(R.string.expertibp_fertility_class_value, analysis.fertilité.classe),
                 fontWeight = FontWeight.Bold,
                 color = when (analysis.fertilité.classe) {
                     1, 2 -> Color(0xFFFF9800)
@@ -218,9 +220,9 @@ private fun ExpertStationSection(analysis: ExpertAnalysisResult) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Surface terrière:")
+            Text(stringResource(R.string.expertibp_basal_area))
             Text(
-                text = "${"%.1f".format(analysis.surfaceTerriere)} m²/ha",
+                text = stringResource(R.string.expertibp_basal_area_value, analysis.surfaceTerriere),
                 fontWeight = FontWeight.Bold
             )
         }
@@ -231,7 +233,7 @@ private fun ExpertStationSection(analysis: ExpertAnalysisResult) {
 private fun ExpertProductionSection(analysis: ExpertAnalysisResult) {
     Column {
         Text(
-            text = "📊 Données de Production ONF",
+            text = stringResource(R.string.expertibp_production_title),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
@@ -245,9 +247,9 @@ private fun ExpertProductionSection(analysis: ExpertAnalysisResult) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Hauteur moyenne ONF:")
+                Text(stringResource(R.string.expertibp_mean_height))
                 Text(
-                    text = "${"%.1f".format(production.hauteurMoyenne)} m",
+                    text = stringResource(R.string.expertibp_mean_height_value, production.hauteurMoyenne),
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -257,9 +259,9 @@ private fun ExpertProductionSection(analysis: ExpertAnalysisResult) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Diamètre moyen ONF:")
+                Text(stringResource(R.string.expertibp_mean_diam))
                 Text(
-                    text = "${"%.1f".format(production.diametreMoyen)} cm",
+                    text = stringResource(R.string.expertibp_mean_diam_value, production.diametreMoyen),
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -269,9 +271,9 @@ private fun ExpertProductionSection(analysis: ExpertAnalysisResult) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Volume total ONF:")
+                Text(stringResource(R.string.expertibp_total_volume))
                 Text(
-                    text = "${"%.0f".format(production.volumeTotal)} m³/ha",
+                    text = stringResource(R.string.expertibp_total_volume_value, production.volumeTotal),
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -281,15 +283,15 @@ private fun ExpertProductionSection(analysis: ExpertAnalysisResult) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Accroissement annuel:")
+                Text(stringResource(R.string.expertibp_annual_increment))
                 Text(
-                    text = "${"%.1f".format(production.accroissementAnnuel)} m³/ha/an",
+                    text = stringResource(R.string.expertibp_annual_increment_value, production.accroissementAnnuel),
                     fontWeight = FontWeight.Bold
                 )
             }
         } ?: run {
             Text(
-                text = "Données de production non disponibles pour cette essence",
+                text = stringResource(R.string.expertibp_production_unavailable),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.error
             )
@@ -301,7 +303,7 @@ private fun ExpertProductionSection(analysis: ExpertAnalysisResult) {
 private fun ExpertGrowthSection(analysis: ExpertAnalysisResult, essenceCode: String) {
     Column {
         Text(
-            text = "🌱 Analyse de Croissance",
+            text = stringResource(R.string.expertibp_growth_title),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
@@ -314,9 +316,9 @@ private fun ExpertGrowthSection(analysis: ExpertAnalysisResult, essenceCode: Str
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Diamètre moyen actuel:")
+            Text(stringResource(R.string.expertibp_current_mean_diam))
             Text(
-                text = "${"%.1f".format(analysis.diametreMoyen)} cm",
+                text = stringResource(R.string.expertibp_current_mean_diam_value, analysis.diametreMoyen),
                 fontWeight = FontWeight.Bold
             )
         }
@@ -326,9 +328,9 @@ private fun ExpertGrowthSection(analysis: ExpertAnalysisResult, essenceCode: Str
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Hauteur moyenne actuelle:")
+            Text(stringResource(R.string.expertibp_current_mean_height))
             Text(
-                text = "${"%.1f".format(analysis.hauteurMoyenne)} m",
+                text = stringResource(R.string.expertibp_current_mean_height_value, analysis.hauteurMoyenne),
                 fontWeight = FontWeight.Bold
             )
         }
@@ -338,9 +340,9 @@ private fun ExpertGrowthSection(analysis: ExpertAnalysisResult, essenceCode: Str
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Accroissement moyen (AMA):")
+            Text(stringResource(R.string.expertibp_mean_increment))
             Text(
-                text = "${"%.2f".format(analysis.accroissementMoyen)} cm/an",
+                text = stringResource(R.string.expertibp_mean_increment_value, analysis.accroissementMoyen),
                 fontWeight = FontWeight.Bold
             )
         }
@@ -350,9 +352,9 @@ private fun ExpertGrowthSection(analysis: ExpertAnalysisResult, essenceCode: Str
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Accroissement actuel (ACA):")
+            Text(stringResource(R.string.expertibp_current_increment))
             Text(
-                text = "${"%.2f".format(analysis.accroissementActuel)} cm/an",
+                text = stringResource(R.string.expertibp_current_increment_value, analysis.accroissementActuel),
                 fontWeight = FontWeight.Bold,
                 color = if (analysis.accroissementActuel > analysis.accroissementMoyen) 
                     Color.Green else Color(0xFFFF9800)
@@ -364,9 +366,9 @@ private fun ExpertGrowthSection(analysis: ExpertAnalysisResult, essenceCode: Str
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Prédiction 10 ans:")
+            Text(stringResource(R.string.expertibp_prediction_10y))
             Text(
-                text = "${"%.1f".format(analysis.croissanceFuture)} cm",
+                text = stringResource(R.string.expertibp_prediction_10y_value, analysis.croissanceFuture),
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -377,9 +379,9 @@ private fun ExpertGrowthSection(analysis: ExpertAnalysisResult, essenceCode: Str
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Ø exploitation optimal:")
+            Text(stringResource(R.string.expertibp_optimal_harvest_diam))
             Text(
-                text = "${analysis.fertilité.diametreExploitation.toInt()} cm",
+                text = stringResource(R.string.expertibp_optimal_harvest_diam_value, analysis.fertilité.diametreExploitation.toInt()),
                 fontWeight = FontWeight.Bold
             )
         }
@@ -389,9 +391,9 @@ private fun ExpertGrowthSection(analysis: ExpertAnalysisResult, essenceCode: Str
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Âge exploitation optimal:")
+            Text(stringResource(R.string.expertibp_optimal_harvest_age))
             Text(
-                text = "${analysis.fertilité.ageExploitation} ans",
+                text = stringResource(R.string.expertibp_optimal_harvest_age_value, analysis.fertilité.ageExploitation),
                 fontWeight = FontWeight.Bold
             )
         }
@@ -402,7 +404,7 @@ private fun ExpertGrowthSection(analysis: ExpertAnalysisResult, essenceCode: Str
 private fun ExpertRecommendationsSection(analysis: ExpertAnalysisResult) {
     Column {
         Text(
-            text = "💡 Recommandations Sylvicoles",
+            text = stringResource(R.string.expertibp_recommendations_title),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
@@ -412,7 +414,7 @@ private fun ExpertRecommendationsSection(analysis: ExpertAnalysisResult) {
         
         // Essences optimales
         Text(
-            text = "Essences optimales:",
+            text = stringResource(R.string.expertibp_optimal_species),
             fontWeight = FontWeight.Medium
         )
         Text(
@@ -428,9 +430,9 @@ private fun ExpertRecommendationsSection(analysis: ExpertAnalysisResult) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Densité plantation:")
+            Text(stringResource(R.string.expertibp_planting_density))
             Text(
-                text = "${analysis.recommendations.densitePlantation} tiges/ha",
+                text = stringResource(R.string.expertibp_planting_density_value, analysis.recommendations.densitePlantation),
                 fontWeight = FontWeight.Bold
             )
         }
@@ -442,9 +444,9 @@ private fun ExpertRecommendationsSection(analysis: ExpertAnalysisResult) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Première éclaircie:")
+            Text(stringResource(R.string.expertibp_first_thinning))
             Text(
-                text = "${analysis.recommendations.agePremiereEclaircie} ans",
+                text = stringResource(R.string.expertibp_first_thinning_value, analysis.recommendations.agePremiereEclaircie),
                 fontWeight = FontWeight.Bold
             )
         }
@@ -453,13 +455,13 @@ private fun ExpertRecommendationsSection(analysis: ExpertAnalysisResult) {
         
         // Recommandations détaillées
         Text(
-            text = "Recommandations:",
+            text = stringResource(R.string.expertibp_recommendations_label),
             fontWeight = FontWeight.Medium
         )
         
         analysis.recommendations.recommandations.forEach { recommendation ->
             Text(
-                text = "• $recommendation",
+                text = stringResource(R.string.expertibp_recommendation_bullet, recommendation),
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(start = 8.dp, top = 2.dp)
             )

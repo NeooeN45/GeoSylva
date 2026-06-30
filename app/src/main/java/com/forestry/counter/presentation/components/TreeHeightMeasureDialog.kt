@@ -484,7 +484,7 @@ private fun DistanceStep(
             ),
             singleLine = true,
             isError = distanceInput.isNotEmpty() && distanceM == null,
-            placeholder = { Text("ex : 15") },
+            placeholder = { Text(stringResource(R.string.tree_height_placeholder)) },
             supportingText = {
                 Text(
                     stringResource(R.string.height_measure_tip_steps),
@@ -658,7 +658,7 @@ private fun AngleCaptureStep(
                         onClick = onCapture,
                         enabled = stability > 0.35f
                     ) {
-                        Icon(Icons.Default.Adjust, contentDescription = null, modifier = Modifier.size(16.dp))
+                        Icon(Icons.Default.Adjust, contentDescription = "Capturer l'angle", modifier = Modifier.size(16.dp))
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(stringResource(R.string.height_measure_capture))
                     }
@@ -668,7 +668,7 @@ private fun AngleCaptureStep(
                             containerColor = MaterialTheme.colorScheme.secondaryContainer
                         )
                     ) {
-                        Icon(Icons.Default.CameraAlt, contentDescription = null, modifier = Modifier.size(16.dp))
+                        Icon(Icons.Default.CameraAlt, contentDescription = "Viser avec la caméra", modifier = Modifier.size(16.dp))
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(stringResource(R.string.height_camera_aim_button))
                     }
@@ -713,7 +713,7 @@ private fun AngleCaptureStep(
                         ) {
                             Icon(
                                 Icons.Default.Refresh,
-                                contentDescription = null,
+                                contentDescription = "Recapturer",
                                 modifier = Modifier.size(14.dp)
                             )
                             Spacer(modifier = Modifier.width(4.dp))

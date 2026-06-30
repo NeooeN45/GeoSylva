@@ -71,6 +71,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.forestry.counter.R
 import com.forestry.counter.data.local.CanonicalEssences
@@ -286,7 +287,7 @@ fun PriceTablesEditorScreen(
                 title = { Text(stringResource(R.string.price_tables_editor_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 },
                 actions = {
@@ -310,7 +311,7 @@ fun PriceTablesEditorScreen(
                             }
                         }
                     ) {
-                        Icon(Icons.Default.Save, contentDescription = null)
+                        Icon(Icons.Default.Save, contentDescription = stringResource(R.string.cd_save))
                     }
                 }
             )
@@ -387,7 +388,7 @@ fun PriceTablesEditorScreen(
                             )
                         }
                     ) {
-                        Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(18.dp))
+                        Icon(Icons.Default.Add, contentDescription = stringResource(R.string.cd_add), modifier = Modifier.size(18.dp))
                         Spacer(Modifier.width(4.dp))
                         Text(stringResource(R.string.add_line))
                     }
@@ -404,7 +405,7 @@ fun PriceTablesEditorScreen(
                     trailingIcon = {
                         if (searchQuery.isNotEmpty()) {
                             IconButton(onClick = { searchQuery = "" }) {
-                                Icon(Icons.Default.Clear, contentDescription = null, modifier = Modifier.size(20.dp))
+                                Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.cd_clear), modifier = Modifier.size(20.dp))
                             }
                         }
                     },
@@ -478,13 +479,17 @@ private fun PriceRowCard(
                     Text(
                         text = essenceLabel,
                         style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.SemiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                     val qualityTag = if (row.quality != "*") " \u00b7 Q.${row.quality}" else ""
                     Text(
                         text = "$prodLabel \u00b7 D ${row.min}\u2013${row.max} cm$qualityTag \u00b7 $priceDisplay",
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
                 AssistChip(
@@ -492,10 +497,10 @@ private fun PriceRowCard(
                     label = { Text(priceDisplay, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold) },
                     leadingIcon = { Icon(Icons.Default.AttachMoney, contentDescription = null, modifier = Modifier.size(16.dp)) }
                 )
-                IconButton(onClick = { onUpdate(row.copy(expanded = !row.expanded)) }, modifier = Modifier.size(32.dp)) {
+                IconButton(onClick = { onUpdate(row.copy(expanded = !row.expanded)) }, modifier = Modifier.size(48.dp)) {
                     Icon(
                         if (row.expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                        contentDescription = null,
+                        contentDescription = stringResource(if (row.expanded) R.string.cd_collapse else R.string.cd_expand),
                         modifier = Modifier.size(20.dp)
                     )
                 }
@@ -531,7 +536,7 @@ private fun PriceRowCard(
                         ) {
                             essenceCodes.forEach { code ->
                                 DropdownMenuItem(
-                                    text = { Text(essenceLabels[code] ?: code) },
+                                    text = { Text(essenceLabels[code] ?: code, maxLines = 1, overflow = TextOverflow.Ellipsis) },
                                     onClick = {
                                         onUpdate(row.copy(essence = code))
                                         essenceExpanded = false
@@ -561,7 +566,7 @@ private fun PriceRowCard(
                         ) {
                             PRODUCT_CODES.forEach { code ->
                                 DropdownMenuItem(
-                                    text = { Text(productLabel(code)) },
+                                    text = { Text(productLabel(code), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                                     onClick = {
                                         onUpdate(row.copy(product = code))
                                         productExpanded = false
@@ -591,7 +596,7 @@ private fun PriceRowCard(
                         ) {
                             QUALITY_CODES.forEach { code ->
                                 DropdownMenuItem(
-                                    text = { Text(qualityLabel(code)) },
+                                    text = { Text(qualityLabel(code), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                                     onClick = {
                                         onUpdate(row.copy(quality = code))
                                         qualityExpanded = false
@@ -641,7 +646,7 @@ private fun PriceRowCard(
                             onClick = onDelete,
                             contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp)
                         ) {
-                            Icon(Icons.Default.Delete, contentDescription = null, modifier = Modifier.size(16.dp))
+                            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.cd_delete), modifier = Modifier.size(16.dp))
                             Spacer(Modifier.width(4.dp))
                             Text(stringResource(R.string.delete), style = MaterialTheme.typography.labelSmall)
                         }

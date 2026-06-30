@@ -11,9 +11,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.forestry.counter.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -21,15 +24,15 @@ fun TarifDocumentationScreen(
     onNavigateBack: () -> Unit
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
-    val tabs = listOf("Bases de données", "Tarifs", "Formules")
+    val tabs = listOf(stringResource(R.string.tarifdoc_tab_databases), stringResource(R.string.tarifdoc_tab_tarifs), stringResource(R.string.tarifdoc_tab_formulas))
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Documentation Tarifs") },
+                title = { Text(stringResource(R.string.tarifdoc_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 }
             )
@@ -38,7 +41,7 @@ fun TarifDocumentationScreen(
         Column(modifier = Modifier.fillMaxSize().padding(padding)) {
             TabRow(selectedTabIndex = selectedTab) {
                 tabs.forEachIndexed { i, title ->
-                    Tab(selected = selectedTab == i, onClick = { selectedTab = i }, text = { Text(title) })
+                    Tab(selected = selectedTab == i, onClick = { selectedTab = i }, text = { Text(title, maxLines = 1, overflow = TextOverflow.Ellipsis) })
                 }
             }
             when (selectedTab) {
@@ -58,42 +61,42 @@ private fun DatabasesTab() {
     ) {
         item {
             DocCard(
-                title = "IFN — Inventaire Forestier National",
-                subtitle = "Base de données cubages nationaux",
+                title = stringResource(R.string.tarifdoc_db_ifn_title),
+                subtitle = stringResource(R.string.tarifdoc_db_ifn_subtitle),
                 color = Color(0xFF1565C0),
-                content = "Tarifs de cubage établis par l'IGN sur la base des inventaires IFN couvrant l'ensemble du territoire métropolitain. Utilisés pour les essences non couvertes par des tarifs locaux."
+                content = stringResource(R.string.tarifdoc_db_ifn_content)
             )
         }
         item {
             DocCard(
-                title = "Schaeffer 1 entrée",
-                subtitle = "Volume par diamètre seul",
+                title = stringResource(R.string.tarifdoc_db_schaeffer1_title),
+                subtitle = stringResource(R.string.tarifdoc_db_schaeffer1_subtitle),
                 color = Color(0xFF2E7D32),
-                content = "Tarif 1 entrée basé uniquement sur le diamètre à 1,30 m. Précision ±15–25%. Recommandé quand les hauteurs ne sont pas disponibles. Valable pour peuplements homogènes."
+                content = stringResource(R.string.tarifdoc_db_schaeffer1_content)
             )
         }
         item {
             DocCard(
-                title = "Schaeffer 2 entrées",
-                subtitle = "Volume par diamètre et hauteur",
+                title = stringResource(R.string.tarifdoc_db_schaeffer2_title),
+                subtitle = stringResource(R.string.tarifdoc_db_schaeffer2_subtitle),
                 color = Color(0xFF6A1B9A),
-                content = "Tarif 2 entrées intégrant diamètre ET hauteur. Précision ±8–12%. Recommandé pour les évaluations précises de cubage. Nécessite la mesure des hauteurs dominantes."
+                content = stringResource(R.string.tarifdoc_db_schaeffer2_content)
             )
         }
         item {
             DocCard(
-                title = "Algan (Allométrie régionale)",
-                subtitle = "Equations alloméetriques INRAE",
+                title = stringResource(R.string.tarifdoc_db_algan_title),
+                subtitle = stringResource(R.string.tarifdoc_db_algan_subtitle),
                 color = Color(0xFFE65100),
-                content = "Équations allométriques développées par l'INRAE pour les principales essences forestières françaises. Intègrent la variabilité régionale et la forme des arbres."
+                content = stringResource(R.string.tarifdoc_db_algan_content)
             )
         }
         item {
             DocCard(
-                title = "Chaudé (1991)",
-                subtitle = "Tarifs groupes d'essences",
+                title = stringResource(R.string.tarifdoc_db_chaude_title),
+                subtitle = stringResource(R.string.tarifdoc_db_chaude_subtitle),
                 color = Color(0xFF37474F),
-                content = "Tarifs par groupes d'essences établis par Pierre Chaudé. Largement utilisés en sylviculture privée française. Disponibles pour les principales essences de production."
+                content = stringResource(R.string.tarifdoc_db_chaude_content)
             )
         }
     }
@@ -133,14 +136,14 @@ private fun TarifsTab() {
                         modifier = Modifier.size(40.dp)
                     ) {
                         Box(contentAlignment = Alignment.Center) {
-                            Text("n°${t.num}", fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                            Text(stringResource(R.string.tarifdoc_tarif_num_format, t.num), fontWeight = FontWeight.Bold, fontSize = 11.sp)
                         }
                     }
                     Spacer(Modifier.width(12.dp))
                     Column(modifier = Modifier.weight(1f)) {
-                        Text(t.name, fontWeight = FontWeight.SemiBold)
+                        Text(t.name, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         Text(t.essences, style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     }
                     Column(horizontalAlignment = Alignment.End) {
                         Text(t.entrees, style = MaterialTheme.typography.labelSmall,
@@ -176,7 +179,7 @@ private fun FormulasTab() {
         items(formulas) { f ->
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(12.dp)) {
-                    Text(f.name, fontWeight = FontWeight.SemiBold)
+                    Text(f.name, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     Spacer(Modifier.height(4.dp))
                     Surface(
                         shape = RoundedCornerShape(6.dp),

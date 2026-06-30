@@ -53,3 +53,37 @@ val Gray600 = Color(0xFF757575)
 val Gray700 = Color(0xFF616161)
 val Gray800 = Color(0xFF424242)
 val Gray900 = Color(0xFF212121)
+
+// ── Couleurs sémantiques (remplacent les Color(0xFF...) hardcoded) ───────────
+// Utiliser ces constantes au lieu de Color(0xFF...) dans les écrans
+
+// Statuts / niveaux
+val SemanticSuccess = Color(0xFF2E7D32)     // Vert succès (IBP bon, martelage Avenir)
+val SemanticWarning = Color(0xFFF57C00)     // Orange avertissement
+val SemanticError = Color(0xFFC62828)       // Rouge erreur (IBP faible, Dépérir)
+val SemanticInfo = Color(0xFF1565C0)        // Bleu information (diagnostic station)
+
+// Catégories de martelage
+val MartelageAvenir = Color(0xFF2E7D32)     // Vert
+val MartelageReserve = Color(0xFF1565C0)    // Bleu
+val MartelageEnlever = Color(0xFFE65100)    // Orange
+val MartelageDeperir = Color(0xFFC62828)    // Rouge
+val MartelageBiodiv = Color(0xFF7B1FA2)     // Violet
+
+// Essences (codes couleur courants)
+val EssenceFeuillu = Color(0xFF4CAF50)      // Vert feuillu
+val EssenceResineux = Color(0xFF2196F3)     // Bleu résineux
+val EssenceMixte = Color(0xFF795548)        // Brun mixte
+
+// IBP (niveaux de potentiel)
+val IbpTresFaible = Color(0xFFC62828)       // 0-9
+val IbpFaible = Color(0xFFE65100)           // 10-19
+val IbpMoyen = Color(0xFFF9A825)            // 20-29
+val IbpBon = Color(0xFF2E7D32)              // 30-39
+val IbpTresBon = Color(0xFF1B5E20)          // 40-50
+
+// GPS (précision)
+val GpsExcellent = Color(0xFF2E7D32)        // ≤3m
+val GpsBon = Color(0xFFF9A825)              // ≤6m
+val GpsModere = Color(0xFFE65100)           // ≤12m
+val GpsMauvais = Color(0xFFC62828)          // >12m

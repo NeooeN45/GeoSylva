@@ -11,9 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.forestry.counter.R
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Palette & tokens
@@ -169,7 +171,7 @@ fun DataRow(
             ) {
                 Icon(Icons.Default.Edit, null, modifier = Modifier.size(12.dp))
                 Spacer(Modifier.width(2.dp))
-                Text("Corriger", fontSize = 10.sp)
+                Text(stringResource(R.string.station_theme_corriger), fontSize = 10.sp)
             }
         }
     }

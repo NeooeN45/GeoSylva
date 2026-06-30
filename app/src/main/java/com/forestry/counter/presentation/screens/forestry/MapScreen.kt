@@ -249,10 +249,10 @@ private fun measPtsGeoJson(pts: List<LatLng>): String {
 }
 
 private fun removeMeasLayers(style: Style) {
-    try { style.removeLayer(MEAS_PTS_LYR)  } catch (_: Throwable) {}
-    try { style.removeLayer(MEAS_LINE_LYR) } catch (_: Throwable) {}
-    try { style.removeSource(MEAS_PTS_SRC)  } catch (_: Throwable) {}
-    try { style.removeSource(MEAS_LINE_SRC) } catch (_: Throwable) {}
+    try { style.removeLayer(MEAS_PTS_LYR)  } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: MEAS_PTS_LYR", e) }
+    try { style.removeLayer(MEAS_LINE_LYR) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: MEAS_LINE_LYR", e) }
+    try { style.removeSource(MEAS_PTS_SRC)  } catch (e: Throwable) { Log.w(TAG, "removeSource failed: MEAS_PTS_SRC", e) }
+    try { style.removeSource(MEAS_LINE_SRC) } catch (e: Throwable) { Log.w(TAG, "removeSource failed: MEAS_LINE_SRC", e) }
 }
 
 private fun renderMeasureOnMap(style: Style, pts: List<LatLng>, mode: MeasureMode, lineColor: Int = android.graphics.Color.parseColor("#FF6F00")) {
@@ -289,10 +289,10 @@ private fun applyShapefileOverlay(
     overlay: ShapefileOverlay
 ): String {
     // 1. Supprimer les couches/source existantes
-    try { style.removeLayer(SHP_LABEL_ID) } catch (_: Throwable) {}
-    try { style.removeLayer(SHP_LINE_ID) } catch (_: Throwable) {}
-    try { style.removeLayer(SHP_FILL_ID) } catch (_: Throwable) {}
-    try { style.removeSource(SHP_SOURCE_ID) } catch (_: Throwable) {}
+    try { style.removeLayer(SHP_LABEL_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: SHP_LABEL_ID", e) }
+    try { style.removeLayer(SHP_LINE_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: SHP_LINE_ID", e) }
+    try { style.removeLayer(SHP_FILL_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: SHP_FILL_ID", e) }
+    try { style.removeSource(SHP_SOURCE_ID) } catch (e: Throwable) { Log.w(TAG, "removeSource failed: SHP_SOURCE_ID", e) }
 
     if (!overlay.visible) return "hidden"
 
@@ -372,7 +372,7 @@ private fun applyShapefileOverlay(
     var labelStatus = ""
     if (overlay.labelFields.isNotEmpty()) {
         try {
-            try { style.removeLayer(SHP_LABEL_ID) } catch (_: Throwable) {}
+            try { style.removeLayer(SHP_LABEL_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: SHP_LABEL_ID", e) }
             val textExpr = if (overlay.combineLabels) {
                 overlay.labelFields.joinToString(" · ") { "{${it.key}}" }
             } else {
@@ -409,12 +409,12 @@ private fun applyShapefileOverlay(
 }
 
 private fun removeTigeLayers(style: Style) {
-    try { style.removeLayer(TIGE_PRECISION_LAYER_ID) } catch (_: Throwable) {}
-    try { style.removeLayer(TIGE_SPECIAL_LAYER_ID) } catch (_: Throwable) {}
-    try { style.removeLayer(TIGE_CLUSTER_COUNT_LAYER_ID) } catch (_: Throwable) {}
-    try { style.removeLayer(TIGE_CLUSTER_LAYER_ID) } catch (_: Throwable) {}
-    try { style.removeLayer(TIGE_POINT_LAYER_ID) } catch (_: Throwable) {}
-    try { style.removeSource(TIGE_SOURCE_ID) } catch (_: Throwable) {}
+    try { style.removeLayer(TIGE_PRECISION_LAYER_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: TIGE_PRECISION_LAYER_ID", e) }
+    try { style.removeLayer(TIGE_SPECIAL_LAYER_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: TIGE_SPECIAL_LAYER_ID", e) }
+    try { style.removeLayer(TIGE_CLUSTER_COUNT_LAYER_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: TIGE_CLUSTER_COUNT_LAYER_ID", e) }
+    try { style.removeLayer(TIGE_CLUSTER_LAYER_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: TIGE_CLUSTER_LAYER_ID", e) }
+    try { style.removeLayer(TIGE_POINT_LAYER_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: TIGE_POINT_LAYER_ID", e) }
+    try { style.removeSource(TIGE_SOURCE_ID) } catch (e: Throwable) { Log.w(TAG, "removeSource failed: TIGE_SOURCE_ID", e) }
 }
 
 private fun jsonEscape(value: String): String = value
@@ -616,11 +616,11 @@ private fun renderTigesOnMap(
  */
 private fun renderTraceOnMap(style: Style, tracer: GpsParcelTracer) {
     // Remove existing trace layers
-    try { style.removeLayer(TRACE_POINTS_LAYER_ID) } catch (_: Throwable) {}
-    try { style.removeLayer(TRACE_LINE_ID) } catch (_: Throwable) {}
-    try { style.removeLayer(TRACE_FILL_ID) } catch (_: Throwable) {}
-    try { style.removeSource(TRACE_POINTS_SOURCE_ID) } catch (_: Throwable) {}
-    try { style.removeSource(TRACE_SOURCE_ID) } catch (_: Throwable) {}
+    try { style.removeLayer(TRACE_POINTS_LAYER_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: TRACE_POINTS_LAYER_ID", e) }
+    try { style.removeLayer(TRACE_LINE_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: TRACE_LINE_ID", e) }
+    try { style.removeLayer(TRACE_FILL_ID) } catch (e: Throwable) { Log.w(TAG, "removeLayer failed: TRACE_FILL_ID", e) }
+    try { style.removeSource(TRACE_POINTS_SOURCE_ID) } catch (e: Throwable) { Log.w(TAG, "removeSource failed: TRACE_POINTS_SOURCE_ID", e) }
+    try { style.removeSource(TRACE_SOURCE_ID) } catch (e: Throwable) { Log.w(TAG, "removeSource failed: TRACE_SOURCE_ID", e) }
 
     val state = tracer.state.value
     if (state.points.isEmpty()) return
@@ -772,13 +772,21 @@ private fun offlineLocalStyle(name: String = "Offline Local"): String {
  * This is more reliable than inline multi-line JSON strings.
  * Sécurisé avec certificate pinning pour les URLs externes.
  */
-private fun rasterStyle(name: String, tileUrl: String, tileSize: Int = 256, maxZoom: Int = 19): String {
+private fun rasterStyle(
+    name: String,
+    tileUrl: String,
+    tileSize: Int = 256,
+    maxZoom: Int = 19,
+    attribution: String = ""
+): String {
     // Valider que l'URL utilise un domaine sécurisé
     if (!SecureHttpClient.isSecureDomain(tileUrl)) {
         Log.e(TAG, "URL de tuile non sécurisée détectée: $tileUrl")
         throw SecurityException("URL de tuile non sécurisée: $tileUrl")
     }
-    
+
+    val attributionField = if (attribution.isNotEmpty()) ""","attribution":"$attribution"""" else ""
+
     return """{
   "version": 8,
   "name": "$name",
@@ -788,7 +796,7 @@ private fun rasterStyle(name: String, tileUrl: String, tileSize: Int = 256, maxZ
       "type": "raster",
       "tiles": ["$tileUrl"],
       "tileSize": $tileSize,
-      "maxzoom": $maxZoom
+      "maxzoom": $maxZoom$attributionField
     }
   },
   "layers": [
@@ -805,14 +813,19 @@ private fun rasterStyleMulti(
     baseTileUrl: String,
     overlayTileUrls: List<String> = emptyList(),
     tileSize: Int = 256,
-    maxZoom: Int = 19
+    maxZoom: Int = 19,
+    baseAttribution: String = "",
+    overlayAttributions: List<String> = emptyList()
 ): String {
     val sources = mutableListOf<String>()
     val layers = mutableListOf<String>()
-    sources += """"base":{"type":"raster","tiles":["$baseTileUrl"],"tileSize":$tileSize,"maxzoom":$maxZoom}"""
+    val baseAttrField = if (baseAttribution.isNotEmpty()) ""","attribution":"$baseAttribution"""" else ""
+    sources += """"base":{"type":"raster","tiles":["$baseTileUrl"],"tileSize":$tileSize,"maxzoom":$maxZoom$baseAttrField}"""
     layers += """{ "id": "base", "type": "raster", "source": "base" }"""
     overlayTileUrls.forEachIndexed { i, url ->
-        sources += """"overlay$i":{"type":"raster","tiles":["$url"],"tileSize":256,"maxzoom":$maxZoom}"""
+        val ovAttr = overlayAttributions.getOrNull(i) ?: ""
+        val ovAttrField = if (ovAttr.isNotEmpty()) ""","attribution":"$ovAttr"""" else ""
+        sources += """"overlay$i":{"type":"raster","tiles":["$url"],"tileSize":256,"maxzoom":$maxZoom$ovAttrField}"""
         layers += """{ "id": "overlay$i", "type": "raster", "source": "overlay$i", "paint": { "raster-opacity": 0.7 } }"""
     }
     return """{"version":8,"name":"$name","glyphs":"https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf","sources":{${sources.joinToString(",")}},"layers":[${layers.joinToString(",")}]}"""
@@ -823,6 +836,13 @@ private fun geopfLayer(layer: String, format: String = "image/png") =
     "https://data.geopf.fr/wmts?" +
     "SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&STYLE=normal&FORMAT=$format" +
     "&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&LAYER=$layer"
+
+// Attributions légales obligatoires (conformité licences ODbL / Licence Ouverte 2.0 / Esri)
+private const val ATTR_IGN = "IGN Géoportail — Licence Ouverte 2.0 (Etalab)"
+private const val ATTR_OSM = "© OpenStreetMap contributors (ODbL)"
+private const val ATTR_OPENTOPO = "© OpenStreetMap contributors, SRTM | OpenTopoMap (CC-BY-SA)"
+private const val ATTR_CARTO = "© OpenStreetMap contributors, © CARTO"
+private const val ATTR_ESRI = "© Esri, Maxar, Earthstar Geographics"
 
 /**
  * Catégorie de couche (pour organiser le sélecteur).
@@ -852,7 +872,8 @@ private val MAP_LAYERS = listOf(
         emoji = "🗺️", // Carte classique
         styleJson = rasterStyle(
             "Plan IGN v2",
-            geopfLayer("GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2")
+            geopfLayer("GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2"),
+            attribution = ATTR_IGN
         ),
         category = LayerCategory.GENERAL,
         tileUrls = listOf(geopfLayer("GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2"))
@@ -863,12 +884,13 @@ private val MAP_LAYERS = listOf(
         emoji = "🛰️", // Satellite
         styleJson = rasterStyle(
             "Ortho IGN",
-            geopfLayer("ORTHOIMAGERY.ORTHOPHOTOS", "image/jpeg")
+            geopfLayer("ORTHOIMAGERY.ORTHOPHOTOS", "image/jpeg"),
+            attribution = ATTR_IGN
         ),
         isDark = true,
         tileUrls = listOf(geopfLayer("ORTHOIMAGERY.ORTHOPHOTOS", "image/jpeg"))
     ),
-    
+
     // ── Couches Cadastre ──
     MapLayerDef(
         key = "PLAN_IGN_CADASTRE",
@@ -879,7 +901,9 @@ private val MAP_LAYERS = listOf(
             geopfLayer("GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2"),
             overlayTileUrls = listOf(
                 geopfLayer("CADASTRALPARCELS.PARCELLAIRE_EXPRESS")
-            )
+            ),
+            baseAttribution = ATTR_IGN,
+            overlayAttributions = listOf(ATTR_IGN)
         ),
         category = LayerCategory.GENERAL,
         tileUrls = listOf(
@@ -896,7 +920,9 @@ private val MAP_LAYERS = listOf(
             geopfLayer("ORTHOIMAGERY.ORTHOPHOTOS", "image/jpeg"),
             overlayTileUrls = listOf(
                 geopfLayer("CADASTRALPARCELS.PARCELLAIRE_EXPRESS")
-            )
+            ),
+            baseAttribution = ATTR_IGN,
+            overlayAttributions = listOf(ATTR_IGN)
         ),
         isDark = true,
         category = LayerCategory.GENERAL,
@@ -914,7 +940,8 @@ private val MAP_LAYERS = listOf(
         styleJson = rasterStyle(
             "OpenTopoMap",
             "https://tile.opentopomap.org/{z}/{x}/{y}.png",
-            maxZoom = 17
+            maxZoom = 17,
+            attribution = ATTR_OPENTOPO
         ),
         tileUrls = listOf("https://tile.opentopomap.org/{z}/{x}/{y}.png")
     ),
@@ -924,7 +951,8 @@ private val MAP_LAYERS = listOf(
         emoji = "🧭", // Boussole (Carto claire)
         styleJson = rasterStyle(
             "Carto Voyager",
-            "https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png"
+            "https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
+            attribution = ATTR_CARTO
         ),
         tileUrls = listOf("https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png")
     ),
@@ -934,7 +962,8 @@ private val MAP_LAYERS = listOf(
         emoji = "🌍", // Globe
         styleJson = rasterStyle(
             "ESRI Satellite",
-            "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+            "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+            attribution = ATTR_ESRI
         ),
         isDark = true,
         tileUrls = listOf("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}")
@@ -1029,7 +1058,7 @@ fun MapScreen(
 
     // Initialiser MapLibre de façon synchrone AVANT toute création de MapView
     remember(context) {
-        try { Mapbox.getInstance(context) } catch (_: Throwable) {}
+        try { Mapbox.getInstance(context) } catch (e: Throwable) { Log.w(TAG, "Mapbox.getInstance failed", e) }
         true
     }
 
@@ -1342,12 +1371,12 @@ fun MapScreen(
                                 Lifecycle.Event.ON_DESTROY -> mapView.onDestroy()
                                 else -> {}
                             }
-                        } catch (_: Throwable) {}
+                        } catch (e: Throwable) { Log.w(TAG, "mapView lifecycle event failed", e) }
                     }
                     lifecycleOwner.lifecycle.addObserver(observer)
                     onDispose {
                         lifecycleOwner.lifecycle.removeObserver(observer)
-                        try { mapView.onDestroy() } catch (_: Throwable) {}
+                        try { mapView.onDestroy() } catch (e: Throwable) { Log.w(TAG, "mapView.onDestroy failed", e) }
                     }
                 }
 
@@ -1398,7 +1427,7 @@ fun MapScreen(
                                         }
                                     }
                                 }
-                            } catch (_: Throwable) {}
+                            } catch (e: Throwable) { Log.w(TAG, "map style setup failed", e) }
                         }
                     },
                     modifier = Modifier.fillMaxSize()
@@ -1465,7 +1494,7 @@ fun MapScreen(
                 if (!mapReady) return@LaunchedEffect
                 map.getStyle { style ->
                     try { renderMeasureOnMap(style, measurePoints, measureMode, measureColor.toArgb()) }
-                    catch (_: Throwable) {}
+                    catch (e: Throwable) { Log.w(TAG, "renderMeasureOnMap failed", e) }
                 }
             }
 
@@ -1509,7 +1538,7 @@ fun MapScreen(
                             ) {
                                 Icon(
                                     Icons.Default.Layers,
-                                    contentDescription = null,
+                                    contentDescription = stringResource(R.string.cd_layers),
                                     modifier = Modifier.size(20.dp),
                                     tint = MaterialTheme.colorScheme.primary
                                 )
@@ -1523,7 +1552,7 @@ fun MapScreen(
                                 onClick = { showLayerPicker = false },
                                 modifier = Modifier.size(32.dp)
                             ) {
-                                Icon(Icons.Default.Close, contentDescription = null, modifier = Modifier.size(18.dp))
+                                Icon(Icons.Default.Close, contentDescription = stringResource(R.string.cd_close), modifier = Modifier.size(18.dp))
                             }
                         }
 
@@ -1615,11 +1644,11 @@ fun MapScreen(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
-                                Icon(Icons.Default.Map, contentDescription = null, modifier = Modifier.size(20.dp), tint = Color(0xFF2E7D32))
+                                Icon(Icons.Default.Map, contentDescription = stringResource(R.string.cd_map), modifier = Modifier.size(20.dp), tint = Color(0xFF2E7D32))
                                 Text(stringResource(R.string.shp_overlay), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
                             }
                             IconButton(onClick = { showShpPanel = false }, modifier = Modifier.size(32.dp)) {
-                                Icon(Icons.Default.Close, contentDescription = null, modifier = Modifier.size(18.dp))
+                                Icon(Icons.Default.Close, contentDescription = stringResource(R.string.cd_close), modifier = Modifier.size(18.dp))
                             }
                         }
 
@@ -1644,7 +1673,7 @@ fun MapScreen(
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                                 ) {
-                                    Icon(Icons.Default.Add, contentDescription = null, tint = Color.White, modifier = Modifier.size(18.dp))
+                                    Icon(Icons.Default.Add, contentDescription = stringResource(R.string.cd_add), tint = Color.White, modifier = Modifier.size(18.dp))
                                     Text(stringResource(R.string.shp_import), color = Color.White, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.labelLarge)
                                 }
                             }
@@ -2004,10 +2033,13 @@ fun MapScreen(
                                 )
                                 Text(
                                     name,
+                                    modifier = Modifier.weight(1f),
                                     style = MaterialTheme.typography.bodySmall,
                                     fontWeight = FontWeight.Medium,
                                     color = if (isHidden) MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
-                                            else MaterialTheme.colorScheme.onSurface
+                                            else MaterialTheme.colorScheme.onSurface,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
                                 )
                                 Text(
                                     "($count · $pct%)",
@@ -2045,7 +2077,7 @@ fun MapScreen(
                     ) {
                         Icon(
                             Icons.Default.GpsFixed,
-                            contentDescription = null,
+                            contentDescription = stringResource(R.string.cd_gps_locate),
                             tint = Color.White,
                             modifier = Modifier.size(13.dp)
                         )
@@ -2053,7 +2085,7 @@ fun MapScreen(
                             stringResource(R.string.map_gps_poor_warning, poorGpsTiges),
                             style = MaterialTheme.typography.labelSmall,
                             color = Color.White,
-                            fontSize = 10.sp
+                            fontSize = 12.sp
                         )
                     }
                 }
@@ -2158,20 +2190,20 @@ fun MapScreen(
                             }
                             IconButton(
                                 onClick = { tappedTree = null },
-                                modifier = Modifier.size(28.dp)
+                                modifier = Modifier.size(48.dp)
                             ) {
-                                Icon(Icons.Default.Close, contentDescription = null, modifier = Modifier.size(16.dp))
+                                Icon(Icons.Default.Close, contentDescription = stringResource(R.string.cd_close), modifier = Modifier.size(16.dp))
                             }
                         }
                         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                             currentTapped.diamCm?.let {
-                                Text("\u2300 ${it.roundToInt()} cm", style = MaterialTheme.typography.bodySmall)
+                                Text(stringResource(R.string.map_diam_format, it.roundToInt()), style = MaterialTheme.typography.bodySmall)
                             }
                             currentTapped.hauteurM?.let {
                                 Text(stringResource(R.string.map_height_label, it.roundToInt()), style = MaterialTheme.typography.bodySmall)
                             }
                             currentTapped.precisionM?.let {
-                                Text("\u00B1${String.format(Locale.US, "%.1f", it)} m", style = MaterialTheme.typography.bodySmall)
+                                Text(stringResource(R.string.map_precision_format, String.format(Locale.US, "%.1f", it)), style = MaterialTheme.typography.bodySmall)
                             }
                         }
                         // Navigate button
@@ -2202,7 +2234,7 @@ fun MapScreen(
                                 horizontalArrangement = Arrangement.spacedBy(6.dp),
                                 modifier = Modifier.padding(horizontal = 12.dp)
                             ) {
-                                Icon(Icons.Default.Navigation, contentDescription = null, modifier = Modifier.size(16.dp))
+                                Icon(Icons.Default.Navigation, contentDescription = stringResource(R.string.cd_navigate), modifier = Modifier.size(16.dp))
                                 Text(stringResource(R.string.nav_navigate_to), style = MaterialTheme.typography.labelMedium)
                             }
                         }
@@ -2409,7 +2441,7 @@ fun MapScreen(
                                                     precisionM = loc.accuracy
                                                 )
                                             }
-                                        } catch (_: Throwable) {}
+                                        } catch (e: Throwable) { Log.w(TAG, "addManualPoint from lastKnownLocation failed", e) }
                                     },
                                     containerColor = Color(0xFF4CAF50),
                                     contentColor = Color.White,
@@ -2500,7 +2532,7 @@ fun MapScreen(
                         ) {
                             Icon(
                                 Icons.Default.Straighten,
-                                contentDescription = null,
+                                contentDescription = stringResource(R.string.cd_straighten),
                                 tint = Color(0xFFFF6F00),
                                 modifier = Modifier.size(16.dp)
                             )
@@ -2526,7 +2558,9 @@ fun MapScreen(
                                         modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
                                         style = MaterialTheme.typography.labelSmall,
                                         color = if (sel) Color.White else MaterialTheme.colorScheme.onSurfaceVariant,
-                                        fontWeight = if (sel) FontWeight.Bold else FontWeight.Normal
+                                        fontWeight = if (sel) FontWeight.Bold else FontWeight.Normal,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
                                     )
                                 }
                             }
@@ -2557,7 +2591,9 @@ fun MapScreen(
                                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
                                             style = MaterialTheme.typography.labelSmall,
                                             color = if (sel) Color.White else MaterialTheme.colorScheme.onSurfaceVariant,
-                                            fontWeight = if (sel) FontWeight.Bold else FontWeight.Normal
+                                            fontWeight = if (sel) FontWeight.Bold else FontWeight.Normal,
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
                                         )
                                     }
                                 }
@@ -2577,7 +2613,9 @@ fun MapScreen(
                                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
                                             style = MaterialTheme.typography.labelSmall,
                                             color = if (sel) Color.White else MaterialTheme.colorScheme.onSurfaceVariant,
-                                            fontWeight = if (sel) FontWeight.Bold else FontWeight.Normal
+                                            fontWeight = if (sel) FontWeight.Bold else FontWeight.Normal,
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
                                         )
                                     }
                                 }
@@ -2676,7 +2714,7 @@ fun MapScreen(
                                 shape = RoundedCornerShape(10.dp),
                                 modifier = Modifier.size(34.dp)
                             ) {
-                                Icon(Icons.Default.Layers, contentDescription = "Mesures sauvegardées", modifier = Modifier.size(16.dp))
+                                Icon(Icons.Default.Layers, contentDescription = stringResource(R.string.map_mesures_sauvegardees), modifier = Modifier.size(16.dp))
                             }
                         }
 
@@ -2688,7 +2726,7 @@ fun MapScreen(
                                 else emptyList()
                             }
                             if (savedFiles.isEmpty()) {
-                                Text("Aucune mesure sauvegardée", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                Text(stringResource(R.string.map_no_saved_measures), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             } else {
                                 Column(verticalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.heightIn(max = 200.dp).verticalScroll(rememberScrollState())) {
                                     savedFiles.forEach { file ->
@@ -2718,7 +2756,7 @@ fun MapScreen(
                                                         measurePoints = parsed
                                                         showSavedMeasuresPanel = false
                                                     }
-                                                } catch (_: Throwable) {}
+                                                } catch (e: Throwable) { Log.w(TAG, "parse saved measure points failed", e) }
                                             },
                                             shape = RoundedCornerShape(6.dp),
                                             color = MaterialTheme.colorScheme.surfaceVariant,
@@ -2731,7 +2769,7 @@ fun MapScreen(
                                             ) {
                                                 Icon(
                                                     if (mode == MeasureMode.AREA) Icons.Default.Map else Icons.Default.Straighten,
-                                                    contentDescription = null,
+                                                    contentDescription = if (mode == MeasureMode.AREA) stringResource(R.string.cd_map) else stringResource(R.string.cd_straighten),
                                                     modifier = Modifier.size(14.dp),
                                                     tint = Color(0xFFFF6F00)
                                                 )
@@ -2792,7 +2830,7 @@ fun MapScreen(
                                 )
                                 showCoords = true
                             }
-                        } catch (_: Throwable) {}
+                        } catch (e: Throwable) { Log.w(TAG, "animateCamera to GPS location failed", e) }
                     },
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
@@ -2826,7 +2864,7 @@ fun MapScreen(
                                 val builder = LatLngBounds.Builder()
                                 displayedGeoTiges.forEach { (_, lon, lat) -> builder.include(LatLng(lat, lon)) }
                                 map.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100), 600)
-                            } catch (_: Throwable) {}
+                            } catch (e: Throwable) { Log.w(TAG, "recenter on trees failed", e) }
                             showCoords = false
                         },
                         containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -2876,7 +2914,7 @@ fun MapScreen(
                                     onClick = { offlineTileManager.clearProgress() },
                                     modifier = Modifier.size(24.dp)
                                 ) {
-                                    Icon(Icons.Default.Close, contentDescription = null, modifier = Modifier.size(16.dp))
+                                    Icon(Icons.Default.Close, contentDescription = stringResource(R.string.cd_close), modifier = Modifier.size(16.dp))
                                 }
                             }
                         }
@@ -2928,7 +2966,7 @@ fun MapScreen(
                             onClick = { dismissedGpsBanner = true },
                             modifier = Modifier.align(Alignment.TopEnd).size(32.dp)
                         ) {
-                            Icon(Icons.Default.Close, contentDescription = null, modifier = Modifier.size(18.dp))
+                            Icon(Icons.Default.Close, contentDescription = stringResource(R.string.cd_close), modifier = Modifier.size(18.dp))
                         }
                         Column(
                             modifier = Modifier.padding(28.dp),
@@ -2973,7 +3011,7 @@ fun MapScreen(
                             onClick = { dismissedGpsBanner = true },
                             modifier = Modifier.align(Alignment.TopEnd).size(32.dp)
                         ) {
-                            Icon(Icons.Default.Close, contentDescription = null, modifier = Modifier.size(18.dp))
+                            Icon(Icons.Default.Close, contentDescription = stringResource(R.string.cd_close), modifier = Modifier.size(18.dp))
                         }
                         Column(
                             modifier = Modifier.padding(28.dp),
@@ -3060,7 +3098,7 @@ fun MapScreen(
                             dir.mkdirs()
                             File(dir, "${name}_${System.currentTimeMillis()}.json").writeText(json)
                             android.widget.Toast.makeText(context, context.getString(R.string.measure_saved), android.widget.Toast.LENGTH_SHORT).show()
-                        } catch (_: Throwable) {}
+                        } catch (e: Throwable) { Log.w(TAG, "save measurement file failed", e) }
                         showMeasureSaveDialog = false
                     }
                 ) { Text(stringResource(R.string.measure_save)) }
@@ -3125,7 +3163,7 @@ fun MapScreen(
                                                 )
                                             )
                                         }
-                                    } catch (_: Throwable) {}
+                                    } catch (e: Throwable) { Log.w(TAG, "updateParcelle with trace shape failed", e) }
                                 }
                                 gpsTracer.clearTrace()
                                 showTraceSaveDialog = false
@@ -3213,7 +3251,7 @@ private fun MapToolButton(
 ) {
     Surface(
         onClick = onClick,
-        modifier = Modifier.size(36.dp),
+        modifier = Modifier.size(48.dp),
         shape = RoundedCornerShape(10.dp),
         color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
         shadowElevation = 3.dp,

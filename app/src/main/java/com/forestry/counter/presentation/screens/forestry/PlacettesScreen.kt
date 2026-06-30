@@ -48,6 +48,7 @@ import com.forestry.counter.domain.repository.ParcelleRepository
 import com.forestry.counter.domain.repository.TigeRepository
 import com.forestry.counter.data.preferences.UserPreferencesManager
 import com.forestry.counter.presentation.components.AppMiniDialog
+import com.forestry.counter.presentation.utils.localizeDefaultName
 import com.forestry.counter.presentation.utils.rememberHapticFeedback
 import com.forestry.counter.presentation.utils.rememberSoundFeedback
 import com.forestry.counter.presentation.utils.StaggerEntrance
@@ -200,7 +201,7 @@ fun PlacettesScreen(
                                 onNavigateToMartelageForParcelle(parcelleId)
                             }) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Icon(Icons.Default.Straighten, contentDescription = null)
+                                    Icon(Icons.Default.Straighten, contentDescription = stringResource(R.string.cd_straighten))
                                     Spacer(modifier = Modifier.width(2.dp))
                                     Icon(Icons.Default.Description, contentDescription = stringResource(R.string.martelage))
                                 }
@@ -455,11 +456,11 @@ private fun PlacetteCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         ListItem(
-            headlineContent = { Text(placette.name ?: placette.id.take(8)) },
+            headlineContent = { Text(localizeDefaultName(placette.name) ?: placette.id.take(8)) },
             trailingContent = {
                 Row {
                     IconButton(onClick = onEdit) {
-                        Icon(Icons.Default.Edit, contentDescription = null)
+                        Icon(Icons.Default.Edit, contentDescription = stringResource(R.string.cd_edit))
                     }
                     IconButton(onClick = onDelete) {
                         Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete_placette))

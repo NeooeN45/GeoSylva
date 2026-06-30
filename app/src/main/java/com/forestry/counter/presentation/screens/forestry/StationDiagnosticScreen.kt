@@ -153,7 +153,7 @@ fun StationDiagnosticScreen(
                         if (it.hasAltitude()) altitudeM = it.altitude.toInt().toString()
                     }
                 }
-            } catch (_: Exception) {}
+            } catch (e: Exception) { android.util.Log.w("StationDiag", "GPS capture failed", e) }
         }
     }
 
@@ -224,7 +224,7 @@ fun StationDiagnosticScreen(
 
     if (showTutorial) {
         ExpertTutorialDialog(
-            title = "Diagnostic de Station",
+            title = stringResource(R.string.station_diag_title),
             message = "Bienvenue dans l'outil de diagnostic de station forestière. Cet outil vous permet de qualifier finement les conditions écologiques de votre parcelle.",
             bulletPoints = listOf(
                 "Saisissez les caractéristiques topographiques et pédologiques",
@@ -245,17 +245,17 @@ fun StationDiagnosticScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
-                title = { Text("Relevé de Station", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.stationdiag_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold) },
                 navigationIcon = { IconButton(onClick = onNavigateBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, null) } },
                 actions = {
                     IconButton(onClick = {
                         val date = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(java.util.Date())
                         exportPdfLauncher.launch("Station_${date}.pdf")
                     }) {
-                        Icon(Icons.Default.PictureAsPdf, contentDescription = "Exporter PDF")
+                        Icon(Icons.Default.PictureAsPdf, contentDescription = stringResource(R.string.station_diag_export_pdf))
                     }
                     TextButton(onClick = { saveDiagnostic(asDraft = true) }) {
-                        Text("Brouillon")
+                        Text(stringResource(R.string.stationdiag_draft))
                     }
                     Button(
                         onClick = { saveDiagnostic(asDraft = false) },
@@ -264,10 +264,10 @@ fun StationDiagnosticScreen(
                             contentColor = if (isReadyToFinalize) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     ) {
-                        Text("Finaliser")
+                        Text(stringResource(R.string.stationdiag_finalize_btn))
                         if (!isReadyToFinalize) {
                             Spacer(modifier = Modifier.width(4.dp))
-                            Icon(Icons.Default.Warning, contentDescription = "Incomplet", modifier = Modifier.size(16.dp))
+                            Icon(Icons.Default.Warning, contentDescription = stringResource(R.string.station_diag_incomplete), modifier = Modifier.size(16.dp))
                         }
                     }
                 },
@@ -313,7 +313,7 @@ fun StationDiagnosticScreen(
 
             // ── C. Topographie & Sol (repliable) ──────────────────────────
             CollapsibleBlock(
-                title = "Topographie & Sol",
+                title = stringResource(R.string.station_diag_topo_sol),
                 icon = Icons.Default.Terrain,
                 accentColor = Color(0xFF795548),
                 initiallyExpanded = true,
@@ -332,7 +332,7 @@ fun StationDiagnosticScreen(
 
             // ── D. Gradients manuels (repliable) ──────────────────────────
             CollapsibleBlock(
-                title = "Gradients manuels",
+                title = stringResource(R.string.station_diag_manual_gradients),
                 icon = Icons.Default.Tune,
                 accentColor = Color(0xFF1565C0),
                 initiallyExpanded = false,
@@ -399,7 +399,7 @@ fun StationDiagnosticScreen(
 
             // ── G. Photos & Validation ────────────────────────────────────
             CollapsibleBlock(
-                title = "Photos & Validation",
+                title = stringResource(R.string.station_diag_photos_validation),
                 icon = Icons.Default.PhotoCamera,
                 accentColor = Color(0xFF6A1B9A),
                 initiallyExpanded = true,
@@ -482,21 +482,21 @@ private fun TopoSolTab(
     Column(Modifier.fillMaxWidth().padding(12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         DenseFormSection("Localisation & Topographie") {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedTextField(value = commune, onValueChange = onCommuneChange, label = { Text("Commune", fontSize = 10.sp) }, modifier = Modifier.weight(1f), singleLine = true, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
-                OutlinedTextField(value = altitudeM, onValueChange = onAltChange, label = { Text("Alt (m)", fontSize = 10.sp) }, modifier = Modifier.weight(1f), singleLine = true, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
+                OutlinedTextField(value = commune, onValueChange = onCommuneChange, label = { Text(stringResource(R.string.stationdiag_commune), fontSize = 12.sp) }, modifier = Modifier.weight(1f), singleLine = true, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
+                OutlinedTextField(value = altitudeM, onValueChange = onAltChange, label = { Text(stringResource(R.string.stationdiag_alt_m), fontSize = 12.sp) }, modifier = Modifier.weight(1f), singleLine = true, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
             }
-            if (gpsLat != null && gpsLon != null) Text("GPS : ${String.format("%.5f", gpsLat)}°N, ${String.format("%.5f", gpsLon)}°E", style = MaterialTheme.typography.labelSmall, modifier = Modifier.padding(top = 4.dp))
+            if (gpsLat != null && gpsLon != null) Text(stringResource(R.string.stationdiag_gps_format, gpsLat, gpsLon), style = MaterialTheme.typography.labelSmall, modifier = Modifier.padding(top = 4.dp))
             
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                OutlinedTextField(value = pentePct, onValueChange = onPenteChange, label = { Text("Pente (%)", fontSize = 10.sp) }, modifier = Modifier.weight(1f), singleLine = true, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
-                OutlinedTextField(value = distCours, onValueChange = onDistChange, label = { Text("Dist. Eau (m)", fontSize = 10.sp) }, modifier = Modifier.weight(1f), singleLine = true, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
+                OutlinedTextField(value = pentePct, onValueChange = onPenteChange, label = { Text(stringResource(R.string.stationdiag_slope_pct), fontSize = 12.sp) }, modifier = Modifier.weight(1f), singleLine = true, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
+                OutlinedTextField(value = distCours, onValueChange = onDistChange, label = { Text(stringResource(R.string.stationdiag_water_dist_m), fontSize = 12.sp) }, modifier = Modifier.weight(1f), singleLine = true, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
             }
             
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Text("Exposition", style = MaterialTheme.typography.bodySmall, fontSize = 12.sp, modifier = Modifier.weight(1f))
+                Text(stringResource(R.string.stationdiag_exposition), style = MaterialTheme.typography.bodySmall, fontSize = 12.sp, modifier = Modifier.weight(1f))
                 var expandedExpo by remember { mutableStateOf(false) }
                 Box {
-                    TextButton(onClick = { expandedExpo = true }) { Text(expo.labelFr, fontSize = 12.sp) }
+                    TextButton(onClick = { expandedExpo = true }) { Text(expo.labelFr, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis) }
                     DropdownMenu(expanded = expandedExpo, onDismissRequest = { expandedExpo = false }) {
                         Exposition.entries.forEach { e -> DropdownMenuItem(text = { Text(e.labelFr, fontSize = 12.sp) }, onClick = { onExpoChange(e); expandedExpo = false }) }
                     }
@@ -504,10 +504,10 @@ private fun TopoSolTab(
             }
             
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Text("Position Topo", style = MaterialTheme.typography.bodySmall, fontSize = 12.sp, modifier = Modifier.weight(1f))
+                Text(stringResource(R.string.stationdiag_position_topo), style = MaterialTheme.typography.bodySmall, fontSize = 12.sp, modifier = Modifier.weight(1f))
                 var expandedPos by remember { mutableStateOf(false) }
                 Box {
-                    TextButton(onClick = { expandedPos = true }) { Text(posTopo.labelFr, fontSize = 12.sp) }
+                    TextButton(onClick = { expandedPos = true }) { Text(posTopo.labelFr, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis) }
                     DropdownMenu(expanded = expandedPos, onDismissRequest = { expandedPos = false }) {
                         PositionTopo.entries.forEach { p -> DropdownMenuItem(text = { Text(p.labelFr, fontSize = 12.sp) }, onClick = { onPosChange(p); expandedPos = false }) }
                     }
@@ -516,13 +516,13 @@ private fun TopoSolTab(
         }
 
         DenseFormSection("Caractéristiques du Sol") {
-            OutlinedTextField(value = profCm, onValueChange = onProfChange, label = { Text("Prof. (cm)", fontSize = 10.sp) }, modifier = Modifier.fillMaxWidth(), singleLine = true, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
+            OutlinedTextField(value = profCm, onValueChange = onProfChange, label = { Text(stringResource(R.string.stationdiag_depth_cm), fontSize = 12.sp) }, modifier = Modifier.fillMaxWidth(), singleLine = true, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
             
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Text("Texture", style = MaterialTheme.typography.bodySmall, fontSize = 12.sp, modifier = Modifier.weight(1f))
+                Text(stringResource(R.string.stationdiag_texture), style = MaterialTheme.typography.bodySmall, fontSize = 12.sp, modifier = Modifier.weight(1f))
                 var expandedTex by remember { mutableStateOf(false) }
                 Box {
-                    TextButton(onClick = { expandedTex = true }) { Text(tex.labelFr, fontSize = 12.sp) }
+                    TextButton(onClick = { expandedTex = true }) { Text(tex.labelFr, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis) }
                     DropdownMenu(expanded = expandedTex, onDismissRequest = { expandedTex = false }) {
                         TextureSol.entries.forEach { t -> DropdownMenuItem(text = { Text(t.labelFr, fontSize = 12.sp) }, onClick = { onTexChange(t); expandedTex = false }) }
                     }
@@ -530,10 +530,10 @@ private fun TopoSolTab(
             }
             
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Text("Pierrosité", style = MaterialTheme.typography.bodySmall, fontSize = 12.sp, modifier = Modifier.weight(1f))
+                Text(stringResource(R.string.stationdiag_pierrosite), style = MaterialTheme.typography.bodySmall, fontSize = 12.sp, modifier = Modifier.weight(1f))
                 var expandedPierro by remember { mutableStateOf(false) }
                 Box {
-                    TextButton(onClick = { expandedPierro = true }) { Text(pierro.labelFr, fontSize = 12.sp) }
+                    TextButton(onClick = { expandedPierro = true }) { Text(pierro.labelFr, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis) }
                     DropdownMenu(expanded = expandedPierro, onDismissRequest = { expandedPierro = false }) {
                         Pierrosite.entries.forEach { p -> DropdownMenuItem(text = { Text(p.labelFr, fontSize = 12.sp) }, onClick = { onPierroChange(p); expandedPierro = false }) }
                     }
@@ -541,10 +541,10 @@ private fun TopoSolTab(
             }
 
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Text("Humus", style = MaterialTheme.typography.bodySmall, fontSize = 12.sp, modifier = Modifier.weight(1f))
+                Text(stringResource(R.string.stationdiag_humus), style = MaterialTheme.typography.bodySmall, fontSize = 12.sp, modifier = Modifier.weight(1f))
                 var expandedHum by remember { mutableStateOf(false) }
                 Box {
-                    TextButton(onClick = { expandedHum = true }) { Text(hum.labelFr, fontSize = 12.sp) }
+                    TextButton(onClick = { expandedHum = true }) { Text(hum.labelFr, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis) }
                     DropdownMenu(expanded = expandedHum, onDismissRequest = { expandedHum = false }) {
                         TypeHumus.entries.forEach { h -> DropdownMenuItem(text = { Text(h.labelFr, fontSize = 12.sp) }, onClick = { onHumusChange(h); expandedHum = false }) }
                     }
@@ -552,10 +552,10 @@ private fun TopoSolTab(
             }
 
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Text("Drainage", style = MaterialTheme.typography.bodySmall, fontSize = 12.sp, modifier = Modifier.weight(1f))
+                Text(stringResource(R.string.stationdiag_drainage), style = MaterialTheme.typography.bodySmall, fontSize = 12.sp, modifier = Modifier.weight(1f))
                 var expandedDrain by remember { mutableStateOf(false) }
                 Box {
-                    TextButton(onClick = { expandedDrain = true }) { Text(drain.labelFr, fontSize = 12.sp) }
+                    TextButton(onClick = { expandedDrain = true }) { Text(drain.labelFr, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis) }
                     DropdownMenu(expanded = expandedDrain, onDismissRequest = { expandedDrain = false }) {
                         Drainage.entries.forEach { d -> DropdownMenuItem(text = { Text(d.labelFr, fontSize = 12.sp) }, onClick = { onDrainChange(d); expandedDrain = false }) }
                     }
@@ -563,10 +563,10 @@ private fun TopoSolTab(
             }
             
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Text("Test HCl", style = MaterialTheme.typography.bodySmall, fontSize = 12.sp, modifier = Modifier.weight(1f))
+                Text(stringResource(R.string.stationdiag_test_hcl), style = MaterialTheme.typography.bodySmall, fontSize = 12.sp, modifier = Modifier.weight(1f))
                 var expandedHcl by remember { mutableStateOf(false) }
                 Box {
-                    TextButton(onClick = { expandedHcl = true }) { Text(hcl.labelFr, fontSize = 12.sp) }
+                    TextButton(onClick = { expandedHcl = true }) { Text(hcl.labelFr, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis) }
                     DropdownMenu(expanded = expandedHcl, onDismissRequest = { expandedHcl = false }) {
                         TestHCl.entries.forEach { t -> DropdownMenuItem(text = { Text(t.labelFr, fontSize = 12.sp) }, onClick = { onHclChange(t); expandedHcl = false }) }
                     }
@@ -574,11 +574,11 @@ private fun TopoSolTab(
             }
 
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedTextField(value = ph, onValueChange = onPhChange, label = { Text("pH (est.)", fontSize = 10.sp) }, modifier = Modifier.weight(1f), singleLine = true, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
-                OutlinedTextField(value = hydroCm, onValueChange = onHydroChange, label = { Text("Tâches (cm)", fontSize = 10.sp) }, modifier = Modifier.weight(1f), singleLine = true, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
+                OutlinedTextField(value = ph, onValueChange = onPhChange, label = { Text(stringResource(R.string.stationdiag_ph_est), fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis) }, modifier = Modifier.weight(1f), singleLine = true, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
+                OutlinedTextField(value = hydroCm, onValueChange = onHydroChange, label = { Text(stringResource(R.string.stationdiag_tasks_cm), fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis) }, modifier = Modifier.weight(1f), singleLine = true, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
             }
             
-            OutlinedTextField(value = roche, onValueChange = onRocheChange, label = { Text("Roche Mère (obs.)", fontSize = 10.sp) }, modifier = Modifier.fillMaxWidth(), singleLine = true, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
+            OutlinedTextField(value = roche, onValueChange = onRocheChange, label = { Text(stringResource(R.string.stationdiag_bedrock_obs), fontSize = 12.sp) }, modifier = Modifier.fillMaxWidth(), singleLine = true, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
         }
     }
 }
@@ -634,11 +634,11 @@ private fun MediasTab(
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Icon(Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-                    Text("Validation du rapport", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.stationdiag_report_validation), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
                 }
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    "Au moins $minPhotos photos requises pour finaliser (ex: profil sol, paysage, végétation). ${photos.size}/$minPhotos ajoutées.",
+                    stringResource(R.string.stationdiag_photos_required_format, minPhotos, photos.size),
                     style = MaterialTheme.typography.bodySmall
                 )
             }
@@ -678,17 +678,17 @@ private fun StationResultTab(station: StationObservation) {
                             .padding(20.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text("DIAGNOSTIC STATIONNEL", style = MaterialTheme.typography.labelSmall, color = confColor.copy(alpha = 0.7f), fontWeight = FontWeight.ExtraBold)
+                        Text(stringResource(R.string.stationdiag_station_diagnosis), style = MaterialTheme.typography.labelSmall, color = confColor.copy(alpha = 0.7f), fontWeight = FontWeight.ExtraBold)
                         Text(result.typeStation, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = confColor)
                         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                             Surface(color = confColor.copy(alpha = 0.2f), shape = RoundedCornerShape(8.dp)) {
-                                Text("Confiance : ${result.confidence.labelFr}", style = MaterialTheme.typography.labelSmall, color = confColor, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp))
+                                Text(stringResource(R.string.stationdiag_confidence_format, result.confidence.labelFr), style = MaterialTheme.typography.labelSmall, color = confColor, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp))
                             }
                             if (result.risqueEngorgement) Surface(color = Color(0xFFE65100).copy(alpha = 0.2f), shape = RoundedCornerShape(8.dp)) {
-                                Text("⚠ Engorgement", style = MaterialTheme.typography.labelSmall, color = Color(0xFFE65100), fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp))
+                                Text(stringResource(R.string.stationdiag_engorgement_warning), style = MaterialTheme.typography.labelSmall, color = Color(0xFFE65100), fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp))
                             }
                             if (result.risqueDepiecement) Surface(color = Color(0xFFC62828).copy(alpha = 0.2f), shape = RoundedCornerShape(8.dp)) {
-                                Text("⚠ Dépiècement", style = MaterialTheme.typography.labelSmall, color = Color(0xFFC62828), fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp))
+                                Text(stringResource(R.string.stationdiag_depiecement_warning), style = MaterialTheme.typography.labelSmall, color = Color(0xFFC62828), fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp))
                             }
                         }
                     }
@@ -746,7 +746,7 @@ private fun StationResultTab(station: StationObservation) {
                             if (result.atouts.isNotEmpty()) {
                                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                                     Icon(Icons.Default.CheckCircle, null, tint = Color(0xFF2E7D32), modifier = Modifier.size(18.dp))
-                                    Text("Atouts", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = Color(0xFF2E7D32))
+                                    Text(stringResource(R.string.stationdiag_assets), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = Color(0xFF2E7D32))
                                 }
                                 result.atouts.forEach { atout ->
                                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -759,7 +759,7 @@ private fun StationResultTab(station: StationObservation) {
                                 if (result.atouts.isNotEmpty()) HorizontalDivider()
                                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                                     Icon(Icons.Default.Warning, null, tint = Color(0xFFEF6C00), modifier = Modifier.size(18.dp))
-                                    Text("Contraintes", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = Color(0xFFEF6C00))
+                                    Text(stringResource(R.string.stationdiag_constraints), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = Color(0xFFEF6C00))
                                 }
                                 result.contraintes.forEach { c ->
                                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -820,7 +820,7 @@ private fun HistoriqueTab(diagnostics: List<StationObservation>, onDelete: (Stat
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Icon(Icons.Default.History, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
-                    Text("Historique (${diagnostics.size} relevé${if (diagnostics.size > 1) "s" else ""})", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.stationdiag_history_format, diagnostics.size), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
                 }
                 Icon(if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
             }
@@ -849,7 +849,7 @@ private fun HistoriqueTab(diagnostics: List<StationObservation>, onDelete: (Stat
                             ) {
                                 Column(modifier = Modifier.weight(1f)) {
                                     Text(df.format(Date(obs.observationDate)), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
-                                    Text("${obs.commune.ifBlank { "Lieu inconnu" }} — Alt. ${obs.altitudeM?.toInt() ?: "?"} m", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    Text(stringResource(R.string.stationdiag_history_location_format, obs.commune.ifBlank { stringResource(R.string.stationdiag_unknown_location) }, obs.altitudeM?.toInt()?.toString() ?: "?"), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                     Text(result.typeStation, style = MaterialTheme.typography.bodySmall, color = confColor, fontWeight = FontWeight.Medium, maxLines = 2, overflow = TextOverflow.Ellipsis)
                                 }
                                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -899,7 +899,7 @@ private fun StationScoreHeader(station: StationObservation) {
         ) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Top) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text("STATION FORESTIÈRE", style = MaterialTheme.typography.labelSmall, color = confColor.copy(alpha = 0.7f), fontWeight = FontWeight.ExtraBold)
+                    Text(stringResource(R.string.stationdiag_forest_station), style = MaterialTheme.typography.labelSmall, color = confColor.copy(alpha = 0.7f), fontWeight = FontWeight.ExtraBold)
                     Text(result.typeStation, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = confColor)
                 }
                 Surface(color = confColor.copy(alpha = 0.18f), shape = RoundedCornerShape(10.dp)) {
@@ -924,10 +924,10 @@ private fun StationScoreHeader(station: StationObservation) {
             if (result.risqueEngorgement || result.risqueDepiecement || result.alertes.isNotEmpty()) {
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     if (result.risqueEngorgement) Surface(color = Color(0xFFE65100).copy(alpha = 0.15f), shape = RoundedCornerShape(6.dp)) {
-                        Text("⚠ Engorgement", style = MaterialTheme.typography.labelSmall, color = Color(0xFFE65100), fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp))
+                        Text(stringResource(R.string.stationdiag_engorgement_warning), style = MaterialTheme.typography.labelSmall, color = Color(0xFFE65100), fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp))
                     }
                     if (result.risqueDepiecement) Surface(color = Color(0xFFC62828).copy(alpha = 0.15f), shape = RoundedCornerShape(6.dp)) {
-                        Text("⚠ Dépiècement", style = MaterialTheme.typography.labelSmall, color = Color(0xFFC62828), fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp))
+                        Text(stringResource(R.string.stationdiag_depiecement_warning), style = MaterialTheme.typography.labelSmall, color = Color(0xFFC62828), fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp))
                     }
                 }
             }
@@ -971,13 +971,13 @@ private fun FullEssencesCompatibilityCard(station: StationObservation) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Icon(Icons.Default.Forest, null, tint = Color(0xFF2E7D32), modifier = Modifier.size(20.dp))
                 Text(
-                    "Compatibilité essences (${allResults.size})",
+                    stringResource(R.string.stationdiag_essence_compatibility_format, allResults.size),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f)
                 )
                 Text(
-                    "Tapez pour détails",
+                    stringResource(R.string.stationdiag_tap_for_details),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                 )
@@ -1006,7 +1006,7 @@ private fun FullEssencesCompatibilityCard(station: StationObservation) {
                     FilterChip(
                         selected = selected,
                         onClick  = { filterLevel = if (selected) null else level },
-                        label    = { Text(label, fontSize = 11.sp) },
+                        label    = { Text(label, fontSize = 12.sp) },
                         colors   = FilterChipDefaults.filterChipColors(
                             selectedContainerColor      = chipColor.copy(alpha = 0.18f),
                             selectedLabelColor          = chipColor,
@@ -1056,10 +1056,10 @@ private fun EssenceCompatibilityRowItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Icon(icon, null, tint = color, modifier = Modifier.size(16.dp))
+            Icon(icon, contentDescription = stringResource(R.string.cd_compatibility), tint = color, modifier = Modifier.size(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(nameFr, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold, fontSize = 12.sp)
-                Text(compatibility.label, style = MaterialTheme.typography.labelSmall, color = color, fontSize = 10.sp)
+                Text(compatibility.label, style = MaterialTheme.typography.labelSmall, color = color, fontSize = 12.sp)
             }
             Row(horizontalArrangement = Arrangement.spacedBy(1.dp)) {
                 repeat(5) { i ->
@@ -1074,7 +1074,7 @@ private fun EssenceCompatibilityRowItem(
             if (reasons.isNotEmpty()) {
                 Icon(
                     imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                    contentDescription = null,
+                    contentDescription = if (expanded) stringResource(R.string.cd_collapse) else stringResource(R.string.cd_expand),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
                     modifier = Modifier.size(16.dp)
                 )
@@ -1087,7 +1087,7 @@ private fun EssenceCompatibilityRowItem(
                         "• $reason",
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontSize = 10.sp
+                        fontSize = 12.sp
                     )
                 }
             }
@@ -1144,7 +1144,7 @@ private fun SolProfilCard(station: StationObservation) {
     Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp)) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Icon(Icons.Default.Layers, null, tint = Color(0xFF795548), modifier = Modifier.size(20.dp))
+                Icon(Icons.Default.Layers, contentDescription = stringResource(R.string.cd_layers), tint = Color(0xFF795548), modifier = Modifier.size(20.dp))
                 Text(stringResource(R.string.station_diag_pedological_profile), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
             }
             HorizontalDivider()
@@ -1158,16 +1158,16 @@ private fun SolProfilCard(station: StationObservation) {
                 ) {
                     Box(Modifier.fillMaxWidth().weight(humusFrac).background(humusColor)) {
                         Text("H", style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = 0.8f),
-                            modifier = Modifier.align(Alignment.Center), fontSize = 9.sp)
+                            modifier = Modifier.align(Alignment.Center), fontSize = 12.sp)
                     }
                     Box(Modifier.fillMaxWidth().weight(mineralFrac).background(textureColor)) {
                         Text("A", style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = 0.7f),
-                            modifier = Modifier.align(Alignment.Center), fontSize = 9.sp)
+                            modifier = Modifier.align(Alignment.Center), fontSize = 12.sp)
                     }
                     if (hydroFrac > 0f) {
                         Box(Modifier.fillMaxWidth().weight(hydroFrac).background(Color(0xFF90CAF9))) {
                             Text("G", style = MaterialTheme.typography.labelSmall, color = Color(0xFF1565C0).copy(alpha = 0.8f),
-                                modifier = Modifier.align(Alignment.Center), fontSize = 9.sp)
+                                modifier = Modifier.align(Alignment.Center), fontSize = 12.sp)
                         }
                     }
                     Box(Modifier.fillMaxWidth().weight(0.05f).background(Color(0xFF616161)))
@@ -1193,7 +1193,7 @@ private fun SolProfilCard(station: StationObservation) {
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 Surface(color = hclColor.copy(alpha = 0.12f), shape = RoundedCornerShape(8.dp)) {
-                    Text("HCl : ${station.testHcl.labelFr}", style = MaterialTheme.typography.labelSmall,
+                    Text(stringResource(R.string.stationdiag_hcl_format, station.testHcl.labelFr), style = MaterialTheme.typography.labelSmall,
                         color = hclColor, fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp))
                 }
@@ -1217,9 +1217,9 @@ private fun SolInfoRow(label: String, value: String, valueColor: Color) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(label, style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 11.sp)
+            color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 12.sp)
         Text(value, style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold,
-            color = valueColor, fontSize = 11.sp, maxLines = 1, overflow = TextOverflow.Ellipsis,
+            color = valueColor, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(start = 4.dp))
     }
 }
@@ -1246,7 +1246,7 @@ private fun AutoContextBlock(
     }
 
     CollapsibleBlock(
-        title = "Contexte auto-déduit",
+        title = stringResource(R.string.station_diag_auto_context),
         icon = Icons.Default.MyLocation,
         accentColor = Color(0xFF1565C0),
         initiallyExpanded = true,
@@ -1256,7 +1256,7 @@ private fun AutoContextBlock(
     ) {
         if (gpsLat != null && gpsLon != null) {
             BlockInfoRow(
-                label = "Coordonnées GPS",
+                label = stringResource(R.string.station_diag_gps_coords),
                 value = "${String.format("%.5f", gpsLat)}°N, ${String.format("%.5f", gpsLon)}°E",
                 icon = Icons.Default.GpsFixed,
                 badge = { ConfidenceBadge(BadgeType.TERRAIN_OBS, compact = true) }
@@ -1271,7 +1271,7 @@ private fun AutoContextBlock(
                 else      -> null
             }
             BlockInfoRow(
-                label = "Altitude",
+                label = stringResource(R.string.station_diag_altitude),
                 value = "${it.toInt()} m",
                 icon = Icons.Default.Height,
                 valueColor = if (it > 1200) Color(0xFFE65100) else MaterialTheme.colorScheme.onSurface
@@ -1282,7 +1282,7 @@ private fun AutoContextBlock(
         BlockInfoRow("Exposition", exposition.labelFr, Icons.Default.Explore)
         pentePct?.let {
             BlockInfoRow(
-                label = "Pente",
+                label = stringResource(R.string.station_diag_slope),
                 value = "${it.toInt()} %",
                 icon = Icons.Default.Terrain,
                 valueColor = if (it > 50) Color(0xFFE65100) else MaterialTheme.colorScheme.onSurface
@@ -1293,7 +1293,7 @@ private fun AutoContextBlock(
         if (inferredContext.isNotEmpty()) {
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
             Text(
-                "Déductions automatiques",
+                stringResource(R.string.stationdiag_auto_deductions),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontWeight = FontWeight.SemiBold
@@ -1357,7 +1357,7 @@ private fun WhatToVerifyBlock(
     if (checks.isEmpty()) return
 
     CollapsibleBlock(
-        title = "Points à vérifier / observer",
+        title = stringResource(R.string.station_diag_points_to_verify),
         icon = Icons.Default.Checklist,
         accentColor = Color(0xFFE65100),
         initiallyExpanded = true,
@@ -1431,7 +1431,7 @@ private fun SmartVegetationBlock(
     }
 
     CollapsibleBlock(
-        title = "Cortège floristique",
+        title = stringResource(R.string.station_diag_flora_cortege),
         icon = Icons.Default.Grass,
         accentColor = Color(0xFF2E7D32),
         initiallyExpanded = true,
@@ -1450,7 +1450,7 @@ private fun SmartVegetationBlock(
             onSpeciesRemoved = onSpeciesRemoved,
             contextMilieu = contextMilieu,
             contextIds = selectedFloraIds,
-            placeholder = "Ex: fougère, oxalide, ronce, muguet…"
+            placeholder = stringResource(R.string.station_diag_flora_placeholder)
         )
 
         // Saisie libre complémentaire (espèces inconnues de la base)
@@ -1458,7 +1458,7 @@ private fun SmartVegetationBlock(
             OutlinedTextField(
                 value = especesText,
                 onValueChange = onEspecesTextChange,
-                label = { Text("Espèces hors base (séparées par virgules)", fontSize = 10.sp) },
+                label = { Text(stringResource(R.string.stationdiag_species_outside_db), fontSize = 12.sp) },
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 2,
                 textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp)
@@ -1467,7 +1467,7 @@ private fun SmartVegetationBlock(
 
         // Cases à cocher rapides
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
-        Text("Catégories observées", style = MaterialTheme.typography.labelSmall,
+        Text(stringResource(R.string.stationdiag_observed_categories), style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant)
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             listOf(
@@ -1479,7 +1479,7 @@ private fun SmartVegetationBlock(
                 FilterChip(
                     selected = checked,
                     onClick = { onChange(!checked) },
-                    label = { Text(label, fontSize = 10.sp) }
+                    label = { Text(label, fontSize = 12.sp) }
                 )
             }
         }
@@ -1487,7 +1487,7 @@ private fun SmartVegetationBlock(
         OutlinedTextField(
             value = notes,
             onValueChange = onNotes,
-            label = { Text("Notes végétation", fontSize = 10.sp) },
+            label = { Text(stringResource(R.string.stationdiag_vegetation_notes), fontSize = 12.sp) },
             modifier = Modifier.fillMaxWidth(),
             minLines = 2,
             textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp)
@@ -1517,7 +1517,7 @@ private fun GradientInferenceBlock(
     }
 
     CollapsibleBlock(
-        title = "Gradients calculés (flore)",
+        title = stringResource(R.string.station_diag_computed_gradients),
         icon = Icons.Default.Analytics,
         accentColor = Color(0xFF00796B),
         initiallyExpanded = true,
@@ -1570,12 +1570,16 @@ private fun GradientInferenceBlock(
                     GradientInferenceEngine.Coherence.CONTRADICTOIRE -> Icons.Default.Cancel
                     else -> Icons.Default.Info
                 },
-                contentDescription = null,
+                contentDescription = when (result.cohérenceInterne) {
+                    GradientInferenceEngine.Coherence.FORTE -> stringResource(R.string.cd_check)
+                    GradientInferenceEngine.Coherence.CONTRADICTOIRE -> stringResource(R.string.cd_close)
+                    else -> stringResource(R.string.cd_info)
+                },
                 tint = coherenceColor,
                 modifier = Modifier.size(14.dp)
             )
             Text(
-                "${result.cohérenceInterne.labelFr} — ${result.nbTaxonsAnalysables} taxons analysés",
+                stringResource(R.string.stationdiag_coherence_taxons_format, result.cohérenceInterne.labelFr, result.nbTaxonsAnalysables),
                 style = MaterialTheme.typography.labelSmall,
                 color = coherenceColor
             )
@@ -1606,7 +1610,7 @@ private fun GradientInferenceBlock(
         // Suggestions d'observation
         if (result.observationsComplementaires.isNotEmpty()) {
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
-            Text("Observations suggérées", style = MaterialTheme.typography.labelSmall,
+            Text(stringResource(R.string.stationdiag_suggested_observations), style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant, fontWeight = FontWeight.SemiBold)
             result.observationsComplementaires.forEach { obs ->
                 Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -1636,8 +1640,8 @@ private fun GradientTrendCard(diagnostics: List<StationObservation>) {
     Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp)) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Icon(Icons.Default.Timeline, null, tint = colorH, modifier = Modifier.size(20.dp))
-                Text("Évolution des gradients ($n relevés)",
+                Icon(Icons.Default.Timeline, contentDescription = stringResource(R.string.cd_timeline), tint = colorH, modifier = Modifier.size(20.dp))
+                Text(stringResource(R.string.stationdiag_gradient_evolution_format, n),
                     style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
             }
             HorizontalDivider()
@@ -1712,7 +1716,7 @@ private fun GradientTrendCard(diagnostics: List<StationObservation>) {
                 ).forEach { (c, label) ->
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                         Box(Modifier.size(8.dp).clip(CircleShape).background(c))
-                        Text(label, style = MaterialTheme.typography.labelSmall, fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(label, style = MaterialTheme.typography.labelSmall, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             }
@@ -1730,7 +1734,7 @@ private fun ConflitsBlock(
     modifier: Modifier = Modifier
 ) {
     CollapsibleBlock(
-        title      = "Conflits détectés (${report.contradictions.size})",
+        title      = stringResource(R.string.station_diag_conflits, report.contradictions.size),
         icon       = Icons.Default.SyncProblem,
         accentColor = Color(0xFFC62828),
         initiallyExpanded = true,
@@ -1788,7 +1792,7 @@ private fun ConflitsBlock(
                         Text(fact.description, style = MaterialTheme.typography.bodySmall)
                         if (fact.conseil.isNotBlank()) {
                             Text(
-                                "Conseil : ${fact.conseil}",
+                                stringResource(R.string.stationdiag_advice_format, fact.conseil),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.primary
                             )
@@ -1799,7 +1803,7 @@ private fun ConflitsBlock(
             if (report.enrichissements.isNotEmpty()) {
                 HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f))
                 Text(
-                    "Déductions croisées (${report.enrichissements.size})",
+                    stringResource(R.string.stationdiag_cross_deductions_format, report.enrichissements.size),
                     style      = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.SemiBold,
                     color      = MaterialTheme.colorScheme.primary
@@ -1843,7 +1847,7 @@ private fun AvenirClimatBlock(
     }
 
     CollapsibleBlock(
-        title       = "Avenir Climatique (DRIAS 2021)",
+        title       = stringResource(R.string.station_diag_climate_future),
         icon        = Icons.Default.WbSunny,
         accentColor = riskColor,
         initiallyExpanded = false,
@@ -1856,7 +1860,7 @@ private fun AvenirClimatBlock(
                     DRIASDatabase.DroughtRisk.FORT      -> BadgeType.CONFLICT
                     DRIASDatabase.DroughtRisk.TRES_FORT -> BadgeType.CONFLICT
                 },
-                label   = "Zone ${zone.labelFr}",
+                label   = stringResource(R.string.station_diag_zone, zone.labelFr),
                 compact = true
             )
         },
@@ -1883,19 +1887,19 @@ private fun AvenirClimatBlock(
             ) {
                 DriasKpiCard(
                     label = "+${projection.deltaT2050_ssp585}°C",
-                    sublabel = "Réchauffement 2050\n(SSP8.5)",
+                    sublabel = stringResource(R.string.station_diag_warming_2050),
                     color = Color(0xFFEF6C00),
                     modifier = Modifier.weight(1f)
                 )
                 DriasKpiCard(
                     label = "${projection.deltaPsummer2050_ssp585.toInt()}%",
-                    sublabel = "Précipit. été 2050\n(SSP8.5)",
+                    sublabel = stringResource(R.string.station_diag_summer_precip_2050),
                     color = Color(0xFF1565C0),
                     modifier = Modifier.weight(1f)
                 )
                 DriasKpiCard(
                     label = "${projection.droughtDays2050}j",
-                    sublabel = "Sécheresse/an\n2050",
+                    sublabel = stringResource(R.string.station_diag_drought_per_year_2050),
                     color = riskColor,
                     modifier = Modifier.weight(1f)
                 )
@@ -1903,7 +1907,7 @@ private fun AvenirClimatBlock(
 
             // Risques
             if (risques.isNotEmpty()) {
-                Text("Risques identifiés",
+                Text(stringResource(R.string.stationdiag_identified_risks),
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface)
@@ -1914,7 +1918,7 @@ private fun AvenirClimatBlock(
 
             // Essences recommandées
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
-            Text("Essences résistantes à la sécheresse — ${projection.droughtRisk2050.labelFr}",
+            Text(stringResource(R.string.stationdiag_drought_resistant_essences_format, projection.droughtRisk2050.labelFr),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF2E7D32))
@@ -1937,10 +1941,10 @@ private fun AvenirClimatBlock(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment     = Alignment.CenterVertically
             ) {
-                Text("Score vulnérabilité climatique",
+                Text(stringResource(R.string.stationdiag_climate_vulnerability_score),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Text("$score / 100",
+                Text(stringResource(R.string.stationdiag_score_over_100_format, score),
                     style      = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     color      = riskColor)

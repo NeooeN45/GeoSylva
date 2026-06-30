@@ -19,10 +19,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.forestry.counter.R
 import com.forestry.counter.domain.usecase.station.StationDiagnosticEngine
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -86,7 +88,7 @@ fun StationHeaderCard(
                 }
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = if (commune.isNotBlank()) commune else "Parcelle $parcelleId",
+                        text = if (commune.isNotBlank()) commune else stringResource(R.string.stationheader_parcelle_format, parcelleId),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = StationDiagColors.textPrimary,
@@ -95,13 +97,13 @@ fun StationHeaderCard(
                     )
                     if (gpsLat != null && gpsLon != null) {
                         Text(
-                            text = "%.4f°N  %.4f°E  ${altitudeM?.toInt()?.let { "• $it m" } ?: ""}".format(gpsLat, gpsLon),
+                            text = stringResource(R.string.stationheader_gps_coords_format, gpsLat, gpsLon, altitudeM?.toInt()?.let { stringResource(R.string.stationheader_altitude_m_format, it) } ?: ""),
                             style = MaterialTheme.typography.labelSmall,
                             color = StationDiagColors.textSecondary,
                             fontSize = 10.sp
                         )
                     } else {
-                        Text("GPS non capturé", style = MaterialTheme.typography.labelSmall, color = StationDiagColors.toVerify, fontSize = 10.sp)
+                        Text(stringResource(R.string.stationheader_gps_not_captured), style = MaterialTheme.typography.labelSmall, color = StationDiagColors.toVerify, fontSize = 10.sp)
                     }
                 }
                 if (isDraft) {
@@ -110,7 +112,7 @@ fun StationHeaderCard(
                         shape = StationDiagShapes.badge
                     ) {
                         Text(
-                            "BROUILLON",
+                            stringResource(R.string.stationheader_draft_badge),
                             style = MaterialTheme.typography.labelSmall,
                             color = StationDiagColors.ochrePrimary,
                             fontWeight = FontWeight.ExtraBold,
@@ -131,7 +133,7 @@ fun StationHeaderCard(
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        "STATION FORESTIÈRE",
+                        stringResource(R.string.stationheader_forest_station),
                         style = MaterialTheme.typography.labelSmall,
                         color = confColor.copy(alpha = 0.7f),
                         fontWeight = FontWeight.ExtraBold,
@@ -229,9 +231,9 @@ fun QuickActionBar(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            QuickAction(Icons.Default.PhotoCamera,  "Photo",    StationDiagColors.forestGreen, onAddPhoto)
-            QuickAction(Icons.Default.PictureAsPdf, "Export",   StationDiagColors.waterBlue,   onExport)
-            QuickAction(Icons.Default.Save,         "Brouillon",StationDiagColors.soilBrown,   onSaveDraft)
+            QuickAction(Icons.Default.PhotoCamera,  stringResource(R.string.stationheader_action_photo),    StationDiagColors.forestGreen, onAddPhoto)
+            QuickAction(Icons.Default.PictureAsPdf, stringResource(R.string.stationheader_action_export),   StationDiagColors.waterBlue,   onExport)
+            QuickAction(Icons.Default.Save,         stringResource(R.string.stationheader_action_draft),StationDiagColors.soilBrown,   onSaveDraft)
 
             // Finaliser — bouton mis en avant
             Surface(
@@ -252,7 +254,7 @@ fun QuickActionBar(
                         modifier = Modifier.size(16.dp)
                     )
                     Text(
-                        "Finaliser",
+                        stringResource(R.string.stationheader_finalize),
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.Bold,
                         color = if (isReadyToFinalize) Color.White else StationDiagColors.textSecondary

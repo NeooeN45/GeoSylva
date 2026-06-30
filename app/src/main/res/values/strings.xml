@@ -1130,6 +1130,18 @@
     <string name="photo_taken">Photo saved</string>
     <string name="placette_photos_title">Photos</string>
     <string name="photo_delete_title">Delete photo</string>
+    <string name="photo_viewer_title">Photo</string>
+    <string name="photo_rename">Rename</string>
+    <string name="photo_rename_title">Rename photo</string>
+    <string name="photo_rename_label">New name</string>
+    <string name="photo_renamed">Photo renamed</string>
+    <string name="photo_rename_error">Could not rename (name already used?)</string>
+    <string name="photo_export">Export</string>
+    <string name="photo_export_chooser">Export photos</string>
+    <string name="photo_select">Select</string>
+    <string name="photo_selected_count">%1$d selected</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
     <string name="photo_delete_confirm">Delete this photo permanently?</string>
 
     <!-- Share synthèse -->
@@ -2083,6 +2095,8 @@
     <string name="smart_facteur_limitant">Limiting factor</string>
     <string name="smart_hydrique">Water</string>
     <string name="smart_trophique">Trophic</string>
+    <string name="smart_station_terrain">Field station</string>
+    <string name="smart_flore_ellenberg">Flora (Ellenberg)</string>
 
     <!-- i18n : DiagnosticComponents -->
     <string name="diag_photos_terrain">Field photos (%1$d%2$s)</string>

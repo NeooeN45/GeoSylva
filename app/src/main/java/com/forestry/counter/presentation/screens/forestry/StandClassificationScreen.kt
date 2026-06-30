@@ -19,10 +19,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Fill
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.forestry.counter.R
 import com.forestry.counter.domain.calculation.ClassDistEntry
 import com.forestry.counter.domain.classification.stand.DiameterCategoryRatio
 import com.forestry.counter.domain.classification.stand.StandClassification
@@ -48,10 +51,10 @@ fun StandClassificationScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Classification du Peuplement") },
+                title = { Text(stringResource(R.string.standclass_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 }
             )
@@ -92,8 +95,8 @@ private fun NoDataCard() {
             Icon(Icons.Default.Warning, contentDescription = null,
                 modifier = Modifier.size(48.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(Modifier.height(12.dp))
-            Text("Aucune donnée disponible", fontWeight = FontWeight.SemiBold, textAlign = TextAlign.Center)
-            Text("Lancez un martelage sur cette parcelle pour obtenir la classification.",
+            Text(stringResource(R.string.standclass_no_data), fontWeight = FontWeight.SemiBold, textAlign = TextAlign.Center)
+            Text(stringResource(R.string.standclass_no_data_desc),
                 style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
@@ -117,10 +120,10 @@ private fun IdentifiedClassCard(cls: StandClassification) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text("Peuplement identifié", style = MaterialTheme.typography.labelMedium,
+                    Text(stringResource(R.string.standclass_identified), style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Text(cls.label, fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                    Text("Code CNPF : ${cls.code}", style = MaterialTheme.typography.bodySmall)
+                    Text(cls.label, fontWeight = FontWeight.Bold, fontSize = 20.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(stringResource(R.string.standclass_code_cnpf, cls.code), style = MaterialTheme.typography.bodySmall)
                 }
                 Box(
                     modifier = Modifier.size(56.dp).background(capitalColor, RoundedCornerShape(12.dp)),
@@ -157,8 +160,8 @@ private fun IdentifiedClassCard(cls: StandClassification) {
 private fun StructureTriangleCard(ratios: DiameterCategoryRatio?) {
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Triangle de structure", fontWeight = FontWeight.Bold)
-            Text("Régime × Capital G × Structure 1–9", style = MaterialTheme.typography.bodySmall,
+            Text(stringResource(R.string.standclass_triangle), fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.standclass_triangle_desc), style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(Modifier.height(12.dp))
             if (ratios != null) {
@@ -171,13 +174,13 @@ private fun StructureTriangleCard(ratios: DiameterCategoryRatio?) {
                     ChipInfo("TGB", "%.0f%%".format(ratios.tgbPct), Color(0xFFE57373))
                 }
                 Spacer(Modifier.height(4.dp))
-                Text("Position : ${classifyTrianglePosition(ratios)}",
+                Text(stringResource(R.string.standclass_position, classifyTrianglePosition(ratios)),
                     style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Medium)
-                Text("GB + TGB cumulés : %.0f%%".format(ratios.gbTgbPct),
+                Text(stringResource(R.string.standclass_gb_tgb, ratios.gbTgbPct),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
             } else {
-                Text("Distribution par classes indisponible", style = MaterialTheme.typography.bodySmall,
+                Text(stringResource(R.string.standclass_dist_unavailable), style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
@@ -219,7 +222,7 @@ private fun ChipInfo(label: String, value: String, color: Color) {
 private fun DiagnosticTabCard(cls: StandClassification) {
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Implications sylvicoles", fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.standclass_implications), fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(8.dp))
             val implications = getSylviculturalImplications(cls)
             implications.forEach { impl ->
@@ -229,14 +232,14 @@ private fun DiagnosticTabCard(cls: StandClassification) {
                 }
             }
             Spacer(Modifier.height(8.dp))
-            Text("Atouts du peuplement", fontWeight = FontWeight.SemiBold,
+            Text(stringResource(R.string.standclass_strengths), fontWeight = FontWeight.SemiBold,
                 color = Color(0xFF2E7D32))
             Spacer(Modifier.height(4.dp))
             getStrengths(cls).forEach { s ->
                 Text("✓ $s", style = MaterialTheme.typography.bodySmall, color = Color(0xFF388E3C))
             }
             Spacer(Modifier.height(8.dp))
-            Text("Risques identifiés", fontWeight = FontWeight.SemiBold,
+            Text(stringResource(R.string.standclass_risks), fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.error)
             Spacer(Modifier.height(4.dp))
             getRisks(cls).forEach { r ->
@@ -251,16 +254,16 @@ private fun DiagnosticTabCard(cls: StandClassification) {
 private fun SrgsCard(cls: StandClassification) {
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Parcours SRGS régional", fontWeight = FontWeight.Bold)
-            Text("Schéma Régional de Gestion Sylvicole", style = MaterialTheme.typography.bodySmall,
+            Text(stringResource(R.string.standclass_srgs), fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.standclass_srgs_desc), style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(Modifier.height(8.dp))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                InfoChip("Régime", getSrgsRegime(cls), Modifier.weight(1f))
-                InfoChip("Structure CNPF", cls.code, Modifier.weight(1f))
+                InfoChip(stringResource(R.string.standclass_regime), getSrgsRegime(cls), Modifier.weight(1f))
+                InfoChip(stringResource(R.string.standclass_structure_cnpf), cls.code, Modifier.weight(1f))
             }
             Spacer(Modifier.height(8.dp))
-            Text("Objectif suggéré : ${getSuggestedObjective(cls)}",
+            Text(stringResource(R.string.standclass_objective, getSuggestedObjective(cls)),
                 style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Medium)
         }
     }

@@ -10,8 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.forestry.counter.R
 import com.forestry.counter.domain.model.station.DiagnosticPhoto
 
 @Composable
@@ -33,11 +35,11 @@ fun DiagnosticPhotoCaptureSection(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Icon(Icons.Default.AddAPhoto, contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary)
-                Text("Photos de terrain (${photos.size}${if (minPhotos > 0) " / min $minPhotos" else ""})",
+                Text(stringResource(R.string.diag_photos_terrain, photos.size, if (minPhotos > 0) " / min $minPhotos" else ""),
                     style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
             }
             OutlinedButton(onClick = { onAddPhoto("", "", photoTypeOptions.firstOrNull() ?: "Général") }, modifier = Modifier.fillMaxWidth()) {
-                Text("Ajouter une photo")
+                Text(stringResource(R.string.diag_ajouter_photo))
             }
         }
     }
@@ -64,7 +66,7 @@ fun ExpertTutorialDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) { Text("Compris") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.diag_compris)) }
         }
     )
 }

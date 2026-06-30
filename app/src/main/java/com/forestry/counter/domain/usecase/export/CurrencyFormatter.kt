@@ -15,7 +15,7 @@ internal object CurrencyFormatter {
 
     private val currencyFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault()).apply {
         maximumFractionDigits = 0
-        try { currency = Currency.getInstance("EUR") } catch (_: Throwable) {}
+        try { currency = Currency.getInstance("EUR") } catch (e: Throwable) { android.util.Log.w("CurrencyFormatter", "EUR not available", e) }
     }
 
     /** Symbole de la devise EUR pour la locale courante. */

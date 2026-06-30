@@ -16,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.forestry.counter.data.preferences.FontSize
 import com.forestry.counter.data.preferences.GpsCaptureMode
@@ -336,7 +337,7 @@ fun SettingsScreen(
                 title = { Text(stringResource(R.string.settings)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 }
             )
@@ -425,8 +426,8 @@ fun SettingsScreen(
                     Box {
                         ListItem(
                             headlineContent = { Text(stringResource(R.string.language)) },
-                            supportingContent = { Text(when (appLanguage) { "system" -> stringResource(R.string.system); "fr" -> stringResource(R.string.french); "en" -> stringResource(R.string.english); else -> appLanguage }) },
-                            leadingContent = { Icon(Icons.Default.Language, contentDescription = null) },
+                            supportingContent = { Text(when (appLanguage) { "system" -> stringResource(R.string.system); "fr" -> stringResource(R.string.french); "en" -> stringResource(R.string.english); else -> appLanguage }, maxLines = 3, overflow = TextOverflow.Ellipsis) },
+                            leadingContent = { Icon(Icons.Default.Language, contentDescription = stringResource(R.string.cd_language)) },
                             modifier = Modifier.clickable { expanded = true }
                         )
                         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
@@ -467,10 +468,10 @@ fun SettingsScreen(
                                     FontSize.SMALL -> stringResource(R.string.small)
                                     FontSize.MEDIUM -> stringResource(R.string.normal_size)
                                     FontSize.LARGE -> stringResource(R.string.large)
-                                })
+                                }, maxLines = 3, overflow = TextOverflow.Ellipsis)
                             },
                             leadingContent = {
-                                Icon(Icons.Default.FormatSize, contentDescription = null)
+                                Icon(Icons.Default.FormatSize, contentDescription = stringResource(R.string.cd_font_size))
                             },
                             modifier = Modifier.clickable { expanded = true }
                         )
@@ -514,7 +515,7 @@ fun SettingsScreen(
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.dynamic_color)) },
                     supportingContent = { Text(stringResource(R.string.use_system_palette)) },
-                    leadingContent = { Icon(Icons.Default.ColorLens, contentDescription = null) },
+                    leadingContent = { Icon(Icons.Default.ColorLens, contentDescription = stringResource(R.string.cd_color_theme)) },
                     trailingContent = {
                         Switch(
                             checked = dynamicColorEnabled,
@@ -529,7 +530,7 @@ fun SettingsScreen(
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.settings_background_image)) },
                     supportingContent = { Text(stringResource(R.string.settings_background_image_desc)) },
-                    leadingContent = { Icon(Icons.Default.Image, contentDescription = null) },
+                    leadingContent = { Icon(Icons.Default.Image, contentDescription = stringResource(R.string.cd_background_image)) },
                     trailingContent = {
                         Switch(
                             checked = backgroundImageEnabled,
@@ -559,7 +560,7 @@ fun SettingsScreen(
                             }
                         },
                         label = { Text(stringResource(R.string.settings_background_default_forest)) },
-                        leadingIcon = { Icon(Icons.Default.Forest, contentDescription = null) }
+                        leadingIcon = { Icon(Icons.Default.Forest, contentDescription = stringResource(R.string.cd_forest)) }
                     )
                     AssistChip(
                         onClick = {
@@ -853,21 +854,21 @@ fun SettingsScreen(
                                 onClick = {
                                     exportScope = "PROJECT"
                                 },
-                                label = { Text(stringResource(R.string.settings_export_scope_project)) }
+                                label = { Text(stringResource(R.string.settings_export_scope_project), maxLines = 1, overflow = TextOverflow.Ellipsis) }
                             )
                             FilterChip(
                                 selected = exportScope == "PARCELLE",
                                 onClick = {
                                     exportScope = "PARCELLE"
                                 },
-                                label = { Text(stringResource(R.string.settings_export_scope_parcelle)) }
+                                label = { Text(stringResource(R.string.settings_export_scope_parcelle), maxLines = 1, overflow = TextOverflow.Ellipsis) }
                             )
                             FilterChip(
                                 selected = exportScope == "PLACETTE",
                                 onClick = {
                                     exportScope = "PLACETTE"
                                 },
-                                label = { Text(stringResource(R.string.settings_export_scope_placette)) }
+                                label = { Text(stringResource(R.string.settings_export_scope_placette), maxLines = 1, overflow = TextOverflow.Ellipsis) }
                             )
                         }
 
@@ -877,7 +878,7 @@ fun SettingsScreen(
                             Box {
                                 ListItem(
                                     headlineContent = { Text(stringResource(R.string.settings_export_parcelle)) },
-                                    supportingContent = { Text(selectedParcelleName ?: stringResource(R.string.settings_export_choose_parcelle)) },
+                                    supportingContent = { Text(selectedParcelleName ?: stringResource(R.string.settings_export_choose_parcelle), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .clickable { parcelleMenuExpanded = true }
@@ -888,7 +889,7 @@ fun SettingsScreen(
                                 ) {
                                     parcelles.forEach { p ->
                                         DropdownMenuItem(
-                                            text = { Text(p.name) },
+                                            text = { Text(p.name, maxLines = 1, overflow = TextOverflow.Ellipsis) },
                                             onClick = {
                                                 selectedParcelleId = p.id
                                                 selectedPlacetteId = null
@@ -906,7 +907,7 @@ fun SettingsScreen(
                             Box {
                                 ListItem(
                                     headlineContent = { Text(stringResource(R.string.settings_export_placette)) },
-                                    supportingContent = { Text(selectedPlacetteName ?: stringResource(R.string.settings_export_choose_placette)) },
+                                    supportingContent = { Text(selectedPlacetteName ?: stringResource(R.string.settings_export_choose_placette), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .clickable { placetteMenuExpanded = true }
@@ -917,7 +918,7 @@ fun SettingsScreen(
                                 ) {
                                     placettes.forEach { pl ->
                                         DropdownMenuItem(
-                                            text = { Text(pl.name ?: pl.id.take(8)) },
+                                            text = { Text(pl.name ?: pl.id.take(8), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                                             onClick = {
                                                 selectedPlacetteId = pl.id
                                                 placetteMenuExpanded = false
@@ -990,7 +991,7 @@ fun SettingsScreen(
                                 }
                             }
                         }
-                        Button(onClick = { exportCsv.launch("tiges.csv") }) { Text(stringResource(R.string.settings_export_csv_tiges)) }
+                        Button(onClick = { exportCsv.launch("tiges.csv") }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.settings_export_csv_tiges), maxLines = 1, overflow = TextOverflow.Ellipsis) }
 
                         val exportGeo = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/geo+json")) { uri ->
                             if (uri != null) {
@@ -1029,7 +1030,7 @@ fun SettingsScreen(
                                 }
                             }
                         }
-                        Button(onClick = { exportGeo.launch("tiges.geojson") }) { Text(stringResource(R.string.settings_export_geojson)) }
+                        Button(onClick = { exportGeo.launch("tiges.geojson") }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.settings_export_geojson), maxLines = 1, overflow = TextOverflow.Ellipsis) }
 
                         val exportGpx = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/gpx+xml")) { uri ->
                             if (uri != null) {
@@ -1096,7 +1097,7 @@ fun SettingsScreen(
                                 }
                             }
                         }
-                        Button(onClick = { exportGpx.launch("tiges.gpx") }) { Text(stringResource(R.string.settings_export_gpx)) }
+                        Button(onClick = { exportGpx.launch("tiges.gpx") }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.settings_export_gpx), maxLines = 1, overflow = TextOverflow.Ellipsis) }
 
                         val exportExcelForestry = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) { uri ->
                             if (uri != null) {
@@ -1205,7 +1206,7 @@ fun SettingsScreen(
                                 }
                             }
                         }
-                        Button(onClick = { exportExcelForestry.launch("forestry.xlsx") }) { Text(stringResource(R.string.settings_export_excel_forestry)) }
+                        Button(onClick = { exportExcelForestry.launch("forestry.xlsx") }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.settings_export_excel_forestry), maxLines = 1, overflow = TextOverflow.Ellipsis) }
                     }
 
                     val exportProfile = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
@@ -1244,7 +1245,7 @@ fun SettingsScreen(
                         }
                     }
                     Row(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        Button(onClick = { exportProfile.launch("profil.json") }) { Text(stringResource(R.string.settings_export_profile_json)) }
+                        Button(onClick = { exportProfile.launch("profil.json") }, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.settings_export_profile_json), maxLines = 1, overflow = TextOverflow.Ellipsis) }
                     }
                 }
             }
@@ -1255,7 +1256,7 @@ fun SettingsScreen(
                     headlineContent = { Text(stringResource(R.string.animations)) },
                     supportingContent = { Text(stringResource(R.string.settings_animations_desc)) },
                     leadingContent = {
-                        Icon(Icons.Default.Settings, contentDescription = null)
+                        Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.cd_settings))
                     },
                     trailingContent = {
                         Switch(
@@ -1272,7 +1273,7 @@ fun SettingsScreen(
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.sound)) },
                     supportingContent = { Text(stringResource(R.string.settings_sound_desc)) },
-                    leadingContent = { Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = null) },
+                    leadingContent = { Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = stringResource(R.string.cd_volume)) },
                     trailingContent = {
                         Switch(
                             checked = soundEnabled,
@@ -1285,7 +1286,7 @@ fun SettingsScreen(
                     headlineContent = { Text(stringResource(R.string.haptic_feedback)) },
                     supportingContent = { Text(stringResource(R.string.settings_haptic_desc)) },
                     leadingContent = {
-                        Icon(Icons.Default.Vibration, contentDescription = null)
+                        Icon(Icons.Default.Vibration, contentDescription = stringResource(R.string.cd_vibration))
                     },
                     trailingContent = {
                         Switch(
@@ -1319,7 +1320,7 @@ fun SettingsScreen(
                     headlineContent = { Text(stringResource(R.string.settings_csv_separator)) },
                     supportingContent = { Text(stringResource(R.string.settings_csv_current, csvSeparator)) },
                     leadingContent = {
-                        Icon(Icons.Default.Settings, contentDescription = null)
+                        Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.cd_settings))
                     },
                     modifier = Modifier.clickable { showCsvDialog = true }
                 )
@@ -1333,7 +1334,7 @@ fun SettingsScreen(
                     headlineContent = { Text(stringResource(R.string.no_ads)) },
                     supportingContent = { Text(stringResource(R.string.settings_no_ads_desc)) },
                     leadingContent = {
-                        Icon(Icons.Default.Block, contentDescription = null)
+                        Icon(Icons.Default.Block, contentDescription = stringResource(R.string.cd_block))
                     }
                 )
 
@@ -1341,7 +1342,7 @@ fun SettingsScreen(
                     headlineContent = { Text(stringResource(R.string.no_tracking)) },
                     supportingContent = { Text(stringResource(R.string.settings_no_tracking_desc)) },
                     leadingContent = {
-                        Icon(Icons.Default.PrivacyTip, contentDescription = null)
+                        Icon(Icons.Default.PrivacyTip, contentDescription = stringResource(R.string.cd_privacy))
                     }
                 )
 
@@ -1349,7 +1350,7 @@ fun SettingsScreen(
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.settings_crash_logs_title)) },
                     supportingContent = { Text(stringResource(R.string.settings_crash_logs_desc)) },
-                    leadingContent = { Icon(Icons.Default.BugReport, contentDescription = null) },
+                    leadingContent = { Icon(Icons.Default.BugReport, contentDescription = stringResource(R.string.cd_bug_report)) },
                     trailingContent = {
                         Switch(
                             checked = crashLogsEnabled,
@@ -1506,7 +1507,7 @@ fun SettingsScreen(
                     headlineContent = { Text(stringResource(R.string.version)) },
                     supportingContent = { Text(versionDisplay) },
                     leadingContent = {
-                        Icon(Icons.Default.Info, contentDescription = null)
+                        Icon(Icons.Default.Info, contentDescription = stringResource(R.string.cd_info))
                     }
                 )
             }

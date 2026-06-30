@@ -24,9 +24,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.forestry.counter.R
 
 data class TigeSylvicultureData(
     val classeKraft: Int?,
@@ -63,8 +65,8 @@ fun TigeSylvicultureDialog(
         onDismissRequest = onDismiss,
         title = {
             Column {
-                Text("Sylviculture avancée", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                Text("${essenceCode} — ⌀ ${diamCm} cm", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(R.string.tigesyl_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.tigesyl_essence_diam_format, essenceCode, diamCm), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         },
         text = {
@@ -75,7 +77,7 @@ fun TigeSylvicultureDialog(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 // Classe de Kraft
-                SectionLabel("Classe de Kraft (dominance)")
+                SectionLabel(stringResource(R.string.tigesyl_kraft_class))
                 KraftSelector(
                     selected = selectedKraft,
                     onSelect = { selectedKraft = it }
@@ -84,9 +86,9 @@ fun TigeSylvicultureDialog(
                 Divider(modifier = Modifier.padding(vertical = 4.dp))
 
                 // État sanitaire
-                SectionLabel("État sanitaire")
+                SectionLabel(stringResource(R.string.tigesyl_health_state))
                 RadioGroup(
-                    options = listOf("SAIN" to "Sain", "MOYEN" to "Moyen", "MAUVAIS" to "Mauvais", "MORT" to "Mort"),
+                    options = listOf("SAIN" to stringResource(R.string.tigesyl_health_sain), "MOYEN" to stringResource(R.string.tigesyl_health_moyen), "MAUVAIS" to stringResource(R.string.tigesyl_health_mauvais), "MORT" to stringResource(R.string.tigesyl_health_mort)),
                     selected = selectedSanitaire,
                     onSelect = { selectedSanitaire = it }
                 )
@@ -94,9 +96,9 @@ fun TigeSylvicultureDialog(
                 Divider(modifier = Modifier.padding(vertical = 4.dp))
 
                 // Vigueur
-                SectionLabel("Vigueur")
+                SectionLabel(stringResource(R.string.tigesyl_vigor))
                 RadioGroup(
-                    options = listOf("FORTE" to "Forte", "MOYENNE" to "Moyenne", "FAIBLE" to "Faible"),
+                    options = listOf("FORTE" to stringResource(R.string.tigesyl_vigor_forte), "MOYENNE" to stringResource(R.string.tigesyl_vigor_moyenne), "FAIBLE" to stringResource(R.string.tigesyl_vigor_faible)),
                     selected = selectedVigueur,
                     onSelect = { selectedVigueur = it }
                 )
@@ -104,13 +106,13 @@ fun TigeSylvicultureDialog(
                 Divider(modifier = Modifier.padding(vertical = 4.dp))
 
                 // Origine
-                SectionLabel("Origine")
+                SectionLabel(stringResource(R.string.tigesyl_origin))
                 RadioGroup(
                     options = listOf(
-                        "FRANC_PIED" to "Franc pied",
-                        "TAILLIS" to "Taillis",
-                        "PLANTATION" to "Plantation",
-                        "NATUREL" to "Régénération naturelle"
+                        "FRANC_PIED" to stringResource(R.string.tigesyl_origin_franc_pied),
+                        "TAILLIS" to stringResource(R.string.tigesyl_origin_taillis),
+                        "PLANTATION" to stringResource(R.string.tigesyl_origin_plantation),
+                        "NATUREL" to stringResource(R.string.tigesyl_origin_natural)
                     ),
                     selected = selectedOrigine,
                     onSelect = { selectedOrigine = it }
@@ -119,9 +121,9 @@ fun TigeSylvicultureDialog(
                 Divider(modifier = Modifier.padding(vertical = 4.dp))
 
                 // Arbre habitat
-                SectionLabel("Arbre habitat (TreM)")
+                SectionLabel(stringResource(R.string.tigesyl_habitat_tree))
                 RadioGroup(
-                    options = listOf("OUI" to "Oui — potentiel TreM", "NON" to "Non"),
+                    options = listOf("OUI" to stringResource(R.string.tigesyl_habitat_yes), "NON" to stringResource(R.string.tigesyl_habitat_no)),
                     selected = if (isHabitat) "OUI" else "NON",
                     onSelect = { isHabitat = it == "OUI" }
                 )
@@ -136,10 +138,10 @@ fun TigeSylvicultureDialog(
                     origine = selectedOrigine,
                     isTigeHabitat = isHabitat
                 ))
-            }) { Text("Valider") }
+            }) { Text(stringResource(R.string.tigesyl_validate)) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Annuler") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.tigesyl_cancel)) }
         }
     )
 }
@@ -150,11 +152,11 @@ fun TigeSylvicultureDialog(
 @Composable
 private fun KraftSelector(selected: Int?, onSelect: (Int) -> Unit) {
     val kraftLabels = listOf(
-        1 to "1 — Élite / Co-dominant dominant",
-        2 to "2 — Co-dominant",
-        3 to "3 — Dominé",
-        4 to "4 — Supprimé",
-        5 to "5 — Dépérissant/mort"
+        1 to stringResource(R.string.tigesyl_kraft_1),
+        2 to stringResource(R.string.tigesyl_kraft_2),
+        3 to stringResource(R.string.tigesyl_kraft_3),
+        4 to stringResource(R.string.tigesyl_kraft_4),
+        5 to stringResource(R.string.tigesyl_kraft_5)
     )
     Column(Modifier.selectableGroup()) {
         kraftLabels.forEach { (k, label) ->

@@ -14,9 +14,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.forestry.counter.R
 import com.forestry.counter.domain.usecase.confidence.ConfidenceEngine
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -123,7 +125,7 @@ fun ConfidenceCard(
                     // Points forts
                     if (report.pointsForts.isNotEmpty()) {
                         ConfidenceSection(
-                            title = "Points forts (${report.pointsForts.size})",
+                            title = stringResource(R.string.conf_points_forts, report.pointsForts.size),
                             icon = Icons.Default.CheckCircle,
                             iconColor = Color(0xFF2E7D32),
                             items = report.pointsForts
@@ -133,7 +135,7 @@ fun ConfidenceCard(
                     // Points faibles
                     if (report.pointsFaibles.isNotEmpty()) {
                         ConfidenceSection(
-                            title = "Limites (${report.pointsFaibles.size})",
+                            title = stringResource(R.string.conf_limites, report.pointsFaibles.size),
                             icon = Icons.Default.Warning,
                             iconColor = Color(0xFFF9A825),
                             items = report.pointsFaibles
@@ -143,7 +145,7 @@ fun ConfidenceCard(
                     // Contradictions
                     if (report.contradictions.isNotEmpty()) {
                         ConfidenceSection(
-                            title = "Contradictions (${report.contradictions.size})",
+                            title = stringResource(R.string.conf_contradictions, report.contradictions.size),
                             icon = Icons.Default.SyncProblem,
                             iconColor = Color(0xFFC62828),
                             items = report.contradictions,

@@ -30,6 +30,13 @@ class OfflineTileManager(private val context: Context) {
         private const val READ_TIMEOUT_MS = 15_000
         /** Limite raisonnable pour éviter des téléchargements trop longs */
         private const val MAX_TILES_PER_DOWNLOAD = 6_000
+        /**
+         * User-Agent conforme à la politique OSM Tile Usage :
+         * https://operations.osmfoundation.org/policies/tiles/
+         * Doit identifier l'application + fournir un moyen de contact.
+         */
+        private const val USER_AGENT =
+            "GeoSylva/2.3.0 (+https://geosylva.fr; contact: contact@geosylva.fr)"
     }
 
     data class DownloadProgress(
@@ -111,7 +118,7 @@ class OfflineTileManager(private val context: Context) {
             val conn = URL(url).openConnection() as HttpURLConnection
             conn.connectTimeout = CONNECT_TIMEOUT_MS
             conn.readTimeout = READ_TIMEOUT_MS
-            conn.setRequestProperty("User-Agent", "GeoSylva/1.0 Android")
+            conn.setRequestProperty("User-Agent", USER_AGENT)
             conn.instanceFollowRedirects = true
 
             if (conn.responseCode == HttpURLConnection.HTTP_OK) {
@@ -251,7 +258,7 @@ class OfflineTileManager(private val context: Context) {
 
         for (i in 0 until layerCount) {
             if (i > 0) sources.append(",")
-            sources.append(""""layer$i":{"type":"raster","tiles":["file://$root/layer$i/{z}/{x}/{y}.png"],"tileSize":256,"maxzoom":17}""")
+            sources.append(""""layer$i":{"type":"raster","tiles":["file://$root/layer$i/{z}/{x}/{y}.png"],"tileSize":256,"maxzoom":17,"attribution":"Tuiles mises en cache depuis leur source d'origine (IGN Géoportail / OpenStreetMap / etc.) — voir licences respectives"}""")
 
             if (i > 0) layers.append(",")
             if (i == 0) {

@@ -11,7 +11,7 @@ class SoundFeedback {
     fun click() {
         try {
             toneGen.startTone(ToneGenerator.TONE_PROP_BEEP, 80)
-        } catch (_: Exception) {}
+        } catch (e: Exception) { android.util.Log.w("SoundFeedback", "Tone generation failed", e) }
     }
 }
 

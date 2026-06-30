@@ -7,6 +7,8 @@ import com.forestry.counter.domain.calculation.tarifs.DecoupeCalculator
 import com.forestry.counter.domain.calculation.quality.DefaultProductPrices
 import com.forestry.counter.domain.calculation.quality.ProductClassifier
 import com.forestry.counter.domain.calculation.quality.WoodQualityGrade
+import com.forestry.counter.domain.calculation.pricing.ProPricingEngine
+import com.forestry.counter.domain.calculation.pricing.SalePosition
 import com.forestry.counter.domain.model.Tige
 import com.forestry.counter.domain.parameters.ParameterKeys
 import com.forestry.counter.domain.repository.ParameterRepository
@@ -729,47 +731,19 @@ class ForestryCalculator(
     }
 
     private fun priceFor(essence: String, product: String, diamClass: Int, prices: List<PriceEntry>, qualityCode: String? = null): Double? {
-        val codes = essenceCodeCandidates(essence)
-        val p = product.trim()
-
-        fun matchesQuality(entry: PriceEntry): Boolean {
-            val eq = entry.quality?.trim()?.uppercase()
-            if (eq.isNullOrEmpty() || eq == "*") return true
-            return eq.equals(qualityCode, ignoreCase = true)
-        }
-
-        // Try quality-specific first, then fallback to quality-agnostic
-        for (qualityPass in listOf(true, false)) {
-            for (c in codes) {
-                val exact = prices.firstOrNull {
-                    it.essence.trim().equals(c, true) && it.product.trim().equals(p, true) &&
-                    diamClass >= it.min && diamClass <= it.max &&
-                    if (qualityPass) (it.quality != null && matchesQuality(it)) else (it.quality == null)
-                }?.eurPerM3
-                if (exact != null) return exact
-
-                val productWildcard = prices.firstOrNull {
-                    it.essence.trim().equals(c, true) && it.product.trim() == "*" &&
-                    diamClass >= it.min && diamClass <= it.max &&
-                    if (qualityPass) (it.quality != null && matchesQuality(it)) else (it.quality == null)
-                }?.eurPerM3
-                if (productWildcard != null) return productWildcard
-            }
-
-            val essenceWildcard = prices.firstOrNull {
-                it.essence.trim() == "*" && it.product.trim().equals(p, true) &&
-                diamClass >= it.min && diamClass <= it.max &&
-                if (qualityPass) (it.quality != null && matchesQuality(it)) else (it.quality == null)
-            }?.eurPerM3
-            if (essenceWildcard != null) return essenceWildcard
-
-            val fullWildcard = prices.firstOrNull {
-                it.essence.trim() == "*" && it.product.trim() == "*" &&
-                diamClass >= it.min && diamClass <= it.max &&
-                if (qualityPass) (it.quality != null && matchesQuality(it)) else (it.quality == null)
-            }?.eurPerM3
-            if (fullWildcard != null) return fullWildcard
-        }
-        return null
+        // C-PRIX-PRO : Utilisation du moteur de calcul professionnel (8 coefficients).
+        // Le moteur cherche le prix de référence dans PriceEntry (en résolvant les alias d'essence),
+        // applique le coefficient qualité (NF EN 1316/1927), puis les autres coefficients.
+        // Retourne null si aucun prix PriceEntry trouvé (pour préserver le fallback ForestryCalculator).
+        val candidates = essenceCodeCandidates(essence)
+        return ProPricingEngine.calculateFromEntryOnly(
+            essenceCode = essence,
+            product = product,
+            diamCm = diamClass,
+            qualityGrade = qualityCode,
+            prices = prices,
+            position = SalePosition.SUR_PIED,
+            essenceCandidates = candidates
+        )
     }
 }

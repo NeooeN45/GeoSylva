@@ -36,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import android.annotation.SuppressLint
@@ -140,7 +141,7 @@ fun IbpEvaluationScreen(
             val loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 ?: lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
             if (loc != null) { gpsLat = loc.latitude; gpsLon = loc.longitude }
-        } catch (_: Exception) {}
+        } catch (e: Exception) { android.util.Log.w("IbpEval", "GPS capture failed", e) }
     }
 
     LaunchedEffect(Unit) { captureGps() }
@@ -149,6 +150,7 @@ fun IbpEvaluationScreen(
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showUnsavedDialog by remember { mutableStateOf(false) }
     var showDatePicker by remember { mutableStateOf(false) }
+    var showOverflowMenu by remember { mutableStateOf(false) }
 
     val ibpOnboardingSeen by remember(userPreferences) {
         userPreferences?.ibpOnboardingSeen ?: kotlinx.coroutines.flow.flowOf(true)
@@ -239,25 +241,37 @@ fun IbpEvaluationScreen(
                 },
                 actions = {
                     IconButton(onClick = { onNavigateToReference?.invoke() }) {
-                        Icon(Icons.Default.MenuBook, contentDescription = "Guide IBP")
-                    }
-                    if (answers.isComplete) {
-                        IconButton(onClick = { showResultDialog = true }) {
-                            Icon(Icons.Default.Assessment, contentDescription = stringResource(R.string.ibp_result))
-                        }
-                    }
-                    IconButton(onClick = {
-                        val dateStr = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(observationDate))
-                        exportPdfLauncher.launch("IBP_${dateStr}.pdf")
-                    }) {
-                        Icon(Icons.Default.PictureAsPdf, contentDescription = stringResource(R.string.ibp_export_pdf))
+                        Icon(Icons.Default.MenuBook, contentDescription = stringResource(R.string.cd_guide))
                     }
                     IconButton(onClick = { saveEvaluation() }) {
-                        Icon(Icons.Default.Save, contentDescription = stringResource(R.string.save))
+                        Icon(Icons.Default.Save, contentDescription = stringResource(R.string.cd_save))
                     }
                     if (evaluationId != null) {
                         IconButton(onClick = { showDeleteDialog = true }) {
-                            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.ibp_delete), tint = MaterialTheme.colorScheme.error)
+                            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.cd_delete), tint = MaterialTheme.colorScheme.error)
+                        }
+                    }
+                    Box {
+                        IconButton(onClick = { showOverflowMenu = true }) {
+                            Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.cd_more))
+                        }
+                        DropdownMenu(expanded = showOverflowMenu, onDismissRequest = { showOverflowMenu = false }) {
+                            if (answers.isComplete) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.ibp_result)) },
+                                    leadingIcon = { Icon(Icons.Default.Assessment, contentDescription = "Résultat IBP") },
+                                    onClick = { showOverflowMenu = false; showResultDialog = true }
+                                )
+                            }
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.ibp_export_pdf)) },
+                                leadingIcon = { Icon(Icons.Default.PictureAsPdf, contentDescription = "Exporter en PDF") },
+                                onClick = {
+                                    showOverflowMenu = false
+                                    val dateStr = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(observationDate))
+                                    exportPdfLauncher.launch("IBP_${dateStr}.pdf")
+                                }
+                            )
                         }
                     }
                 },
@@ -527,7 +541,7 @@ private fun IbpScoreHeader(
                             color = levelColor,
                             modifier = Modifier.alignByBaseline()
                         )
-                        Text(" / 50", style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.alignByBaseline())
+                        Text(stringResource(R.string.ibpeval_over_50), style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.alignByBaseline())
                     }
                 }
                 Column(horizontalAlignment = Alignment.End) {
@@ -562,7 +576,7 @@ private fun ScorePill(label: String, score: Int, max: Int, color: Color) {
         Row(modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
             Box(Modifier.size(10.dp).clip(CircleShape).background(color))
             Spacer(Modifier.width(6.dp))
-            Text("$label : ${if (score >= 0) "$score" else "—"} / $max", style = MaterialTheme.typography.labelLarge, color = color, fontWeight = FontWeight.SemiBold)
+            Text("$label : ${if (score >= 0) "$score" else "—"} / $max", style = MaterialTheme.typography.labelLarge, color = color, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
     }
 }
@@ -647,7 +661,7 @@ private fun IbpMetaSection(
                 singleLine = true,
                 leadingIcon = { Icon(Icons.Default.Person, contentDescription = null, modifier = Modifier.size(18.dp)) }
             )
-            Box(modifier = Modifier.width(140.dp).clickable { onDateClick() }) {
+            Box(modifier = Modifier.weight(1f).clickable { onDateClick() }) {
                 OutlinedTextField(
                     value = dateStr,
                     onValueChange = {},
@@ -757,8 +771,8 @@ private fun IbpCriterionCard(
                 }
                 Spacer(Modifier.width(10.dp))
                 Column(Modifier.weight(1f)) {
-                    Text(ibpCriterionTitle(criterionId), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-                    Text(ibpCriterionSubtitle(criterionId), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(ibpCriterionTitle(criterionId), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(ibpCriterionSubtitle(criterionId), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
                 if (isAnswered) {
                     Surface(color = badgeColor, shape = CircleShape, modifier = Modifier.size(28.dp)) {
@@ -768,10 +782,10 @@ private fun IbpCriterionCard(
                     }
                     Spacer(Modifier.width(4.dp))
                 }
-                IconButton(onClick = { detailsExpanded = !detailsExpanded }, modifier = Modifier.size(32.dp)) {
+                IconButton(onClick = { detailsExpanded = !detailsExpanded }, modifier = Modifier.size(48.dp)) {
                     Icon(
                         if (detailsExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                        contentDescription = null, modifier = Modifier.size(20.dp),
+                        contentDescription = if (detailsExpanded) stringResource(R.string.cd_collapse) else stringResource(R.string.cd_expand), modifier = Modifier.size(20.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
@@ -896,7 +910,7 @@ private fun IbpSpeciesPanel(
             ) {
                 Checkbox(checked = checked, onCheckedChange = null, modifier = Modifier.size(24.dp))
                 Spacer(Modifier.width(6.dp))
-                Text(species, style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f))
+                Text(species, style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }
         if (selected.isNotEmpty()) {
@@ -935,7 +949,7 @@ private fun IbpChecklistPanel(
             ) {
                 Checkbox(checked = checked, onCheckedChange = null, modifier = Modifier.size(24.dp))
                 Spacer(Modifier.width(6.dp))
-                Text(item, style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f))
+                Text(item, style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }
         if (selected.isNotEmpty()) {
@@ -1028,7 +1042,9 @@ private fun IbpOptionRow(score: Int, label: String, selected: Boolean, onSelect:
             label,
             style = MaterialTheme.typography.bodySmall,
             color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
         if (selected) {
             Icon(Icons.Default.CheckCircle, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(16.dp))
@@ -1082,7 +1098,7 @@ private fun IbpResultCard(level: IbpLevel, scoreTotal: Int, scoreA: Int, scoreB:
                             Text("${cid.code} $sc/5", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, color = ibpLevelColor(IbpLevel.fromScore(sc)), modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
                         }
                         Spacer(Modifier.width(6.dp))
-                        Text(ibpCriterionTip(cid), style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f))
+                        Text(ibpCriterionTip(cid), style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f), maxLines = 2, overflow = TextOverflow.Ellipsis)
                     }
                 }
             }
@@ -1265,7 +1281,7 @@ fun IbpMartelageCard(
                 }
                 if (evaluationCount >= 2 && onNavigateToHistory != null && parcelleId != null) {
                     TextButton(onClick = { onNavigateToHistory(parcelleId, placetteId) }) {
-                        Icon(Icons.Default.History, contentDescription = null, modifier = Modifier.size(14.dp))
+                        Icon(Icons.Default.History, contentDescription = "Historique", modifier = Modifier.size(14.dp))
                         Spacer(Modifier.width(4.dp))
                         Text(stringResource(R.string.ibp_history_title), style = MaterialTheme.typography.labelSmall)
                     }
@@ -1341,21 +1357,24 @@ fun IbpContextVsPeuplementChart(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("IBP Contexte vs Peuplement & Gestion",
-                style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.ibpeval_context_vs_peuplement),
+                style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold,
+                maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.padding(bottom = 8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(Modifier.size(10.dp).clip(CircleShape).background(colorA))
                 Spacer(Modifier.width(4.dp))
-                Text("Peuplement A–G : ${if (scoreA >= 0) "$scoreA/35" else "—"}",
-                    style = MaterialTheme.typography.labelSmall, color = colorA)
+                Text(stringResource(R.string.ibpeval_peuplement_ag, if (scoreA >= 0) "$scoreA/35" else "—"),
+                    style = MaterialTheme.typography.labelSmall, color = colorA,
+                    maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(Modifier.size(10.dp).clip(CircleShape).background(colorB))
                 Spacer(Modifier.width(4.dp))
-                Text("Contexte H–J : ${if (scoreB >= 0) "$scoreB/15" else "—"}",
-                    style = MaterialTheme.typography.labelSmall, color = colorB)
+                Text(stringResource(R.string.ibpeval_contexte_hj, if (scoreB >= 0) "$scoreB/15" else "—"),
+                    style = MaterialTheme.typography.labelSmall, color = colorB,
+                    maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }
 
@@ -1423,8 +1442,9 @@ fun IbpContextVsPeuplementChart(
             }
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            Text("← Peuplement et Gestion (A–G) / 35 →",
-                style = MaterialTheme.typography.labelSmall, color = colorA)
+            Text(stringResource(R.string.ibpeval_peuplement_axis),
+                style = MaterialTheme.typography.labelSmall, color = colorA,
+                maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
     }
 }
@@ -1526,7 +1546,7 @@ private fun IbpModeSelectorRow(
                     label = { Text(modeLabels[mode] ?: mode.name, style = MaterialTheme.typography.labelSmall) },
                     leadingIcon = {
                         modeIcons[mode]?.let { iv ->
-                            Icon(iv, contentDescription = null, modifier = Modifier.size(16.dp))
+                            Icon(iv, contentDescription = stringResource(R.string.cd_filter), modifier = Modifier.size(16.dp))
                         }
                     }
                 )
@@ -1566,15 +1586,15 @@ private fun IbpBigTreeCountPanel(
     onGbChange: (Float) -> Unit
 ) {
     val autoScore = IbpCriterionData.scoreEFromCounts(tgbValue, gbValue, conditions)
-    val tgbLabel = if (conditions == IbpGrowthConditions.SUBALPINE) "TGB (∅>47.5 cm) /ha" else "TGB (∅>67.5 cm) /ha"
-    val gbLabel  = if (conditions == IbpGrowthConditions.SUBALPINE) "GB (∅ 27.5–47.5 cm) /ha" else "GB (∅ 47.5–67.5 cm) /ha"
+    val tgbLabel = if (conditions == IbpGrowthConditions.SUBALPINE) stringResource(R.string.ibpeval_tgb_subalpine) else stringResource(R.string.ibpeval_tgb_default)
+    val gbLabel  = if (conditions == IbpGrowthConditions.SUBALPINE) stringResource(R.string.ibpeval_gb_subalpine) else stringResource(R.string.ibpeval_gb_default)
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        Text("Comptage terrain – arbres vivants (arbres/ha)", style = MaterialTheme.typography.labelMedium,
+        Text(stringResource(R.string.ibpeval_big_tree_count_title), style = MaterialTheme.typography.labelMedium,
             fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.primary)
-        IbpCountField(label = tgbLabel, hint = "ex: 5.0", value = tgbValue, onChange = onTgbChange,
-            badge = if (tgbValue >= 5f) "→ 5 pts" else if (tgbValue >= 1f) "→ 2 pts" else null)
-        IbpCountField(label = gbLabel, hint = "ex: 2.0", value = gbValue, onChange = onGbChange,
-            badge = if (tgbValue < 1f && gbValue >= 1f) "→ 2 pts" else null)
+        IbpCountField(label = tgbLabel, hint = stringResource(R.string.ibpeval_hint_example), value = tgbValue, onChange = onTgbChange,
+            badge = if (tgbValue >= 5f) stringResource(R.string.ibpeval_badge_5_pts) else if (tgbValue >= 1f) stringResource(R.string.ibpeval_badge_2_pts) else null)
+        IbpCountField(label = gbLabel, hint = stringResource(R.string.ibpeval_hint_example), value = gbValue, onChange = onGbChange,
+            badge = if (tgbValue < 1f && gbValue >= 1f) stringResource(R.string.ibpeval_badge_2_pts) else null)
         IbpAutoScoreBadge(autoScore)
     }
 }
@@ -1590,11 +1610,11 @@ private fun IbpDmhActivePanel(
     val autoScore = IbpCriterionData.scoreFFromCounts(dmhCount)
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         IbpCountField(
-            label = "Arbres porteurs de ≥1 dmh (arbres/ha)",
-            hint = "ex: 5.0",
+            label = stringResource(R.string.ibpeval_dmh_count_label),
+            hint = stringResource(R.string.ibpeval_hint_example),
             value = dmhCount,
             onChange = onDmhCountChange,
-            badge = if (dmhCount >= 5f) "→ 5 pts" else if (dmhCount >= 2f) "→ 2 pts" else "→ 0 pt"
+            badge = if (dmhCount >= 5f) stringResource(R.string.ibpeval_badge_5_pts) else if (dmhCount >= 2f) stringResource(R.string.ibpeval_badge_2_pts) else stringResource(R.string.ibpeval_badge_0_pt)
         )
         IbpAutoScoreBadge(autoScore)
         HorizontalDivider()
@@ -1639,17 +1659,19 @@ private fun IbpOpenHabitatPanel(pct: Float, onPctChange: (Float) -> Unit) {
             }
         }
         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            val zones = listOf("0%" to Color(0xFFC62828), "<1% ou >5%" to Color(0xFFE65100), "1–5%" to Color(0xFF2E7D32))
+            val zones = listOf(stringResource(R.string.ibpeval_zone_0) to Color(0xFFC62828), stringResource(R.string.ibpeval_zone_low) to Color(0xFFE65100), stringResource(R.string.ibpeval_zone_optimal) to Color(0xFF2E7D32))
             zones.forEach { (label, color) ->
                 Surface(color = color.copy(alpha = .12f), shape = RoundedCornerShape(12.dp)) {
                     Text(label, style = MaterialTheme.typography.labelSmall, color = color,
-                        fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp))
+                        fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                        maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
             }
         }
         IbpAutoScoreBadge(autoScore)
-        Text("Seuil optimal : 1–5 % → 5 pts | >0 % → 2 pts | 0 % → 0 pt",
-            style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(stringResource(R.string.ibpeval_open_habitat_threshold),
+            style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 2, overflow = TextOverflow.Ellipsis)
     }
 }
 

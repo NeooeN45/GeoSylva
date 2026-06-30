@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.luminance
 import java.util.Locale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
@@ -179,7 +180,7 @@ fun CounterSettingsSheet(
                                 .setBlurAutoUpdate(true)
                                 .setOverlayColor(sheetOverlay)
                         }
-                    } catch (_: Throwable) {}
+                    } catch (e: Throwable) { android.util.Log.w("GroupScreen", "BlurView setup failed", e) }
                     blurView
                 }
             )
@@ -204,9 +205,9 @@ fun CounterSettingsSheet(
                 OutlinedButton(onClick = onIncrement, enabled = !counter.isComputed) { Text(stringResource(R.string.symbol_plus)) }
             }
 
-            TextField(value = name, onValueChange = { name = it }, label = { Text(stringResource(R.string.name)) })
+            TextField(value = name, onValueChange = { name = it }, label = { Text(stringResource(R.string.name)) }, singleLine = true)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                TextField(value = colorHex, onValueChange = { colorHex = it }, label = { Text(stringResource(R.string.color_hex_label)) }, modifier = Modifier.weight(1f))
+                TextField(value = colorHex, onValueChange = { colorHex = it }, label = { Text(stringResource(R.string.color_hex_label)) }, singleLine = true, modifier = Modifier.weight(1f))
                 var showColorPicker by remember { mutableStateOf(false) }
                 Button(onClick = { showColorPicker = true }) { Text(stringResource(R.string.palette)) }
                 if (showColorPicker) {
@@ -303,7 +304,7 @@ fun CounterSettingsSheet(
                 val autoSelected = colorHex.isBlank()
                 Surface(
                     modifier = Modifier
-                        .size(34.dp)
+                        .size(48.dp)
                         .clickable { colorHex = "" },
                     color = MaterialTheme.colorScheme.surface,
                     shape = CircleShape,
@@ -325,7 +326,7 @@ fun CounterSettingsSheet(
                     val selected = colorHex.equals(hex, ignoreCase = true)
                     Surface(
                         modifier = Modifier
-                            .size(34.dp)
+                            .size(48.dp)
                             .clickable { colorHex = hex },
                         color = col,
                         shape = CircleShape,
@@ -403,7 +404,8 @@ fun CounterSettingsSheet(
                 TextField(
                     value = expression,
                     onValueChange = { expression = it },
-                    label = { Text(stringResource(R.string.expression)) }
+                    label = { Text(stringResource(R.string.expression)) },
+                    singleLine = true
                 )
             }
 
@@ -466,7 +468,7 @@ fun CounterSettingsSheet(
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
                 elevation = ButtonDefaults.buttonElevation(defaultElevation = 6.dp, pressedElevation = 10.dp)
             ) {
-                Icon(Icons.Default.DeleteForever, contentDescription = null)
+                Icon(Icons.Default.DeleteForever, contentDescription = stringResource(R.string.cd_delete))
                 Spacer(Modifier.width(8.dp))
                 Text(stringResource(R.string.delete_counter), fontWeight = FontWeight.SemiBold)
             }
@@ -519,7 +521,7 @@ fun CounterSettingsSheet(
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp, pressedElevation = 12.dp)
                 ) {
-                    Icon(Icons.Default.Save, contentDescription = null)
+                    Icon(Icons.Default.Save, contentDescription = stringResource(R.string.cd_save))
                     Spacer(Modifier.width(8.dp))
                     Text(stringResource(R.string.save_and_apply), fontWeight = FontWeight.Bold)
                 }
@@ -675,12 +677,12 @@ fun CounterSettingsSheet(
                                     .setBlurAutoUpdate(true)
                                     .setOverlayColor(topOverlay)
                             }
-                        } catch (_: Throwable) {}
+                        } catch (e: Throwable) { android.util.Log.w("GroupScreen", "BlurView setup failed", e) }
                         blurView
                     })
                 }
                 TopAppBar(
-                    title = { Text(group?.name ?: stringResource(R.string.group)) },
+                    title = { Text(group?.name ?: stringResource(R.string.group), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                     navigationIcon = {
                         IconButton(onClick = onNavigateBack) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
@@ -909,7 +911,7 @@ fun CountersGrid(
     animDurationShort: Int
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 120.dp),
+        columns = GridCells.Adaptive(minSize = 160.dp),
         contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -977,7 +979,7 @@ fun CounterCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(cardHeight)
+            .heightIn(min = cardHeight)
             .graphicsLayer {
                 rotationX = if (animationsEnabled) (if (isPressed) tiltDeg else 0f) else 0f
                 rotationY = if (animationsEnabled) (if (isPressed) -tiltDeg else 0f) else 0f
@@ -1026,7 +1028,7 @@ fun CounterCard(
                                     .setBlurAutoUpdate(true)
                                     .setOverlayColor(baseBg.copy(alpha = blurOverlayAlpha).toArgb())
                             }
-                        } catch (_: Throwable) {}
+                        } catch (e: Throwable) { android.util.Log.w("GroupScreen", "BlurView setup failed", e) }
                         blurView
                     }
                 )

@@ -164,7 +164,7 @@ object SrtmElevationService {
             }
             obj.put(key, entry)
             file.writeText(obj.toString())
-        } catch (_: Exception) {}
+        } catch (e: Exception) { android.util.Log.w("SrtmElevation", "Cache write failed", e) }
     }
 
     /**

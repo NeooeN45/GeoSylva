@@ -14,6 +14,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import org.json.JSONArray
 import org.json.JSONObject
+import com.forestry.counter.domain.calculation.pricing.GrecoRegion
 import java.net.URL
 import kotlin.coroutines.resume
 import kotlin.math.roundToInt
@@ -27,6 +28,7 @@ data class ParcelleAutoFill(
     val altitudeM: Double?,
     val slopePct: Int?,
     val aspectLabel: String?,
+    val greco: GrecoRegion? = null,
     val errorMessage: String? = null
 )
 
@@ -54,7 +56,11 @@ object ParcelleAutoFillService {
 
         // Obtenir la dernière position connue (rapide, pas de délai)
         val location = withTimeoutOrNull(8_000L) { getLastLocation(context) }
-            ?: return ParcelleAutoFill(null, null, null, null, null, "Impossible d'obtenir la position GPS.")
+            ?: return ParcelleAutoFill(
+                commune = null, codeCommune = null, altitudeM = null,
+                slopePct = null, aspectLabel = null, greco = null,
+                errorMessage = "Impossible d'obtenir la position GPS."
+            )
 
         val lat = location.latitude
         val lon = location.longitude
@@ -105,12 +111,17 @@ object ParcelleAutoFillService {
         // SRTM terrain (altitude ± GPS, pente, exposition)
         val srtm = try { SrtmElevationService.getTerrainData(context, lat, lon) } catch (_: Exception) { null }
         val finalAlt: Double? = srtm?.altitudeM?.toDouble() ?: gpsAltM
+
+        // Détection automatique de la GRECO à partir du code commune
+        val greco = if (!code.isNullOrEmpty()) GrecoDetector.fromCodeCommune(code) else null
+
         return ParcelleAutoFill(
             commune      = commune,
             codeCommune  = code,
             altitudeM    = finalAlt,
             slopePct     = srtm?.slopePct,
             aspectLabel  = srtm?.aspectLabel,
+            greco        = greco,
             errorMessage = error
         )
     }

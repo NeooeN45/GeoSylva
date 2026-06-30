@@ -52,6 +52,7 @@ import com.forestry.counter.domain.repository.TigeRepository
 import com.forestry.counter.data.preferences.UserPreferencesManager
 import com.forestry.counter.presentation.components.AppMiniDialog
 import com.forestry.counter.presentation.components.TipCard
+import com.forestry.counter.presentation.utils.localizeDefaultName
 import com.forestry.counter.presentation.utils.rememberHapticFeedback
 import com.forestry.counter.presentation.utils.rememberSoundFeedback
 import com.forestry.counter.presentation.utils.StaggerEntrance
@@ -628,7 +629,7 @@ private fun ParcelleCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         ListItem(
-            headlineContent = { Text(parcelle.name) },
+            headlineContent = { Text(localizeDefaultName(parcelle.name)) },
             supportingContent = {
                 val surfaceHa = parcelle.surfaceHa
                 if (surfaceHa != null && surfaceHa > 0.0) {
@@ -638,7 +639,7 @@ private fun ParcelleCard(
             trailingContent = {
                 Row {
                     IconButton(onClick = onEdit) {
-                        Icon(Icons.Default.Edit, contentDescription = null)
+                        Icon(Icons.Default.Edit, contentDescription = stringResource(R.string.cd_edit))
                     }
                     IconButton(onClick = onDelete) {
                         Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete_parcelle))
@@ -654,14 +655,14 @@ private fun ParcelleCard(
                             if (onNavigateToIbp != null) {
                                 DropdownMenuItem(
                                     text = { Text(stringResource(R.string.parcelles_menu_ibp_biodiversity)) },
-                                    leadingIcon = { Icon(Icons.Default.EmojiNature, contentDescription = null) },
+                                    leadingIcon = { Icon(Icons.Default.EmojiNature, contentDescription = "IBP Biodiversité") },
                                     onClick = { menuExpanded = false; onNavigateToIbp() }
                                 )
                             }
                             if (onNavigateToDiagnostic != null) {
                                 DropdownMenuItem(
                                     text = { Text(stringResource(R.string.parcelles_menu_sylvicultural_diagnostic)) },
-                                    leadingIcon = { Icon(Icons.Default.Science, contentDescription = null) },
+                                    leadingIcon = { Icon(Icons.Default.Science, contentDescription = "Diagnostic sylvicole") },
                                     onClick = { menuExpanded = false; onNavigateToDiagnostic() }
                                 )
                             }

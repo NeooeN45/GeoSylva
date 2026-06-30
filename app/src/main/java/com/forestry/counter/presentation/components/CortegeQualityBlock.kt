@@ -15,9 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.forestry.counter.R
 import com.forestry.counter.domain.usecase.florist.GradientInferenceEngine
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -73,7 +75,7 @@ fun CortegeQualityBlock(
                         color      = quality.accentColor
                     )
                     Text(
-                        "${gradientResult.nbTaxonsAnalysables} taxon${if (gradientResult.nbTaxonsAnalysables > 1) "s" else ""} analysé${if (gradientResult.nbTaxonsAnalysables > 1) "s" else ""} / ${gradientResult.nbTaxonsTotaux} total",
+                        stringResource(R.string.cortege_taxons_analyzed_format, gradientResult.nbTaxonsAnalysables, gradientResult.nbTaxonsTotaux),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -88,7 +90,7 @@ fun CortegeQualityBlock(
                     modifier              = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text("Crédibilité des gradients",
+                    Text(stringResource(R.string.cortege_credibility_gradients),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Text("${(quality.credibilityScore * 100).toInt()} %",
@@ -116,7 +118,7 @@ fun CortegeQualityBlock(
             if (gradientResult.conflits.isNotEmpty()) {
                 HorizontalDivider(color = quality.accentColor.copy(alpha = 0.15f))
                 Text(
-                    "Conflits détectés",
+                    stringResource(R.string.cortege_conflicts_detected),
                     style      = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     color      = quality.accentColor
@@ -131,7 +133,7 @@ fun CortegeQualityBlock(
                             tint     = quality.accentColor.copy(alpha = 0.7f),
                             modifier = Modifier.size(13.dp).padding(top = 1.dp))
                         Text(
-                            "${conflit.gradient} : ${conflit.espece1} ↔ ${conflit.espece2}",
+                            stringResource(R.string.cortege_conflict_format, conflit.gradient, conflit.espece1, conflit.espece2),
                             style    = MaterialTheme.typography.labelSmall,
                             color    = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.weight(1f)
@@ -146,14 +148,14 @@ fun CortegeQualityBlock(
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     if (gradientResult.especesTirantVersSec.isNotEmpty()) {
                         DirectionChip(
-                            label   = "→ Sec",
+                            label   = stringResource(R.string.cortege_direction_dry),
                             species = gradientResult.especesTirantVersSec,
                             color   = Color(0xFFF57F17)
                         )
                     }
                     if (gradientResult.especesTirantVersFrais.isNotEmpty()) {
                         DirectionChip(
-                            label   = "→ Frais/humide",
+                            label   = stringResource(R.string.cortege_direction_fresh),
                             species = gradientResult.especesTirantVersFrais,
                             color   = Color(0xFF1565C0)
                         )
@@ -247,7 +249,13 @@ private enum class CortegeVerdict { SUFFISANT, PARTIEL, CONTRADICTOIRE, TROP_PAU
 @Composable
 private fun rememberCortegeQuality(
     result: GradientInferenceEngine.GradientResult
-): CortegeQuality = remember(result) {
+): CortegeQuality {
+    val titleSuffisant = stringResource(R.string.cortege_suffisant)
+    val titlePartiel = stringResource(R.string.cortege_partiel)
+    val titleContradictoire = stringResource(R.string.cortege_contradictoire)
+    val titleTropPauvre = stringResource(R.string.cortege_trop_pauvre)
+
+    return remember(result) {
     val verdict = when {
         result.nbTaxonsAnalysables < 3          -> CortegeVerdict.TROP_PAUVRE
         result.conflits.size >= 3               -> CortegeVerdict.CONTRADICTOIRE
@@ -259,7 +267,7 @@ private fun rememberCortegeQuality(
 
     when (verdict) {
         CortegeVerdict.SUFFISANT -> CortegeQuality(
-            title            = "Cortège suffisant",
+            title            = titleSuffisant,
             description      = "Le cortège floristique est riche et cohérent. Les gradients calculés sont fiables pour orienter le diagnostic stationnel.",
             advice           = "Vous pouvez vous appuyer sur ces gradients pour le diagnostic.",
             icon             = Icons.Default.CheckCircle,
@@ -268,7 +276,7 @@ private fun rememberCortegeQuality(
             credibilityScore = minOf(0.95f, 0.60f + result.nbTaxonsAnalysables * 0.04f)
         )
         CortegeVerdict.PARTIEL -> CortegeQuality(
-            title            = "Cortège partiel",
+            title            = titlePartiel,
             description      = "Quelques espèces indicatrices sont présentes mais le cortège reste incomplet. Les gradients sont des tendances à confirmer sur le terrain.",
             advice           = "Enrichir le cortège : chercher des herbacées du sous-bois, mousses, fougères.",
             icon             = Icons.Default.HourglassBottom,
@@ -277,7 +285,7 @@ private fun rememberCortegeQuality(
             credibilityScore = 0.35f + result.nbTaxonsAnalysables * 0.06f
         )
         CortegeVerdict.CONTRADICTOIRE -> CortegeQuality(
-            title            = "Cortège contradictoire",
+            title            = titleContradictoire,
             description      = "Des espèces aux exigences opposées cohabitent. Le gradient calculé est peu fiable — il peut masquer une hétérogénéité spatiale.",
             advice           = "Vérifier la micro-topographie : les espèces contradictoires viennent peut-être de micro-unités différentes.",
             icon             = Icons.Default.SyncProblem,
@@ -286,7 +294,7 @@ private fun rememberCortegeQuality(
             credibilityScore = 0.15f + (result.nbTaxonsAnalysables - result.conflits.size).coerceAtLeast(0) * 0.04f
         )
         CortegeVerdict.TROP_PAUVRE -> CortegeQuality(
-            title            = "Cortège trop pauvre",
+            title            = titleTropPauvre,
             description      = "Moins de 3 taxons analysables — aucune conclusion écologique fiable possible. Les gradients affichés sont purement indicatifs.",
             advice           = "Observer davantage d'espèces avant de conclure. Au moins 5 taxons du sous-bois sont recommandés.",
             icon             = Icons.Default.WarningAmber,
@@ -294,5 +302,6 @@ private fun rememberCortegeQuality(
             backgroundColor  = Color(0xFFF3E5F5),
             credibilityScore = 0.05f + result.nbTaxonsAnalysables * 0.05f
         )
+    }
     }
 }

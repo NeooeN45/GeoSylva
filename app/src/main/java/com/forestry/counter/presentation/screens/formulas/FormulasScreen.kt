@@ -25,6 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.forestry.counter.R
 import com.forestry.counter.data.preferences.UserPreferencesManager
@@ -114,8 +115,8 @@ fun FormulasScreen(
                             modifier = if (animationsEnabled) Modifier.animateItemPlacement() else Modifier
                         ) {
                             ListItem(
-                                headlineContent = { Text(formula.name) },
-                                supportingContent = { Text(formula.expression) },
+                                headlineContent = { Text(formula.name, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                                supportingContent = { Text(formula.expression, maxLines = 2, overflow = TextOverflow.Ellipsis) },
                                 trailingContent = {
                                     IconButton(onClick = {
                                         scope.launch {
@@ -123,7 +124,7 @@ fun FormulasScreen(
                                             evalResult = formulaRepository.evaluateFormula(formula.id)
                                         }
                                     }) {
-                                        Icon(Icons.Filled.Calculate, contentDescription = null)
+                                        Icon(Icons.Filled.Calculate, contentDescription = stringResource(R.string.cd_calculate))
                                     }
                                 },
                                 modifier = Modifier.clickable {
@@ -141,6 +142,8 @@ fun FormulasScreen(
                             ) {
                                 Text(
                                     stringResource(R.string.result_value_format, evalResult ?: 0.0),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
                                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                                 )
                             }

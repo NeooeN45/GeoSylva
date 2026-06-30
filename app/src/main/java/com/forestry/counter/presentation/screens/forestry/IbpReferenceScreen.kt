@@ -17,11 +17,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.forestry.counter.R
 import com.forestry.counter.domain.model.IbpCriterionData
 import com.forestry.counter.domain.model.IbpCriterionId
 import com.forestry.counter.domain.model.IbpMode
@@ -32,10 +35,10 @@ fun IbpReferenceScreen(onNavigateBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Guide IBP Terrain", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.ibpref_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -62,7 +65,7 @@ fun IbpReferenceScreen(onNavigateBack: () -> Unit) {
             // ── Criteria fiches A–J ──────────────────────────────────
             item {
                 Text(
-                    "Fiches critères A–J",
+                    stringResource(R.string.ibpref_criteria_sheets),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.ExtraBold,
                     modifier = Modifier.padding(start = 16.dp, top = 20.dp, bottom = 4.dp)
@@ -90,18 +93,18 @@ private fun IbpReferenceHeader() {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 Icon(Icons.Default.EmojiNature, contentDescription = null, tint = Color.White, modifier = Modifier.size(40.dp))
                 Column {
-                    Text("IBP – Indice de Biodiversité Potentielle",
-                        style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.ExtraBold, color = Color.White)
-                    Text("Méthode CNPF / IDF – Version 3.2",
+                    Text(stringResource(R.string.ibpref_ibp_full),
+                        style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.ExtraBold, color = Color.White,
+                        maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    Text(stringResource(R.string.ibpref_method),
                         style = MaterialTheme.typography.bodySmall, color = Color.White.copy(alpha = .8f))
                 }
             }
             HorizontalDivider(color = Color.White.copy(alpha = .3f))
             Text(
-                "L'IBP évalue la biodiversité potentielle d'un peuplement forestier en notant 10 critères " +
-                "répartis en deux groupes (A–G = Peuplement & Gestion ; H–J = Contexte). " +
-                "Chaque critère vaut 0, 2 ou 5 points. Score total sur 50 points.",
-                style = MaterialTheme.typography.bodySmall, color = Color.White.copy(alpha = .9f)
+                stringResource(R.string.ibpref_intro),
+                style = MaterialTheme.typography.bodySmall, color = Color.White.copy(alpha = .9f),
+                maxLines = 4, overflow = TextOverflow.Ellipsis
             )
         }
     }
@@ -115,27 +118,28 @@ private fun IbpScoringSummaryCard() {
         elevation = CardDefaults.cardElevation(2.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text("Niveaux IBP", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.ibpref_levels), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
             val levels = listOf(
-                "Très faible" to (0 to 9) to Color(0xFFC62828),
-                "Faible" to (10 to 19) to Color(0xFFE65100),
-                "Moyen" to (20 to 29) to Color(0xFFF9A825),
-                "Bon" to (30 to 39) to Color(0xFF2E7D32),
-                "Très bon" to (40 to 50) to Color(0xFF1565C0)
+                stringResource(R.string.ibp_level_very_low) to (0 to 9) to Color(0xFFC62828),
+                stringResource(R.string.ibp_level_low) to (10 to 19) to Color(0xFFE65100),
+                stringResource(R.string.ibp_level_medium) to (20 to 29) to Color(0xFFF9A825),
+                stringResource(R.string.ibp_level_good) to (30 to 39) to Color(0xFF2E7D32),
+                stringResource(R.string.ibp_level_very_good) to (40 to 50) to Color(0xFF1565C0)
             )
             levels.forEach { (labelRange, color) ->
                 val (label, range) = labelRange
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     Box(Modifier.size(14.dp).clip(CircleShape).background(color))
-                    Text("${range.first}–${range.second} pts", style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.SemiBold, color = color, modifier = Modifier.width(80.dp))
+                    Text(stringResource(R.string.ibpref_range_pts, range.first, range.second), style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.SemiBold, color = color, modifier = Modifier.width(80.dp),
+                        maxLines = 1, overflow = TextOverflow.Ellipsis)
                     Text(label, style = MaterialTheme.typography.bodySmall)
                 }
             }
             HorizontalDivider()
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                ScoreGroupChip(label = "Groupe A (Peuplement)", max = 35, color = Color(0xFF2E7D32))
-                ScoreGroupChip(label = "Groupe B (Contexte)", max = 15, color = Color(0xFF1565C0))
+                ScoreGroupChip(label = stringResource(R.string.ibpref_group_a_peuplement), max = 35, color = Color(0xFF2E7D32))
+                ScoreGroupChip(label = stringResource(R.string.ibpref_group_b_contexte), max = 15, color = Color(0xFF1565C0))
             }
         }
     }
@@ -147,7 +151,8 @@ private fun ScoreGroupChip(label: String, max: Int, color: Color) {
         Row(modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
             verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             Box(Modifier.size(8.dp).clip(CircleShape).background(color))
-            Text("$label / $max", style = MaterialTheme.typography.labelSmall, color = color, fontWeight = FontWeight.SemiBold)
+            Text("$label / $max", style = MaterialTheme.typography.labelSmall, color = color, fontWeight = FontWeight.SemiBold,
+                maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
     }
 }
@@ -162,14 +167,14 @@ private fun IbpModesCard() {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Icon(Icons.Default.Tune, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
-                Text("Modes d'évaluation", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.ibpref_modes), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
             }
             val modes = listOf(
-                IbpMode.COMPLET    to ("Complet (A–J)" to "Évaluation complète des 10 critères. Recommandé pour une première visite ou bilan biodiversité."),
-                IbpMode.RAPIDE     to ("Rapide (A,C,E,F,H)" to "5 critères essentiels pour une évaluation terrain rapide en moins de 30 min."),
-                IbpMode.BOIS_MORT  to ("Bois mort (C,D,E)" to "Focus sur les critères de bois mort et gros bois. Idéal après coupe ou inventaire."),
-                IbpMode.CONTEXTE   to ("Contexte (H,I,J)" to "Critères de contexte écologique uniquement. Sur carte/Géoportail possible."),
-                IbpMode.PEUPLEMENT to ("Peuplement (A–G)" to "Groupe A uniquement. Pour évaluation intra-peuplement sans contexte paysager.")
+                IbpMode.COMPLET    to (stringResource(R.string.ibpref_mode_complet_label) to stringResource(R.string.ibpref_mode_complet_desc)),
+                IbpMode.RAPIDE     to (stringResource(R.string.ibpref_mode_rapide_label) to stringResource(R.string.ibpref_mode_rapide_desc)),
+                IbpMode.BOIS_MORT  to (stringResource(R.string.ibpref_mode_bois_mort_label) to stringResource(R.string.ibpref_mode_bois_mort_desc)),
+                IbpMode.CONTEXTE   to (stringResource(R.string.ibpref_mode_contexte_label) to stringResource(R.string.ibpref_mode_contexte_desc)),
+                IbpMode.PEUPLEMENT to (stringResource(R.string.ibpref_mode_peuplement_label) to stringResource(R.string.ibpref_mode_peuplement_desc))
             )
             modes.forEach { (mode, info) ->
                 val (label, desc) = info
@@ -182,8 +187,10 @@ private fun IbpModesCard() {
                             fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp))
                     }
                     Column(Modifier.weight(1f)) {
-                        Text(label, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
-                        Text(desc, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(label, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold,
+                            maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        Text(desc, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 2, overflow = TextOverflow.Ellipsis)
                     }
                 }
             }
@@ -243,7 +250,7 @@ private fun IbpCriterieFiche(cid: IbpCriterionId) {
                     HorizontalDivider(color = groupColor.copy(alpha = .2f))
 
                     // Threshold table
-                    Text("Seuils de notation", style = MaterialTheme.typography.labelMedium,
+                    Text(stringResource(R.string.ibpref_thresholds), style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.SemiBold, color = groupColor)
                     thresholds.forEach { (label, pts) ->
                         val rowColor = when (pts) { 5 -> Color(0xFF2E7D32); 2 -> Color(0xFFF9A825); 1 -> Color(0xFFE65100); else -> Color(0xFFC62828) }
@@ -251,7 +258,7 @@ private fun IbpCriterieFiche(cid: IbpCriterionId) {
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                             Surface(color = rowColor, shape = RoundedCornerShape(6.dp)) {
-                                Text("$pts pts", style = MaterialTheme.typography.labelMedium, color = Color.White,
+                                Text(stringResource(R.string.ibpref_pts, pts), style = MaterialTheme.typography.labelMedium, color = Color.White,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp))
                             }
@@ -262,7 +269,7 @@ private fun IbpCriterieFiche(cid: IbpCriterionId) {
                     HorizontalDivider(color = groupColor.copy(alpha = .1f))
 
                     // Protocol steps
-                    Text("Protocole terrain", style = MaterialTheme.typography.labelMedium,
+                    Text(stringResource(R.string.ibpref_protocol), style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.SemiBold, color = groupColor)
                     protocol.forEachIndexed { idx, step ->
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(vertical = 2.dp)) {
@@ -291,10 +298,10 @@ private fun IbpReferenceFooter() {
     ) {
         HorizontalDivider()
         Spacer(Modifier.height(8.dp))
-        Text("Source : CNPF / IDF – IBP v3.2 (2020)",
+        Text(stringResource(R.string.ibpref_source),
             style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontStyle = FontStyle.Italic)
-        Text("Gurnell et al. (2009) & Larrieu et al. (2012)",
+        Text(stringResource(R.string.ibpref_references),
             style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontStyle = FontStyle.Italic)
     }

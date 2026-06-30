@@ -105,7 +105,7 @@ fun DiagnosticMenuScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Diagnostic sylvicole") },
+                title = { Text(stringResource(R.string.diagmenu_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
@@ -158,7 +158,7 @@ fun DiagnosticMenuScreen(
                             onNavigateToDiagnosticResult(result.diagnosticId)
                         }.onFailure { err ->
                             isRunning = false
-                            snackbar.showSnackbar("Erreur : ${err.message ?: "inconnue"}")
+                            snackbar.showSnackbar(context.getString(R.string.diagmenu_error_format, err.message ?: context.getString(R.string.diagmenu_error_unknown)))
                         }
                     }
                 },
@@ -177,12 +177,12 @@ fun DiagnosticMenuScreen(
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                     Spacer(Modifier.width(12.dp))
-                    Text("Analyse en cours…", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.diagmenu_analysis_in_progress), style = MaterialTheme.typography.labelLarge)
                 } else {
-                    Icon(Icons.Filled.PlayArrow, contentDescription = null)
+                    Icon(Icons.Filled.PlayArrow, contentDescription = stringResource(R.string.cd_play))
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        if (latestDiagnostic == null) "Lancer le diagnostic" else "Relancer l'analyse",
+                        if (latestDiagnostic == null) stringResource(R.string.diagmenu_launch_diagnostic) else stringResource(R.string.diagmenu_relaunch_analysis),
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.Bold
                     )
@@ -229,9 +229,9 @@ private fun ParcelleHeaderCard(
             Column {
                 Text(nomParcelle, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onPrimaryContainer)
                 if (codeSer != null) {
-                    Text("SER $codeSer — ${nomSer ?: ""}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f))
+                    Text(stringResource(R.string.diagmenu_ser_format, codeSer, nomSer ?: ""), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f))
                 } else {
-                    Text("SER non résolue — localisation requise", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.diagmenu_ser_unresolved), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error)
                 }
             }
         }
@@ -242,9 +242,9 @@ private fun ParcelleHeaderCard(
 private fun PrerequisCard(hasStation: Boolean, hasTiges: Boolean) {
     Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp)) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Pré-requis", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-            PrerequisRow("Station environnementale (sol, climat, SER)", hasStation)
-            PrerequisRow("Peuplement (placettes & tiges inventoriées)", hasTiges)
+            Text(stringResource(R.string.diagmenu_prerequisites), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+            PrerequisRow(stringResource(R.string.diagmenu_prereq_station), hasStation)
+            PrerequisRow(stringResource(R.string.diagmenu_prereq_stand), hasTiges)
         }
     }
 }
@@ -279,7 +279,7 @@ private fun LastDiagnosticCard(scoreGlobal: Int?, dateMs: Long, onOpen: () -> Un
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column {
-                Text("Dernier diagnostic", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(R.string.diagmenu_last_diagnostic), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Text(dateStr, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
             }
             if (scoreGlobal != null) {
@@ -311,9 +311,9 @@ private fun AlgoInfoCard() {
         Row(modifier = Modifier.padding(16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Icon(Icons.Filled.Science, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text("Algorithme CNPF déterministe", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.diagmenu_algo_cnpf), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
                 Text(
-                    "Scoring multi-critères : fertilité SER × 40%, adéquation climatique × 20%, sol × 20%, résilience CC2050 × 10%, risques sanitaires × 10%. 20 essences évaluées.",
+                    stringResource(R.string.diagmenu_algo_description),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

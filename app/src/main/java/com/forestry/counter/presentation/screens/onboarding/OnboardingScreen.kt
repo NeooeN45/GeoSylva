@@ -52,6 +52,7 @@ import android.app.Activity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.forestry.counter.R
@@ -359,7 +360,9 @@ fun OnboardingScreen(onComplete: () -> Unit) {
                             text = if (last) stringResource(R.string.onboarding_accept)
                             else stringResource(R.string.onboarding_next),
                             style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
@@ -532,7 +535,7 @@ private fun HeroWelcomeContent(page: OnboardingPage) {
         color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f)
     ) {
         Text(
-            text = "Version 2.1 · Offline-first · CNPF",
+            text = stringResource(R.string.onboarding_version_info),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp)

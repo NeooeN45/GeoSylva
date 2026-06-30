@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.forestry.counter.R
 import com.forestry.counter.data.preferences.UserPreferencesManager
@@ -63,6 +64,7 @@ fun CalculatorScreen(
     val snackbar = remember { SnackbarHostState() }
     var showSaveFormula by remember { mutableStateOf(false) }
     var formulaName by remember { mutableStateOf("") }
+    var showUploadMenu by remember { mutableStateOf(false) }
 
     val animationsEnabled by preferencesManager.animationsEnabled.collectAsStateWithLifecycle(initialValue = true)
     val pressScale by preferencesManager.pressScale.collectAsStateWithLifecycle(initialValue = 0.96f)
@@ -134,14 +136,30 @@ fun CalculatorScreen(
                     IconButton(onClick = { showInsertSheet = true }) {
                         Icon(Icons.Filled.Functions, contentDescription = stringResource(R.string.insert_counter))
                     }
-                    IconButton(onClick = { showSaveFormula = true }) {
-                        Icon(Icons.Filled.Upload, contentDescription = stringResource(R.string.save_as_formula))
-                    }
-                    IconButton(onClick = {
-                        val ts = SimpleDateFormat("yyyyMMdd-HHmm", Locale.getDefault()).format(Date())
-                        exportResultLauncher.launch("calc-result-${ts}.txt")
-                    }) {
-                        Icon(Icons.Filled.Upload, contentDescription = stringResource(R.string.export_result))
+                    Box {
+                        IconButton(onClick = { showUploadMenu = true }) {
+                            Icon(Icons.Filled.Upload, contentDescription = stringResource(R.string.cd_upload))
+                        }
+                        DropdownMenu(
+                            expanded = showUploadMenu,
+                            onDismissRequest = { showUploadMenu = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.save_as_formula)) },
+                                onClick = {
+                                    showUploadMenu = false
+                                    showSaveFormula = true
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.export_result)) },
+                                onClick = {
+                                    showUploadMenu = false
+                                    val ts = SimpleDateFormat("yyyyMMdd-HHmm", Locale.getDefault()).format(Date())
+                                    exportResultLauncher.launch("calc-result-${ts}.txt")
+                                }
+                            )
+                        }
                     }
                 }
             )
@@ -166,16 +184,16 @@ fun CalculatorScreen(
             )
 
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Text(text = stringResource(R.string.unit))
+                Text(text = stringResource(R.string.unit), maxLines = 1, overflow = TextOverflow.Ellipsis)
                 var unitExpanded by remember { mutableStateOf(false) }
-                ExposedDropdownMenuBox(expanded = unitExpanded, onExpandedChange = { unitExpanded = it }) {
+                ExposedDropdownMenuBox(expanded = unitExpanded, onExpandedChange = { unitExpanded = it }, modifier = Modifier.weight(1f)) {
                     OutlinedTextField(
                         value = unit,
                         onValueChange = {},
                         readOnly = true,
                         label = { Text(stringResource(R.string.unit)) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = unitExpanded) },
-                        modifier = Modifier.menuAnchor().width(140.dp)
+                        modifier = Modifier.menuAnchor().fillMaxWidth()
                     )
                     ExposedDropdownMenu(expanded = unitExpanded, onDismissRequest = { unitExpanded = false }) {
                         listOf("-", "m", "m²", "m³", "%", "t/ha").forEach { u ->
@@ -184,7 +202,6 @@ fun CalculatorScreen(
                     }
                 }
 
-                Spacer(Modifier.weight(1f))
                 Button(onClick = {
                     evaluateNow()
                     result?.let { r ->
@@ -224,8 +241,8 @@ fun CalculatorScreen(
             Text(stringResource(R.string.history), style = MaterialTheme.typography.titleSmall)
             history.forEach { (expr, res) ->
                 ListItem(
-                    headlineContent = { Text(expr, maxLines = 2) },
-                    supportingContent = { Text(res.toString()) },
+                    headlineContent = { Text(expr, maxLines = 2, overflow = TextOverflow.Ellipsis) },
+                    supportingContent = { Text(res.toString(), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                     modifier = Modifier.clickable { expression = expr; result = res }
                 )
                 HorizontalDivider()
@@ -268,7 +285,7 @@ fun CalculatorScreen(
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
-            Text(text = expression, style = MaterialTheme.typography.bodySmall)
+            Text(text = expression, style = MaterialTheme.typography.bodySmall, maxLines = 2, overflow = TextOverflow.Ellipsis)
         }
     }
 
@@ -310,7 +327,7 @@ fun CalculatorScreen(
                         Card(
                             modifier = (if (animationsEnabled) Modifier.animateItemPlacement() else Modifier)
                                 .fillMaxWidth()
-                                .height(120.dp)
+                                .heightIn(min = 120.dp)
                                 .scale(scale)
                                 .clickable(interactionSource = interactionSource, indication = null) {
                                     val token = if (insertMode == "BIND") "[${c.name}]" else c.value.toString()
@@ -325,7 +342,7 @@ fun CalculatorScreen(
                             colors = CardDefaults.cardColors(containerColor = c.bgColor?.let { try { Color(android.graphics.Color.parseColor(it)) } catch (_: Exception) { MaterialTheme.colorScheme.surface } } ?: MaterialTheme.colorScheme.surface)
                         ) {
                             Column(Modifier.fillMaxSize().padding(12.dp), verticalArrangement = Arrangement.SpaceBetween) {
-                                Text(c.name, style = MaterialTheme.typography.titleSmall, maxLines = 2)
+                                Text(c.name, style = MaterialTheme.typography.titleSmall, maxLines = 2, overflow = TextOverflow.Ellipsis)
                                 Text(
                                     text = String.format(Locale.getDefault(), "%.2f", c.value),
                                     style = MaterialTheme.typography.titleLarge,

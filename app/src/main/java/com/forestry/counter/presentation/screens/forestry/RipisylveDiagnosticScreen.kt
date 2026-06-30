@@ -18,9 +18,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.forestry.counter.R
 import com.forestry.counter.domain.model.ripisylve.*
 import com.forestry.counter.domain.usecase.ripisylve.RipisylveGestionEngine
 import com.forestry.counter.domain.usecase.ripisylve.RipisylveScorer
@@ -40,15 +43,15 @@ fun RipisylveDiagnosticScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Diagnostic Ripisylve") },
+                title = { Text(stringResource(R.string.ripi_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 },
                 actions = {
                     TextButton(onClick = { showResults = true }) {
-                        Text("Calculer", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.ripi_calculate), fontWeight = FontWeight.Bold)
                     }
                 }
             )
@@ -69,12 +72,12 @@ fun RipisylveDiagnosticScreen(
                     OutlinedButton(
                         onClick = { showResults = false },
                         modifier = Modifier.fillMaxWidth()
-                    ) { Text("Modifier l'observation") }
+                    ) { Text(stringResource(R.string.ripi_modify)) }
                 }
             } else {
                 item {
                     SectionCard(
-                        title = "1. Continuité boisée",
+                        title = stringResource(R.string.ripi_section_continuite),
                         expanded = expandedSection == "continuite",
                         onToggle = { expandedSection = if (expandedSection == "continuite") null else "continuite" }
                     ) {
@@ -83,7 +86,7 @@ fun RipisylveDiagnosticScreen(
                 }
                 item {
                     SectionCard(
-                        title = "2. Largeur de la ripisylve",
+                        title = stringResource(R.string.ripi_section_largeur),
                         expanded = expandedSection == "largeur",
                         onToggle = { expandedSection = if (expandedSection == "largeur") null else "largeur" }
                     ) {
@@ -92,7 +95,7 @@ fun RipisylveDiagnosticScreen(
                 }
                 item {
                     SectionCard(
-                        title = "3. Structure verticale",
+                        title = stringResource(R.string.ripi_section_strates),
                         expanded = expandedSection == "strates",
                         onToggle = { expandedSection = if (expandedSection == "strates") null else "strates" }
                     ) {
@@ -101,7 +104,7 @@ fun RipisylveDiagnosticScreen(
                 }
                 item {
                     SectionCard(
-                        title = "4. Diversité spécifique",
+                        title = stringResource(R.string.ripi_section_diversite),
                         expanded = expandedSection == "diversite",
                         onToggle = { expandedSection = if (expandedSection == "diversite") null else "diversite" }
                     ) {
@@ -110,7 +113,7 @@ fun RipisylveDiagnosticScreen(
                 }
                 item {
                     SectionCard(
-                        title = "5. Pénalités",
+                        title = stringResource(R.string.ripi_section_penalites),
                         expanded = expandedSection == "penalites",
                         onToggle = { expandedSection = if (expandedSection == "penalites") null else "penalites" }
                     ) {
@@ -142,10 +145,10 @@ private fun SectionCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(title, fontWeight = FontWeight.SemiBold)
+                Text(title, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Icon(
                     if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                    contentDescription = null
+                    contentDescription = stringResource(if (expanded) R.string.cd_collapse else R.string.cd_expand)
                 )
             }
             AnimatedVisibility(visible = expanded, enter = fadeIn() + expandVertically()) {
@@ -159,7 +162,7 @@ private fun SectionCard(
 
 @Composable
 private fun ContinuiteSection(obs: RipisylveObservation, onChange: (RipisylveObservation) -> Unit) {
-    Text("Couverture linéaire par les houppiers (%)", style = MaterialTheme.typography.bodySmall,
+    Text(stringResource(R.string.ripi_continuite_label), style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant)
     Spacer(Modifier.height(8.dp))
     Slider(
@@ -187,9 +190,9 @@ private fun LargeurSection(obs: RipisylveObservation, onChange: (RipisylveObserv
         ) {
             RadioButton(selected = obs.largeurMode == mode, onClick = { onChange(obs.copy(largeurMode = mode)) })
             Spacer(Modifier.width(8.dp))
-            Column {
-                Text(mode.label)
-                Text("+${mode.points} pts", style = MaterialTheme.typography.bodySmall,
+            Column(modifier = Modifier.weight(1f)) {
+                Text(mode.label, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(stringResource(R.string.ripi_points, mode.points), style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
@@ -199,53 +202,53 @@ private fun LargeurSection(obs: RipisylveObservation, onChange: (RipisylveObserv
 @Composable
 private fun StratesSection(obs: RipisylveObservation, onChange: (RipisylveObservation) -> Unit) {
     listOf(
-        Triple("Strate herbacée (≤ 70 cm)", obs.strateHerbacee) { v: Boolean -> onChange(obs.copy(strateHerbacee = v)) },
-        Triple("Strate arbustive (70 cm – 7 m)", obs.strateArbustive) { v: Boolean -> onChange(obs.copy(strateArbustive = v)) },
-        Triple("Strate arborescente (≥ 7 m)", obs.strateArborescente) { v: Boolean -> onChange(obs.copy(strateArborescente = v)) }
+        Triple(stringResource(R.string.ripi_strate_herbacee), obs.strateHerbacee) { v: Boolean -> onChange(obs.copy(strateHerbacee = v)) },
+        Triple(stringResource(R.string.ripi_strate_arbustive), obs.strateArbustive) { v: Boolean -> onChange(obs.copy(strateArbustive = v)) },
+        Triple(stringResource(R.string.ripi_strate_arborescente), obs.strateArborescente) { v: Boolean -> onChange(obs.copy(strateArborescente = v)) }
     ).forEach { (label, checked, onCheck) ->
         Row(
             modifier = Modifier.fillMaxWidth().clickable { onCheck(!checked) }.padding(vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(checked = checked, onCheckedChange = onCheck)
-            Text(label, modifier = Modifier.padding(start = 8.dp))
+            Text(label, modifier = Modifier.weight(1f).padding(start = 8.dp), maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
     }
 }
 
 @Composable
 private fun DiversiteSection(obs: RipisylveObservation, onChange: (RipisylveObservation) -> Unit) {
-    Text("Nombre d'espèces ligneuses observées", style = MaterialTheme.typography.bodySmall,
+    Text(stringResource(R.string.ripi_nb_especes), style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant)
     Spacer(Modifier.height(8.dp))
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        IconButton(onClick = { if (obs.nbEspecesObservees > 0) onChange(obs.copy(nbEspecesObservees = obs.nbEspecesObservees - 1)) }) {
-            Icon(Icons.Default.Remove, contentDescription = null)
+        IconButton(onClick = { if (obs.nbEspecesObservees > 0) onChange(obs.copy(nbEspecesObservees = obs.nbEspecesObservees - 1)) }, modifier = Modifier.size(48.dp)) {
+            Icon(Icons.Default.Remove, contentDescription = stringResource(R.string.cd_remove))
         }
         Text("${obs.nbEspecesObservees}", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        IconButton(onClick = { onChange(obs.copy(nbEspecesObservees = obs.nbEspecesObservees + 1)) }) {
-            Icon(Icons.Default.Add, contentDescription = null)
+        IconButton(onClick = { onChange(obs.copy(nbEspecesObservees = obs.nbEspecesObservees + 1)) }, modifier = Modifier.size(48.dp)) {
+            Icon(Icons.Default.Add, contentDescription = stringResource(R.string.cd_add))
         }
     }
     listOf(
-        Triple("Classes de diamètre : TPB (≤7 cm)", obs.hasTresPetitBois) { v: Boolean -> onChange(obs.copy(hasTresPetitBois = v)) },
-        Triple("Petit bois (7–20 cm)", obs.hasPetitBois) { v: Boolean -> onChange(obs.copy(hasPetitBois = v)) },
-        Triple("Moyen bois (20–40 cm)", obs.hasMoyenBois) { v: Boolean -> onChange(obs.copy(hasMoyenBois = v)) },
-        Triple("Gros bois (≥40 cm)", obs.hasGrosBois) { v: Boolean -> onChange(obs.copy(hasGrosBois = v)) }
+        Triple(stringResource(R.string.ripi_tpb), obs.hasTresPetitBois) { v: Boolean -> onChange(obs.copy(hasTresPetitBois = v)) },
+        Triple(stringResource(R.string.ripi_petit_bois), obs.hasPetitBois) { v: Boolean -> onChange(obs.copy(hasPetitBois = v)) },
+        Triple(stringResource(R.string.ripi_moyen_bois), obs.hasMoyenBois) { v: Boolean -> onChange(obs.copy(hasMoyenBois = v)) },
+        Triple(stringResource(R.string.ripi_gros_bois), obs.hasGrosBois) { v: Boolean -> onChange(obs.copy(hasGrosBois = v)) }
     ).forEach { (label, checked, onCheck) ->
         Row(
             modifier = Modifier.fillMaxWidth().clickable { onCheck(!checked) }.padding(vertical = 2.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(checked = checked, onCheckedChange = onCheck)
-            Text(label, modifier = Modifier.padding(start = 8.dp), style = MaterialTheme.typography.bodySmall)
+            Text(label, modifier = Modifier.weight(1f).padding(start = 8.dp), style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
     }
 }
 
 @Composable
 private fun PenalitesSection(obs: RipisylveObservation, onChange: (RipisylveObservation) -> Unit) {
-    Text("Espèces invasives (%)", style = MaterialTheme.typography.bodySmall,
+    Text(stringResource(R.string.ripi_invasives_label), style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant)
     Slider(
         value = obs.invasivesPct.toFloat(),
@@ -255,7 +258,7 @@ private fun PenalitesSection(obs: RipisylveObservation, onChange: (RipisylveObse
     Text("${obs.invasivesPct.toInt()}%", fontWeight = FontWeight.Bold,
         color = if (obs.invasivesPct > 0) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary)
     Spacer(Modifier.height(8.dp))
-    Text("État sanitaire dégradé (%)", style = MaterialTheme.typography.bodySmall,
+    Text(stringResource(R.string.ripi_sanitaire_label), style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant)
     Slider(
         value = obs.sanitairePct.toFloat(),
@@ -265,7 +268,7 @@ private fun PenalitesSection(obs: RipisylveObservation, onChange: (RipisylveObse
     Text("${obs.sanitairePct.toInt()}%", fontWeight = FontWeight.Bold,
         color = if (obs.sanitairePct > 0) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary)
     Spacer(Modifier.height(8.dp))
-    Text("Instabilité / affouillement (%)", style = MaterialTheme.typography.bodySmall,
+    Text(stringResource(R.string.ripi_stabilite_label), style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant)
     Slider(
         value = obs.stabilitePct.toFloat(),
@@ -289,13 +292,13 @@ private fun ScorePreviewCard(score: RipisylveScore) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column {
-                Text("Score estimé", style = MaterialTheme.typography.bodySmall)
+                Text(stringResource(R.string.ripi_score_estime), style = MaterialTheme.typography.bodySmall)
                 Text("${score.scoreTotal}/100", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = color)
                 Text(score.fonctionnalite.labelFr, color = color, fontWeight = FontWeight.Medium)
             }
             Column(horizontalAlignment = Alignment.End) {
-                Text("Positif : +${score.scorePositif}", style = MaterialTheme.typography.bodySmall)
-                Text("Pénalité : ${score.scorePenalite}", style = MaterialTheme.typography.bodySmall,
+                Text(stringResource(R.string.ripi_positif, score.scorePositif), style = MaterialTheme.typography.bodySmall)
+                Text(stringResource(R.string.ripi_penalite, score.scorePenalite), style = MaterialTheme.typography.bodySmall,
                     color = if (score.scorePenalite < 0) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface)
             }
         }
@@ -310,7 +313,7 @@ private fun ResultCard(score: RipisylveScore, diag: RipisylveGestionEngine.Diagn
         colors = CardDefaults.cardColors(containerColor = color.copy(alpha = 0.15f))
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Diagnostic Ripisylve", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Text(stringResource(R.string.ripi_title), fontWeight = FontWeight.Bold, fontSize = 18.sp)
             Spacer(Modifier.height(8.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
@@ -329,12 +332,12 @@ private fun ResultCard(score: RipisylveScore, diag: RipisylveGestionEngine.Diagn
             Text(diag.syntheseFr, style = MaterialTheme.typography.bodySmall)
             if (diag.pointsForts.isNotEmpty()) {
                 Spacer(Modifier.height(8.dp))
-                Text("Points forts", fontWeight = FontWeight.SemiBold, color = Color(0xFF2E7D32))
+                Text(stringResource(R.string.ripi_points_forts), fontWeight = FontWeight.SemiBold, color = Color(0xFF2E7D32))
                 diag.pointsForts.forEach { Text("✓ $it", style = MaterialTheme.typography.bodySmall, color = Color(0xFF388E3C)) }
             }
             if (diag.pointsFaibles.isNotEmpty()) {
                 Spacer(Modifier.height(8.dp))
-                Text("Points faibles", fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.error)
+                Text(stringResource(R.string.ripi_points_faibles), fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.error)
                 diag.pointsFaibles.forEach { Text("✗ $it", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error) }
             }
         }
@@ -346,7 +349,7 @@ private fun ActionsCard(diag: RipisylveGestionEngine.DiagnosticFonctionnel) {
     if (diag.actions.isEmpty()) return
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Plan d'action", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            Text(stringResource(R.string.ripi_plan_action), fontWeight = FontWeight.Bold, fontSize = 16.sp)
             Spacer(Modifier.height(8.dp))
             diag.actions.forEach { action ->
                 val urgenceColor = when (action.urgence) {
@@ -378,7 +381,7 @@ private fun InvasivesCard(invasives: List<RipisylveGestionEngine.InvasiveInfo>) 
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("⚠ Espèces invasives détectées", fontWeight = FontWeight.Bold,
+            Text(stringResource(R.string.ripi_invasives_detectees), fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onErrorContainer)
             Spacer(Modifier.height(8.dp))
             invasives.forEach { inv ->

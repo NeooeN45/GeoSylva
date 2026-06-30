@@ -64,5 +64,11 @@ data class PriceEntry(
     val min: Int,
     val max: Int,
     val eurPerM3: Double,
-    val quality: String? = null // "A", "B", "C", "D" or null = all qualities
+    val quality: String? = null, // "A", "B", "C", "D" or null = all qualities
+    // ── Champs de traçabilité (ajoutés pour le moteur pro) ──
+    val source: String = "",          // Source du prix (ex: "ONF 2025", "FBF 2024", "curated")
+    val region: String = "",          // Code GRECO (A-L) ou "NATIONAL"
+    val year: Int = 2025,             // Année de référence du prix
+    val unit: String = "EUR/m3",      // Unité (EUR/m3 sur pied, EUR/m3 bord route, EUR/stere)
+    val updatedAt: String = ""        // Date ISO de dernière mise à jour (ex: "2025-01-15")
 )

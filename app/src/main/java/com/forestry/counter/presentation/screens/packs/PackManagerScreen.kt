@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.forestry.counter.R
@@ -42,7 +43,7 @@ fun PackManagerScreen(
                 title = { Text(stringResource(R.string.packs_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 }
             )
@@ -59,7 +60,7 @@ fun PackManagerScreen(
                     Tab(
                         selected = selectedRegion == region,
                         onClick = { selectedRegion = region },
-                        text = { Text(if (region == "Tout") stringResource(R.string.pack_all) else region, fontSize = 13.sp) }
+                        text = { Text(if (region == "Tout") stringResource(R.string.pack_all) else region, fontSize = 13.sp, maxLines = 1, overflow = TextOverflow.Ellipsis) }
                     )
                 }
             }
@@ -161,16 +162,16 @@ private fun PackCard(pack: GeoPackDescriptor) {
                 }
                 Spacer(Modifier.width(10.dp))
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(pack.name, fontWeight = FontWeight.SemiBold)
+                    Text(pack.name, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     Text("${pack.codeINSEE ?: stringResource(R.string.pack_national_label)} · ${pack.sizeKb / 1024} Mo",
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
                 StatusChip(pack.status)
                 Spacer(Modifier.width(4.dp))
-                IconButton(onClick = { expanded = !expanded }, modifier = Modifier.size(32.dp)) {
+                IconButton(onClick = { expanded = !expanded }, modifier = Modifier.size(48.dp)) {
                     Icon(if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                        contentDescription = null, modifier = Modifier.size(18.dp))
+                        contentDescription = stringResource(if (expanded) R.string.cd_collapse else R.string.cd_expand), modifier = Modifier.size(18.dp))
                 }
             }
 

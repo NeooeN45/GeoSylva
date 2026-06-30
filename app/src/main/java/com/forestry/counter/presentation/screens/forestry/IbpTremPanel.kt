@@ -22,8 +22,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.forestry.counter.R
 import com.forestry.counter.domain.ibp.IbpTremCalculator
 
 /**
@@ -209,7 +211,7 @@ fun IbpContinuitePanel(
         if (isForetAncienne) {
             AssistChip(
                 onClick = {},
-                label = { Text("Forêt ancienne confirmée en DB", style = MaterialTheme.typography.labelSmall) },
+                label = { Text(stringResource(R.string.ibp_foret_ancienne_db), style = MaterialTheme.typography.labelSmall) },
                 colors = AssistChipDefaults.assistChipColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer
                 )
@@ -217,7 +219,7 @@ fun IbpContinuitePanel(
         }
 
         val ancienneteOptions = listOf(0 to "Inconnue", 30 to "≥30 ans", 60 to "≥60 ans", 100 to "≥100 ans", 200 to "Forêt ancienne (≥200 ans)")
-        Text("Ancienneté estimée", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
+        Text(stringResource(R.string.ibp_anciennete_estimee), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             ancienneteOptions.forEach { (ans, label) ->
                 FilterChip(
@@ -229,7 +231,7 @@ fun IbpContinuitePanel(
         }
 
         val connectiviteOptions = listOf(0 to "0%", 20 to "20%", 40 to "40%", 60 to "60%", 80 to "80%", 100 to "100%")
-        Text("Connectivité spatiale", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
+        Text(stringResource(R.string.ibp_connectivite_spatiale), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             connectiviteOptions.forEach { (pct, label) ->
                 FilterChip(
