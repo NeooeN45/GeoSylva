@@ -168,7 +168,8 @@ suspend fun computeMartelageStats(
     essences: List<Essence>,
     forestryCalculator: ForestryCalculator,
     nHaAvant: Double? = null,
-    gHaAvant: Double? = null
+    gHaAvant: Double? = null,
+    region: com.forestry.counter.domain.calculation.pricing.GrecoRegion? = null
 ): MartelageStats? {
     if (tigesInScope.isEmpty() || surfaceM2 <= 0.0) return null
 
@@ -248,7 +249,8 @@ suspend fun computeMartelageStats(
                 manualHeights = manualHeightsForEss,
                 method = null,
                 params = synthesisParams,
-                requireHeights = true
+                requireHeights = true,
+                region = region
             )
         } catch (_: Throwable) {
             emptyList<ClassSynthesis>() to SynthesisTotals(0, null, null, null)

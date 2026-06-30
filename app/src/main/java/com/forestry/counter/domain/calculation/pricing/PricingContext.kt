@@ -35,6 +35,9 @@ data class PricingContext(
     val lotVolumeM3: Double? = null,
     val defects: List<Pair<WoodDefect, DefectSeverity>> = emptyList(),
     val prices: List<PriceEntry> = emptyList(),
+    // Métadonnée de traçabilité uniquement (affichée dans le breakdown).
+    // ⚠️ N'est PAS utilisée pour filtrer les prix par année : le lookup PriceEntry
+    // ignore l'année. À brancher si un versionnage temporel des prix est introduit.
     val year: Int = 2025
 )
 

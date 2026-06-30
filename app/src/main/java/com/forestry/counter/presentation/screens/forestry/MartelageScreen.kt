@@ -624,6 +624,12 @@ fun MartelageScreen(
         gHaAvant
     ) {
         value = if (surfaceM2 != null && surfaceM2 > 0.0) {
+            // GRECO déduite du code commune de la parcelle → le coefficient régional
+            // est appliqué dans le revenu AUTORITAIRE (et plus seulement à l'affichage),
+            // ce qui supprime la divergence avec le breakdown produit.
+            val greco = parcellesInScope
+                .firstNotNullOfOrNull { it.codeInseeCommune }
+                ?.let { GrecoDetector.fromCodeCommune(it) }
             computeMartelageStats(
                 tigesInScope = tigesInScope,
                 surfaceM2 = surfaceM2,
@@ -634,7 +640,8 @@ fun MartelageScreen(
                 essences = essences,
                 forestryCalculator = forestryCalculator,
                 nHaAvant = nHaAvant,
-                gHaAvant = gHaAvant
+                gHaAvant = gHaAvant,
+                region = greco
             )
         } else null
     }

@@ -496,7 +496,8 @@ class ForestryCalculator(
         manualHeights: Map<Int, Double>? = null,
         method: String? = null,
         params: ForestrySynthesisParams? = null,
-        requireHeights: Boolean = false
+        requireHeights: Boolean = false,
+        region: com.forestry.counter.domain.calculation.pricing.GrecoRegion? = null
     ): Pair<List<ClassSynthesis>, SynthesisTotals> {
         val tarifSel = params?.tarifSelection ?: loadTarifSelection()
         val perClass = mutableListOf<ClassSynthesis>()
@@ -621,9 +622,9 @@ class ForestryCalculator(
 
                         for ((produit, volumeFraction) in volumeParProduit) {
                             if (volumeFraction <= 0.0) continue
-                            val prixProduit = priceFor(essenceCode, produit, d, prices, qualityCode)
+                            val prixProduit = priceFor(essenceCode, produit, d, prices, qualityCode, region)
                                 ?: if (!produit.equals(defaultProd, ignoreCase = true)) {
-                                    priceFor(essenceCode, defaultProd, d, prices, qualityCode)
+                                    priceFor(essenceCode, defaultProd, d, prices, qualityCode, region)
                                 } else {
                                     null
                                 }

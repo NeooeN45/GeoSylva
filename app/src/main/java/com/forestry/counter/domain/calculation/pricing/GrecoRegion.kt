@@ -17,6 +17,13 @@ enum class GrecoRegion(
     val labelFr: String,
     val labelEn: String,
     val departments: List<String>,
+    /**
+     * Sous-ensemble INDICATIF et NON EXHAUSTIF de sylvoécorégions (SER).
+     * ⚠️ Ces codes ne sont PAS utilisés dans les calculs (aucune lecture en logique) ;
+     * ils servent uniquement de repère documentaire. Ne pas les présenter comme la
+     * liste officielle IGN complète — la cartographie SER↔GRECO exacte doit être
+     * reprise des données IGN si un usage réel en dépend un jour.
+     */
     val serCodes: List<String>,
     val fiboisUrl: String,
     val crpfUrl: String
