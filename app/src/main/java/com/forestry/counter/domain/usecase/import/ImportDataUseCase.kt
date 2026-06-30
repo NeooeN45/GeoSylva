@@ -106,61 +106,76 @@ class ImportDataUseCase(
         hasHeader: Boolean = true
     ): Result<ImportResult> {
         return try {
-            val csvData = mutableListOf<Array<String>>()
-            
-            context.contentResolver.openInputStream(uri)?.use { inputStream ->
+            var importedCount = 0
+            var skippedCount = 0
+            val errors = mutableListOf<String>()
+
+            // Lecture ligne par ligne (readNext) au lieu de readAll() pour éviter
+            // de charger l'intégralité du CSV en mémoire (10k ties ≈ 70 MB sinon).
+            val opened = context.contentResolver.openInputStream(uri)?.use { inputStream ->
                 val parser = CSVParserBuilder()
                     .withSeparator(separator)
                     .build()
                 val reader = CSVReaderBuilder(InputStreamReader(inputStream, Charsets.UTF_8))
                     .withCSVParser(parser)
                     .build()
-                csvData.addAll(reader.readAll())
-                reader.close()
-            }
 
-            if (csvData.isEmpty()) {
-                return Result.failure(Exception("CSV file is empty"))
-            }
-
-            val headers = if (hasHeader) csvData.first() else arrayOf("Name", "Value")
-            val dataRows = if (hasHeader) csvData.drop(1) else csvData
-
-            var importedCount = 0
-            var skippedCount = 0
-            val errors = mutableListOf<String>()
-
-            dataRows.forEachIndexed { index, row ->
-                try {
-                    val nameIndex = headers.indexOfFirst { it.equals("Name", ignoreCase = true) }
-                    val valueIndex = headers.indexOfFirst { it.equals("Value", ignoreCase = true) }
-                    
-                    if (nameIndex < 0 || nameIndex >= row.size) {
-                        errors.add("Row ${index + 1}: Missing name column")
-                        skippedCount++
-                        return@forEachIndexed
-                    }
-
-                    val name = row[nameIndex].trim()
-                    val value = if (valueIndex >= 0 && valueIndex < row.size) {
-                        row[valueIndex].toDoubleOrNull() ?: 0.0
-                    } else {
-                        0.0
-                    }
-
-                    val counter = Counter(
-                        id = UUID.randomUUID().toString(),
-                        groupId = groupId,
-                        name = name,
-                        value = value
-                    )
-                    counterRepository.insertCounter(counter)
-                    importedCount++
-
-                } catch (e: Exception) {
-                    errors.add("Row ${index + 1}: ${e.message}")
-                    skippedCount++
+                val firstRow = reader.readNext()
+                if (firstRow == null) {
+                    reader.close()
+                    return@use false
                 }
+
+                val headers = if (hasHeader) firstRow else arrayOf("Name", "Value")
+                val nameIndex = headers.indexOfFirst { it.equals("Name", ignoreCase = true) }
+                val valueIndex = headers.indexOfFirst { it.equals("Value", ignoreCase = true) }
+
+                suspend fun processRow(row: Array<String>, displayIndex: Int) {
+                    try {
+                        if (nameIndex < 0 || nameIndex >= row.size) {
+                            errors.add("Row $displayIndex: Missing name column")
+                            skippedCount++
+                            return
+                        }
+                        val name = row[nameIndex].trim()
+                        val value = if (valueIndex >= 0 && valueIndex < row.size) {
+                            row[valueIndex].toDoubleOrNull() ?: 0.0
+                        } else {
+                            0.0
+                        }
+                        val counter = Counter(
+                            id = UUID.randomUUID().toString(),
+                            groupId = groupId,
+                            name = name,
+                            value = value
+                        )
+                        counterRepository.insertCounter(counter)
+                        importedCount++
+                    } catch (e: Exception) {
+                        errors.add("Row $displayIndex: ${e.message}")
+                        skippedCount++
+                    }
+                }
+
+                var dataRowIndex = 0
+                // Sans en-tête, la première ligne est déjà une ligne de données.
+                if (!hasHeader) {
+                    processRow(firstRow, dataRowIndex + 1)
+                    dataRowIndex++
+                }
+
+                var row = reader.readNext()
+                while (row != null) {
+                    processRow(row, dataRowIndex + 1)
+                    dataRowIndex++
+                    row = reader.readNext()
+                }
+                reader.close()
+                true
+            } ?: false
+
+            if (!opened) {
+                return Result.failure(Exception("CSV file is empty"))
             }
 
             Result.success(

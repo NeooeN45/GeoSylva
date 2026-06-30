@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -43,14 +44,14 @@ fun FormulasScreen(
     onNavigateBack: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
-    val formulas by formulaRepository.getFormulasByGroup(groupId).collectAsState(initial = emptyList())
+    val formulas by formulaRepository.getFormulasByGroup(groupId).collectAsStateWithLifecycle(initialValue = emptyList())
 
     var showCreateDialog by remember { mutableStateOf(false) }
     var editingFormula by remember { mutableStateOf<Formula?>(null) }
     var evaluatingId by remember { mutableStateOf<String?>(null) }
     var evalResult by remember { mutableStateOf<Double?>(null) }
 
-    val animationsEnabled by preferencesManager.animationsEnabled.collectAsState(initial = true)
+    val animationsEnabled by preferencesManager.animationsEnabled.collectAsStateWithLifecycle(initialValue = true)
 
     Scaffold(
         topBar = {

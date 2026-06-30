@@ -4,10 +4,10 @@ import java.io.StringReader
 import java.util.Properties
 
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp")
-    id("org.jetbrains.kotlin.plugin.serialization")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 configurations.all {
@@ -92,7 +92,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.12"
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
     packaging {
@@ -119,118 +119,100 @@ ksp {
 }
 */
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("room.incremental", "true")
+}
+
 dependencies {
     // Core Android
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
-    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation(libs.core.ktx)
+    implementation(libs.core.splashscreen)
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.lifecycle.viewmodel.compose)
+    implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.activity.compose)
 
     // Compose BOM
-    val composeBom = platform("androidx.compose:compose-bom:2024.09.00")
+    val composeBom = platform(libs.compose.bom)
     implementation(composeBom)
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.foundation:foundation")
-    implementation("androidx.compose.animation:animation")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.material:material-icons-extended")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation(libs.bundles.compose)
+    debugImplementation(libs.bundles.compose.debug)
 
     // CameraX — viseur caméra AR pour mesure des hauteurs
-    val cameraXVersion = "1.3.3"
-    implementation("androidx.camera:camera-camera2:$cameraXVersion")
-    implementation("androidx.camera:camera-lifecycle:$cameraXVersion")
-    implementation("androidx.camera:camera-view:$cameraXVersion")
+    implementation(libs.bundles.camera)
 
     // Navigation
-    implementation("androidx.navigation:navigation-compose:2.8.5")
+    implementation(libs.navigation.compose)
 
     // AppCompat for runtime locale changes (AppCompatDelegate)
-    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation(libs.appcompat)
 
     // DocumentFile for SAF directory access
-    implementation("androidx.documentfile:documentfile:1.0.1")
+    implementation(libs.documentfile)
 
     // Room
-    val roomVersion = "2.6.1"
-    implementation("androidx.room:room-runtime:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
-    ksp("androidx.room:room-compiler:$roomVersion")
+    implementation(libs.bundles.room)
+    ksp(libs.room.compiler)
 
     // DataStore
-    implementation("androidx.datastore:datastore:1.0.0")
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation(libs.bundles.datastore)
 
     // Kotlinx Serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation(libs.kotlinx.serialization.json)
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+    implementation(libs.bundles.coroutines)
 
     // CSV Parsing
-    implementation("com.opencsv:opencsv:5.9")
+    implementation(libs.opencsv)
 
     // Excel (Apache POI - lite version for Android)
-    implementation("org.apache.poi:poi:5.5.1") {
+    implementation(libs.poi) {
         exclude(group = "org.apache.logging.log4j", module = "log4j-api")
         exclude(group = "org.apache.xmlbeans", module = "xmlbeans")
     }
-    implementation("org.apache.poi:poi-ooxml:5.5.1") {
+    implementation(libs.poi.ooxml) {
         exclude(group = "org.apache.logging.log4j", module = "log4j-api")
         exclude(group = "org.apache.xmlbeans", module = "xmlbeans")
     }
-    implementation("org.apache.poi:poi-ooxml-lite:5.5.1") {
+    implementation(libs.poi.ooxml.lite) {
         exclude(group = "org.apache.logging.log4j", module = "log4j-api")
         exclude(group = "org.apache.xmlbeans", module = "xmlbeans")
     }
 
     // Expression Parser
-    implementation("net.objecthunter:exp4j:0.4.8")
+    implementation(libs.exp4j)
 
     // Core library desugaring (support newer Java APIs on older Android)
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     // WorkManager for scheduled backups
-    implementation("androidx.work:work-runtime-ktx:2.9.0")
-
-    // Accompanist (System UI Controller, Permissions)
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
-    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
+    implementation(libs.work.runtime.ktx)
 
     // Location (Fused Location Provider)
-    implementation("com.google.android.gms:play-services-location:21.3.0")
+    implementation(libs.play.services.location)
 
     // BlurView for backdrop blur (Android 12+ optimized)
-    implementation("com.github.Dimezis:BlurView:version-2.0.5")
+    implementation(libs.blurview)
 
     // MapLibre GL (Map mode)
-    implementation("org.maplibre.gl:android-sdk:10.3.1")
+    implementation(libs.maplibre)
 
     // OkHttp for HTTP calls (price sync)
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation(libs.okhttp)
 
     // Security dependencies
-    // SQLCipher (chiffrement DB) — désactivé, à réactiver dans la phase chiffrement (feature concours)
-    // implementation("net.sqlcipher:android-database-sqlcipher:4.2.0")
+    // SQLCipher 4.5.4 — chiffrement DB (RGPD compliance, mandatory Phase 0)
+    implementation(libs.sqlcipher)
+    // AndroidX Security for encrypted file storage
+    implementation(libs.security.crypto)
 
     // Testing
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
-    testImplementation("androidx.room:room-testing:$roomVersion")
-    testImplementation("io.mockk:mockk:1.13.10")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:1.9.22")
-    testImplementation("androidx.arch.core:core-testing:2.2.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("io.mockk:mockk-android:1.13.10")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation(libs.bundles.testing)
+    androidTestImplementation(libs.bundles.android.testing)
     androidTestImplementation(composeBom)
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    androidTestImplementation(libs.compose.ui.test.junit4)
+    debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(libs.compose.ui.test.manifest)
 }

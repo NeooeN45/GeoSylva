@@ -17,6 +17,182 @@ import kotlin.math.*
 class AdvancedCalculationEngine {
     
     private val calculationCache = mutableMapOf<String, AdvancedCalculationEntity>()
+
+    // ─────────────────────────────────────────────────────────────────────
+    // Biomasse & carbone — approche Volume × densité × BEF × (1+RER)
+    // ─────────────────────────────────────────────────────────────────────
+    // Méthodologie conforme à l'IPCC 2006 (GPG-LULUCF) :
+    //   1. Volume fût (m³) = a × D^b × H^c  (équation de type Schumacher-Hall
+    //      simplifiée, avec D en cm et H en m ; b=2.0, c=1.0).
+    //   2. Biomasse fût sec (kg) = Volume × densité bois (t/m³) × 1000.
+    //   3. Biomasse aérienne (kg) = biomasse fût × BEF (branches + houppier).
+    //   4. Biomasse totale (kg) = biomasse aérienne × (1 + RER) (racines).
+    //   5. Carbone (kg) = biomasse × fraction carbone (0.50, IPCC 2006).
+    //   6. CO2-équivalent (kg) = carbone × 3.67 (ratio moléculaire CO2/C).
+    // Densités : infradensité (masse anhydre / volume vert) par essence.
+    // BEF : 1.65 feuillus, 1.45 résineux. RER : 0.25 (Cairns et al. 1997).
+    // Les calculs sont menés en kg ; conversion en tonnes pour le stockage.
+    private val carbonFraction = 0.50
+    private val co2ConversionFactor = 3.67
+    private val rootToShootRatio = 0.25 // RER — Cairns et al. 1997
+
+    // Codes d'essences conifères (pour le fallback « autres conifères »).
+    private val coniferCodes: Set<String> = setOf(
+        "SAPIN", "SAPIN_PECTINE", "SAPIN_NORDMANN", "SAPIN_GRANDIS",
+        "EPICEA", "EPICEA_COMMUN", "EPICEA_SITKA", "EPICEA_OMORIKA",
+        "DOUGLAS", "DOUGLAS_VERT",
+        "PIN", "PIN_SYLVESTRE", "PIN_MARITIME", "PIN_NOIR_AUTR", "PIN_LARICIO",
+        "MELEZE", "MEL_EUROPE", "MEL_HYBRIDE", "MEL_JAPON",
+        "CEDRE", "CEDRE_ATLAS", "CEDRE_LIBAN",
+        "CYPRES", "CYPRES_PROVENCE", "CYPRES_CHAUVE",
+        "IF", "GENEVRIER", "GENEVRIER_CADE", "GENEVRIER_PHENICIE"
+    )
+
+    /**
+     * Coefficients (a, b, c) de l'équation de volume fût V = a × D^b × H^c
+     * (D en cm, H en m, V en m³). b=2.0 et c=1.0 pour tous les groupes ;
+     * seul 'a' varie par essence (valeurs réalistes pour volume commercial).
+     */
+    internal fun volumeCoefficients(essenceCode: String): Triple<Double, Double, Double> {
+        val code = essenceCode.trim().uppercase()
+        val a = when (code) {
+            // Chênes
+            "CHENE", "CH_SESSILE", "CH_PEDONCULE",
+            "QUPE", "QUPES", "QUPU", "QUIL", "QURU" -> 0.00005
+            // Hêtre
+            "HETRE", "HETRE_COMMUN", "FASY" -> 0.000045
+            // Sapin / Épicéa
+            "SAPIN", "SAPIN_PECTINE", "SAPIN_NORDMANN", "SAPIN_GRANDIS",
+            "EPICEA", "EPICEA_COMMUN", "EPICEA_SITKA", "EPICEA_OMORIKA",
+            "ABAL" -> 0.00004
+            // Douglas
+            "DOUGLAS", "DOUGLAS_VERT" -> 0.000042
+            // Pin sylvestre
+            "PIN_SYLVESTRE" -> 0.000038
+            // Pin maritime
+            "PIN_MARITIME" -> 0.000040
+            // Mélèze
+            "MELEZE", "MEL_EUROPE", "MEL_HYBRIDE", "MEL_JAPON" -> 0.000040
+            else -> if (code in coniferCodes) 0.000040 else 0.000045
+        }
+        return Triple(a, 2.0, 1.0)
+    }
+
+    /**
+     * Densité du bois (infradensité, t/m³ = g/cm³) par essence.
+     * Source : tables d'infradensité CIRAD/IGN.
+     */
+    internal fun woodDensity(essenceCode: String): Double {
+        val code = essenceCode.trim().uppercase()
+        return when (code) {
+            // Chênes sessile / pédonculé
+            "CHENE", "CH_SESSILE", "CH_PEDONCULE",
+            "QUPE", "QUPES", "QUPU", "QUIL", "QURU" -> 0.61
+            // Hêtre
+            "HETRE", "HETRE_COMMUN", "FASY" -> 0.68
+            // Sapin pectiné
+            "SAPIN", "SAPIN_PECTINE", "SAPIN_NORDMANN", "SAPIN_GRANDIS", "ABAL" -> 0.43
+            // Épicéa commun
+            "EPICEA", "EPICEA_COMMUN", "EPICEA_SITKA", "EPICEA_OMORIKA" -> 0.43
+            // Douglas
+            "DOUGLAS", "DOUGLAS_VERT" -> 0.47
+            // Pin sylvestre
+            "PIN_SYLVESTRE" -> 0.52
+            // Pin maritime
+            "PIN_MARITIME" -> 0.44
+            // Mélèze
+            "MELEZE", "MEL_EUROPE", "MEL_HYBRIDE", "MEL_JAPON" -> 0.56
+            // Noyer
+            "NOYER" -> 0.61
+            // Frêne
+            "FRENE" -> 0.68
+            // Érable
+            "ERABLE" -> 0.56
+            // Charme
+            "CHARME" -> 0.78
+            // Bouleau
+            "BOULEAU" -> 0.65
+            // Aulne
+            "AULNE" -> 0.52
+            // Châtaignier
+            "CHATAIGNIER" -> 0.58
+            else -> if (code in coniferCodes) 0.45 else 0.60 // défaut résineux / feuillu
+        }
+    }
+
+    /**
+     * Facteur d'expansion de la biomasse (BEF) — branches et houppier.
+     * Feuillus : 1.65 ; Résineux : 1.45 (IPCC 2006, valeurs par défaut).
+     */
+    internal fun biomassExpansionFactor(essenceCode: String): Double {
+        val code = essenceCode.trim().uppercase()
+        return if (code in coniferCodes) 1.45 else 1.65
+    }
+
+    /**
+     * Calcule la biomasse totale d'une tige (kg) selon la chaîne IPCC 2006 :
+     * Volume fût × densité × BEF × (1 + RER).
+     *
+     * @return biomasse totale (fût + branches + racines) en kg
+     */
+    private fun computeTreeBiomassKg(tige: TigeEntity): Double {
+        val diameter = tige.diamCm
+        val height = tige.hauteurM ?: 20.0
+        if (diameter <= 0.0 || height <= 0.0) return 0.0
+
+        // Étape 1 : Volume fût (m³) — V = a × D^b × H^c
+        val (a, b, c) = volumeCoefficients(tige.essenceCode)
+        val volumeM3 = a * diameter.pow(b) * height.pow(c)
+
+        // Étape 2 : Densité du bois (t/m³) — infradensité par essence
+        val density = woodDensity(tige.essenceCode)
+
+        // Étape 3 : Biomasse sèche fût (kg) = Volume × densité × 1000 (t → kg)
+        val stemBiomassKg = volumeM3 * density * 1000.0
+
+        // Étape 4 : BEF pour branches/houppier
+        val bef = biomassExpansionFactor(tige.essenceCode)
+
+        // Étape 5 : RER pour racines (Cairns et al. 1997)
+        val rer = rootToShootRatio
+
+        // Biomasse totale (kg) = fût × BEF × (1 + RER)
+        return stemBiomassKg * bef * (1.0 + rer)
+    }
+
+    /**
+     * Décompose la biomasse d'une tige en ses trois composantes (kg) :
+     * fût, aérienne (branches + houppier) et racinaire.
+     */
+    internal fun computeTreeBiomassBreakdownKg(tige: TigeEntity): TreeBiomassBreakdown {
+        val diameter = tige.diamCm
+        val height = tige.hauteurM ?: 20.0
+        if (diameter <= 0.0 || height <= 0.0) {
+            return TreeBiomassBreakdown(0.0, 0.0, 0.0, 0.0)
+        }
+        val (a, b, c) = volumeCoefficients(tige.essenceCode)
+        val volumeM3 = a * diameter.pow(b) * height.pow(c)
+        val density = woodDensity(tige.essenceCode)
+        val stemBiomassKg = volumeM3 * density * 1000.0
+        val bef = biomassExpansionFactor(tige.essenceCode)
+        val abovegroundBiomassKg = stemBiomassKg * bef
+        val belowgroundBiomassKg = abovegroundBiomassKg * rootToShootRatio
+        val totalBiomassKg = abovegroundBiomassKg + belowgroundBiomassKg
+        return TreeBiomassBreakdown(
+            totalBiomassKg = totalBiomassKg,
+            stemBiomassKg = stemBiomassKg,
+            abovegroundBiomassKg = abovegroundBiomassKg,
+            belowgroundBiomassKg = belowgroundBiomassKg
+        )
+    }
+
+    /** Décomposition de la biomasse d'une tige (kg). */
+    data class TreeBiomassBreakdown(
+        val totalBiomassKg: Double,
+        val stemBiomassKg: Double,
+        val abovegroundBiomassKg: Double,
+        val belowgroundBiomassKg: Double
+    )
     
     /**
      * Exécute un calcul avancé.
@@ -206,24 +382,28 @@ class AdvancedCalculationEngine {
             )
         }
         
-        // Équation allométrique pour la biomasse (kg)
-        val totalBiomass = tiges.sumOf { tige ->
-            val diameter = tige.diamCm
-            val height = tige.hauteurM ?: 20.0
-            // Biomasse = 0.05 * D^2 * H (simplifié)
-            0.05 * diameter * diameter * height
-        }
-        
-        val biomassPerHectare = totalBiomass / (parcelle?.surfaceHa ?: 1.0)
-        
+        // Biomasse totale (kg) — chaîne IPCC 2006 :
+        // Volume fût × densité × BEF × (1 + RER)
+        val breakdowns = tiges.map { computeTreeBiomassBreakdownKg(it) }
+        val totalBiomassKg = breakdowns.sumOf { it.totalBiomassKg }
+        val totalStemKg = breakdowns.sumOf { it.stemBiomassKg }
+        val totalAbovegroundKg = breakdowns.sumOf { it.abovegroundBiomassKg }
+        val totalBelowgroundKg = breakdowns.sumOf { it.belowgroundBiomassKg }
+
+        val surfaceHa = parcelle?.surfaceHa ?: 1.0
+        val biomassPerHectare = totalBiomassKg / surfaceHa
+
         return calculation.copy(
-            result = totalBiomass,
+            result = totalBiomassKg,
             resultMetadata = """
                 {
-                    "totalBiomass": $totalBiomass,
+                    "totalBiomassKg": $totalBiomassKg,
+                    "stemBiomassKg": $totalStemKg,
+                    "abovegroundBiomassKg": $totalAbovegroundKg,
+                    "belowgroundBiomassKg": $totalBelowgroundKg,
                     "biomassPerHectare": $biomassPerHectare,
-                    "biomassPerTree": ${totalBiomass / tiges.size},
-                    "equation": "0.05 * D^2 * H"
+                    "biomassPerTree": ${totalBiomassKg / tiges.size},
+                    "method": "Volume * density * BEF * (1 + RER) (IPCC 2006)"
                 }
             """.trimIndent(),
             confidence = 0.8,
@@ -246,28 +426,37 @@ class AdvancedCalculationEngine {
             )
         }
         
-        // La biomasse contient environ 50% de carbone
-        val totalBiomass = tiges.sumOf { tige ->
-            val diameter = tige.diamCm
-            val height = tige.hauteurM ?: 20.0
-            0.05 * diameter * diameter * height
-        }
-        
-        val totalCarbon = totalBiomass * 0.5
-        val carbonPerHectare = totalCarbon / (parcelle?.surfaceHa ?: 1.0)
-        
-        // Conversion en tonnes de CO2
-        val co2Equivalent = totalCarbon * 3.67
-        
+        // Biomasse totale (kg) — chaîne IPCC 2006 :
+        // Volume fût × densité × BEF × (1 + RER)
+        val breakdowns = tiges.map { computeTreeBiomassBreakdownKg(it) }
+        val totalBiomassKg = breakdowns.sumOf { it.totalBiomassKg }
+        val totalStemKg = breakdowns.sumOf { it.stemBiomassKg }
+        val totalAbovegroundKg = breakdowns.sumOf { it.abovegroundBiomassKg }
+        val totalBelowgroundKg = breakdowns.sumOf { it.belowgroundBiomassKg }
+
+        // Fraction carbone IPCC 2006 (0.50) — calculs en kg
+        val totalCarbonKg = totalBiomassKg * carbonFraction
+        val surfaceHa = parcelle?.surfaceHa ?: 1.0
+        val carbonPerHectare = totalCarbonKg / surfaceHa
+
+        // CO2 équivalent (kg) = carbone × 3.67 (ratio moléculaire CO2/C)
+        val co2EquivalentKg = totalCarbonKg * co2ConversionFactor
+
         return calculation.copy(
-            result = co2Equivalent,
+            result = co2EquivalentKg,
             resultMetadata = """
                 {
-                    "totalCarbon": $totalCarbon,
+                    "totalBiomassKg": $totalBiomassKg,
+                    "stemBiomassKg": $totalStemKg,
+                    "abovegroundBiomassKg": $totalAbovegroundKg,
+                    "belowgroundBiomassKg": $totalBelowgroundKg,
+                    "totalCarbonKg": $totalCarbonKg,
                     "carbonPerHectare": $carbonPerHectare,
-                    "co2Equivalent": $co2Equivalent,
-                    "carbonFraction": 0.5,
-                    "co2ConversionFactor": 3.67
+                    "co2EquivalentKg": $co2EquivalentKg,
+                    "carbonFraction": $carbonFraction,
+                    "co2ConversionFactor": $co2ConversionFactor,
+                    "rootToShootRatio": $rootToShootRatio,
+                    "method": "Volume * density * BEF * (1 + RER) * Cfrac (IPCC 2006)"
                 }
             """.trimIndent(),
             confidence = 0.8,

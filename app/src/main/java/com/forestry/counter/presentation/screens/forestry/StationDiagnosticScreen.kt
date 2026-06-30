@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,6 +31,7 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -37,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import com.forestry.counter.data.preferences.UserPreferencesManager
+import com.forestry.counter.R
 import com.forestry.counter.domain.model.station.*
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -77,9 +80,9 @@ fun StationDiagnosticScreen(
             preferencesManager = preferencesManager
         )
     }
-    val diagnostics by viewModel.diagnostics.collectAsState()
+    val diagnostics by viewModel.diagnostics.collectAsStateWithLifecycle()
 
-    val tutorialCompleted by viewModel.tutorialCompleted.collectAsState()
+    val tutorialCompleted by viewModel.tutorialCompleted.collectAsStateWithLifecycle()
     var showTutorial by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(tutorialCompleted) {
@@ -604,14 +607,14 @@ private fun VegetationTab(
     notes: String, onNotes: (String) -> Unit
 ) {
     Column(Modifier.fillMaxWidth().padding(12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        DenseFormSection("Espèces Indicatrices & Notes") {
-            OutlinedTextField(value = especes, onValueChange = onEspeces, label = { Text("Espèces indicatrices (séparées par des virgules)") }, modifier = Modifier.fillMaxWidth(), minLines = 3, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
+        DenseFormSection(stringResource(R.string.station_diag_indicative_species_notes)) {
+            OutlinedTextField(value = especes, onValueChange = onEspeces, label = { Text(stringResource(R.string.station_diag_indicative_species_hint)) }, modifier = Modifier.fillMaxWidth(), minLines = 3, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
             Spacer(Modifier.height(8.dp))
-            DenseCheckRow("Espèces Xérophiles présentes", espXero, onXero)
-            DenseCheckRow("Espèces Mésophiles présentes", espMeso, onMeso)
-            DenseCheckRow("Espèces Hygrophiles présentes", espHygro, onHygro)
+            DenseCheckRow(stringResource(R.string.station_diag_xerophilous_present), espXero, onXero)
+            DenseCheckRow(stringResource(R.string.station_diag_mesophilous_present), espMeso, onMeso)
+            DenseCheckRow(stringResource(R.string.station_diag_hygrophilous_present), espHygro, onHygro)
             Spacer(Modifier.height(8.dp))
-            OutlinedTextField(value = notes, onValueChange = onNotes, label = { Text("Notes supplémentaires sur la végétation") }, modifier = Modifier.fillMaxWidth(), minLines = 4, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
+            OutlinedTextField(value = notes, onValueChange = onNotes, label = { Text(stringResource(R.string.station_diag_vegetation_notes)) }, modifier = Modifier.fillMaxWidth(), minLines = 4, textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp))
         }
     }
 }
@@ -694,7 +697,7 @@ private fun StationResultTab(station: StationObservation) {
         StaggerEntrance(1, 70) {
             Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp)) {
                     Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text("Profil Écologique", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.station_diag_ecological_profile), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                         HorizontalDivider()
                         listOf(
                             Triple("Hydrique",  result.gradientHydriqueFinal,  Color(0xFF1565C0)),
@@ -710,7 +713,7 @@ private fun StationResultTab(station: StationObservation) {
                             }
                         }
                         HorizontalDivider()
-                        Text("Contraintes identifiées", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
+                        Text(stringResource(R.string.station_diag_identified_constraints), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
                         listOf(
                             Pair("Hydrique",    result.contrainteHydrique),
                             Pair("Trophique",   result.contrainteTrophique),
@@ -779,7 +782,7 @@ private fun StationResultTab(station: StationObservation) {
                         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                                 Icon(Icons.Default.Error, null, tint = Color(0xFFC62828), modifier = Modifier.size(18.dp))
-                                Text("Alertes d'incohérence", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = Color(0xFFC62828))
+                                Text(stringResource(R.string.station_diag_inconsistency_alerts), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = Color(0xFFC62828))
                             }
                             result.alertes.forEach { alerte ->
                                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -801,7 +804,7 @@ private fun StationResultTab(station: StationObservation) {
 private fun HistoriqueTab(diagnostics: List<StationObservation>, onDelete: (StationObservation) -> Unit) {
     if (diagnostics.isEmpty()) return
     var expanded by rememberSaveable { mutableStateOf(false) }
-    val df = remember { SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.FRANCE) }
+    val df = remember { SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()) }
     Card(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 4.dp),
         shape = RoundedCornerShape(12.dp)
@@ -1142,7 +1145,7 @@ private fun SolProfilCard(station: StationObservation) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Icon(Icons.Default.Layers, null, tint = Color(0xFF795548), modifier = Modifier.size(20.dp))
-                Text("Profil Pédologique", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.station_diag_pedological_profile), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
             }
             HorizontalDivider()
 
@@ -1175,12 +1178,12 @@ private fun SolProfilCard(station: StationObservation) {
                     SolInfoRow("Texture",     station.texture.labelFr,               textureColor)
                     SolInfoRow("Humus",       station.humus.labelFr,                 humusColor)
                     station.phEstime?.let {
-                        SolInfoRow("pH estimé",   String.format("%.1f", it),         Color(0xFF1565C0))
+                        SolInfoRow(stringResource(R.string.station_diag_ph_estimated),   String.format("%.1f", it),         Color(0xFF1565C0))
                     }
                     SolInfoRow("Drainage",    station.drainage.labelFr,              drainColor)
                     SolInfoRow("Pierrosité",  station.pierrosite.labelFr,            Color(0xFF757575))
                     if (station.rocheMere.isNotBlank()) {
-                        SolInfoRow("Roche mère",  station.rocheMere,                 Color(0xFF616161))
+                        SolInfoRow(stringResource(R.string.station_diag_bedrock),  station.rocheMere,                 Color(0xFF616161))
                     }
                 }
             }
@@ -1196,7 +1199,7 @@ private fun SolProfilCard(station: StationObservation) {
                 }
                 if (hydroDepth != null) {
                     Surface(color = Color(0xFF1565C0).copy(alpha = 0.12f), shape = RoundedCornerShape(8.dp)) {
-                        Text("Hydromorphie à ${hydroDepth} cm", style = MaterialTheme.typography.labelSmall,
+                        Text(stringResource(R.string.station_diag_hydromorphie_at_cm_format, hydroDepth), style = MaterialTheme.typography.labelSmall,
                             color = Color(0xFF1565C0), fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp))
                     }
@@ -1302,6 +1305,9 @@ private fun AutoContextBlock(
     }
 }
 
+// TODO i18n: extraire vers strings.xml — chaînes d'inférence contextuelle (buildAutoContext,
+// buildChecklistItems, buildFloraBlock, buildClimateBlock). Fonctions non-Composables :
+// passer par un StringProvider ou déplacer la génération dans des composables.
 private fun buildAutoContext(
     altitudeM: Double?,
     positionTopo: PositionTopo,
@@ -1619,7 +1625,7 @@ private fun GradientInferenceBlock(
 
 @Composable
 private fun GradientTrendCard(diagnostics: List<StationObservation>) {
-    val df       = remember { SimpleDateFormat("MM/yy", Locale.FRANCE) }
+    val df       = remember { SimpleDateFormat("MM/yy", Locale.getDefault()) }
     val sorted   = remember(diagnostics) { diagnostics.sortedBy { it.observationDate } }
     val n        = sorted.size
     val colorH   = Color(0xFF1565C0)

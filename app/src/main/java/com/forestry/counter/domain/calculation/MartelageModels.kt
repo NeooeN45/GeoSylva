@@ -11,11 +11,148 @@ import com.forestry.counter.domain.model.Essence
 import com.forestry.counter.domain.model.Tige
 import java.util.Locale
 import kotlin.math.PI
+import kotlin.math.ceil
 import kotlin.math.ln
 import kotlin.math.sqrt
 
 // Vue locale pour la synthèse (indépendante du scope de navigation)
 enum class MartelageViewScope { PLACETTE, PARCELLE, GLOBAL }
+
+/**
+ * Calcule la hauteur dominante (Hdom) selon la norme ONF :
+ * moyenne des hauteurs des 100 plus gros arbres par hectare.
+ *
+ * Hdom est indispensable pour :
+ * - l'indice de station ONF (Hdom à âge de référence),
+ * - la sélection automatique des tarifs Schaeffer (méthode Lorey Hdom/Dg).
+ *
+ * Méthode :
+ * 1. Trier les tiges par diamètre décroissant
+ * 2. Sélectionner les N plus gros arbres où N = ceil(100 × surfaceHa)
+ * 3. Hdom = moyenne des hauteurs (non nulles) de ces arbres
+ * 4. Si moins de N arbres disponibles, utiliser tous les arbres triés
+ * 5. Si aucune hauteur disponible, retourner null
+ *
+ * @param tiges liste des tiges présentes sur la surface considérée
+ * @param surfaceHa surface en hectares
+ * @return Hdom en mètres, ou null si aucune hauteur disponible
+ */
+fun computeHdom(tiges: List<Tige>, surfaceHa: Double): Double? {
+    if (tiges.isEmpty() || surfaceHa <= 0.0) return null
+    val nTarget = ceil(100.0 * surfaceHa).toInt().coerceAtLeast(1)
+    val selected = tiges.sortedByDescending { it.diamCm }.take(nTarget)
+    val heights = selected.mapNotNull { it.hauteurM }
+    return if (heights.isEmpty()) null else heights.average()
+}
+
+/**
+ * Triangle des structures ONF — répartition de la surface terrière (G)
+ * par catégorie de diamètre et typologie associée.
+ *
+ * Seuils ONF officiels (diamètre à 1,30 m) :
+ * - Perches      : D < 7,5 cm
+ * - Petits bois  : 7,5 ≤ D < 17,5 cm
+ * - Bois moyens  : 17,5 ≤ D < 27,5 cm
+ * - Gros bois    : 27,5 ≤ D < 47,5 cm
+ * - Très gros bois : D ≥ 47,5 cm
+ *
+ * @param perchesPct  part de G des perches (< 7,5 cm), en %
+ * @param pbPct       part de G des petits bois (7,5–17,5 cm), en %
+ * @param bmPct       part de G des bois moyens (17,5–27,5 cm), en %
+ * @param gbPct       part de G des gros bois (27,5–47,5 cm), en %
+ * @param tgbPct      part de G des très gros bois (≥ 47,5 cm), en %
+ * @param structureType type de structure ONF (1–9) selon dominance
+ * @param cnpfCode    code CNPF (1–4) : 1 jeune, 2 moyenne, 3 mature, 4 irrégulière
+ */
+data class StructureTriangle(
+    val perchesPct: Double,
+    val pbPct: Double,
+    val bmPct: Double,
+    val gbPct: Double,
+    val tgbPct: Double,
+    val structureType: Int,
+    val cnpfCode: Int
+)
+
+// Seuils ONF (cm) — une seule source de vérité
+private const val ONF_THRESHOLD_PERCHE = 7.5
+private const val ONF_THRESHOLD_PB = 17.5
+private const val ONF_THRESHOLD_BM = 27.5
+private const val ONF_THRESHOLD_GB = 47.5
+
+/**
+ * Calcule le triangle des structures ONF à partir d'une liste de tiges.
+ *
+ * La surface terrière (G) de chaque catégorie est agrégée puis rapportée
+ * au G total pour obtenir des pourcentages. Le type de structure (1–9)
+ * et le code CNPF (1–4) en sont dérivés.
+ *
+ * @param tiges liste des tiges du peuplement
+ * @param forestryCalculator calculateur fournissant computeG (G = π·(D/200)²)
+ * @return le triangle des structures, ou un triangle nul si peuplement vide
+ */
+fun computeStructureTriangle(
+    tiges: List<Tige>,
+    forestryCalculator: ForestryCalculator
+): StructureTriangle {
+    if (tiges.isEmpty()) return StructureTriangle(0.0, 0.0, 0.0, 0.0, 0.0, 0, 0)
+
+    // G par catégorie de structure ONF
+    val gPerches = tiges.filter { it.diamCm < ONF_THRESHOLD_PERCHE }.sumOf { forestryCalculator.computeG(it.diamCm) }
+    val gPb = tiges.filter { it.diamCm >= ONF_THRESHOLD_PERCHE && it.diamCm < ONF_THRESHOLD_PB }.sumOf { forestryCalculator.computeG(it.diamCm) }
+    val gBm = tiges.filter { it.diamCm >= ONF_THRESHOLD_PB && it.diamCm < ONF_THRESHOLD_BM }.sumOf { forestryCalculator.computeG(it.diamCm) }
+    val gGb = tiges.filter { it.diamCm >= ONF_THRESHOLD_BM && it.diamCm < ONF_THRESHOLD_GB }.sumOf { forestryCalculator.computeG(it.diamCm) }
+    val gTgb = tiges.filter { it.diamCm >= ONF_THRESHOLD_GB }.sumOf { forestryCalculator.computeG(it.diamCm) }
+
+    val gTotal = gPerches + gPb + gBm + gGb + gTgb
+    if (gTotal <= 0.0) return StructureTriangle(0.0, 0.0, 0.0, 0.0, 0.0, 0, 0)
+
+    val perchesPct = gPerches / gTotal * 100.0
+    val pbPct = gPb / gTotal * 100.0
+    val bmPct = gBm / gTotal * 100.0
+    val gbPct = gGb / gTotal * 100.0
+    val tgbPct = gTgb / gTotal * 100.0
+
+    // Code CNPF (cohérent avec DiameterCategoryRatio.cnpfStructureCode)
+    val cnpfCode = when {
+        tgbPct >= 10.0 -> 4  // Futaie irrégulière / jardinée
+        gbPct + tgbPct >= 30.0 -> 3  // Futaie régulière mature
+        bmPct >= 40.0 -> 2  // Futaie régulière moyenne
+        else -> 1  // Futaie jeune / gaulis
+    }
+
+    val structureType = classifyStructureType(pbPct, bmPct, gbPct + tgbPct, tgbPct)
+
+    return StructureTriangle(perchesPct, pbPct, bmPct, gbPct, tgbPct, structureType, cnpfCode)
+}
+
+/**
+ * Détermine le type de structure ONF (1–9) selon la dominance des catégories.
+ *
+ * @param pbPct     part de G des petits bois, en %
+ * @param bmPct     part de G des bois moyens, en %
+ * @param gbTgbPct  part de G des gros + très gros bois, en %
+ * @param tgbPct    part de G des très gros bois, en %
+ * @return code de structure 1–9
+ */
+private fun classifyStructureType(
+    pbPct: Double,
+    bmPct: Double,
+    gbTgbPct: Double,
+    tgbPct: Double
+): Int {
+    return when {
+        pbPct >= 60.0 && bmPct < 25.0 -> 1  // PB dominante
+        pbPct >= 40.0 && bmPct >= 30.0 -> 2  // PB-BM
+        bmPct >= 50.0 && pbPct < 25.0 -> 3  // BM dominante
+        bmPct >= 40.0 && gbTgbPct >= 30.0 -> 4  // BM-GB
+        gbTgbPct >= 60.0 && bmPct < 25.0 -> 5  // GB dominante
+        gbTgbPct >= 40.0 && pbPct >= 25.0 -> 6  // GB-PB (irrégulière)
+        pbPct >= 30.0 && bmPct >= 30.0 && gbTgbPct >= 20.0 -> 7  // Équilibrée
+        gbTgbPct >= 30.0 && tgbPct >= 10.0 -> 8  // TGB présent
+        else -> 9  // Mixte / indéterminé
+    }
+}
 
 /**
  * Calcule les agrégats de martelage pour un jeu de tiges donné.
@@ -263,6 +400,7 @@ suspend fun computeMartelageStats(
     val hMean = if (hWeight > 0) hSum / hWeight else null
     val dg = if (nTotal > 0 && gTotal > 0.0) sqrt((4.0 * gTotal) / (PI * nTotal.toDouble())) * 100.0 else null
     val hLorey = if (loreyGSum > 0.0) loreyGhSum / loreyGSum else null
+    val hdom = computeHdom(tigesInScope, surfaceHa)
 
     // Statistiques avancées sur les diamètres
     val dMin = allDiams.minOrNull()
@@ -304,6 +442,9 @@ suspend fun computeMartelageStats(
     // ── Indice de biodiversité ──
     val biodiversity = computeBiodiversityIndex(tigesInScope, specialTreeEntries, nTotal, perEssenceWithPct)
 
+    // ── Triangle des structures ONF ──
+    val structureTriangle = computeStructureTriangle(tigesInScope, forestryCalculator)
+
     sanityWarnings.addAll(
         SanityChecker.checkAggregates(
             nPerHa = nPerHa,
@@ -331,6 +472,7 @@ suspend fun computeMartelageStats(
         meanH = hMean,
         dg = dg,
         hLorey = hLorey,
+        hdom = hdom,
         dMin = dMin,
         dMax = dMax,
         cvDiam = cvDiam,
@@ -353,7 +495,8 @@ suspend fun computeMartelageStats(
         residualVha = residualVha,
         sanityWarnings = sanityWarnings,
         specialTrees = specialTreeEntries,
-        biodiversity = biodiversity
+        biodiversity = biodiversity,
+        structureTriangle = structureTriangle
     )
 }
 
@@ -440,6 +583,7 @@ data class MartelageStats(
     val meanH: Double?,
     val dg: Double?,
     val hLorey: Double?,
+    val hdom: Double? = null,
     val dMin: Double?,
     val dMax: Double?,
     val cvDiam: Double?,
@@ -466,7 +610,9 @@ data class MartelageStats(
     // Arbres spéciaux (dépérissant, bio, mort, parasité)
     val specialTrees: List<SpecialTreeEntry> = emptyList(),
     // Indice de biodiversité
-    val biodiversity: BiodiversityIndex? = null
+    val biodiversity: BiodiversityIndex? = null,
+    // Triangle des structures ONF (PB/BM/GB/TGB)
+    val structureTriangle: StructureTriangle? = null
 )
 
 data class ClassDistEntry(

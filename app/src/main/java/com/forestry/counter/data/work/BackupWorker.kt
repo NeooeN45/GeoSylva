@@ -27,7 +27,7 @@ class BackupWorker(appContext: Context, params: WorkerParameters) : CoroutineWor
 
             val parser = FormulaParser()
 
-            val groupRepo = GroupRepositoryImpl(db.groupDao(), db.counterDao(), db.formulaDao(), db.groupVariableDao())
+            val groupRepo = GroupRepositoryImpl(db, db.groupDao(), db.counterDao(), db.formulaDao(), db.groupVariableDao())
             val counterRepo = CounterRepositoryImpl(db.counterDao(), db.formulaDao(), db.groupVariableDao(), parser)
             val formulaRepo = FormulaRepositoryImpl(db.formulaDao(), db.counterDao(), db.groupVariableDao(), parser)
 

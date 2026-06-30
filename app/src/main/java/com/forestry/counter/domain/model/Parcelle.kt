@@ -3,6 +3,7 @@ package com.forestry.counter.domain.model
 data class Parcelle(
     val id: String,
     val forestId: String?,
+    val foretId: String? = null,
     val name: String,
     val surfaceHa: Double?,
     val shape: String?,
@@ -18,6 +19,16 @@ data class Parcelle(
     val targetSpeciesCsv: String?,
     val srid: Int?,
     val remarks: String?,
+    val codeInseeCommune: String? = null,
+    val nomCommune: String? = null,
+    val sectionCadastrale: String? = null,
+    val numeroCadastral: String? = null,
+    val contenanceCadastraleHa: Double? = null,
+    val geometrieIgnWkt: String? = null,
+    val natureCadastraleCode: String? = null,
+    val localisationMode: String? = null,
+    val codeSer: String? = null,
+    val nomSer: String? = null,
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis()
 )

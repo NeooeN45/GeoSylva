@@ -171,23 +171,23 @@ object IbpCriterionData {
 
     // ── Auto-scoring from raw counts ────────────────────────────────
 
-    /** C – Bois morts sur pied: score from BMg/ha and BMm/ha standing. */
+    /** C – Bois morts sur pied: score from BMg/ha and BMm/ha standing. (Larrieu & Gonin 2008: 0/2/5) */
     fun scoreCFromCounts(bmgPied: Float, bmmPied: Float): Int = when {
         bmgPied >= 3f -> 5
         bmgPied >= 1f -> 2
-        bmmPied >= 1f -> 1
+        bmmPied >= 1f -> 2
         else          -> 0
     }
 
-    /** D – Bois morts au sol: score from BMg/ha and BMm/ha on ground. */
+    /** D – Bois morts au sol: score from BMg/ha and BMm/ha on ground. (Larrieu & Gonin 2008: 0/2/5) */
     fun scoreDFromCounts(bmgSol: Float, bmmSol: Float): Int = when {
         bmgSol >= 3f -> 5
         bmgSol >= 1f -> 2
-        bmmSol >= 1f -> 1
+        bmmSol >= 1f -> 2
         else         -> 0
     }
 
-    /** E – TGB: score from TGB/ha and GB/ha, adjusted for growth conditions. */
+    /** E – TGB: score from TGB/ha and GB/ha, adjusted for growth conditions. (Larrieu & Gonin 2008: 0/2/5) */
     fun scoreEFromCounts(tgb: Float, gb: Float, conditions: IbpGrowthConditions): Int {
         // On subalpine/poor sites, apply reduced seuils (−1 diameter class ~ ×0.8)
         val tgbHigh = if (conditions == IbpGrowthConditions.SUBALPINE) 4f else 5f
@@ -195,16 +195,15 @@ object IbpCriterionData {
         return when {
             tgb >= tgbHigh -> 5
             tgb >= tgbMin  -> 2
-            gb  >= 1f      -> 1
+            gb  >= 1f      -> 2
             else           -> 0
         }
     }
 
-    /** F – DMH: score from count of trees bearing at least one dmh per ha. */
+    /** F – DMH: score from count of trees bearing at least one dmh per ha. (Larrieu & Gonin 2008: 0/2/5) */
     fun scoreFFromCounts(dmhCount: Float): Int = when {
         dmhCount >= 5f -> 5
-        dmhCount >= 3f -> 2
-        dmhCount >= 2f -> 1
+        dmhCount >= 2f -> 2
         else           -> 0
     }
 

@@ -283,12 +283,26 @@ object TerritorialResolver {
         // 2. Si un seul candidat : retour direct
         if (candidates.size == 1) return candidates[0]
         // 3. Si plusieurs (zones frontalières) : plus proche centroïde
-        return candidates.minByOrNull { haversineKm(lat, lon, it.centLat, it.centLon) }
-            ?: DEPARTMENTS.minByOrNull { haversineKm(lat, lon, it.centLat, it.centLon) }
+        if (candidates.size > 1) {
+            return candidates.minByOrNull { haversineKm(lat, lon, it.centLat, it.centLon) }
+        }
+        // 4. Aucun candidat : point potentiellement hors France.
+        //    Fallback tolérant pour les points légèrement hors bounding boxes
+        //    (imprécisions de données), mais rejet si clairement hors France (> 50 km
+        //    du centroïde le plus proche).
+        val closest = DEPARTMENTS.minByOrNull { haversineKm(lat, lon, it.centLat, it.centLon) }
+            ?: return null
+        val distToClosest = haversineKm(lat, lon, closest.centLat, closest.centLon)
+        return if (distToClosest > 50.0) null else closest
     }
 
-    private fun findRegion(lat: Double, lon: Double): RegionEntry? =
-        REGIONS.minByOrNull { haversineKm(lat, lon, it.centLat, it.centLon) }
+    private fun findRegion(lat: Double, lon: Double): RegionEntry? {
+        val closest = REGIONS.minByOrNull { haversineKm(lat, lon, it.centLat, it.centLon) }
+            ?: return null
+        // Rejet si clairement hors France (> 60 km du centroïde région le plus proche)
+        val dist = haversineKm(lat, lon, closest.centLat, closest.centLon)
+        return if (dist > 60.0) null else closest
+    }
 
     // ─── Interpolation altitudinale (IDW) ────────────────────────────────────
 

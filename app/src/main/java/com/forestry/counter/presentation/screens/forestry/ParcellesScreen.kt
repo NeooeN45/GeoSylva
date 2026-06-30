@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.EmojiNature
 import androidx.compose.material.icons.filled.Science
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.scale
@@ -82,7 +83,7 @@ fun ParcellesScreen(
     val context = LocalContext.current
     val parcelles by (
         if (forestId != null) parcelleRepository.getParcellesByForest(forestId) else parcelleRepository.getAllParcelles()
-    ).collectAsState(initial = emptyList())
+    ).collectAsStateWithLifecycle(initialValue = emptyList())
 
     var editParcelle by remember { mutableStateOf<Parcelle?>(null) }
     var deleteParcelle by remember { mutableStateOf<Parcelle?>(null) }
@@ -99,20 +100,20 @@ fun ParcellesScreen(
     var sampleArea by remember { mutableStateOf("2000") }
     val group by remember(forestId) {
         if (forestId != null) groupRepository.getGroupById(forestId) else kotlinx.coroutines.flow.flowOf(null)
-    }.collectAsState(initial = null)
+    }.collectAsStateWithLifecycle(initialValue = null)
 
     var showRenameProjectDialog by remember { mutableStateOf(false) }
     var renameProjectName by remember { mutableStateOf("") }
     var sortMode by remember { mutableStateOf(ParcelleSort.NAME) }
 
-    val hapticEnabled by userPreferences.hapticEnabled.collectAsState(initial = true)
-    val soundEnabled by userPreferences.soundEnabled.collectAsState(initial = true)
-    val hapticIntensity by userPreferences.hapticIntensity.collectAsState(initial = 2)
-    val animationsEnabled by userPreferences.animationsEnabled.collectAsState(initial = true)
-    val pressScale by userPreferences.pressScale.collectAsState(initial = 0.96f)
-    val animDurationShort by userPreferences.animDurationShort.collectAsState(initial = 140)
-    val backgroundImageEnabled by userPreferences.backgroundImageEnabled.collectAsState(initial = true)
-    val backgroundImageUri by userPreferences.backgroundImageUri.collectAsState(initial = null)
+    val hapticEnabled by userPreferences.hapticEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val soundEnabled by userPreferences.soundEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val hapticIntensity by userPreferences.hapticIntensity.collectAsStateWithLifecycle(initialValue = 2)
+    val animationsEnabled by userPreferences.animationsEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val pressScale by userPreferences.pressScale.collectAsStateWithLifecycle(initialValue = 0.96f)
+    val animDurationShort by userPreferences.animDurationShort.collectAsStateWithLifecycle(initialValue = 140)
+    val backgroundImageEnabled by userPreferences.backgroundImageEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val backgroundImageUri by userPreferences.backgroundImageUri.collectAsStateWithLifecycle(initialValue = null)
     val haptic = rememberHapticFeedback()
     val sound = rememberSoundFeedback()
 
@@ -215,7 +216,7 @@ fun ParcellesScreen(
                                 onNavigateToMartelage(forestId)
                             }) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Icon(Icons.Default.Straighten, contentDescription = null)
+                                    Icon(Icons.Default.Straighten, contentDescription = stringResource(R.string.cd_straighten))
                                     Spacer(modifier = Modifier.width(2.dp))
                                     Icon(Icons.Default.Description, contentDescription = stringResource(R.string.martelage))
                                 }
@@ -644,7 +645,7 @@ private fun ParcelleCard(
                     }
                     Box {
                         IconButton(onClick = { menuExpanded = true }) {
-                            Icon(Icons.Default.MoreVert, contentDescription = "Plus d'options")
+                            Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.more_options))
                         }
                         DropdownMenu(
                             expanded = menuExpanded,
@@ -652,14 +653,14 @@ private fun ParcelleCard(
                         ) {
                             if (onNavigateToIbp != null) {
                                 DropdownMenuItem(
-                                    text = { Text("IBP Biodiversité") },
+                                    text = { Text(stringResource(R.string.parcelles_menu_ibp_biodiversity)) },
                                     leadingIcon = { Icon(Icons.Default.EmojiNature, contentDescription = null) },
                                     onClick = { menuExpanded = false; onNavigateToIbp() }
                                 )
                             }
                             if (onNavigateToDiagnostic != null) {
                                 DropdownMenuItem(
-                                    text = { Text("Diagnostic sylvicole") },
+                                    text = { Text(stringResource(R.string.parcelles_menu_sylvicultural_diagnostic)) },
                                     leadingIcon = { Icon(Icons.Default.Science, contentDescription = null) },
                                     onClick = { menuExpanded = false; onNavigateToDiagnostic() }
                                 )

@@ -12,9 +12,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.forestry.counter.R
 import com.forestry.counter.domain.model.pack.GeoPackDescriptor
 import com.forestry.counter.domain.model.pack.PackLevel
 import com.forestry.counter.domain.model.pack.PackStatus
@@ -37,7 +39,7 @@ fun PackManagerScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Packs de données") },
+                title = { Text(stringResource(R.string.packs_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
@@ -57,7 +59,7 @@ fun PackManagerScreen(
                     Tab(
                         selected = selectedRegion == region,
                         onClick = { selectedRegion = region },
-                        text = { Text(region, fontSize = 13.sp) }
+                        text = { Text(if (region == "Tout") stringResource(R.string.pack_all) else region, fontSize = 13.sp) }
                     )
                 }
             }
@@ -71,7 +73,7 @@ fun PackManagerScreen(
                 if (filtered.none { it.level != PackLevel.SOCLE_NATIONAL }) {
                     item {
                         Text(
-                            "Aucun pack régional disponible pour cette sélection.",
+                            stringResource(R.string.pack_no_regional),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.padding(16.dp)
@@ -101,10 +103,10 @@ private fun StorageSummaryBanner(packs: List<GeoPackDescriptor>) {
                 Icon(Icons.Default.Storage, contentDescription = null,
                     modifier = Modifier.size(18.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
                 Spacer(Modifier.width(6.dp))
-                Text("$installedCount pack(s) installé(s) · ${totalSizeMb} Mo",
+                Text(stringResource(R.string.pack_installed_summary_format, installedCount, totalSizeMb),
                     style = MaterialTheme.typography.bodySmall)
             }
-            Text("Tout (${packs.size})", style = MaterialTheme.typography.labelSmall,
+            Text(stringResource(R.string.pack_all_format, packs.size), style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
@@ -129,7 +131,7 @@ private fun NationalPackBanner(nationalPack: GeoPackDescriptor?) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(nationalPack.name, fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer)
-                Text("Données nationales — disponible hors ligne (${nationalPack.features.floraSpeciesCount} sp.)",
+                Text(stringResource(R.string.pack_national_offline_format, nationalPack.features.floraSpeciesCount),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f))
             }
@@ -160,7 +162,7 @@ private fun PackCard(pack: GeoPackDescriptor) {
                 Spacer(Modifier.width(10.dp))
                 Column(modifier = Modifier.weight(1f)) {
                     Text(pack.name, fontWeight = FontWeight.SemiBold)
-                    Text("${pack.codeINSEE ?: "National"} · ${pack.sizeKb / 1024} Mo",
+                    Text("${pack.codeINSEE ?: stringResource(R.string.pack_national_label)} · ${pack.sizeKb / 1024} Mo",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
@@ -176,14 +178,14 @@ private fun PackCard(pack: GeoPackDescriptor) {
                 Spacer(Modifier.height(8.dp))
                 HorizontalDivider()
                 Spacer(Modifier.height(8.dp))
-                Text("v${pack.version} · construit ${pack.buildDate}", style = MaterialTheme.typography.bodySmall,
+                Text(stringResource(R.string.pack_built_format, pack.version, pack.buildDate), style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Spacer(Modifier.height(8.dp))
                 val featureList = buildList {
-                    if (pack.features.hasFloraDatabase) add("${pack.features.floraSpeciesCount} espèces flore")
-                    if (pack.features.hasStationRules) add("Règles station")
-                    if (pack.features.hasRegionalSRGS) add("SRGS régional")
-                    if (pack.features.hasDriasProjets) add("Projections DRIAS")
+                    if (pack.features.hasFloraDatabase) add(stringResource(R.string.pack_feature_flora_format, pack.features.floraSpeciesCount))
+                    if (pack.features.hasStationRules) add(stringResource(R.string.pack_feature_station_rules))
+                    if (pack.features.hasRegionalSRGS) add(stringResource(R.string.pack_feature_regional_srgs))
+                    if (pack.features.hasDriasProjets) add(stringResource(R.string.pack_feature_drias))
                 }
                 featureList.forEach { feature ->
                     PackFeatureRow(feature)
@@ -196,7 +198,7 @@ private fun PackCard(pack: GeoPackDescriptor) {
                     ) {
                         Icon(Icons.Default.Download, contentDescription = null, modifier = Modifier.size(16.dp))
                         Spacer(Modifier.width(6.dp))
-                        Text("Installer")
+                        Text(stringResource(R.string.pack_install))
                     }
                     PackStatus.UPDATE_PENDING -> Button(
                         onClick = {},
@@ -204,12 +206,12 @@ private fun PackCard(pack: GeoPackDescriptor) {
                     ) {
                         Icon(Icons.Default.Update, contentDescription = null, modifier = Modifier.size(16.dp))
                         Spacer(Modifier.width(6.dp))
-                        Text("MAJ dispo")
+                        Text(stringResource(R.string.pack_update_available))
                     }
                     PackStatus.INSTALLED -> TextButton(
                         onClick = {},
                         modifier = Modifier.fillMaxWidth()
-                    ) { Text("Désinstaller", color = MaterialTheme.colorScheme.error) }
+                    ) { Text(stringResource(R.string.pack_uninstall), color = MaterialTheme.colorScheme.error) }
                     PackStatus.ERROR -> OutlinedButton(
                         onClick = {},
                         modifier = Modifier.fillMaxWidth(),
@@ -217,7 +219,7 @@ private fun PackCard(pack: GeoPackDescriptor) {
                     ) {
                         Icon(Icons.Default.Refresh, contentDescription = null, modifier = Modifier.size(16.dp))
                         Spacer(Modifier.width(6.dp))
-                        Text("Erreur — Réessayer")
+                        Text(stringResource(R.string.pack_error_retry))
                     }
                     PackStatus.EMBEDDED, PackStatus.DOWNLOADING -> {}
                 }
@@ -239,12 +241,12 @@ private fun PackFeatureRow(feature: String) {
 @Composable
 private fun StatusChip(status: PackStatus) {
     val (label, color) = when (status) {
-        PackStatus.INSTALLED       -> "Installé" to Color(0xFF2E7D32)
-        PackStatus.EMBEDDED        -> "Embarqué" to Color(0xFF1565C0)
-        PackStatus.AVAILABLE       -> "Disponible" to Color(0xFF1565C0)
-        PackStatus.UPDATE_PENDING  -> "MAJ dispo" to Color(0xFFE65100)
+        PackStatus.INSTALLED       -> stringResource(R.string.pack_status_installed) to Color(0xFF2E7D32)
+        PackStatus.EMBEDDED        -> stringResource(R.string.pack_status_embedded) to Color(0xFF1565C0)
+        PackStatus.AVAILABLE       -> stringResource(R.string.pack_status_available) to Color(0xFF1565C0)
+        PackStatus.UPDATE_PENDING  -> stringResource(R.string.pack_update_available) to Color(0xFFE65100)
         PackStatus.DOWNLOADING     -> "…" to Color(0xFF6A1B9A)
-        PackStatus.ERROR           -> "Erreur" to Color(0xFFC62828)
+        PackStatus.ERROR           -> stringResource(R.string.pack_status_error) to Color(0xFFC62828)
     }
     Surface(
         shape = RoundedCornerShape(6.dp),

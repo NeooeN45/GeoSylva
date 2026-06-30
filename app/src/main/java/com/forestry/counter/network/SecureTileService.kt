@@ -16,11 +16,19 @@ class SecureTileService(private val context: Context) {
 
     /**
      * Obtient les statistiques de sécurité pour le monitoring.
+     * Le certificate pinning est activé en release (voir SecureHttpClient).
      */
     fun getSecurityStats(): SecurityStats {
+        val isDebug = try {
+            Class.forName("com.forestry.counter.BuildConfig")
+                .getField("DEBUG")
+                .getBoolean(null)
+        } catch (e: Exception) {
+            false
+        }
         return SecurityStats(
             secureDomainsCount = SecureHttpClient.SECURE_DOMAINS.size,
-            certificatePinningEnabled = true,
+            certificatePinningEnabled = !isDebug, // activé en release, désactivé en debug
             loggingEnabled = false
         )
     }

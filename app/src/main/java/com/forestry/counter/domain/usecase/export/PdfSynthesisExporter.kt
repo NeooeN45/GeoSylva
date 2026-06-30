@@ -150,8 +150,8 @@ object PdfSynthesisExporter {
             y += 14f
             canvas.drawText("Valorisation", MARGIN, y, sectionPaint)
             y += 18f
-            y = drawKvRow(canvas, y, ctx.getString(R.string.pdf_revenue), "${fmt0(s.revenueTotal)} €", labelPaint, valuePaint)
-            s.revenuePerHa?.let { y = drawKvRow(canvas, y, ctx.getString(R.string.pdf_revenue_ha), "${fmt0(it)} €/ha", labelPaint, valuePaint) }
+            y = drawKvRow(canvas, y, ctx.getString(R.string.pdf_revenue), CurrencyFormatter.format(s.revenueTotal), labelPaint, valuePaint)
+            s.revenuePerHa?.let { y = drawKvRow(canvas, y, ctx.getString(R.string.pdf_revenue_ha), "${CurrencyFormatter.format(it)}/ha", labelPaint, valuePaint) }
         }
 
         // ── Tableau par essence ──
@@ -364,7 +364,7 @@ object PdfSynthesisExporter {
             ctx.getString(R.string.pdf_col_essence),
             ctx.getString(R.string.product_col_product),
             ctx.getString(R.string.product_col_vol),
-            "€/m³",
+            "${CurrencyFormatter.symbol}/m³",
             ctx.getString(R.string.product_col_total)
         )
         val colW = floatArrayOf(
@@ -410,7 +410,7 @@ object PdfSynthesisExporter {
                     row.product,
                     fmt2(row.volumeM3),
                     fmt0(row.pricePerM3),
-                    fmt0(row.totalEur) + " €"
+                    fmt0(row.totalEur) + " " + CurrencyFormatter.symbol
                 )
                 for (i in cells.indices) {
                     val p = if (i == 0) cellBoldPaint else cellPaint
@@ -431,7 +431,7 @@ object PdfSynthesisExporter {
         val totalBg = Paint().apply { color = Color.parseColor("#BBDEFB"); style = Paint.Style.FILL }
         canvas.drawRect(MARGIN, y, PAGE_W - MARGIN, y + rowH, totalBg)
         x = MARGIN + 4f
-        val totals = listOf("TOTAL", "", fmt2(totalVol), "", fmt0(totalEur) + " €")
+        val totals = listOf("TOTAL", "", fmt2(totalVol), "", fmt0(totalEur) + " " + CurrencyFormatter.symbol)
         for (i in totals.indices) {
             val xText = if (i == 0) x else x + colW[i] - 4f
             cellBoldPaint.textAlign = if (i == 0) Paint.Align.LEFT else Paint.Align.RIGHT

@@ -1,5 +1,7 @@
 package com.forestry.counter.presentation.components
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.core.content.ContextCompat
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,22 +23,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.FileProvider
+import com.forestry.counter.R
 import com.forestry.counter.domain.model.station.DiagnosticPhoto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.BorderStroke
 import java.io.File
+import java.io.InputStream
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Types photo
 // ─────────────────────────────────────────────────────────────────────────────
 
+// TODO i18n: extraire vers strings.xml — les libellés de PhotoCategory servent aussi
+// de clés de type persistées (photo.type), ne pas les renommer sans migration.
 enum class PhotoCategory(val label: String, val emoji: String, val color: Color) {
     SOL("Sol",            "🪨", Color(0xFF7D5A3C)),
     FLORE("Flore",        "🌿", Color(0xFF2D6A4F)),
@@ -68,10 +77,24 @@ fun StationPhotoGalleryBlock(
     var showFullscreenIdx  by remember { mutableStateOf<Int?>(null) }
     var pendingUri         by remember { mutableStateOf<String?>(null) }
     var cameraUri          by remember { mutableStateOf<Uri?>(null) }
+    var pendingCameraLaunch by remember { mutableStateOf(false) }
 
     val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { ok ->
         if (ok) cameraUri?.toString()?.let { pendingUri = it; showEditDialog = -1 }
     }
+
+    val cameraPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted && pendingCameraLaunch) {
+            val file = File(context.getExternalFilesDir(null), "diag_${System.currentTimeMillis()}.jpg")
+            val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
+            cameraUri = uri
+            cameraLauncher.launch(uri)
+        }
+        pendingCameraLaunch = false
+    }
+
     val galleryLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.toString()?.let { pendingUri = it; showEditDialog = -1 }
     }
@@ -79,7 +102,7 @@ fun StationPhotoGalleryBlock(
     TerrainCard(modifier = modifier, accentColor = StationDiagColors.purpleAlt) {
         // ── Header ──────────────────────────────────────────────────────────
         BlockSectionTitle(
-            text = "Photos & Documents",
+            text = stringResource(R.string.station_photo_photos_documents),
             icon = Icons.Default.PhotoLibrary,
             color = StationDiagColors.purpleAlt,
             trailing = {
@@ -101,7 +124,7 @@ fun StationPhotoGalleryBlock(
                         onClick = { showSourceDialog = true },
                         modifier = Modifier.size(32.dp)
                     ) {
-                        Icon(Icons.Default.AddAPhoto, "Ajouter", tint = StationDiagColors.purpleAlt, modifier = Modifier.size(20.dp))
+                        Icon(Icons.Default.AddAPhoto, stringResource(R.string.add), tint = StationDiagColors.purpleAlt, modifier = Modifier.size(20.dp))
                     }
                 }
             }
@@ -110,7 +133,7 @@ fun StationPhotoGalleryBlock(
         Spacer(Modifier.height(4.dp))
         if (photos.size < minPhotos) {
             Text(
-                "Minimum $minPhotos photos requises pour finaliser le diagnostic.",
+                stringResource(R.string.station_photo_min_required_format, minPhotos),
                 style = MaterialTheme.typography.bodySmall,
                 color = StationDiagColors.ochrePrimary,
                 fontSize = 11.sp
@@ -182,10 +205,18 @@ fun StationPhotoGalleryBlock(
         PhotoSourceDialog(
             onCamera = {
                 showSourceDialog = false
-                val file = File(context.getExternalFilesDir(null), "diag_${System.currentTimeMillis()}.jpg")
-                val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
-                cameraUri = uri
-                cameraLauncher.launch(uri)
+                val hasCameraPermission = ContextCompat.checkSelfPermission(
+                    context, Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+                if (hasCameraPermission) {
+                    val file = File(context.getExternalFilesDir(null), "diag_${System.currentTimeMillis()}.jpg")
+                    val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
+                    cameraUri = uri
+                    cameraLauncher.launch(uri)
+                } else {
+                    pendingCameraLaunch = true
+                    cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+                }
             },
             onGallery = { showSourceDialog = false; galleryLauncher.launch("image/*") },
             onDismiss = { showSourceDialog = false }
@@ -237,9 +268,11 @@ private fun PhotoThumbnailCard(
     LaunchedEffect(photo.uri) {
         withContext(Dispatchers.IO) {
             runCatching {
-                context.contentResolver.openInputStream(android.net.Uri.parse(photo.uri))?.use { stream ->
-                    BitmapFactory.decodeStream(stream)
-                }
+                decodeSampledBitmap(
+                    openStream = { context.contentResolver.openInputStream(android.net.Uri.parse(photo.uri)) },
+                    reqWidth = THUMBNAIL_TARGET_PX,
+                    reqHeight = THUMBNAIL_TARGET_PX
+                )
             }.getOrNull()?.let { bitmap = it }
         }
     }
@@ -337,7 +370,7 @@ private fun AddPhotoTile(onClick: () -> Unit) {
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Icon(Icons.Default.AddAPhoto, null, tint = StationDiagColors.purpleAlt, modifier = Modifier.size(26.dp))
-            Text("Ajouter", style = MaterialTheme.typography.labelSmall, color = StationDiagColors.purpleAlt, fontSize = 10.sp)
+            Text(stringResource(R.string.add), style = MaterialTheme.typography.labelSmall, color = StationDiagColors.purpleAlt, fontSize = 10.sp)
         }
     }
 }
@@ -356,8 +389,8 @@ private fun EmptyPhotoPlaceholder(onClick: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Icon(Icons.Default.AddAPhoto, null, tint = StationDiagColors.purpleAlt, modifier = Modifier.size(36.dp))
-            Text("Aucune photo", style = MaterialTheme.typography.bodyMedium, color = StationDiagColors.textSecondary, fontWeight = FontWeight.SemiBold)
-            Text("Appuyez pour photographier ou importer une image du terrain", style = MaterialTheme.typography.bodySmall, color = StationDiagColors.textSecondary, fontSize = 11.sp)
+            Text(stringResource(R.string.station_photo_none), style = MaterialTheme.typography.bodyMedium, color = StationDiagColors.textSecondary, fontWeight = FontWeight.SemiBold)
+            Text(stringResource(R.string.station_photo_empty_desc), style = MaterialTheme.typography.bodySmall, color = StationDiagColors.textSecondary, fontSize = 11.sp)
         }
     }
 }
@@ -370,23 +403,23 @@ private fun EmptyPhotoPlaceholder(onClick: () -> Unit) {
 private fun PhotoSourceDialog(onCamera: () -> Unit, onGallery: () -> Unit, onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Ajouter une photo", fontWeight = FontWeight.Bold) },
+        title = { Text(stringResource(R.string.photo_add_title), fontWeight = FontWeight.Bold) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 ListItem(
-                    headlineContent = { Text("Prendre une photo") },
+                    headlineContent = { Text(stringResource(R.string.photo_take_picture)) },
                     leadingContent = { Icon(Icons.Default.PhotoCamera, null, tint = StationDiagColors.forestGreen) },
                     modifier = Modifier.clip(StationDiagShapes.cardSmall).clickable(onClick = onCamera)
                 )
                 ListItem(
-                    headlineContent = { Text("Importer depuis la galerie") },
+                    headlineContent = { Text(stringResource(R.string.photo_import_gallery)) },
                     leadingContent = { Icon(Icons.Default.PhotoLibrary, null, tint = StationDiagColors.waterBlue) },
                     modifier = Modifier.clip(StationDiagShapes.cardSmall).clickable(onClick = onGallery)
                 )
             }
         },
         confirmButton = {},
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Annuler") } }
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } }
     )
 }
 
@@ -408,18 +441,18 @@ private fun PhotoEditDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(if (initial == null) "Nouvelle photo" else "Modifier la photo", fontWeight = FontWeight.Bold) },
+        title = { Text(if (initial == null) stringResource(R.string.station_photo_new) else stringResource(R.string.station_photo_edit), fontWeight = FontWeight.Bold) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 OutlinedTextField(
                     value = legend,
                     onValueChange = { legend = it },
-                    label = { Text("Légende (optionnel)") },
+                    label = { Text(stringResource(R.string.station_photo_legend_optional)) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     shape = StationDiagShapes.input
                 )
-                Text("Type de photo", style = MaterialTheme.typography.labelMedium, color = StationDiagColors.textSecondary)
+                Text(stringResource(R.string.station_photo_type), style = MaterialTheme.typography.labelMedium, color = StationDiagColors.textSecondary)
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     PhotoCategory.entries.chunked(4).forEach { row ->
                         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -449,9 +482,9 @@ private fun PhotoEditDialog(
             Button(
                 onClick = { onConfirm(legend, selectedCategory.label) },
                 colors = ButtonDefaults.buttonColors(containerColor = StationDiagColors.forestGreen)
-            ) { Text("Valider") }
+            ) { Text(stringResource(R.string.validate)) }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Annuler") } }
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } }
     )
 }
 
@@ -462,7 +495,11 @@ private fun PhotoFullscreenDialog(photo: DiagnosticPhoto, onDismiss: () -> Unit)
     LaunchedEffect(photo.uri) {
         withContext(Dispatchers.IO) {
             runCatching {
-                context.contentResolver.openInputStream(android.net.Uri.parse(photo.uri))?.use { BitmapFactory.decodeStream(it) }
+                decodeSampledBitmap(
+                    openStream = { context.contentResolver.openInputStream(android.net.Uri.parse(photo.uri)) },
+                    reqWidth = FULLSCREEN_TARGET_PX,
+                    reqHeight = FULLSCREEN_TARGET_PX
+                )
             }.getOrNull()?.let { bitmap = it }
         }
     }
@@ -475,7 +512,7 @@ private fun PhotoFullscreenDialog(photo: DiagnosticPhoto, onDismiss: () -> Unit)
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(photo.legend.ifBlank { photo.type }, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-                    IconButton(onClick = onDismiss) { Icon(Icons.Default.Close, "Fermer") }
+                    IconButton(onClick = onDismiss) { Icon(Icons.Default.Close, stringResource(R.string.close)) }
                 }
                 if (bitmap != null) {
                     val bmp = bitmap ?: return@Column
@@ -487,4 +524,54 @@ private fun PhotoFullscreenDialog(photo: DiagnosticPhoto, onDismiss: () -> Unit)
             }
         }
     }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  Décodage bitmap avec downsampling (évite OOM sur photos 12MP+)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Taille cible (px) pour les miniatures de la galerie. */
+private const val THUMBNAIL_TARGET_PX = 220
+
+/** Taille cible (px) pour la visualisation plein écran. */
+private const val FULLSCREEN_TARGET_PX = 1080
+
+/**
+ * Décode un bitmap en limitant la mémoire consommée :
+ * - RGB_565 (2 octets/pixel au lieu de 4 en ARGB_8888)
+ * - inSampleSize calculé dynamiquement selon la taille cible
+ *
+ * Le flux est ouvert deux fois (une pour les dimensions, une pour le décodage)
+ * via [openStream] car un InputStream ne peut généralement pas être relu.
+ */
+private fun decodeSampledBitmap(
+    openStream: () -> InputStream?,
+    reqWidth: Int,
+    reqHeight: Int
+): Bitmap? {
+    // 1er passage : dimensions uniquement
+    val bounds = BitmapFactory.Options().apply {
+        inJustDecodeBounds = true
+        inPreferredConfig = Bitmap.Config.RGB_565
+    }
+    openStream()?.use { BitmapFactory.decodeStream(it, null, bounds) } ?: return null
+
+    // Calcul du inSampleSize (puissance de 2)
+    var sampleSize = 1
+    val outWidth = bounds.outWidth
+    val outHeight = bounds.outHeight
+    if (outWidth > 0 && outHeight > 0 && (outWidth > reqWidth || outHeight > reqHeight)) {
+        val halfWidth = outWidth / 2
+        val halfHeight = outHeight / 2
+        while (halfWidth / sampleSize >= reqWidth && halfHeight / sampleSize >= reqHeight) {
+            sampleSize *= 2
+        }
+    }
+
+    // 2e passage : décodage réel
+    val options = BitmapFactory.Options().apply {
+        inSampleSize = sampleSize
+        inPreferredConfig = Bitmap.Config.RGB_565
+    }
+    return openStream()?.use { BitmapFactory.decodeStream(it, null, options) }
 }

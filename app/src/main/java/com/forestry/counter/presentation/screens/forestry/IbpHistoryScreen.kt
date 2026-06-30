@@ -17,6 +17,7 @@ import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,13 +54,13 @@ fun IbpHistoryScreen(
         if (placetteId != null) ibpRepository.getByPlacette(placetteId)
         else ibpRepository.getByParcelle(parcelleId)
     }
-    val evaluations by evaluationsFlow.collectAsState(initial = emptyList())
+    val evaluations by evaluationsFlow.collectAsStateWithLifecycle(initialValue = emptyList())
     val sorted = remember(evaluations) { evaluations.sortedByDescending { it.observationDate } }
 
     val placettesFlow = remember(placetteRepository, parcelleId) {
         placetteRepository?.getPlacettesByParcelle(parcelleId) ?: kotlinx.coroutines.flow.flowOf(emptyList())
     }
-    val placettes by placettesFlow.collectAsState(initial = emptyList())
+    val placettes by placettesFlow.collectAsStateWithLifecycle(initialValue = emptyList())
     val placetteNames = remember(placettes) { placettes.associate { it.id to (it.name ?: "") } }
 
     var showDeleteDialog by remember { mutableStateOf<IbpEvaluation?>(null) }

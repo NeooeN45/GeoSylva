@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="tree_count">
+        <item quantity="one">%d tree</item>
+        <item quantity="other">%d trees</item>
+    </plurals>
+    <plurals name="plot_count">
+        <item quantity="one">%d plot</item>
+        <item quantity="other">%d plots</item>
+    </plurals>
+    <plurals name="parcel_count">
+        <item quantity="one">%d parcel</item>
+        <item quantity="other">%d parcels</item>
+    </plurals>
+    <plurals name="species_count">
+        <item quantity="one">%d species</item>
+        <item quantity="other">%d species</item>
+    </plurals>
+</resources>

@@ -19,12 +19,12 @@ import kotlin.math.*
  * Les stations 1/2/3 correspondent aux classes de fertilité I/II/III de ces tables.
  *
  * ### Indice de station (IS)
- * Méthode : IS = hauteur dominante à l’âge de référence (100 ans pour chêne, 80 ans pour hêtre).
- * La formule linéaire utilisée (H×coef + D×coef)/2 est une approximation pratique
- * tirée des guides de diagnostic stationnel ONF (Timbal et al. 1990,
- * « Stations forestières et types de sols ») — coefficients valides pour peuplements adultes
- * (> 40 ans) avec densité normale (G/ha ≥ 15 m²/ha).
- * ⚠ Plage de validité IS : 5–30. En dehors → résultats interpolés linéairement.
+ * Méthode officielle : IS = hauteur dominante (Hdom) à l'âge de référence
+ * (100 ans pour chêne, 80 ans pour hêtre, 50 ans pour résineux).
+ * ⚠ Approximation: IS ≈ Hdom en l'absence de l'âge de référence. L'IS officiel ONF
+ * nécessite Hdom à âge de référence. La classification par classes (I–VII) est
+ * conservée et reste basée sur Hdom.
+ * ⚠ Plage de validité IS : 5–30. En dehors → valeurs bornées par coerceIn.
  *
  * ### Modèle de Richards (croissance en diamètre)
  * Équation : D(t) = A / (1 + exp(−k·(t−t₀)))^b
@@ -110,35 +110,66 @@ class ExpertForestryCalculator(
     )
     
     /**
+     * Calcule la hauteur dominante (Hdom) selon la norme ONF :
+     * moyenne des hauteurs des 100 plus gros arbres par hectare.
+     *
+     * Hdom est indispensable pour l'indice de station ONF (Hdom à âge de référence)
+     * et pour la sélection automatique des tarifs Schaeffer (méthode Lorey Hdom/Dg).
+     *
+     * Méthode :
+     * 1. Trier les tiges par diamètre décroissant
+     * 2. Sélectionner les N plus gros arbres où N = ceil(100 × surfaceHa)
+     * 3. Hdom = moyenne des hauteurs (non nulles) de ces arbres
+     * 4. Si moins de N arbres disponibles, utiliser tous les arbres triés
+     * 5. Si aucune hauteur disponible, retourner null
+     *
+     * @param tiges liste des tiges présentes sur la surface considérée
+     * @param surfaceHa surface en hectares
+     * @return Hdom en mètres, ou null si aucune hauteur disponible
+     */
+    fun computeHdom(tiges: List<Tige>, surfaceHa: Double): Double? {
+        if (tiges.isEmpty() || surfaceHa <= 0.0) return null
+        val nTarget = ceil(100.0 * surfaceHa).toInt().coerceAtLeast(1)
+        val selected = tiges.sortedByDescending { it.diamCm }.take(nTarget)
+        val heights = selected.mapNotNull { it.hauteurM }
+        return if (heights.isEmpty()) null else heights.average()
+    }
+
+    /**
      * Calcule l'indice de station ONF (0-30) selon la méthode officielle
+     *
+     * Approximation: IS ≈ Hdom en l'absence de l'âge de référence. L'IS officiel ONF
+     * nécessite Hdom à âge de référence (100 ans chêne, 80 ans hêtre, 50 ans résineux).
      */
     fun calculateIndiceDeStation(
         essenceCode: String,
         age: Int,
-        hauteurMoyenne: Double,
+        hdom: Double,
         diametreMoyen: Double
     ): Double {
+        // Approximation: IS ≈ Hdom en l'absence de l'âge de référence.
+        // L'IS officiel ONF nécessite Hdom à âge de référence
+        // (100 ans chêne, 80 ans hêtre, 50 ans résineux).
+        // La classification par classes (I–VII) est conservée et reste basée sur Hdom.
+        @Suppress("UNUSED_PARAMETER")
+        val ignoredAge: Int = age
+        @Suppress("UNUSED_PARAMETER")
+        val ignoredDiam: Double = diametreMoyen
         return when (essenceCode.uppercase()) {
-            "QUPE", "QUPES", "QUPU", "QUIL", "QURU" -> {
-                // IS chêne : approximation linéaire de la courbe H₀(t=100) de Décourt & Pardé (1980)
-                // Coeff. calibrés sur peuplements 40-160 ans, station I-III. Plage IS : 5–25.
-                val iaHauteur = (hauteurMoyenne * 0.8).coerceAtMost(30.0)
-                val iaDiametre = (diametreMoyen * 0.3).coerceAtMost(30.0)
-                (iaHauteur + iaDiametre) / 2.0
+            "QUPE", "QUPES", "QUPU", "QUIL", "QURU",
+            "CHENE", "CH_SESSILE", "CH_PEDONCULE" -> {
+                // IS chêne : proxy = Hdom. Plage IS : 5–25 (tables Décourt & Pardé 1980).
+                hdom.coerceIn(5.0, 30.0)
             }
-            "FASY" -> {
-                // IS hêtre : même méthode, t_ref = 80 ans selon Pardé & Bouchon (1988) Dendrométrie
-                val iaHauteur = (hauteurMoyenne * 1.2).coerceAtMost(30.0)
-                val iaDiametre = (diametreMoyen * 0.4).coerceAtMost(30.0)
-                (iaHauteur + iaDiametre) / 2.0
+            "FASY", "HETRE", "HETRE_COMMUN" -> {
+                // IS hêtre : proxy = Hdom. t_ref = 80 ans (Pardé & Bouchon 1988).
+                hdom.coerceIn(5.0, 30.0)
             }
-            "ABAL" -> {
-                // IS sapin : t_ref = 80 ans, coefficients guide ONF Alpes/Vosges (Timbal et al. 1990)
-                val iaHauteur = (hauteurMoyenne * 0.9).coerceAtMost(30.0)
-                val iaDiametre = (diametreMoyen * 0.35).coerceAtMost(30.0)
-                (iaHauteur + iaDiametre) / 2.0
+            "ABAL", "SAPIN", "SAPIN_PECTINE" -> {
+                // IS sapin : proxy = Hdom. t_ref = 80 ans (guide ONF Timbal et al. 1990).
+                hdom.coerceIn(5.0, 30.0)
             }
-            else -> 15.0 // Valeur par défaut
+            else -> 15.0 // Valeur par défaut quand essence non reconnue
         }
     }
     

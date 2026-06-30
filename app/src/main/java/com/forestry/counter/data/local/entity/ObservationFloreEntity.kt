@@ -25,6 +25,12 @@ import androidx.room.PrimaryKey
             parentColumns = ["sessionId"],
             childColumns = ["sessionId"],
             onDelete = ForeignKey.SET_NULL
+        ),
+        ForeignKey(
+            entity = EssenceEntity::class,
+            parentColumns = ["code"],
+            childColumns = ["codeEspece"],
+            onDelete = ForeignKey.RESTRICT
         )
     ],
     indices = [

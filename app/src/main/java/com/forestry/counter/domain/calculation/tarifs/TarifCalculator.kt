@@ -1,5 +1,6 @@
 package com.forestry.counter.domain.calculation.tarifs
 
+import com.forestry.counter.domain.calculation.EssenceAliases
 import kotlin.math.PI
 import kotlin.math.pow
 
@@ -207,38 +208,7 @@ object TarifCalculator {
     private fun normalizeEssenceCode(code: String): String = code.trim().uppercase()
 
     private fun essenceCodeCandidates(code: String): List<String> {
-        val up = normalizeEssenceCode(code)
-        return when (up) {
-            "HETRE" -> listOf("HETRE", "HETRE_COMMUN")
-            "HETRE_COMMUN" -> listOf("HETRE_COMMUN", "HETRE")
-            "DOUGLAS" -> listOf("DOUGLAS", "DOUGLAS_VERT")
-            "DOUGLAS_VERT" -> listOf("DOUGLAS_VERT", "DOUGLAS")
-            "CHENE" -> listOf("CHENE", "CH_SESSILE", "CH_PEDONCULE")
-            "PEUPLIER" -> listOf("PEUPLIER", "PEUPLIER_HYBR", "PEUPLIER_NOIR")
-            "BOULEAU" -> listOf("BOULEAU", "BOUL_VERRUQ", "BOUL_PUBESC")
-            "ERABLE" -> listOf("ERABLE", "ERABLE_SYC", "ERABLE_PLANE", "ERABLE_CHAMP")
-            "AULNE" -> listOf("AULNE", "AULNE_GLUT", "AULNE_BLANC")
-            "ORME" -> listOf("ORME", "ORME_CHAMP", "ORME_LISSE", "ORME_MONT")
-            "SAULE" -> listOf("SAULE", "SAULE_BLANC", "SAULE_FRAGILE", "SAULE_MARSAULT")
-            "TILLEUL" -> listOf("TILLEUL", "TIL_PET_FEUIL", "TIL_GR_FEUIL")
-            "PIN" -> listOf("PIN", "PIN_SYLVESTRE", "PIN_MARITIME", "PIN_NOIR_AUTR", "PIN_LARICIO")
-            "MELEZE" -> listOf("MELEZE", "MEL_EUROPE", "MEL_HYBRIDE", "MEL_JAPON")
-            "ALISIER" -> listOf("ALISIER", "ALISIER_TORM", "ALISIER_BLANC")
-            "TREMBLE" -> listOf("TREMBLE", "PEUPLIER_TREMB")
-            "PEUPLIER_TREMB" -> listOf("PEUPLIER_TREMB", "TREMBLE")
-            "FRENE" -> listOf("FRENE", "FRENE_ELEVE", "FRENE_OXYPHYLLE", "FRENE_FLEURS")
-            "SAPIN" -> listOf("SAPIN", "SAPIN_PECTINE", "SAPIN_NORDMANN", "SAPIN_GRANDIS")
-            "EPICEA" -> listOf("EPICEA", "EPICEA_COMMUN", "EPICEA_SITKA", "EPICEA_OMORIKA")
-            "CEDRE" -> listOf("CEDRE", "CEDRE_ATLAS", "CEDRE_LIBAN")
-            "CYPRES" -> listOf("CYPRES", "CYPRES_PROVENCE", "CYPRES_CHAUVE")
-            "GENEVRIER" -> listOf("GENEVRIER", "GENEVRIER_CADE", "GENEVRIER_PHENICIE")
-            "EUCALYPTUS" -> listOf("EUCALYPTUS", "EUCALYPTUS_GUNNII", "EUCALYPTUS_GLOBULUS")
-            "CORNOUILLER" -> listOf("CORNOUILLER", "CORNOUILLER_MALE", "CORNOUILLER_SANG")
-            "VIORNE" -> listOf("VIORNE", "VIORNE_LANTANE", "VIORNE_OBIER")
-            "NOYER" -> listOf("NOYER", "NOYER_COMMUN", "NOYER_NOIR")
-            "SORBIER" -> listOf("SORBIER", "SORB_OISEL", "SORBIER_DOMESTIQUE")
-            else -> listOf(up)
-        }
+        return EssenceAliases.candidates(code)
     }
 }
 
@@ -288,8 +258,8 @@ object DecoupeCalculator {
             return applyRules(volumeTotal, catRules)
         }
 
-        // 3) Fallback : tout en BO si D >= 35, sinon BI
-        return if (d >= 35) mapOf("BO" to volumeTotal) else mapOf("BI" to volumeTotal)
+        // 3) Fallback : tout en BO si D >= 40, sinon BI
+        return if (d >= 40) mapOf("BO" to volumeTotal) else mapOf("BI" to volumeTotal)
     }
 
     private fun applyRules(volumeTotal: Double, rules: List<DecoupeRule>): Map<String, Double> {

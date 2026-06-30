@@ -40,7 +40,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,8 +49,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.forestry.counter.R
 import com.forestry.counter.domain.diagnostic.SylviculturalDiagnosticEngine
 import com.forestry.counter.domain.repository.DiagnosticSylvicoleRepository
 import com.forestry.counter.domain.repository.ParcelleRepository
@@ -76,17 +78,17 @@ fun DiagnosticMenuScreen(
     val parcelleFlow = remember(parcelleRepository, parcelleId) {
         parcelleRepository.getParcelleById(parcelleId)
     }
-    val parcelle by parcelleFlow.collectAsState(initial = null)
+    val parcelle by parcelleFlow.collectAsStateWithLifecycle(initialValue = null)
 
     val stationFlow = remember(stationRepository, parcelleId) {
         stationRepository.getByParcelle(parcelleId)
     }
-    val station by stationFlow.collectAsState(initial = null)
+    val station by stationFlow.collectAsStateWithLifecycle(initialValue = null)
 
     val latestDiagnosticFlow = remember(diagnosticRepository, parcelleId) {
         diagnosticRepository.getByParcelle(parcelleId)
     }
-    val diagnostics by latestDiagnosticFlow.collectAsState(initial = emptyList())
+    val diagnostics by latestDiagnosticFlow.collectAsStateWithLifecycle(initialValue = emptyList())
     val latestDiagnostic = diagnostics.firstOrNull()
 
     var isRunning by remember { mutableStateOf(false) }
@@ -106,7 +108,7 @@ fun DiagnosticMenuScreen(
                 title = { Text("Diagnostic sylvicole") },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 }
             )
@@ -263,7 +265,7 @@ private fun PrerequisRow(label: String, ok: Boolean) {
 @Composable
 private fun LastDiagnosticCard(scoreGlobal: Int?, dateMs: Long, onOpen: () -> Unit) {
     val dateStr = remember(dateMs) {
-        java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.FRANCE).format(java.util.Date(dateMs))
+        java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault()).format(java.util.Date(dateMs))
     }
     Card(
         onClick  = onOpen,

@@ -23,6 +23,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import com.forestry.counter.presentation.utils.StaggerEntrance
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -32,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.platform.LocalContext
@@ -46,11 +48,11 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 import android.os.Build
 import android.app.Activity
-import android.view.ViewGroup
 import android.net.Uri
 import android.widget.ImageView
 import eightbitlab.com.blurview.BlurView
 import eightbitlab.com.blurview.RenderEffectBlur
+import android.view.ViewGroup
 import com.forestry.counter.R
 import com.forestry.counter.domain.model.Group
 import com.forestry.counter.domain.repository.GroupRepository
@@ -72,7 +74,7 @@ fun GroupsScreen(
     onNavigateToIbp: (() -> Unit)? = null
 ) {
     val viewModel = remember { GroupsViewModel(groupRepository) }
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     
     var showCreateDialog by remember { mutableStateOf(false) }
     var selectedGroupIds by remember { mutableStateOf(setOf<String>()) }
@@ -85,16 +87,16 @@ fun GroupsScreen(
 
     val glassBlurEnabled = false
     val isDarkTheme = MaterialTheme.colorScheme.background.luminance() < 0.5f
-    val animationsEnabled by preferencesManager.animationsEnabled.collectAsState(initial = true)
-    val tiltDeg by preferencesManager.tiltDeg.collectAsState(initial = 2f)
-    val pressScale by preferencesManager.pressScale.collectAsState(initial = 0.96f)
-    val haloAlpha by preferencesManager.haloAlpha.collectAsState(initial = 0.35f)
-    val haloWidthDp by preferencesManager.haloWidthDp.collectAsState(initial = 2)
-    val blurRadius by preferencesManager.blurRadius.collectAsState(initial = 16f)
-    val blurOverlayAlpha by preferencesManager.blurOverlayAlpha.collectAsState(initial = 0.6f)
-    val animDurationShort by preferencesManager.animDurationShort.collectAsState(initial = 120)
-    val backgroundImageEnabled by preferencesManager.backgroundImageEnabled.collectAsState(initial = true)
-    val backgroundImageUri by preferencesManager.backgroundImageUri.collectAsState(initial = null)
+    val animationsEnabled by preferencesManager.animationsEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val tiltDeg by preferencesManager.tiltDeg.collectAsStateWithLifecycle(initialValue = 2f)
+    val pressScale by preferencesManager.pressScale.collectAsStateWithLifecycle(initialValue = 0.96f)
+    val haloAlpha by preferencesManager.haloAlpha.collectAsStateWithLifecycle(initialValue = 0.35f)
+    val haloWidthDp by preferencesManager.haloWidthDp.collectAsStateWithLifecycle(initialValue = 2)
+    val blurRadius by preferencesManager.blurRadius.collectAsStateWithLifecycle(initialValue = 16f)
+    val blurOverlayAlpha by preferencesManager.blurOverlayAlpha.collectAsStateWithLifecycle(initialValue = 0.6f)
+    val animDurationShort by preferencesManager.animDurationShort.collectAsStateWithLifecycle(initialValue = 120)
+    val backgroundImageEnabled by preferencesManager.backgroundImageEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val backgroundImageUri by preferencesManager.backgroundImageUri.collectAsStateWithLifecycle(initialValue = null)
     val hasSelection = selectedGroupIds.isNotEmpty()
 
     Box(
@@ -153,7 +155,7 @@ fun GroupsScreen(
                         )
                     }
                     TopAppBar(
-                        title = { Text(stringResource(R.string.groups_title)) },
+                        title = { Text(stringResource(R.string.groups_title), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                         colors = TopAppBarDefaults.topAppBarColors(containerColor = if (useBlurTop) Color.Transparent else MaterialTheme.colorScheme.surface),
                         actions = {
                             if (hasSelection) {
@@ -191,11 +193,18 @@ fun GroupsScreen(
                                             }
                                         }
                                     ) {
-                                        Row(verticalAlignment = Alignment.CenterVertically) {
-                                            Icon(Icons.Default.Straighten, contentDescription = null)
-                                            Spacer(modifier = Modifier.width(2.dp))
-                                            Icon(Icons.Default.Description, contentDescription = stringResource(R.string.martelage))
+                                        Icon(Icons.Default.Straighten, contentDescription = stringResource(R.string.cd_straighten))
+                                    }
+                                    IconButton(
+                                        onClick = {
+                                            val groups = (uiState as? GroupsUiState.Success)?.groups.orEmpty()
+                                            when {
+                                                groups.size <= 1 -> onNavigateToMartelage(groups.firstOrNull()?.id)
+                                                else -> showMartelageScopeDialog = true
+                                            }
                                         }
+                                    ) {
+                                        Icon(Icons.Default.Description, contentDescription = stringResource(R.string.martelage))
                                     }
                                 }
                                 if (onNavigateToIbp != null) {
@@ -367,7 +376,7 @@ fun GroupsScreen(
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                                 ) {
-                                    Icon(Icons.Default.Park, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(22.dp))
+                                    Icon(Icons.Default.Park, contentDescription = stringResource(R.string.cd_forest), tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(22.dp))
                                     Column {
                                         Text(stringResource(R.string.map_scope_all), style = MaterialTheme.typography.bodyLarge)
                                         Text(stringResource(R.string.map_scope_all_desc), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -388,7 +397,7 @@ fun GroupsScreen(
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                                 ) {
-                                    Icon(Icons.Default.Map, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(22.dp))
+                                    Icon(Icons.Default.Map, contentDescription = stringResource(R.string.cd_map), tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(22.dp))
                                     Column {
                                         Text(stringResource(R.string.map_scope_empty), style = MaterialTheme.typography.bodyLarge)
                                         Text(stringResource(R.string.map_scope_empty_desc), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -670,7 +679,7 @@ fun GroupCard(
     modifier: Modifier = Modifier
 ) {
     var showMenu by remember { mutableStateOf(false) }
-    val prefHeight by preferencesManager.groupCardHeightFlow(group.id).collectAsState(initial = 140)
+    val prefHeight by preferencesManager.groupCardHeightFlow(group.id).collectAsStateWithLifecycle(initialValue = 140)
     var customHeight by remember { mutableStateOf(prefHeight.dp) }
     LaunchedEffect(prefHeight) { customHeight = prefHeight.dp }
     val scope = rememberCoroutineScope()

@@ -12,7 +12,9 @@ import kotlinx.serialization.json.Json
 import com.opencsv.CSVWriter
 import java.io.File
 import java.io.FileOutputStream
+import java.io.OutputStream
 import java.io.OutputStreamWriter
+import java.io.Writer
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
@@ -28,16 +30,16 @@ class ExportDataUseCase(
     suspend fun exportToJson(uri: Uri): Result<Unit> {
         return try {
             val groups = groupRepository.getAllGroups().first()
-            val exportData = buildExportData(groups)
             val json = Json {
-                prettyPrint = true
+                prettyPrint = false
                 ignoreUnknownKeys = true
             }
-            val jsonString = json.encodeToString(exportData)
 
+            // Streaming : on sérialise groupe par groupe pour éviter de construire
+            // l'intégralité du JSON en mémoire (10k ties ≈ 70 MB sinon).
             context.contentResolver.openOutputStream(uri)?.use { outputStream ->
                 OutputStreamWriter(outputStream, Charsets.UTF_8).use { writer ->
-                    writer.write(jsonString)
+                    writeJsonManifest(writer, groups, json)
                 }
             }
 
@@ -50,23 +52,23 @@ class ExportDataUseCase(
     suspend fun exportToZipFile(file: File, encoding: Charset = Charsets.UTF_8): Result<Unit> {
         return try {
             val groups = groupRepository.getAllGroups().first()
-            val exportData = buildExportData(groups)
+            val json = Json { prettyPrint = false }
 
             FileOutputStream(file).use { fos ->
                 ZipOutputStream(fos).use { zipStream ->
-                    // Add JSON manifest
+                    // Add JSON manifest (streaming : groupe par groupe)
                     zipStream.putNextEntry(ZipEntry("manifest.json"))
-                    val json = Json { prettyPrint = true }
-                    zipStream.write(json.encodeToString(exportData).toByteArray(Charsets.UTF_8))
+                    val manifestWriter = OutputStreamWriter(zipStream, Charsets.UTF_8)
+                    writeJsonManifest(manifestWriter, groups, json)
+                    manifestWriter.flush()
                     zipStream.closeEntry()
 
-                    // Add CSV for each group
+                    // Add CSV for each group (streaming : ligne par ligne)
                     groups.forEach { group ->
                         val counters = counterRepository.getCountersByGroup(group.id).first()
                         val fileName = "${sanitizeFileName(group.name)}.csv"
                         zipStream.putNextEntry(ZipEntry(fileName))
-                        val csvData = buildCsvData(group, counters)
-                        zipStream.write(csvData.toByteArray(encoding))
+                        writeCsvData(zipStream, counters, encoding)
                         zipStream.closeEntry()
                     }
                 }
@@ -173,24 +175,24 @@ class ExportDataUseCase(
     suspend fun exportToZip(uri: Uri, encoding: Charset = Charsets.UTF_8): Result<Unit> {
         return try {
             val groups = groupRepository.getAllGroups().first()
-            val exportData = buildExportData(groups)
+            val json = Json { prettyPrint = false }
 
             context.contentResolver.openOutputStream(uri)?.use { outputStream ->
                 ZipOutputStream(outputStream).use { zipStream ->
-                    // Add JSON manifest
+                    // Add JSON manifest (streaming : groupe par groupe)
                     zipStream.putNextEntry(ZipEntry("manifest.json"))
-                    val json = Json { prettyPrint = true }
-                    zipStream.write(json.encodeToString(exportData).toByteArray(Charsets.UTF_8))
+                    val manifestWriter = OutputStreamWriter(zipStream, Charsets.UTF_8)
+                    writeJsonManifest(manifestWriter, groups, json)
+                    manifestWriter.flush()
                     zipStream.closeEntry()
 
-                    // Add CSV for each group
+                    // Add CSV for each group (streaming : ligne par ligne)
                     groups.forEach { group ->
                         val counters = counterRepository.getCountersByGroup(group.id).first()
                         val fileName = "${sanitizeFileName(group.name)}.csv"
                         zipStream.putNextEntry(ZipEntry(fileName))
-                        
-                        val csvData = buildCsvData(group, counters)
-                        zipStream.write(csvData.toByteArray(encoding))
+
+                        writeCsvData(zipStream, counters, encoding)
                         zipStream.closeEntry()
                     }
                 }
@@ -202,47 +204,77 @@ class ExportDataUseCase(
         }
     }
 
-    private suspend fun buildExportData(groups: List<Group>): AppExport {
-        val groupExports = groups.map { group ->
-            val counters = counterRepository.getCountersByGroup(group.id).first()
-            val formulas = formulaRepository.getFormulasByGroup(group.id).first()
+    private suspend fun buildGroupExport(group: Group): GroupExport {
+        val counters = counterRepository.getCountersByGroup(group.id).first()
+        val formulas = formulaRepository.getFormulasByGroup(group.id).first()
 
-            GroupExport(
-                id = group.id,
-                name = group.name,
-                color = group.color,
-                counters = counters.map { counter ->
-                    CounterExport(
-                        id = counter.id,
-                        groupId = counter.groupId,
-                        groupName = group.name,
-                        name = counter.name,
-                        value = counter.value,
-                        step = counter.step,
-                        min = counter.min,
-                        max = counter.max,
-                        bgColor = counter.bgColor,
-                        fgColor = counter.fgColor,
-                        targetValue = counter.targetValue,
-                        tags = counter.tags
-                    )
-                },
-                formulas = formulas.map { formula ->
-                    FormulaExport(
-                        id = formula.id,
-                        name = formula.name,
-                        expression = formula.expression,
-                        description = formula.description
-                    )
-                },
-                variables = emptyList() // Will be added when variable repository is implemented
-            )
-        }
-
-        return AppExport(
-            exportDate = System.currentTimeMillis(),
-            groups = groupExports
+        return GroupExport(
+            id = group.id,
+            name = group.name,
+            color = group.color,
+            counters = counters.map { counter ->
+                CounterExport(
+                    id = counter.id,
+                    groupId = counter.groupId,
+                    groupName = group.name,
+                    name = counter.name,
+                    value = counter.value,
+                    step = counter.step,
+                    min = counter.min,
+                    max = counter.max,
+                    bgColor = counter.bgColor,
+                    fgColor = counter.fgColor,
+                    targetValue = counter.targetValue,
+                    tags = counter.tags
+                )
+            },
+            formulas = formulas.map { formula ->
+                FormulaExport(
+                    id = formula.id,
+                    name = formula.name,
+                    expression = formula.expression,
+                    description = formula.description
+                )
+            },
+            variables = emptyList() // Will be added when variable repository is implemented
         )
+    }
+
+    /**
+     * Écrit le manifest JSON en streaming : l'enveloppe est écrite manuellement
+     * et chaque groupe est sérialisé individuellement puis écrit, afin de ne
+     * jamais construire l'intégralité du JSON en mémoire.
+     */
+    private suspend fun writeJsonManifest(writer: Writer, groups: List<Group>, json: Json) {
+        writer.write("{\"version\":\"1.0.0\",\"exportDate\":")
+        writer.write(System.currentTimeMillis().toString())
+        writer.write(",\"groups\":[")
+        groups.forEachIndexed { index, group ->
+            if (index > 0) writer.write(",")
+            val groupExport = buildGroupExport(group)
+            writer.write(json.encodeToString(groupExport))
+        }
+        writer.write("]}")
+        writer.flush()
+    }
+
+    /**
+     * Écrit les données CSV ligne par ligne directement sur le flux, sans
+     * construire la chaîne complète en mémoire.
+     */
+    private fun writeCsvData(
+        stream: OutputStream,
+        counters: List<Counter>,
+        encoding: Charset
+    ) {
+        stream.write("Name,Value,Step,Min,Max,Target,Tags\n".toByteArray(encoding))
+        counters.forEach { counter ->
+            val row = "${counter.name},${counter.value},${counter.step}," +
+                    "${counter.min ?: ""},${counter.max ?: ""},${counter.targetValue ?: ""}," +
+                    "\"${counter.tags.joinToString(",")}\"\n"
+            stream.write(row.toByteArray(encoding))
+        }
+        stream.flush()
     }
 
     private fun exportLongLayout(writer: CSVWriter, groups: List<Group>) {
@@ -253,22 +285,6 @@ class ExportDataUseCase(
     private fun exportPivotLayout(writer: CSVWriter, groups: List<Group>) {
         // Pivot layout implementation
         // This would create a matrix format suitable for forestry data
-    }
-
-    private fun buildCsvData(
-        group: Group,
-        counters: List<Counter>
-    ): String {
-        val sb = StringBuilder()
-        sb.appendLine("Name,Value,Step,Min,Max,Target,Tags")
-        counters.forEach { counter ->
-            sb.appendLine(
-                "${counter.name},${counter.value},${counter.step}," +
-                        "${counter.min ?: ""},${counter.max ?: ""},${counter.targetValue ?: ""}," +
-                        "\"${counter.tags.joinToString(",")}\""
-            )
-        }
-        return sb.toString()
     }
 
     private fun sanitizeSheetName(name: String): String {

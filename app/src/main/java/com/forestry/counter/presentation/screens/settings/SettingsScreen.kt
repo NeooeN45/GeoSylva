@@ -13,6 +13,7 @@ import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -124,20 +125,20 @@ fun SettingsScreen(
 
     
 
-    val themeMode by preferencesManager.themeMode.collectAsState(initial = ThemeMode.SYSTEM)
-    val fontSize by preferencesManager.fontSize.collectAsState(initial = FontSize.MEDIUM)
-    val animationsEnabled by preferencesManager.animationsEnabled.collectAsState(initial = true)
-    val hapticEnabled by preferencesManager.hapticEnabled.collectAsState(initial = true)
-    val csvSeparator by preferencesManager.csvSeparator.collectAsState(initial = ",")
-    val accentColor by preferencesManager.accentColor.collectAsState(initial = "#4CAF50")
-    val dynamicColorEnabled by preferencesManager.dynamicColorEnabled.collectAsState(initial = true)
-    val backgroundImageEnabled by preferencesManager.backgroundImageEnabled.collectAsState(initial = true)
-    val soundEnabled by preferencesManager.soundEnabled.collectAsState(initial = true)
-    val hapticLevel by preferencesManager.hapticIntensity.collectAsState(initial = 2)
-    val appLanguage by preferencesManager.appLanguage.collectAsState(initial = "system")
-    val keepScreenOn by preferencesManager.keepScreenOn.collectAsState(initial = false)
-    val mapOnlyReliableGps by preferencesManager.mapOnlyReliableGps.collectAsState(initial = false)
-    val mapReliableGpsThresholdM by preferencesManager.mapReliableGpsThresholdM.collectAsState(initial = 8f)
+    val themeMode by preferencesManager.themeMode.collectAsStateWithLifecycle(initialValue = ThemeMode.SYSTEM)
+    val fontSize by preferencesManager.fontSize.collectAsStateWithLifecycle(initialValue = FontSize.MEDIUM)
+    val animationsEnabled by preferencesManager.animationsEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val hapticEnabled by preferencesManager.hapticEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val csvSeparator by preferencesManager.csvSeparator.collectAsStateWithLifecycle(initialValue = ",")
+    val accentColor by preferencesManager.accentColor.collectAsStateWithLifecycle(initialValue = "#4CAF50")
+    val dynamicColorEnabled by preferencesManager.dynamicColorEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val backgroundImageEnabled by preferencesManager.backgroundImageEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val soundEnabled by preferencesManager.soundEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val hapticLevel by preferencesManager.hapticIntensity.collectAsStateWithLifecycle(initialValue = 2)
+    val appLanguage by preferencesManager.appLanguage.collectAsStateWithLifecycle(initialValue = "system")
+    val keepScreenOn by preferencesManager.keepScreenOn.collectAsStateWithLifecycle(initialValue = false)
+    val mapOnlyReliableGps by preferencesManager.mapOnlyReliableGps.collectAsStateWithLifecycle(initialValue = false)
+    val mapReliableGpsThresholdM by preferencesManager.mapReliableGpsThresholdM.collectAsStateWithLifecycle(initialValue = 8f)
     var showCsvDialog by remember { mutableStateOf(false) }
 
     // Tarif de cubage
@@ -1344,7 +1345,7 @@ fun SettingsScreen(
                     }
                 )
 
-                val crashLogsEnabled by preferencesManager.crashLogsEnabled.collectAsState(initial = false)
+                val crashLogsEnabled by preferencesManager.crashLogsEnabled.collectAsStateWithLifecycle(initialValue = false)
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.settings_crash_logs_title)) },
                     supportingContent = { Text(stringResource(R.string.settings_crash_logs_desc)) },
@@ -1436,8 +1437,8 @@ fun SettingsScreen(
 
             // Backup Section
             SettingsSection(title = stringResource(R.string.settings_section_backups)) {
-                val autoBackupEnabled by preferencesManager.autoBackupEnabled.collectAsState(initial = false)
-                val backupDays by preferencesManager.backupFrequencyDays.collectAsState(initial = 7)
+                val autoBackupEnabled by preferencesManager.autoBackupEnabled.collectAsStateWithLifecycle(initialValue = false)
+                val backupDays by preferencesManager.backupFrequencyDays.collectAsStateWithLifecycle(initialValue = 7)
 
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.settings_automatic_backups)) },

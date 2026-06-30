@@ -53,11 +53,13 @@ import androidx.compose.material.icons.filled.Forest
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
@@ -106,9 +108,6 @@ import com.forestry.counter.presentation.utils.ColorUtils
 import com.forestry.counter.domain.calculation.PriceCalculator
 import com.forestry.counter.domain.calculation.ProductBreakdownRow
 import kotlinx.coroutines.launch
-import com.google.accompanist.permissions.rememberPermissionState
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.forestry.counter.domain.model.ClimateZone
 import com.forestry.counter.domain.usecase.fertility.FertilityClassifier
 import com.forestry.counter.domain.usecase.fertility.FertilityResult
@@ -174,16 +173,16 @@ fun MartelageScreen(
     val snackbar = remember { SnackbarHostState() }
     val context = LocalContext.current
 
-    val hapticEnabled by userPreferences.hapticEnabled.collectAsState(initial = true)
-    val soundEnabled by userPreferences.soundEnabled.collectAsState(initial = true)
-    val hapticIntensity by userPreferences.hapticIntensity.collectAsState(initial = 2)
-    val backgroundImageEnabled by userPreferences.backgroundImageEnabled.collectAsState(initial = true)
-    val backgroundImageUri by userPreferences.backgroundImageUri.collectAsState(initial = null)
-    val animationsEnabled by userPreferences.animationsEnabled.collectAsState(initial = true)
+    val hapticEnabled by userPreferences.hapticEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val soundEnabled by userPreferences.soundEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val hapticIntensity by userPreferences.hapticIntensity.collectAsStateWithLifecycle(initialValue = 2)
+    val backgroundImageEnabled by userPreferences.backgroundImageEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val backgroundImageUri by userPreferences.backgroundImageUri.collectAsStateWithLifecycle(initialValue = null)
+    val animationsEnabled by userPreferences.animationsEnabled.collectAsStateWithLifecycle(initialValue = true)
     val haptic = rememberHapticFeedback()
     val sound = rememberSoundFeedback()
 
-    val parcelles by viewModel.parcelles.collectAsState()
+    val parcelles by viewModel.parcelles.collectAsStateWithLifecycle()
 
     // Clé de portée pour mémoriser les paramètres par parcelle / placette
     val scopeKey = remember(scope, forestId, parcelleId, placetteId) {
@@ -201,15 +200,15 @@ fun MartelageScreen(
         else if (ibpRepository != null && parcelleId != null)
             ibpRepository.getByParcelle(parcelleId)
         else kotlinx.coroutines.flow.flowOf(emptyList())
-    }.collectAsState(initial = emptyList())
+    }.collectAsStateWithLifecycle(initialValue = emptyList())
     val latestIbp = remember(ibpEvaluations) { ibpEvaluations.firstOrNull() }
 
-    val savedSurface by userPreferences.martelageSurfaceFlow(scopeKey).collectAsState(initial = null)
-    val savedHo by userPreferences.martelageHoFlow(scopeKey).collectAsState(initial = null)
-    val savedNhaAvant by userPreferences.martelageNhaAvantFlow(scopeKey).collectAsState(initial = null)
-    val savedGhaAvant by userPreferences.martelageGhaAvantFlow(scopeKey).collectAsState(initial = null)
+    val savedSurface by userPreferences.martelageSurfaceFlow(scopeKey).collectAsStateWithLifecycle(initialValue = null)
+    val savedHo by userPreferences.martelageHoFlow(scopeKey).collectAsStateWithLifecycle(initialValue = null)
+    val savedNhaAvant by userPreferences.martelageNhaAvantFlow(scopeKey).collectAsStateWithLifecycle(initialValue = null)
+    val savedGhaAvant by userPreferences.martelageGhaAvantFlow(scopeKey).collectAsStateWithLifecycle(initialValue = null)
 
-    val martelageHeightsLocal by userPreferences.martelageHeightsFlow(scopeKey).collectAsState(initial = emptyMap())
+    val martelageHeightsLocal by userPreferences.martelageHeightsFlow(scopeKey).collectAsStateWithLifecycle(initialValue = emptyMap())
     val forestIdForHeights = remember(forestId, parcelleId, parcelles) {
         forestId ?: parcelles.firstOrNull { it.id == parcelleId }?.forestId
     }
@@ -219,10 +218,10 @@ fun MartelageScreen(
 
     val martelageHeightsForest by userPreferences
         .martelageHeightsFlow(forestScopeKeyForHeights ?: scopeKey)
-        .collectAsState(initial = emptyMap())
+        .collectAsStateWithLifecycle(initialValue = emptyMap())
     val martelageHeightsGlobal by userPreferences
         .martelageHeightsFlow("GLOBAL")
-        .collectAsState(initial = emptyMap())
+        .collectAsStateWithLifecycle(initialValue = emptyMap())
 
     val martelageHeights = remember(martelageHeightsLocal, martelageHeightsForest, martelageHeightsGlobal, scopeKey, forestScopeKeyForHeights) {
         fun normalizeMap(src: Map<String, Map<Int, Double>>): Map<String, Map<Int, Double>> {
@@ -258,8 +257,8 @@ fun MartelageScreen(
     }
 
     // Données de base
-    val essences by essenceRepository.getAllEssences().collectAsState(initial = emptyList())
-    val allTiges by viewModel.allTiges.collectAsState()
+    val essences by essenceRepository.getAllEssences().collectAsStateWithLifecycle(initialValue = emptyList())
+    val allTiges by viewModel.allTiges.collectAsStateWithLifecycle()
 
     // Parcelles incluses dans le périmètre courant
     val parcellesInScope = remember(parcelles, scope, forestId, parcelleId) {
@@ -352,7 +351,7 @@ fun MartelageScreen(
     var showHeightPromptDialog by remember { mutableStateOf(false) }
     var showHeightSnoozeDialog by remember { mutableStateOf(false) }
     var heightSnoozeHours by rememberSaveable { mutableStateOf(1) }
-    val heightPromptSnoozeUntilMs by userPreferences.heightPromptSnoozeUntilMs.collectAsState(initial = 0L)
+    val heightPromptSnoozeUntilMs by userPreferences.heightPromptSnoozeUntilMs.collectAsStateWithLifecycle(initialValue = 0L)
     val isHeightPromptSnoozed = heightPromptSnoozeUntilMs > System.currentTimeMillis()
 
     // Tarif de cubage — sélection depuis le martelage
@@ -807,8 +806,9 @@ fun MartelageScreen(
                                     if (s.vTotal > 0) appendLine("V: ${String.format("%.1f", s.vTotal)} m³ (${String.format("%.1f", s.vPerHa)} m³/ha)")
                                     s.dg?.let { appendLine("Dg: ${String.format("%.1f", it)} cm") }
                                     s.dm?.let { appendLine("Dm: ${String.format("%.1f", it)} cm") }
-                                    s.hLorey?.let { appendLine("Hdom: ${String.format("%.1f", it)} m") }
-                                    s.revenueTotal?.let { appendLine("${context.getString(R.string.share_revenue)}: ${String.format("%.0f", it)} €") }
+                                    s.hdom?.let { appendLine("Hdom: ${String.format("%.1f", it)} m") }
+                                    s.hLorey?.let { appendLine("Hlore: ${String.format("%.1f", it)} m") }
+                                    s.revenueTotal?.let { appendLine("${context.getString(R.string.share_revenue)}: ${String.format("%.0f", it)} ${context.getString(R.string.euro_symbol)}") }
                                     appendLine(context.getString(R.string.share_footer))
                                 }
                                 val intent = Intent(Intent.ACTION_SEND).apply {
@@ -906,12 +906,12 @@ fun MartelageScreen(
                             AssistChip(
                                 onClick = { showTarifMethodDialog = true },
                                 label = { Text(stringResource(R.string.martelage_cubage_method_current_format, currentTarifMethod.label), style = MaterialTheme.typography.labelSmall) },
-                                leadingIcon = { Icon(Icons.Default.Tune, contentDescription = null, modifier = Modifier.size(16.dp)) }
+                                leadingIcon = { Icon(Icons.Default.Tune, contentDescription = stringResource(R.string.cd_tune), modifier = Modifier.size(16.dp)) }
                             )
                             if (gpsCount > 0) AssistChip(
                                 onClick = { showExportDialog = true },
                                 label = { Text(stringResource(R.string.gps_count_label, gpsCount), style = MaterialTheme.typography.labelSmall) },
-                                leadingIcon = { Icon(Icons.Default.GpsFixed, contentDescription = null, modifier = Modifier.size(16.dp)) }
+                                leadingIcon = { Icon(Icons.Default.GpsFixed, contentDescription = stringResource(R.string.cd_gps_locate), modifier = Modifier.size(16.dp)) }
                             )
                         }
                     }
@@ -1029,7 +1029,7 @@ fun MartelageScreen(
                                                 showParamPanel = false
                                             }
                                         ) {
-                                            Icon(Icons.Filled.Close, contentDescription = null)
+                                            Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.cd_close))
                                         }
                                     }
                                 }
@@ -1396,7 +1396,7 @@ fun MartelageScreen(
                             Tab(
                                 selected = selectedTabIndex == 3,
                                 onClick = { selectedTabIndex = 3 },
-                                text = { Text("Gestion", style = MaterialTheme.typography.labelSmall, maxLines = 1) }
+                                text = { Text(stringResource(R.string.martelage_tab_management), style = MaterialTheme.typography.labelSmall, maxLines = 1) }
                             )
                         }
 
@@ -1878,7 +1878,7 @@ fun MartelageScreen(
                                             } else {
                                                 ""
                                             }
-                                            Text(label + suffix)
+                                            Text(label + suffix, maxLines = 2, overflow = TextOverflow.Ellipsis)
                                         }
                                     },
                                     singleLine = true
@@ -1985,13 +1985,13 @@ private fun SuperCorrelateurBannerCard(onClick: () -> Unit) {
             }
             Column(modifier = androidx.compose.ui.Modifier.weight(1f)) {
                 Text(
-                    "Super Corrélateur",
+                    stringResource(R.string.martelage_super_correlateur),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
                     color = androidx.compose.ui.graphics.Color(0xFF1B5E20)
                 )
                 Text(
-                    "Corrélation multi-sources · Résilience 2050 · Plan d'action sylvicole",
+                    stringResource(R.string.martelage_correlation_desc),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -2084,8 +2084,8 @@ private fun TypelogiqueRapideCard(prefilledGPerHa: Double? = null) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Icon(Icons.Default.Tune, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
                 Column(Modifier.weight(1f)) {
-                    Text("Saisie terrain rapide", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-                    Text("G + triangle sans tiges individuelles", style = MaterialTheme.typography.bodySmall,
+                    Text(stringResource(R.string.martelage_quick_field_entry), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.martelage_quick_field_desc), style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 // Badge code CNPF en temps réel
@@ -2103,7 +2103,7 @@ private fun TypelogiqueRapideCard(prefilledGPerHa: Double? = null) {
             // Surface terrière
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("Surface terrière G", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.martelage_basal_area_g), style = MaterialTheme.typography.labelMedium)
                     Text("%.1f m²/ha  →  classe $capital".format(gPerHa),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
@@ -2115,7 +2115,7 @@ private fun TypelogiqueRapideCard(prefilledGPerHa: Double? = null) {
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
 
             // Triangle des structures
-            Text("Triangle des structures (% sur tiges précomptables ≥ 17.5 cm)",
+            Text(stringResource(R.string.martelage_structure_triangle),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
 
@@ -2132,7 +2132,7 @@ private fun TypelogiqueRapideCard(prefilledGPerHa: Double? = null) {
                         Text("Code CNPF : $cnpfCode  ·  Structure $structure  ·  GB+TGB = ${ratio.gbTgbPct.toInt()}%",
                             style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.onSecondaryContainer)
-                        Text("Les % sont normalisés automatiquement à 100%",
+                        Text(stringResource(R.string.martelage_pct_normalized),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f))
                     }

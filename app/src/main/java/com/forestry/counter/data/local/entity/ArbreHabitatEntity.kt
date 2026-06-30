@@ -25,12 +25,26 @@ import androidx.room.PrimaryKey
             parentColumns = ["sessionId"],
             childColumns = ["sessionId"],
             onDelete = ForeignKey.SET_NULL
+        ),
+        ForeignKey(
+            entity = TigeEntity::class,
+            parentColumns = ["tigeId"],
+            childColumns = ["tigeId"],
+            onDelete = ForeignKey.SET_NULL
+        ),
+        ForeignKey(
+            entity = EssenceEntity::class,
+            parentColumns = ["code"],
+            childColumns = ["essenceCode"],
+            onDelete = ForeignKey.RESTRICT
         )
     ],
     indices = [
         Index(name = "index_arbre_hab_parcelleId", value = ["parcelleId"]),
         Index(name = "index_arbre_hab_placetteId", value = ["placetteId"]),
-        Index(name = "index_arbre_hab_sessionId", value = ["sessionId"])
+        Index(name = "index_arbre_hab_sessionId", value = ["sessionId"]),
+        Index(name = "index_arbre_hab_tigeId", value = ["tigeId"]),
+        Index(name = "index_arbre_hab_essenceCode", value = ["essenceCode"])
     ]
 )
 data class ArbreHabitatEntity(

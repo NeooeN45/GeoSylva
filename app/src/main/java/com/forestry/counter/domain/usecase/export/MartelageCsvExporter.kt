@@ -144,8 +144,8 @@ object MartelageCsvExporter {
         // ── Valorisation ──
         if (s.revenueTotal != null && s.revenueTotal > 0) {
             h("5. VALORISATION")
-            row("Revenu total estimé", fmt0(s.revenueTotal), "€")
-            s.revenuePerHa?.let { row("Revenu/ha", fmt0(it), "€/ha") }
+            row("Revenu total estimé", fmt0(s.revenueTotal), CurrencyFormatter.symbol)
+            s.revenuePerHa?.let { row("Revenu/ha", fmt0(it), "${CurrencyFormatter.symbol}/ha") }
             blank()
         }
 
@@ -188,7 +188,7 @@ object MartelageCsvExporter {
         // ── Par essence ──
         if (s.perEssence.isNotEmpty()) {
             h("9. TABLEAU PAR ESSENCE")
-            sb.append("Essence${SEP}N${SEP}N%${SEP}G total (m²)${SEP}G/ha (m²/ha)${SEP}V total (m³)${SEP}V/ha (m³/ha)${SEP}Dm (cm)${SEP}Dg (cm)${SEP}Rev. total (€)${SEP}Rev./ha (€/ha)${SEP}Qualité dominante$NL")
+            sb.append("Essence${SEP}N${SEP}N%${SEP}G total (m²)${SEP}G/ha (m²/ha)${SEP}V total (m³)${SEP}V/ha (m³/ha)${SEP}Dm (cm)${SEP}Dg (cm)${SEP}Rev. total (${CurrencyFormatter.symbol})${SEP}Rev./ha (${CurrencyFormatter.symbol}/ha)${SEP}Qualité dominante$NL")
             s.perEssence.forEach { e ->
                 sb.append("${e.essenceName}${SEP}${e.n}${SEP}${fmt1(e.nPct)}${SEP}" +
                     "${fmt2(e.gTotal)}${SEP}${fmt2(e.gPerHa)}${SEP}" +
@@ -209,7 +209,7 @@ object MartelageCsvExporter {
         val sb = StringBuilder()
         sb.append("DÉTAIL TIGES$NL")
         sb.append("ID${SEP}Essence${SEP}Diamètre (cm)${SEP}Hauteur (m)${SEP}" +
-            "Surface terrière (m²)${SEP}Valeur (€)${SEP}" +
+            "Surface terrière (m²)${SEP}Valeur (${CurrencyFormatter.symbol})${SEP}" +
             "Qualité (1-5)${SEP}Statut${SEP}GPS WKT${SEP}Défauts${SEP}Note$NL")
 
         tiges.forEach { t ->
@@ -245,7 +245,7 @@ object MartelageCsvExporter {
     private fun fmt5(v: Double) = "%.5f".format(v)
 
     private fun nowDate(): String {
-        val sdf = java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.FRANCE)
+        val sdf = java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault())
         return sdf.format(java.util.Date())
     }
 }

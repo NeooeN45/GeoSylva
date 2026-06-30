@@ -23,6 +23,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.produceState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -40,9 +41,9 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.foundation.shape.CircleShape
 import android.os.Build
 import android.app.Activity
-import android.view.ViewGroup
 import eightbitlab.com.blurview.BlurView
 import eightbitlab.com.blurview.RenderEffectBlur
+import android.view.ViewGroup
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.foundation.Canvas
 import androidx.compose.ui.graphics.Brush
@@ -526,24 +527,24 @@ fun CounterSettingsSheet(
         }
     }
 }
-    val group by viewModel.group.collectAsState()
-    val counters by viewModel.counters.collectAsState()
-    val selectedCounterId by viewModel.selectedCounterId.collectAsState()
+    val group by viewModel.group.collectAsStateWithLifecycle()
+    val counters by viewModel.counters.collectAsStateWithLifecycle()
+    val selectedCounterId by viewModel.selectedCounterId.collectAsStateWithLifecycle()
 
     // Preferences
-    val animationsEnabled by preferencesManager.animationsEnabled.collectAsState(initial = true)
-    val hapticEnabled by preferencesManager.hapticEnabled.collectAsState(initial = true)
-    val csvSeparator by preferencesManager.csvSeparator.collectAsState(initial = ",")
-    val soundEnabled by preferencesManager.soundEnabled.collectAsState(initial = true)
-    val hapticIntensity by preferencesManager.hapticIntensity.collectAsState(initial = 2)
+    val animationsEnabled by preferencesManager.animationsEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val hapticEnabled by preferencesManager.hapticEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val csvSeparator by preferencesManager.csvSeparator.collectAsStateWithLifecycle(initialValue = ",")
+    val soundEnabled by preferencesManager.soundEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val hapticIntensity by preferencesManager.hapticIntensity.collectAsStateWithLifecycle(initialValue = 2)
     val glassBlurEnabled = false
-    val tiltDeg by preferencesManager.tiltDeg.collectAsState(initial = 2f)
-    val pressScale by preferencesManager.pressScale.collectAsState(initial = 0.96f)
-    val haloAlpha by preferencesManager.haloAlpha.collectAsState(initial = 0.35f)
-    val haloWidthDp by preferencesManager.haloWidthDp.collectAsState(initial = 2)
-    val blurRadius by preferencesManager.blurRadius.collectAsState(initial = 16f)
-    val blurOverlayAlpha by preferencesManager.blurOverlayAlpha.collectAsState(initial = 0.6f)
-    val animDurationShort by preferencesManager.animDurationShort.collectAsState(initial = 120)
+    val tiltDeg by preferencesManager.tiltDeg.collectAsStateWithLifecycle(initialValue = 2f)
+    val pressScale by preferencesManager.pressScale.collectAsStateWithLifecycle(initialValue = 0.96f)
+    val haloAlpha by preferencesManager.haloAlpha.collectAsStateWithLifecycle(initialValue = 0.35f)
+    val haloWidthDp by preferencesManager.haloWidthDp.collectAsStateWithLifecycle(initialValue = 2)
+    val blurRadius by preferencesManager.blurRadius.collectAsStateWithLifecycle(initialValue = 16f)
+    val blurOverlayAlpha by preferencesManager.blurOverlayAlpha.collectAsStateWithLifecycle(initialValue = 0.6f)
+    val animDurationShort by preferencesManager.animDurationShort.collectAsStateWithLifecycle(initialValue = 120)
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()

@@ -42,12 +42,15 @@ fun ExpertIbpAnalysisSection(
             val diametreMoyen = diametres.average()
             val hauteurs = tiges.mapNotNull { it.hauteurM }
             val hauteurMoyenne = hauteurs.average().takeIf { hauteurs.isNotEmpty() } ?: 20.0
+            // Hdom (hauteur dominante) : moyenne des 100 plus gros arbres/ha — proxy de l'IS ONF.
+            val surfaceHa = surfaceM2 / 10_000.0
+            val hdom = expertCalculator.computeHdom(tiges, surfaceHa) ?: hauteurMoyenne
             
             // Calculs scientifiques
             val indiceStation = expertCalculator.calculateIndiceDeStation(
                 essenceCode = essenceCode,
                 age = ageEstime,
-                hauteurMoyenne = hauteurMoyenne,
+                hdom = hdom,
                 diametreMoyen = diametreMoyen
             )
             

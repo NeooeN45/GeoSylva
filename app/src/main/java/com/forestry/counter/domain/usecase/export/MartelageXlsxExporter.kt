@@ -73,7 +73,7 @@ object MartelageXlsxExporter {
         s.meanH?.let { rows.add("H moy (m)" to fmt1(it)) }
         s.hLorey?.let { rows.add("H Lorey (m)" to fmt1(it)) }
         s.cvDiam?.let { rows.add("CV(D) (%)" to fmt1(it)) }
-        s.revenueTotal?.let { rows.add("Revenu total (€)" to fmt0(it)) }
+        s.revenueTotal?.let { rows.add("Revenu total (${CurrencyFormatter.symbol})" to fmt0(it)) }
         return buildSimpleKeyValueSheet("Synthèse", rows)
     }
 

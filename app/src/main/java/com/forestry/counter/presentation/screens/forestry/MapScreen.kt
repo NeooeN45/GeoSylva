@@ -77,7 +77,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.mutableFloatStateOf
@@ -122,9 +122,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
 import com.forestry.counter.domain.location.OfflineTileManager
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
@@ -966,7 +963,7 @@ private val ESSENCE_COLOR_PALETTE = intArrayOf(
     0xFF37474F.toInt(), // gris-bleu
 )
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MapScreen(
     parcelleId: String,
@@ -1003,25 +1000,30 @@ fun MapScreen(
             else -> tigeRepository.getTigesByParcelle(parcelleId)
         }
     }
-    val tiges by tigesFlow.collectAsState(initial = emptyList())
+    val tiges by tigesFlow.collectAsStateWithLifecycle(initialValue = emptyList())
     val essences by (essenceRepository?.getAllEssences()
-        ?: kotlinx.coroutines.flow.flowOf(emptyList<Essence>())).collectAsState(initial = emptyList())
-    val animationsEnabled by preferencesManager.animationsEnabled.collectAsState(initial = true)
-    val mapLastLayerKey by preferencesManager.mapLastLayerKey.collectAsState(initial = "PLAN_IGN")
-    val mapShowLegendPref by preferencesManager.mapShowLegend.collectAsState(initial = false)
-    val mapOnlyReliableGps by preferencesManager.mapOnlyReliableGps.collectAsState(initial = false)
-    val mapReliableGpsThresholdM by preferencesManager.mapReliableGpsThresholdM.collectAsState(initial = 8f)
+        ?: kotlinx.coroutines.flow.flowOf(emptyList<Essence>())).collectAsStateWithLifecycle(initialValue = emptyList())
+    val animationsEnabled by preferencesManager.animationsEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val mapLastLayerKey by preferencesManager.mapLastLayerKey.collectAsStateWithLifecycle(initialValue = "PLAN_IGN")
+    val mapShowLegendPref by preferencesManager.mapShowLegend.collectAsStateWithLifecycle(initialValue = false)
+    val mapOnlyReliableGps by preferencesManager.mapOnlyReliableGps.collectAsStateWithLifecycle(initialValue = false)
+    val mapReliableGpsThresholdM by preferencesManager.mapReliableGpsThresholdM.collectAsStateWithLifecycle(initialValue = 8f)
 
     // Permission localisation
-    val locationPermission = rememberPermissionState(Manifest.permission.ACCESS_FINE_LOCATION)
-    val hasLocationPermission = locationPermission.status.isGranted ||
-        ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-        ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    var hasLocationPermission by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        )
+    }
+    val locationPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted -> if (granted) hasLocationPermission = true }
 
     // Demander la permission au lancement si pas encore accordée
     LaunchedEffect(Unit) {
         if (!hasLocationPermission) {
-            locationPermission.launchPermissionRequest()
+            locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
     }
 
@@ -1033,7 +1035,7 @@ fun MapScreen(
 
     @Suppress("NAME_SHADOWING")
     val offlineTileManager = offlineTileManager ?: remember(context) { OfflineTileManager(context) }
-    val offlineProgress by offlineTileManager.downloadProgress.collectAsState()
+    val offlineProgress by offlineTileManager.downloadProgress.collectAsStateWithLifecycle()
     var showOfflineSnackbar by remember { mutableStateOf(false) }
 
     // Présence de tuiles hors-ligne (se met à jour après un téléchargement)
@@ -1112,7 +1114,7 @@ fun MapScreen(
 
     // ── GPS Parcel Trace state ──
     val gpsTracer = remember(context) { GpsParcelTracer(context) }
-    val traceState by gpsTracer.state.collectAsState()
+    val traceState by gpsTracer.state.collectAsStateWithLifecycle()
     var showTraceSaveDialog by remember { mutableStateOf(false) }
     var traceName by remember { mutableStateOf("") }
 
@@ -1131,7 +1133,7 @@ fun MapScreen(
 
     // ── Tree navigation state ──
     val treeNavigator = remember(context) { TreeNavigator(context) }
-    val navState by treeNavigator.state.collectAsState()
+    val navState by treeNavigator.state.collectAsStateWithLifecycle()
     var tappedTree by remember { mutableStateOf<TappedTreeInfo?>(null) }
 
     // Cleanup navigator on dispose
@@ -2185,7 +2187,7 @@ fun MapScreen(
                                     lon = currentTapped.lon
                                 )
                                 if (!hasLocationPermission) {
-                                    locationPermission.launchPermissionRequest()
+                                    locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
                                 } else {
                                     treeNavigator.startNavigation(target)
                                     tappedTree = null
@@ -2772,7 +2774,7 @@ fun MapScreen(
                     onClick = {
                         val map = mapLibreMap ?: return@SmallFloatingActionButton
                         if (!hasLocationPermission) {
-                            locationPermission.launchPermissionRequest()
+                            locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
                             return@SmallFloatingActionButton
                         }
                         try {
@@ -2803,7 +2805,7 @@ fun MapScreen(
                     SmallFloatingActionButton(
                         onClick = {
                             if (!hasLocationPermission) {
-                                locationPermission.launchPermissionRequest()
+                                locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
                                 return@SmallFloatingActionButton
                             }
                             gpsTracer.startRecording()

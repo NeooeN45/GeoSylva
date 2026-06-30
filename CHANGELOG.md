@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com).
 
+## [2.4.0] — 2026-06-30
+
+### Added
+- **Transformation Helmert WGS84→ETRS89** — `Lambert93Converter` corrige le drift continental ~60cm pour les coordonnées GPS vers Lambert 93.
+- **Migration Room 31→32** — `Migration31to32` : retire la contrainte FOREIGN KEY incorrecte sur `parcelles.forestOwnerId` qui référençait `forets.foretId` au lieu de `groups.id`. Corrige le crash `SQLiteConstraintException` lors de la création de parcelles.
+- **Vérification permission CAMERA** — `DiagnosticPhotoCaptureSection`, `StationPhotoGalleryBlock`, `PlacetteDetailScreen` : ajout `cameraPermissionLauncher` (ActivityResultContracts.RequestPermission) avant lancement `TakePicture`. Corrige le crash `SecurityException` quand la permission caméra a été refusée.
+- **Consentement RGPD avec refus** — bouton "Decline" dans l'onboarding avec dialogue de confirmation, conforme Art. 7 RGPD.
+- **SCC (Standard Contractual Clauses)** — documentation RGPD mise à jour pour les transferts vers services US (Esri/MapLibre/CartoCDN).
+- **Certificate Pinning vérifié** — hashes SHA-256 confirmés pour data.geopf.fr, tile.opentopomap.org, basemaps.cartocdn.com, server.arcgisonline.com.
+- **420+ tests unitaires** — couverture étendue : IBP, tarifs, conversion volume, alias essences, triangles structure, formatage monétaire, presets régionaux.
+- **Système multi-agent** — skills forest-crew (7 experts), brainstorm, memory-sync, multi-agent. Vault Obsidian pour mémoire cross-tool.
+- **Audit complet** — `AUDIT_FORESTIER_COMPLET.md`, `AUDIT_GLOBAL_GEOSYLVA.md`, `AUDIT_UI_UX_GLOBAL.md`, `MASTER_PLAN.md`, `RESEARCH_OPPORTUNITIES.md`.
+
+### Changed
+- Version DB 31 → 32.
+- README mis à jour : 28 tables, 32 migrations, SQLCipher, certificate pinning, 420+ tests.
+- Documentation consolidée : suppression de `IMPLEMENTATION_GUIDE.md`, `PROJECT_SUMMARY.md`, `SECURITY.md` (remplacés par audits et registre RGPD).
+- Navigation découpée en 5 sous-graphes (`ForestryNavigation`).
+
+### Fixed
+- **Crash FOREIGN KEY constraint** — `ParcelleEntity` avait une FK sur `forestOwnerId` vers `forets.foretId`, mais `forestOwnerId` stocke un `groupId` (table `groups`). Migration 31→32 recrée la table sans cette FK.
+- **Crash SecurityException CAMERA** — l'app lançait `Intent(IMAGE_CAPTURE)` sans vérifier `Manifest.permission.CAMERA`, causant un crash si la permission était refusée.
+- **Conversion Lambert 93** — ajout transformation Helmert pour alignement ETRS89 (RGF93) au lieu de WGS84 brut.
+
+---
+
 ## [2.0.0] — 2026-03-06
 
 ### Added

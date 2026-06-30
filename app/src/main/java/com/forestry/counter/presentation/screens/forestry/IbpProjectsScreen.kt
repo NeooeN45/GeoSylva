@@ -19,6 +19,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -58,7 +59,7 @@ fun IbpProjectsScreen(
     val context = androidx.compose.ui.platform.LocalContext.current
     val dateFormat = remember { SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()) }
 
-    val evaluations by ibpRepository.getAll().collectAsState(initial = emptyList())
+    val evaluations by ibpRepository.getAll().collectAsStateWithLifecycle(initialValue = emptyList())
 
     val qgisExportLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.CreateDocument("application/zip")
@@ -77,7 +78,7 @@ fun IbpProjectsScreen(
 
     val parcelles by remember(parcelleRepository) {
         parcelleRepository?.getAllParcelles() ?: kotlinx.coroutines.flow.flowOf(emptyList())
-    }.collectAsState(initial = emptyList())
+    }.collectAsStateWithLifecycle(initialValue = emptyList())
 
     val parcelleNames = remember(parcelles) { parcelles.associate { it.id to it.name } }
 
@@ -383,7 +384,7 @@ private fun IbpCreateDialog(
     onDismiss: () -> Unit,
     onCreate: (parcelleId: String, placetteId: String) -> Unit
 ) {
-    val parcelles by parcelleRepository.getAllParcelles().collectAsState(initial = emptyList())
+    val parcelles by parcelleRepository.getAllParcelles().collectAsStateWithLifecycle(initialValue = emptyList())
     var selectedParcelle by remember { mutableStateOf<Parcelle?>(null) }
     var placettes by remember { mutableStateOf(listOf<Placette>()) }
     var selectedPlacette by remember { mutableStateOf<Placette?>(null) }

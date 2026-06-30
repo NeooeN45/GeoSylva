@@ -1,5 +1,7 @@
 package com.forestry.counter.data.repository
 
+import androidx.room.withTransaction
+import com.forestry.counter.data.local.ForestryDatabase
 import com.forestry.counter.data.local.dao.CounterDao
 import com.forestry.counter.data.local.dao.FormulaDao
 import com.forestry.counter.data.local.dao.GroupDao
@@ -26,6 +28,7 @@ import kotlinx.coroutines.withContext
 import java.util.UUID
 
 class GroupRepositoryImpl(
+    private val database: ForestryDatabase,
     private val groupDao: GroupDao,
     private val counterDao: CounterDao,
     private val formulaDao: FormulaDao,
@@ -72,11 +75,14 @@ class GroupRepositoryImpl(
     }
 
     override suspend fun deleteAllGroups() {
-        groupDao.deleteAllGroups()
+        android.util.Log.w("GroupRepo", "deleteAllGroups() called — purging ALL groups and cascaded data")
+        database.withTransaction {
+            groupDao.deleteAllGroups()
+        }
     }
 
-    override suspend fun duplicateGroup(groupId: String): String {
-        val group = groupDao.getGroupById(groupId) ?: return ""
+    override suspend fun duplicateGroup(groupId: String): String = database.withTransaction {
+        val group = groupDao.getGroupById(groupId) ?: return@withTransaction ""
         val counters = counterDao.getCountersByGroup(groupId).first()
         val formulas = formulaDao.getFormulasByGroup(groupId).first()
         val variables = groupVariableDao.getVariablesByGroup(groupId).first()
@@ -182,6 +188,6 @@ class GroupRepositoryImpl(
             }
         }
 
-        return newGroupId
+        return@withTransaction newGroupId
     }
 }

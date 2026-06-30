@@ -18,9 +18,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.forestry.counter.R
 import com.forestry.counter.domain.model.station.StationObservation
 import com.forestry.counter.domain.usecase.correlateur.CorrelationEngine
 import com.forestry.counter.domain.usecase.florist.GradientInferenceEngine
@@ -53,7 +55,7 @@ fun EditableSynthesisBlock(
     TerrainCard(modifier = modifier, accentColor = StationDiagColors.waterBlue) {
         // ── Header ──────────────────────────────────────────────────────────
         BlockSectionTitle(
-            text = "Synthèse du diagnostic",
+            text = stringResource(R.string.synthesis_title),
             icon = Icons.Default.Description,
             color = StationDiagColors.waterBlue,
             trailing = {
@@ -61,7 +63,7 @@ fun EditableSynthesisBlock(
                     if (isUserText) {
                         Surface(color = StationDiagColors.purpleLight, shape = StationDiagShapes.badge) {
                             Text(
-                                "Modifiée",
+                                stringResource(R.string.synthesis_modified),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = StationDiagColors.userEdited,
                                 modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp),
@@ -107,7 +109,7 @@ fun EditableSynthesisBlock(
                         ) {
                             Icon(Icons.Default.Refresh, null, modifier = Modifier.size(14.dp))
                             Spacer(Modifier.width(4.dp))
-                            Text("Revenir à l'automatique", fontSize = 11.sp)
+                            Text(stringResource(R.string.synthesis_back_to_auto), fontSize = 11.sp)
                         }
                     }
                 }
@@ -123,7 +125,7 @@ fun EditableSynthesisBlock(
                         shape = StationDiagShapes.cardSmall
                     ) {
                         Column(modifier = Modifier.fillMaxWidth().padding(10.dp)) {
-                            Text("Synthèse automatique", style = MaterialTheme.typography.labelSmall, color = StationDiagColors.waterBlue, fontWeight = FontWeight.Bold)
+                            Text(stringResource(R.string.synthesis_auto), style = MaterialTheme.typography.labelSmall, color = StationDiagColors.waterBlue, fontWeight = FontWeight.Bold)
                             Spacer(Modifier.height(4.dp))
                             Text(autoText, style = MaterialTheme.typography.bodySmall, color = StationDiagColors.textSecondary, fontSize = 11.sp)
                         }
@@ -133,7 +135,7 @@ fun EditableSynthesisBlock(
                 OutlinedTextField(
                     value = userText.ifEmpty { autoText },
                     onValueChange = { userText = it; isUserText = true },
-                    label = { Text("Votre version de la synthèse") },
+                    label = { Text(stringResource(R.string.synthesis_your_version)) },
                     modifier = Modifier.fillMaxWidth(),
                     minLines = 5,
                     shape = StationDiagShapes.input
@@ -148,7 +150,7 @@ fun EditableSynthesisBlock(
                     ) {
                         Icon(Icons.Default.Refresh, null, modifier = Modifier.size(14.dp))
                         Spacer(Modifier.width(4.dp))
-                        Text("Auto", fontSize = 11.sp)
+                        Text(stringResource(R.string.synthesis_auto_btn), fontSize = 11.sp)
                     }
                     Button(
                         onClick = { editMode = false },
@@ -157,7 +159,7 @@ fun EditableSynthesisBlock(
                     ) {
                         Icon(Icons.Default.Save, null, modifier = Modifier.size(14.dp))
                         Spacer(Modifier.width(4.dp))
-                        Text("Sauver", fontSize = 11.sp)
+                        Text(stringResource(R.string.synthesis_save), fontSize = 11.sp)
                     }
                 }
             }
@@ -179,7 +181,7 @@ fun EditableSynthesisBlock(
         ) {
             Icon(Icons.AutoMirrored.Filled.NoteAdd, null, tint = StationDiagColors.soilBrown, modifier = Modifier.size(18.dp))
             Text(
-                "Notes personnelles",
+                stringResource(R.string.synthesis_personal_notes),
                 style = MaterialTheme.typography.labelMedium,
                 color = StationDiagColors.soilBrown,
                 fontWeight = FontWeight.SemiBold,
@@ -187,7 +189,7 @@ fun EditableSynthesisBlock(
             )
             if (notesPerso.isNotBlank()) {
                 Surface(color = StationDiagColors.soilLight, shape = StationDiagShapes.badge) {
-                    Text("Rédigées", style = MaterialTheme.typography.labelSmall, color = StationDiagColors.soilBrown, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp), fontSize = 9.sp)
+                    Text(stringResource(R.string.synthesis_written), style = MaterialTheme.typography.labelSmall, color = StationDiagColors.soilBrown, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp), fontSize = 9.sp)
                 }
             }
             Icon(if (showNotes) Icons.Default.ExpandLess else Icons.Default.ExpandMore, null, tint = StationDiagColors.textSecondary, modifier = Modifier.size(18.dp))
@@ -195,13 +197,13 @@ fun EditableSynthesisBlock(
 
         AnimatedVisibility(visible = showNotes, enter = expandVertically(), exit = shrinkVertically()) {
             Column(verticalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.padding(top = 6.dp)) {
-                NoteBlock("Contraintes exploitation", Icons.Default.Construction, StationDiagColors.ochrePrimary)
-                NoteBlock("Note propriétaire / gestionnaire", Icons.Default.Person, StationDiagColors.waterBlue)
+                NoteBlock(stringResource(R.string.synthesis_exploitation_constraints), Icons.Default.Construction, StationDiagColors.ochrePrimary)
+                NoteBlock(stringResource(R.string.synthesis_owner_note), Icons.Default.Person, StationDiagColors.waterBlue)
                 OutlinedTextField(
                     value = notesPerso,
                     onValueChange = { notesPerso = it },
-                    label = { Text("Notes libres") },
-                    placeholder = { Text("Observations particulières, contexte historique, suivi prévu…", fontSize = 11.sp) },
+                    label = { Text(stringResource(R.string.synthesis_free_notes)) },
+                    placeholder = { Text(stringResource(R.string.synthesis_notes_placeholder), fontSize = 11.sp) },
                     modifier = Modifier.fillMaxWidth(),
                     minLines = 3,
                     shape = StationDiagShapes.input
@@ -260,6 +262,8 @@ private fun NoteBlock(
 //  Générateur de texte de synthèse automatique
 // ─────────────────────────────────────────────────────────────────────────────
 
+// TODO i18n: extraire vers strings.xml — buildAutoSynthesis et gradientHLabel/gradientTLabel
+// sont des fonctions non-Composables générant du texte. Passer par un StringProvider.
 private fun buildAutoSynthesis(
     station: StationObservation,
     result: StationDiagnosticEngine.StationResult,

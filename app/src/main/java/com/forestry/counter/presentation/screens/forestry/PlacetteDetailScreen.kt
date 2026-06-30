@@ -1,6 +1,8 @@
 package com.forestry.counter.presentation.screens.forestry
 
 import android.graphics.BitmapFactory
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -33,6 +35,7 @@ import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.text.KeyboardOptions
@@ -57,6 +60,7 @@ import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.forestry.counter.R
@@ -65,6 +69,7 @@ import com.forestry.counter.domain.repository.EssenceRepository
 import com.forestry.counter.domain.repository.PlacetteRepository
 import com.forestry.counter.domain.repository.TigeRepository
 import androidx.core.content.FileProvider
+import androidx.core.content.ContextCompat
 import com.forestry.counter.data.preferences.UserPreferencesManager
 import com.forestry.counter.presentation.components.AppMiniDialog
 import com.forestry.counter.presentation.utils.rememberHapticFeedback
@@ -151,14 +156,14 @@ fun PlacetteDetailScreen(
     var searchActive by remember { mutableStateOf(false) }
     var searchQuery  by remember { mutableStateOf("") }
 
-    val allEssences by essenceRepository.getAllEssences().collectAsState(initial = emptyList())
-    val tiges by tigeRepository.getTigesByPlacette(placetteId).collectAsState(initial = emptyList())
-    val persistedOrder by userPreferences.essenceOrderFlow(placetteId).collectAsState(initial = emptyList())
+    val allEssences by essenceRepository.getAllEssences().collectAsStateWithLifecycle(initialValue = emptyList())
+    val tiges by tigeRepository.getTigesByPlacette(placetteId).collectAsStateWithLifecycle(initialValue = emptyList())
+    val persistedOrder by userPreferences.essenceOrderFlow(placetteId).collectAsStateWithLifecycle(initialValue = emptyList())
 
-    val hapticEnabled by userPreferences.hapticEnabled.collectAsState(initial = true)
-    val soundEnabled by userPreferences.soundEnabled.collectAsState(initial = true)
-    val hapticIntensity by userPreferences.hapticIntensity.collectAsState(initial = 2)
-    val animationsEnabled by userPreferences.animationsEnabled.collectAsState(initial = true)
+    val hapticEnabled by userPreferences.hapticEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val soundEnabled by userPreferences.soundEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val hapticIntensity by userPreferences.hapticIntensity.collectAsStateWithLifecycle(initialValue = 2)
+    val animationsEnabled by userPreferences.animationsEnabled.collectAsStateWithLifecycle(initialValue = true)
     val haptic = rememberHapticFeedback()
     val sound = rememberSoundFeedback()
 
@@ -225,6 +230,22 @@ fun PlacetteDetailScreen(
         pendingPhotoFile = null
     }
 
+    var pendingCameraLaunch by remember { mutableStateOf(false) }
+    val cameraPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted && pendingCameraLaunch) {
+            val photoDir = getPlacettePhotoDir(context, placetteId)
+            val newFile = File(photoDir, "${UUID.randomUUID()}.jpg")
+            val uri = FileProvider.getUriForFile(
+                context, "${context.packageName}.fileprovider", newFile
+            )
+            pendingPhotoFile = newFile
+            photoLauncher.launch(uri)
+        }
+        pendingCameraLaunch = false
+    }
+
     Scaffold(
         snackbarHost = { SnackbarHost(snackbar) },
         topBar = {
@@ -289,7 +310,7 @@ fun PlacetteDetailScreen(
                         ) {
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.reorder)) },
-                                leadingIcon = { Icon(Icons.Default.SwapVert, null) },
+                                leadingIcon = { Icon(Icons.Default.SwapVert, contentDescription = stringResource(R.string.cd_swap)) },
                                 onClick = {
                                     showMoreMenu = false
                                     playClickFeedback()
@@ -299,23 +320,31 @@ fun PlacetteDetailScreen(
                             )
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.photo_take)) },
-                                leadingIcon = { Icon(Icons.Default.CameraAlt, null) },
+                                leadingIcon = { Icon(Icons.Default.CameraAlt, contentDescription = stringResource(R.string.cd_camera)) },
                                 onClick = {
                                     showMoreMenu = false
                                     playClickFeedback()
-                                    val photoDir = getPlacettePhotoDir(context, placetteId)
-                                    val newFile = File(photoDir, "${UUID.randomUUID()}.jpg")
-                                    val uri = FileProvider.getUriForFile(
-                                        context, "${context.packageName}.fileprovider", newFile
-                                    )
-                                    pendingPhotoFile = newFile
-                                    photoLauncher.launch(uri)
+                                    val hasCameraPermission = ContextCompat.checkSelfPermission(
+                                        context, Manifest.permission.CAMERA
+                                    ) == PackageManager.PERMISSION_GRANTED
+                                    if (hasCameraPermission) {
+                                        val photoDir = getPlacettePhotoDir(context, placetteId)
+                                        val newFile = File(photoDir, "${UUID.randomUUID()}.jpg")
+                                        val uri = FileProvider.getUriForFile(
+                                            context, "${context.packageName}.fileprovider", newFile
+                                        )
+                                        pendingPhotoFile = newFile
+                                        photoLauncher.launch(uri)
+                                    } else {
+                                        pendingCameraLaunch = true
+                                        cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+                                    }
                                 }
                             )
                             HorizontalDivider()
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.delete_placette), color = MaterialTheme.colorScheme.error) },
-                                leadingIcon = { Icon(Icons.Default.Delete, null, tint = MaterialTheme.colorScheme.error) },
+                                leadingIcon = { Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.cd_delete), tint = MaterialTheme.colorScheme.error) },
                                 onClick = {
                                     showMoreMenu = false
                                     playClickFeedback()
@@ -352,7 +381,7 @@ fun PlacetteDetailScreen(
                     trailingIcon = {
                         if (searchQuery.isNotEmpty()) {
                             IconButton(onClick = { searchQuery = "" }) {
-                                Icon(Icons.Default.Close, contentDescription = null)
+                                Icon(Icons.Default.Close, contentDescription = stringResource(R.string.cd_close))
                             }
                         }
                     },
@@ -790,16 +819,16 @@ private fun EssenceBlock(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(84.dp)
+            .heightIn(min = 84.dp)
             .combinedClickable(onClick = onClick, onLongClick = onLongPress),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = if (containerColor != null) CardDefaults.cardColors(containerColor = containerColor) else CardDefaults.cardColors()
     ) {
         Row(modifier = Modifier.fillMaxSize().padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(name, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                Text(name, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Spacer(Modifier.height(2.dp))
-                Text(code, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(code, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
             Column(horizontalAlignment = Alignment.End) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -908,9 +937,9 @@ private fun AddEssenceDialog(
             items(candidates, key = { it.code }) { e ->
                 ElevatedCard(onClick = { onAdd(e.code) }) {
                     Column(modifier = Modifier.padding(12.dp)) {
-                        Text(e.name, style = MaterialTheme.typography.bodyLarge)
+                        Text(e.name, style = MaterialTheme.typography.bodyLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         Spacer(Modifier.height(2.dp))
-                        Text(e.code, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(e.code, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     }
                 }
             }

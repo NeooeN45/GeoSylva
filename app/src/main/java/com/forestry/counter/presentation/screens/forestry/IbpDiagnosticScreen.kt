@@ -16,6 +16,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,7 +43,7 @@ fun IbpDiagnosticScreen(
     ibpRepository: IbpRepository,
     onNavigateBack: () -> Unit
 ) {
-    val evals by ibpRepository.getByParcelle(parcelleId).collectAsState(initial = emptyList())
+    val evals by ibpRepository.getByParcelle(parcelleId).collectAsStateWithLifecycle(initialValue = emptyList())
     val latest = evals.maxByOrNull { it.observationDate }
 
     Scaffold(
@@ -106,12 +107,17 @@ private fun DiagnosticScoreHeader(eval: IbpEvaluation) {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text("Score IBP Global", style = MaterialTheme.typography.labelLarge, color = Color.White.copy(alpha = .85f))
-            val animatedScore by animateIntAsState(
-                targetValue = score.coerceAtLeast(0),
+            val animatedScorePctA by animateIntAsState(
+                targetValue = eval.scoreAPct.coerceAtLeast(0),
                 animationSpec = tween(1200, easing = FastOutSlowInEasing),
-                label = "diagScore"
+                label = "diagScoreA"
             )
-            Text("$animatedScore / 50", style = MaterialTheme.typography.displayMedium,
+            val animatedScorePctB by animateIntAsState(
+                targetValue = eval.scoreBPct.coerceAtLeast(0),
+                animationSpec = tween(1200, easing = FastOutSlowInEasing),
+                label = "diagScoreB"
+            )
+            Text("$animatedScorePctA% & $animatedScorePctB%", style = MaterialTheme.typography.displayMedium,
                 fontWeight = FontWeight.ExtraBold, color = Color.White)
             Surface(color = Color.White.copy(alpha = .2f), shape = RoundedCornerShape(10.dp)) {
                 Text(diagLevelStr(level), style = MaterialTheme.typography.titleSmall,
@@ -122,12 +128,12 @@ private fun DiagnosticScoreHeader(eval: IbpEvaluation) {
             Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text("Groupe A", style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = .8f))
-                    Text("${eval.scoreA}/35", style = MaterialTheme.typography.titleMedium,
+                    Text("${eval.scoreA}/35 (${eval.scoreAPct}%)", style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold, color = Color.White)
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text("Groupe B", style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = .8f))
-                    Text("${eval.scoreB}/15", style = MaterialTheme.typography.titleMedium,
+                    Text("${eval.scoreB}/15 (${eval.scoreBPct}%)", style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold, color = Color.White)
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {

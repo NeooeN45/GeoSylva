@@ -3,6 +3,7 @@ package com.forestry.counter.domain.calculation
 import com.forestry.counter.domain.calculation.tarifs.TarifCalculator
 import com.forestry.counter.domain.calculation.tarifs.TarifMethod
 import com.forestry.counter.domain.calculation.tarifs.TarifSelection
+import com.forestry.counter.domain.calculation.tarifs.DecoupeCalculator
 import com.forestry.counter.domain.calculation.quality.DefaultProductPrices
 import com.forestry.counter.domain.calculation.quality.ProductClassifier
 import com.forestry.counter.domain.calculation.quality.WoodQualityGrade
@@ -94,16 +95,7 @@ class ForestryCalculator(
     }
 
     private fun essenceCodeCandidates(code: String): List<String> {
-        val up = code.trim().uppercase()
-        return when (up) {
-            "HETRE" -> listOf("HETRE", "HETRE_COMMUN")
-            "HETRE_COMMUN" -> listOf("HETRE_COMMUN", "HETRE")
-            "DOUGLAS" -> listOf("DOUGLAS", "DOUGLAS_VERT")
-            "DOUGLAS_VERT" -> listOf("DOUGLAS_VERT", "DOUGLAS")
-            "TREMBLE" -> listOf("TREMBLE", "PEUPLIER_TREMB")
-            "PEUPLIER_TREMB" -> listOf("PEUPLIER_TREMB", "TREMBLE")
-            else -> listOf(up)
-        }
+        return EssenceAliases.candidates(code)
     }
 
     suspend fun loadSynthesisParams(): ForestrySynthesisParams {
@@ -614,20 +606,33 @@ class ForestryCalculator(
                         val treeProduct = t.produit?.trim()?.takeIf { it.isNotEmpty() } ?: ruleProduct
 
                         val qualityCode = quality?.let { q -> WoodQualityGrade.entries.getOrNull(q)?.code }
-                        val priceFromRules = priceFor(essenceCode, treeProduct, d, prices, qualityCode)
-                            ?: if (!treeProduct.equals(defaultProd, ignoreCase = true)) {
-                                priceFor(essenceCode, defaultProd, d, prices, qualityCode)
-                            } else {
-                                null
-                            }
 
-                        val tigePrice = priceFromRules ?: run {
-                            val grade = quality?.let { q ->
-                                WoodQualityGrade.entries.getOrNull(q)
-                            } ?: WoodQualityGrade.C
-                            DefaultProductPrices.priceFor(treeProduct, essenceCode, grade)
+                        // C-PRIX-2/3: Ventiler le volume par produit avant application des prix.
+                        // Au lieu d'appliquer un seul prix au volume total, on ventile en BO/BI/BCh/PATE
+                        // et on applique le prix spécifique à chaque fraction.
+                        val volumeParProduit = DecoupeCalculator.ventilerParProduit(
+                            volumeTotal = v,
+                            essenceCode = essenceCode,
+                            categorie = null,
+                            diamCm = t.diamCm
+                        )
+
+                        for ((produit, volumeFraction) in volumeParProduit) {
+                            if (volumeFraction <= 0.0) continue
+                            val prixProduit = priceFor(essenceCode, produit, d, prices, qualityCode)
+                                ?: if (!produit.equals(defaultProd, ignoreCase = true)) {
+                                    priceFor(essenceCode, defaultProd, d, prices, qualityCode)
+                                } else {
+                                    null
+                                }
+                            val prixFinal = prixProduit ?: run {
+                                val grade = quality?.let { q ->
+                                    WoodQualityGrade.entries.getOrNull(q)
+                                } ?: WoodQualityGrade.C
+                                DefaultProductPrices.priceFor(produit, essenceCode, grade)
+                            }
+                            valSum += volumeFraction * prixFinal
                         }
-                        valSum += v * tigePrice
                     }
                 }
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="tree_count">
+        <item quantity="one">%d arbre</item>
+        <item quantity="other">%d arbres</item>
+    </plurals>
+    <plurals name="plot_count">
+        <item quantity="one">%d placette</item>
+        <item quantity="other">%d placettes</item>
+    </plurals>
+    <plurals name="parcel_count">
+        <item quantity="one">%d parcelle</item>
+        <item quantity="other">%d parcelles</item>
+    </plurals>
+    <plurals name="species_count">
+        <item quantity="one">%d essence</item>
+        <item quantity="other">%d essences</item>
+    </plurals>
+</resources>

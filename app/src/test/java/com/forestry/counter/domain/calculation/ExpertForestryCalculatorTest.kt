@@ -2,6 +2,7 @@ package com.forestry.counter.domain.calculation
 
 import com.forestry.counter.domain.model.ParameterItem
 import com.forestry.counter.domain.repository.ParameterRepository
+import com.forestry.counter.domain.model.Tige
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -91,23 +92,72 @@ class ExpertForestryCalculatorTest {
     @Test
     fun `should_compute_chene_is_with_known_formula`() {
         val calc = buildCalculator()
-        // QUPE: iaHauteur = min(20*0.8, 30) = 16.0
-        //        iaDiametre = min(35*0.3, 30) = 10.5
-        //        IS = (16.0 + 10.5) / 2 = 13.25
+        // C-CALC-2 : IS ≈ Hdom (proxy en l'absence de l'âge de référence).
+        // QUPE avec Hdom = 20.0 m -> IS = 20.0 (borné 5–30).
         val indiceStation = calc.calculateIndiceDeStation("QUPE", 80, 20.0, 35.0)
 
-        assertEquals(13.25, indiceStation, 0.001)
+        assertEquals(20.0, indiceStation, 0.001)
     }
 
     @Test
     fun `should_compute_hetre_is_with_known_formula`() {
         val calc = buildCalculator()
-        // FASY: iaHauteur = min(22*1.2, 30) = 26.4
-        //       iaDiametre = min(30*0.4, 30) = 12.0
-        //       IS = (26.4 + 12.0) / 2 = 19.2
+        // C-CALC-2 : IS ≈ Hdom (proxy en l'absence de l'âge de référence).
+        // FASY avec Hdom = 22.0 m -> IS = 22.0 (borné 5–30).
         val indiceStation = calc.calculateIndiceDeStation("FASY", 80, 22.0, 30.0)
 
-        assertEquals(19.2, indiceStation, 0.001)
+        assertEquals(22.0, indiceStation, 0.001)
+    }
+
+    // =====================================================================
+    // 1b. computeHdom — hauteur dominante (norme ONF)
+    // =====================================================================
+
+    private fun tige(id: String, diamCm: Double, hauteurM: Double?) =
+        Tige(id = id, parcelleId = "p", placetteId = null, essenceCode = "QUPE",
+            diamCm = diamCm, hauteurM = hauteurM, gpsWkt = null, precisionM = null,
+            altitudeM = null, note = null, produit = null, fCoef = null, valueEur = null)
+
+    @Test
+    fun `should_return_null_when_no_heights_available`() {
+        val calc = buildCalculator()
+        val tiges = listOf(tige("a", 30.0, null), tige("b", 40.0, null))
+        val hdom = calc.computeHdom(tiges, surfaceHa = 0.05)
+
+        assertEquals(null, hdom)
+    }
+
+    @Test
+    fun `should_average_top_100_per_ha_diameters`() {
+        val calc = buildCalculator()
+        // surfaceHa = 0.02 -> N = ceil(100 * 0.02) = 2 plus gros arbres
+        val tiges = listOf(
+            tige("a", 50.0, 25.0),
+            tige("b", 45.0, 23.0),
+            tige("c", 20.0, 15.0)
+        )
+        val hdom = calc.computeHdom(tiges, surfaceHa = 0.02)
+
+        // 2 plus gros : 50cm/25m et 45cm/23m -> moyenne = 24.0
+        assertEquals(24.0, hdom!!, 0.001)
+    }
+
+    @Test
+    fun `should_use_all_trees_when_fewer_than_n_target`() {
+        val calc = buildCalculator()
+        // surfaceHa = 1.0 -> N = 100, mais seulement 2 arbres disponibles
+        val tiges = listOf(tige("a", 50.0, 25.0), tige("b", 45.0, 23.0))
+        val hdom = calc.computeHdom(tiges, surfaceHa = 1.0)
+
+        assertEquals(24.0, hdom!!, 0.001)
+    }
+
+    @Test
+    fun `should_return_null_when_empty_tiges`() {
+        val calc = buildCalculator()
+        val hdom = calc.computeHdom(emptyList(), surfaceHa = 1.0)
+
+        assertEquals(null, hdom)
     }
 
     // =====================================================================

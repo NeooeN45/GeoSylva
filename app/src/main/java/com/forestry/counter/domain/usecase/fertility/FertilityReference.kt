@@ -52,10 +52,34 @@ object FertilityReference {
     val ALL: List<SpeciesFertilityRef> = listOf(
 
         // ── HÊTRE (Fagus sylvatica) ──
-        // Ref: Guide sylviculture hêtre, ONF 2012
+        // Ref: Guide sylviculture hêtre, ONF 2012 — H100
+        // C-DOM-2: seuils corrigés selon ONF 2012 (classe I = 32-35m, pas 28m)
         SpeciesFertilityRef(
             essenceCodes = listOf("HETRE", "FAGUS", "HET", "FB"),
             commonName = "Hêtre",
+            refAge = ReferenceAge.AGE_100,
+            thresholds = listOf(
+                32.0 to FertilityClass.I,
+                26.0 to FertilityClass.II,
+                20.0 to FertilityClass.III,
+                0.0  to FertilityClass.IV
+            ),
+            preferredZones = listOf(ClimateZone.ATLANTIQUE, ClimateZone.SEMI_OCEANIQUE, ClimateZone.MONTAGNARDE),
+            typicalHarvestDiamCm = 55.0,
+            expectedHAtHarvestByCls = mapOf(
+                FertilityClass.I   to 36.0,
+                FertilityClass.II  to 30.0,
+                FertilityClass.III to 24.0,
+                FertilityClass.IV  to 18.0
+            )
+        ),
+
+        // ── CHÊNE SESSILE / PÉDONCULÉ (Quercus petraea / robur) ──
+        // Ref: Guide sylviculture chêne, ONF 2006 — H100
+        // C-DOM-2: seuils corrigés selon ONF 2006 (classe I = 28-30m, pas 25m)
+        SpeciesFertilityRef(
+            essenceCodes = listOf("CHENE_SESSILE", "CHENE_PEDONCULE", "QUERCUS", "CHE", "CHS", "CHP", "QP", "QR"),
+            commonName = "Chêne",
             refAge = ReferenceAge.AGE_100,
             thresholds = listOf(
                 28.0 to FertilityClass.I,
@@ -63,35 +87,13 @@ object FertilityReference {
                 16.0 to FertilityClass.III,
                 0.0  to FertilityClass.IV
             ),
-            preferredZones = listOf(ClimateZone.ATLANTIQUE, ClimateZone.SEMI_OCEANIQUE, ClimateZone.MONTAGNARDE),
-            typicalHarvestDiamCm = 55.0,
+            preferredZones = listOf(ClimateZone.ATLANTIQUE, ClimateZone.SEMI_OCEANIQUE, ClimateZone.CONTINENTALE),
+            typicalHarvestDiamCm = 60.0,
             expectedHAtHarvestByCls = mapOf(
                 FertilityClass.I   to 32.0,
                 FertilityClass.II  to 26.0,
                 FertilityClass.III to 20.0,
                 FertilityClass.IV  to 15.0
-            )
-        ),
-
-        // ── CHÊNE SESSILE / PÉDONCULÉ (Quercus petraea / robur) ──
-        // Ref: Guide sylviculture chêne, ONF 2006
-        SpeciesFertilityRef(
-            essenceCodes = listOf("CHENE_SESSILE", "CHENE_PEDONCULE", "QUERCUS", "CHE", "CHS", "CHP", "QP", "QR"),
-            commonName = "Chêne",
-            refAge = ReferenceAge.AGE_100,
-            thresholds = listOf(
-                25.0 to FertilityClass.I,
-                20.0 to FertilityClass.II,
-                15.0 to FertilityClass.III,
-                0.0  to FertilityClass.IV
-            ),
-            preferredZones = listOf(ClimateZone.ATLANTIQUE, ClimateZone.SEMI_OCEANIQUE, ClimateZone.CONTINENTALE),
-            typicalHarvestDiamCm = 60.0,
-            expectedHAtHarvestByCls = mapOf(
-                FertilityClass.I   to 28.0,
-                FertilityClass.II  to 23.0,
-                FertilityClass.III to 18.0,
-                FertilityClass.IV  to 13.0
             )
         ),
 

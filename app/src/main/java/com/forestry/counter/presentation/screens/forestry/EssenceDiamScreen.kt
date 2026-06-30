@@ -48,6 +48,7 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -77,9 +78,6 @@ import com.forestry.counter.domain.calculation.quality.WoodQualityGrade
 import com.forestry.counter.presentation.utils.parseHeightInputMean
 import com.forestry.counter.presentation.utils.rememberHapticFeedback
 import com.forestry.counter.presentation.utils.rememberSoundFeedback
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
 import com.forestry.counter.domain.location.GpsAverager
 import com.forestry.counter.domain.location.GpsQuality
 import androidx.compose.material.icons.filled.Star
@@ -91,7 +89,7 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 import java.util.UUID
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class, ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun EssenceDiamScreen(
     parcelleId: String,
@@ -106,12 +104,11 @@ fun EssenceDiamScreen(
     val scope = rememberCoroutineScope()
     val snackbar = remember { SnackbarHostState() }
     val appContext = LocalContext.current
-    val finePermission = rememberPermissionState(Manifest.permission.ACCESS_FINE_LOCATION)
 
-    val hapticEnabled by userPreferences.hapticEnabled.collectAsState(initial = true)
-    val soundEnabled by userPreferences.soundEnabled.collectAsState(initial = true)
-    val hapticIntensity by userPreferences.hapticIntensity.collectAsState(initial = 2)
-    val animationsEnabled by userPreferences.animationsEnabled.collectAsState(initial = true)
+    val hapticEnabled by userPreferences.hapticEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val soundEnabled by userPreferences.soundEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val hapticIntensity by userPreferences.hapticIntensity.collectAsStateWithLifecycle(initialValue = 2)
+    val animationsEnabled by userPreferences.animationsEnabled.collectAsStateWithLifecycle(initialValue = true)
     val haptic = rememberHapticFeedback()
     val sound = rememberSoundFeedback()
 
@@ -187,7 +184,7 @@ fun EssenceDiamScreen(
     }
 
     // Charger les tiges de la placette
-    val tiges by tigeRepository.getTigesByPlacette(placetteId).collectAsState(initial = emptyList())
+    val tiges by tigeRepository.getTigesByPlacette(placetteId).collectAsStateWithLifecycle(initialValue = emptyList())
 
     // Tiges "normales" uniquement : les arbres spéciaux doivent rester dans l'onglet "feuille"
     val tigesEssence = remember(tiges, essenceCode) {
@@ -204,8 +201,8 @@ fun EssenceDiamScreen(
     }
 
     val scopeKey = remember(placetteId) { "PLACETTE_${placetteId}" }
-    val martelageHeights by userPreferences.martelageHeightsFlow(scopeKey).collectAsState(initial = emptyMap())
-    val savedSurface by userPreferences.martelageSurfaceFlow(scopeKey).collectAsState(initial = null)
+    val martelageHeights by userPreferences.martelageHeightsFlow(scopeKey).collectAsStateWithLifecycle(initialValue = emptyMap())
+    val savedSurface by userPreferences.martelageSurfaceFlow(scopeKey).collectAsStateWithLifecycle(initialValue = null)
 
     val tigesByDiamClass = remember(tigesEssence) {
         tigesEssence.groupBy { it.diamCm.toInt() }
@@ -313,11 +310,11 @@ fun EssenceDiamScreen(
     var showMissingHeightsDialog by remember { mutableStateOf(false) }
     var showSnoozeHeightsDialog by remember { mutableStateOf(false) }
     var showHeightMeasureDialog by remember { mutableStateOf(false) }
-    val skipWaistWarning by userPreferences.skipWaistWarning.collectAsState(initial = false)
-    val phoneHeightMPref by userPreferences.phoneHeightM.collectAsState(initial = 1.0f)
+    val skipWaistWarning by userPreferences.skipWaistWarning.collectAsStateWithLifecycle(initialValue = false)
+    val phoneHeightMPref by userPreferences.phoneHeightM.collectAsStateWithLifecycle(initialValue = 1.0f)
     var snoozeHours by rememberSaveable { mutableStateOf(1) }
     var skipMissingHeightsPrompt by rememberSaveable { mutableStateOf(false) }
-    val heightPromptSnoozeUntilMs by userPreferences.heightPromptSnoozeUntilMs.collectAsState(initial = 0L)
+    val heightPromptSnoozeUntilMs by userPreferences.heightPromptSnoozeUntilMs.collectAsStateWithLifecycle(initialValue = 0L)
     val isHeightPromptSnoozed = heightPromptSnoozeUntilMs > System.currentTimeMillis()
 
     val safeNavigateBack = {

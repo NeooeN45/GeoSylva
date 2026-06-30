@@ -61,6 +61,13 @@ import com.forestry.counter.domain.location.LocalisationResolverService
 
 class ForestryCounterApplication : Application() {
 
+    companion object {
+        init {
+            // Load SQLCipher native library (required before any DB operation)
+            System.loadLibrary("sqlcipher")
+        }
+    }
+
     private val applicationScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     // Database
@@ -132,14 +139,18 @@ class ForestryCounterApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        // Initialize database
-        database = Room.databaseBuilder(
-            applicationContext,
-            ForestryDatabase::class.java,
-            ForestryDatabase.DATABASE_NAME
+        // Initialize encryption service and get SQLCipher key from Android Keystore
+        val encryptionService = com.forestry.counter.security.DatabaseEncryptionService(this)
+        val dbKey = encryptionService.getOrCreateDatabaseKey()
+
+        // Initialize database with SQLCipher encryption (RGPD compliance)
+        database = ForestryDatabase.createDatabase(
+            this,
+            DatabaseMigrations.ALL,
+            dbKey
         )
-            .addMigrations(*DatabaseMigrations.ALL)
-            .build()
+        // Zero out the key from memory as soon as Room has consumed it
+        dbKey.fill(0)
 
         // Install crash logger (controlled via settings)
         CrashLogger.install(this)
@@ -149,6 +160,7 @@ class ForestryCounterApplication : Application() {
 
         // Initialize repositories
         groupRepository = GroupRepositoryImpl(
+            database,
             database.groupDao(),
             database.counterDao(),
             database.formulaDao(),

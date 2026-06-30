@@ -1338,4 +1338,226 @@
     <string name="tab_synthesis">Synthèse</string>
     <string name="tab_valuation">Valorisation</string>
     <string name="tab_analysis">Écologie</string>
+
+    <!-- Page consentement RGPD onboarding (R-C3) -->
+    <string name="onboarding_privacy_title">Confidentialité &amp; Protection des données</string>
+    <string name="onboarding_privacy_desc">GeoSylva respecte votre vie privée. Toutes les données restent sur votre appareil. Découvrez quelles données sont collectées et comment elles sont protégées.</string>
+    <string name="onboarding_privacy_b1">Toutes les données forestières (arbres, placettes, parcelles, photos) sont stockées localement et chiffrées en AES-256 (SQLCipher + Android Keystore)</string>
+    <string name="onboarding_privacy_b2">Aucune donnée personnelle n\'est envoyée vers un serveur. Le réseau sert uniquement pour les tuiles cartographiques (IGN, OSM, Esri). Le certificate pinning protège contre les attaques MITM.</string>
+    <string name="onboarding_privacy_b3">Vous gardez le contrôle : export (CSV/XLSX/JSON), suppression, révocation des permissions GPS/caméra à tout moment. Consultez la politique de confidentialité complète dans les Paramètres.</string>
+    <string name="onboarding_accept">Accepter &amp; Continuer</string>
+    <string name="onboarding_decline">Refuser</string>
+    <string name="onboarding_decline_message">GeoSylva nécessite votre consentement à la politique de confidentialité pour fonctionner. Vous pouvez fermer l\'application et revenir plus tard.</string>
+
+    <!-- i18n : étiquettes devise & unités (I-C3) -->
+    <string name="label_eur_per_m3">€/m³</string>
+    <string name="format_price_eur">%s €</string>
+
+    <!-- i18n : StationPhotoGalleryBlock (I-C1) -->
+    <string name="photo_add_title">Ajouter une photo</string>
+    <string name="photo_take_picture">Prendre une photo</string>
+    <string name="photo_import_gallery">Importer depuis la galerie</string>
+
+    <!-- i18n : DiagnosticScreen (I-C1) -->
+    <string name="diag_results_title">Résultats du diagnostic</string>
+    <string name="diag_score_global">Score global</string>
+    <string name="diag_stand">Peuplement</string>
+    <string name="diag_component_scores">Scores composantes</string>
+    <string name="diag_component_station">Station</string>
+    <string name="diag_component_biodiversity">Biodiversité</string>
+
+    <!-- i18n : PackManagerScreen (I-C1) -->
+    <string name="packs_title">Packs de données</string>
+    <string name="pack_install">Installer</string>
+    <string name="pack_update_available">MAJ dispo</string>
+    <string name="pack_uninstall">Désinstaller</string>
+    <string name="pack_status_installed">Installé</string>
+    <string name="pack_status_embedded">Embarqué</string>
+    <string name="pack_status_available">Disponible</string>
+    <string name="pack_status_error">Erreur</string>
+
+    <!-- i18n : StationPhotoGalleryBlock (I-C1) -->
+    <string name="station_photo_photos_documents">Photos &amp; Documents</string>
+    <string name="station_photo_min_required_format">Minimum %1$d photos requises pour finaliser le diagnostic.</string>
+    <string name="station_photo_none">Aucune photo</string>
+    <string name="station_photo_empty_desc">Appuyez pour photographier ou importer une image du terrain</string>
+    <string name="station_photo_new">Nouvelle photo</string>
+    <string name="station_photo_edit">Modifier la photo</string>
+    <string name="station_photo_legend_optional">Légende (optionnel)</string>
+    <string name="station_photo_type">Type de photo</string>
+
+    <!-- i18n : DiagnosticScreen extras (I-C1) -->
+    <string name="diag_not_found">Diagnostic introuvable</string>
+    <string name="diag_score_very_favorable">Très favorable</string>
+    <string name="diag_score_favorable">Favorable</string>
+    <string name="diag_score_medium">Moyen</string>
+    <string name="diag_score_unfavorable">Défavorable</string>
+    <string name="diag_score_unsuitable">Inadapté</string>
+    <string name="diag_essences_adequation">Essences — adéquation station</string>
+    <string name="diag_recommendations">Recommandations</string>
+    <string name="diag_unit_stems_ha">tiges/ha</string>
+
+    <!-- i18n : StationDiagnosticScreen (I-C1) -->
+    <string name="station_diag_releve_title">Relevé de Station</string>
+    <string name="station_diag_brouillon">Brouillon</string>
+    <string name="station_diag_finalize">Finaliser</string>
+    <string name="station_diag_incomplete">Incomplet</string>
+    <string name="station_diag_soil_features">Caractéristiques du Sol</string>
+    <string name="station_diag_pierrosite">Pierrosité</string>
+    <string name="station_diag_hydro_tasks_cm">Tâches (cm)</string>
+    <string name="station_diag_bedrock_obs">Roche Mère (obs.)</string>
+    <string name="station_diag_ecological_gradients">Gradients Écologiques (1 à 5)</string>
+    <string name="station_diag_hydrique_slider">Hydrique (sec -&gt; inondé)</string>
+    <string name="station_diag_indicative_species_notes">Espèces Indicatrices &amp; Notes</string>
+    <string name="station_diag_indicative_species_hint">Espèces indicatrices (séparées par des virgules)</string>
+    <string name="station_diag_xerophilous_present">Espèces Xérophiles présentes</string>
+    <string name="station_diag_mesophilous_present">Espèces Mésophiles présentes</string>
+    <string name="station_diag_hygrophilous_present">Espèces Hygrophiles présentes</string>
+    <string name="station_diag_vegetation_notes">Notes supplémentaires sur la végétation</string>
+    <string name="station_diag_ecological_profile">Profil Écologique</string>
+    <string name="station_diag_identified_constraints">Contraintes identifiées</string>
+    <string name="station_diag_inconsistency_alerts">Alertes d\'incohérence</string>
+    <string name="station_diag_pedological_profile">Profil Pédologique</string>
+    <string name="station_diag_ph_estimated">pH estimé</string>
+    <string name="station_diag_bedrock">Roche mère</string>
+    <string name="station_diag_hydromorphie_at_cm_format">Hydromorphie à %1$d cm</string>
+
+    <!-- i18n : PackManagerScreen extras (I-C1) -->
+    <string name="pack_no_regional">Aucun pack régional disponible pour cette sélection.</string>
+    <string name="pack_installed_summary_format">%1$d pack(s) installé(s) · %2$.1f Mo</string>
+    <string name="pack_all_format">Tout (%1$d)</string>
+    <string name="pack_national_offline_format">Données nationales — disponible hors ligne (%1$d sp.)</string>
+    <string name="pack_national_label">National</string>
+    <string name="pack_built_format">v%1$s · construit %2$s</string>
+    <string name="pack_feature_flora_format">%1$d espèces flore</string>
+    <string name="pack_feature_station_rules">Règles station</string>
+    <string name="pack_feature_regional_srgs">SRGS régional</string>
+    <string name="pack_feature_drias">Projections DRIAS</string>
+    <string name="pack_error_retry">Erreur — Réessayer</string>
+    <string name="pack_all">Tout</string>
+
+    <!-- i18n : DiagnosticPhotoCaptureSection (I-C1) -->
+    <string name="photo_choose_gallery">Choisir depuis la galerie</string>
+    <string name="photo_classify">Classer la photo</string>
+    <string name="photo_type_label">Type :</string>
+    <string name="photo_none_min_required_format">Aucune photo — %1$d requises minimum</string>
+    <string name="photo_no_legend">Sans légende</string>
+
+    <!-- i18n : EditableSynthesisBlock (I-C1) -->
+    <string name="synthesis_title">Synthèse du diagnostic</string>
+    <string name="synthesis_modified">Modifiée</string>
+    <string name="synthesis_back_to_auto">Revenir à l\'automatique</string>
+    <string name="synthesis_auto">Synthèse automatique</string>
+    <string name="synthesis_your_version">Votre version de la synthèse</string>
+    <string name="synthesis_auto_btn">Auto</string>
+    <string name="synthesis_save">Sauver</string>
+    <string name="synthesis_personal_notes">Notes personnelles</string>
+    <string name="synthesis_written">Rédigées</string>
+    <string name="synthesis_exploitation_constraints">Contraintes exploitation</string>
+    <string name="synthesis_owner_note">Note propriétaire / gestionnaire</string>
+    <string name="synthesis_free_notes">Notes libres</string>
+    <string name="synthesis_notes_placeholder">Observations particulières, contexte historique, suivi prévu…</string>
+
+    <!-- i18n : IbpEvaluationScreen extras (I-C1) -->
+    <string name="ibp_strata_present">Strates présentes (cochez celles observées)</string>
+    <string name="ibp_aquatic_types">Types de milieux aquatiques présents</string>
+    <string name="ibp_rocky_types">Types de milieux rocheux présents</string>
+    <string name="ibp_temporal_continuity">Continuité temporelle — situation observée</string>
+    <string name="ibp_native_species_genres">Genres d\'essences autochtones présents</string>
+    <string name="ibp_mode_eval">Mode d\'évaluation</string>
+    <string name="ibp_field_counting">Comptage terrain (arbres/ha)</string>
+    <string name="ibp_bmg_help">BMg = chicot ou tronc ∅&gt;37.5 cm à la base | BMm = ∅ 17.5–37.5 cm</string>
+    <string name="ibp_dmh_types_observed">Types de dmh observés (cochez les présents)</string>
+    <string name="ibp_open_habitat_surface">Surface en milieux ouverts florifères (% de la placette)</string>
+    <string name="ibp_score_auto_format">Score calculé automatiquement : %1$d pts</string>
+
+    <!-- i18n : MartelageScreen extras (I-C1) -->
+    <string name="martelage_tab_management">Gestion</string>
+    <string name="martelage_super_correlateur">Super Corrélateur</string>
+    <string name="martelage_correlation_desc">Corrélation multi-sources · Résilience 2050 · Plan d\'action sylvicole</string>
+    <string name="martelage_quick_field_entry">Saisie terrain rapide</string>
+    <string name="martelage_quick_field_desc">G + triangle sans tiges individuelles</string>
+    <string name="martelage_basal_area_g">Surface terrière G</string>
+    <string name="martelage_structure_triangle">Triangle des structures (% sur tiges précomptables ≥ 17.5 cm)</string>
+    <string name="martelage_pct_normalized">Les % sont normalisés automatiquement à 100%</string>
+
+    <!-- i18n : ParcellesScreen extras (I-C1) -->
+    <string name="parcelles_menu_ibp_biodiversity">IBP Biodiversité</string>
+    <string name="parcelles_menu_sylvicultural_diagnostic">Diagnostic sylvicole</string>
+
+    <!-- ===== Descriptions de contenu pour l'accessibilité (TalkBack) ===== -->
+    <string name="cd_back">Retour</string>
+    <string name="cd_close">Fermer</string>
+    <string name="cd_add">Ajouter</string>
+    <string name="cd_delete">Supprimer</string>
+    <string name="cd_remove">Retirer</string>
+    <string name="cd_save">Enregistrer</string>
+    <string name="cd_search">Rechercher</string>
+    <string name="cd_clear">Effacer</string>
+    <string name="cd_edit">Modifier</string>
+    <string name="cd_settings">Paramètres</string>
+    <string name="cd_info">Information</string>
+    <string name="cd_more">Plus d\'options</string>
+    <string name="cd_menu">Menu</string>
+    <string name="cd_expand">Déplier</string>
+    <string name="cd_collapse">Replier</string>
+    <string name="cd_layers">Couches de carte</string>
+    <string name="cd_zoom_in">Zoom avant</string>
+    <string name="cd_zoom_out">Zoom arrière</string>
+    <string name="cd_north">Réinitialiser le nord</string>
+    <string name="cd_gps_locate">Me localiser</string>
+    <string name="cd_navigate">Navigation vers</string>
+    <string name="cd_export">Exporter</string>
+    <string name="cd_import">Importer</string>
+    <string name="cd_share">Partager</string>
+    <string name="cd_filter">Filtrer</string>
+    <string name="cd_sort">Trier</string>
+    <string name="cd_refresh">Actualiser</string>
+    <string name="cd_confirm">Confirmer</string>
+    <string name="cd_cancel">Annuler</string>
+    <string name="cd_play">Démarrer</string>
+    <string name="cd_stop">Arrêter</string>
+    <string name="cd_upload">Téléverser</string>
+    <string name="cd_download">Télécharger</string>
+    <string name="cd_calculate">Calculer</string>
+    <string name="cd_functions">Fonctions</string>
+    <string name="cd_straighten">Outil de mesure</string>
+    <string name="cd_diagnostic">Diagnostic</string>
+    <string name="cd_timeline">Chronologie</string>
+    <string name="cd_guide">Guide</string>
+    <string name="cd_result">Résultat</string>
+    <string name="cd_pdf">Exporter en PDF</string>
+    <string name="cd_camera">Appareil photo</string>
+    <string name="cd_photo">Photo</string>
+    <string name="cd_height">Mesure de hauteur</string>
+    <string name="cd_ecology">Écologie</string>
+    <string name="cd_analytics">Analyse</string>
+    <string name="cd_storage">Stockage</string>
+    <string name="cd_language">Langue</string>
+    <string name="cd_font_size">Taille de police</string>
+    <string name="cd_color_theme">Thème de couleur</string>
+    <string name="cd_background_image">Image d\'arrière-plan</string>
+    <string name="cd_forest">Forêt</string>
+    <string name="cd_map">Carte</string>
+    <string name="cd_quality_badge">Badge de qualité</string>
+    <string name="cd_color_picker">Choisir la couleur</string>
+    <string name="cd_warning">Avertissement</string>
+    <string name="cd_check">Vérifier</string>
+    <string name="cd_star">Étoile</string>
+    <string name="cd_compatibility">Compatibilité</string>
+    <string name="cd_battery">Batterie</string>
+    <string name="cd_volume">Volume</string>
+    <string name="cd_vibration">Vibration</string>
+    <string name="cd_bug_report">Signaler un bug</string>
+    <string name="cd_privacy">Confidentialité</string>
+    <string name="cd_block">Bloquer</string>
+    <string name="cd_attach_money">Prix</string>
+    <string name="cd_public">National</string>
+    <string name="cd_format_list">Liste</string>
+    <string name="cd_cloud_download">Télécharger le pack</string>
+    <string name="cd_near_me">À proximité</string>
+    <string name="cd_explore">Explorer la carte</string>
+    <string name="cd_tune">Ajuster</string>
+    <string name="cd_swap">Permuter</string>
+    <string name="cd_summary">Synthèse</string>
 </resources>

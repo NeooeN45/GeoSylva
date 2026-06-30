@@ -58,7 +58,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
@@ -129,12 +129,12 @@ fun DashboardScreen(
     parcelleRepository: ParcelleRepository? = null,
     onNavigateBack: () -> Unit
 ) {
-    val tiges by tigeRepository.getTigesByParcelle(parcelleId).collectAsState(initial = emptyList())
-    val essences by essenceRepository.getAllEssences().collectAsState(initial = emptyList())
+    val tiges by tigeRepository.getTigesByParcelle(parcelleId).collectAsStateWithLifecycle(initialValue = emptyList())
+    val essences by essenceRepository.getAllEssences().collectAsStateWithLifecycle(initialValue = emptyList())
     val essenceMap = remember(essences) { essences.associateBy { it.code.uppercase() } }
 
     val parcelle by (parcelleRepository?.getParcelleById(parcelleId)
-        ?: kotlinx.coroutines.flow.flowOf(null)).collectAsState(initial = null)
+        ?: kotlinx.coroutines.flow.flowOf(null)).collectAsStateWithLifecycle(initialValue = null)
 
     // ── Données agrégées ──
     val tigesByEssence = remember(tiges) {
@@ -574,14 +574,14 @@ private fun AnimatedBarChart(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Bottom
                     ) {
-                        if (fraction > 0.02f) Text("$count", fontSize = 9.sp, color = labelColor,
+                        if (fraction > 0.02f) Text("$count", fontSize = 12.sp, color = labelColor,
                             style = MaterialTheme.typography.labelSmall)
                         Spacer(Modifier.height(2.dp))
                         Box(Modifier.width(26.dp).height(barH.dp)
                             .clip(RoundedCornerShape(topStart = 5.dp, topEnd = 5.dp))
                             .background(barGradient))
                         Spacer(Modifier.height(3.dp))
-                        Text("$cls$labelSuffix", fontSize = 8.sp, color = labelColor,
+                        Text("$cls$labelSuffix", fontSize = 12.sp, color = labelColor,
                             style = MaterialTheme.typography.labelSmall,
                             textAlign = TextAlign.Center, maxLines = 1)
                     }

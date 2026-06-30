@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
@@ -90,7 +91,7 @@ internal fun VolumeCard(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            Text(stringResource(R.string.martelage_volume_price_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.martelage_volume_price_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
             Text(
                 stringResource(R.string.martelage_volume_desc),
                 style = MaterialTheme.typography.bodySmall,
@@ -159,7 +160,7 @@ internal fun BasalAreaCard(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            Text(stringResource(R.string.martelage_basal_area_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.martelage_basal_area_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
             Text(
                 stringResource(R.string.martelage_basal_area_desc),
                 style = MaterialTheme.typography.bodySmall,
@@ -383,7 +384,7 @@ internal fun ClassDistributionCard(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            Text(stringResource(R.string.martelage_class_distribution_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.martelage_class_distribution_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
             val maxN = classDistribution.maxOfOrNull { it.n } ?: 1
             Row(
                 modifier = Modifier
@@ -491,7 +492,9 @@ internal fun QualityDistributionCard(
                 Text(
                     stringResource(R.string.martelage_quality_title),
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     stringResource(R.string.martelage_quality_assessed_format, assessedCount, totalCount),
@@ -680,7 +683,7 @@ internal fun PerEssenceTable(
                             )
                             if (row.meanPricePerM3 != null) {
                                 StatItem(
-                                    label = "€/m³",
+                                    label = stringResource(R.string.label_eur_per_m3),
                                     value = formatPrice(row.meanPricePerM3, placeholderDash),
                                     color = rowTextColor
                                 )
@@ -919,7 +922,9 @@ internal fun SpecialTreesCard(
                         Text(
                             detail,
                             style = MaterialTheme.typography.bodySmall,
-                            color = cardContent.copy(alpha = 0.8f)
+                            color = cardContent.copy(alpha = 0.8f),
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }

@@ -34,6 +34,7 @@ import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Park
 import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.Science
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Straighten
 import androidx.compose.material.icons.filled.Terrain
 import androidx.compose.material.icons.filled.WbSunny
@@ -46,6 +47,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import android.app.Activity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -59,7 +62,8 @@ private enum class PageCategory(val labelFr: String, val color: Color) {
     INVENTORY("Inventaire", Color(0xFF00695C)),
     ANALYSIS("Analyse", Color(0xFF1565C0)),
     ECOLOGY("Écologie", Color(0xFF4527A0)),
-    EXPORT("Export", Color(0xFF6A1B9A))
+    EXPORT("Export", Color(0xFF6A1B9A)),
+    PRIVACY("RGPD", Color(0xFF37474F))
 }
 
 private data class OnboardingPage(
@@ -163,6 +167,13 @@ private val PAGES = listOf(
         R.string.onboarding_export_desc,
         listOf(R.string.onboarding_export_b1, R.string.onboarding_export_b2, R.string.onboarding_export_b3),
         Color(0xFF4527A0), PageCategory.EXPORT
+    ),
+    OnboardingPage(
+        Icons.Default.Security,
+        R.string.onboarding_privacy_title,
+        R.string.onboarding_privacy_desc,
+        listOf(R.string.onboarding_privacy_b1, R.string.onboarding_privacy_b2, R.string.onboarding_privacy_b3),
+        Color(0xFF37474F), PageCategory.PRIVACY
     )
 )
 
@@ -173,6 +184,8 @@ fun OnboardingScreen(onComplete: () -> Unit) {
     val scope = rememberCoroutineScope()
     val currentPage = PAGES[pagerState.currentPage]
     val isLastPage = pagerState.currentPage == PAGES.size - 1
+    val context = LocalContext.current
+    var showDeclineDialog by remember { mutableStateOf(false) }
 
     val bgColor by animateColorAsState(
         targetValue = currentPage.accentColor.copy(alpha = 0.06f),
@@ -343,7 +356,7 @@ fun OnboardingScreen(onComplete: () -> Unit) {
                         label = "ctaText"
                     ) { last ->
                         Text(
-                            text = if (last) stringResource(R.string.onboarding_start)
+                            text = if (last) stringResource(R.string.onboarding_accept)
                             else stringResource(R.string.onboarding_next),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
@@ -352,8 +365,48 @@ fun OnboardingScreen(onComplete: () -> Unit) {
                 }
             }
 
+            // Decline button — visible only on the RGPD consent page (last page)
+            AnimatedVisibility(
+                visible = isLastPage,
+                enter = fadeIn(tween(250)),
+                exit = fadeOut(tween(150))
+            ) {
+                TextButton(
+                    onClick = { showDeclineDialog = true },
+                    modifier = Modifier.padding(top = 4.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.onboarding_decline),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
             Spacer(modifier = Modifier.height(20.dp))
         }
+    }
+
+    // Decline confirmation dialog
+    if (showDeclineDialog) {
+        AlertDialog(
+            onDismissRequest = { showDeclineDialog = false },
+            title = { Text(stringResource(R.string.onboarding_decline)) },
+            text = { Text(stringResource(R.string.onboarding_decline_message)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    showDeclineDialog = false
+                    (context as? Activity)?.finishAffinity()
+                }) {
+                    Text(stringResource(R.string.onboarding_decline))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeclineDialog = false }) {
+                    Text(stringResource(R.string.onboarding_accept))
+                }
+            }
+        )
     }
 }
 

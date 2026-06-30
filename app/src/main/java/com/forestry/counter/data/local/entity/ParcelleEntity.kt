@@ -1,11 +1,23 @@
 package com.forestry.counter.data.local.entity
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "parcelles",
+    foreignKeys = [
+        // FK uniquement sur foretId (référence vers ForetEntity).
+        // forestOwnerId stocke un groupId (table groups) — pas de FK car
+        // GroupEntity et ForetEntity sont des tables séparées.
+        ForeignKey(
+            entity = ForetEntity::class,
+            parentColumns = ["foretId"],
+            childColumns = ["foretId"],
+            onDelete = ForeignKey.SET_NULL
+        )
+    ],
     indices = [
         Index(name = "index_parcelles_name", value = ["name"]),
         Index(name = "index_parcelles_forestOwnerId", value = ["forestOwnerId"]),

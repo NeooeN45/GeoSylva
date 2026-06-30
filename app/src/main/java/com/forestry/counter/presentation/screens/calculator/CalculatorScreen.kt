@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -63,9 +64,9 @@ fun CalculatorScreen(
     var showSaveFormula by remember { mutableStateOf(false) }
     var formulaName by remember { mutableStateOf("") }
 
-    val animationsEnabled by preferencesManager.animationsEnabled.collectAsState(initial = true)
-    val pressScale by preferencesManager.pressScale.collectAsState(initial = 0.96f)
-    val animDurationShort by preferencesManager.animDurationShort.collectAsState(initial = 140)
+    val animationsEnabled by preferencesManager.animationsEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val pressScale by preferencesManager.pressScale.collectAsStateWithLifecycle(initialValue = 0.96f)
+    val animDurationShort by preferencesManager.animDurationShort.collectAsStateWithLifecycle(initialValue = 140)
 
     // Data
     var counters by remember { mutableStateOf<List<Counter>>(emptyList()) }

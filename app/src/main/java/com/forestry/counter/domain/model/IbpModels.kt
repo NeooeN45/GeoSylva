@@ -152,9 +152,9 @@ data class IbpAnswers(
     val isComplete: Boolean get() = answeredCount == 10
 
     companion object {
-        /** Create a new IbpAnswers with current schema (v2 = 0/2/5 system). */
+        /** Create a new IbpAnswers with current schema (v2 = 0/2/5 system, Larrieu & Gonin 2008). */
         fun new() = IbpAnswers(schemaVersion = 2)
-        val VALID_SCORES = setOf(0, 1, 2, 5)
+        val VALID_SCORES = setOf(0, 2, 5)
     }
 }
 
@@ -177,6 +177,12 @@ data class IbpEvaluation(
     val scoreB: Int get() = answers.scoreB
     val scoreTotal: Int get() = answers.scoreTotal
     val isComplete: Boolean get() = answers.isComplete
+
+    /** Score A (critères A-G, gestion) en pourcentage (0-100). Max = 35 points. */
+    val scoreAPct: Int get() = if (scoreA > 0) (scoreA * 100 / 35) else 0
+
+    /** Score B (critères H-J, contexte) en pourcentage (0-100). Max = 15 points. */
+    val scoreBPct: Int get() = if (scoreB > 0) (scoreB * 100 / 15) else 0
 
     fun levelColor(): IbpLevel = IbpLevel.fromScore(scoreTotal)
 }

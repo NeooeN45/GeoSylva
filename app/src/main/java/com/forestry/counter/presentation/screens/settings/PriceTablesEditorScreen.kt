@@ -444,7 +444,8 @@ private fun PriceRowCard(
 ) {
     val essenceLabel = essenceLabels[row.essence] ?: row.essence
     val prodLabel = productLabel(row.product)
-    val priceDisplay = row.eurPerM3.replace(',', '.').toDoubleOrNull()?.let { "%.0f €/m³".format(it) } ?: row.eurPerM3
+    val eurPerM3Label = stringResource(R.string.label_eur_per_m3)
+    val priceDisplay = row.eurPerM3.replace(',', '.').toDoubleOrNull()?.let { "%.0f %s".format(it, eurPerM3Label) } ?: row.eurPerM3
 
     ElevatedCard(
         modifier = Modifier
@@ -624,7 +625,7 @@ private fun PriceRowCard(
                         OutlinedTextField(
                             value = row.eurPerM3,
                             onValueChange = { v -> onUpdate(row.copy(eurPerM3 = v)) },
-                            label = { Text("€/m³") },
+                            label = { Text(stringResource(R.string.label_eur_per_m3)) },
                             modifier = Modifier.weight(1f),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                             singleLine = true

@@ -1,0 +1,4547 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 31,
+    "identityHash": "3729f94ab2eced9a4bb28e66af2ca7cb",
+    "entities": [
+      {
+        "tableName": "groups",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`groupId` TEXT NOT NULL, `name` TEXT NOT NULL, `color` TEXT, `sortIndex` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`groupId`))",
+        "fields": [
+          {
+            "fieldPath": "groupId",
+            "columnName": "groupId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sortIndex",
+            "columnName": "sortIndex",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "groupId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "counters",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`counterId` TEXT NOT NULL, `groupOwnerId` TEXT NOT NULL, `name` TEXT NOT NULL, `value` REAL NOT NULL, `step` REAL NOT NULL, `min` REAL, `max` REAL, `bgColor` TEXT, `fgColor` TEXT, `iconName` TEXT, `isComputed` INTEGER NOT NULL, `formulaId` TEXT, `targetValue` REAL, `decimalPlaces` INTEGER, `initialValue` REAL, `resetValue` REAL, `soundEnabled` INTEGER, `vibrationEnabled` INTEGER, `vibrationIntensity` INTEGER, `targetAction` TEXT, `tags` TEXT, `showInFieldView` INTEGER NOT NULL, `tileSize` TEXT NOT NULL, `sortIndex` INTEGER NOT NULL, `lastUpdatedAt` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY(`counterId`), FOREIGN KEY(`groupOwnerId`) REFERENCES `groups`(`groupId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "counterId",
+            "columnName": "counterId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "groupOwnerId",
+            "columnName": "groupOwnerId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "step",
+            "columnName": "step",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "min",
+            "columnName": "min",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "max",
+            "columnName": "max",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "bgColor",
+            "columnName": "bgColor",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fgColor",
+            "columnName": "fgColor",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "iconName",
+            "columnName": "iconName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isComputed",
+            "columnName": "isComputed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "formulaId",
+            "columnName": "formulaId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "targetValue",
+            "columnName": "targetValue",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "decimalPlaces",
+            "columnName": "decimalPlaces",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "initialValue",
+            "columnName": "initialValue",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "resetValue",
+            "columnName": "resetValue",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "soundEnabled",
+            "columnName": "soundEnabled",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "vibrationEnabled",
+            "columnName": "vibrationEnabled",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "vibrationIntensity",
+            "columnName": "vibrationIntensity",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "targetAction",
+            "columnName": "targetAction",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tags",
+            "columnName": "tags",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "showInFieldView",
+            "columnName": "showInFieldView",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tileSize",
+            "columnName": "tileSize",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sortIndex",
+            "columnName": "sortIndex",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUpdatedAt",
+            "columnName": "lastUpdatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "counterId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_counters_groupOwnerId",
+            "unique": false,
+            "columnNames": [
+              "groupOwnerId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_counters_groupOwnerId` ON `${TABLE_NAME}` (`groupOwnerId`)"
+          },
+          {
+            "name": "index_counters_name",
+            "unique": false,
+            "columnNames": [
+              "name"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_counters_name` ON `${TABLE_NAME}` (`name`)"
+          },
+          {
+            "name": "index_counters_sortIndex",
+            "unique": false,
+            "columnNames": [
+              "sortIndex"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_counters_sortIndex` ON `${TABLE_NAME}` (`sortIndex`)"
+          },
+          {
+            "name": "index_counters_groupOwnerId_sortIndex",
+            "unique": false,
+            "columnNames": [
+              "groupOwnerId",
+              "sortIndex"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_counters_groupOwnerId_sortIndex` ON `${TABLE_NAME}` (`groupOwnerId`, `sortIndex`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "groups",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "groupOwnerId"
+            ],
+            "referencedColumns": [
+              "groupId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "formulas",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`formulaId` TEXT NOT NULL, `groupOwnerId` TEXT NOT NULL, `name` TEXT NOT NULL, `expression` TEXT NOT NULL, `description` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`formulaId`), FOREIGN KEY(`groupOwnerId`) REFERENCES `groups`(`groupId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "formulaId",
+            "columnName": "formulaId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "groupOwnerId",
+            "columnName": "groupOwnerId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "expression",
+            "columnName": "expression",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "formulaId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_formulas_groupOwnerId",
+            "unique": false,
+            "columnNames": [
+              "groupOwnerId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_formulas_groupOwnerId` ON `${TABLE_NAME}` (`groupOwnerId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "groups",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "groupOwnerId"
+            ],
+            "referencedColumns": [
+              "groupId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "group_variables",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`variableId` TEXT NOT NULL, `groupOwnerId` TEXT NOT NULL, `name` TEXT NOT NULL, `value` REAL NOT NULL, `description` TEXT, PRIMARY KEY(`variableId`), FOREIGN KEY(`groupOwnerId`) REFERENCES `groups`(`groupId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "variableId",
+            "columnName": "variableId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "groupOwnerId",
+            "columnName": "groupOwnerId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "variableId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_group_variables_groupOwnerId",
+            "unique": false,
+            "columnNames": [
+              "groupOwnerId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_group_variables_groupOwnerId` ON `${TABLE_NAME}` (`groupOwnerId`)"
+          },
+          {
+            "name": "index_group_variables_name",
+            "unique": false,
+            "columnNames": [
+              "name"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_group_variables_name` ON `${TABLE_NAME}` (`name`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "groups",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "groupOwnerId"
+            ],
+            "referencedColumns": [
+              "groupId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "parcelles",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`parcelleId` TEXT NOT NULL, `forestOwnerId` TEXT, `foretId` TEXT, `name` TEXT NOT NULL, `surfaceHa` REAL, `shape` TEXT, `slopePct` REAL, `aspect` TEXT, `access` TEXT, `altitudeM` REAL, `objectifType` TEXT, `objectifVal` REAL, `tolerancePct` REAL, `samplingMode` TEXT, `sampleAreaM2` REAL, `targetSpeciesCsv` TEXT, `srid` INTEGER, `remarks` TEXT, `codeInseeCommune` TEXT, `nomCommune` TEXT, `sectionCadastrale` TEXT, `numeroCadastral` TEXT, `contenanceCadastraleHa` REAL, `geometrieIgnWkt` TEXT, `natureCadastraleCode` TEXT, `localisationMode` TEXT, `codeSer` TEXT, `nomSer` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`parcelleId`), FOREIGN KEY(`forestOwnerId`) REFERENCES `forets`(`foretId`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`foretId`) REFERENCES `forets`(`foretId`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "parcelleId",
+            "columnName": "parcelleId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "forestOwnerId",
+            "columnName": "forestOwnerId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "foretId",
+            "columnName": "foretId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "surfaceHa",
+            "columnName": "surfaceHa",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "shape",
+            "columnName": "shape",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "slopePct",
+            "columnName": "slopePct",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "aspect",
+            "columnName": "aspect",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "access",
+            "columnName": "access",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "altitudeM",
+            "columnName": "altitudeM",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "objectifType",
+            "columnName": "objectifType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "objectifVal",
+            "columnName": "objectifVal",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tolerancePct",
+            "columnName": "tolerancePct",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "samplingMode",
+            "columnName": "samplingMode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sampleAreaM2",
+            "columnName": "sampleAreaM2",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "targetSpeciesCsv",
+            "columnName": "targetSpeciesCsv",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "srid",
+            "columnName": "srid",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "remarks",
+            "columnName": "remarks",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "codeInseeCommune",
+            "columnName": "codeInseeCommune",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nomCommune",
+            "columnName": "nomCommune",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sectionCadastrale",
+            "columnName": "sectionCadastrale",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numeroCadastral",
+            "columnName": "numeroCadastral",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "contenanceCadastraleHa",
+            "columnName": "contenanceCadastraleHa",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "geometrieIgnWkt",
+            "columnName": "geometrieIgnWkt",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "natureCadastraleCode",
+            "columnName": "natureCadastraleCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "localisationMode",
+            "columnName": "localisationMode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "codeSer",
+            "columnName": "codeSer",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nomSer",
+            "columnName": "nomSer",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "parcelleId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_parcelles_name",
+            "unique": false,
+            "columnNames": [
+              "name"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_parcelles_name` ON `${TABLE_NAME}` (`name`)"
+          },
+          {
+            "name": "index_parcelles_forestOwnerId",
+            "unique": false,
+            "columnNames": [
+              "forestOwnerId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_parcelles_forestOwnerId` ON `${TABLE_NAME}` (`forestOwnerId`)"
+          },
+          {
+            "name": "index_parcelles_foretId",
+            "unique": false,
+            "columnNames": [
+              "foretId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_parcelles_foretId` ON `${TABLE_NAME}` (`foretId`)"
+          },
+          {
+            "name": "index_parcelles_codeInsee",
+            "unique": false,
+            "columnNames": [
+              "codeInseeCommune"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_parcelles_codeInsee` ON `${TABLE_NAME}` (`codeInseeCommune`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "forets",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "forestOwnerId"
+            ],
+            "referencedColumns": [
+              "foretId"
+            ]
+          },
+          {
+            "table": "forets",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "foretId"
+            ],
+            "referencedColumns": [
+              "foretId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "placettes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`placetteId` TEXT NOT NULL, `parcelleOwnerId` TEXT NOT NULL, `name` TEXT, `type` TEXT, `rayonM` REAL, `surfaceM2` REAL, `centerWkt` TEXT, `sessionId` TEXT, `typeReleve` TEXT, `referenceGpsWkt` TEXT, `azimutRef` REAL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`placetteId`), FOREIGN KEY(`parcelleOwnerId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`sessionId`) REFERENCES `inventaire_sessions`(`sessionId`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "placetteId",
+            "columnName": "placetteId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parcelleOwnerId",
+            "columnName": "parcelleOwnerId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rayonM",
+            "columnName": "rayonM",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "surfaceM2",
+            "columnName": "surfaceM2",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "centerWkt",
+            "columnName": "centerWkt",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sessionId",
+            "columnName": "sessionId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "typeReleve",
+            "columnName": "typeReleve",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "referenceGpsWkt",
+            "columnName": "referenceGpsWkt",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "azimutRef",
+            "columnName": "azimutRef",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "placetteId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_placettes_parcelleOwnerId",
+            "unique": false,
+            "columnNames": [
+              "parcelleOwnerId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_placettes_parcelleOwnerId` ON `${TABLE_NAME}` (`parcelleOwnerId`)"
+          },
+          {
+            "name": "index_placettes_sessionId",
+            "unique": false,
+            "columnNames": [
+              "sessionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_placettes_sessionId` ON `${TABLE_NAME}` (`sessionId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "parcelleOwnerId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          },
+          {
+            "table": "inventaire_sessions",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sessionId"
+            ],
+            "referencedColumns": [
+              "sessionId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "essences",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`code` TEXT NOT NULL, `name` TEXT NOT NULL, `categorie` TEXT, `densiteBoite` REAL, `colorHex` TEXT, `densiteBois` REAL, `qualiteTypique` TEXT, `typeCoupePreferee` TEXT, `usageBois` TEXT, `vitesseCroissance` TEXT, `hauteurMaxM` REAL, `diametreMaxCm` REAL, `toleranceOmbre` TEXT, `remarques` TEXT, PRIMARY KEY(`code`))",
+        "fields": [
+          {
+            "fieldPath": "code",
+            "columnName": "code",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categorie",
+            "columnName": "categorie",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "densiteBoite",
+            "columnName": "densiteBoite",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "colorHex",
+            "columnName": "colorHex",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "densiteBois",
+            "columnName": "densiteBois",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "qualiteTypique",
+            "columnName": "qualiteTypique",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "typeCoupePreferee",
+            "columnName": "typeCoupePreferee",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "usageBois",
+            "columnName": "usageBois",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "vitesseCroissance",
+            "columnName": "vitesseCroissance",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hauteurMaxM",
+            "columnName": "hauteurMaxM",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "diametreMaxCm",
+            "columnName": "diametreMaxCm",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "toleranceOmbre",
+            "columnName": "toleranceOmbre",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "remarques",
+            "columnName": "remarques",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "code"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "tiges",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tigeId` TEXT NOT NULL, `parcelleOwnerId` TEXT NOT NULL, `placetteOwnerId` TEXT, `sessionId` TEXT, `essenceCode` TEXT NOT NULL, `diamCm` REAL NOT NULL, `hauteurM` REAL, `gpsWkt` TEXT, `precisionM` REAL, `altitudeM` REAL, `timestamp` INTEGER NOT NULL, `note` TEXT, `produit` TEXT, `fCoef` REAL, `valueEur` REAL, `numero` INTEGER, `categorie` TEXT, `qualite` INTEGER, `defauts` TEXT, `photoUri` TEXT, `qualiteDetail` TEXT, `classeKraft` INTEGER, `etatSanitaire` TEXT, `vigueur` TEXT, `origine` TEXT, `typeCoupe` TEXT, `biomasseFusTonnes` REAL, `carboneFusTonnes` REAL, `coefficientElancement` REAL, `houppierM` REAL, `houppierPct` REAL, `isTigeHabitat` INTEGER NOT NULL, PRIMARY KEY(`tigeId`), FOREIGN KEY(`parcelleOwnerId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`placetteOwnerId`) REFERENCES `placettes`(`placetteId`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`essenceCode`) REFERENCES `essences`(`code`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`sessionId`) REFERENCES `inventaire_sessions`(`sessionId`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "tigeId",
+            "columnName": "tigeId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parcelleOwnerId",
+            "columnName": "parcelleOwnerId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "placetteOwnerId",
+            "columnName": "placetteOwnerId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sessionId",
+            "columnName": "sessionId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "essenceCode",
+            "columnName": "essenceCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "diamCm",
+            "columnName": "diamCm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hauteurM",
+            "columnName": "hauteurM",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gpsWkt",
+            "columnName": "gpsWkt",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "precisionM",
+            "columnName": "precisionM",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "altitudeM",
+            "columnName": "altitudeM",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "note",
+            "columnName": "note",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "produit",
+            "columnName": "produit",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fCoef",
+            "columnName": "fCoef",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "valueEur",
+            "columnName": "valueEur",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numero",
+            "columnName": "numero",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "categorie",
+            "columnName": "categorie",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "qualite",
+            "columnName": "qualite",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "defauts",
+            "columnName": "defauts",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "photoUri",
+            "columnName": "photoUri",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "qualiteDetail",
+            "columnName": "qualiteDetail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "classeKraft",
+            "columnName": "classeKraft",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "etatSanitaire",
+            "columnName": "etatSanitaire",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "vigueur",
+            "columnName": "vigueur",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "origine",
+            "columnName": "origine",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "typeCoupe",
+            "columnName": "typeCoupe",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "biomasseFusTonnes",
+            "columnName": "biomasseFusTonnes",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "carboneFusTonnes",
+            "columnName": "carboneFusTonnes",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "coefficientElancement",
+            "columnName": "coefficientElancement",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "houppierM",
+            "columnName": "houppierM",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "houppierPct",
+            "columnName": "houppierPct",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isTigeHabitat",
+            "columnName": "isTigeHabitat",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "tigeId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_tiges_parcelleOwnerId",
+            "unique": false,
+            "columnNames": [
+              "parcelleOwnerId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tiges_parcelleOwnerId` ON `${TABLE_NAME}` (`parcelleOwnerId`)"
+          },
+          {
+            "name": "index_tiges_placetteOwnerId",
+            "unique": false,
+            "columnNames": [
+              "placetteOwnerId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tiges_placetteOwnerId` ON `${TABLE_NAME}` (`placetteOwnerId`)"
+          },
+          {
+            "name": "index_tiges_essenceCode",
+            "unique": false,
+            "columnNames": [
+              "essenceCode"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tiges_essenceCode` ON `${TABLE_NAME}` (`essenceCode`)"
+          },
+          {
+            "name": "index_tiges_diamCm",
+            "unique": false,
+            "columnNames": [
+              "diamCm"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tiges_diamCm` ON `${TABLE_NAME}` (`diamCm`)"
+          },
+          {
+            "name": "index_tiges_sessionId",
+            "unique": false,
+            "columnNames": [
+              "sessionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tiges_sessionId` ON `${TABLE_NAME}` (`sessionId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "parcelleOwnerId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          },
+          {
+            "table": "placettes",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "placetteOwnerId"
+            ],
+            "referencedColumns": [
+              "placetteId"
+            ]
+          },
+          {
+            "table": "essences",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "essenceCode"
+            ],
+            "referencedColumns": [
+              "code"
+            ]
+          },
+          {
+            "table": "inventaire_sessions",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sessionId"
+            ],
+            "referencedColumns": [
+              "sessionId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "parameters",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`key` TEXT NOT NULL, `valueJson` TEXT NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`key`))",
+        "fields": [
+          {
+            "fieldPath": "key",
+            "columnName": "key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "valueJson",
+            "columnName": "valueJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "key"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ibp_evaluations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `placetteId` TEXT NOT NULL, `parcelleId` TEXT NOT NULL, `observationDate` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `evaluatorName` TEXT NOT NULL, `answersJson` TEXT NOT NULL, `globalNote` TEXT NOT NULL, `growthConditions` TEXT NOT NULL, `ibpMode` TEXT NOT NULL, `latitude` REAL, `longitude` REAL, PRIMARY KEY(`id`), FOREIGN KEY(`placetteId`) REFERENCES `placettes`(`placetteId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`parcelleId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "placetteId",
+            "columnName": "placetteId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parcelleId",
+            "columnName": "parcelleId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "observationDate",
+            "columnName": "observationDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "evaluatorName",
+            "columnName": "evaluatorName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "answersJson",
+            "columnName": "answersJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "globalNote",
+            "columnName": "globalNote",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "growthConditions",
+            "columnName": "growthConditions",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ibpMode",
+            "columnName": "ibpMode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_ibp_placetteId",
+            "unique": false,
+            "columnNames": [
+              "placetteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_ibp_placetteId` ON `${TABLE_NAME}` (`placetteId`)"
+          },
+          {
+            "name": "index_ibp_parcelleId",
+            "unique": false,
+            "columnNames": [
+              "parcelleId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_ibp_parcelleId` ON `${TABLE_NAME}` (`parcelleId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "placettes",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "placetteId"
+            ],
+            "referencedColumns": [
+              "placetteId"
+            ]
+          },
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "parcelleId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "forets",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`foretId` TEXT NOT NULL, `nom` TEXT NOT NULL, `proprietaireNom` TEXT NOT NULL, `proprietaireEmail` TEXT, `gestionnaireNom` TEXT, `typeForet` TEXT, `objectifGestion` TEXT, `psgNumero` TEXT, `psgDateExpiration` INTEGER, `departement` TEXT, `remarques` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`foretId`))",
+        "fields": [
+          {
+            "fieldPath": "foretId",
+            "columnName": "foretId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nom",
+            "columnName": "nom",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "proprietaireNom",
+            "columnName": "proprietaireNom",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "proprietaireEmail",
+            "columnName": "proprietaireEmail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gestionnaireNom",
+            "columnName": "gestionnaireNom",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "typeForet",
+            "columnName": "typeForet",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "objectifGestion",
+            "columnName": "objectifGestion",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "psgNumero",
+            "columnName": "psgNumero",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "psgDateExpiration",
+            "columnName": "psgDateExpiration",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "departement",
+            "columnName": "departement",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "remarques",
+            "columnName": "remarques",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "foretId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_forets_proprietaireNom",
+            "unique": false,
+            "columnNames": [
+              "proprietaireNom"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_forets_proprietaireNom` ON `${TABLE_NAME}` (`proprietaireNom`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "inventaire_sessions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sessionId` TEXT NOT NULL, `parcelleId` TEXT NOT NULL, `typeSession` TEXT NOT NULL, `dateDebut` INTEGER NOT NULL, `dateFin` INTEGER, `operateurNom` TEXT, `methode` TEXT, `intensiteEchantillonnagePct` REAL, `objectifSession` TEXT, `remarques` TEXT, `createdAt` INTEGER NOT NULL, PRIMARY KEY(`sessionId`), FOREIGN KEY(`parcelleId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "sessionId",
+            "columnName": "sessionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parcelleId",
+            "columnName": "parcelleId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "typeSession",
+            "columnName": "typeSession",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateDebut",
+            "columnName": "dateDebut",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateFin",
+            "columnName": "dateFin",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "operateurNom",
+            "columnName": "operateurNom",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "methode",
+            "columnName": "methode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "intensiteEchantillonnagePct",
+            "columnName": "intensiteEchantillonnagePct",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "objectifSession",
+            "columnName": "objectifSession",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "remarques",
+            "columnName": "remarques",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "sessionId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_sessions_parcelleId",
+            "unique": false,
+            "columnNames": [
+              "parcelleId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_sessions_parcelleId` ON `${TABLE_NAME}` (`parcelleId`)"
+          },
+          {
+            "name": "index_sessions_typeSession",
+            "unique": false,
+            "columnNames": [
+              "typeSession"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_sessions_typeSession` ON `${TABLE_NAME}` (`typeSession`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "parcelleId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "stations_environnementales",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`stationId` TEXT NOT NULL, `parcelleId` TEXT NOT NULL, `altitudeM` REAL, `slopePct` REAL, `aspectDeg` REAL, `aspectLabel` TEXT, `soilPh` REAL, `soilRumMm` REAL, `soilRufMm` REAL, `soilTexture` TEXT, `soilDrainage` TEXT, `soilProfondeurCm` INTEGER, `soilHydromorphieCm` INTEGER, `soilTypeWrb` TEXT, `soilPhTerrain` REAL, `rumClasseBdgsf` TEXT, `profondeurSolClasse` TEXT, `phSolForestier` REAL, `cOrganiqueTha` REAL, `typeWrbBdgsf` TEXT, `pierrositeClassePct` TEXT, `rocheMere` TEXT, `lithologie` TEXT, `phIndicatif` REAL, `tempMoyC` REAL, `tempMinJanvC` REAL, `tempMaxJuillC` REAL, `precipMmAn` REAL, `precipEteMm` REAL, `etpMm` REAL, `joursGel` INTEGER, `joursSecs` INTEGER, `ensoleilH` REAL, `climateType` TEXT, `idhe` REAL, `spei6Score` REAL, `indiceProductivite` INTEGER, `scoreVulnCC2050` INTEGER, `codeSer` TEXT, `nomSer` TEXT, `dvfPrixMedianEurM2` REAL, `dvfNbTransactions` INTEGER, `dvfDateFetch` INTEGER, `vulnerabiliteActuelle` INTEGER, `vulnerabilite2050` INTEGER, `natura2000Code` TEXT, `natura2000Nom` TEXT, `znieffType1` INTEGER NOT NULL, `znieffType2` INTEGER NOT NULL, `isForetAncienne` INTEGER NOT NULL, `risqueIncendieZone` TEXT, `risqueInondation` TEXT, `surfaceCadastraleHa` REAL, `geometrieWkt` TEXT, `natureCadastraleCode` TEXT, `sourceDataQualityJson` TEXT, `fetchedAt` INTEGER, PRIMARY KEY(`stationId`), FOREIGN KEY(`parcelleId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "stationId",
+            "columnName": "stationId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parcelleId",
+            "columnName": "parcelleId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "altitudeM",
+            "columnName": "altitudeM",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "slopePct",
+            "columnName": "slopePct",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "aspectDeg",
+            "columnName": "aspectDeg",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "aspectLabel",
+            "columnName": "aspectLabel",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "soilPh",
+            "columnName": "soilPh",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "soilRumMm",
+            "columnName": "soilRumMm",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "soilRufMm",
+            "columnName": "soilRufMm",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "soilTexture",
+            "columnName": "soilTexture",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "soilDrainage",
+            "columnName": "soilDrainage",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "soilProfondeurCm",
+            "columnName": "soilProfondeurCm",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "soilHydromorphieCm",
+            "columnName": "soilHydromorphieCm",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "soilTypeWrb",
+            "columnName": "soilTypeWrb",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "soilPhTerrain",
+            "columnName": "soilPhTerrain",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rumClasseBdgsf",
+            "columnName": "rumClasseBdgsf",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "profondeurSolClasse",
+            "columnName": "profondeurSolClasse",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "phSolForestier",
+            "columnName": "phSolForestier",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cOrganiqueTha",
+            "columnName": "cOrganiqueTha",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "typeWrbBdgsf",
+            "columnName": "typeWrbBdgsf",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pierrositeClassePct",
+            "columnName": "pierrositeClassePct",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rocheMere",
+            "columnName": "rocheMere",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lithologie",
+            "columnName": "lithologie",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "phIndicatif",
+            "columnName": "phIndicatif",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tempMoyC",
+            "columnName": "tempMoyC",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tempMinJanvC",
+            "columnName": "tempMinJanvC",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tempMaxJuillC",
+            "columnName": "tempMaxJuillC",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "precipMmAn",
+            "columnName": "precipMmAn",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "precipEteMm",
+            "columnName": "precipEteMm",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "etpMm",
+            "columnName": "etpMm",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "joursGel",
+            "columnName": "joursGel",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "joursSecs",
+            "columnName": "joursSecs",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ensoleilH",
+            "columnName": "ensoleilH",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "climateType",
+            "columnName": "climateType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idhe",
+            "columnName": "idhe",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "spei6Score",
+            "columnName": "spei6Score",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "indiceProductivite",
+            "columnName": "indiceProductivite",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "scoreVulnCC2050",
+            "columnName": "scoreVulnCC2050",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "codeSer",
+            "columnName": "codeSer",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nomSer",
+            "columnName": "nomSer",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dvfPrixMedianEurM2",
+            "columnName": "dvfPrixMedianEurM2",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dvfNbTransactions",
+            "columnName": "dvfNbTransactions",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dvfDateFetch",
+            "columnName": "dvfDateFetch",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "vulnerabiliteActuelle",
+            "columnName": "vulnerabiliteActuelle",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "vulnerabilite2050",
+            "columnName": "vulnerabilite2050",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "natura2000Code",
+            "columnName": "natura2000Code",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "natura2000Nom",
+            "columnName": "natura2000Nom",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "znieffType1",
+            "columnName": "znieffType1",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "znieffType2",
+            "columnName": "znieffType2",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isForetAncienne",
+            "columnName": "isForetAncienne",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "risqueIncendieZone",
+            "columnName": "risqueIncendieZone",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "risqueInondation",
+            "columnName": "risqueInondation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "surfaceCadastraleHa",
+            "columnName": "surfaceCadastraleHa",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "geometrieWkt",
+            "columnName": "geometrieWkt",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "natureCadastraleCode",
+            "columnName": "natureCadastraleCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sourceDataQualityJson",
+            "columnName": "sourceDataQualityJson",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fetchedAt",
+            "columnName": "fetchedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "stationId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_station_parcelleId",
+            "unique": true,
+            "columnNames": [
+              "parcelleId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_station_parcelleId` ON `${TABLE_NAME}` (`parcelleId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "parcelleId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "diagnostics_sylvicoles",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`diagnosticId` TEXT NOT NULL, `parcelleId` TEXT NOT NULL, `sessionId` TEXT, `dateCreation` INTEGER NOT NULL, `operateurNom` TEXT, `scoreStation` INTEGER, `scorePeuplement` INTEGER, `scoreBiodiversite` INTEGER, `scoreRisque` INTEGER, `scoreGlobal` INTEGER, `gHa` REAL, `nHa` INTEGER, `vHa` REAL, `hoM` REAL, `hgM` REAL, `dgCm` REAL, `siteIndex` REAL, `accroissementIg` REAL, `accroissementIv` REAL, `biomasseTotalTonnes` REAL, `carboneTotalTonnes` REAL, `essencesRecommandeesJson` TEXT, `essencesDeconseillees` TEXT, `essencesVigilanceJson` TEXT, `risquesDetectesJson` TEXT, `recommandationsSylvicolesJson` TEXT, `typeSylviculturePreco` TEXT, `volumeEclairciePreco` REAL, `delaiInterventionAns` INTEGER, `syntheseTextuelle` TEXT, `algoVersion` TEXT NOT NULL, `dataSourcesJson` TEXT, `remarques` TEXT, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`diagnosticId`), FOREIGN KEY(`parcelleId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`sessionId`) REFERENCES `inventaire_sessions`(`sessionId`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "diagnosticId",
+            "columnName": "diagnosticId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parcelleId",
+            "columnName": "parcelleId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sessionId",
+            "columnName": "sessionId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dateCreation",
+            "columnName": "dateCreation",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "operateurNom",
+            "columnName": "operateurNom",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "scoreStation",
+            "columnName": "scoreStation",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "scorePeuplement",
+            "columnName": "scorePeuplement",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "scoreBiodiversite",
+            "columnName": "scoreBiodiversite",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "scoreRisque",
+            "columnName": "scoreRisque",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "scoreGlobal",
+            "columnName": "scoreGlobal",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gHa",
+            "columnName": "gHa",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nHa",
+            "columnName": "nHa",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "vHa",
+            "columnName": "vHa",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hoM",
+            "columnName": "hoM",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hgM",
+            "columnName": "hgM",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dgCm",
+            "columnName": "dgCm",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "siteIndex",
+            "columnName": "siteIndex",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accroissementIg",
+            "columnName": "accroissementIg",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accroissementIv",
+            "columnName": "accroissementIv",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "biomasseTotalTonnes",
+            "columnName": "biomasseTotalTonnes",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "carboneTotalTonnes",
+            "columnName": "carboneTotalTonnes",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "essencesRecommandeesJson",
+            "columnName": "essencesRecommandeesJson",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "essencesDeconseillees",
+            "columnName": "essencesDeconseillees",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "essencesVigilanceJson",
+            "columnName": "essencesVigilanceJson",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "risquesDetectesJson",
+            "columnName": "risquesDetectesJson",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "recommandationsSylvicolesJson",
+            "columnName": "recommandationsSylvicolesJson",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "typeSylviculturePreco",
+            "columnName": "typeSylviculturePreco",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "volumeEclairciePreco",
+            "columnName": "volumeEclairciePreco",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "delaiInterventionAns",
+            "columnName": "delaiInterventionAns",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "syntheseTextuelle",
+            "columnName": "syntheseTextuelle",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "algoVersion",
+            "columnName": "algoVersion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dataSourcesJson",
+            "columnName": "dataSourcesJson",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "remarques",
+            "columnName": "remarques",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "diagnosticId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_diag_parcelleId",
+            "unique": false,
+            "columnNames": [
+              "parcelleId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_diag_parcelleId` ON `${TABLE_NAME}` (`parcelleId`)"
+          },
+          {
+            "name": "index_diag_sessionId",
+            "unique": false,
+            "columnNames": [
+              "sessionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_diag_sessionId` ON `${TABLE_NAME}` (`sessionId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "parcelleId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          },
+          {
+            "table": "inventaire_sessions",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sessionId"
+            ],
+            "referencedColumns": [
+              "sessionId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "observations_flore",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`observationId` TEXT NOT NULL, `parcelleId` TEXT NOT NULL, `placetteId` TEXT, `sessionId` TEXT, `codeEspece` TEXT NOT NULL, `nomScientifique` TEXT NOT NULL, `nomCommun` TEXT, `abundanceDominance` TEXT NOT NULL, `strate` TEXT NOT NULL, `sociabilite` INTEGER, `indicateurEllenbergL` INTEGER, `indicateurEllenbergT` INTEGER, `indicateurEllenbergR` INTEGER, `indicateurEllenbergF` INTEGER, `indicateurEllenbergN` INTEGER, `isEspeceProtegee` INTEGER NOT NULL, `isEspeceIndicatrice` INTEGER NOT NULL, `dateSaisie` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY(`observationId`), FOREIGN KEY(`parcelleId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`placetteId`) REFERENCES `placettes`(`placetteId`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`sessionId`) REFERENCES `inventaire_sessions`(`sessionId`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`codeEspece`) REFERENCES `essences`(`code`) ON UPDATE NO ACTION ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "observationId",
+            "columnName": "observationId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parcelleId",
+            "columnName": "parcelleId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "placetteId",
+            "columnName": "placetteId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sessionId",
+            "columnName": "sessionId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "codeEspece",
+            "columnName": "codeEspece",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nomScientifique",
+            "columnName": "nomScientifique",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nomCommun",
+            "columnName": "nomCommun",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "abundanceDominance",
+            "columnName": "abundanceDominance",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "strate",
+            "columnName": "strate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sociabilite",
+            "columnName": "sociabilite",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "indicateurEllenbergL",
+            "columnName": "indicateurEllenbergL",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "indicateurEllenbergT",
+            "columnName": "indicateurEllenbergT",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "indicateurEllenbergR",
+            "columnName": "indicateurEllenbergR",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "indicateurEllenbergF",
+            "columnName": "indicateurEllenbergF",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "indicateurEllenbergN",
+            "columnName": "indicateurEllenbergN",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isEspeceProtegee",
+            "columnName": "isEspeceProtegee",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isEspeceIndicatrice",
+            "columnName": "isEspeceIndicatrice",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateSaisie",
+            "columnName": "dateSaisie",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "observationId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_flore_parcelleId",
+            "unique": false,
+            "columnNames": [
+              "parcelleId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_flore_parcelleId` ON `${TABLE_NAME}` (`parcelleId`)"
+          },
+          {
+            "name": "index_flore_placetteId",
+            "unique": false,
+            "columnNames": [
+              "placetteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_flore_placetteId` ON `${TABLE_NAME}` (`placetteId`)"
+          },
+          {
+            "name": "index_flore_sessionId",
+            "unique": false,
+            "columnNames": [
+              "sessionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_flore_sessionId` ON `${TABLE_NAME}` (`sessionId`)"
+          },
+          {
+            "name": "index_flore_codeEspece",
+            "unique": false,
+            "columnNames": [
+              "codeEspece"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_flore_codeEspece` ON `${TABLE_NAME}` (`codeEspece`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "parcelleId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          },
+          {
+            "table": "placettes",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "placetteId"
+            ],
+            "referencedColumns": [
+              "placetteId"
+            ]
+          },
+          {
+            "table": "inventaire_sessions",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sessionId"
+            ],
+            "referencedColumns": [
+              "sessionId"
+            ]
+          },
+          {
+            "table": "essences",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "codeEspece"
+            ],
+            "referencedColumns": [
+              "code"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "arbres_habitat",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`arbreHabitatId` TEXT NOT NULL, `parcelleId` TEXT NOT NULL, `placetteId` TEXT, `sessionId` TEXT, `tigeId` TEXT, `essenceCode` TEXT NOT NULL, `diamCm` REAL NOT NULL, `hauteurM` REAL, `gpsWkt` TEXT, `cavitesBranches` INTEGER NOT NULL, `cavitesTronc` INTEGER NOT NULL, `logenBois` INTEGER NOT NULL, `ecorceDecolleeM2` REAL, `epiphytesM2` REAL, `bioticBoss` INTEGER NOT NULL, `dendrothelme` INTEGER NOT NULL, `lianes` INTEGER NOT NULL, `fissures` INTEGER NOT NULL, `boisMortSurPied` INTEGER NOT NULL, `boisMortSolM3` REAL, `treemScore` INTEGER, `classeDiamHabitat` TEXT, `isArbreVivant` INTEGER NOT NULL, `isArbreRemarquable` INTEGER NOT NULL, `remarques` TEXT, `dateObservation` INTEGER NOT NULL, PRIMARY KEY(`arbreHabitatId`), FOREIGN KEY(`parcelleId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`placetteId`) REFERENCES `placettes`(`placetteId`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`sessionId`) REFERENCES `inventaire_sessions`(`sessionId`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`tigeId`) REFERENCES `tiges`(`tigeId`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`essenceCode`) REFERENCES `essences`(`code`) ON UPDATE NO ACTION ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "arbreHabitatId",
+            "columnName": "arbreHabitatId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parcelleId",
+            "columnName": "parcelleId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "placetteId",
+            "columnName": "placetteId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sessionId",
+            "columnName": "sessionId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tigeId",
+            "columnName": "tigeId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "essenceCode",
+            "columnName": "essenceCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "diamCm",
+            "columnName": "diamCm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hauteurM",
+            "columnName": "hauteurM",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gpsWkt",
+            "columnName": "gpsWkt",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cavitesBranches",
+            "columnName": "cavitesBranches",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cavitesTronc",
+            "columnName": "cavitesTronc",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "logenBois",
+            "columnName": "logenBois",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ecorceDecolleeM2",
+            "columnName": "ecorceDecolleeM2",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "epiphytesM2",
+            "columnName": "epiphytesM2",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "bioticBoss",
+            "columnName": "bioticBoss",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dendrothelme",
+            "columnName": "dendrothelme",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lianes",
+            "columnName": "lianes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fissures",
+            "columnName": "fissures",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "boisMortSurPied",
+            "columnName": "boisMortSurPied",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "boisMortSolM3",
+            "columnName": "boisMortSolM3",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "treemScore",
+            "columnName": "treemScore",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "classeDiamHabitat",
+            "columnName": "classeDiamHabitat",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isArbreVivant",
+            "columnName": "isArbreVivant",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isArbreRemarquable",
+            "columnName": "isArbreRemarquable",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remarques",
+            "columnName": "remarques",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dateObservation",
+            "columnName": "dateObservation",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "arbreHabitatId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_arbre_hab_parcelleId",
+            "unique": false,
+            "columnNames": [
+              "parcelleId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_arbre_hab_parcelleId` ON `${TABLE_NAME}` (`parcelleId`)"
+          },
+          {
+            "name": "index_arbre_hab_placetteId",
+            "unique": false,
+            "columnNames": [
+              "placetteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_arbre_hab_placetteId` ON `${TABLE_NAME}` (`placetteId`)"
+          },
+          {
+            "name": "index_arbre_hab_sessionId",
+            "unique": false,
+            "columnNames": [
+              "sessionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_arbre_hab_sessionId` ON `${TABLE_NAME}` (`sessionId`)"
+          },
+          {
+            "name": "index_arbre_hab_tigeId",
+            "unique": false,
+            "columnNames": [
+              "tigeId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_arbre_hab_tigeId` ON `${TABLE_NAME}` (`tigeId`)"
+          },
+          {
+            "name": "index_arbre_hab_essenceCode",
+            "unique": false,
+            "columnNames": [
+              "essenceCode"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_arbre_hab_essenceCode` ON `${TABLE_NAME}` (`essenceCode`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "parcelleId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          },
+          {
+            "table": "placettes",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "placetteId"
+            ],
+            "referencedColumns": [
+              "placetteId"
+            ]
+          },
+          {
+            "table": "inventaire_sessions",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sessionId"
+            ],
+            "referencedColumns": [
+              "sessionId"
+            ]
+          },
+          {
+            "table": "tiges",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "tigeId"
+            ],
+            "referencedColumns": [
+              "tigeId"
+            ]
+          },
+          {
+            "table": "essences",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "essenceCode"
+            ],
+            "referencedColumns": [
+              "code"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "valeurs_foncieres",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`valeurId` TEXT NOT NULL, `parcelleId` TEXT NOT NULL, `dateEstimation` INTEGER NOT NULL, `valeurFonciereNuEurHa` REAL, `sourceValeurFonciere` TEXT, `prixMarcheRegionalEurHa` REAL, `volumeCommercialisableM3` REAL, `valeurBoisSurPiedEur` REAL, `carboneTotalTonnes` REAL, `valeurCarboneLabelBcEur` REAL, `valeurTotalePatrimoineEur` REAL, `coutEclaircieEstimeEur` REAL, `coutRenouvellementEstimeEur` REAL, `revenuBrutAnnuelMoyenEur` REAL, `eligiblePsg` INTEGER NOT NULL, `eligibleDefiForet` INTEGER NOT NULL, `eligibleIfiExoneration` INTEGER NOT NULL, `eligibleDpa` INTEGER NOT NULL, `alertesFiscalesJson` TEXT, `remarques` TEXT, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`valeurId`), FOREIGN KEY(`parcelleId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "valeurId",
+            "columnName": "valeurId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parcelleId",
+            "columnName": "parcelleId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateEstimation",
+            "columnName": "dateEstimation",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "valeurFonciereNuEurHa",
+            "columnName": "valeurFonciereNuEurHa",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sourceValeurFonciere",
+            "columnName": "sourceValeurFonciere",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "prixMarcheRegionalEurHa",
+            "columnName": "prixMarcheRegionalEurHa",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "volumeCommercialisableM3",
+            "columnName": "volumeCommercialisableM3",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "valeurBoisSurPiedEur",
+            "columnName": "valeurBoisSurPiedEur",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "carboneTotalTonnes",
+            "columnName": "carboneTotalTonnes",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "valeurCarboneLabelBcEur",
+            "columnName": "valeurCarboneLabelBcEur",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "valeurTotalePatrimoineEur",
+            "columnName": "valeurTotalePatrimoineEur",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "coutEclaircieEstimeEur",
+            "columnName": "coutEclaircieEstimeEur",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "coutRenouvellementEstimeEur",
+            "columnName": "coutRenouvellementEstimeEur",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "revenuBrutAnnuelMoyenEur",
+            "columnName": "revenuBrutAnnuelMoyenEur",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eligiblePsg",
+            "columnName": "eligiblePsg",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eligibleDefiForet",
+            "columnName": "eligibleDefiForet",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eligibleIfiExoneration",
+            "columnName": "eligibleIfiExoneration",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eligibleDpa",
+            "columnName": "eligibleDpa",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "alertesFiscalesJson",
+            "columnName": "alertesFiscalesJson",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "remarques",
+            "columnName": "remarques",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "valeurId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_valeur_parcelleId",
+            "unique": true,
+            "columnNames": [
+              "parcelleId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_valeur_parcelleId` ON `${TABLE_NAME}` (`parcelleId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "parcelleId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "alertes_sanitaires",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`alerteId` TEXT NOT NULL, `parcelleId` TEXT NOT NULL, `sessionId` TEXT, `codePathogene` TEXT NOT NULL, `nomPathogene` TEXT NOT NULL, `niveauRisque` TEXT NOT NULL, `nbTigesAtteintes` INTEGER, `pctTigesAtteintes` REAL, `essencesCiblesJson` TEXT, `symptomesObservesJson` TEXT, `recommandationsJson` TEXT, `isOrganismeReglemente` INTEGER NOT NULL, `dateDetection` INTEGER NOT NULL, `isAlerteDsf` INTEGER NOT NULL, `remarques` TEXT, PRIMARY KEY(`alerteId`), FOREIGN KEY(`parcelleId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`sessionId`) REFERENCES `inventaire_sessions`(`sessionId`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "alerteId",
+            "columnName": "alerteId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parcelleId",
+            "columnName": "parcelleId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sessionId",
+            "columnName": "sessionId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "codePathogene",
+            "columnName": "codePathogene",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nomPathogene",
+            "columnName": "nomPathogene",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "niveauRisque",
+            "columnName": "niveauRisque",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nbTigesAtteintes",
+            "columnName": "nbTigesAtteintes",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pctTigesAtteintes",
+            "columnName": "pctTigesAtteintes",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "essencesCiblesJson",
+            "columnName": "essencesCiblesJson",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "symptomesObservesJson",
+            "columnName": "symptomesObservesJson",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "recommandationsJson",
+            "columnName": "recommandationsJson",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isOrganismeReglemente",
+            "columnName": "isOrganismeReglemente",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateDetection",
+            "columnName": "dateDetection",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isAlerteDsf",
+            "columnName": "isAlerteDsf",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remarques",
+            "columnName": "remarques",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "alerteId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_alerte_parcelleId",
+            "unique": false,
+            "columnNames": [
+              "parcelleId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_alerte_parcelleId` ON `${TABLE_NAME}` (`parcelleId`)"
+          },
+          {
+            "name": "index_alerte_sessionId",
+            "unique": false,
+            "columnNames": [
+              "sessionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_alerte_sessionId` ON `${TABLE_NAME}` (`sessionId`)"
+          },
+          {
+            "name": "index_alerte_niveauRisque",
+            "unique": false,
+            "columnNames": [
+              "niveauRisque"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_alerte_niveauRisque` ON `${TABLE_NAME}` (`niveauRisque`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "parcelleId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          },
+          {
+            "table": "inventaire_sessions",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sessionId"
+            ],
+            "referencedColumns": [
+              "sessionId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "fertilite_essence_ser",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`fertiliteId` TEXT NOT NULL, `essenceCode` TEXT NOT NULL, `codeSer` TEXT NOT NULL, `nomSer` TEXT, `classeStation` INTEGER NOT NULL, `hoRef100Ans` REAL, `gMaxRef` REAL, `accroissementRefM3HaAn` REAL, `conditionsRequisesJson` TEXT, `itineraireSylvicoleJson` TEXT, `sourceGuide` TEXT NOT NULL, PRIMARY KEY(`fertiliteId`))",
+        "fields": [
+          {
+            "fieldPath": "fertiliteId",
+            "columnName": "fertiliteId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "essenceCode",
+            "columnName": "essenceCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "codeSer",
+            "columnName": "codeSer",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nomSer",
+            "columnName": "nomSer",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "classeStation",
+            "columnName": "classeStation",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hoRef100Ans",
+            "columnName": "hoRef100Ans",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gMaxRef",
+            "columnName": "gMaxRef",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accroissementRefM3HaAn",
+            "columnName": "accroissementRefM3HaAn",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "conditionsRequisesJson",
+            "columnName": "conditionsRequisesJson",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itineraireSylvicoleJson",
+            "columnName": "itineraireSylvicoleJson",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sourceGuide",
+            "columnName": "sourceGuide",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "fertiliteId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_fertilite_essence_ser",
+            "unique": false,
+            "columnNames": [
+              "essenceCode",
+              "codeSer"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_fertilite_essence_ser` ON `${TABLE_NAME}` (`essenceCode`, `codeSer`)"
+          },
+          {
+            "name": "index_fertilite_classeStation",
+            "unique": false,
+            "columnNames": [
+              "classeStation"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_fertilite_classeStation` ON `${TABLE_NAME}` (`classeStation`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "projections_climatiques_ser",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`projId` TEXT NOT NULL, `codeSer` TEXT NOT NULL, `scenario` TEXT NOT NULL, `horizon` INTEGER NOT NULL, `deltaTMoyC` REAL NOT NULL, `deltaTEteC` REAL NOT NULL, `deltaPMmAn` REAL NOT NULL, `deltaPEteMm` REAL NOT NULL, `nbJoursChaudsSup` INTEGER, `speiDelta` REAL, `sourceGiec` TEXT NOT NULL, PRIMARY KEY(`projId`))",
+        "fields": [
+          {
+            "fieldPath": "projId",
+            "columnName": "projId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "codeSer",
+            "columnName": "codeSer",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scenario",
+            "columnName": "scenario",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "horizon",
+            "columnName": "horizon",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deltaTMoyC",
+            "columnName": "deltaTMoyC",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deltaTEteC",
+            "columnName": "deltaTEteC",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deltaPMmAn",
+            "columnName": "deltaPMmAn",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deltaPEteMm",
+            "columnName": "deltaPEteMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nbJoursChaudsSup",
+            "columnName": "nbJoursChaudsSup",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "speiDelta",
+            "columnName": "speiDelta",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sourceGiec",
+            "columnName": "sourceGiec",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "projId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_proj_ser_scenario",
+            "unique": false,
+            "columnNames": [
+              "codeSer",
+              "scenario",
+              "horizon"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_proj_ser_scenario` ON `${TABLE_NAME}` (`codeSer`, `scenario`, `horizon`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "ftsVersion": "FTS4",
+        "ftsOptions": {
+          "tokenizer": "simple",
+          "tokenizerArgs": [],
+          "contentTable": "",
+          "languageIdColumnName": "",
+          "matchInfo": "FTS4",
+          "notIndexedColumns": [],
+          "prefixSizes": [],
+          "preferredOrder": "ASC"
+        },
+        "contentSyncTriggers": [],
+        "tableName": "flora_fts",
+        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`speciesId` TEXT NOT NULL, `nomFrancais` TEXT NOT NULL, `nomScientifique` TEXT NOT NULL, `vernaculaires` TEXT NOT NULL, `synonymes` TEXT NOT NULL, `typeMilieu` TEXT NOT NULL, `strate` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "speciesId",
+            "columnName": "speciesId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nomFrancais",
+            "columnName": "nomFrancais",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nomScientifique",
+            "columnName": "nomScientifique",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "vernaculaires",
+            "columnName": "vernaculaires",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "synonymes",
+            "columnName": "synonymes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "typeMilieu",
+            "columnName": "typeMilieu",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "strate",
+            "columnName": "strate",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": []
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "gps_context_cache",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`latKey` REAL NOT NULL, `lonKey` REAL NOT NULL, `regionCode` TEXT NOT NULL, `deptCode` TEXT NOT NULL, `altitudeApproxM` REAL NOT NULL, `topoHint` TEXT NOT NULL, `zoneHumideProb` REAL NOT NULL, `packIdActive` TEXT NOT NULL, `computedAt` INTEGER NOT NULL, PRIMARY KEY(`latKey`, `lonKey`))",
+        "fields": [
+          {
+            "fieldPath": "latKey",
+            "columnName": "latKey",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lonKey",
+            "columnName": "lonKey",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "regionCode",
+            "columnName": "regionCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deptCode",
+            "columnName": "deptCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "altitudeApproxM",
+            "columnName": "altitudeApproxM",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "topoHint",
+            "columnName": "topoHint",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "zoneHumideProb",
+            "columnName": "zoneHumideProb",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "packIdActive",
+            "columnName": "packIdActive",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "computedAt",
+            "columnName": "computedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "latKey",
+            "lonKey"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ripisylve_observation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `parcelleId` TEXT NOT NULL, `observerName` TEXT NOT NULL, `observationDate` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `isDraft` INTEGER NOT NULL, `photosJson` TEXT NOT NULL, `latitude` REAL, `longitude` REAL, `altitudeM` REAL, `sectionLengthM` REAL NOT NULL, `sectionNotes` TEXT NOT NULL, `continuitePct` REAL NOT NULL, `largeurMode` TEXT NOT NULL, `strateHerbacee` INTEGER NOT NULL, `strateArbustive` INTEGER NOT NULL, `strateArborescente` INTEGER NOT NULL, `nbEspecesObservees` INTEGER NOT NULL, `especesObserveesCsv` TEXT NOT NULL, `diamAutoFromDendro` INTEGER NOT NULL, `hasTresPetitBois` INTEGER NOT NULL, `hasPetitBois` INTEGER NOT NULL, `hasMoyenBois` INTEGER NOT NULL, `hasGrosBois` INTEGER NOT NULL, `microhabitatCavites` INTEGER NOT NULL, `microhabitatFissures` INTEGER NOT NULL, `microhabitatDecollementEcorce` INTEGER NOT NULL, `microhabitatChampignons` INTEGER NOT NULL, `microhabitatBoisMort` INTEGER NOT NULL, `microhabitatTresGrosBois` INTEGER NOT NULL, `sanitairePct` REAL NOT NULL, `invasivesPct` REAL NOT NULL, `invasivesCsv` TEXT NOT NULL, `inadapteesMode` TEXT NOT NULL, `stabilitePct` REAL NOT NULL, `globalNotes` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`parcelleId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parcelleId",
+            "columnName": "parcelleId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "observerName",
+            "columnName": "observerName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "observationDate",
+            "columnName": "observationDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDraft",
+            "columnName": "isDraft",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "photosJson",
+            "columnName": "photosJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "altitudeM",
+            "columnName": "altitudeM",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sectionLengthM",
+            "columnName": "sectionLengthM",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sectionNotes",
+            "columnName": "sectionNotes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "continuitePct",
+            "columnName": "continuitePct",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "largeurMode",
+            "columnName": "largeurMode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "strateHerbacee",
+            "columnName": "strateHerbacee",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "strateArbustive",
+            "columnName": "strateArbustive",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "strateArborescente",
+            "columnName": "strateArborescente",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nbEspecesObservees",
+            "columnName": "nbEspecesObservees",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "especesObserveesCsv",
+            "columnName": "especesObserveesCsv",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "diamAutoFromDendro",
+            "columnName": "diamAutoFromDendro",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hasTresPetitBois",
+            "columnName": "hasTresPetitBois",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hasPetitBois",
+            "columnName": "hasPetitBois",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hasMoyenBois",
+            "columnName": "hasMoyenBois",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hasGrosBois",
+            "columnName": "hasGrosBois",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "microhabitatCavites",
+            "columnName": "microhabitatCavites",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "microhabitatFissures",
+            "columnName": "microhabitatFissures",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "microhabitatDecollementEcorce",
+            "columnName": "microhabitatDecollementEcorce",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "microhabitatChampignons",
+            "columnName": "microhabitatChampignons",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "microhabitatBoisMort",
+            "columnName": "microhabitatBoisMort",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "microhabitatTresGrosBois",
+            "columnName": "microhabitatTresGrosBois",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sanitairePct",
+            "columnName": "sanitairePct",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "invasivesPct",
+            "columnName": "invasivesPct",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "invasivesCsv",
+            "columnName": "invasivesCsv",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inadapteesMode",
+            "columnName": "inadapteesMode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stabilitePct",
+            "columnName": "stabilitePct",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "globalNotes",
+            "columnName": "globalNotes",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_ripisylve_parcelleId",
+            "unique": false,
+            "columnNames": [
+              "parcelleId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_ripisylve_parcelleId` ON `${TABLE_NAME}` (`parcelleId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "parcelleId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "station_diagnostics",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `parcelleId` TEXT NOT NULL, `observerName` TEXT NOT NULL, `observationDate` INTEGER NOT NULL, `isDraft` INTEGER NOT NULL, `photosJson` TEXT NOT NULL, `latitude` REAL, `longitude` REAL, `altitudeM` REAL, `commune` TEXT NOT NULL, `pentePct` REAL, `exposition` TEXT NOT NULL, `positionTopo` TEXT NOT NULL, `distanceCourseauM` REAL, `profondeurSolCm` INTEGER, `texture` TEXT NOT NULL, `pierrosite` TEXT NOT NULL, `hydromorphieProfondeurCm` INTEGER, `humus` TEXT NOT NULL, `phEstime` REAL, `testHcl` TEXT NOT NULL, `drainage` TEXT NOT NULL, `rocheMere` TEXT NOT NULL, `gradientHydrique` INTEGER NOT NULL, `gradientTrophique` INTEGER NOT NULL, `gradientLumineux` INTEGER NOT NULL, `gradientHumique` INTEGER NOT NULL, `especesIndicatricesJson` TEXT NOT NULL, `especesXerophiles` INTEGER NOT NULL, `especesMesophiles` INTEGER NOT NULL, `especesHygrophiles` INTEGER NOT NULL, `notes` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`parcelleId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parcelleId",
+            "columnName": "parcelleId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "observerName",
+            "columnName": "observerName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "observationDate",
+            "columnName": "observationDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDraft",
+            "columnName": "isDraft",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "photosJson",
+            "columnName": "photosJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "altitudeM",
+            "columnName": "altitudeM",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "commune",
+            "columnName": "commune",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pentePct",
+            "columnName": "pentePct",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "exposition",
+            "columnName": "exposition",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "positionTopo",
+            "columnName": "positionTopo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "distanceCourseauM",
+            "columnName": "distanceCourseauM",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "profondeurSolCm",
+            "columnName": "profondeurSolCm",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "texture",
+            "columnName": "texture",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pierrosite",
+            "columnName": "pierrosite",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hydromorphieProfondeurCm",
+            "columnName": "hydromorphieProfondeurCm",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "humus",
+            "columnName": "humus",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "phEstime",
+            "columnName": "phEstime",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "testHcl",
+            "columnName": "testHcl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "drainage",
+            "columnName": "drainage",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rocheMere",
+            "columnName": "rocheMere",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gradientHydrique",
+            "columnName": "gradientHydrique",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gradientTrophique",
+            "columnName": "gradientTrophique",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gradientLumineux",
+            "columnName": "gradientLumineux",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gradientHumique",
+            "columnName": "gradientHumique",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "especesIndicatricesJson",
+            "columnName": "especesIndicatricesJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "especesXerophiles",
+            "columnName": "especesXerophiles",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "especesMesophiles",
+            "columnName": "especesMesophiles",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "especesHygrophiles",
+            "columnName": "especesHygrophiles",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_station_diagnostics_parcelleId",
+            "unique": false,
+            "columnNames": [
+              "parcelleId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_station_diagnostics_parcelleId` ON `${TABLE_NAME}` (`parcelleId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "parcelleId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "data_correlations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`correlationId` TEXT NOT NULL, `sourceParcelleId` TEXT NOT NULL, `targetParcelleId` TEXT, `correlationType` TEXT NOT NULL, `correlationStrength` REAL NOT NULL, `sourceDataType` TEXT NOT NULL, `targetDataType` TEXT, `sourceField` TEXT NOT NULL, `targetField` TEXT, `correlationFormula` TEXT, `confidenceLevel` REAL NOT NULL, `sampleSize` INTEGER NOT NULL, `statisticalSignificance` REAL NOT NULL, `metadata` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`correlationId`), FOREIGN KEY(`sourceParcelleId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`targetParcelleId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "correlationId",
+            "columnName": "correlationId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceParcelleId",
+            "columnName": "sourceParcelleId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "targetParcelleId",
+            "columnName": "targetParcelleId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "correlationType",
+            "columnName": "correlationType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "correlationStrength",
+            "columnName": "correlationStrength",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceDataType",
+            "columnName": "sourceDataType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "targetDataType",
+            "columnName": "targetDataType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sourceField",
+            "columnName": "sourceField",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "targetField",
+            "columnName": "targetField",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "correlationFormula",
+            "columnName": "correlationFormula",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "confidenceLevel",
+            "columnName": "confidenceLevel",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sampleSize",
+            "columnName": "sampleSize",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "statisticalSignificance",
+            "columnName": "statisticalSignificance",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metadata",
+            "columnName": "metadata",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "correlationId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_correlations_source",
+            "unique": false,
+            "columnNames": [
+              "sourceParcelleId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_correlations_source` ON `${TABLE_NAME}` (`sourceParcelleId`)"
+          },
+          {
+            "name": "index_correlations_target",
+            "unique": false,
+            "columnNames": [
+              "targetParcelleId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_correlations_target` ON `${TABLE_NAME}` (`targetParcelleId`)"
+          },
+          {
+            "name": "index_correlations_type",
+            "unique": false,
+            "columnNames": [
+              "correlationType"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_correlations_type` ON `${TABLE_NAME}` (`correlationType`)"
+          },
+          {
+            "name": "index_correlations_strength",
+            "unique": false,
+            "columnNames": [
+              "correlationStrength"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_correlations_strength` ON `${TABLE_NAME}` (`correlationStrength`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sourceParcelleId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          },
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "targetParcelleId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "data_interpretations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`interpretationId` TEXT NOT NULL, `parcelleId` TEXT NOT NULL, `interpretationType` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `confidenceScore` REAL NOT NULL, `priority` TEXT NOT NULL, `dataSource` TEXT NOT NULL, `analysisMethod` TEXT NOT NULL, `parameters` TEXT, `results` TEXT, `recommendations` TEXT, `actionable` INTEGER NOT NULL, `validUntil` INTEGER, `tags` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`interpretationId`), FOREIGN KEY(`parcelleId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "interpretationId",
+            "columnName": "interpretationId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parcelleId",
+            "columnName": "parcelleId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "interpretationType",
+            "columnName": "interpretationType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "confidenceScore",
+            "columnName": "confidenceScore",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "priority",
+            "columnName": "priority",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dataSource",
+            "columnName": "dataSource",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "analysisMethod",
+            "columnName": "analysisMethod",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parameters",
+            "columnName": "parameters",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "results",
+            "columnName": "results",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "recommendations",
+            "columnName": "recommendations",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "actionable",
+            "columnName": "actionable",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "validUntil",
+            "columnName": "validUntil",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tags",
+            "columnName": "tags",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "interpretationId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_interpretations_parcelle",
+            "unique": false,
+            "columnNames": [
+              "parcelleId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_interpretations_parcelle` ON `${TABLE_NAME}` (`parcelleId`)"
+          },
+          {
+            "name": "index_interpretations_type",
+            "unique": false,
+            "columnNames": [
+              "interpretationType"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_interpretations_type` ON `${TABLE_NAME}` (`interpretationType`)"
+          },
+          {
+            "name": "index_interpretations_confidence",
+            "unique": false,
+            "columnNames": [
+              "confidenceScore"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_interpretations_confidence` ON `${TABLE_NAME}` (`confidenceScore`)"
+          },
+          {
+            "name": "index_interpretations_priority",
+            "unique": false,
+            "columnNames": [
+              "priority"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_interpretations_priority` ON `${TABLE_NAME}` (`priority`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "parcelleId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "entity_relations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`relationId` TEXT NOT NULL, `sourceEntityId` TEXT NOT NULL, `sourceEntityType` TEXT NOT NULL, `targetEntityId` TEXT NOT NULL, `targetEntityType` TEXT NOT NULL, `relationType` TEXT NOT NULL, `relationStrength` REAL NOT NULL, `direction` TEXT NOT NULL, `attributes` TEXT, `conditions` TEXT, `isActive` INTEGER NOT NULL, `validFrom` INTEGER NOT NULL, `validUntil` INTEGER, `metadata` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`relationId`), FOREIGN KEY(`sourceEntityId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "relationId",
+            "columnName": "relationId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceEntityId",
+            "columnName": "sourceEntityId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceEntityType",
+            "columnName": "sourceEntityType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "targetEntityId",
+            "columnName": "targetEntityId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "targetEntityType",
+            "columnName": "targetEntityType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "relationType",
+            "columnName": "relationType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "relationStrength",
+            "columnName": "relationStrength",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "direction",
+            "columnName": "direction",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attributes",
+            "columnName": "attributes",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "conditions",
+            "columnName": "conditions",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isActive",
+            "columnName": "isActive",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "validFrom",
+            "columnName": "validFrom",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "validUntil",
+            "columnName": "validUntil",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "metadata",
+            "columnName": "metadata",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "relationId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_relations_source",
+            "unique": false,
+            "columnNames": [
+              "sourceEntityId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_relations_source` ON `${TABLE_NAME}` (`sourceEntityId`)"
+          },
+          {
+            "name": "index_relations_target",
+            "unique": false,
+            "columnNames": [
+              "targetEntityId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_relations_target` ON `${TABLE_NAME}` (`targetEntityId`)"
+          },
+          {
+            "name": "index_relations_type",
+            "unique": false,
+            "columnNames": [
+              "relationType"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_relations_type` ON `${TABLE_NAME}` (`relationType`)"
+          },
+          {
+            "name": "index_relations_strength",
+            "unique": false,
+            "columnNames": [
+              "relationStrength"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_relations_strength` ON `${TABLE_NAME}` (`relationStrength`)"
+          },
+          {
+            "name": "index_relations_active",
+            "unique": false,
+            "columnNames": [
+              "isActive"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_relations_active` ON `${TABLE_NAME}` (`isActive`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sourceEntityId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "advanced_calculations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`calculationId` TEXT NOT NULL, `parcelleId` TEXT, `calculationType` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `formula` TEXT NOT NULL, `variables` TEXT, `parameters` TEXT, `dependencies` TEXT, `result` REAL, `resultMetadata` TEXT, `status` TEXT NOT NULL, `priority` TEXT NOT NULL, `executionTime` INTEGER, `accuracy` REAL, `confidence` REAL, `error` TEXT, `optimizationHints` TEXT, `validUntil` INTEGER, `tags` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`calculationId`), FOREIGN KEY(`parcelleId`) REFERENCES `parcelles`(`parcelleId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "calculationId",
+            "columnName": "calculationId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parcelleId",
+            "columnName": "parcelleId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "calculationType",
+            "columnName": "calculationType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "formula",
+            "columnName": "formula",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "variables",
+            "columnName": "variables",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "parameters",
+            "columnName": "parameters",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dependencies",
+            "columnName": "dependencies",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "result",
+            "columnName": "result",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "resultMetadata",
+            "columnName": "resultMetadata",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "priority",
+            "columnName": "priority",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "executionTime",
+            "columnName": "executionTime",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accuracy",
+            "columnName": "accuracy",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "confidence",
+            "columnName": "confidence",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "error",
+            "columnName": "error",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "optimizationHints",
+            "columnName": "optimizationHints",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "validUntil",
+            "columnName": "validUntil",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tags",
+            "columnName": "tags",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "calculationId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_calculations_parcelle",
+            "unique": false,
+            "columnNames": [
+              "parcelleId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_calculations_parcelle` ON `${TABLE_NAME}` (`parcelleId`)"
+          },
+          {
+            "name": "index_calculations_type",
+            "unique": false,
+            "columnNames": [
+              "calculationType"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_calculations_type` ON `${TABLE_NAME}` (`calculationType`)"
+          },
+          {
+            "name": "index_calculations_status",
+            "unique": false,
+            "columnNames": [
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_calculations_status` ON `${TABLE_NAME}` (`status`)"
+          },
+          {
+            "name": "index_calculations_priority",
+            "unique": false,
+            "columnNames": [
+              "priority"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_calculations_priority` ON `${TABLE_NAME}` (`priority`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "parcelles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "parcelleId"
+            ],
+            "referencedColumns": [
+              "parcelleId"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3729f94ab2eced9a4bb28e66af2ca7cb')"
+    ]
+  }
+}

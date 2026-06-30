@@ -43,8 +43,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.forestry.counter.R
 import com.forestry.counter.data.local.entity.DiagnosticSylvicoleEntity
 import com.forestry.counter.domain.diagnostic.EssenceSuitabilityScorer
 import com.forestry.counter.domain.repository.DiagnosticSylvicoleRepository
@@ -71,7 +73,7 @@ fun DiagnosticScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Résultats du diagnostic") },
+                title = { Text(stringResource(R.string.diag_results_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
@@ -108,7 +110,7 @@ private fun DiagnosticContent(
         parseStringListJson(json, diag.recommandationsSylvicolesJson)
     }
     val dateStr = remember(diag.dateCreation) {
-        java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.FRANCE)
+        java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault())
             .format(java.util.Date(diag.dateCreation))
     }
 
@@ -171,7 +173,7 @@ private fun ScoreGlobalCard(scoreGlobal: Int?, dateStr: String) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                Text("Score global", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f))
+                Text(stringResource(R.string.diag_score_global), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f))
                 Text(classe.first, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.onPrimaryContainer)
                 Spacer(Modifier.height(4.dp))
                 Text(dateStr, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.5f))
@@ -197,7 +199,7 @@ private fun PeuplementIndicateursCard(diag: DiagnosticSylvicoleEntity) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Icon(Icons.Filled.Forest, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
-                Text("Peuplement", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.diag_stand), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
             }
             HorizontalDivider(thickness = 0.5.dp)
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
@@ -298,11 +300,11 @@ private fun RecommandationsCard(recommandations: List<String>) {
 private fun StationScoresCard(diag: DiagnosticSylvicoleEntity) {
     Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp)) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Scores composantes", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.diag_component_scores), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
             HorizontalDivider(thickness = 0.5.dp)
-            diag.scoreStation?.let  { ScoreComposanteRow("Station",   it) }
-            diag.scorePeuplement?.let { ScoreComposanteRow("Peuplement", it) }
-            diag.scoreBiodiversite?.let { ScoreComposanteRow("Biodiversité", it) }
+            diag.scoreStation?.let  { ScoreComposanteRow(stringResource(R.string.diag_component_station),   it) }
+            diag.scorePeuplement?.let { ScoreComposanteRow(stringResource(R.string.diag_stand), it) }
+            diag.scoreBiodiversite?.let { ScoreComposanteRow(stringResource(R.string.diag_component_biodiversity), it) }
         }
     }
 }

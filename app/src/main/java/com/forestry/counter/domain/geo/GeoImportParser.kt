@@ -442,13 +442,27 @@ object GeoImportParser {
             if (tables.size == 1) resultName = tables[0].second.ifBlank { name }
 
             tables.forEach { (tableName, tableLabel) ->
+                // Security: validate tableName against SQL injection (S-C3)
+                // Only allow alphanumeric + underscore, reject sqlite_ system tables
+                val safeTableName = tableName.trim()
+                require(safeTableName.matches(Regex("^[a-zA-Z_][a-zA-Z0-9_]*$"))) {
+                    "Invalid GeoPackage table name: $tableName"
+                }
+                require(!safeTableName.lowercase().startsWith("sqlite_")) {
+                    "System table name rejected: $tableName"
+                }
+
                 // Colonne géométrie
                 var geomCol = "geom"
-                db.rawQuery("SELECT column_name FROM gpkg_geometry_columns WHERE table_name=?", arrayOf(tableName)).use { c ->
+                db.rawQuery("SELECT column_name FROM gpkg_geometry_columns WHERE table_name=?", arrayOf(safeTableName)).use { c ->
                     if (c.moveToFirst()) geomCol = c.getString(0)
                 }
 
-                db.rawQuery("SELECT * FROM \"${tableName.replace("\"","\"\"")}\" LIMIT $MAX_GPKG_ROWS", null).use { row ->
+                // Use parameterized LIMIT via supportSQLiteQuery to avoid any injection vector
+                db.rawQuery(
+                    "SELECT * FROM \"$safeTableName\" LIMIT ?",
+                    arrayOf(MAX_GPKG_ROWS.toString())
+                ).use { row ->
                     val cols    = row.columnNames
                     val geomIdx = cols.indexOfFirst { it.equals(geomCol, ignoreCase = true) }
                     var n = 0

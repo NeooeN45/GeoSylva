@@ -4,7 +4,7 @@
 
 ### Application Android professionnelle d'inventaire forestier et de martelage
 
-[![Version](https://img.shields.io/badge/version-1.7.0-green?style=for-the-badge)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.4.0-green?style=for-the-badge)](CHANGELOG.md)
 [![Android](https://img.shields.io/badge/Android-8.0%2B-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com)
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.9-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![License](https://img.shields.io/badge/License-AGPL--3.0-blue?style=for-the-badge)](LICENSE)
@@ -122,7 +122,7 @@ GeoSylva remplace le carnet de terrain et les tableurs Excel par une **applicati
 - **Rappel hauteurs avec snooze** — reportez les alertes de hauteurs manquantes (1h, 4h, 24h)
 - **Tri des parcelles** — par nom, surface ou date de mise à jour
 - **Tips contextuels** — aide intégrée sur chaque écran
-- **Onboarding complet** — 7 écrans d'introduction interactifs
+- **Onboarding complet** — 14 écrans d'introduction interactifs avec consentement RGPD
 
 ---
 
@@ -147,11 +147,11 @@ GeoSylva remplace le carnet de terrain et les tableurs Excel par une **applicati
 app/src/main/java/com/forestry/counter/
 ├── data/
 │   ├── local/
-│   │   ├── entity/              # Room entities (11 tables)
+│   │   ├── entity/              # Room entities (28 tables)
 │   │   ├── dao/                 # Data Access Objects
 │   │   ├── CanonicalEssences.kt # 95+ espèces pré-configurées
-│   │   ├── DatabaseMigrations.kt# Migrations v1→v13
-│   │   └── ForestryDatabase.kt  # Room database (v13)
+│   │   ├── DatabaseMigrations.kt# Migrations v1→v32
+│   │   └── ForestryDatabase.kt  # Room database (v32, SQLCipher)
 │   ├── preferences/             # DataStore (GPS, affichage, tarifs…)
 │   ├── repository/              # Implémentations Repository
 │   ├── mapper/                  # Entity ↔ Domain mappers
@@ -162,28 +162,32 @@ app/src/main/java/com/forestry/counter/
 │   ├── calculation/
 │   │   ├── ForestryCalculator.kt# Moteur dendrométrique principal
 │   │   ├── SanityChecker.kt     # Garde-fous & cohérence
-│   │   ├── tarifs/              # 6 méthodes de cubage
+│   │   ├── tarifs/              # 7 méthodes de cubage + conversion volume
 │   │   └── quality/             # Qualité bois & classification produit
 │   ├── location/
 │   │   ├── GpsAverager.kt       # Moyennage GPS + rejet outliers
+│   │   ├── Lambert93Converter.kt# Conversion Lambert93 + Helmert WGS84→ETRS89
 │   │   └── OfflineTileManager.kt# Gestion tuiles hors-ligne
-│   ├── geo/                     # Lambert 93, Shapefile parser
-│   └── usecase/export/          # ShapefileExporter, ExportDataUseCase
+│   ├── geo/                     # Lambert 93, Shapefile parser, GeoImport
+│   ├── security/                # Certificate pinning, SecureHttpClient
+│   └── usecase/export/          # ShapefileExporter, PdfSynthesisExporter, ExportDataUseCase
 └── presentation/
     ├── screens/
-    │   ├── forestry/            # Inventaire, carte, martelage, dashboard
+    │   ├── forestry/            # Inventaire, carte, martelage, dashboard, IBP
     │   ├── settings/            # Paramètres, éditeur de prix
-    │   └── onboarding/          # Assistant d'accueil
+    │   └── onboarding/          # Assistant d'accueil (14 écrans)
     ├── components/              # Composants réutilisables
-    ├── navigation/              # Navigation graph
+    ├── navigation/              # Navigation graph (5 sous-graphes)
     └── theme/                   # Material 3 theming
 ```
 
 **Principes :**
 - **Clean Architecture** — séparation stricte domain / data / presentation
 - **Reactive** — Kotlin Flow du DAO jusqu'à l'UI Compose
-- **Offline-first** — Room + DataStore, aucune dépendance réseau
-- **Testable** — 11 fichiers de tests unitaires couvrant calculs, tarifs, export
+- **Offline-first** — Room + DataStore, aucune dépendance réseau pour les données
+- **Chiffrement** — SQLCipher (Keystore Android) pour les données sensibles au repos
+- **Sécurité réseau** — Certificate pinning SHA-256 sur les domaines cartographiques
+- **Testable** — 420+ tests unitaires couvrant calculs, tarifs, export, conversion, IBP
 
 ---
 
@@ -193,13 +197,14 @@ app/src/main/java/com/forestry/counter/
 |---|---|
 | **Langage** | Kotlin 1.9 + Coroutines + Flow |
 | **UI** | Jetpack Compose + Material 3 |
-| **Base de données** | Room (SQLite) — 11 tables, 13 migrations, DB v13 |
+| **Base de données** | Room (SQLite) — 28 tables, 32 migrations, DB v32, SQLCipher |
 | **Préférences** | DataStore Preferences |
 | **Cartographie** | MapLibre GL Native 10.3 |
 | **Géolocalisation** | Google Fused Location Provider |
-| **Export** | Apache POI (XLSX), OpenCSV, Shapefile (pur Java) |
+| **Export** | Apache POI (XLSX), OpenCSV, Shapefile (pur Java), PDF |
 | **Sérialisation** | kotlinx.serialization |
 | **Background** | WorkManager (sauvegardes planifiées) |
+| **Sécurité** | SQLCipher (Keystore), Certificate Pinning (SHA-256) |
 | **Build** | Gradle 8.2 + KSP + ProGuard/R8 |
 
 ---
@@ -252,13 +257,19 @@ cd GeoSylva
 ./gradlew testDebugUnitTest --tests "*.ForestryCalculatorTest"
 ```
 
-**Couverture des tests :**
-- Calculs de volume (6 méthodes de cubage)
+**Couverture des tests (420+ tests unitaires) :**
+- Calculs de volume (7 méthodes de cubage + conversion volume)
 - Classification produit & qualité bois
 - Garde-fous de cohérence (SanityChecker)
-- Export GeoJSON / CSV-XY / WKT
-- Conversion Lambert 93
+- Export GeoJSON / CSV-XY / WKT / PDF / XLSX
+- Conversion Lambert 93 + transformation Helmert WGS84→ETRS89
 - Parseur de formules
+- IBP — scoring CNPF officiel (10 critères, groupes A/B)
+- Tarifs forestiers (Schaeffer, Algan, IFN, FGH, coefficient de forme)
+- Alias d'essences (normalisation noms communs)
+- Triangles de structure (classes de diamètre)
+- Formatage monétaire (CurrencyFormatter)
+- Presets de prix régionaux (RegionalPricePresets)
 
 ---
 
@@ -266,12 +277,15 @@ cd GeoSylva
 
 - ✅ **Aucune publicité** — expérience 100% professionnelle
 - ✅ **Aucun tracking / analytics** — aucune donnée collectée
-- ✅ **Fonctionne hors-ligne** — aucune connexion requise
+- ✅ **Fonctionne hors-ligne** — aucune connexion requise pour les données
 - ✅ **Données 100% locales** — stockées uniquement sur l'appareil
+- ✅ **Chiffrement SQLCipher** — base de données chiffrée au repos (Keystore Android)
+- ✅ **Certificate Pinning** — SHA-256 sur data.geopf.fr, tile.opentopomap.org, basemaps.cartocdn.com, server.arcgisonline.com
+- ✅ **RGPD compliant** — SCC (Standard Contractual Clauses) pour transferts US (Esri/MapLibre/CartoCDN)
 - ✅ **ProGuard/R8** — code obfusqué en release
 - ✅ **Code source auditable** — open source sous AGPL-3.0
 
-📄 [Politique de confidentialité](PRIVACY_POLICY.md) · 🔐 [Politique de sécurité](SECURITY.md)
+📄 [Politique de confidentialité](PRIVACY_POLICY.md) · 🔐 [Registre des traitements RGPD](RECORD_OF_PROCESSING_ACTIVITIES.md) · 📋 [Audit forestier complet](AUDIT_FORESTIER_COMPLET.md) · 🌐 [Audit global](AUDIT_GLOBAL_GEOSYLVA.md)
 
 ---
 
@@ -281,10 +295,14 @@ cd GeoSylva
 |---|---|
 | [CHANGELOG.md](CHANGELOG.md) | Historique des versions et modifications |
 | [QUICK_START.md](QUICK_START.md) | Guide de démarrage rapide |
-| [IMPLEMENTATION_GUIDE.md](IMPLEMENTATION_GUIDE.md) | Guide technique d'implémentation |
-| [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) | Vue d'ensemble du projet |
-| [PRIVACY_POLICY.md](PRIVACY_POLICY.md) | Politique de confidentialité |
-| [SECURITY.md](SECURITY.md) | Politique de sécurité |
+| [MASTER_PLAN.md](MASTER_PLAN.md) | Vision produit et roadmap stratégique |
+| [AI_CONTEXT.md](AI_CONTEXT.md) | Contexte technique du code pour IA |
+| [PRIVACY_POLICY.md](PRIVACY_POLICY.md) | Politique de confidentialité RGPD |
+| [RECORD_OF_PROCESSING_ACTIVITIES.md](RECORD_OF_PROCESSING_ACTIVITIES.md) | Registre des traitements RGPD (Art. 30) |
+| [AUDIT_FORESTIER_COMPLET.md](AUDIT_FORESTIER_COMPLET.md) | Audit scientifique forestier vague 1 |
+| [AUDIT_GLOBAL_GEOSYLVA.md](AUDIT_GLOBAL_GEOSYLVA.md) | Audit global vague 2 (code, UX, sécurité) |
+| [AUDIT_UI_UX_GLOBAL.md](AUDIT_UI_UX_GLOBAL.md) | Audit UI/UX complet |
+| [RESEARCH_OPPORTUNITIES.md](RESEARCH_OPPORTUNITIES.md) | 150+ opportunités de recherche |
 | [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md) | Conditions de licence commerciale |
 
 ---

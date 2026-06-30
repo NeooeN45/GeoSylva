@@ -565,9 +565,9 @@ object TarifData {
     // ═══════════════════════════════════════════════════════════
     val decoupeDefautFeuillus: List<DecoupeRule> = listOf(
         // Gros bois feuillus (D >= 35) → majoritairement BO
-        DecoupeRule(essence = "*", categorie = "Feuillu", minDiam = 40, maxDiam = 999, produit = "BO", pctVolume = 70.0),
-        DecoupeRule(essence = "*", categorie = "Feuillu", minDiam = 40, maxDiam = 999, produit = "BI", pctVolume = 15.0),
-        DecoupeRule(essence = "*", categorie = "Feuillu", minDiam = 40, maxDiam = 999, produit = "BCh", pctVolume = 15.0),
+        DecoupeRule(essence = "*", categorie = "Feuillu", minDiam = 40, maxDiam = 999, produit = "BO", pctVolume = 55.0),
+        DecoupeRule(essence = "*", categorie = "Feuillu", minDiam = 40, maxDiam = 999, produit = "BI", pctVolume = 25.0),
+        DecoupeRule(essence = "*", categorie = "Feuillu", minDiam = 40, maxDiam = 999, produit = "BCh", pctVolume = 20.0),
 
         // Bois moyens feuillus (25 <= D < 40)
         DecoupeRule(essence = "*", categorie = "Feuillu", minDiam = 25, maxDiam = 39, produit = "BO", pctVolume = 40.0),
@@ -584,9 +584,9 @@ object TarifData {
 
     val decoupeDefautResineux: List<DecoupeRule> = listOf(
         // Gros bois résineux (D >= 30)
-        DecoupeRule(essence = "*", categorie = "Résineux", minDiam = 35, maxDiam = 999, produit = "BO", pctVolume = 80.0),
-        DecoupeRule(essence = "*", categorie = "Résineux", minDiam = 35, maxDiam = 999, produit = "BI", pctVolume = 15.0),
-        DecoupeRule(essence = "*", categorie = "Résineux", minDiam = 35, maxDiam = 999, produit = "BE", pctVolume = 5.0),
+        DecoupeRule(essence = "*", categorie = "Résineux", minDiam = 35, maxDiam = 999, produit = "BO", pctVolume = 65.0),
+        DecoupeRule(essence = "*", categorie = "Résineux", minDiam = 35, maxDiam = 999, produit = "BI", pctVolume = 25.0),
+        DecoupeRule(essence = "*", categorie = "Résineux", minDiam = 35, maxDiam = 999, produit = "BE", pctVolume = 10.0),
 
         // Bois moyens résineux
         DecoupeRule(essence = "*", categorie = "Résineux", minDiam = 20, maxDiam = 34, produit = "BO", pctVolume = 50.0),

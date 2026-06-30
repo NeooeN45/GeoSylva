@@ -4,6 +4,7 @@ import com.forestry.counter.data.local.entity.DataCorrelationEntity
 import com.forestry.counter.data.local.entity.CorrelationType
 import com.forestry.counter.data.local.entity.EntityRelationEntity
 import com.forestry.counter.data.local.entity.TigeEntity
+import com.forestry.counter.domain.location.WktUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.math.*
@@ -354,12 +355,36 @@ class DataCorrelationEngine {
     }
     
     /**
-     * Calcule la distance entre deux tiges (simplifié).
+     * Calcule la distance entre deux tiges.
+     * Utilise les coordonnées GPS (Haversine) si disponibles, sinon un fallback
+     * déterministe basé sur le numéro de tige (proxy de position dans la placette).
      */
     private fun calculateDistance(tige1: TigeEntity, tige2: TigeEntity): Double {
-        // Simplification - utiliser les coordonnées GPS si disponibles
-        // Pour l'instant, retourner une distance aléatoire pour démonstration
-        return kotlin.random.Random.nextDouble(0.0, 20.0)
+        // 1. GPS Haversine si les deux tiges ont un WKT
+        val wkt1 = tige1.gpsWkt
+        val wkt2 = tige2.gpsWkt
+        if (wkt1 != null && wkt2 != null) {
+            val (lon1, lat1, _) = WktUtils.parsePointZ(wkt1)
+            val (lon2, lat2, _) = WktUtils.parsePointZ(wkt2)
+            if (lon1 != null && lat1 != null && lon2 != null && lat2 != null) {
+                return haversineKm(lat1, lon1, lat2, lon2)
+            }
+        }
+        // 2. Fallback déterministe : distance basée sur le numéro de tige
+        //    (proxy de position séquentielle dans la placette)
+        val n1 = tige1.numero ?: 0
+        val n2 = tige2.numero ?: 0
+        return kotlin.math.abs(n1 - n2).toDouble()
+    }
+
+    private fun haversineKm(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+        val r = 6371.0
+        val dLat = Math.toRadians(lat2 - lat1)
+        val dLon = Math.toRadians(lon2 - lon1)
+        val a = kotlin.math.sin(dLat / 2).pow(2) +
+                kotlin.math.cos(Math.toRadians(lat1)) * kotlin.math.cos(Math.toRadians(lat2)) *
+                kotlin.math.sin(dLon / 2).pow(2)
+        return r * 2 * kotlin.math.asin(kotlin.math.sqrt(a))
     }
     
     /**

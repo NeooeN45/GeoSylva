@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.forestry.counter.data.local.dao.AlerteSanitaireDao
@@ -52,7 +53,15 @@ import com.forestry.counter.data.local.entity.GpsContextCacheEntity
 import com.forestry.counter.data.local.dao.RipisylveDao
 import com.forestry.counter.data.local.entity.RipisylveEntity
 import com.forestry.counter.data.local.dao.StationDao
+import com.forestry.counter.data.local.dao.DataCorrelationDao
+import com.forestry.counter.data.local.dao.DataInterpretationDao
+import com.forestry.counter.data.local.dao.EntityRelationDao
+import com.forestry.counter.data.local.dao.AdvancedCalculationDao
 import com.forestry.counter.data.local.entity.StationEntity
+import com.forestry.counter.data.local.entity.DataCorrelationEntity
+import com.forestry.counter.data.local.entity.DataInterpretationEntity
+import com.forestry.counter.data.local.entity.EntityRelationEntity
+import com.forestry.counter.data.local.entity.AdvancedCalculationEntity
 
 @Database(
     entities = [
@@ -79,16 +88,16 @@ import com.forestry.counter.data.local.entity.StationEntity
         FloraFtsEntity::class,
         GpsContextCacheEntity::class,
         RipisylveEntity::class,
-        StationEntity::class
-        // Temporairement désactivé pour résoudre KSP
-        // DataCorrelationEntity::class,
-        // DataInterpretationEntity::class,
-        // EntityRelationEntity::class,
-        // AdvancedCalculationEntity::class
+        StationEntity::class,
+        DataCorrelationEntity::class,
+        DataInterpretationEntity::class,
+        EntityRelationEntity::class,
+        AdvancedCalculationEntity::class
     ],
-    version = 29,
+    version = 32,
     exportSchema = true
 )
+@TypeConverters(EnumConverters::class)
 abstract class ForestryDatabase : RoomDatabase() {
     abstract fun groupDao(): GroupDao
     abstract fun counterDao(): CounterDao
@@ -113,26 +122,39 @@ abstract class ForestryDatabase : RoomDatabase() {
     abstract fun floraFtsDao(): FloraFtsDao
     abstract fun ripisylveDao(): RipisylveDao
     abstract fun stationDao(): StationDao
-    // DataCorrelationDao, DataInterpretationDao, EntityRelationDao, AdvancedCalculationDao
-    // temporairement désactivés — entités commentées en attente résolution KSP
+    abstract fun dataCorrelationDao(): DataCorrelationDao
+    abstract fun dataInterpretationDao(): DataInterpretationDao
+    abstract fun entityRelationDao(): EntityRelationDao
+    abstract fun advancedCalculationDao(): AdvancedCalculationDao
 
     companion object {
         const val DATABASE_NAME = "forestry_counter.db"
 
         /**
-         * Crée une instance de la base de données.
-         * Le chiffrement SQLCipher sera réactivé dans la phase chiffrement (feature concours).
+         * Crée une instance chiffrée de la base de données via SQLCipher.
+         * La clé est gérée par DatabaseEncryptionService (Android Keystore).
+         *
+         * RGPD compliance: Article 32 — security of processing.
+         * Personal data (parcel ownership, GPS tracks) must be encrypted at rest.
          *
          * @param context Contexte de l'application
          * @param migrations Liste des migrations à appliquer
-         * @return Instance de ForestryDatabase
+         * @param passphrase Clé SQLCipher (depuis DatabaseEncryptionService)
+         * @return Instance chiffrée de ForestryDatabase
          */
-        fun createDatabase(context: Context, migrations: Array<Migration>): ForestryDatabase {
+        fun createDatabase(
+            context: Context,
+            migrations: Array<Migration>,
+            passphrase: ByteArray
+        ): ForestryDatabase {
+            // SQLCipher SupportFactory for Room — passphrase is the raw key bytes
+            val factory = net.sqlcipher.database.SupportFactory(passphrase)
             return Room.databaseBuilder(
                 context.applicationContext,
                 ForestryDatabase::class.java,
                 DATABASE_NAME
             )
+                .openHelperFactory(factory)
                 .addMigrations(*migrations)
                 .build()
         }

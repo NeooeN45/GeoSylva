@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.forestry.counter.ForestryCounterApplication
@@ -32,6 +32,12 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
+        // FLAG_SECURE: prevent screenshots and screen recording (RGPD compliance)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
+
         // Release splash after 500ms
         Handler(Looper.getMainLooper()).postDelayed({ keepOnScreen = false }, 500)
 
@@ -39,11 +45,11 @@ class MainActivity : AppCompatActivity() {
         val prefsManager = app.userPreferences
 
         setContent {
-            val themeMode by prefsManager.themeMode.collectAsState(initial = com.forestry.counter.data.preferences.ThemeMode.SYSTEM)
-            val accentColorString by prefsManager.accentColor.collectAsState(initial = "#4CAF50")
-            val dynamicColorEnabled by prefsManager.dynamicColorEnabled.collectAsState(initial = true)
-            val keepOn by prefsManager.keepScreenOn.collectAsState(initial = false)
-            val fontSize by prefsManager.fontSize.collectAsState(initial = FontSize.MEDIUM)
+            val themeMode by prefsManager.themeMode.collectAsStateWithLifecycle(initialValue = com.forestry.counter.data.preferences.ThemeMode.SYSTEM)
+            val accentColorString by prefsManager.accentColor.collectAsStateWithLifecycle(initialValue = "#4CAF50")
+            val dynamicColorEnabled by prefsManager.dynamicColorEnabled.collectAsStateWithLifecycle(initialValue = true)
+            val keepOn by prefsManager.keepScreenOn.collectAsStateWithLifecycle(initialValue = false)
+            val fontSize by prefsManager.fontSize.collectAsStateWithLifecycle(initialValue = FontSize.MEDIUM)
             val accentColor = parseAccentColor(accentColorString)
 
             ForestryCounterTheme(

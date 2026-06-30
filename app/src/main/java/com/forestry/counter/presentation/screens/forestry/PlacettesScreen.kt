@@ -28,6 +28,7 @@ import androidx.compose.material.icons.filled.Assessment
 import androidx.compose.material.icons.filled.Straighten
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.scale
@@ -74,17 +75,17 @@ fun PlacettesScreen(
     val scope = rememberCoroutineScope()
     val snackbar = remember { SnackbarHostState() }
     val context = LocalContext.current
-    val placettes by placetteRepository.getPlacettesByParcelle(parcelleId).collectAsState(initial = emptyList())
-    val parcelle by parcelleRepository.getParcelleById(parcelleId).collectAsState(initial = null)
+    val placettes by placetteRepository.getPlacettesByParcelle(parcelleId).collectAsStateWithLifecycle(initialValue = emptyList())
+    val parcelle by parcelleRepository.getParcelleById(parcelleId).collectAsStateWithLifecycle(initialValue = null)
 
-    val hapticEnabled by userPreferences.hapticEnabled.collectAsState(initial = true)
-    val soundEnabled by userPreferences.soundEnabled.collectAsState(initial = true)
-    val hapticIntensity by userPreferences.hapticIntensity.collectAsState(initial = 2)
-    val animationsEnabled by userPreferences.animationsEnabled.collectAsState(initial = true)
-    val pressScale by userPreferences.pressScale.collectAsState(initial = 0.96f)
-    val animDurationShort by userPreferences.animDurationShort.collectAsState(initial = 140)
-    val backgroundImageEnabled by userPreferences.backgroundImageEnabled.collectAsState(initial = true)
-    val backgroundImageUri by userPreferences.backgroundImageUri.collectAsState(initial = null)
+    val hapticEnabled by userPreferences.hapticEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val soundEnabled by userPreferences.soundEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val hapticIntensity by userPreferences.hapticIntensity.collectAsStateWithLifecycle(initialValue = 2)
+    val animationsEnabled by userPreferences.animationsEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val pressScale by userPreferences.pressScale.collectAsStateWithLifecycle(initialValue = 0.96f)
+    val animDurationShort by userPreferences.animDurationShort.collectAsStateWithLifecycle(initialValue = 140)
+    val backgroundImageEnabled by userPreferences.backgroundImageEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val backgroundImageUri by userPreferences.backgroundImageUri.collectAsStateWithLifecycle(initialValue = null)
     val haptic = rememberHapticFeedback()
     val sound = rememberSoundFeedback()
 
@@ -174,7 +175,7 @@ fun PlacettesScreen(
                                 playClickFeedback()
                                 onNavigateToDiagnostic(parcelleId)
                             }) {
-                                Icon(Icons.Default.Assessment, contentDescription = "Diagnostic sylvicole")
+                                Icon(Icons.Default.Assessment, contentDescription = stringResource(R.string.cd_diagnostic))
                             }
                         }
                         if (onNavigateToDashboard != null) {

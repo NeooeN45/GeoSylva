@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.mapSaver
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -81,9 +82,9 @@ fun IbpEvaluationScreen(
             placetteRepository = placetteRepository
         )
     }
-    val existing by viewModel.existingEvaluation.collectAsState()
-    val placette by viewModel.placette.collectAsState()
-    val placetteLabel by viewModel.placetteLabel.collectAsState()
+    val existing by viewModel.existingEvaluation.collectAsStateWithLifecycle()
+    val placette by viewModel.placette.collectAsStateWithLifecycle()
+    val placetteLabel by viewModel.placetteLabel.collectAsStateWithLifecycle()
 
     val ibpAnswersSaver = remember {
         val key = "ibp_answers_json"
@@ -151,7 +152,7 @@ fun IbpEvaluationScreen(
 
     val ibpOnboardingSeen by remember(userPreferences) {
         userPreferences?.ibpOnboardingSeen ?: kotlinx.coroutines.flow.flowOf(true)
-    }.collectAsState(initial = true)
+    }.collectAsStateWithLifecycle(initialValue = true)
     var onboardingStep by remember { mutableStateOf(0) }
     val showOnboarding = !ibpOnboardingSeen && onboardingStep < 3
 
@@ -786,19 +787,19 @@ private fun IbpCriterionCard(
                             selected = currentDetails, conditions = growthConditions
                         ) { items -> onDetailsChange(items); onAnswer(IbpCriterionData.scoreA(items, growthConditions)) }
                         IbpCriterionId.E2 -> IbpChecklistPanel(
-                            title = "Strates présentes (cochez celles observées)",
+                            title = stringResource(R.string.ibp_strata_present),
                             items = IbpCriterionData.strataLayers, selected = currentDetails
                         ) { items -> onDetailsChange(items); onAnswer(IbpCriterionData.scoreB(items)) }
                         IbpCriterionId.CO -> IbpChecklistPanel(
-                            title = "Types de milieux aquatiques présents",
+                            title = stringResource(R.string.ibp_aquatic_types),
                             items = IbpCriterionData.aquaticTypes, selected = currentDetails
                         ) { items -> onDetailsChange(items); onAnswer(IbpCriterionData.scoreIJ(items)) }
                         IbpCriterionId.HC -> IbpChecklistPanel(
-                            title = "Types de milieux rocheux présents",
+                            title = stringResource(R.string.ibp_rocky_types),
                             items = IbpCriterionData.rockyTypes, selected = currentDetails
                         ) { items -> onDetailsChange(items); onAnswer(IbpCriterionData.scoreIJ(items)) }
                         IbpCriterionId.CF -> IbpRadioGuidePanel(
-                            title = "Continuité temporelle — situation observée",
+                            title = stringResource(R.string.ibp_temporal_continuity),
                             items = IbpCriterionData.forestContinuityOptions
                         ) { idx -> onAnswer(when (idx) { 0 -> 0; 1 -> 2; else -> 5 }) }
                         IbpCriterionId.BMS -> IbpDeadwoodCountPanel(
@@ -849,13 +850,8 @@ private fun IbpCriterionCard(
 
             Spacer(Modifier.height(8.dp))
 
-            // ── Score selector ────────────────────────────────
-            val criteriaWith1pt = setOf(
-                IbpCriterionId.E1, IbpCriterionId.E2,
-                IbpCriterionId.BMS, IbpCriterionId.BMC,
-                IbpCriterionId.GB, IbpCriterionId.DMH
-            )
-            val scoreList = if (criterionId in criteriaWith1pt) listOf(0, 1, 2, 5) else listOf(0, 2, 5)
+            // ── Score selector (Larrieu & Gonin 2008: 0/2/5 only) ────
+            val scoreList = listOf(0, 2, 5)
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 scoreList.forEach { pts ->
                     IbpOptionRow(
@@ -880,7 +876,7 @@ private fun IbpSpeciesPanel(
 ) {
     val autoScore = IbpCriterionData.scoreA(selected, conditions)
     Column {
-        Text("Genres d'essences autochtones présents", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.primary)
+        Text(stringResource(R.string.ibp_native_species_genres), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.primary)
         Text(
             if (conditions == IbpGrowthConditions.SUBALPINE)
                 "Subalpin : ≥3 genres → 5 pts · 1–2 genres → 2 pts · 0 genre → 0 pt"
@@ -1503,11 +1499,11 @@ private fun IbpModeSelectorRow(
 ) {
     val modes = IbpMode.values()
     val modeLabels = mapOf(
-        IbpMode.COMPLET    to "Complet (A–J)",
-        IbpMode.RAPIDE     to "Rapide (5 critères)",
-        IbpMode.BOIS_MORT  to "Bois mort (C–E)",
-        IbpMode.CONTEXTE   to "Contexte (H–J)",
-        IbpMode.PEUPLEMENT to "Peuplement (A–G)"
+        IbpMode.COMPLET    to stringResource(R.string.ibp_mode_complet),
+        IbpMode.RAPIDE     to stringResource(R.string.ibp_mode_rapide),
+        IbpMode.BOIS_MORT  to stringResource(R.string.ibp_mode_bois_mort),
+        IbpMode.CONTEXTE   to stringResource(R.string.ibp_mode_contexte),
+        IbpMode.PEUPLEMENT to stringResource(R.string.ibp_mode_peuplement)
     )
     val modeIcons = mapOf(
         IbpMode.COMPLET    to Icons.Default.FormatListBulleted,
@@ -1517,7 +1513,7 @@ private fun IbpModeSelectorRow(
         IbpMode.PEUPLEMENT to Icons.Default.AccountTree
     )
     Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)) {
-        Text("Mode d'évaluation", style = MaterialTheme.typography.labelMedium,
+        Text(stringResource(R.string.ibp_mode_eval), style = MaterialTheme.typography.labelMedium,
             fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(Modifier.height(6.dp))
         androidx.compose.foundation.lazy.LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -1549,14 +1545,14 @@ private fun IbpDeadwoodCountPanel(
 ) {
     val autoScore = if (bmgValue >= 3f) 5 else if (bmgValue >= 1f || bmmValue >= 1f) 2 else 0
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        Text("Comptage terrain (arbres/ha)", style = MaterialTheme.typography.labelMedium,
+        Text(stringResource(R.string.ibp_field_counting), style = MaterialTheme.typography.labelMedium,
             fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.primary)
         IbpCountField(label = labelBmg, hint = "ex: 3.0", value = bmgValue, onChange = onBmgChange,
             badge = if (bmgValue >= 3f) "→ 5 pts" else if (bmgValue >= 1f) "→ 2 pts" else null)
         IbpCountField(label = labelBmm, hint = "ex: 1.0", value = bmmValue, onChange = onBmmChange,
             badge = if (bmgValue < 1f && bmmValue >= 1f) "→ 2 pts" else null)
         IbpAutoScoreBadge(autoScore)
-        Text("BMg = chicot ou tronc ∅>37.5 cm à la base | BMm = ∅ 17.5–37.5 cm",
+        Text(stringResource(R.string.ibp_bmg_help),
             style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
@@ -1602,7 +1598,7 @@ private fun IbpDmhActivePanel(
         )
         IbpAutoScoreBadge(autoScore)
         HorizontalDivider()
-        Text("Types de dmh observés (cochez les présents)", style = MaterialTheme.typography.labelMedium,
+        Text(stringResource(R.string.ibp_dmh_types_observed), style = MaterialTheme.typography.labelMedium,
             fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.primary)
         IbpCriterionData.dmhTypes.forEach { dmh ->
             val checked = dmh in selected
@@ -1626,7 +1622,7 @@ private fun IbpOpenHabitatPanel(pct: Float, onPctChange: (Float) -> Unit) {
     val autoScore = IbpCriterionData.scoreGFromPct(pct)
     val sliderPct = pct.coerceIn(0f, 100f)
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text("Surface en milieux ouverts florifères (% de la placette)",
+        Text(stringResource(R.string.ibp_open_habitat_surface),
             style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.primary)
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -1699,7 +1695,7 @@ private fun IbpAutoScoreBadge(score: Int) {
         Row(modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
             verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             Icon(Icons.Default.AutoAwesome, contentDescription = null, tint = color, modifier = Modifier.size(14.dp))
-            Text("Score calculé automatiquement : $score pts",
+            Text(stringResource(R.string.ibp_score_auto_format, score),
                 style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold, color = color)
         }
     }

@@ -11,13 +11,12 @@ import java.util.concurrent.TimeUnit
  * Client HTTP sécurisé pour protéger contre les attaques MITM.
  *
  * ## Certificate pinning
- * Le pinning est actuellement **DÉSACTIVÉ** — la sécurité TLS repose sur la validation
- * CA standard du système Android.
+ * Le pinning est ACTIVÉ pour les domaines critiques (IGN, OpenTopoMap, CartoCDN, Esri).
+ * Les hashes SHA-256 des clés publiques sont extraits via openssl/cryptography.
  *
- * Pour activer le pinning en production :
- * 1. Extraire les hashes SHA-256 des clés publiques avec la commande ci-dessous.
- * 2. Décommenter les lignes `CertificatePinner` dans [createSecureClient].
- * 3. Planifier la rotation des hashes avant expiration des certificats (en général tous les 2 ans).
+ * Rotation : les hashes doivent être vérifiés avant expiration des certificats
+ * (en général tous les 2 ans). En cas de rotation, ajouter le nouveau hash en backup
+ * avant de retirer l'ancien.
  *
  * Commande d'extraction (une par domaine) :
  * ```
@@ -31,11 +30,11 @@ import java.util.concurrent.TimeUnit
 object SecureHttpClient {
 
     /**
-     * Crée un client HTTP avec configuration sécurisée.
+     * Crée un client HTTP avec configuration sécurisée (certificate pinning activé).
      *
      * @param context       Contexte de l'application
      * @param enableLogging Active les logs HTTP en mode DEBUG uniquement
-     * @return OkHttpClient configuré (pinning désactivé tant que les hashes ne sont pas renseignés)
+     * @return OkHttpClient configuré avec certificate pinning
      */
     fun createSecureClient(context: Context, enableLogging: Boolean = false): OkHttpClient {
         val builder = OkHttpClient.Builder()
@@ -44,16 +43,17 @@ object SecureHttpClient {
             .writeTimeout(60, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
 
-        // Certificate pinning — DÉSACTIVÉ.
-        // Décommenter et renseigner les vrais hashes SHA-256 avant activation en production.
-        // val certificatePinner = CertificatePinner.Builder()
-        //     .add("demotiles.maplibre.org", "sha256/<HASH_A>", "sha256/<HASH_B>")  // backup pin
-        //     .add("tile.opentopomap.org",   "sha256/<HASH_A>", "sha256/<HASH_B>")
-        //     .add("basemaps.cartocdn.com",  "sha256/<HASH_A>", "sha256/<HASH_B>")
-        //     .add("server.arcgisonline.com","sha256/<HASH_A>", "sha256/<HASH_B>")
-        //     .add("data.geopf.fr",          "sha256/<HASH_A>", "sha256/<HASH_B>")
-        //     .build()
-        // builder.certificatePinner(certificatePinner)
+        // Certificate pinning — ACTIVÉ avec hashes SHA-256 extraits le 2026-06-29.
+        // En debug, le pinning est désactivé pour permettre le dev avec mitmproxy.
+        if (!isDebugBuild()) {
+            val certificatePinner = CertificatePinner.Builder()
+                .add("data.geopf.fr",           "sha256/TmC5ZipQAN+9APsZU4ute175dmH5SHa3D2LH4xf23f4=")
+                .add("tile.opentopomap.org",    "sha256/EWMn6zmyhVAzYedTJIlzWQZWcpptvzbnaQguv9d5Lzk=")
+                .add("basemaps.cartocdn.com",   "sha256/KO2Vmmrijw/nR0v8Hq9QVwZV0UGb4F0mLD2jyBHlbmQ=")
+                .add("server.arcgisonline.com", "sha256/g9GFyx49oZdtQt7Gtx7eO7+csB+PD/O5w893a09Q3VY=")
+                .build()
+            builder.certificatePinner(certificatePinner)
+        }
 
         if (enableLogging && isDebugBuild()) {
             builder.addInterceptor(Interceptor { chain ->

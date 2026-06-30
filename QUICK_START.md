@@ -1,4 +1,4 @@
-# 🚀 Guide de Démarrage Rapide — GeoSylva 1.7.0
+# 🚀 Guide de Démarrage Rapide — GeoSylva 2.3.0
 
 > Application Android professionnelle d'inventaire forestier, martelage et biodiversité. 100% hors-ligne.
 

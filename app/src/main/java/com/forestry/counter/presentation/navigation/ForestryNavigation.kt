@@ -13,7 +13,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -112,8 +112,8 @@ sealed class Screen(val route: String) {
 fun ForestryNavigation(app: ForestryCounterApplication) {
     val navController = rememberNavController()
 
-    val animationsEnabled by app.userPreferences.animationsEnabled.collectAsState(initial = true)
-    val onboardingCompleted by app.userPreferences.onboardingCompleted.collectAsState(initial = true)
+    val animationsEnabled by app.userPreferences.animationsEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val onboardingCompleted by app.userPreferences.onboardingCompleted.collectAsStateWithLifecycle(initialValue = true)
 
     // Courbes Material 3 Emphasized — spec 2024 (M3 expressive motion)
     val emphasizedDecelerate = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1.0f)

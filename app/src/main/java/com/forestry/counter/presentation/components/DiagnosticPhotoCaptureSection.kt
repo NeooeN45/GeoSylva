@@ -1,5 +1,7 @@
 package com.forestry.counter.presentation.components
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
@@ -8,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.core.content.ContextCompat
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -21,9 +24,11 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
+import com.forestry.counter.R
 import com.forestry.counter.domain.model.station.DiagnosticPhoto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -39,6 +44,7 @@ fun DiagnosticPhotoCaptureSection(
     onAddPhoto: (uri: String, legend: String, type: String) -> Unit,
     onRemovePhoto: (index: Int) -> Unit,
     minPhotos: Int = 2,
+    // TODO i18n: extraire vers strings.xml — photoTypeOptions servent de clés de type persistées.
     photoTypeOptions: List<String> = listOf("Général", "Paysage", "Sol", "Végétation")
 ) {
     val context = LocalContext.current
@@ -48,6 +54,7 @@ fun DiagnosticPhotoCaptureSection(
     var selectedType by remember { mutableStateOf(photoTypeOptions.firstOrNull() ?: "Général") }
     var legendText by remember { mutableStateOf("") }
     var cameraUri by remember { mutableStateOf<Uri?>(null) }
+    var pendingCameraLaunch by remember { mutableStateOf(false) }
 
     val cameraLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.TakePicture()
@@ -60,6 +67,22 @@ fun DiagnosticPhotoCaptureSection(
                 showTypeDialog = true
             }
         }
+    }
+
+    val cameraPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted && pendingCameraLaunch) {
+            val dir = File(context.getExternalFilesDir(null), "photos")
+            dir.mkdirs()
+            val file = File(dir, "diag_${System.currentTimeMillis()}.jpg")
+            val uri = FileProvider.getUriForFile(
+                context, "${context.packageName}.fileprovider", file
+            )
+            cameraUri = uri
+            cameraLauncher.launch(uri)
+        }
+        pendingCameraLaunch = false
     }
 
     val galleryLauncher = rememberLauncherForActivityResult(
@@ -81,26 +104,34 @@ fun DiagnosticPhotoCaptureSection(
     if (showSourceDialog) {
         AlertDialog(
             onDismissRequest = { showSourceDialog = false },
-            title = { Text("Ajouter une photo") },
+            title = { Text(stringResource(R.string.photo_add_title)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     OutlinedButton(
                         onClick = {
                             showSourceDialog = false
-                            val dir = File(context.getExternalFilesDir(null), "photos")
-                            dir.mkdirs()
-                            val file = File(dir, "diag_${System.currentTimeMillis()}.jpg")
-                            val uri = FileProvider.getUriForFile(
-                                context, "${context.packageName}.fileprovider", file
-                            )
-                            cameraUri = uri
-                            cameraLauncher.launch(uri)
+                            val hasCameraPermission = ContextCompat.checkSelfPermission(
+                                context, Manifest.permission.CAMERA
+                            ) == PackageManager.PERMISSION_GRANTED
+                            if (hasCameraPermission) {
+                                val dir = File(context.getExternalFilesDir(null), "photos")
+                                dir.mkdirs()
+                                val file = File(dir, "diag_${System.currentTimeMillis()}.jpg")
+                                val uri = FileProvider.getUriForFile(
+                                    context, "${context.packageName}.fileprovider", file
+                                )
+                                cameraUri = uri
+                                cameraLauncher.launch(uri)
+                            } else {
+                                pendingCameraLaunch = true
+                                cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+                            }
                         },
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Icon(Icons.Default.CameraAlt, contentDescription = null)
                         Spacer(Modifier.width(8.dp))
-                        Text("Prendre une photo")
+                        Text(stringResource(R.string.photo_take_picture))
                     }
                     OutlinedButton(
                         onClick = {
@@ -111,7 +142,7 @@ fun DiagnosticPhotoCaptureSection(
                     ) {
                         Icon(Icons.Default.PhotoLibrary, contentDescription = null)
                         Spacer(Modifier.width(8.dp))
-                        Text("Choisir depuis la galerie")
+                        Text(stringResource(R.string.photo_choose_gallery))
                     }
                 }
             },
@@ -122,10 +153,10 @@ fun DiagnosticPhotoCaptureSection(
     if (showTypeDialog && pendingUri != null) {
         AlertDialog(
             onDismissRequest = { showTypeDialog = false; pendingUri = null },
-            title = { Text("Classer la photo") },
+            title = { Text(stringResource(R.string.photo_classify)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Type :", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.photo_type_label), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
                     photoTypeOptions.forEach { type ->
                         Row(
                             Modifier.fillMaxWidth()
@@ -142,7 +173,7 @@ fun DiagnosticPhotoCaptureSection(
                     OutlinedTextField(
                         value = legendText,
                         onValueChange = { legendText = it },
-                        label = { Text("Légende (optionnel)") },
+                        label = { Text(stringResource(R.string.station_photo_legend_optional)) },
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true
                     )
@@ -154,11 +185,11 @@ fun DiagnosticPhotoCaptureSection(
                     pendingUri = null
                     legendText = ""
                     showTypeDialog = false
-                }) { Text("Valider") }
+                }) { Text(stringResource(R.string.validate)) }
             },
             dismissButton = {
                 TextButton(onClick = { showTypeDialog = false; pendingUri = null }) {
-                    Text("Annuler")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )
@@ -170,7 +201,7 @@ fun DiagnosticPhotoCaptureSection(
     ) {
         Icon(Icons.Default.AddAPhoto, contentDescription = null)
         Spacer(Modifier.width(8.dp))
-        Text("Ajouter une photo")
+        Text(stringResource(R.string.photo_add_title))
     }
 
     if (photos.isEmpty()) {
@@ -188,7 +219,7 @@ fun DiagnosticPhotoCaptureSection(
                     tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
                 )
                 Text(
-                    "Aucune photo — $minPhotos requises minimum",
+                    stringResource(R.string.photo_none_min_required_format, minPhotos),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -259,13 +290,13 @@ private fun PhotoThumbnailCard(photo: DiagnosticPhoto, onRemove: () -> Unit) {
                 }
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    photo.legend.ifBlank { "Sans légende" },
+                    photo.legend.ifBlank { stringResource(R.string.photo_no_legend) },
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
             IconButton(onClick = onRemove) {
-                Icon(Icons.Default.Delete, contentDescription = "Supprimer", tint = MaterialTheme.colorScheme.error)
+                Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete), tint = MaterialTheme.colorScheme.error)
             }
         }
     }

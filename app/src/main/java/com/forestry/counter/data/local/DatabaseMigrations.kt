@@ -461,6 +461,9 @@ object DatabaseMigrations {
         MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13,
         MIGRATION_13_14, MIGRATION_14_15, Migration15to26, MIGRATION_26_27,
         com.forestry.counter.data.local.migration.MIGRATION_27_28,
-        com.forestry.counter.data.local.migration.MIGRATION_28_29
+        com.forestry.counter.data.local.migration.MIGRATION_28_29,
+        com.forestry.counter.data.local.migration.MIGRATION_29_30,
+        com.forestry.counter.data.local.migration.MIGRATION_30_31,
+        com.forestry.counter.data.local.migration.MIGRATION_31_32
     )
 }

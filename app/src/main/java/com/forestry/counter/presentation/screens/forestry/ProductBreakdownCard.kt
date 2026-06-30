@@ -53,7 +53,7 @@ fun ProductBreakdownCard(
 ) {
     if (rows.isEmpty()) return
     var expanded by remember { mutableStateOf(false) }
-    val fmt = remember { NumberFormat.getCurrencyInstance(Locale.FRANCE) }
+    val fmt = remember { NumberFormat.getCurrencyInstance(Locale.getDefault()) }
     val totalEur = rows.sumOf { it.totalEur }
 
     ElevatedCard(
@@ -134,7 +134,7 @@ fun ProductBreakdownCard(
                 ) {
                     Text(stringResource(R.string.product_col_product), style = MaterialTheme.typography.labelSmall, modifier = Modifier.weight(1.2f))
                     Text(stringResource(R.string.product_col_vol), style = MaterialTheme.typography.labelSmall, modifier = Modifier.weight(0.8f))
-                    Text("€/m³", style = MaterialTheme.typography.labelSmall, modifier = Modifier.weight(0.7f))
+                    Text(stringResource(R.string.label_eur_per_m3), style = MaterialTheme.typography.labelSmall, modifier = Modifier.weight(0.7f))
                     Text(stringResource(R.string.product_col_total), style = MaterialTheme.typography.labelSmall, modifier = Modifier.weight(0.9f), fontWeight = FontWeight.Medium)
                 }
 
@@ -155,12 +155,12 @@ fun ProductBreakdownCard(
                             modifier = Modifier.weight(1.2f)
                         )
                         Text(
-                            text = String.format(Locale.FRANCE, "%.2f", row.volumeM3),
+                            text = String.format(Locale.getDefault(), "%.2f", row.volumeM3),
                             style = MaterialTheme.typography.bodySmall,
                             modifier = Modifier.weight(0.8f)
                         )
                         Text(
-                            text = String.format(Locale.FRANCE, "%.0f", row.pricePerM3),
+                            text = String.format(Locale.getDefault(), "%.0f", row.pricePerM3),
                             style = MaterialTheme.typography.bodySmall,
                             modifier = Modifier.weight(0.7f)
                         )
