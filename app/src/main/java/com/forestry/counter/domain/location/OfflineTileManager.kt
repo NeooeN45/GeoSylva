@@ -6,12 +6,20 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicLong
 import kotlin.math.*
 
 /**
@@ -30,6 +38,12 @@ class OfflineTileManager(private val context: Context) {
         private const val READ_TIMEOUT_MS = 15_000
         /** Limite raisonnable pour éviter des téléchargements trop longs */
         private const val MAX_TILES_PER_DOWNLOAD = 6_000
+        /** Nombre maximum de téléchargements parallèles (limite serveur + batterie) */
+        private const val MAX_CONCURRENT_DOWNLOADS = 6
+        /** Nombre de tentatives par tuile en cas d'échec (HTTP 5xx, timeout, IO) */
+        private const val MAX_RETRY_ATTEMPTS = 3
+        /** Base du backoff exponentiel : 500ms, 1000ms, 2000ms */
+        private const val RETRY_BACKOFF_BASE_MS = 500L
         /**
          * User-Agent conforme à la politique OSM Tile Usage :
          * https://operations.osmfoundation.org/policies/tiles/
@@ -136,7 +150,33 @@ class OfflineTileManager(private val context: Context) {
         } catch (e: Exception) {
             Log.w(TAG, "Failed tile: $url — ${e.message}")
             -1L
+        } finally {
+            try {
+                (URL(url).openConnection() as? HttpURLConnection)?.disconnect()
+            } catch (_: Exception) {
+                // ignore
+            }
         }
+    }
+
+    /**
+     * Télécharge une tuile avec retry + backoff exponentiel.
+     * Retente sur échec (HTTP 5xx, timeout, IO) jusqu'à MAX_RETRY_ATTEMPTS fois.
+     * Retourne la taille en octets ou -1 si toutes les tentatives échouent.
+     */
+    private suspend fun downloadTileWithRetry(url: String, destFile: File): Long {
+        var attempt = 0
+        var lastSize: Long
+        while (attempt < MAX_RETRY_ATTEMPTS) {
+            lastSize = downloadSingleTile(url, destFile)
+            if (lastSize > 0) return lastSize
+            attempt++
+            if (attempt < MAX_RETRY_ATTEMPTS) {
+                // Backoff exponentiel : 500ms, 1000ms, 2000ms
+                delay(RETRY_BACKOFF_BASE_MS shl (attempt - 1))
+            }
+        }
+        return -1L
     }
 
     /**
@@ -191,10 +231,13 @@ class OfflineTileManager(private val context: Context) {
         )
 
         currentJob = scope.launch {
-            var completed = 0L
-            var totalSize = 0L
-            var errors = 0
+            val completedAtomic = AtomicLong(0)
+            val totalSizeAtomic = AtomicLong(0)
+            val errorsAtomic = AtomicInteger(0)
+            val semaphore = Semaphore(MAX_CONCURRENT_DOWNLOADS)
 
+            // 1. Compter les tuiles déjà en cache + construire la liste des téléchargements
+            val pendingDownloads = mutableListOf<Triple<String, File, Int>>() // url, dest, layerIdx
             for (z in minZoom..maxZoom) {
                 val xMin = lonToTileX(lonWest, z)
                 val xMax = lonToTileX(lonEast, z)
@@ -206,18 +249,29 @@ class OfflineTileManager(private val context: Context) {
                         tileUrlTemplates.forEachIndexed { layerIdx, template ->
                             val dest = tileFile(layerIdx, z, x, y)
                             if (dest.exists()) {
-                                // Déjà en cache
-                                totalSize += dest.length()
+                                completedAtomic.incrementAndGet()
+                                totalSizeAtomic.addAndGet(dest.length())
                             } else {
                                 val url = buildTileUrl(template, z, x, y)
-                                val size = downloadSingleTile(url, dest)
-                                if (size > 0) {
-                                    totalSize += size
-                                } else {
-                                    errors++
-                                }
+                                pendingDownloads.add(Triple(url, dest, layerIdx))
                             }
-                            completed++
+                        }
+                    }
+                }
+            }
+
+            // 2. Lancer les téléchargements en parallèle (limite MAX_CONCURRENT_DOWNLOADS)
+            coroutineScope {
+                pendingDownloads.map { (url, dest, _) ->
+                    async(Dispatchers.IO) {
+                        semaphore.withPermit {
+                            val size = downloadTileWithRetry(url, dest)
+                            if (size > 0) {
+                                totalSizeAtomic.addAndGet(size)
+                            } else {
+                                errorsAtomic.incrementAndGet()
+                            }
+                            val completed = completedAtomic.incrementAndGet()
 
                             // Mettre à jour le progrès toutes les 5 tuiles
                             if (completed % 5 == 0L || completed == totalTiles) {
@@ -225,25 +279,26 @@ class OfflineTileManager(private val context: Context) {
                                     regionName = name,
                                     completedResources = completed,
                                     requiredResources = totalTiles,
-                                    completedSize = totalSize,
+                                    completedSize = totalSizeAtomic.get(),
                                     isComplete = false
                                 )
                             }
                         }
                     }
-                }
+                }.awaitAll()
             }
 
+            val errors = errorsAtomic.get()
             val errorMsg = if (errors > 0) "$errors tuiles en erreur" else null
             _downloadProgress.value = DownloadProgress(
                 regionName = name,
-                completedResources = completed,
+                completedResources = completedAtomic.get(),
                 requiredResources = totalTiles,
-                completedSize = totalSize,
+                completedSize = totalSizeAtomic.get(),
                 isComplete = true,
                 error = errorMsg
             )
-            Log.i(TAG, "Download complete: $name — $completed tiles, ${totalSize / 1024} KB, $errors errors")
+            Log.i(TAG, "Download complete: $name — ${completedAtomic.get()} tiles, ${totalSizeAtomic.get() / 1024} KB, $errors errors")
         }
     }
 
