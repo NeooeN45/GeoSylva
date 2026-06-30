@@ -91,6 +91,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import com.forestry.counter.presentation.theme.AccentGreen
+import com.forestry.counter.presentation.theme.MartelageEnlever
+import com.forestry.counter.presentation.theme.SemanticError
+import com.forestry.counter.presentation.theme.SemanticInfo
+import com.forestry.counter.presentation.theme.SemanticSuccess
+import com.forestry.counter.presentation.theme.EssenceFeuillu
+import com.forestry.counter.presentation.theme.EssenceResineux
+import com.forestry.counter.presentation.theme.GpsModere
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
@@ -188,12 +196,12 @@ private enum class MeasureMode { DISTANCE, AREA }
 private enum class MeasureDistUnit { M, KM }
 private enum class MeasureAreaUnit { M2, ARES, HA }
 private val MEASURE_COLORS = listOf(
-    androidx.compose.ui.graphics.Color(0xFFFF6F00),
-    androidx.compose.ui.graphics.Color(0xFF2196F3),
-    androidx.compose.ui.graphics.Color(0xFF4CAF50),
+    MartelageEnlever,
+    EssenceResineux,
+    EssenceFeuillu,
     androidx.compose.ui.graphics.Color(0xFFE91E63),
     androidx.compose.ui.graphics.Color(0xFF9C27B0),
-    androidx.compose.ui.graphics.Color(0xFFF44336),
+    SemanticError,
     androidx.compose.ui.graphics.Color(0xFFFFEB3B),
     androidx.compose.ui.graphics.Color(0xFF00BCD4)
 )
@@ -516,7 +524,7 @@ private fun renderTigesOnMap(
         CircleLayer(TIGE_CLUSTER_LAYER_ID, TIGE_SOURCE_ID)
             .withFilter(has("point_count"))
             .withProperties(
-                PropertyFactory.circleColor(Color(0xFF2E7D32).toArgb()),
+                PropertyFactory.circleColor(SemanticSuccess.toArgb()),
                 PropertyFactory.circleOpacity(0.88f),
                 PropertyFactory.circleRadius(
                     interpolate(
@@ -1310,7 +1318,7 @@ fun MapScreen(
                         Icon(
                             Icons.Default.Map,
                             contentDescription = stringResource(R.string.shp_overlay),
-                            tint = if (shpOverlay != null && shpOverlay?.visible == true) Color(0xFF2E7D32)
+                            tint = if (shpOverlay != null && shpOverlay?.visible == true) SemanticSuccess
                                    else if (showShpPanel) MaterialTheme.colorScheme.primary
                                    else MaterialTheme.colorScheme.onSurface
                         )
@@ -1644,7 +1652,7 @@ fun MapScreen(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
-                                Icon(Icons.Default.Map, contentDescription = stringResource(R.string.cd_map), modifier = Modifier.size(20.dp), tint = Color(0xFF2E7D32))
+                                Icon(Icons.Default.Map, contentDescription = stringResource(R.string.cd_map), modifier = Modifier.size(20.dp), tint = SemanticSuccess)
                                 Text(stringResource(R.string.shp_overlay), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
                             }
                             IconButton(onClick = { showShpPanel = false }, modifier = Modifier.size(32.dp)) {
@@ -1665,7 +1673,7 @@ fun MapScreen(
                                 onClick = {
                                     shpPickerLauncher.launch(arrayOf("application/zip", "application/x-zip-compressed", "application/octet-stream"))
                                 },
-                                color = Color(0xFF2E7D32),
+                                color = SemanticSuccess,
                                 shape = RoundedCornerShape(10.dp)
                             ) {
                                 Row(
@@ -1687,7 +1695,7 @@ fun MapScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Column(modifier = Modifier.weight(1f)) {
-                                    Text(ov.displayName, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, color = Color(0xFF2E7D32))
+                                    Text(ov.displayName, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, color = SemanticSuccess)
                                     Text(stringResource(R.string.shp_info_format, ov.featureCount, ov.forestNames.size), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                 }
                                 Switch(
@@ -2067,7 +2075,7 @@ fun MapScreen(
             ) {
                 Surface(
                     shape = RoundedCornerShape(10.dp),
-                    color = Color(0xFFE65100).copy(alpha = 0.82f),
+                    color = GpsModere.copy(alpha = 0.82f),
                     modifier = Modifier.clickable { dismissedGpsBanner = true }
                 ) {
                     Row(
@@ -2225,7 +2233,7 @@ fun MapScreen(
                                     tappedTree = null
                                 }
                             },
-                            containerColor = Color(0xFF1565C0),
+                            containerColor = SemanticInfo,
                             contentColor = Color.White,
                             shape = RoundedCornerShape(12.dp)
                         ) {
@@ -2250,7 +2258,7 @@ fun MapScreen(
                         .padding(top = 70.dp, start = 16.dp, end = 16.dp)
                         .widthIn(max = 300.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor = if (navState.arrived) Color(0xFF2E7D32).copy(alpha = 0.95f)
+                        containerColor = if (navState.arrived) SemanticSuccess.copy(alpha = 0.95f)
                                          else MaterialTheme.colorScheme.surface.copy(alpha = 0.96f)
                     ),
                     shape = RoundedCornerShape(20.dp),
@@ -2306,7 +2314,7 @@ fun MapScreen(
                         } else {
                             // Compass
                             val relativeBearing = navState.relativeBearingDeg ?: 0f
-                            val compassColor = if (navState.arrived) Color.White else Color(0xFF1565C0)
+                            val compassColor = if (navState.arrived) Color.White else SemanticInfo
 
                             Box(
                                 modifier = Modifier.size(120.dp),
@@ -2361,7 +2369,7 @@ fun MapScreen(
                                     distText,
                                     style = MaterialTheme.typography.headlineMedium,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color(0xFF1565C0)
+                                    color = SemanticInfo
                                 )
                             }
 
