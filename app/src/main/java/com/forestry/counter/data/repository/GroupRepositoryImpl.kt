@@ -62,6 +62,10 @@ class GroupRepositoryImpl(
         }
     }
 
+    override suspend fun getByForetId(foretId: String): Group? {
+        return groupDao.getByForetId(foretId)?.toGroup()
+    }
+
     override suspend fun insertGroup(group: Group) {
         groupDao.insertGroup(group.toGroupEntity())
     }
@@ -72,6 +76,10 @@ class GroupRepositoryImpl(
 
     override suspend fun deleteGroup(groupId: String) {
         groupDao.deleteGroupById(groupId)
+    }
+
+    override suspend fun deleteByForetId(foretId: String) {
+        groupDao.deleteByForetId(foretId)
     }
 
     override suspend fun deleteAllGroups() {

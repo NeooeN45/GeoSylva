@@ -35,4 +35,10 @@ interface GroupDao {
 
     @Query("SELECT MAX(sortIndex) FROM groups")
     suspend fun getMaxSortIndex(): Int?
+
+    @Query("SELECT * FROM groups WHERE foret_id = :foretId LIMIT 1")
+    suspend fun getByForetId(foretId: String): GroupEntity?
+
+    @Query("DELETE FROM groups WHERE foret_id = :foretId")
+    suspend fun deleteByForetId(foretId: String)
 }

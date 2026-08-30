@@ -54,10 +54,9 @@ fun NavGraphBuilder.forestryFlowNavGraph(
                 navController.navigate(Screen.Map.createRoute(scope))
             },
             onNavigateToIbp = { navController.navigate(Screen.IbpProjects.route) },
-            // Poussé depuis Explorer (catégorie « Forêts ») : sans flèche
-            // retour, c'était une impasse — l'écran fut conçu à l'origine
-            // comme onglet de premier niveau, jamais comme sous-page.
             onNavigateBack = { navController.popBackStack() },
+            onNavigateToCreateForest = { navController.navigate(Screen.CreateForest.route) },
+            onNavigateToForestDetail = { foretId -> navController.navigate(Screen.ForestDetail.createRoute(foretId)) },
         )
     }
 

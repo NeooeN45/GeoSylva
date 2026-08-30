@@ -2,14 +2,15 @@
 <resources>
     <string name="app_name">GéoSylva</string>
 
-    <!-- Groups Screen -->
-    <string name="groups_title">Groupes</string>
-    <string name="no_groups">Aucun groupe</string>
-    <string name="create_group">Créer un groupe</string>
-    <string name="create_group_to_start">Créez un groupe pour commencer</string>
-    <string name="group_name">Nom du groupe</string>
-    <string name="group">Groupe</string>
-    <string name="project_color">Couleur du projet</string>
+    <!-- Groups / Forêts Screen -->
+    <string name="groups_title">Forêts</string>
+    <string name="no_groups">Aucune forêt</string>
+    <string name="create_group">Créer une forêt</string>
+    <string name="create_group_to_start">Créez votre première forêt pour commencer</string>
+    <string name="group_name">Nom de la forêt</string>
+    <string name="group">Forêt</string>
+    <string name="project_color">Couleur de la forêt</string>
+    <string name="forest_edit_info">Modifier les informations</string>
     <string name="martelage_choose_project_title">Choisir un projet pour le martelage</string>
 
     <!-- Counter Screen -->
@@ -38,11 +39,15 @@
     <string name="projects_name">Nom du projet</string>
     <string name="projects_description_optional">Description (optionnel)</string>
     <string name="create_forest_title">Nouvelle forêt (%1$d/%2$d)</string>
+    <string name="edit_forest_title">Modifier la forêt (%1$d/%2$d)</string>
     <string name="create_forest_step_identity">Identité</string>
     <string name="create_forest_step_owner">Propriétaire</string>
     <string name="create_forest_step_management">Gestion</string>
     <string name="create_forest_name">Nom de la forêt *</string>
-    <string name="create_forest_department">Département</string>
+    <string name="create_forest_department">Département(s)</string>
+    <string name="create_forest_departments_hint">Sélectionnez un ou plusieurs départements</string>
+    <string name="create_forest_color_title">Couleur de la forêt dans la liste</string>
+    <string name="create_forest_color_subtitle">Choisissez une couleur pour identifier rapidement cette forêt</string>
     <string name="create_forest_owner_name">Nom du propriétaire *</string>
     <string name="create_forest_owner_email">Email du propriétaire</string>
     <string name="create_forest_manager_name">Nom du gestionnaire</string>
@@ -2334,6 +2339,7 @@
     <string name="home_empty_action">Créer une forêt</string>
     <string name="home_loading">Chargement…</string>
     <string name="identity_welcome">Bienvenue</string>
+    <string name="identity_create_account_subtitle">Créez votre identité Quintessences pour retrouver GeoSylva et GSIE sur tous vos appareils.</string>
     <string name="identity_no_account">Pas encore de compte ?</string>
     <string name="identity_signup_web">Créer un compte</string>
     <!-- Site public Quintessences (DEC-000057) — page src/pages/compte/inscription.astro -->
@@ -2357,8 +2363,16 @@
     <string name="identity_server_unavailable">Le serveur GSIE est actuellement inaccessible.</string>
     <string name="identity_retry">Réessayer</string>
     <string name="identity_password_hint">12 à 128 caractères</string>
+    <string name="identity_password_strength_ready">Bonne base — le serveur vérifiera aussi la robustesse.</string>
+    <string name="identity_password_strength_weak">Ajoutez des caractères pour renforcer votre mot de passe.</string>
+    <string name="identity_registration_security">Votre secret n’est jamais affiché ni enregistré dans les données de terrain.</string>
+    <string name="identity_consent_title">Votre accord, en toute clarté</string>
+    <string name="identity_consent_terms">J’accepte les conditions d’utilisation de Quintessences (version v1).</string>
+    <string name="identity_consent_privacy">J’ai lu et j’accepte la politique de confidentialité (version v1).</string>
+    <string name="identity_consent_required">Ces deux accords sont nécessaires pour créer le compte. Aucun consentement marketing n’est demandé ici.</string>
     <string name="identity_session_secured">La session est chiffrée sur cet appareil. Les données de terrain restent disponibles hors ligne.</string>
     <string name="identity_error_invalid_input">Vérifiez l’adresse e-mail, le mot de passe et sa confirmation.</string>
+    <string name="identity_error_consent_required">Pour créer le compte, acceptez séparément les conditions d’utilisation et la politique de confidentialité.</string>
     <string name="identity_error_invalid_credentials">L’adresse e-mail ou le mot de passe est incorrect.</string>
     <string name="identity_error_account_exists">Un compte existe déjà pour cette adresse e-mail.</string>
     <string name="identity_error_link_required">Cette identité Google doit être rattachée explicitement au compte existant.</string>
@@ -2408,6 +2422,12 @@
     <string name="account_link_google">Rattacher mon compte Google</string>
     <string name="account_link_google_hint">Vous pourrez ensuite vous connecter d’un seul geste, avec le même compte Quintessences.</string>
     <string name="account_google_linked_badge">Google rattaché</string>
+    <string name="account_consents_title">Mes consentements</string>
+    <string name="account_consents_desc">Chaque accord est enregistré séparément avec sa version. Vous pouvez le retirer à tout moment ; cela n’efface pas l’historique légal.</string>
+    <string name="account_consent_terms">Conditions d’utilisation</string>
+    <string name="account_consent_privacy">Politique de confidentialité</string>
+    <string name="account_consent_version">Document %1$s</string>
+    <string name="account_notice_consent_updated">Consentement mis à jour.</string>
     <string name="identity_error_google_already_linked">Cette identité Google est déjà rattachée à un autre compte.</string>
     <string name="account_notice_profile_updated">Profil mis à jour.</string>
     <string name="account_notice_verification_sent">Code envoyé. Consultez votre boîte de réception.</string>

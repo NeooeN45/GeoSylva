@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.forestry.counter.domain.model.Foret
 import com.forestry.counter.domain.model.Parcelle
 import com.forestry.counter.domain.repository.ForetRepository
+import com.forestry.counter.domain.repository.GroupRepository
 import com.forestry.counter.domain.repository.ParcelleRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +23,7 @@ class ForestDetailViewModel(
     private val foretRepository: ForetRepository,
     private val parcelleRepository: ParcelleRepository,
     private val foretId: String,
+    private val groupRepository: GroupRepository? = null,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ForestDetailUiState>(ForestDetailUiState.Loading)
@@ -53,6 +55,7 @@ class ForestDetailViewModel(
     fun deleteForet() {
         viewModelScope.launch {
             foretRepository.deleteById(foretId)
+            groupRepository?.deleteByForetId(foretId)
         }
     }
 }
