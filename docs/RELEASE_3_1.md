@@ -50,6 +50,10 @@ Le client d'analyse local vise des routes non retrouvées côté serveur.
 
 ## Prochain travail Android
 
+Suivi : [Android #11](https://github.com/NeooeN45/GeoSylva/issues/11),
+[serveur données #63](https://github.com/NeooeN45/Quintessences/issues/63),
+[serveur abonnement #64](https://github.com/NeooeN45/Quintessences/issues/64).
+
 Établir la matrice objet local → contrat serveur → restauration. Identifier
 les données utilisateur à conserver et les caches/référentiels rechargeables.
 Coordonner B02/B03 avec Codex avant de changer Room ou les DTO.
