@@ -1,59 +1,59 @@
 [versions]
 coil = "2.7.0"
 # Build tools
-agp = "8.2.2"
-kotlin = "1.9.23"
-ksp = "1.9.23-1.0.20"
+agp = "9.4.1"
+kotlin = "2.4.20"
+ksp = "2.3.12"
 composeCompiler = "1.5.12"
-desugar = "2.0.4"
+desugar = "2.1.5"
 
 # AndroidX Core
-coreKtx = "1.12.0"
-splashscreen = "1.0.1"
+coreKtx = "1.19.1"
+splashscreen = "1.2.0"
 lifecycle = "2.8.7"
 activityCompose = "1.8.2"
-appcompat = "1.7.0"
-documentfile = "1.0.1"
-navigationCompose = "2.8.5"
-work = "2.9.0"
+appcompat = "1.8.0"
+documentfile = "1.1.0"
+navigationCompose = "2.10.2"
+work = "2.12.0"
 datastore = "1.0.0"
-securityCrypto = "1.1.0-alpha06"
+securityCrypto = "1.1.0"
 
 # Compose
-composeBom = "2024.09.00"
+composeBom = "2026.09.00"
 
 # CameraX
 cameraX = "1.3.3"
 
 # Room
-room = "2.6.1"
+room = "2.8.5"
 
 # Kotlinx
-kotlinxSerializationJson = "1.6.3"
-kotlinxCoroutines = "1.8.1"
-kotlinTest = "1.9.22"
+kotlinxSerializationJson = "1.11.0"
+kotlinxCoroutines = "1.11.0"
+kotlinTest = "2.4.20"
 
 # Third-party libraries
-opencsv = "5.9"
+opencsv = "5.12.0"
 poi = "5.5.1"
 exp4j = "0.4.8"
-playServicesLocation = "21.3.0"
+playServicesLocation = "21.4.0"
 blurview = "version-2.0.6"
-maplibre = "10.3.1"
-okhttp = "4.12.0"
-retrofit = "2.11.0"
+maplibre = "13.6.1"
+okhttp = "5.5.0"
+retrofit = "3.0.0"
 credentials = "1.5.0"
-googleId = "1.1.1"
+googleId = "1.2.1"
 sqlcipher = "4.5.4"
-bouncycastle = "1.80"
+bouncycastle = "1.86"
 commonsCompress = "1.28.0"
 
 # Testing
 junit = "4.13.2"
-mockk = "1.13.10"
+mockk = "1.14.11"
 archCoreTesting = "2.2.0"
-androidxTestExtJunit = "1.1.5"
-espresso = "3.5.1"
+androidxTestExtJunit = "1.3.0"
+espresso = "3.7.0"
 
 [libraries]
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
