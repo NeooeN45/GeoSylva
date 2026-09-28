@@ -29,6 +29,11 @@ entièrement hors-ligne.
 
 ## Aperçu
 
+**Trajectoire de version :** V3.0 correspond à la refonte actuelle ; V3.1
+vise une publication Google Play avec abonnement Quintessences.
+Voir le [périmètre et les critères de sortie V3.1](docs/RELEASE_3_1.md).
+Cette cible n'est pas une annonce de disponibilité.
+
 <p align="center">
   <img src="app/src/main/res/drawable-nodpi/app_icon.png" alt="GeoSylva — icône" width="180">
 </p>
