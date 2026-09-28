@@ -124,7 +124,7 @@ import com.forestry.counter.data.local.dao.ProjectDao
         ProjectEntity::class,
         ProjectForestCrossRef::class
     ],
-    version = 35,
+    version = 36,
     exportSchema = true
 )
 @TypeConverters(EnumConverters::class)

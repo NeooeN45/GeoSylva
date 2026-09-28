@@ -31,7 +31,8 @@ fun GroupEntity.toGroup(counterCount: Int = 0, totalValue: Double = 0.0): Group 
         createdAt = createdAt,
         updatedAt = updatedAt,
         counterCount = counterCount,
-        totalValue = totalValue
+        totalValue = totalValue,
+        foretId = foretId,
     )
 }
 
@@ -42,7 +43,8 @@ fun Group.toGroupEntity(): GroupEntity {
         color = color,
         sortIndex = sortIndex,
         createdAt = createdAt,
-        updatedAt = updatedAt
+        updatedAt = updatedAt,
+        foretId = foretId,
     )
 }
 

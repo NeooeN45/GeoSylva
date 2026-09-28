@@ -20,6 +20,7 @@ import com.forestry.counter.presentation.screens.settings.PrivacyPolicyScreen
 import com.forestry.counter.presentation.screens.account.AccountScreen
 import com.forestry.counter.presentation.screens.account.DeveloperOptionsScreen
 import com.forestry.counter.presentation.screens.account.LoginScreen
+import com.forestry.counter.presentation.screens.account.RegisterScreen
 import com.forestry.counter.presentation.screens.account.PasswordRecoveryScreen
 
 /**
@@ -50,7 +51,9 @@ fun NavGraphBuilder.settingsNavGraph(
                 navController.navigate(Screen.SettingsHome.route)
             },
             preferencesManager = app.userPreferences,
-            onNavigateToIbp = { navController.navigate(Screen.IbpProjects.route) }
+            onNavigateToIbp = { navController.navigate(Screen.IbpProjects.route) },
+            onNavigateToCreateForest = { navController.navigate(Screen.CreateForest.route) },
+            onNavigateToForestDetail = { foretId -> navController.navigate(Screen.ForestDetail.createRoute(foretId)) },
         )
     }
 
@@ -218,6 +221,41 @@ fun NavGraphBuilder.settingsNavGraph(
             onAuthenticated = { navController.popBackStack() },
             onContinueOffline = { navController.popBackStack() },
             onForgotPassword = { navController.navigate(Screen.PasswordRecovery.route) },
+            onCreateAccount = { navController.navigate(Screen.Register.route) },
+        )
+    }
+
+    composable(
+        route = Screen.Register.route,
+        enterTransition = transitions.enter,
+        exitTransition = transitions.exit,
+        popEnterTransition = transitions.popEnter,
+        popExitTransition = transitions.popExit,
+    ) {
+        val fromWelcome = navController.previousBackStackEntry?.destination?.route == Screen.Welcome.route
+        RegisterScreen(
+            repository = app.identityRepository,
+            onAuthenticated = {
+                if (fromWelcome) {
+                    navController.navigate(Screen.ProfessionSelection.route) {
+                        popUpTo(Screen.Welcome.route) { inclusive = true }
+                    }
+                } else {
+                    navController.popBackStack(Screen.Account.route, inclusive = false)
+                }
+            },
+            onContinueOffline = {
+                if (fromWelcome) {
+                    navController.navigate(Screen.ProfessionSelection.route) {
+                        popUpTo(Screen.Welcome.route) { inclusive = true }
+                    }
+                } else {
+                    navController.popBackStack()
+                }
+            },
+            onNavigateBack = { navController.popBackStack() },
+            animationsEnabled = true,
+            preferencesManager = app.userPreferences,
         )
     }
 

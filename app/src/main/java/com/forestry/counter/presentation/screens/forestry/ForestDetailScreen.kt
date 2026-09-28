@@ -30,8 +30,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -44,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.forestry.counter.ForestryCounterApplication
 import com.forestry.counter.domain.model.Foret
 import com.forestry.counter.domain.model.Parcelle
 import com.forestry.counter.presentation.screens.common.ComingSoonScreen
@@ -60,6 +61,7 @@ import java.util.Locale
 @Composable
 fun ForestDetailScreen(
     viewModel: ForestDetailViewModel,
+    app: ForestryCounterApplication,
     onNavigateBack: () -> Unit,
     onNavigateToParcelles: (String) -> Unit,
     onEditForet: (String) -> Unit,
@@ -113,7 +115,7 @@ fun ForestDetailScreen(
             }
             is ForestDetailUiState.Success -> {
                 Column(modifier = Modifier.padding(innerPadding)) {
-                    TabRow(selectedTabIndex = selectedTab) {
+                    ScrollableTabRow(selectedTabIndex = selectedTab) {
                         tabs.forEachIndexed { index, tab ->
                             Tab(
                                 selected = selectedTab == index,
@@ -129,7 +131,17 @@ fun ForestDetailScreen(
                             parcelles = s.parcelles,
                             onNavigateToParcelles = onNavigateToParcelles,
                         )
-                        ForestDetailTab.MAP -> ComingSoonScreen("Carte de la forêt")
+                        ForestDetailTab.MAP -> MapRechercheScreen(
+                            parcelleId = "forest_${s.foret.foretId}",
+                            tigeRepository = app.tigeRepository,
+                            essenceRepository = app.essenceRepository,
+                            parcelleRepository = app.parcelleRepository,
+                            preferencesManager = app.userPreferences,
+                            offlineTileManager = app.offlineTileManager,
+                            onNavigateBack = {},
+                            showBackButton = false,
+                            modifier = Modifier.fillMaxSize(),
+                        )
                         ForestDetailTab.DOCUMENTS -> ComingSoonScreen("Documents")
                         ForestDetailTab.HISTORY -> ComingSoonScreen("Historique")
                     }

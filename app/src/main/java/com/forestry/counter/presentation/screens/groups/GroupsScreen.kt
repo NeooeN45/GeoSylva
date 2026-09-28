@@ -73,6 +73,8 @@ fun GroupsScreen(
     onNavigateToMap: ((String) -> Unit)? = null,
     onNavigateToIbp: (() -> Unit)? = null,
     onNavigateBack: (() -> Unit)? = null,
+    onNavigateToCreateForest: (() -> Unit)? = null,
+    onNavigateToForestDetail: ((foretId: String) -> Unit)? = null,
 ) {
     val viewModel = remember { GroupsViewModel(groupRepository) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -165,7 +167,6 @@ fun GroupsScreen(
                         actions = {
                             if (hasSelection) {
                                 IconButton(onClick = {
-                                    // Dupliquer tous les projets sélectionnés
                                     selectedGroupIds.toList().forEach { id ->
                                         viewModel.duplicateGroup(id)
                                     }
@@ -174,51 +175,12 @@ fun GroupsScreen(
                                     Icon(Icons.Default.ContentCopy, contentDescription = stringResource(R.string.duplicate))
                                 }
                                 IconButton(onClick = {
-                                    // Supprimer tous les projets sélectionnés
                                     selectedGroupIds.toList().forEach { id ->
                                         viewModel.deleteGroup(id)
                                     }
                                     selectedGroupIds = emptySet()
                                 }) {
                                     Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete))
-                                }
-                            } else {
-                                if (onNavigateToMap != null) {
-                                    IconButton(onClick = { showMapScopeDialog = true }) {
-                                        Icon(Icons.Default.Map, contentDescription = stringResource(R.string.map_view))
-                                    }
-                                }
-                                if (onNavigateToMartelage != null) {
-                                    IconButton(
-                                        onClick = {
-                                            val groups = (uiState as? GroupsUiState.Success)?.groups.orEmpty()
-                                            when {
-                                                groups.size <= 1 -> onNavigateToMartelage(groups.firstOrNull()?.id)
-                                                else -> showMartelageScopeDialog = true
-                                            }
-                                        }
-                                    ) {
-                                        Icon(Icons.Default.Straighten, contentDescription = stringResource(R.string.cd_straighten))
-                                    }
-                                    IconButton(
-                                        onClick = {
-                                            val groups = (uiState as? GroupsUiState.Success)?.groups.orEmpty()
-                                            when {
-                                                groups.size <= 1 -> onNavigateToMartelage(groups.firstOrNull()?.id)
-                                                else -> showMartelageScopeDialog = true
-                                            }
-                                        }
-                                    ) {
-                                        Icon(Icons.Default.Description, contentDescription = stringResource(R.string.martelage))
-                                    }
-                                }
-                                if (onNavigateToIbp != null) {
-                                    IconButton(onClick = { onNavigateToIbp() }) {
-                                        Icon(Icons.Default.EmojiNature, contentDescription = stringResource(R.string.ibp_title))
-                                    }
-                                }
-                                IconButton(onClick = onNavigateToSettings) {
-                                    Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.settings))
                                 }
                             }
                         }
@@ -227,7 +189,13 @@ fun GroupsScreen(
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = { showCreateDialog = true },
+                    onClick = {
+                        if (onNavigateToCreateForest != null) {
+                            onNavigateToCreateForest()
+                        } else {
+                            showCreateDialog = true
+                        }
+                    },
                     modifier = Modifier.offset(x = 8.dp),
                 ) {
                     Icon(Icons.Default.Add, contentDescription = stringResource(R.string.create_group))
@@ -258,7 +226,10 @@ fun GroupsScreen(
                 ) { key ->
                     when (key) {
                         0 -> LoadingScreen()
-                        1 -> EmptyState(onCreateGroup = { showCreateDialog = true })
+                        1 -> EmptyState(onCreateGroup = {
+                            if (onNavigateToCreateForest != null) onNavigateToCreateForest()
+                            else showCreateDialog = true
+                        })
                         else -> {
                             val groups = (state as? GroupsUiState.Success)?.groups.orEmpty()
                             GroupsList(
@@ -273,6 +244,14 @@ fun GroupsScreen(
                                 onRequestChangeColor = { groupId, currentColor ->
                                     colorTargetGroupId = groupId
                                     colorHex = currentColor ?: ""
+                                },
+                                onRequestEditInfo = { groupId, foretId, currentName ->
+                                    if (foretId != null && onNavigateToForestDetail != null) {
+                                        onNavigateToForestDetail(foretId)
+                                    } else {
+                                        renameTargetGroupId = groupId
+                                        renameGroupName = currentName
+                                    }
                                 },
                                 glassBlurEnabled = glassBlurEnabled,
                                 isDarkTheme = isDarkTheme,
@@ -610,6 +589,7 @@ fun GroupsList(
     onDuplicateGroup: (String) -> Unit,
     onRequestRenameGroup: (String, String) -> Unit,
     onRequestChangeColor: (String, String?) -> Unit,
+    onRequestEditInfo: (groupId: String, foretId: String?, currentName: String) -> Unit,
     glassBlurEnabled: Boolean,
     isDarkTheme: Boolean,
     preferencesManager: UserPreferencesManager,
@@ -640,6 +620,7 @@ fun GroupsList(
                 onDuplicate = { onDuplicateGroup(group.id) },
                 onRename = { onRequestRenameGroup(group.id, group.name) },
                 onChangeColor = { onRequestChangeColor(group.id, group.color) },
+                onEditInfo = { onRequestEditInfo(group.id, group.foretId, group.name) },
                 glassBlurEnabled = glassBlurEnabled,
                 isDarkTheme = isDarkTheme,
                 preferencesManager = preferencesManager,
@@ -669,6 +650,7 @@ fun GroupCard(
     onDuplicate: () -> Unit,
     onRename: () -> Unit,
     onChangeColor: () -> Unit,
+    onEditInfo: () -> Unit,
     glassBlurEnabled: Boolean,
     isDarkTheme: Boolean,
     preferencesManager: UserPreferencesManager,
@@ -800,6 +782,16 @@ fun GroupCard(
                             onDismissRequest = { showMenu = false }
                         ) {
                             DropdownMenuItem(
+                                text = { Text(stringResource(R.string.forest_edit_info)) },
+                                onClick = {
+                                    onEditInfo()
+                                    showMenu = false
+                                },
+                                leadingIcon = {
+                                    Icon(Icons.Default.Info, contentDescription = null)
+                                }
+                            )
+                            DropdownMenuItem(
                                 text = { Text(stringResource(R.string.rename_project)) },
                                 onClick = {
                                     onRename()
@@ -849,28 +841,41 @@ fun GroupCard(
                         .height(1.dp)
                 ) {}
             }
+            // Sélecteur compact en bas à gauche — zone tactile 40 dp,
+            // indicateur visuel 20 dp pour ne pas empiéter sur le contenu.
             Box(
                 modifier = Modifier
-                    .align(Alignment.BottomEnd)
+                    .align(Alignment.BottomStart)
                     .padding(8.dp)
-                    .size(48.dp)
-                    .clickable { onToggleSelected() }
+                    .size(40.dp)
+                    .clickable { onToggleSelected() },
+                contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
-                        .matchParentSize()
+                        .size(20.dp)
                         .background(
-                            color = if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.2f) else Color.Transparent,
+                            color = if (selected) MaterialTheme.colorScheme.primary else Color.Transparent,
                             shape = MaterialTheme.shapes.extraSmall
                         )
                         .border(
                             BorderStroke(
-                                1.dp,
-                                if (selected) MaterialTheme.colorScheme.primary else contentColor.copy(alpha = 0.4f)
+                                1.5.dp,
+                                if (selected) MaterialTheme.colorScheme.primary else contentColor.copy(alpha = 0.35f)
                             ),
                             shape = MaterialTheme.shapes.extraSmall
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (selected) {
+                        Icon(
+                            Icons.Default.Check,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onPrimary,
+                            modifier = Modifier.size(14.dp)
                         )
-                )
+                    }
+                }
             }
             if (haloAnimAlpha > 0.01f) {
                 Box(

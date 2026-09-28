@@ -46,6 +46,7 @@ sealed class Screen(val route: String) {
     }
     object Account : Screen("settings/account")
     object Login : Screen("settings/account/login")
+    object Register : Screen("settings/account/register")
     object PasswordRecovery : Screen("settings/account/password-recovery")
     object DeveloperOptions : Screen("settings/developer")
     object PriceTablesEditor : Screen("settings/price_tables")
@@ -140,6 +141,12 @@ sealed class Screen(val route: String) {
         fun createRoute(forestId: String) = "forest/$forestId"
     }
     object CreateForest : Screen("forest/create")
+    object EditForest : Screen("forest/edit/{forestId}") {
+        fun createRoute(forestId: String) = "forest/edit/$forestId"
+    }
+    object Arbres : Screen("explorer/arbres")
+    object Mesures : Screen("explorer/mesures")
+    object Calculs : Screen("explorer/calculs")
     object CreateParcelle : Screen("parcelle/create/{forestId}") {
         fun createRoute(forestId: String) = "parcelle/create/$forestId"
     }
@@ -259,6 +266,7 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                     onAuthenticated = goToProfessionSelection,
                     onContinueOffline = goToProfessionSelection,
                     onForgotPassword = { navController.navigate(Screen.PasswordRecovery.route) },
+                    onCreateAccount = { navController.navigate(Screen.Register.route) },
                     animationsEnabled = animationsEnabled,
                     preferencesManager = app.userPreferences,
                 )
@@ -345,8 +353,15 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                                 ExplorerCategory.DIAGNOSTICS -> {
                                     navController.navigate(Screen.Parcelles.createRoute(null))
                                 }
-                                // Le reste n'a encore ni écran ni entrée dédiée
-                                // (Lot 1) : rien à faire.
+                                ExplorerCategory.ARBRES -> {
+                                    navController.navigate(Screen.Arbres.route)
+                                }
+                                ExplorerCategory.MESURES -> {
+                                    navController.navigate(Screen.Mesures.route)
+                                }
+                                ExplorerCategory.CALCULS -> {
+                                    navController.navigate(Screen.Calculs.route)
+                                }
                                 else -> {}
                             }
                         },
@@ -362,6 +377,49 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
             settingsNavGraph(navController, app, transitions)
             projectsNavGraph(navController, app, transitions)
             forestDetailNavGraph(navController, app, transitions)
+
+            // ── Explorer — catégories implémentées ───────────────────
+            composable(
+                route = Screen.Arbres.route,
+                enterTransition = transitions.enter,
+                exitTransition = transitions.exit,
+                popEnterTransition = transitions.popEnter,
+                popExitTransition = transitions.popExit,
+            ) {
+                com.forestry.counter.presentation.screens.explorer.ArbresScreen(
+                    tigeRepository = app.tigeRepository,
+                    essenceRepository = app.essenceRepository,
+                    onNavigateBack = { navController.popBackStack() },
+                )
+            }
+
+            composable(
+                route = Screen.Mesures.route,
+                enterTransition = transitions.enter,
+                exitTransition = transitions.exit,
+                popEnterTransition = transitions.popEnter,
+                popExitTransition = transitions.popExit,
+            ) {
+                com.forestry.counter.presentation.screens.explorer.MesuresScreen(
+                    tigeRepository = app.tigeRepository,
+                    onNavigateBack = { navController.popBackStack() },
+                )
+            }
+
+            composable(
+                route = Screen.Calculs.route,
+                enterTransition = transitions.enter,
+                exitTransition = transitions.exit,
+                popEnterTransition = transitions.popEnter,
+                popExitTransition = transitions.popExit,
+            ) {
+                com.forestry.counter.presentation.screens.explorer.CalculsScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToMartelage = { navController.navigate(Screen.Martelage.forGlobal()) },
+                    onNavigateToForets = { navController.navigate(Screen.Forets.route) },
+                    onNavigateToIbp = { navController.navigate(Screen.IbpProjects.route) },
+                )
+            }
         }
     }
 }

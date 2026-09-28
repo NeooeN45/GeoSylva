@@ -844,6 +844,24 @@ object DatabaseMigrations {
         }
     }
 
+    /**
+     * Migration 35→36 — Lien Group ↔ Forêt.
+     *
+     * Ajoute la colonne `foret_id` (TEXT, nullable) sur la table `groups`
+     * pour relier chaque groupe à la Forêt du domaine forestier dont il est
+     * l'image dans l'écran de comptage. Null pour les groupes de martelage
+     * classiques sans Forêt associée.
+     */
+    val MIGRATION_35_36 = object : Migration(35, 36) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            try {
+                db.execSQL("ALTER TABLE groups ADD COLUMN foret_id TEXT")
+            } catch (e: Throwable) {
+                Log.w(TAG, "Migration groups.foret_id ignorée: ${e.message}")
+            }
+        }
+    }
+
     /** Liste ordonnée de toutes les migrations pour Room.databaseBuilder. */
     val ALL = arrayOf(
         MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5,
@@ -858,5 +876,6 @@ object DatabaseMigrations {
         MIGRATION_32_33,
         MIGRATION_33_34,
         MIGRATION_34_35,
+        MIGRATION_35_36,
     )
 }
