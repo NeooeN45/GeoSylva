@@ -1,11 +1,11 @@
 package com.forestry.counter.presentation.navigation
 
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import androidx.compose.ui.res.stringResource
 import com.forestry.counter.ForestryCounterApplication
 import com.forestry.counter.presentation.screens.calculator.CalculatorScreen
 import com.forestry.counter.presentation.screens.forestry.TarifDocumentationScreen
@@ -237,7 +237,7 @@ fun NavGraphBuilder.settingsNavGraph(
             repository = app.identityRepository,
             onAuthenticated = {
                 if (fromWelcome) {
-                    navController.navigate(Screen.ProfessionSelection.route) {
+                    navController.navigate(Screen.PackWizard.route) {
                         popUpTo(Screen.Welcome.route) { inclusive = true }
                     }
                 } else {
@@ -246,7 +246,7 @@ fun NavGraphBuilder.settingsNavGraph(
             },
             onContinueOffline = {
                 if (fromWelcome) {
-                    navController.navigate(Screen.ProfessionSelection.route) {
+                    navController.navigate(Screen.PackWizard.route) {
                         popUpTo(Screen.Welcome.route) { inclusive = true }
                     }
                 } else {

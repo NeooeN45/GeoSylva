@@ -92,9 +92,12 @@ fun MainScaffold(
         Screen.Welcome.route,
         Screen.ProfessionSelection.route,
         Screen.Onboarding.route,
+        Screen.PackWizard.route,
         Screen.Login.route,
         Screen.PasswordRecovery.route,
     )
+    val isSettingsRoute = currentRoute != null &&
+        (currentRoute.startsWith("settings") || currentRoute == Screen.PackManager.route)
 
     // Visite guidée (coachmarks) des 5 onglets — se déclenche une seule
     // fois, dès qu'on atteint un écran de premier niveau après que
@@ -106,22 +109,9 @@ fun MainScaffold(
     val coachMarkCompleted by app.userPreferences.coachMarkTourCompleted.collectAsStateWithLifecycle(initialValue = false)
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(coachMarkPending, coachMarkCompleted, isTopLevel) {
+    LaunchedEffect(coachMarkPending, coachMarkCompleted) {
         if (coachMarkCompleted && coachMarkPending) {
-            // Répare un éventuel état hérité incohérent sans relancer une
-            // visite déjà terminée.
             app.userPreferences.setCoachMarkTourPending(false)
-        } else if (shouldStartCoachMarkTour(
-                pending = coachMarkPending,
-                completed = coachMarkCompleted,
-                isTopLevel = isTopLevel,
-                isActive = coachMarkController.isActive,
-            )
-        ) {
-            // `pending` reste durablement vrai pendant toute la visite. En
-            // cas de recréation ou de mort du processus, elle reprend au
-            // prochain écran de premier niveau au lieu d'être perdue.
-            coachMarkController.start()
         }
     }
 
@@ -179,7 +169,7 @@ fun MainScaffold(
             content(Modifier.padding(innerPadding))
         }
 
-        if (!isTopLevel && !isPreEntry) {
+        if (!isTopLevel && !isPreEntry && !isSettingsRoute) {
             CollapsedMiniNav(
                 currentRoute = currentRoute,
                 onNavigateToTab = ::navigateToTab,

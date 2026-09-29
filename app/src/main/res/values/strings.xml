@@ -337,6 +337,52 @@
     <string name="diameter_card_hint">Appui = +1, appui long = -1</string>
 
     <string name="martelage">Martelage</string>
+    <string name="commencer_le_martelage">Commencer le martelage</string>
+    <string name="martelage_mode_active">Mode Martelage</string>
+    <string name="martelage_mode_stems">tiges</string>
+    <string name="martelage_mode_pause">Pause</string>
+    <string name="martelage_mode_resume">Reprendre</string>
+    <string name="martelage_mode_stop">Arrêter</string>
+    <string name="martelage_mode_paused">EN PAUSE</string>
+    <string name="martelage_mode_rain_risk">Risque pluie</string>
+    <string name="martelage_quick_entry_category">Catégorie de coupe</string>
+    <string name="martelage_quick_record_stem">Enregistrer la tige</string>
+    <string name="martelage_session_added_format">+%d session</string>
+    <string name="evolution_martelage_history_title">Synthèses de martelage</string>
+    <string name="evolution_martelage_duration_format">Durée : %d min</string>
+    <string name="evolution_martelage_view_synthesis">Voir la synthèse complète</string>
+
+    <!-- DiagnosticHubScreen -->
+    <string name="diag_hub_title">Diagnostics</string>
+    <string name="diag_hub_choose_type">Choisissez un type de diagnostic</string>
+    <string name="diag_hub_choose_foret">Choisissez une forêt</string>
+    <string name="diag_hub_choose_parcelles">Sélectionnez les parcelles</string>
+    <string name="diag_hub_choose_placettes">Sélectionnez les placettes</string>
+    <string name="diag_hub_summary_title">Récapitulatif</string>
+    <string name="diag_hub_summary_type">Type de diagnostic</string>
+    <string name="diag_hub_summary_foret">Forêt</string>
+    <string name="diag_hub_summary_parcelles">Parcelles</string>
+    <string name="diag_hub_summary_placettes">Placettes</string>
+    <string name="diag_hub_summary_placettes_count">%d placette(s) sélectionnée(s)</string>
+    <string name="diag_hub_summary_hint">Le diagnostic sera lancé pour la première entité sélectionnée. Le support multi-entités sera disponible dans une prochaine version.</string>
+    <string name="diag_hub_next">Suivant</string>
+    <string name="diag_hub_launch">Lancer</string>
+    <string name="diag_hub_no_forets">Aucune forêt enregistrée.</string>
+    <string name="diag_hub_no_parcelles">Aucune parcelle dans cette forêt.</string>
+    <string name="diag_hub_no_placettes">Aucune placette dans cette parcelle.</string>
+    <string name="diag_type_ibp">IBP</string>
+    <string name="diag_type_ibp_desc">Indice de Biodiversité Potentielle</string>
+    <string name="diag_type_station">Diagnostic station</string>
+    <string name="diag_type_station_desc">Conditions stationnelles et fertilité</string>
+    <string name="diag_type_ripisylve">Diagnostic ripisylve</string>
+    <string name="diag_type_ripisylve_desc">Végétation des bords de cours d\'eau</string>
+    <string name="diag_type_sylvicole">Diagnostic sylvicole</string>
+    <string name="diag_type_sylvicole_desc">État et classification du peuplement</string>
+    <string name="diag_wizard_step_type">Étape 1 — Type</string>
+    <string name="diag_wizard_step_foret">Étape 2 — Forêt</string>
+    <string name="diag_wizard_step_parcelles">Étape 3 — Parcelles</string>
+    <string name="diag_wizard_step_placettes">Étape 4 — Placettes</string>
+    <string name="diag_wizard_step_summary">Récapitulatif</string>
 
     <string name="map_parcelle_title">Carte (parcelle)</string>
     <string name="map_global_title">Carte</string>
@@ -756,6 +802,17 @@
 
     <string name="martelage_summary_title">Martelage – Synthèse</string>
     <string name="martelage_parameters">Paramètres</string>
+
+    <!-- Hub V2 — titres et descriptions des cartes de navigation -->
+    <string name="martelage_hub_open_section">Ouvrir une section</string>
+    <string name="martelage_hub_synthese_title">Synthèse détaillée</string>
+    <string name="martelage_hub_synthese_desc">Indicateurs dendrométriques, biodiversité, peuplement</string>
+    <string name="martelage_hub_calcul_title">Calcul financier</string>
+    <string name="martelage_hub_calcul_desc">Revenu estimé, produits, décomposition par essence</string>
+    <string name="martelage_hub_schemas_title">Schémas</string>
+    <string name="martelage_hub_schemas_desc">Distribution diamétrique, hauteur-diamètre, types logiques</string>
+    <string name="martelage_hub_carte_title">Carte</string>
+    <string name="martelage_hub_carte_desc">Localisation des tiges marquées sur fond cartographique</string>
     <string name="martelage_details">Détails</string>
 
     <string name="martelage_included_parcelles_format">Parcelles incluses : %1$s</string>
@@ -1591,6 +1648,7 @@
     <string name="onboarding_height_b2">Estimation de précision affichée pour chaque mesure (±0,5° à ±2°)</string>
     <string name="onboarding_height_b3">Hauteur de référence réglable, guide de positionnement à hauteur de taille</string>
     <string name="tab_synthesis">Synthèse</string>
+    <string name="tab_dendrometry">Dendrométrie</string>
     <string name="tab_valuation">Valorisation</string>
     <string name="tab_analysis">Écologie</string>
 

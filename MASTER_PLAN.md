@@ -84,6 +84,8 @@ L'ambition est de fournir :
 
 ### 2.1 Version
 
+> Les valeurs ci-dessous sont un instantané vérifié le 2026-07-17. Les métadonnées de build actuelles sont générées dans [docs/APP_VERSION.md](docs/APP_VERSION.md).
+
 - **versionName** : 2.4.0
 - **versionCode** : 10
 - **DB version** : 32 (était 29 au 2026-06-29 — 3 migrations ajoutées depuis)
@@ -868,7 +870,7 @@ Voir `CONTRIBUTING.md` et `global_rules.md` :
 | Document | Rôle | Statut |
 |---|---|---|
 | `MASTER_PLAN.md` (ce fichier) | Vision + plan + écosystème | **Actif** (révisé 2026-07-17) |
-| `AI_CONTEXT.md` | Contexte technique du code | Actif — **aligné v2.4.0, DB v32, SQLCipher et pinning** |
+| `AI_CONTEXT.md` | Contexte technique historique ; build courant dans `docs/APP_VERSION.md` | À revalider (constats datés du 2026-07-17) |
 | `.devin/AGENT_COORDINATION.md` | Protocole d'admission des rapports d'agents externes | **Actif** (créé 2026-07-01) |
 | `docs/REFERENTIELS_FORESTIERS_EXTERNES.md` | 18 sources officielles/scientifiques pour fiabiliser cubage/prix/IBP/GRECO | **Actif** (créé 2026-07-01) |
 | `docs/recherche/` | Scaffold + méthodologie pour les futures recherches multi-agents sourcées | **Actif** (créé 2026-07-01, dossiers vides à peupler) |

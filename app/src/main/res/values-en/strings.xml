@@ -1213,6 +1213,7 @@
     <string name="nav_arrived">Arrived!</string>
     <string name="nav_accuracy">GPS ±%1$s m</string>
     <string name="tab_synthesis">Synthesis</string>
+    <string name="tab_dendrometry">Dendrometry</string>
     <string name="tab_valuation">Valuation</string>
     <string name="tab_analysis">Ecology</string>
 

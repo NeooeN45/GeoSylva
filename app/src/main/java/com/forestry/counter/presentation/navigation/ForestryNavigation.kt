@@ -103,7 +103,9 @@ sealed class Screen(val route: String) {
     object DiagnosticResult : Screen("diagnostic/result/{diagnosticId}") {
         fun createRoute(diagnosticId: String) = "diagnostic/result/$diagnosticId"
     }
+    object DiagnosticHub : Screen("diagnostic/hub")
     object Onboarding : Screen("onboarding")
+    object PackWizard : Screen("pack_wizard")
 
     /**
      * Porte d'entrée de l'application, au tout premier lancement.
@@ -239,10 +241,9 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
         },
     )
 
-    // Premier lancement : connexion → onboarding → accueil.
-    // Ensuite : accueil directement. La connexion n'est donc vue qu'une fois
-    // par installation, ce qui justifie d'y placer la vidéo de présentation.
-    val startDest = if (onboardingCompleted) BottomNavDestination.startRoute else Screen.Welcome.route
+    // Premier lancement : sélection du métier → connexion → accueil.
+    // Le wizard de packs départementaux sera déclenché depuis l'app après connexion.
+    val startDest = if (onboardingCompleted) BottomNavDestination.startRoute else Screen.ProfessionSelection.route
 
     MainScaffold(navController = navController, app = app, hideBottomBar = carteMode != null) { innerModifier ->
         NavHost(
@@ -256,15 +257,15 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                 popEnterTransition = transitions.popEnter,
                 popExitTransition = transitions.popExit,
             ) {
-                val goToProfessionSelection = {
-                    navController.navigate(Screen.ProfessionSelection.route) {
+                val goToApp: () -> Unit = {
+                    navController.navigate(Screen.PackWizard.route) {
                         popUpTo(Screen.Welcome.route) { inclusive = true }
                     }
                 }
                 LoginScreen(
                     repository = app.identityRepository,
-                    onAuthenticated = goToProfessionSelection,
-                    onContinueOffline = goToProfessionSelection,
+                    onAuthenticated = goToApp,
+                    onContinueOffline = goToApp,
                     onForgotPassword = { navController.navigate(Screen.PasswordRecovery.route) },
                     onCreateAccount = { navController.navigate(Screen.Register.route) },
                     animationsEnabled = animationsEnabled,
@@ -285,10 +286,41 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                         scope.launch {
                             app.userPreferences.setUserProfession(code, customText)
                         }
-                        navController.navigate(Screen.Onboarding.route) {
+                        navController.navigate(Screen.Welcome.route) {
                             popUpTo(Screen.ProfessionSelection.route) { inclusive = true }
                         }
                     },
+                )
+            }
+
+            // Wizard de configuration des packs départementaux (premier lancement)
+            composable(
+                route = Screen.PackWizard.route,
+                enterTransition = transitions.enter,
+                exitTransition = transitions.exit,
+                popEnterTransition = transitions.popEnter,
+                popExitTransition = transitions.popExit,
+            ) {
+                val scope = rememberCoroutineScope()
+                val navigateToApp: () -> Unit = {
+                    scope.launch {
+                        app.userPreferences.completeOnboardingAndScheduleCoachMarkTour()
+                    }
+                    navController.navigate(BottomNavDestination.startRoute) {
+                        popUpTo(Screen.PackWizard.route) { inclusive = true }
+                    }
+                }
+                com.forestry.counter.presentation.screens.onboarding.PackWizardScreen(
+                    onComplete = { selectedCodes ->
+                        scope.launch {
+                            app.userPreferences.setSelectedDepartments(selectedCodes)
+                            app.userPreferences.completeOnboardingAndScheduleCoachMarkTour()
+                        }
+                        navController.navigate(BottomNavDestination.startRoute) {
+                            popUpTo(Screen.PackWizard.route) { inclusive = true }
+                        }
+                    },
+                    onSkip = navigateToApp,
                 )
             }
 
@@ -351,7 +383,7 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                                 ExplorerCategory.PARCELLES,
                                 ExplorerCategory.PLACETTES,
                                 ExplorerCategory.DIAGNOSTICS -> {
-                                    navController.navigate(Screen.Parcelles.createRoute(null))
+                                    navController.navigate(Screen.DiagnosticHub.route)
                                 }
                                 ExplorerCategory.ARBRES -> {
                                     navController.navigate(Screen.Arbres.route)

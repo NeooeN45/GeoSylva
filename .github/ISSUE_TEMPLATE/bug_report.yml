@@ -35,7 +35,7 @@ body:
     id: appversion
     attributes:
       label: Version de GeoSylva
-      placeholder: "2.4.0"
+      placeholder: "Version affichée dans Paramètres > À propos"
     validations:
       required: false
   - type: textarea

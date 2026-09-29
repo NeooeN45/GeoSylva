@@ -42,244 +42,17 @@ import com.forestry.counter.domain.calculation.MartelageStats
 import com.forestry.counter.domain.calculation.SpecialTreeEntry
 import com.forestry.counter.domain.calculation.BiodiversityIndex
 import com.forestry.counter.domain.model.Essence
+import com.forestry.counter.presentation.theme.Elevation
+import com.forestry.counter.presentation.theme.GsShape
+import com.forestry.counter.presentation.theme.SemanticError
+import com.forestry.counter.presentation.theme.SemanticInfo
+import com.forestry.counter.presentation.theme.SemanticSuccess
+import com.forestry.counter.presentation.theme.SemanticWarning
+import com.forestry.counter.presentation.theme.Space
 import com.forestry.counter.presentation.utils.ColorUtils
 import java.util.Locale
 import kotlin.math.PI
 import kotlin.math.abs
-
-/**
- * Carte Volume & Prix (inclut un indicateur de complétude si partiel).
- */
-@Composable
-internal fun VolumeCard(
-    vTotalText: String,
-    vPerHaText: String,
-    revenueTotalText: String,
-    revenuePerHaText: String,
-    volumeAvailable: Boolean,
-    volumeCompletenessPct: Double
-) {
-    var visible by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit) { visible = true }
-    AnimatedVisibility(
-        visible = visible,
-        enter = fadeIn(tween(500)) + slideInVertically(tween(500, easing = FastOutSlowInEasing)) { it / 5 }
-    ) {
-    val volumeCardBg = MaterialTheme.colorScheme.primaryContainer
-    val volumeCardContent = ColorUtils.getContrastingTextColor(volumeCardBg)
-    val volumeGradient = Brush.linearGradient(
-        colors = listOf(
-            volumeCardBg,
-            MaterialTheme.colorScheme.primary.copy(alpha = 0.20f)
-                .let { p -> Color(red = (volumeCardBg.red * 0.88f + p.red * 0.12f).coerceIn(0f,1f), green = (volumeCardBg.green * 0.92f + p.green * 0.08f).coerceIn(0f,1f), blue = (volumeCardBg.blue * 0.85f + p.blue * 0.15f).coerceIn(0f,1f), alpha = 1f) }
-        ),
-        start = Offset.Zero,
-        end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
-    )
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .shadow(6.dp, RoundedCornerShape(18.dp), spotColor = volumeCardBg.copy(alpha = 0.4f))
-            .clip(RoundedCornerShape(18.dp))
-            .drawBehind { drawRect(volumeGradient) },
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Transparent,
-            contentColor = volumeCardContent
-        )
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp)
-        ) {
-            Text(stringResource(R.string.martelage_volume_price_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
-            Text(
-                stringResource(R.string.martelage_volume_desc),
-                style = MaterialTheme.typography.bodySmall,
-                color = volumeCardContent.copy(alpha = 0.7f)
-            )
-            if (!volumeAvailable) {
-                Text(
-                    stringResource(R.string.martelage_volume_partial_format, volumeCompletenessPct),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = volumeCardContent.copy(alpha = 0.8f)
-                )
-            }
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                StatItem(label = stringResource(R.string.martelage_label_v_total), value = "$vTotalText m³")
-                StatItem(label = stringResource(R.string.martelage_label_v_per_ha), value = "$vPerHaText m³/ha")
-            }
-            HorizontalDivider(modifier = Modifier.padding(vertical = 2.dp), color = volumeCardContent.copy(alpha = 0.15f))
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                StatItem(label = stringResource(R.string.martelage_label_revenue), value = revenueTotalText)
-                StatItem(label = stringResource(R.string.martelage_label_revenue_per_ha), value = revenuePerHaText)
-            }
-        }
-    }
-    } // AnimatedVisibility
-}
-
-/**
- * Carte Surface terrière (G prélevé / G/ha) avec surface en ha.
- */
-@Composable
-internal fun BasalAreaCard(
-    gTotal: Double,
-    gPerHa: Double,
-    surfaceHa: Double? = null,
-    ratioVG: Double? = null
-) {
-    var visible by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit) { visible = true }
-    AnimatedVisibility(
-        visible = visible,
-        enter = fadeIn(tween(500, delayMillis = 100)) + slideInVertically(tween(500, delayMillis = 100, easing = FastOutSlowInEasing)) { it / 5 }
-    ) {
-    val surfaceCardBg = MaterialTheme.colorScheme.secondaryContainer
-    val surfaceCardContent = ColorUtils.getContrastingTextColor(surfaceCardBg)
-    val basalGradient = Brush.linearGradient(
-        colors = listOf(
-            surfaceCardBg,
-            MaterialTheme.colorScheme.secondary.copy(alpha = 0.18f)
-                .let { s -> Color(red = (surfaceCardBg.red * 0.88f + s.red * 0.12f).coerceIn(0f,1f), green = (surfaceCardBg.green * 0.90f + s.green * 0.10f).coerceIn(0f,1f), blue = (surfaceCardBg.blue * 0.87f + s.blue * 0.13f).coerceIn(0f,1f), alpha = 1f) }
-        ),
-        start = Offset(Float.POSITIVE_INFINITY, 0f),
-        end = Offset(0f, Float.POSITIVE_INFINITY)
-    )
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .shadow(5.dp, RoundedCornerShape(18.dp), spotColor = surfaceCardBg.copy(alpha = 0.35f))
-            .clip(RoundedCornerShape(18.dp))
-            .drawBehind { drawRect(basalGradient) },
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Transparent,
-            contentColor = surfaceCardContent
-        )
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp)
-        ) {
-            Text(stringResource(R.string.martelage_basal_area_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
-            Text(
-                stringResource(R.string.martelage_basal_area_desc),
-                style = MaterialTheme.typography.bodySmall,
-                color = surfaceCardContent.copy(alpha = 0.7f)
-            )
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                StatItem(label = stringResource(R.string.martelage_label_g_total), value = "${formatG(gTotal)} m²")
-                StatItem(label = stringResource(R.string.martelage_label_g_per_ha), value = "${formatG(gPerHa)} m²/ha")
-            }
-            if (surfaceHa != null || ratioVG != null) {
-                HorizontalDivider(modifier = Modifier.padding(vertical = 2.dp), color = surfaceCardContent.copy(alpha = 0.15f))
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    if (surfaceHa != null) {
-                        StatItem(
-                            label = stringResource(R.string.martelage_label_surface),
-                            value = String.format(Locale.getDefault(), "%.4f ha", surfaceHa)
-                        )
-                    }
-                    if (ratioVG != null) {
-                        StatItem(
-                            label = stringResource(R.string.martelage_label_ratio_vg),
-                            value = String.format(Locale.getDefault(), "%.1f", ratioVG)
-                        )
-                    }
-                }
-            }
-        }
-    }
-    } // AnimatedVisibility
-}
-
-/**
- * Carte Densité & structure dendrométrique complète.
- */
-@Composable
-internal fun DensityCard(
-    nTotal: Int,
-    nPerHa: Double,
-    dm: Double?,
-    meanH: Double?,
-    dg: Double?,
-    hLorey: Double?,
-    dMin: Double?,
-    dMax: Double?,
-    cvDiam: Double?,
-    placeholderDash: String
-) {
-    var visible by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit) { visible = true }
-    AnimatedVisibility(
-        visible = visible,
-        enter = fadeIn(tween(500, delayMillis = 200)) + slideInVertically(tween(500, delayMillis = 200, easing = FastOutSlowInEasing)) { it / 5 }
-    ) {
-    val densityCardBg = MaterialTheme.colorScheme.tertiaryContainer
-    val densityCardContent = ColorUtils.getContrastingTextColor(densityCardBg)
-    val densityGradient = Brush.linearGradient(
-        colors = listOf(
-            densityCardBg,
-            MaterialTheme.colorScheme.tertiary.copy(alpha = 0.20f)
-                .let { t -> Color(red = (densityCardBg.red * 0.87f + t.red * 0.13f).coerceIn(0f,1f), green = (densityCardBg.green * 0.90f + t.green * 0.10f).coerceIn(0f,1f), blue = (densityCardBg.blue * 0.86f + t.blue * 0.14f).coerceIn(0f,1f), alpha = 1f) }
-        ),
-        start = Offset.Zero,
-        end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
-    )
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .shadow(5.dp, RoundedCornerShape(18.dp), spotColor = densityCardBg.copy(alpha = 0.35f))
-            .clip(RoundedCornerShape(18.dp))
-            .drawBehind { drawRect(densityGradient) },
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Transparent,
-            contentColor = densityCardContent
-        )
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp)
-        ) {
-            Text(stringResource(R.string.martelage_density_structure_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-            Text(
-                stringResource(R.string.martelage_density_desc),
-                style = MaterialTheme.typography.bodySmall,
-                color = densityCardContent.copy(alpha = 0.7f)
-            )
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                StatItem(label = stringResource(R.string.martelage_label_n_total), value = "$nTotal")
-                StatItem(label = stringResource(R.string.martelage_label_n_per_ha), value = "${formatIntPerHa(nPerHa)}/ha")
-            }
-            HorizontalDivider(modifier = Modifier.padding(vertical = 2.dp), color = densityCardContent.copy(alpha = 0.15f))
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                StatItem(label = stringResource(R.string.martelage_label_dm), value = "${formatDiameter(dm, placeholderDash)} cm")
-                StatItem(label = stringResource(R.string.martelage_label_dg), value = "${formatDiameter(dg, placeholderDash)} cm")
-            }
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                StatItem(label = stringResource(R.string.martelage_label_hm), value = "${formatHeight(meanH, placeholderDash)} m")
-                StatItem(label = stringResource(R.string.martelage_label_hlorey), value = "${formatHeight(hLorey, placeholderDash)} m")
-            }
-            if (dMin != null || dMax != null || cvDiam != null) {
-                HorizontalDivider(modifier = Modifier.padding(vertical = 2.dp), color = densityCardContent.copy(alpha = 0.15f))
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    if (dMin != null && dMax != null) {
-                        StatItem(
-                            label = stringResource(R.string.martelage_label_d_range),
-                            value = "${formatDiameter(dMin, placeholderDash)} – ${formatDiameter(dMax, placeholderDash)} cm"
-                        )
-                    }
-                    if (cvDiam != null) {
-                        StatItem(
-                            label = stringResource(R.string.martelage_label_cv_diam),
-                            value = String.format(Locale.getDefault(), "%.0f %%", cvDiam)
-                        )
-                    }
-                }
-            }
-        }
-    }
-    } // AnimatedVisibility
-}
 
 /**
  * Carte simulation de coupe — taux de prélèvement et peuplement résiduel.
@@ -297,14 +70,14 @@ internal fun HarvestSimulationCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(18.dp)),
+            .clip(GsShape.lg),
         colors = CardDefaults.cardColors(
             containerColor = cardBg,
             contentColor = cardContent
         )
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(Space.md),
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             Text(
@@ -374,14 +147,14 @@ internal fun ClassDistributionCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(18.dp)),
+            .clip(GsShape.lg),
         colors = CardDefaults.cardColors(
             containerColor = cardBg,
             contentColor = cardContent
         )
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(Space.md),
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             Text(stringResource(R.string.martelage_class_distribution_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
@@ -474,14 +247,14 @@ internal fun QualityDistributionCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(18.dp)),
+            .clip(GsShape.lg),
         colors = CardDefaults.cardColors(
             containerColor = cardBg,
             contentColor = cardContent
         )
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(Space.md),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
@@ -518,7 +291,7 @@ internal fun QualityDistributionCard(
                     // Badge grade
                     Surface(
                         color = gradeColor,
-                        shape = RoundedCornerShape(6.dp),
+                        shape = GsShape.xs,
                         modifier = Modifier.width(32.dp)
                     ) {
                         Text(
@@ -542,7 +315,7 @@ internal fun QualityDistributionCard(
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .fillMaxWidth(animatedFraction)
-                                .clip(RoundedCornerShape(4.dp))
+                                .clip(GsShape.xs)
                                 .background(
                                     Brush.horizontalGradient(
                                         listOf(gradeColor.copy(alpha = 0.85f), gradeColor.copy(alpha = 0.4f))
@@ -593,14 +366,14 @@ internal fun PerEssenceTable(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(18.dp)),
+            .clip(GsShape.lg),
         colors = CardDefaults.cardColors(
             containerColor = perEssenceCardBg,
             contentColor = perEssenceCardContent
         )
     ) {
         Column(
-            modifier = Modifier.padding(12.dp),
+            modifier = Modifier.padding(Space.sm),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             for (row in perEssence) {
@@ -611,10 +384,10 @@ internal fun PerEssenceTable(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(containerColor = bg, contentColor = rowTextColor),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = GsShape.md
                 ) {
                     Column(
-                        modifier = Modifier.padding(12.dp),
+                        modifier = Modifier.padding(Space.sm),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Row(
@@ -640,7 +413,7 @@ internal fun PerEssenceTable(
                                     }
                                     Surface(
                                         color = qColor,
-                                        shape = RoundedCornerShape(4.dp)
+                                        shape = GsShape.xs
                                     ) {
                                         Text(
                                             row.dominantQuality.shortLabel,
@@ -748,21 +521,21 @@ internal fun SanityWarningsCard(warnings: List<SanityWarning>) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(18.dp)),
+            .clip(GsShape.lg),
         colors = CardDefaults.cardColors(
             containerColor = cardBg,
             contentColor = cardContent
         )
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(Space.md),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Icon(
                     if (hasErrors) Icons.Default.Error else Icons.Default.Warning,
                     contentDescription = null,
-                    tint = if (hasErrors) MaterialTheme.colorScheme.error else Color(0xFFF57C00)
+                    tint = if (hasErrors) MaterialTheme.colorScheme.error else SemanticWarning
                 )
                 Text(
                     stringResource(R.string.sanity_card_title),
@@ -778,7 +551,7 @@ internal fun SanityWarningsCard(warnings: List<SanityWarning>) {
             }
             if (warns.isNotEmpty()) {
                 warns.take(5).forEach { w ->
-                    SanityRow(w, Color(0xFFF57C00))
+                    SanityRow(w, SemanticWarning)
                 }
             }
             if (infos.isNotEmpty()) {
@@ -837,14 +610,14 @@ internal fun SpecialTreesCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(18.dp)),
+            .clip(GsShape.lg),
         colors = CardDefaults.cardColors(
             containerColor = cardBg,
             contentColor = cardContent
         )
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(Space.md),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Text(
@@ -868,7 +641,7 @@ internal fun SpecialTreesCard(
                 ) {
                     Surface(
                         color = color.copy(alpha = 0.15f),
-                        shape = RoundedCornerShape(6.dp)
+                        shape = GsShape.xs
                     ) {
                         Text(
                             icon,
@@ -884,7 +657,7 @@ internal fun SpecialTreesCard(
                     )
                     Surface(
                         color = color.copy(alpha = 0.2f),
-                        shape = RoundedCornerShape(8.dp)
+                        shape = GsShape.sm
                     ) {
                         Text(
                             "${entry.count}",
@@ -950,10 +723,10 @@ internal fun BiodiversityCard(
     val cardContent = ColorUtils.getContrastingTextColor(cardBg)
     val ibpPct = if (bio.ibpMax > 0) bio.ibpScore.toFloat() / bio.ibpMax.toFloat() else 0f
     val scoreColor = when {
-        ibpPct >= 0.7f -> Color(0xFF2E7D32)
+        ibpPct >= 0.7f -> SemanticSuccess
         ibpPct >= 0.5f -> Color(0xFF558B2F)
         ibpPct >= 0.3f -> Color(0xFFEF6C00)
-        else -> Color(0xFFC62828)
+        else -> SemanticError
     }
     val ibpLevelRes = when {
         ibpPct >= 0.7f -> R.string.biodiversity_level_very_good
@@ -970,10 +743,10 @@ internal fun BiodiversityCard(
         else -> R.string.biodiversity_shannon_mono
     }
     val shannonColor = when {
-        bio.shannonH >= 2.5 -> Color(0xFF2E7D32)
+        bio.shannonH >= 2.5 -> SemanticSuccess
         bio.shannonH >= 1.5 -> Color(0xFF558B2F)
         bio.shannonH >= 0.5 -> Color(0xFFEF6C00)
-        else -> Color(0xFFC62828)
+        else -> SemanticError
     }
     // Pielou interpretation
     val pielou = bio.pielou
@@ -985,9 +758,9 @@ internal fun BiodiversityCard(
     }
     val pieloulColor = when {
         pielou == null -> cardContent
-        pielou >= 0.7 -> Color(0xFF2E7D32)
+        pielou >= 0.7 -> SemanticSuccess
         pielou >= 0.4 -> Color(0xFFEF6C00)
-        else -> Color(0xFFC62828)
+        else -> SemanticError
     }
 
     val bioGradient = Brush.linearGradient(
@@ -1017,8 +790,8 @@ internal fun BiodiversityCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .shadow(5.dp, RoundedCornerShape(18.dp), spotColor = scoreColor.copy(alpha = 0.25f))
-            .clip(RoundedCornerShape(18.dp))
+            .shadow(5.dp, GsShape.lg, spotColor = scoreColor.copy(alpha = 0.25f))
+            .clip(GsShape.lg)
             .drawBehind { drawRect(bioGradient) },
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent,
@@ -1026,7 +799,7 @@ internal fun BiodiversityCard(
         )
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(Space.md),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             // Header row: title + IBP score badge
@@ -1044,7 +817,7 @@ internal fun BiodiversityCard(
                 )
                 Surface(
                     color = scoreColor.copy(alpha = pulseAlpha),
-                    shape = RoundedCornerShape(10.dp)
+                    shape = GsShape.sm
                 ) {
                     Text(
                         stringResource(R.string.biodiversity_ibp_score, bio.ibpScore, bio.ibpMax),
@@ -1056,7 +829,7 @@ internal fun BiodiversityCard(
                 }
                 Surface(
                     color = scoreColor.copy(alpha = 0.12f),
-                    shape = RoundedCornerShape(6.dp)
+                    shape = GsShape.xs
                 ) {
                     Text(
                         stringResource(ibpLevelRes),
@@ -1074,7 +847,7 @@ internal fun BiodiversityCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(8.dp)
-                    .clip(RoundedCornerShape(4.dp)),
+                    .clip(GsShape.xs),
                 color = scoreColor,
                 trackColor = cardContent.copy(alpha = 0.08f)
             )
@@ -1097,7 +870,7 @@ internal fun BiodiversityCard(
                         )
                         Surface(
                             color = shannonColor.copy(alpha = 0.15f),
-                            shape = RoundedCornerShape(4.dp)
+                            shape = GsShape.xs
                         ) {
                             Text(
                                 stringResource(shannonLevelRes),
@@ -1130,7 +903,7 @@ internal fun BiodiversityCard(
                         if (pieloulLevelRes != null) {
                             Surface(
                                 color = pieloulColor.copy(alpha = 0.15f),
-                                shape = RoundedCornerShape(4.dp)
+                                shape = GsShape.xs
                             ) {
                                 Text(
                                     stringResource(pieloulLevelRes),
@@ -1162,7 +935,7 @@ internal fun BiodiversityCard(
             ) {
                 Surface(
                     color = cardContent.copy(alpha = 0.08f),
-                    shape = RoundedCornerShape(6.dp)
+                    shape = GsShape.xs
                 ) {
                     Text(
                         stringResource(R.string.biodiversity_species) + ": ${bio.speciesCount}",
@@ -1172,7 +945,7 @@ internal fun BiodiversityCard(
                     )
                 }
                 if (bio.tgbCount > 0) {
-                    Surface(color = Color(0xFF795548).copy(alpha = 0.15f), shape = RoundedCornerShape(6.dp)) {
+                    Surface(color = Color(0xFF795548).copy(alpha = 0.15f), shape = GsShape.xs) {
                         Text(
                             stringResource(R.string.biodiversity_tgb, bio.tgbCount),
                             style = MaterialTheme.typography.labelSmall,
@@ -1182,17 +955,17 @@ internal fun BiodiversityCard(
                     }
                 }
                 if (bio.bioTreeCount > 0) {
-                    Surface(color = Color(0xFF4CAF50).copy(alpha = 0.15f), shape = RoundedCornerShape(6.dp)) {
+                    Surface(color = Color(0xFF4CAF50).copy(alpha = 0.15f), shape = GsShape.xs) {
                         Text(
                             stringResource(R.string.biodiversity_bio_trees, bio.bioTreeCount),
                             style = MaterialTheme.typography.labelSmall,
-                            color = Color(0xFF2E7D32),
+                            color = SemanticSuccess,
                             modifier = Modifier.padding(horizontal = 6.dp, vertical = 4.dp)
                         )
                     }
                 }
                 if (bio.deadTreeCount > 0) {
-                    Surface(color = Color(0xFF424242).copy(alpha = 0.12f), shape = RoundedCornerShape(6.dp)) {
+                    Surface(color = Color(0xFF424242).copy(alpha = 0.12f), shape = GsShape.xs) {
                         Text(
                             stringResource(R.string.biodiversity_dead_trees, bio.deadTreeCount),
                             style = MaterialTheme.typography.labelSmall,
@@ -1202,7 +975,7 @@ internal fun BiodiversityCard(
                     }
                 }
                 if (bio.dyingTreeCount > 0) {
-                    Surface(color = Color(0xFFFF9800).copy(alpha = 0.15f), shape = RoundedCornerShape(6.dp)) {
+                    Surface(color = Color(0xFFFF9800).copy(alpha = 0.15f), shape = GsShape.xs) {
                         Text(
                             stringResource(R.string.biodiversity_dying_trees, bio.dyingTreeCount),
                             style = MaterialTheme.typography.labelSmall,
@@ -1241,10 +1014,10 @@ internal fun StandFertilityCard(
     ) {
         Card(
             modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(18.dp),
+            shape = GsShape.lg,
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
         ) {
-            Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Column(modifier = Modifier.padding(Space.md), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -1252,7 +1025,7 @@ internal fun StandFertilityCard(
                     Icon(
                         Icons.Default.Forest,
                         contentDescription = null,
-                        tint = Color(0xFF2E7D32),
+                        tint = SemanticSuccess,
                         modifier = Modifier.size(20.dp)
                     )
                     Text(
@@ -1272,15 +1045,15 @@ internal fun StandFertilityCard(
                 fertilityResults.forEachIndexed { idx, result ->
                     val classColor = Color(result.fertilityClass.color)
                     val confColor = when (result.confidence) {
-                        ConfidenceLevel.HIGH         -> Color(0xFF2E7D32)
+                        ConfidenceLevel.HIGH         -> SemanticSuccess
                         ConfidenceLevel.MEDIUM       -> Color(0xFFF9A825)
                         ConfidenceLevel.LOW          -> Color(0xFFEF6C00)
                         ConfidenceLevel.INSUFFICIENT -> Color(0xFF757575)
                     }
                     val zoneColor = when (result.zoneCompatibility) {
-                        ZoneCompatibility.OPTIMAL    -> Color(0xFF2E7D32)
+                        ZoneCompatibility.OPTIMAL    -> SemanticSuccess
                         ZoneCompatibility.ACCEPTABLE -> Color(0xFFF9A825)
-                        ZoneCompatibility.SUBOPTIMAL -> Color(0xFFC62828)
+                        ZoneCompatibility.SUBOPTIMAL -> SemanticError
                     }
                     val targetFrac = when (result.fertilityClass) {
                         FertilityClass.I       -> 1.0f
@@ -1306,7 +1079,7 @@ internal fun StandFertilityCard(
                             ) {
                                 Surface(
                                     color = classColor,
-                                    shape = RoundedCornerShape(8.dp)
+                                    shape = GsShape.sm
                                 ) {
                                     Text(
                                         "Cl. ${result.fertilityClass.roman}",
@@ -1344,7 +1117,7 @@ internal fun StandFertilityCard(
                                 Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                                     Surface(
                                         color = confColor.copy(alpha = 0.12f),
-                                        shape = RoundedCornerShape(6.dp)
+                                        shape = GsShape.xs
                                     ) {
                                         Text(
                                             result.confidence.label,
@@ -1355,7 +1128,7 @@ internal fun StandFertilityCard(
                                     }
                                     Surface(
                                         color = zoneColor.copy(alpha = 0.12f),
-                                        shape = RoundedCornerShape(6.dp)
+                                        shape = GsShape.xs
                                     ) {
                                         Text(
                                             result.zoneCompatibility.icon + " Zone",
@@ -1368,12 +1141,12 @@ internal fun StandFertilityCard(
                             }
                         }
                         Box(
-                            Modifier.fillMaxWidth().height(7.dp).clip(RoundedCornerShape(4.dp))
+                            Modifier.fillMaxWidth().height(7.dp).clip(GsShape.xs)
                                 .background(MaterialTheme.colorScheme.outline.copy(alpha = 0.12f))
                         ) {
                             Box(
                                 Modifier.fillMaxHeight().fillMaxWidth(animFraction)
-                                    .clip(RoundedCornerShape(4.dp))
+                                    .clip(GsShape.xs)
                                     .background(
                                         Brush.horizontalGradient(
                                             listOf(classColor, classColor.copy(alpha = 0.6f))
@@ -1533,8 +1306,8 @@ internal fun CorroborationReportCard(stats: MartelageStats) {
     ) {
         val headerColor = when (worstStatus) {
             CorrStatus.ERROR -> MaterialTheme.colorScheme.error
-            CorrStatus.WARN  -> Color(0xFFF57C00)
-            CorrStatus.OK    -> Color(0xFF2E7D32)
+            CorrStatus.WARN  -> SemanticWarning
+            CorrStatus.OK    -> SemanticSuccess
         }
         val cardBg = MaterialTheme.colorScheme.surfaceVariant
         val cardContent = ColorUtils.getContrastingTextColor(cardBg)
@@ -1543,12 +1316,12 @@ internal fun CorroborationReportCard(stats: MartelageStats) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .shadow(4.dp, RoundedCornerShape(18.dp))
-                .clip(RoundedCornerShape(18.dp)),
+                .shadow(4.dp, GsShape.lg)
+                .clip(GsShape.lg),
             colors = CardDefaults.cardColors(containerColor = cardBg, contentColor = cardContent)
         ) {
             Column(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(Space.md),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Row(
@@ -1570,7 +1343,7 @@ internal fun CorroborationReportCard(stats: MartelageStats) {
                     )
                     Surface(
                         color = headerColor.copy(alpha = 0.13f),
-                        shape = RoundedCornerShape(8.dp)
+                        shape = GsShape.sm
                     ) {
                         Text(
                             "$okCount / ${checks.size} OK",
@@ -1594,8 +1367,8 @@ internal fun CorroborationReportCard(stats: MartelageStats) {
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         val (icon, tint) = when (check.status) {
-                            CorrStatus.OK    -> Icons.Default.Info    to Color(0xFF2E7D32)
-                            CorrStatus.WARN  -> Icons.Default.Warning to Color(0xFFF57C00)
+                            CorrStatus.OK    -> Icons.Default.Info    to SemanticSuccess
+                            CorrStatus.WARN  -> Icons.Default.Warning to SemanticWarning
                             CorrStatus.ERROR -> Icons.Default.Error   to MaterialTheme.colorScheme.error
                         }
                         Icon(
@@ -1656,12 +1429,12 @@ internal fun SylviculturalKPIsCard(stats: MartelageStats) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .shadow(4.dp, RoundedCornerShape(18.dp))
-                .clip(RoundedCornerShape(18.dp)),
+                .shadow(4.dp, GsShape.lg)
+                .clip(GsShape.lg),
             colors = CardDefaults.cardColors(containerColor = cardBg, contentColor = cardContent)
         ) {
             Column(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(Space.md),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Row(
@@ -1670,7 +1443,7 @@ internal fun SylviculturalKPIsCard(stats: MartelageStats) {
                 ) {
                     Icon(
                         Icons.Default.Forest, null,
-                        tint = Color(0xFF2E7D32),
+                        tint = SemanticSuccess,
                         modifier = Modifier.size(20.dp)
                     )
                     Text(
@@ -1696,10 +1469,10 @@ internal fun SylviculturalKPIsCard(stats: MartelageStats) {
                 if (dg != null && meanH != null && dg > 0.0 && isResineuxDominant) {
                     val slend = meanH / (dg / 100.0)
                     val (sc, sl) = when {
-                        slend < 70  -> Color(0xFF2E7D32) to "Très stable"
+                        slend < 70  -> SemanticSuccess to "Très stable"
                         slend < 85  -> Color(0xFF558B2F) to "Stable"
                         slend < 100 -> Color(0xFFF9A825) to "Normal"
-                        else        -> Color(0xFFC62828) to "Élancé — risque vent"
+                        else        -> SemanticError to "Élancé — risque vent"
                     }
                     SylvKPIRow(
                         label = stringResource(R.string.martelage_elancement_hd),
@@ -1714,9 +1487,9 @@ internal fun SylviculturalKPIsCard(stats: MartelageStats) {
                     val (gc, gl) = when {
                         gPerHa < 10.0 -> Color(0xFFEF6C00) to "Densité faible"
                         gPerHa < 20.0 -> Color(0xFF558B2F) to "Densité modérée"
-                        gPerHa < 35.0 -> Color(0xFF2E7D32) to "Densité normale"
+                        gPerHa < 35.0 -> SemanticSuccess to "Densité normale"
                         gPerHa < 50.0 -> Color(0xFFF9A825) to "Peuplement dense"
-                        else          -> Color(0xFFC62828) to "Surpeuplement"
+                        else          -> SemanticError to "Surpeuplement"
                     }
                     SylvKPIRow(
                         label = stringResource(R.string.martelage_surface_terriere),
@@ -1747,9 +1520,9 @@ internal fun SylviculturalKPIsCard(stats: MartelageStats) {
                     val (nc, nl) = when {
                         nPerHa < 100  -> Color(0xFFEF6C00) to "Peuplement clair"
                         nPerHa < 300  -> Color(0xFF558B2F) to "Densité normale"
-                        nPerHa < 700  -> Color(0xFF2E7D32) to "Peuplement fourni"
+                        nPerHa < 700  -> SemanticSuccess to "Peuplement fourni"
                         nPerHa < 1500 -> Color(0xFFF9A825) to "Densité élevée"
-                        else          -> Color(0xFFC62828) to "Très dense — concurrence forte"
+                        else          -> SemanticError to "Très dense — concurrence forte"
                     }
                     SylvKPIRow(
                         label = stringResource(R.string.martelage_densite_nha),
@@ -1792,7 +1565,7 @@ private fun SylvKPIRow(
         }
         Surface(
             color = statusColor.copy(alpha = 0.13f),
-            shape = RoundedCornerShape(8.dp)
+            shape = GsShape.sm
         ) {
             Text(
                 statusLabel,
@@ -1801,211 +1574,6 @@ private fun SylvKPIRow(
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
             )
-        }
-    }
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// CARTE AIDE CONTEXTUELLE — QUALITÉ DES DONNÉES ET PROCHAINES ÉTAPES
-// ═══════════════════════════════════════════════════════════════════════════
-
-@Composable
-internal fun DataCompletenessCard(stats: MartelageStats) {
-    // ── Score de complétude (0–100) ──────────────────────────────────────
-    val completenessScore = run {
-        var score = 0
-        if (stats.nTotal > 0)                     score += 20
-        // volumeCompletenessPct est un pourcentage (0..100), pas une fraction.
-        if (stats.volumeCompletenessPct > 50.0)    score += 20
-        if (stats.volumeCompletenessPct > 90.0)    score += 10
-        if (stats.qualityAssessedCount > 0)        score += 15
-        if (stats.qualityAssessedCount >= stats.qualityTotalCount && stats.qualityTotalCount > 0) score += 10
-        if (stats.surfaceHa > 0)                  score += 10
-        if (stats.biodiversity != null)            score += 10
-        if (stats.specialTrees.isNotEmpty())       score += 5
-        score.coerceIn(0, 100)
-    }
-
-    val scoreColor = when {
-        completenessScore >= 80 -> Color(0xFF2E7D32)
-        completenessScore >= 50 -> Color(0xFFF57C00)
-        else                    -> Color(0xFFC62828)
-    }
-    val scoreLabel = when {
-        completenessScore >= 80 -> "Données complètes"
-        completenessScore >= 50 -> "Données partielles"
-        else                    -> "Données insuffisantes"
-    }
-
-    // ── Liste des conseils contextuels ────────────────────────────────────
-    data class Tip(val icon: String, val title: String, val body: String, val urgent: Boolean = false)
-    val tips = buildList {
-        if (stats.nTotal < 10) add(Tip("📏", "Échantillon réduit",
-            "Seulement ${stats.nTotal} tige(s). La précision des indicateurs est faible. Visez ≥ 30 tiges pour une analyse fiable.", urgent = true))
-        if (stats.surfaceHa <= 0.0) add(Tip("📐", "Surface non renseignée",
-            "Sans surface connue, les indicateurs /ha sont incorrects. Renseignez la surface de la parcelle.", urgent = true))
-        if (stats.volumeCompletenessPct < 50.0) add(Tip("📡", "Hauteurs manquantes",
-            "${(100 - stats.volumeCompletenessPct).toInt()}% des tiges n'ont pas de hauteur. " +
-            "Utilisez un tarif 1 entrée (Schaeffer, IFN Rapide ou Chaudé) ou saisissez des hauteurs d'arbres-type.", urgent = true))
-        else if (stats.volumeCompletenessPct < 90.0) add(Tip("📡", "Quelques hauteurs manquantes",
-            "${stats.missingHeightEssenceNames.take(3).joinToString(", ")} — " +
-            "l'application estime le volume pour ces essences via tarif 1 entrée."))
-        if (stats.qualityAssessedCount == 0 && stats.nTotal > 0) add(Tip("🔍", "Qualité non évaluée",
-            "Aucune tige n'a de classe de qualité (A–D ou 1–5). L'évaluation qualité améliore l'estimation de valorisation."))
-        else if (stats.qualityAssessedCount < stats.qualityTotalCount / 2) add(Tip("🔍", "Qualité évaluée sur ${(stats.qualityAssessedCount * 100.0 / stats.qualityTotalCount.coerceAtLeast(1)).toInt()}% des tiges",
-            "Complétez l'évaluation qualité pour un rapport de valorisation plus précis."))
-        if (stats.sanityWarnings.any { it.severity == com.forestry.counter.domain.calculation.SanitySeverity.ERROR })
-            add(Tip("⚠️", "Erreurs de cohérence détectées",
-                "Des incohérences critiques ont été détectées dans les données. Consultez l'onglet Alertes sanitaires.", urgent = true))
-        if (stats.ratioVG != null && (stats.ratioVG < 4.0 || stats.ratioVG > 22.0))
-            add(Tip("🔢", "Ratio V/G anormal (${stats.ratioVG.let { "%.1f".format(it) }} m³/m²)",
-                "Ce ratio suggère un problème de tarif ou des hauteurs aberrantes. Vérifiez le tarif sélectionné."))
-        if (stats.nTotal >= 10 && stats.biodiversity == null) add(Tip("🌿", "Biodiversité non calculée",
-            "Relancez le calcul avec les paramètres IBP pour obtenir l'indice de biodiversité de la parcelle."))
-    }
-
-    // ── Recommandation tarif ───────────────────────────────────────────────
-    val tarifReco = when {
-        stats.volumeCompletenessPct > 85.0 -> "Tarif 2 entrées recommandé (Algan, Schaeffer 2E, IFN Lent) — hauteurs disponibles."
-        stats.volumeCompletenessPct > 0.0  -> "Tarif mixte : 2 entrées où disponible, sinon Chaudé ou IFN Rapide pour les tiges sans hauteur."
-        else                               -> "Tarif 1 entrée recommandé : Chaudé (arbres sur pied) pour feuillus, IFN Rapide pour résineux."
-    }
-
-    var expanded by remember { mutableStateOf(false) }
-
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            // ── En-tête ──
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        "Qualité des données",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        scoreLabel,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = scoreColor,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
-                // Score circulaire
-                Box(contentAlignment = Alignment.Center, modifier = Modifier.size(56.dp)) {
-                    CircularProgressIndicator(
-                        progress = { completenessScore / 100f },
-                        modifier = Modifier.fillMaxSize(),
-                        color = scoreColor,
-                        trackColor = scoreColor.copy(alpha = 0.15f),
-                        strokeWidth = 5.dp
-                    )
-                    Text(
-                        "$completenessScore%",
-                        style = MaterialTheme.typography.labelMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = scoreColor
-                    )
-                }
-            }
-
-            Spacer(Modifier.height(12.dp))
-
-            // ── Barre de progression ──
-            LinearProgressIndicator(
-                progress = { completenessScore / 100f },
-                modifier = Modifier.fillMaxWidth().height(6.dp).clip(RoundedCornerShape(3.dp)),
-                color = scoreColor,
-                trackColor = scoreColor.copy(alpha = 0.15f)
-            )
-
-            Spacer(Modifier.height(12.dp))
-
-            // ── Recommandation tarif ──
-            Surface(
-                color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.45f),
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
-                ) {
-                    Text("📊", style = MaterialTheme.typography.bodyMedium)
-                    Spacer(Modifier.width(8.dp))
-                    Text(
-                        tarifReco,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-            }
-
-            // ── Conseils contextuels ──
-            if (tips.isNotEmpty()) {
-                Spacer(Modifier.height(10.dp))
-                val visible = if (expanded) tips else tips.take(2)
-                visible.forEach { tip ->
-                    Spacer(Modifier.height(6.dp))
-                    Surface(
-                        color = if (tip.urgent)
-                            Color(0xFFC62828).copy(alpha = 0.08f)
-                        else
-                            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(10.dp),
-                            verticalAlignment = Alignment.Top
-                        ) {
-                            Text(tip.icon, style = MaterialTheme.typography.bodyMedium)
-                            Spacer(Modifier.width(8.dp))
-                            Column {
-                                Text(
-                                    tip.title,
-                                    style = MaterialTheme.typography.labelMedium,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = if (tip.urgent) Color(0xFFC62828) else MaterialTheme.colorScheme.onSurface
-                                )
-                                Text(
-                                    tip.body,
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                    }
-                }
-                if (tips.size > 2) {
-                    Spacer(Modifier.height(6.dp))
-                    TextButton(
-                        onClick = { expanded = !expanded },
-                        modifier = Modifier.align(Alignment.End)
-                    ) {
-                        Text(
-                            if (expanded) "Masquer ▲" else "Voir ${tips.size - 2} conseil(s) supplémentaire(s) ▼",
-                            style = MaterialTheme.typography.labelSmall
-                        )
-                    }
-                }
-            } else {
-                Spacer(Modifier.height(8.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("✅", style = MaterialTheme.typography.bodyMedium)
-                    Spacer(Modifier.width(8.dp))
-                    Text(
-                        "Toutes les données clés sont renseignées. Le rapport est complet.",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color(0xFF2E7D32)
-                    )
-                }
-            }
         }
     }
 }

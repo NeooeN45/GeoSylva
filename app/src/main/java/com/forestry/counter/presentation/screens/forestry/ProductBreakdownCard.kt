@@ -38,6 +38,8 @@ import androidx.compose.ui.unit.dp
 import com.forestry.counter.R
 import com.forestry.counter.domain.calculation.ProductBreakdownRow
 import com.forestry.counter.domain.calculation.pricing.PricingResult
+import com.forestry.counter.presentation.theme.GsShape
+import com.forestry.counter.presentation.theme.Space
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -68,7 +70,7 @@ fun ProductBreakdownCard(
             containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
         )
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(Space.md)) {
 
             // ---- Header row (always visible) ----
             Row(
@@ -190,7 +192,7 @@ fun ProductBreakdownCard(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(8.dp))
+                        .clip(GsShape.sm)
                         .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f))
                         .padding(10.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,

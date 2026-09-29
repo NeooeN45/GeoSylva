@@ -286,9 +286,6 @@ fun NavGraphBuilder.forestryFlowNavGraph(
             onNavigateToIbpHistory = { pid, plid ->
                 navController.navigate(Screen.IbpHistory.createRoute(pid, plid))
             },
-            onNavigateToSuperCorrelateur = { pid ->
-                navController.navigate(Screen.SuperCorrelateur.createRoute(pid))
-            },
             onNavigateToStandClassification = { pid ->
                 navController.navigate(Screen.StandClassification.createRoute(pid))
             },

@@ -87,6 +87,7 @@ import androidx.compose.ui.graphics.toArgb
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
+import com.mapbox.mapboxsdk.maps.MapboxMapOptions
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.Style
@@ -121,6 +122,10 @@ fun MapRechercheScreen(
     offlineTileManager: OfflineTileManager? = null,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
+    // Masqué quand la carte est intégrée comme simple onglet d'un écran qui
+    // a déjà sa propre flèche retour (ex. onglet Carte de ForestDetailScreen)
+    // — éviter deux flèches retour redondantes à l'écran.
+    showBackButton: Boolean = true,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -147,7 +152,7 @@ fun MapRechercheScreen(
         .collectAsStateWithLifecycle(initialValue = emptyList())
     val essenceMap = remember(essences) { essences.associateBy { it.code.uppercase() } }
 
-    val mapLastLayerKey by preferencesManager.mapLastLayerKey.collectAsStateWithLifecycle(initialValue = "SATELLITE")
+    val mapLastLayerKey by preferencesManager.mapLastLayerKey.collectAsStateWithLifecycle(initialValue = "OSM_STANDARD")
     val mapOnlyReliableGps by preferencesManager.mapOnlyReliableGps.collectAsStateWithLifecycle(initialValue = false)
     val mapReliableGpsThresholdM by preferencesManager.mapReliableGpsThresholdM.collectAsStateWithLifecycle(initialValue = 8f)
 
@@ -215,6 +220,10 @@ fun MapRechercheScreen(
 
     var mapReady by remember { mutableStateOf(false) }
     var mapLibreMap by remember { mutableStateOf<MapboxMap?>(null) }
+    // Clé de la couche réellement rendue par MapLibre (peut différer de
+    // mapLastLayerKey si les préférences ont chargé après l'initialisation
+    // asynchrone de la carte) — sert à détecter et corriger le désynchronisme.
+    var mapRenderedLayerKey by remember { mutableStateOf("") }
     // true quand le style actif utilise les ids stables "active_base"/
     // "active_overlayN" (voir MapRenderers.kt) — condition nécessaire pour
     // pouvoir passer par swapRasterLayer() au prochain changement de
@@ -319,6 +328,7 @@ fun MapRechercheScreen(
                     // en boucle après un changement de calque incrémental).
                     // Réactivation défensive à chaque changement.
                     enableLocationComponent(map, style, context)
+                    mapRenderedLayerKey = layer.key
                     applyLayerDecision(layerLoadState.succeed(request.id))
                     return@start
                 } catch (e: Throwable) {
@@ -343,6 +353,7 @@ fun MapRechercheScreen(
                 activeStyleIsIncremental = !isOfflineSpecial && !layer.isVector
                 enableLocationComponent(map, style, context)
                 renderTigesOnMap(style, filteredGeoTiges, essenceMap, essenceColors)
+                mapRenderedLayerKey = layer.key
                 applyLayerDecision(layerLoadState.succeed(request.id))
             }
         } catch (e: Throwable) {
@@ -359,6 +370,19 @@ fun MapRechercheScreen(
         applyLayerDecision(layerLoadState.retry())
     }
 
+    // Si la préférence de calque (mapLastLayerKey) a changé après que la carte
+    // soit déjà rendue (race condition initialisation async vs DataStore), forcer
+    // le passage au bon calque. Sans ça, la carte reste sur le calque chargé
+    // par la factory (valeur initiale "OSM_STANDARD") même si l'utilisateur
+    // avait sauvegardé un calque différent lors d'une session précédente.
+    LaunchedEffect(mapReady, mapLastLayerKey) {
+        if (!mapReady || mapRenderedLayerKey.isEmpty()) return@LaunchedEffect
+        if (mapRenderedLayerKey == mapLastLayerKey) return@LaunchedEffect
+        val targetIdx = MAP_LAYERS.indexOfFirst { it.key == mapLastLayerKey }.takeIf { it >= 0 }
+            ?: return@LaunchedEffect
+        if (!layerLoadState.isLoading) switchLayer(targetIdx)
+    }
+
     LaunchedEffect(layerLoadState.loadingRequest?.id) {
         val request = layerLoadState.loadingRequest ?: return@LaunchedEffect
         delay(20_000)
@@ -369,20 +393,27 @@ fun MapRechercheScreen(
     }
 
     Box(modifier = modifier.fillMaxSize()) {
+        // ── Fond de repli Compose ──
+        // Derrière la TextureView (TextureMode MapLibre) : couvre tout pixel
+        // transparent que le moteur GL émet pendant les transitions de style
+        // (setStyle async) ou avant le premier rendu — couche indépendante du
+        // GL, toujours visible à travers l'alpha du TextureView.
+        Box(modifier = Modifier.fillMaxSize().background(Color(android.graphics.Color.parseColor("#EFF5EC"))))
+
         // ── Carte MapLibre ──
         val lifecycleOwner = LocalLifecycleOwner.current
         var mapError by remember { mutableStateOf(false) }
         val mapView = remember {
             try {
-                MapView(context).apply {
-                    // Filet de sécurité : sur certains rendus GPU (notamment
-                    // l'émulateur), la couche "background" du style ne peint
-                    // pas toujours de façon fiable les zones sans tuile —
-                    // observé concrètement hors couverture IGN (France), où
-                    // l'écran reste noir au lieu du beige clair attendu.
-                    // Fixer la couleur de fond de la vue elle-même garantit
-                    // qu'aucun trou de rendu ne retombe sur le noir par défaut
-                    // de la surface GL.
+                // TextureMode : MapLibre dessine dans une TextureView (rendu
+                // composité Android) plutôt qu'une SurfaceView OpenGL dont la
+                // surface est toujours noire par défaut (setBackgroundColor
+                // est sans effet sur une SurfaceView). En TextureMode, la
+                // couleur de fond Android s'applique réellement et couvre les
+                // zones sans tuile (chargement en cours, 404 hors couverture).
+                val options = MapboxMapOptions.createFromAttributes(context)
+                    .textureMode(true)
+                MapView(context, options).apply {
                     setBackgroundColor(android.graphics.Color.parseColor("#EFF5EC"))
                 }
             } catch (e: Throwable) { mapError = true; null }
@@ -448,6 +479,7 @@ fun MapRechercheScreen(
                                         mapLibreMap = map
                                         mapReady = true
                                         activeStyleIsIncremental = !initIsOfflineSpecial && !selectedLayer.isVector
+                                        mapRenderedLayerKey = selectedLayer.key
                                         enableLocationComponent(map, style, context)
                                         renderTigesOnMap(style, filteredGeoTiges, essenceMap, essenceColors)
                                         if (!tigeTapAttached) {
@@ -567,22 +599,24 @@ fun MapRechercheScreen(
         }
 
         // ── Bouton retour minimal ──
-        Surface(
-            onClick = onNavigateBack,
-            shape = androidx.compose.foundation.shape.CircleShape,
-            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
-            shadowElevation = Elevation.overlay,
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(Space.sm)
-                .size(Touch.min),
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                Icon(
-                    Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = stringResource(R.string.back),
-                    modifier = Modifier.size(Space.md),
-                )
+        if (showBackButton) {
+            Surface(
+                onClick = onNavigateBack,
+                shape = androidx.compose.foundation.shape.CircleShape,
+                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
+                shadowElevation = Elevation.overlay,
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(Space.sm)
+                    .size(Touch.min),
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Icon(
+                        Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.back),
+                        modifier = Modifier.size(Space.md),
+                    )
+                }
             }
         }
 

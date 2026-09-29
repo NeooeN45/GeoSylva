@@ -40,6 +40,33 @@ data class AccountProfile(
     val roles: List<String>,
 )
 
+/** Consentement juridique versionné enregistré par Quintessences. */
+data class AccountConsent(
+    val consentType: String,
+    val documentVersion: String,
+    val acceptedAt: String,
+    val revokedAt: String?,
+)
+
+/** Session serveur visible depuis l'espace Compte. */
+data class AccountDeviceSession(
+    val id: String,
+    val jti: String,
+    val deviceName: String?,
+    val userAgent: String?,
+    val ipAddress: String?,
+    val issuedAt: String,
+    val lastSeenAt: String,
+    val isCurrent: Boolean,
+)
+
+/** Provisionnement MFA renvoyé une seule fois lors de l'activation. */
+data class MfaSetup(
+    val secret: String,
+    val otpauthUri: String,
+    val recoveryCodes: List<String>,
+)
+
 data class GoogleNonce(
     val value: String,
     val expiresInSeconds: Int,
@@ -99,6 +126,7 @@ enum class IdentityError {
     GOOGLE_NOT_CONFIGURED,
     SECURE_STORAGE_UNAVAILABLE,
     INVALID_INPUT,
+    REGISTRATION_CONSENT_REQUIRED,
     INVALID_CREDENTIALS,
     ACCOUNT_ALREADY_EXISTS,
     ACCOUNT_LINK_REQUIRED,

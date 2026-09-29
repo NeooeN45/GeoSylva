@@ -2,10 +2,13 @@ package com.forestry.counter.data.remote.identity
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonObject
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.HTTP
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 
@@ -58,6 +61,95 @@ internal interface IdentityApiService {
         @Header("Authorization") authorization: String,
         @Body request: UpdateProfileRequestDto,
     ): AccountProfileDto
+
+    @GET("api/v1/auth/me/export")
+    suspend fun exportAccountData(
+        @Header("Authorization") authorization: String,
+    ): JsonObject
+
+    @GET("api/v1/auth/me/consents")
+    suspend fun listConsents(
+        @Header("Authorization") authorization: String,
+    ): ConsentListResponseDto
+
+    @POST("api/v1/auth/me/consents")
+    suspend fun acceptConsent(
+        @Header("Authorization") authorization: String,
+        @Body request: ConsentRequestDto,
+    ): ConsentResponseDto
+
+    @DELETE("api/v1/auth/me/consents/{consent_type}")
+    suspend fun revokeConsent(
+        @Header("Authorization") authorization: String,
+        @retrofit2.http.Path("consent_type") consentType: String,
+    ): CompletedResponseDto
+
+    @POST("api/v1/auth/email/change/request")
+    suspend fun requestEmailChange(
+        @Header("Authorization") authorization: String,
+        @Body request: ChangeEmailRequestDto,
+    ): AcceptedResponseDto
+
+    @POST("api/v1/auth/email/change/confirm")
+    suspend fun confirmEmailChange(
+        @Header("Authorization") authorization: String,
+        @Body request: ConfirmEmailChangeRequestDto,
+    ): AccountProfileDto
+
+    @POST("api/v1/auth/password/change")
+    suspend fun changePassword(
+        @Header("Authorization") authorization: String,
+        @Body request: ChangePasswordRequestDto,
+    ): CompletedResponseDto
+
+    @POST("api/v1/auth/me/deletion/request")
+    suspend fun requestAccountDeletion(
+        @Header("Authorization") authorization: String,
+        @Body request: RequestDeletionRequestDto,
+    ): AcceptedResponseDto
+
+    @POST("api/v1/auth/deletion/cancel")
+    suspend fun cancelAccountDeletion(
+        @Body request: CancelDeletionRequestDto,
+    ): CompletedResponseDto
+
+    @GET("api/v1/auth/sessions")
+    suspend fun listSessions(
+        @Header("Authorization") authorization: String,
+    ): ListSessionsResponseDto
+
+    @DELETE("api/v1/auth/sessions")
+    suspend fun revokeAllSessions(
+        @Header("Authorization") authorization: String,
+    ): CompletedResponseDto
+
+    @POST("api/v1/auth/sessions/revoke")
+    suspend fun revokeSession(
+        @Header("Authorization") authorization: String,
+        @Body request: RevokeSessionRequestDto,
+    ): CompletedResponseDto
+
+    @GET("api/v1/auth/mfa/status")
+    suspend fun getMfaStatus(
+        @Header("Authorization") authorization: String,
+    ): MfaStatusResponseDto
+
+    @POST("api/v1/auth/mfa/setup")
+    suspend fun setupMfa(
+        @Header("Authorization") authorization: String,
+    ): MfaSetupResponseDto
+
+    @POST("api/v1/auth/mfa/verify")
+    suspend fun verifyMfa(
+        @Header("Authorization") authorization: String,
+        @Body request: MfaVerifyRequestDto,
+    ): MfaStatusResponseDto
+
+    @HTTP(method = "DELETE", path = "api/v1/auth/mfa", hasBody = true)
+    suspend fun disableMfa(
+        @Header("Authorization") authorization: String,
+        @Body request: MfaVerifyRequestDto,
+    ): MfaStatusResponseDto
 
     @POST("api/v1/auth/email/verification/request")
     suspend fun requestEmailVerification(
@@ -216,6 +308,95 @@ internal data class AccountProfileDto(
 @Serializable
 internal data class UpdateProfileRequestDto(
     @SerialName("display_name") val displayName: String?,
+)
+
+@Serializable
+internal data class ConsentRequestDto(
+    @SerialName("consent_type") val consentType: String,
+    @SerialName("document_version") val documentVersion: String,
+)
+
+@Serializable
+internal data class ConsentResponseDto(
+    @SerialName("consent_type") val consentType: String,
+    @SerialName("document_version") val documentVersion: String,
+    @SerialName("accepted_at") val acceptedAt: String,
+    @SerialName("revoked_at") val revokedAt: String? = null,
+)
+
+@Serializable
+internal data class ConsentListResponseDto(
+    val consents: List<ConsentResponseDto> = emptyList(),
+)
+
+@Serializable
+internal data class ChangeEmailRequestDto(
+    @SerialName("current_password") val currentPassword: String,
+    @SerialName("new_email") val newEmail: String,
+)
+
+@Serializable
+internal data class ConfirmEmailChangeRequestDto(
+    val channel: String,
+    val code: String,
+)
+
+@Serializable
+internal data class ChangePasswordRequestDto(
+    @SerialName("current_password") val currentPassword: String,
+    @SerialName("new_password") val newPassword: String,
+)
+
+@Serializable
+internal data class RequestDeletionRequestDto(
+    @SerialName("current_password") val currentPassword: String,
+)
+
+@Serializable
+internal data class CancelDeletionRequestDto(
+    val email: String,
+    val code: String,
+)
+
+@Serializable
+internal data class SessionResponseDto(
+    val id: String,
+    val jti: String,
+    @SerialName("device_name") val deviceName: String? = null,
+    @SerialName("user_agent") val userAgent: String? = null,
+    @SerialName("ip_address") val ipAddress: String? = null,
+    @SerialName("issued_at") val issuedAt: String,
+    @SerialName("last_seen_at") val lastSeenAt: String,
+    @SerialName("is_current") val isCurrent: Boolean = false,
+)
+
+@Serializable
+internal data class ListSessionsResponseDto(
+    val sessions: List<SessionResponseDto> = emptyList(),
+    val total: Int = 0,
+)
+
+@Serializable
+internal data class RevokeSessionRequestDto(
+    @SerialName("session_id") val sessionId: String,
+)
+
+@Serializable
+internal data class MfaStatusResponseDto(
+    val enabled: Boolean,
+)
+
+@Serializable
+internal data class MfaSetupResponseDto(
+    val secret: String,
+    @SerialName("otpauth_uri") val otpauthUri: String,
+    @SerialName("recovery_codes") val recoveryCodes: List<String> = emptyList(),
+)
+
+@Serializable
+internal data class MfaVerifyRequestDto(
+    val code: String,
+    @SerialName("is_recovery_code") val isRecoveryCode: Boolean = false,
 )
 
 @Serializable

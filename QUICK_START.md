@@ -1,5 +1,7 @@
-# 🚀 Guide de Démarrage Rapide — GeoSylva 2.3.0
+# 🚀 Guide de Démarrage Rapide — GeoSylva
 
+> Version du build et schéma Room actuels : [métadonnées générées](docs/APP_VERSION.md). Les parcours ci-dessous proviennent d'un guide antérieur et restent à vérifier pour l'interface 3.0.
+>
 > Application Android professionnelle d'inventaire forestier, martelage et biodiversité. 100% hors-ligne.
 
 ---
@@ -140,14 +142,11 @@ Après les 10 critères, le résultat affiche le score /50, les **3 amélioratio
 
 ---
 
-## 8. Base de données (DB v13)
+## 8. Base de données et migrations
 
-Migrations Room automatiques v1 → v13. Tables principales :
-
-```
-parcelles, placettes, tree_stems, essences
-ibp_evaluations   ← scoreA, scoreB, growthConditions, answersJson (schemaV2)
-```
+La version du schéma Room et les métadonnées du build sont générées dans
+[docs/APP_VERSION.md](docs/APP_VERSION.md). Le schéma et les migrations actifs
+sont définis par `ForestryDatabase.kt` et `DatabaseMigrations.kt`.
 
 ---
 

@@ -2,7 +2,7 @@
 
 ## 0) À lire en premier (pour une nouvelle session IA)
 
-Ce fichier est la **source de vérité technique** pour comprendre le code de GeoSylva.
+Ce fichier est un instantané technique mis à jour le 2026-07-17 ; les métadonnées de build courantes sont générées dans [docs/APP_VERSION.md](docs/APP_VERSION.md).
 
 **Ordre de lecture** :
 1. `MASTER_PLAN.md` — vision, plan d'exécution, financement, écosystème
@@ -19,9 +19,8 @@ Ce fichier est la **source de vérité technique** pour comprendre le code de Ge
 
 GeoSylva est une application Android (Kotlin / Jetpack Compose) de **gestion forestière de terrain** : inventaire, martelage, diagnostic sylvicole, IBP CNPF, cartographie, exports SIG.
 
-**Version actuelle** : 2.4.0 (versionCode 10)
-**DB version** : 32 (mis à jour 2026-07-01, était 29 au 2026-06-29 — voir `MASTER_PLAN.md` §2.4 pour le détail des items déjà résolus depuis l'audit initial)
-**Statut** : En développement — voir `MASTER_PLAN.md` §2.4/§3.2 pour le statut vérifié (Phase 0 sécurité/RGPD très avancée, Phase 1 i18n/perf encore largement à faire)
+**Métadonnées de build actuelles** : [version de l'application, versionCode et schéma Room](docs/APP_VERSION.md).
+**Statut fonctionnel** : cet AI_CONTEXT conserve un instantané technique du 2026-07-17 ; consulter les documents de pilotage actuels de Quintessences pour les gates en cours.
 
 **Identité Quintessences** : cycle mobile local livré le 2026-08-03
 (connexion locale/Google, profil, vérification e-mail, récupération, coffre de
@@ -359,7 +358,7 @@ Voir `docs/RGPD_AUDIT_REPORT.md` + `AUDIT_GLOBAL_GEOSYLVA.md` §6.
 ### 13.2 Configuration
 
 - `compileSdk = 35`, `targetSdk = 35`, `minSdk = 26`
-- `versionCode = 10`, `versionName = "2.4.0"`
+- Version applicative, `versionCode` et schéma Room : voir [métadonnées de version](docs/APP_VERSION.md).
 - `BUILD_ID` injecté à chaque compilation (timestamp)
 - Signing : `keystore.properties` externalisé, conditionnel
 - ProGuard : `proguard-android-optimize.txt` + `proguard-rules.pro`
@@ -401,4 +400,4 @@ Priorité immédiate :
 
 ---
 
-*Document mis à jour le 2026-07-17. Source de vérité technique pour GeoSylva v2.4.0.*
+*Document mis à jour le 2026-07-17 ; les constats détaillés sont historiques. Les métadonnées de build courantes sont dans [docs/APP_VERSION.md](docs/APP_VERSION.md).*

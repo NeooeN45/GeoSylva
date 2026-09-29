@@ -2,9 +2,12 @@ package com.forestry.counter.domain.repository
 
 import com.forestry.counter.domain.model.AccountSession
 import com.forestry.counter.domain.model.AccountProfile
+import com.forestry.counter.domain.model.AccountConsent
+import com.forestry.counter.domain.model.AccountDeviceSession
 import com.forestry.counter.domain.model.ApiDiagnostic
 import com.forestry.counter.domain.model.GoogleNonce
 import com.forestry.counter.domain.model.LoginOutcome
+import com.forestry.counter.domain.model.MfaSetup
 import com.forestry.counter.domain.model.ProviderCapability
 import kotlinx.coroutines.flow.StateFlow
 
@@ -61,6 +64,52 @@ interface IdentityRepository {
     suspend fun loadProfile(): Result<AccountProfile>
 
     suspend fun updateDisplayName(displayName: String?): Result<AccountProfile>
+
+    /** Exporte les données personnelles autorisées au format JSON. */
+    suspend fun exportAccountData(): Result<String>
+
+    suspend fun listConsents(): Result<List<AccountConsent>>
+
+    suspend fun acceptConsent(
+        consentType: String,
+        documentVersion: String,
+    ): Result<AccountConsent>
+
+    suspend fun revokeConsent(consentType: String): Result<Unit>
+
+    suspend fun requestEmailChange(
+        currentPassword: String,
+        newEmail: String,
+    ): Result<Unit>
+
+    suspend fun confirmEmailChange(
+        channel: String,
+        code: String,
+    ): Result<AccountProfile>
+
+    suspend fun changePassword(
+        currentPassword: String,
+        newPassword: String,
+    ): Result<Unit>
+
+    /** Programme la suppression différée ; la finalisation reste serveur. */
+    suspend fun requestAccountDeletion(currentPassword: String): Result<Unit>
+
+    suspend fun cancelAccountDeletion(email: String, code: String): Result<Unit>
+
+    suspend fun listSessions(): Result<List<AccountDeviceSession>>
+
+    suspend fun revokeAllSessions(): Result<Unit>
+
+    suspend fun revokeSession(sessionId: String): Result<Unit>
+
+    suspend fun getMfaStatus(): Result<Boolean>
+
+    suspend fun setupMfa(): Result<MfaSetup>
+
+    suspend fun verifyMfa(code: String, isRecoveryCode: Boolean = false): Result<Boolean>
+
+    suspend fun disableMfa(code: String, isRecoveryCode: Boolean = false): Result<Boolean>
 
     suspend fun requestEmailVerification(): Result<Unit>
 

@@ -27,6 +27,21 @@ entièrement hors-ligne.
 
 ---
 
+## Documentation V2
+
+La mise à niveau du cubage, du martelage et de la synthèse est pilotée par
+[docs/00_ARCHITECTURE_V2_DOCUMENTATION_INDEX.md](docs/00_ARCHITECTURE_V2_DOCUMENTATION_INDEX.md).
+Les spécifications fonctionnelles sont :
+
+- [docs/MARTELAGE_V2_SPECIFICATION.md](docs/MARTELAGE_V2_SPECIFICATION.md)
+- [docs/SYNTHESE_V2_SPECIFICATION.md](docs/SYNTHESE_V2_SPECIFICATION.md)
+- [docs/MIGRATION_CUBAGE_MARTELAGE_SYNTHESE_V2.md](docs/MIGRATION_CUBAGE_MARTELAGE_SYNTHESE_V2.md)
+- [docs/CUBAGE_OFFLINE_FIRST.md](docs/CUBAGE_OFFLINE_FIRST.md)
+
+Le cubage est calculé localement dans GeoSylva. GSIE reçoit la session et le calcul
+pour synchronisation, vérification et archivage ; il ne remplace pas silencieusement
+le résultat local.
+
 ## Aperçu
 
 <p align="center">
@@ -170,11 +185,11 @@ martelage.
 app/src/main/java/com/forestry/counter/
 ├── data/
 │   ├── local/
-│   │   ├── entity/              Room entities (29 tables)
+│   │   ├── entity/              Room entities (38 entités)
 │   │   ├── dao/                 Data Access Objects
 │   │   ├── CanonicalEssences.kt 95+ espèces pré-configurées
-│   │   ├── DatabaseMigrations.kt Migrations v1→v33
-│   │   └── ForestryDatabase.kt  Room database (v33, SQLCipher)
+│   │   ├── DatabaseMigrations.kt Migrations Room (version dans docs/APP_VERSION.md)
+│   │   └── ForestryDatabase.kt  Room database (SQLCipher, version dans docs/APP_VERSION.md)
 │   ├── sync/                    Contrat GSIE, file et politique de reprise
 │   ├── preferences/             DataStore (GPS, affichage, tarifs…)
 │   ├── repository/              Implémentations Repository
@@ -221,7 +236,7 @@ app/src/main/java/com/forestry/counter/
 |---|---|
 | **Langage** | Kotlin 1.9 + Coroutines + Flow |
 | **UI** | Jetpack Compose + Material 3 |
-| **Base de données** | Room (SQLite) — 29 tables, DB v33, SQLCipher |
+| **Base de données** | Room (SQLite) — 38 entités, version dans [docs/APP_VERSION.md](docs/APP_VERSION.md), SQLCipher |
 | **Préférences** | DataStore Preferences |
 | **Cartographie** | MapLibre GL Native 10.3 |
 | **Géolocalisation** | Google Fused Location Provider |
@@ -373,6 +388,7 @@ Références :
 
 | Document | Description |
 |---|---|
+| [docs/APP_VERSION.md](docs/APP_VERSION.md) | Métadonnées de version générées depuis Gradle et Room |
 | [CHANGELOG.md](CHANGELOG.md) | Historique des versions et modifications |
 | [QUICK_START.md](QUICK_START.md) | Guide de démarrage rapide |
 | [MASTER_PLAN.md](MASTER_PLAN.md) | Vision produit et roadmap stratégique |

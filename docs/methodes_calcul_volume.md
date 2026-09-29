@@ -25,14 +25,14 @@ utilisée par le code (`TarifCalculator.kt`).
 
 ### Formule
 
-Chaque numéro de tarif définit une paire de coefficients (a, b) :
+Chaque numéro de tarif définit une paire de coefficients (a, b) dans l'implémentation actuelle :
 
 ```
-V = a × D₁₃₀ᵇ   (m³ bois fort tige)
+C₁₃₀ = π × D₁₃₀
+V = a + b × (C₁₃₀ / 100)²   (m³, convention du code)
 ```
 
-Les 16 paires (a, b) proviennent des tables classiques Schaeffer
-publiées par le CTBA.
+Attention : cette écriture codée n'est pas encore démontrée équivalente aux tables historiques Schaeffer. Les 16 paires présentes dans `TarifData.kt` restent à comparer à une source primaire CTBA/ONF ; elles ne doivent pas être présentées comme validées sur la seule présence dans le code.
 
 ### Fonctionnement dans l'app
 
@@ -50,14 +50,17 @@ sans mesure de hauteur.
 ## 2. Schaeffer 2 entrées
 
 **Entrées** : D₁₃₀ (cm) + H (m)  
-**Tarifs** : 1 → 8  
+**Tarifs** : 1 → 8 dans le code actuel ; la source `PPtools/TarifSch2.R` recensée par l'audit décrit 13 variantes, à réconcilier
 **Code** : `TarifMethod.SCHAEFFER_2E`
 
 ### Formule
 
 ```
-V = a × D₁₃₀ᵇ × Hᶜ   (m³ bois fort tige)
+C₁₃₀ = π × D₁₃₀
+V = a + b × (C₁₃₀ / 100)² × H   (m³, convention du code)
 ```
+
+Cette formule et ses huit jeux de coefficients doivent être comparés à une table primaire avant toute affirmation de conformité Schaeffer à deux entrées.
 
 ### Fonctionnement dans l'app
 
@@ -79,14 +82,16 @@ type de peuplement quand on mesure les hauteurs.
 
 ### Formule
 
-Chaque essence possède un jeu de coefficients `AlganCoefs(a, b, c)` :
+Le code actuel utilise un jeu de coefficients `AlganCoefs(a, b, c)` par essence :
 
 ```
-V = a × D₁₃₀ᵇ × Hᶜ   (m³ bois fort tige)
+V = a × D₁₃₀ᵇ × Hᶜ   (m³, convention du code)
 ```
 
-Les coefficients sont issus de la littérature Algan / ENGREF et stockés
-dans `TarifData.alganCoefs`.
+Cette forme est une équation de puissance de type Schumacher-Hall. Son
+attribution aux tarifs Algan historiques n'est pas démontrée. Les triplets
+présents dans `TarifData.alganCoefs` doivent être comparés aux équations
+Vallet/EMERGE ou à une autre source primaire avant d'être renommés ou promus.
 
 ### Résolution d'essence
 
@@ -97,8 +102,10 @@ dans `TarifData.alganCoefs`.
 
 ### Quand l'utiliser ?
 
-Peuplements irréguliers ou mixtes. Méthode par défaut de l'app
-car elle dispose de coefficients pour la quasi-totalité des essences.
+Chemin actuellement disponible pour des peuplements irréguliers ou mixtes.
+La couverture large ne constitue pas une preuve de validité : si l'essence,
+la population ou les coefficients ne sont pas qualifiés, le résultat doit être
+marqué comme estimation non vérifiée.
 
 ---
 
@@ -114,8 +121,10 @@ car elle dispose de coefficients pour la quasi-totalité des essences.
 V = IFNRapideCoefs[numero].volumeM3(D₁₃₀)
 ```
 
-Chaque tarif définit sa propre courbe V = f(D). Les 36 courbes
-proviennent de l'IGN (ex-IFN).
+Chaque tarif définit sa propre courbe V = f(D) dans le code actuel.
+L'IGN documente la construction des tarifs IFN, mais l'origine exacte des
+36 jeux de coefficients présents ici n'est pas établie dans le dépôt ; ils
+restent à qualifier avant d'être présentés comme des tarifs IGN.
 
 ### Fonctionnement dans l'app
 
@@ -144,8 +153,9 @@ V = IFNLentCoefs[numero].volumeM3(D₁₃₀, H)
 
 ### Quand l'utiliser ?
 
-Peuplements âgés / lents, plus précis que l'IFN Rapide grâce à
-la hauteur.
+Peuplements pour lesquels une hauteur est disponible. Le code actuel expose
+huit jeux de coefficients, mais leur correspondance exacte avec une table
+IFN/IGN primaire et leur domaine doivent encore être vérifiés.
 
 ---
 
@@ -252,7 +262,7 @@ et affichées dans `ProductBreakdownCard`.
 
 L'utilisateur peut modifier les prix via :
 - **Paramètres → Barèmes prix** : table complète (essence × produit × diam × qualité)
-- **Préréglages régionaux** : 7 régions françaises prédéfinies
+- **Préréglages régionaux** : 1 base nationale + 12 zones GRECO ; ils ne constituent pas 13 mercuriales régionales indépendantes
 
 ---
 
@@ -262,26 +272,28 @@ L'utilisateur peut modifier les prix via :
 |-----------|---------|----------|
 | Inventaire rapide sans hauteur | Schaeffer 1E ou IFN Rapide | D seul |
 | Inventaire standard | Schaeffer 2E ou IFN Lent | D + H |
-| Peuplements irréguliers / mixtes | **Algan** (défaut) | D + H |
-| Estimation terrain rapide | FGH / Coef. forme | D + H |
+| Peuplements irréguliers / mixtes | Équation par essence seulement si coefficients qualifiés ; sinon estimation avec réserve | D + H |
+| Pin maritime, massif landais | Lapasse ou barème local si table et protocole disponibles | C130 + Hdec + produit |
+| Estimation terrain rapide | FGH / Coef. forme avec f sourcé | D + H + f |
 
 ### Précision attendue
 
-- **Schaeffer / IFN** : ±10-15 % (peuplements homogènes)
-- **Algan** : ±10-20 % (large gamme d'essences)
-- **FGH / Coef. forme** : ±15-25 % (dépend du choix de f)
+- **Schaeffer / IFN** : précision à établir par méthode, essence et domaine ; les coefficients actuels ne sont pas tous validés indépendamment.
+- **Équation actuellement appelée Algan** : précision non généralisable ; elle dépend du jeu de coefficients et de sa population de calibration.
+- **FGH / Coef. forme** : incertitude dominée par le choix et la variabilité de `f` ; aucune précision universelle ne doit être affichée.
 
 ### Sources
 
-- CTBA — Tables de cubage Schaeffer
-- IGN (ex-IFN) — Tarifs IFN rapide et lent
-- ENGREF / AgroParisTech — Méthode Algan
-- FCBA — Guides techniques coefficients de forme
-- ONF — Barèmes ventes publiques de bois (prix)
-- France Bois Forêt — Observatoire économique (prix)
-- NF EN 1316 — Classification d'aspect des grumes
+- Schaeffer/Algan historiques, Revue forestière française : https://doi.org/10.4267/2042/26629
+- IGN, méthodologie IFN et DataIFN : https://inventaire-forestier.ign.fr/IMG/pdf/methodologie-2022.pdf ; https://inventaire-forestier.ign.fr/dataifn/
+- CNPF, vente et cubage : https://nouvelle-aquitaine.cnpf.fr/gestion-durable-des-forets/coupes-et-travaux/la-vente-de-bois
+- CNPF/IFC, estimation du volume sur pied : https://ifc.cnpf.fr/sites/socle/files/cnpf-old/498015_volume_pied_1.pdf
+- Deleuze et al., EMERGE : https://hal.science/hal-03016051
+- Vallet et al., équations de volume : https://hal.inrae.fr/hal-02664812
+- `docs/recherche/01_cubage_volume/08_audit_formules_coefficients_2026-08-30.md`
+- `docs/recherche/01_cubage_volume/09_registre_methodes_cubage_france_monde.md`
 
 ---
 
-*Dernière mise à jour : Février 2026*  
+*Dernière mise à jour : 30 août 2026*
 *Application : GeoSylva*

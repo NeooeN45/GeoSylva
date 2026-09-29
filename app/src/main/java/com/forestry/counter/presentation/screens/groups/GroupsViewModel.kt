@@ -28,7 +28,7 @@ class GroupsViewModel(
                 _uiState.value = if (groups.isEmpty()) {
                     GroupsUiState.Empty
                 } else {
-                    GroupsUiState.Success(groups)
+                    GroupsUiState.Success(groups.sortedByDescending { it.updatedAt })
                 }
             }
         }

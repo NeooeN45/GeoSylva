@@ -21,8 +21,18 @@ import com.forestry.counter.data.remote.identity.RegistrationRequestDto
 import com.forestry.counter.data.remote.identity.StoredIdentityTokens
 import com.forestry.counter.data.remote.identity.TokenResponseDto
 import com.forestry.counter.data.remote.identity.UpdateProfileRequestDto
+import com.forestry.counter.data.remote.identity.CancelDeletionRequestDto
+import com.forestry.counter.data.remote.identity.ChangeEmailRequestDto
+import com.forestry.counter.data.remote.identity.ChangePasswordRequestDto
+import com.forestry.counter.data.remote.identity.ConsentRequestDto
+import com.forestry.counter.data.remote.identity.ConfirmEmailChangeRequestDto
+import com.forestry.counter.data.remote.identity.MfaVerifyRequestDto
+import com.forestry.counter.data.remote.identity.RequestDeletionRequestDto
+import com.forestry.counter.data.remote.identity.RevokeSessionRequestDto
 import com.forestry.counter.domain.model.AccountProfile
 import com.forestry.counter.domain.model.AccountSession
+import com.forestry.counter.domain.model.AccountConsent
+import com.forestry.counter.domain.model.AccountDeviceSession
 import com.forestry.counter.domain.model.ApiConnectionState
 import com.forestry.counter.domain.model.ApiDiagnostic
 import com.forestry.counter.domain.model.GoogleNonce
@@ -34,6 +44,7 @@ import com.forestry.counter.data.remote.identity.MfaChallengeVerifyRequestDto
 import com.forestry.counter.domain.model.IdentityProvider
 import com.forestry.counter.domain.model.ProviderAvailability
 import com.forestry.counter.domain.model.ProviderCapability
+import com.forestry.counter.domain.model.MfaSetup
 import com.forestry.counter.domain.repository.IdentityRepository
 import java.io.IOException
 import java.util.Locale
@@ -126,9 +137,7 @@ internal class IdentityRepositoryImpl(
     }
 
     override suspend fun refreshSession(): Result<AccountSession> {
-        val refreshToken = sessionStore.read()?.refreshToken
-            ?: return Result.failure(IdentityClientException(IdentityError.INVALID_CREDENTIALS))
-        return authenticate { refresh(RefreshRequestDto(refreshToken)) }
+        return refreshSessionInternal(loadProfileAfterRefresh = true)
     }
 
     override suspend fun logout(): Result<Unit> {
@@ -147,15 +156,125 @@ internal class IdentityRepositoryImpl(
         return result
     }
 
-    override suspend fun loadProfile(): Result<AccountProfile> = apiResult {
-        profile(authorizationHeader()).toDomain().also { _profile.value = it }
-    }
+    override suspend fun loadProfile(): Result<AccountProfile> = loadProfileInternal(allowRefresh = true)
 
     override suspend fun updateDisplayName(displayName: String?): Result<AccountProfile> = apiResult {
         updateProfile(
             authorizationHeader(),
             UpdateProfileRequestDto(displayName?.trim()?.takeIf(String::isNotEmpty)),
         ).toDomain().also { _profile.value = it }
+    }
+
+    override suspend fun exportAccountData(): Result<String> = apiResult {
+        exportAccountData(authorizationHeader()).toString()
+    }
+
+    override suspend fun listConsents(): Result<List<AccountConsent>> = apiResult {
+        listConsents(authorizationHeader()).consents.map { it.toDomain() }
+    }
+
+    override suspend fun acceptConsent(
+        consentType: String,
+        documentVersion: String,
+    ): Result<AccountConsent> = apiResult {
+        acceptConsent(
+            authorizationHeader(),
+            ConsentRequestDto(consentType, documentVersion),
+        ).toDomain()
+    }
+
+    override suspend fun revokeConsent(consentType: String): Result<Unit> = apiResult {
+        revokeConsent(authorizationHeader(), consentType)
+        Unit
+    }
+
+    override suspend fun requestEmailChange(
+        currentPassword: String,
+        newEmail: String,
+    ): Result<Unit> = apiResult {
+        requestEmailChange(
+            authorizationHeader(),
+            ChangeEmailRequestDto(currentPassword, normalizeEmail(newEmail)),
+        )
+        Unit
+    }
+
+    override suspend fun confirmEmailChange(
+        channel: String,
+        code: String,
+    ): Result<AccountProfile> = apiResult {
+        confirmEmailChange(
+            authorizationHeader(),
+            ConfirmEmailChangeRequestDto(channel, code.trim()),
+        ).toDomain().also { _profile.value = it }
+    }
+
+    override suspend fun changePassword(
+        currentPassword: String,
+        newPassword: String,
+    ): Result<Unit> = apiResult {
+        changePassword(
+            authorizationHeader(),
+            ChangePasswordRequestDto(currentPassword, newPassword),
+        )
+        // Le serveur révoque toutes les sessions après ce changement.
+        sessionStore.clear()
+        _session.value = null
+        _profile.value = null
+        Unit
+    }
+
+    override suspend fun requestAccountDeletion(currentPassword: String): Result<Unit> = apiResult {
+        requestAccountDeletion(
+            authorizationHeader(),
+            RequestDeletionRequestDto(currentPassword),
+        )
+        Unit
+    }
+
+    override suspend fun cancelAccountDeletion(email: String, code: String): Result<Unit> = apiResult {
+        cancelAccountDeletion(
+            CancelDeletionRequestDto(normalizeEmail(email), code.trim()),
+        )
+        Unit
+    }
+
+    override suspend fun listSessions(): Result<List<AccountDeviceSession>> = apiResult {
+        listSessions(authorizationHeader()).sessions.map { it.toDomain() }
+    }
+
+    override suspend fun revokeAllSessions(): Result<Unit> = apiResult {
+        revokeAllSessions(authorizationHeader())
+        Unit
+    }
+
+    override suspend fun revokeSession(sessionId: String): Result<Unit> = apiResult {
+        revokeSession(authorizationHeader(), RevokeSessionRequestDto(sessionId))
+        Unit
+    }
+
+    override suspend fun getMfaStatus(): Result<Boolean> = apiResult {
+        getMfaStatus(authorizationHeader()).enabled
+    }
+
+    override suspend fun setupMfa(): Result<MfaSetup> = apiResult {
+        setupMfa(authorizationHeader()).let { response ->
+            MfaSetup(response.secret, response.otpauthUri, response.recoveryCodes)
+        }
+    }
+
+    override suspend fun verifyMfa(code: String, isRecoveryCode: Boolean): Result<Boolean> = apiResult {
+        verifyMfa(
+            authorizationHeader(),
+            MfaVerifyRequestDto(code.trim(), isRecoveryCode),
+        ).enabled
+    }
+
+    override suspend fun disableMfa(code: String, isRecoveryCode: Boolean): Result<Boolean> = apiResult {
+        disableMfa(
+            authorizationHeader(),
+            MfaVerifyRequestDto(code.trim(), isRecoveryCode),
+        ).enabled
     }
 
     override suspend fun requestEmailVerification(): Result<Unit> = apiResult {
@@ -228,6 +347,58 @@ internal class IdentityRepositoryImpl(
             )
         }
     }
+
+    /**
+     * Recharge le profil en réparant une session dont l'access token est
+     * arrivé à expiration. Une rotation est tentée au maximum une fois pour
+     * éviter toute boucle entre le profil et le refresh.
+     */
+    private suspend fun loadProfileInternal(allowRefresh: Boolean): Result<AccountProfile> {
+        if (allowRefresh && _session.value?.isExpired() == true) {
+            val refreshed = refreshSessionInternal(loadProfileAfterRefresh = false)
+            if (refreshed.isSuccess) return loadProfileInternal(allowRefresh = false)
+            if (refreshed.isInvalidCredentials()) clearLocalSession()
+            return Result.failure(
+                refreshed.exceptionOrNull()
+                    ?: IdentityClientException(IdentityError.INVALID_CREDENTIALS)
+            )
+        }
+
+        val result = apiResult {
+            profile(authorizationHeader()).toDomain().also { _profile.value = it }
+        }
+        if (result.isFailure && result.isInvalidCredentials()) {
+            if (allowRefresh) {
+                val refreshed = refreshSessionInternal(loadProfileAfterRefresh = false)
+                if (refreshed.isSuccess) return loadProfileInternal(allowRefresh = false)
+                if (refreshed.isInvalidCredentials()) clearLocalSession()
+            } else {
+                clearLocalSession()
+            }
+        }
+        return result
+    }
+
+    private suspend fun refreshSessionInternal(
+        loadProfileAfterRefresh: Boolean,
+    ): Result<AccountSession> {
+        val refreshToken = sessionStore.read()?.refreshToken
+            ?: return Result.failure(IdentityClientException(IdentityError.INVALID_CREDENTIALS))
+        val result = apiResult { persistSession(refresh(RefreshRequestDto(refreshToken))) }
+        if (loadProfileAfterRefresh && result.isSuccess) {
+            loadProfileInternal(allowRefresh = false)
+        }
+        return result
+    }
+
+    private fun clearLocalSession() {
+        sessionStore.clear()
+        _session.value = null
+        _profile.value = null
+    }
+
+    private fun Result<*>.isInvalidCredentials(): Boolean =
+        (exceptionOrNull() as? IdentityClientException)?.error == IdentityError.INVALID_CREDENTIALS
 
     private suspend fun authenticate(
         block: suspend IdentityApiService.() -> TokenResponseDto,
@@ -345,6 +516,26 @@ internal class IdentityRepositoryImpl(
         providers = providers.map { it.toProvider() },
         roles = roles,
     )
+
+    private fun com.forestry.counter.data.remote.identity.ConsentResponseDto.toDomain() =
+        AccountConsent(
+            consentType = consentType,
+            documentVersion = documentVersion,
+            acceptedAt = acceptedAt,
+            revokedAt = revokedAt,
+        )
+
+    private fun com.forestry.counter.data.remote.identity.SessionResponseDto.toDomain() =
+        AccountDeviceSession(
+            id = id,
+            jti = jti,
+            deviceName = deviceName,
+            userAgent = userAgent,
+            ipAddress = ipAddress,
+            issuedAt = issuedAt,
+            lastSeenAt = lastSeenAt,
+            isCurrent = isCurrent,
+        )
 
     private fun String.toProvider(): IdentityProvider = when (this) {
         "local" -> IdentityProvider.LOCAL

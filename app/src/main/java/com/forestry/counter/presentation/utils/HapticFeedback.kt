@@ -23,25 +23,50 @@ class HapticFeedback(private val context: Context) {
         val v = vibrator ?: return
         if (!v.hasVibrator()) return
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val effect = when (type) {
-                HapticType.LIGHT -> VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK)
-                HapticType.MEDIUM -> VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK)
-                HapticType.HEAVY -> VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK)
-                HapticType.SUCCESS -> VibrationEffect.createPredefined(VibrationEffect.EFFECT_DOUBLE_CLICK)
+        // `createPredefined()` (API 29+) délègue à l'implémentation haptique du
+        // constructeur OEM : sur de nombreux téléphones réels (notamment hors
+        // Pixel/Samsung haut de gamme), l'effet demandé n'est pas supporté et
+        // l'appel ne produit alors AUCUNE vibration, sans erreur ni log — d'où
+        // le "réglable dans les paramètres mais ne vibre jamais en pratique".
+        // `createOneShot(duration, amplitude)` est lui garanti fonctionner sur
+        // tout appareil doté d'un vibrateur depuis l'API 26 : on ne tente donc
+        // l'effet prédéfini que si `areEffectsSupported` le confirme, et on
+        // retombe sinon systématiquement sur une vibration manuelle explicite.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // `areEffectsSupported` lui-même n'existe qu'à partir de l'API 30 —
+            // en dessous (API 29 Q), impossible de vérifier le support, donc on
+            // saute directement au repli `createOneShot` garanti fiable.
+            val predefinedId = when (type) {
+                HapticType.LIGHT -> VibrationEffect.EFFECT_TICK
+                HapticType.MEDIUM -> VibrationEffect.EFFECT_CLICK
+                HapticType.HEAVY -> VibrationEffect.EFFECT_HEAVY_CLICK
+                HapticType.SUCCESS -> VibrationEffect.EFFECT_DOUBLE_CLICK
             }
-            v.vibrate(effect)
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val duration = when (type) {
-                HapticType.LIGHT -> 10L
-                HapticType.MEDIUM -> 20L
-                HapticType.HEAVY -> 30L
-                HapticType.SUCCESS -> 50L
+            val supported = v.areEffectsSupported(predefinedId)
+            if (supported.size > 0 && supported[0] == Vibrator.VIBRATION_EFFECT_SUPPORT_YES) {
+                v.vibrate(VibrationEffect.createPredefined(predefinedId))
+                return
             }
-            v.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE))
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val (duration, amplitude) = when (type) {
+                HapticType.LIGHT -> 12L to 90
+                HapticType.MEDIUM -> 20L to 140
+                HapticType.HEAVY -> 30L to 200
+                HapticType.SUCCESS -> 45L to 180
+            }
+            v.vibrate(VibrationEffect.createOneShot(duration, amplitude.coerceIn(1, 255)))
         } else {
             @Suppress("DEPRECATION")
-            v.vibrate(20)
+            val duration = when (type) {
+                HapticType.LIGHT -> 12L
+                HapticType.MEDIUM -> 20L
+                HapticType.HEAVY -> 30L
+                HapticType.SUCCESS -> 45L
+            }
+            @Suppress("DEPRECATION")
+            v.vibrate(duration)
         }
     }
 

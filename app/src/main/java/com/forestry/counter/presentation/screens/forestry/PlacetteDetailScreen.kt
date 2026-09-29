@@ -35,11 +35,15 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material.icons.filled.Straighten
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.shrinkHorizontally
@@ -178,6 +182,18 @@ fun PlacetteDetailScreen(
     var searchActive by remember { mutableStateOf(false) }
     var searchQuery  by remember { mutableStateOf("") }
 
+    // ── Mode Martelage ─────────────────────────────────────────────────────
+    var martelageActive by rememberSaveable { mutableStateOf(false) }
+    var martelagePaused by rememberSaveable { mutableStateOf(false) }
+    var martelageStemCountAtStart by rememberSaveable { mutableStateOf(0) }
+    var martelageStartMs by rememberSaveable { mutableStateOf(0L) }
+    var martelageRainRisk by remember { mutableStateOf(false) }
+    var martelageStopCount by remember { mutableStateOf(0) }
+    var martelagePauseCount by remember { mutableStateOf(0) }
+    var stopResetJob by remember { mutableStateOf<kotlinx.coroutines.Job?>(null) }
+    var pauseResetJob by remember { mutableStateOf<kotlinx.coroutines.Job?>(null) }
+    var martelageQuickEntryEssence by remember { mutableStateOf<String?>(null) }
+
     val allEssencesState by essenceRepository.getAllEssences().collectAsStateWithLifecycle(initialValue = null)
     val allEssences = allEssencesState ?: emptyList<Essence>()
     val tigesState by tigeRepository.getTigesByPlacette(placetteId).collectAsStateWithLifecycle(initialValue = null)
@@ -198,6 +214,119 @@ fun PlacetteDetailScreen(
         if (soundEnabled) sound.click()
     }
 
+    // ── Baromètre : détection risque de pluie ─────────────────────────────
+    val sensorManager = remember(context) {
+        context.getSystemService(android.content.Context.SENSOR_SERVICE) as? android.hardware.SensorManager
+    }
+    androidx.compose.runtime.DisposableEffect(martelageActive) {
+        if (!martelageActive) return@DisposableEffect onDispose {}
+        val sensor = sensorManager?.getDefaultSensor(android.hardware.Sensor.TYPE_PRESSURE)
+            ?: return@DisposableEffect onDispose {}
+        val listener = object : android.hardware.SensorEventListener {
+            override fun onSensorChanged(event: android.hardware.SensorEvent) {
+                martelageRainRisk = (event.values.firstOrNull() ?: 1013f) < 1000f
+            }
+            override fun onAccuracyChanged(sensor: android.hardware.Sensor, accuracy: Int) {}
+        }
+        sensorManager.registerListener(listener, sensor, android.hardware.SensorManager.SENSOR_DELAY_NORMAL)
+        onDispose { sensorManager.unregisterListener(listener) }
+    }
+
+    // ── Luminosité adaptative + screen-on ─────────────────────────────────
+    val activity = context as? android.app.Activity
+    androidx.compose.runtime.SideEffect {
+        val window = activity?.window ?: return@SideEffect
+        val params = window.attributes
+        if (martelageActive && !martelagePaused) {
+            params.screenBrightness = android.view.WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL
+            window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        } else {
+            params.screenBrightness = android.view.WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
+            window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+        window.attributes = params
+    }
+
+    // ── Helpers mode martelage ─────────────────────────────────────────────
+    fun startMartelageMode() {
+        martelageStemCountAtStart = tiges.size
+        martelageStartMs = System.currentTimeMillis()
+        martelageActive = true
+        martelagePaused = false
+        martelageStopCount = 0
+        martelagePauseCount = 0
+        playClickFeedback()
+    }
+
+    fun onStopClick() {
+        martelageStopCount++
+        stopResetJob?.cancel()
+        if (martelageStopCount >= 3) {
+            martelageStopCount = 0
+            val endMs = System.currentTimeMillis()
+            val sessionTiges = tiges.filter { it.timestamp >= martelageStartMs }
+            val breakdown = sessionTiges
+                .groupBy { it.categorie?.uppercase()?.trim() ?: "AUTRE" }
+                .mapValues { it.value.size }
+            val essenceCodes = sessionTiges.map { it.essenceCode }.distinct()
+            scope.launch {
+                userPreferences.addMartelageSession(
+                    placetteId,
+                    com.forestry.counter.data.preferences.UserPreferencesManager.MartelageSessionRecord(
+                        startMs = martelageStartMs,
+                        endMs = endMs,
+                        stemsAdded = (tiges.size - martelageStemCountAtStart).coerceAtLeast(0),
+                        totalStemsAtEnd = tiges.size,
+                        categoryBreakdown = breakdown,
+                        essenceCodes = essenceCodes,
+                    )
+                )
+            }
+            martelageActive = false
+            martelagePaused = false
+            playClickFeedback()
+            onNavigateToMartelage(parcelleId, placetteId)
+        } else {
+            stopResetJob = scope.launch {
+                kotlinx.coroutines.delay(2000L)
+                martelageStopCount = 0
+            }
+            playClickFeedback()
+        }
+    }
+
+    fun onPauseClick() {
+        if (martelagePaused || !martelageRainRisk) {
+            // 1 clic suffit pour reprendre ou pour mettre pause hors risque pluie
+            martelagePaused = !martelagePaused
+            martelagePauseCount = 0
+            pauseResetJob?.cancel()
+        } else {
+            // Risque pluie : 3 clics pour mettre pause
+            martelagePauseCount++
+            pauseResetJob?.cancel()
+            if (martelagePauseCount >= 3) {
+                martelagePauseCount = 0
+                martelagePaused = true
+            } else {
+                pauseResetJob = scope.launch {
+                    kotlinx.coroutines.delay(2000L)
+                    martelagePauseCount = 0
+                }
+            }
+        }
+        playClickFeedback()
+    }
+
+    val martelageStemCount = if (martelageActive) (tiges.size - martelageStemCountAtStart).coerceAtLeast(0) else 0
+    val martelageSessions by userPreferences.martelageSessionsFlow(placetteId).collectAsStateWithLifecycle(initialValue = emptyList())
+    val sessionCountByEssence = remember(tiges, martelageStartMs, martelageActive) {
+        if (!martelageActive || martelageStartMs == 0L) emptyMap()
+        else tiges.filter { it.timestamp >= martelageStartMs }
+            .groupBy { it.essenceCode }
+            .mapValues { it.value.size }
+    }
+
     // Usage par essence dans cette placette
     val usageByEssence = remember(tiges) {
         tiges.groupBy { it.essenceCode }.mapValues { it.value.size }
@@ -216,6 +345,13 @@ fun PlacetteDetailScreen(
     var draggingCode by remember { mutableStateOf<String?>(null) }
     var dragAccum by remember { mutableStateOf(0f) }
     var selectedTab by remember { mutableIntStateOf(0) }
+    LaunchedEffect(martelageActive) {
+        if (martelageActive) {
+            selectedTab = 0
+            searchActive = false
+            searchQuery = ""
+        }
+    }
     val density = LocalDensity.current
     val itemStepPx = with(density) { (84.dp + 12.dp).toPx() }
 
@@ -313,50 +449,177 @@ fun PlacetteDetailScreen(
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbar) },
-        topBar = {
-            TopAppBar(
-                title = {
-                    Column {
-                        Text(
-                            placetteName?.takeIf { it.isNotBlank() }
-                                ?: stringResource(R.string.placette_essences_title),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.titleLarge
-                        )
-                        val essencesCount = presentEssences.size
-                        val subtitle = stringResource(
-                            R.string.placette_essences_subtitle_format, tiges.size, essencesCount
-                        )
-                        Text(
-                            subtitle,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                },
-                navigationIcon = {
-                    IconButton(onClick = {
-                        playClickFeedback()
-                        onNavigateBack()
-                    }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
-                    }
-                },
-                actions = {
-                    // Recherche
-                    IconButton(onClick = {
-                        playClickFeedback()
-                        searchActive = !searchActive
-                        if (!searchActive) searchQuery = ""
-                    }) {
+        bottomBar = {
+            if (martelageActive) {
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = if (martelagePaused) MaterialTheme.colorScheme.surfaceVariant
+                            else if (martelageRainRisk) MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.85f)
+                            else MaterialTheme.colorScheme.primaryContainer,
+                    tonalElevation = 8.dp,
+                    shadowElevation = 4.dp,
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp, vertical = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
                         Icon(
-                            if (searchActive) Icons.Default.Close else Icons.Default.Search,
-                            contentDescription = stringResource(R.string.search_essences)
+                            Icons.Default.Straighten,
+                            contentDescription = null,
+                            modifier = Modifier.size(16.dp),
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer
                         )
+                        Text(
+                            text = "$martelageStemCount ${stringResource(R.string.martelage_mode_stems)}",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                        if (martelagePaused) {
+                            Text(
+                                "· ${stringResource(R.string.martelage_mode_paused)}",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                        Spacer(Modifier.weight(1f))
+                        if (martelageRainRisk) {
+                            Text(
+                                "⚠ ${stringResource(R.string.martelage_mode_rain_risk)}",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
                     }
+                }
+            }
+        },
+        topBar = {
+            if (martelageActive) {
+                // ── TopBar mode martelage ──────────────────────────────────────────
+                TopAppBar(
+                    title = {
+                        Column {
+                            Text(
+                                stringResource(R.string.martelage_mode_active),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold
+                            )
+                            val rainSuffix = if (martelageRainRisk) " · ⚠ ${stringResource(R.string.martelage_mode_rain_risk)}" else ""
+                            Text(
+                                "$martelageStemCount ${stringResource(R.string.martelage_mode_stems)}$rainSuffix",
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = if (martelageRainRisk) MaterialTheme.colorScheme.error
+                                        else MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    },
+                    navigationIcon = {
+                        // Bouton retour grisé en mode actif
+                        IconButton(onClick = {}, enabled = false) {
+                            Icon(
+                                Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.35f)
+                            )
+                        }
+                    },
+                    actions = {
+                        // Bouton Pause / Reprendre
+                        val pauseLabel = if (martelagePaused) stringResource(R.string.martelage_mode_resume)
+                                         else stringResource(R.string.martelage_mode_pause)
+                        IconButton(onClick = { onPauseClick() }) {
+                            BadgedBox(
+                                badge = {
+                                    if (martelageRainRisk && !martelagePaused && martelagePauseCount > 0) {
+                                        Badge { Text("${3 - martelagePauseCount}") }
+                                    }
+                                }
+                            ) {
+                                Icon(
+                                    if (martelagePaused) Icons.Default.PlayArrow else Icons.Default.Pause,
+                                    contentDescription = pauseLabel
+                                )
+                            }
+                        }
+                        // Bouton Stop (toujours 3 clics)
+                        TextButton(
+                            onClick = { onStopClick() },
+                            colors = ButtonDefaults.textButtonColors(
+                                contentColor = MaterialTheme.colorScheme.error
+                            )
+                        ) {
+                            if (martelageStopCount > 0) {
+                                Text(
+                                    "${stringResource(R.string.martelage_mode_stop)} (${3 - martelageStopCount}×)",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            } else {
+                                Text(
+                                    stringResource(R.string.martelage_mode_stop),
+                                    style = MaterialTheme.typography.labelMedium
+                                )
+                            }
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = if (martelagePaused) MaterialTheme.colorScheme.surfaceVariant
+                                         else if (martelageRainRisk) MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.4f)
+                                         else MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f)
+                    )
+                )
+            } else {
+                // ── TopBar normal ──────────────────────────────────────────────────
+                TopAppBar(
+                    title = {
+                        Column {
+                            Text(
+                                placetteName?.takeIf { it.isNotBlank() }
+                                    ?: stringResource(R.string.placette_essences_title),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                style = MaterialTheme.typography.titleLarge
+                            )
+                            val essencesCount = presentEssences.size
+                            val subtitle = stringResource(
+                                R.string.placette_essences_subtitle_format, tiges.size, essencesCount
+                            )
+                            Text(
+                                subtitle,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            playClickFeedback()
+                            onNavigateBack()
+                        }) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
+                        }
+                    },
+                    actions = {
+                        // Recherche
+                        IconButton(onClick = {
+                            playClickFeedback()
+                            searchActive = !searchActive
+                            if (!searchActive) searchQuery = ""
+                        }) {
+                            Icon(
+                                if (searchActive) Icons.Default.Close else Icons.Default.Search,
+                                contentDescription = stringResource(R.string.search_essences)
+                            )
+                        }
                     // Menu overflow : actions de gestion
                     Box {
                         IconButton(onClick = { showMoreMenu = true }) {
@@ -414,6 +677,7 @@ fun PlacetteDetailScreen(
                     }
                 }
             )
+            } // end else (topBar normal)
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -428,73 +692,109 @@ fun PlacetteDetailScreen(
         }
     ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding).padding(12.dp)) {
-            // ── Actions diagnostics centrées (Martelage / Station / Ripisylve / IBP) ──
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp)
-            ) {
-                Button(onClick = {
-                    playClickFeedback()
-                    onNavigateToMartelage(parcelleId, placetteId)
-                }) {
-                    Icon(Icons.Default.Straighten, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(6.dp))
-                    Text(stringResource(R.string.martelage))
-                }
-                if (onNavigateToStationDiag != null) {
-                    OutlinedButton(onClick = {
-                        playClickFeedback()
-                        onNavigateToStationDiag(parcelleId)
-                    }) {
-                        Icon(Icons.Default.Science, contentDescription = null, modifier = Modifier.size(18.dp), tint = SemanticInfo)
-                        Spacer(Modifier.width(6.dp))
-                        Text(stringResource(R.string.diag_station_btn))
+            if (!martelageActive) {
+                // ── Bouton principal : Commencer le martelage ──────────────────
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp, bottom = 2.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Button(
+                        onClick = { startMartelageMode() },
+                        modifier = Modifier
+                            .widthIn(min = 240.dp)
+                            .height(52.dp),
+                        shape = MaterialTheme.shapes.extraLarge,
+                        contentPadding = PaddingValues(horizontal = 28.dp, vertical = 0.dp),
+                    ) {
+                        Icon(Icons.Default.Straighten, contentDescription = null, modifier = Modifier.size(20.dp))
+                        Spacer(Modifier.width(10.dp))
+                        Text(
+                            stringResource(R.string.commencer_le_martelage),
+                            style = MaterialTheme.typography.titleSmall,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                 }
-                if (onNavigateToRipisylveDiag != null) {
-                    OutlinedButton(onClick = {
-                        playClickFeedback()
-                        onNavigateToRipisylveDiag(parcelleId)
-                    }) {
-                        Icon(Icons.Default.Water, contentDescription = null, modifier = Modifier.size(18.dp), tint = Color(0xFF0277BD))
-                        Spacer(Modifier.width(6.dp))
-                        Text(stringResource(R.string.diag_ripisylve_btn))
+            }
+
+            // ── Diagnostics secondaires (compacts) ─────────────────────────────
+            if (!martelageActive && (onNavigateToStationDiag != null || onNavigateToIbp != null)) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 4.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    if (onNavigateToStationDiag != null) {
+                        AssistChip(
+                            onClick = {
+                                playClickFeedback()
+                                onNavigateToStationDiag(parcelleId)
+                            },
+                            label = {
+                                Text(
+                                    stringResource(R.string.diag_station_btn),
+                                    style = MaterialTheme.typography.labelSmall
+                                )
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Default.Science,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                            }
+                        )
                     }
-                }
-                if (onNavigateToIbp != null) {
-                    OutlinedButton(onClick = {
-                        playClickFeedback()
-                        onNavigateToIbp(parcelleId, placetteId)
-                    }) {
-                        Icon(Icons.Default.EmojiNature, contentDescription = null, modifier = Modifier.size(18.dp), tint = SemanticSuccess)
-                        Spacer(Modifier.width(6.dp))
-                        Text(stringResource(R.string.ibp_start))
+                    if (onNavigateToIbp != null) {
+                        if (onNavigateToStationDiag != null) Spacer(Modifier.width(8.dp))
+                        AssistChip(
+                            onClick = {
+                                playClickFeedback()
+                                onNavigateToIbp(parcelleId, placetteId)
+                            },
+                            label = {
+                                Text(
+                                    stringResource(R.string.ibp_start),
+                                    style = MaterialTheme.typography.labelSmall
+                                )
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Default.EmojiNature,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                            }
+                        )
                     }
                 }
             }
             Spacer(Modifier.height(4.dp))
 
-            // ── TabRow : Essences / Évolution ──────────────────────────────────────
-            TabRow(
-                selectedTabIndex = selectedTab,
-                containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.primary
-            ) {
-                Tab(
-                    selected = selectedTab == 0,
-                    onClick = { playClickFeedback(); selectedTab = 0 },
-                    text = { Text(stringResource(R.string.placette_tab_essences)) }
-                )
-                Tab(
-                    selected = selectedTab == 1,
-                    onClick = { playClickFeedback(); selectedTab = 1 },
-                    text = { Text(stringResource(R.string.placette_tab_evolution)) }
-                )
+            // ── TabRow : Essences / Évolution (masqué en mode martelage actif) ─────
+            if (!martelageActive) {
+                TabRow(
+                    selectedTabIndex = selectedTab,
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.primary
+                ) {
+                    Tab(
+                        selected = selectedTab == 0,
+                        onClick = { playClickFeedback(); selectedTab = 0 },
+                        text = { Text(stringResource(R.string.placette_tab_essences)) }
+                    )
+                    Tab(
+                        selected = selectedTab == 1,
+                        onClick = { playClickFeedback(); selectedTab = 1 },
+                        text = { Text(stringResource(R.string.placette_tab_evolution)) }
+                    )
+                }
+                Spacer(Modifier.height(8.dp))
             }
-            Spacer(Modifier.height(8.dp))
 
             Crossfade(
                 targetState = selectedTab,
@@ -531,8 +831,8 @@ fun PlacetteDetailScreen(
                 )
             }
 
-            // ── Galerie photos ────────────────────────────────────────────────────────
-            if (photoFiles.isNotEmpty()) {
+            // ── Galerie photos (masquée en mode martelage actif) ─────────────────────
+            if (!martelageActive && photoFiles.isNotEmpty()) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -673,7 +973,7 @@ fun PlacetteDetailScreen(
                     )
                 } else {
                     LazyVerticalGrid(
-                        columns = GridCells.Adaptive(minSize = 140.dp),
+                        columns = GridCells.Adaptive(minSize = if (martelageActive) 160.dp else 140.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
@@ -688,8 +988,9 @@ fun PlacetteDetailScreen(
                                 code = code,
                                 name = essence?.name ?: code,
                                 count = usageByEssence[code] ?: 0,
-                                reorderMode = reorderMode,
+                                reorderMode = if (martelageActive) false else reorderMode,
                                 animationsEnabled = animationsEnabled,
+                                martelageSessionCount = sessionCountByEssence[code] ?: 0,
                                 onDragStart = {
                                     draggingCode = code
                                     dragAccum = 0f
@@ -721,7 +1022,11 @@ fun PlacetteDetailScreen(
                                 },
                                 onClick = {
                                     playClickFeedback()
-                                    onNavigateToDiametres(parcelleId, placetteId, code)
+                                    if (martelageActive) {
+                                        martelageQuickEntryEssence = code
+                                    } else {
+                                        onNavigateToDiametres(parcelleId, placetteId, code)
+                                    }
                                 },
                                 onLongPress = {
                                     playClickFeedback()
@@ -751,6 +1056,11 @@ fun PlacetteDetailScreen(
                         tiges = tiges,
                         allEssences = allEssences,
                         animationsEnabled = animationsEnabled,
+                        martelageSessions = martelageSessions,
+                        onViewSynthesis = {
+                            playClickFeedback()
+                            onNavigateToMartelage(parcelleId, placetteId)
+                        },
                         onYearClick = { clickedYear ->
                             playClickFeedback()
                             onNavigateToEvolution?.invoke(parcelleId, placetteId, clickedYear)
@@ -1079,6 +1389,26 @@ fun PlacetteDetailScreen(
             }
         )
     }
+
+    // ── Saisie rapide de tige en mode martelage actif ─────────────────────────
+    if (martelageQuickEntryEssence != null) {
+        val essCode = martelageQuickEntryEssence!!
+        val ess = allEssences.firstOrNull { it.code == essCode }
+        MartelageQuickEntrySheet(
+            essenceCode = essCode,
+            essenceName = ess?.name ?: essCode,
+            essenceColor = essenceColor(ess),
+            parcelleId = parcelleId,
+            placetteId = placetteId,
+            tigeRepository = tigeRepository,
+            animationsEnabled = animationsEnabled,
+            onDismiss = { martelageQuickEntryEssence = null },
+            onAdded = {
+                martelageQuickEntryEssence = null
+                playClickFeedback()
+            }
+        )
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -1089,6 +1419,7 @@ private fun EssenceBlock(
     count: Int,
     reorderMode: Boolean,
     animationsEnabled: Boolean,
+    martelageSessionCount: Int = 0,
     onDragStart: () -> Unit,
     onDrag: (Float) -> Unit,
     onDragEnd: () -> Unit,
@@ -1100,7 +1431,7 @@ private fun EssenceBlock(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .heightIn(min = 84.dp)
+            .heightIn(min = if (martelageSessionCount > 0) 96.dp else 84.dp)
             .combinedClickable(onClick = onClick, onLongClick = onLongPress),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = if (containerColor != null) CardDefaults.cardColors(containerColor = containerColor) else CardDefaults.cardColors()
@@ -1114,7 +1445,29 @@ private fun EssenceBlock(
             Column(horizontalAlignment = Alignment.End) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(count.toString(), style = MaterialTheme.typography.titleLarge)
-                    
+
+                    AnimatedVisibility(
+                        visible = martelageSessionCount > 0,
+                        enter = fadeIn(animationSpec = tween(durationMillis = if (animationsEnabled) 180 else 0)) +
+                            expandHorizontally(animationSpec = tween(durationMillis = if (animationsEnabled) 200 else 0)),
+                        exit = fadeOut(animationSpec = tween(durationMillis = if (animationsEnabled) 120 else 0)) +
+                            shrinkHorizontally(animationSpec = tween(durationMillis = if (animationsEnabled) 160 else 0))
+                    ) {
+                        Surface(
+                            color = AccentGreen.copy(alpha = 0.2f),
+                            shape = MaterialTheme.shapes.extraSmall,
+                            modifier = Modifier.padding(start = 6.dp)
+                        ) {
+                            Text(
+                                "+$martelageSessionCount",
+                                style = MaterialTheme.typography.labelSmall,
+                                fontWeight = FontWeight.Bold,
+                                color = AccentGreen,
+                                modifier = Modifier.padding(horizontal = 5.dp, vertical = 2.dp)
+                            )
+                        }
+                    }
+
                     AnimatedVisibility(
                         visible = reorderMode,
                         enter = fadeIn(animationSpec = tween(durationMillis = if (animationsEnabled) 160 else 0, easing = FastOutSlowInEasing)) +
@@ -1271,6 +1624,8 @@ private fun PlacetteEvolutionTab(
     tiges: List<Tige>,
     allEssences: List<Essence>,
     animationsEnabled: Boolean,
+    martelageSessions: List<com.forestry.counter.data.preferences.UserPreferencesManager.MartelageSessionRecord> = emptyList(),
+    onViewSynthesis: () -> Unit = {},
     onYearClick: (Int) -> Unit = {}
 ) {
     val context = LocalContext.current
@@ -1335,6 +1690,41 @@ private fun PlacetteEvolutionTab(
                     animationsEnabled = animationsEnabled,
                     onClick = { onYearClick(year) }
                 )
+            }
+        }
+
+        // ── Synthèses de martelage historiques ────────────────────────────
+        if (martelageSessions.isNotEmpty()) {
+            item(key = "martelage-header") {
+                Spacer(Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Icon(
+                        Icons.Default.Straighten,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Text(
+                        stringResource(R.string.evolution_martelage_history_title),
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+
+            martelageSessions.sortedByDescending { it.endMs }.forEach { session ->
+                item(key = "session-${session.endMs}") {
+                    MartelageSessionCard(
+                        session = session,
+                        allEssences = allEssences,
+                        onViewSynthesis = onViewSynthesis
+                    )
+                }
             }
         }
     }
@@ -1427,6 +1817,112 @@ private fun YearEvolutionCard(
                         color = catColor
                     )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun MartelageSessionCard(
+    session: com.forestry.counter.data.preferences.UserPreferencesManager.MartelageSessionRecord,
+    allEssences: List<Essence>,
+    onViewSynthesis: () -> Unit,
+) {
+    val dateEnd = remember(session.endMs) {
+        java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.FRANCE)
+            .format(java.util.Date(session.endMs))
+    }
+    val durationMin = ((session.endMs - session.startMs) / 60_000L).coerceAtLeast(0)
+    val essenceNames = remember(session.essenceCodes, allEssences) {
+        session.essenceCodes.mapNotNull { code -> allEssences.firstOrNull { it.code == code }?.name ?: code }
+            .take(3).joinToString(", ")
+            .let { if (session.essenceCodes.size > 3) "$it…" else it }
+    }
+
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            // ── En-tête ────────────────────────────────────────────────────────
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Surface(
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    shape = MaterialTheme.shapes.small,
+                ) {
+                    Icon(
+                        Icons.Default.Straighten,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                        modifier = Modifier.padding(6.dp).size(18.dp)
+                    )
+                }
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        dateEnd,
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        stringResource(R.string.evolution_martelage_duration_format, durationMin),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Surface(
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    shape = MaterialTheme.shapes.extraLarge
+                ) {
+                    Text(
+                        "+ ${session.stemsAdded}",
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                    )
+                }
+            }
+
+            // ── Essences ───────────────────────────────────────────────────────
+            if (essenceNames.isNotBlank()) {
+                Text(
+                    essenceNames,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            // ── Répartition par catégorie ──────────────────────────────────────
+            if (session.categoryBreakdown.isNotEmpty()) {
+                HorizontalDivider()
+                session.categoryBreakdown.forEach { (cat, count) ->
+                    val catColor = martelageCategoryColor(cat)
+                    val catLabel = martelageCategoryLabel(cat)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Surface(color = catColor, shape = MaterialTheme.shapes.extraSmall, modifier = Modifier.size(10.dp)) {}
+                        Text(catLabel, style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f))
+                        Text(count.toString(), style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold, color = catColor)
+                    }
+                }
+            }
+
+            // ── Bouton synthèse ────────────────────────────────────────────────
+            OutlinedButton(
+                onClick = onViewSynthesis,
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                Icon(Icons.Default.Description, contentDescription = null, modifier = Modifier.size(16.dp))
+                Spacer(Modifier.width(6.dp))
+                Text(stringResource(R.string.evolution_martelage_view_synthesis), style = MaterialTheme.typography.labelMedium)
             }
         }
     }
@@ -1554,6 +2050,153 @@ private fun PlacettePhotoViewerDialog(
                         Text(stringResource(R.string.delete), color = MaterialTheme.colorScheme.error)
                     }
                 }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun MartelageQuickEntrySheet(
+    essenceCode: String,
+    essenceName: String,
+    essenceColor: Color?,
+    parcelleId: String,
+    placetteId: String,
+    tigeRepository: TigeRepository,
+    animationsEnabled: Boolean,
+    onDismiss: () -> Unit,
+    onAdded: () -> Unit,
+) {
+    val scope = rememberCoroutineScope()
+    var diamText by remember { mutableStateOf("") }
+    var selectedCategory by remember { mutableStateOf<String?>(null) }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .padding(bottom = 40.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // ── En-tête essence ───────────────────────────────────────────────
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                if (essenceColor != null) {
+                    Surface(
+                        color = essenceColor,
+                        shape = androidx.compose.foundation.shape.CircleShape,
+                        modifier = Modifier.size(14.dp)
+                    ) {}
+                }
+                Text(
+                    essenceName,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(1f),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    essenceCode,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            // ── Saisie du diamètre ────────────────────────────────────────────
+            OutlinedTextField(
+                value = diamText,
+                onValueChange = { input ->
+                    val filtered = input.filter { it.isDigit() || it == '.' }
+                    if (filtered.count { it == '.' } <= 1) diamText = filtered
+                },
+                label = { Text(stringResource(R.string.diameter_cm_label)) },
+                suffix = { Text("cm") },
+                keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
+                    keyboardType = androidx.compose.ui.text.input.KeyboardType.Decimal,
+                    imeAction = androidx.compose.ui.text.input.ImeAction.Done,
+                ),
+                textStyle = MaterialTheme.typography.headlineMedium,
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            // ── Catégorie de coupe ────────────────────────────────────────────
+            Text(
+                stringResource(R.string.martelage_quick_entry_category),
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.primary,
+            )
+            val categories = listOf("AVENIR", "RESERVE", "ENLEVER", "DEPERIR", "BIODIV")
+            androidx.compose.foundation.lazy.LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                items(categories) { cat ->
+                    FilterChip(
+                        selected = selectedCategory == cat,
+                        onClick = { selectedCategory = if (selectedCategory == cat) null else cat },
+                        label = {
+                            Text(
+                                martelageCategoryLabel(cat),
+                                style = MaterialTheme.typography.labelMedium
+                            )
+                        },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = martelageCategoryColor(cat).copy(alpha = 0.2f),
+                            selectedLabelColor = martelageCategoryColor(cat),
+                        )
+                    )
+                }
+            }
+
+            // ── Bouton confirmation ───────────────────────────────────────────
+            val diam = diamText.toDoubleOrNull()
+            Button(
+                onClick = {
+                    if (diam != null && diam > 0.0) {
+                        scope.launch {
+                            tigeRepository.insertTige(
+                                com.forestry.counter.domain.model.Tige(
+                                    id = java.util.UUID.randomUUID().toString(),
+                                    parcelleId = parcelleId,
+                                    placetteId = placetteId,
+                                    essenceCode = essenceCode,
+                                    diamCm = diam,
+                                    hauteurM = null,
+                                    gpsWkt = null,
+                                    precisionM = null,
+                                    altitudeM = null,
+                                    note = null,
+                                    produit = null,
+                                    fCoef = null,
+                                    valueEur = null,
+                                    categorie = selectedCategory,
+                                )
+                            )
+                            onAdded()
+                        }
+                    }
+                },
+                enabled = diam != null && diam > 0.0,
+                modifier = Modifier.fillMaxWidth().height(56.dp),
+                shape = MaterialTheme.shapes.extraLarge,
+            ) {
+                Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(22.dp))
+                Spacer(Modifier.width(10.dp))
+                Text(
+                    stringResource(R.string.martelage_quick_record_stem),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
     }

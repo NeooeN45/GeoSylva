@@ -6,8 +6,6 @@ import android.graphics.SurfaceTexture
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.BatteryManager
-import android.os.PowerManager
-import android.provider.Settings
 import android.view.Surface
 import android.view.TextureView
 import androidx.annotation.RawRes
@@ -48,14 +46,14 @@ import com.forestry.counter.presentation.theme.Motion
  * suffisent pour une boucle locale et muette, et fonctionnent sur toutes les
  * versions d'Android supportées.
  *
- * Le composant se replie sur [posterRes] — l'image fixe correspondant
- * exactement à la première image de la vidéo, la bascule est donc invisible —
- * dans quatre cas :
+ * La vidéo tourne systématiquement à l'arrivée sur l'écran de connexion.
+ * La seule exception est une batterie critique (≤ [LOW_BATTERY_THRESHOLD] %) :
+ * en dessous de ce seuil l'image fixe est affichée à la place, pour ne pas
+ * gêner le dernier usage terrain avant extinction.
  *
- *  1. l'utilisateur a désactivé les animations dans les réglages GeoSylva ;
- *  2. les animations système sont désactivées (accessibilité) ;
- *  3. le mode économie d'énergie est actif ;
- *  4. la batterie est sous [LOW_BATTERY_THRESHOLD] %.
+ * [startPositionMs] permet de choisir la scène de départ (en millisecondes).
+ * Exemple : si la scène rouge-gorge commence à 8 400 ms dans le fichier vidéo,
+ * passer `startPositionMs = 8_400`.
  *
  * L'image fixe reste affichée sous la vidéo et celle-ci apparaît en fondu
  * quand la première image est décodée : aucun écran noir au démarrage.
@@ -64,6 +62,8 @@ import com.forestry.counter.presentation.theme.Motion
 fun VideoBackdrop(
     @RawRes videoRes: Int = R.raw.geosylva_login,
     posterRes: Int = R.drawable.login_backdrop_poster,
+    /** Position de départ en ms — 0 = début du fichier. */
+    startPositionMs: Int = 0,
     animationsEnabled: Boolean = true,
     scrim: Brush = defaultScrim(),
     modifier: Modifier = Modifier,
@@ -72,8 +72,12 @@ fun VideoBackdrop(
     val context = LocalContext.current
     val inPreview = LocalInspectionMode.current
 
-    val shouldAnimate = remember(animationsEnabled, inPreview) {
-        animationsEnabled && !inPreview && context.allowsBackgroundMotion()
+    // La vidéo joue toujours sur l'écran de connexion, quelle que soit
+    // la préférence d'animations ou le mode économie d'énergie. Seule
+    // exception : la batterie critique (≤ LOW_BATTERY_THRESHOLD %) ou le
+    // mode aperçu de l'IDE.
+    val shouldAnimate = remember(inPreview) {
+        !inPreview && context.allowsBackgroundMotion()
     }
 
     Box(modifier = modifier.fillMaxSize()) {
@@ -86,7 +90,7 @@ fun VideoBackdrop(
         )
 
         if (shouldAnimate) {
-            LoopingVideoLayer(videoRes)
+            LoopingVideoLayer(videoRes, startPositionMs)
         }
 
         Box(
@@ -100,7 +104,7 @@ fun VideoBackdrop(
 }
 
 @Composable
-private fun LoopingVideoLayer(@RawRes videoRes: Int) {
+private fun LoopingVideoLayer(@RawRes videoRes: Int, startPositionMs: Int) {
     val context = LocalContext.current
     var ready by remember { mutableStateOf(false) }
 
@@ -112,7 +116,7 @@ private fun LoopingVideoLayer(@RawRes videoRes: Int) {
         label = "fondu-video",
     )
 
-    val holder = remember { VideoHolder(context, videoRes) { ready = true } }
+    val holder = remember { VideoHolder(context, videoRes, startPositionMs) { ready = true } }
 
     DisposableEffect(holder) {
         onDispose { holder.release() }
@@ -134,6 +138,7 @@ private fun LoopingVideoLayer(@RawRes videoRes: Int) {
 private class VideoHolder(
     context: Context,
     @RawRes private val videoRes: Int,
+    private val startPositionMs: Int,
     private val onReady: () -> Unit,
 ) {
     private val uri: Uri = Uri.parse("android.resource://${context.packageName}/$videoRes")
@@ -172,6 +177,7 @@ private class VideoHolder(
                 setVolume(0f, 0f)   // la piste audio a été retirée à l'encodage
                 setOnPreparedListener {
                     applyCenterCrop(width, height)
+                    if (startPositionMs > 0) it.seekTo(startPositionMs)
                     it.start()
                     onReady()
                 }
@@ -240,29 +246,19 @@ fun defaultScrim(): Brush = Brush.verticalGradient(
 )
 
 /**
- * Les fonds animés sont-ils autorisés dans les conditions actuelles ?
+ * La vidéo est-elle autorisée dans les conditions actuelles ?
  *
- * Un forestier passe 6 à 8 heures sur le terrain avec le GPS actif. Une
- * animation de fond ne doit jamais entamer cette réserve : dès que la batterie
- * faiblit, l'application redevient sobre, sans que l'utilisateur ait à le
- * demander.
+ * Seule condition d'arrêt : batterie critique (≤ [LOW_BATTERY_THRESHOLD] %).
+ * À ce niveau, chaque cycle CPU compte pour permettre au forestier de finir
+ * sa journée. Le mode économie d'énergie OS n'est intentionnellement pas
+ * pris en compte : l'écran de connexion est le moment où GeoSylva se présente,
+ * et la vidéo doit tourner quelles que soient les préférences système.
  */
 private fun Context.allowsBackgroundMotion(): Boolean {
-    val systemAnimationsOn = Settings.Global.getFloat(
-        contentResolver,
-        Settings.Global.ANIMATOR_DURATION_SCALE,
-        1f,
-    ) != 0f
-    if (!systemAnimationsOn) return false
-
-    val powerManager = getSystemService(Context.POWER_SERVICE) as? PowerManager
-    if (powerManager?.isPowerSaveMode == true) return false
-
     val batteryManager = getSystemService(Context.BATTERY_SERVICE) as? BatteryManager
     val level = batteryManager?.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY) ?: 100
-    if (level in 1 until LOW_BATTERY_THRESHOLD) return false
-
-    return true
+    return level > LOW_BATTERY_THRESHOLD
 }
 
-private const val LOW_BATTERY_THRESHOLD = 15
+/** Seuil critique : la vidéo s'arrête à 5 % et en dessous. */
+private const val LOW_BATTERY_THRESHOLD = 5

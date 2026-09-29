@@ -1,9 +1,60 @@
 # INDEX — Base de connaissances recherche GeoSylva
 
+## 0. Architecture et livraison V2
+
+Les documents de référence pour la mise à niveau de GeoSylva sont regroupés dans :
+
+- ../00_ARCHITECTURE_V2_DOCUMENTATION_INDEX.md — index, priorité des sources et état réel ;
+- ../MARTELAGE_V2_SPECIFICATION.md — session de martelage, états et parcours terrain ;
+- ../SYNTHESE_V2_SPECIFICATION.md — synthèse structurée, preuves et incertitudes ;
+- ../MIGRATION_CUBAGE_MARTELAGE_SYNTHESE_V2.md — migration progressive et portes de retrait ;
+- contrat GSIE — GSIE/API/docs/GEOSYLVA_CUBAGE_OFFLINE_FIRST_V1.md.
+
+Les documents de recherche ci-dessous alimentent ces spécifications, mais ne valent pas
+qualification scientifique automatique. Les statuts Draft, Review et Validé doivent rester
+visibles lors de toute intégration.
+
 Voir `_METHODOLOGIE.md` pour les règles de production de ces documents.
 
 ## 1. Cubage / Volume (01_cubage_volume/)
-_(à compléter par les agents de la vague 1)_
+
+- **`../REFERENTIEL_CUBAGE_VENTE_FRANCE.md`** — Référentiel maître, statut : Draft.
+  3 points clés :
+  1. Sépare volume sur pied, volume commercial, volume mobilisable, écorce, m³ réel, m³ apparent et stère.
+  2. Recommande une méthode selon l'objet mesuré et impose source, version, domaine de validité et incertitude.
+  3. Présente les limites des prix FBF : moyenne de panel, sur pied, sans ventilation universelle par qualité/département.
+
+- **`../DONNEES_ENTREES_SORTIES_CUBAGE_VENTE.md`** — Contrat central des données nécessaires par résultat, statut : Draft.
+  3 points clés :
+  1. Distingue les données automatiques, saisies, capteurs, fichiers, GSIE et données dérivées.
+  2. Définit les entrées minimales pour inventaire, cubage, produits, biomasse, carbone et valorisation.
+  3. Liste les données que GeoSylva ne doit jamais déduire sans preuve et les états d'erreur attendus.
+
+- **`01_cubage_volume/06_cubage_forestier_global_france.md`** — Panorama mondial et adaptation française, statut : Draft.
+  3 points clés :
+  1. Compare tarifs, équations, cubage direct de grumes, biomasse, LiDAR et IA.
+  2. Documente Huber, Smalian, Newton, cône et V = G × H × f.
+  3. Rappelle que la méthode et le tarif doivent respecter la population de calibration.
+
+- **`01_cubage_volume/07_essences_produits_qualites_france.md`** — Essences, produits et qualités, statut : Draft.
+  3 points clés :
+  1. Distingue essences à prix suivi, essences secondaires/niche et taxons arborés.
+  2. Relie les produits à la qualité, aux dimensions et aux défauts sans transformer A-D en prix normatif.
+  3. Prépare le mapping des codes locaux vers les noms scientifiques et les zones.
+
+- **`01_cubage_volume/08_audit_formules_coefficients_2026-08-30.md`** — Audit des formules et coefficients, statut : Draft.
+  3 points clés :
+  1. Identifie la contradiction Schaeffer/code-documentation et les coefficients non revalidés.
+  2. Sépare la forme de type Schumacher-Hall actuellement nommée Algan.
+  3. Interdit toute correction automatique avant retour aux sources primaires.
+
+- **`01_cubage_volume/09_registre_methodes_cubage_france_monde.md`** — Registre méthode par méthode et variantes régionales, statut : Draft.
+  3 points clés :
+  1. Sépare formules géométriques, tarifs sur pied, barèmes à tables et modèles statistiques.
+  2. Identifie Chaudé, Lapasse, Algan-Monnin, Bouchon, IFN/IGN, EMERGE et Schumacher-Hall.
+  3. Décrit le statut de qualification avant traduction en Kotlin.
+
+- **`01_cubage_volume/methodes_cubage_registry.json`** — Registre machine-readable préparatoire, statut : Draft.
 
 - **`01_cubage_volume/02_tarifs_ifn_emerge.md`** — Statut : brouillon (vérifié pour la partie
   « test d'accès EMERGE », non vérifié pour les coefficients IFN eux-mêmes).
@@ -87,11 +138,45 @@ _(à compléter par les agents de la vague 1)_
      générique) et potentiellement sous-estimé pour les feuillus précieux d'exception.
 
 ## 2. Marché / Prix (02_marche_prix/)
-_(à compléter par les agents de la vague 2)_
 
-- **`02_marche_prix/01_prix_national_fbf.md`** — Statut : brouillon (sources officielles FBF/CNPF/La
-  Forestière recoupées ; PDF officiels illisibles en extraction automatique — tableau détaillé par
-  essence pour 2025 non extrait, vérification manuelle requise).
+- **`02_marche_prix/06_prix_provenance_actualisation.md`** — Prix, provenance et mise à jour trimestrielle, statut : Draft.
+  3 points clés :
+  1. Définit les conditions de comparabilité d'un prix et sépare FBF, ONF, Agreste, CEEB et ADEME.
+  2. Documente les valeurs FBF 2024-2025 avec leur portée réelle : bois d'œuvre sur pied, moyenne de panel.
+  3. Propose un pipeline détecter → qualifier → extraire → normaliser → valider → historiser.
+
+- **`02_marche_prix/07_vente_tracabilite_normes_france.md`** — Vente, mesurage, contrats, normes et traçabilité, statut : Draft.
+  3 points clés :
+  1. Liste les clauses nécessaires pour relier lot, volume, qualité, prix, risques et réception.
+  2. Sépare classement de grume, classement mécanique de sciage, certification et provenance.
+  3. Signale les obligations EUTR/EUDR et les points nécessitant une validation juridique à jour.
+
+- **`02_marche_prix/08_modele_donnees_cubage_prix.md`** — Modèle de données offline-first, statut : Draft.
+  3 points clés :
+  1. Propose Measurement, CubageRun, PriceObservation et PriceRule historisée.
+  2. Mappe le modèle vers `Tige`, `Essence`, `TarifMethod`, `PriceEntry` et `CalculationRunEntity`.
+  3. Interdit les conversions d'unités ou les fallbacks sans source et domaine explicites.
+
+- **`02_marche_prix/prix_observation.schema.json`** — JSON Schema d'import, statut : Draft.
+- **`02_marche_prix/vecteurs_tests_cubage.json`** — Vecteurs numériques géométriques, statut : Draft.
+- **`02_marche_prix/catalogue_essences_commerciales_france.csv`** — Catalogue structuré de départ, statut : Draft.
+  Les cellules vides signifient « non disponible ou non vérifié » ; elles ne valent jamais zéro.
+
+- **`02_marche_prix/09_matrice_sources_prix_regions_2026-08-30.md`** — Couverture des marchés et régions, statut : Draft.
+  3 points clés :
+  1. Distingue les observations régionales des coefficients de modèle GRECO/région.
+  2. Sépare les séries FBF, ONF, Agreste, CEEB/CIBE et ADEME.
+  3. Définit les champs nécessaires à l'actualisation trimestrielle.
+
+- **`02_marche_prix/10_plan_tests_cubage_vente_2026-08-30.md` — Plan QA du contrat cubage/vente, statut : Draft.
+  3 points clés :
+  1. Couvre entrées, unités, méthodes, produits, qualité, prix, biomasse et capteurs.
+  2. Exige des attendus indépendants des constantes du code.
+  3. Marque explicitement les tests à écrire, sans prétendre qu'ils sont tous implémentés.
+
+Les prix régionaux existants restent documentés dans `02_prix_regionaux.md` ; ce nouveau corpus ne les remplace pas.
+
+- **`02_marche_prix/01_prix_national_fbf.md`** — Statut : brouillon complété le 2026-08-30 (sources officielles FBF/CNPF/La Forestière recoupées ; les valeurs 2024-2025 par groupe d'essences sont confirmées dans la plaquette officielle et reprises dans `06_prix_provenance_actualisation.md`). Les ventilations plus fines par qualité, diamètre et provenance restent à vérifier.
   **3 points clés** :
   1. L'indicateur FBF (co-produit La Forestière/ASFFOR/EFF, panel = ventes groupées d'Experts
      Forestiers de France, ~60 ventes/an, ~3000 lots, €/m³ sur pied HT) donne un prix moyen toutes

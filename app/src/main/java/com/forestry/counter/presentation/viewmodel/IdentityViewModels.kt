@@ -7,6 +7,8 @@ import com.forestry.counter.data.preferences.UserPreferencesManager
 import com.forestry.counter.data.remote.identity.GoogleCredentialClient
 import com.forestry.counter.domain.model.AccountSession
 import com.forestry.counter.domain.model.AccountProfile
+import com.forestry.counter.domain.model.AccountConsent
+import com.forestry.counter.domain.model.AccountConsentPolicy
 import com.forestry.counter.domain.model.ApiDiagnostic
 import com.forestry.counter.domain.model.IdentityClientException
 import com.forestry.counter.domain.model.IdentityError
@@ -34,6 +36,8 @@ data class LoginUiState(
     val password: String = "",
     val passwordConfirmation: String = "",
     val displayName: String = "",
+    val termsAccepted: Boolean = false,
+    val privacyAccepted: Boolean = false,
     val providers: List<ProviderCapability> = emptyList(),
     val isLoadingProviders: Boolean = true,
     val isSubmitting: Boolean = false,
@@ -77,6 +81,14 @@ class LoginViewModel(private val repository: IdentityRepository) : ViewModel() {
 
     fun setDisplayName(value: String) = updateInput { copy(displayName = value, error = null) }
 
+    fun setTermsAccepted(value: Boolean) = updateInput {
+        copy(termsAccepted = value, error = null)
+    }
+
+    fun setPrivacyAccepted(value: Boolean) = updateInput {
+        copy(privacyAccepted = value, error = null)
+    }
+
     fun reloadProviders() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoadingProviders = true, error = null) }
@@ -110,15 +122,43 @@ class LoginViewModel(private val repository: IdentityRepository) : ViewModel() {
             if (state.mode == LoginMode.SIGN_IN) {
                 completeLogin(repository.loginWithPassword(state.email, state.password))
             } else {
-                completeAuthentication(
-                    repository.register(
-                        email = state.email,
-                        password = state.password,
-                        displayName = state.displayName,
-                    )
-                )
+                completeRegistration(state)
             }
         }
+    }
+
+    /**
+     * Création puis enregistrement des consentements explicitement cochés.
+     * Si un enregistrement échoue, les consentements déjà posés sont révoqués
+     * et la session locale est fermée : l'application ne valide jamais une
+     * inscription comme terminée sans son parcours juridique complet.
+     */
+    private suspend fun completeRegistration(state: LoginUiState) {
+        val registration = repository.register(
+            email = state.email,
+            password = state.password,
+            displayName = state.displayName,
+        )
+        val session = registration.getOrElse { error ->
+            finishWith(error.identityError())
+            return
+        }
+        val accepted = mutableListOf<String>()
+        for (requirement in AccountConsentPolicy.required) {
+            val result = repository.acceptConsent(requirement.type, requirement.documentVersion)
+            if (result.isSuccess) {
+                accepted += requirement.type
+            } else {
+                accepted.asReversed().forEach { repository.revokeConsent(it) }
+                repository.logout()
+                finishWith(
+                    result.exceptionOrNull()?.identityError()
+                        ?: IdentityError.UNKNOWN,
+                )
+                return
+            }
+        }
+        completeAuthentication(Result.success(session))
     }
 
     fun setMfaCode(value: String) = updateInput {
@@ -232,6 +272,9 @@ class LoginViewModel(private val repository: IdentityRepository) : ViewModel() {
         if (state.mode == LoginMode.REGISTER) {
             if (state.password.length !in 12..128) return IdentityError.INVALID_INPUT
             if (state.password != state.passwordConfirmation) return IdentityError.INVALID_INPUT
+            if (!state.termsAccepted || !state.privacyAccepted) {
+                return IdentityError.REGISTRATION_CONSENT_REQUIRED
+            }
         }
         return null
     }
@@ -248,6 +291,8 @@ class LoginViewModel(private val repository: IdentityRepository) : ViewModel() {
 data class AccountUiState(
     val session: AccountSession? = null,
     val profile: AccountProfile? = null,
+    val consents: List<AccountConsent> = emptyList(),
+    val isLoadingConsents: Boolean = false,
     val providers: List<ProviderCapability> = emptyList(),
     val isLoadingProviders: Boolean = true,
     val isLoggingOut: Boolean = false,
@@ -262,6 +307,7 @@ enum class AccountNotice {
     VERIFICATION_SENT,
     EMAIL_VERIFIED,
     GOOGLE_LINKED,
+    CONSENT_UPDATED,
 }
 
 class AccountViewModel(private val repository: IdentityRepository) : ViewModel() {
@@ -276,7 +322,13 @@ class AccountViewModel(private val repository: IdentityRepository) : ViewModel()
     init {
         viewModelScope.launch {
             repository.session.collect { session ->
-                _uiState.update { it.copy(session = session) }
+                _uiState.update {
+                    it.copy(
+                        session = session,
+                        consents = if (session == null) emptyList() else it.consents,
+                    )
+                }
+                if (session != null) refreshConsents()
             }
         }
         viewModelScope.launch {
@@ -288,14 +340,57 @@ class AccountViewModel(private val repository: IdentityRepository) : ViewModel()
         reloadProviders()
     }
 
+    fun refreshConsents() {
+        if (repository.session.value == null) {
+            _uiState.update { it.copy(consents = emptyList(), isLoadingConsents = false) }
+            return
+        }
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoadingConsents = true) }
+            repository.listConsents().fold(
+                onSuccess = { consents ->
+                    _uiState.update {
+                        it.copy(consents = consents, isLoadingConsents = false)
+                    }
+                },
+                onFailure = { error ->
+                    _uiState.update {
+                        it.copy(isLoadingConsents = false, error = error.identityError())
+                    }
+                },
+            )
+        }
+    }
+
+    fun setConsentAccepted(consentType: String, accepted: Boolean) {
+        val version = AccountConsentPolicy.versionFor(consentType) ?: return
+        runAccountAction(
+            action = {
+                if (accepted) {
+                    repository.acceptConsent(consentType, version).map { Unit }
+                } else {
+                    repository.revokeConsent(consentType)
+                }
+            },
+            notice = AccountNotice.CONSENT_UPDATED,
+            afterSuccess = ::refreshConsents,
+        )
+    }
+
     fun setVerificationCode(value: String) {
         _uiState.update { it.copy(verificationCode = value.take(9), error = null, notice = null) }
     }
 
     fun refreshProfile() {
+        val hadExpiredCachedSession = repository.session.value?.isExpired() == true
         viewModelScope.launch {
             repository.loadProfile().onFailure { error ->
-                _uiState.update { it.copy(error = error.identityError()) }
+                val isInvalidExpiredSession =
+                    hadExpiredCachedSession &&
+                        (error as? IdentityClientException)?.error == IdentityError.INVALID_CREDENTIALS
+                if (!isInvalidExpiredSession) {
+                    _uiState.update { it.copy(error = error.identityError()) }
+                }
             }
         }
     }
@@ -391,12 +486,14 @@ class AccountViewModel(private val repository: IdentityRepository) : ViewModel()
     private fun runAccountAction(
         action: suspend () -> Result<Unit>,
         notice: AccountNotice,
+        afterSuccess: (() -> Unit)? = null,
     ) {
         if (_uiState.value.isWorking) return
         viewModelScope.launch {
             _uiState.update { it.copy(isWorking = true, error = null, notice = null) }
             action().fold(
                 onSuccess = {
+                    afterSuccess?.invoke()
                     _uiState.update {
                         it.copy(
                             isWorking = false,

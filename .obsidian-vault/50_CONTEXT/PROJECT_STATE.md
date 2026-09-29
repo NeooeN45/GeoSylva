@@ -2,8 +2,7 @@
 date: 2026-06-29
 updated: 2026-07-17
 project: GeoSylva
-version: 2.4.0
-db_version: 32
+version_metadata: ../../docs/APP_VERSION.md
 tags: [context, project-state]
 ---
 
@@ -13,14 +12,13 @@ tags: [context, project-state]
 
 - **Projet** : GeoSylva — app Android de gestion forestière française
 - **Fondateur** : Camil (auto-entrepreneur, Poitiers, Nouvelle-Aquitaine)
-- **Version** : 2.4.0 (versionCode 10)
-- **DB** : version 32
+- **Version applicative, versionCode et schéma Room** : voir [métadonnées générées](../../docs/APP_VERSION.md)
 - **Stack** : Kotlin 1.9.23, Compose BOM 2024.09.00, minSdk 26, targetSdk 35
 
 ## Architecture
 
 - **Pattern** : MVVM + Repository + injection manuelle dans `Application`
-- **DB** : Room + SQLCipher — version 32
+- **DB** : Room + SQLCipher — version actuelle dans [métadonnées générées](../../docs/APP_VERSION.md)
 - **Maps** : MapLibre GL + WMS IGN (Géoportail)
 - **GIS** : Lambert93 (EPSG:2154), WKT, SRTM embarqué
 - **Réseau** : OkHttp durci + Retrofit pour l’identité GSIE, APIs IGN/INRAE/Cerema/Open-Meteo

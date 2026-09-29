@@ -318,16 +318,10 @@ fun EssenceDiamScreen(
     val heightPromptSnoozeUntilMs by userPreferences.heightPromptSnoozeUntilMs.collectAsStateWithLifecycle(initialValue = 0L)
     val isHeightPromptSnoozed = heightPromptSnoozeUntilMs > System.currentTimeMillis()
 
-    val safeNavigateBack = {
-        if (!skipMissingHeightsPrompt && !isHeightPromptSnoozed && missingHeightClasses.isNotEmpty() && calculator != null) {
-            showMissingHeightsDialog = true
-        } else {
-            onNavigateBack()
-        }
-    }
+    val safeNavigateBack = { onNavigateBack() }
 
     BackHandler {
-        safeNavigateBack()
+        onNavigateBack()
     }
 
     // Compteurs de hauteurs au niveau composable (utilisés dans le Scaffold et les dialogues)
@@ -335,6 +329,7 @@ fun EssenceDiamScreen(
 
     // Hauteur globales / par classe de diamètre pour cette essence
     var showHeightDialog by remember { mutableStateOf(false) }
+    val heightSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val heightByClassInput = remember { mutableStateMapOf<Int, String>() }
 
     Scaffold(
@@ -676,146 +671,150 @@ fun EssenceDiamScreen(
         )
     }
 
-    // Dialogue de configuration des hauteurs (amélioré)
+    // Tableau de hauteurs par classe (ModalBottomSheet plein-écran, plus pratique)
     if (showHeightDialog && calculator != null) {
-        AppMiniDialog(
-            onDismissRequest = { showHeightDialog = false },
-            animationsEnabled = animationsEnabled,
-            icon = Icons.Default.Height,
-            title = stringResource(R.string.height_dialog_essence_title_format, essenceName),
-            description = stringResource(R.string.martelage_height_by_class_hint),
-            confirmText = stringResource(R.string.validate),
-            dismissText = stringResource(R.string.cancel),
-            onConfirm = {
-                scope.launch {
-                    val cleaned: Map<Int, Double> = populatedClasses.mapNotNull { d ->
-                        val (mean, _) = parseHeightInputMean(heightByClassInput[d] ?: "")
-                        if (mean != null && mean > 0.0) d to mean else null
-                    }.toMap()
+        val confirmHeights: () -> Unit = {
+            scope.launch {
+                val cleaned: Map<Int, Double> = populatedClasses.mapNotNull { d ->
+                    val (mean, _) = parseHeightInputMean(heightByClassInput[d] ?: "")
+                    if (mean != null && mean > 0.0) d to mean else null
+                }.toMap()
 
-                    if (cleaned.isEmpty()) {
-                        snackbar.showSnackbar(appContext.getString(R.string.no_valid_height_entered))
-                        return@launch
-                    }
+                if (cleaned.isEmpty()) {
+                    snackbar.showSnackbar(appContext.getString(R.string.no_valid_height_entered))
+                    return@launch
+                }
 
-                    val newMartelageHeights = martelageHeights.toMutableMap().apply {
+                val newMartelageHeights = martelageHeights.toMutableMap().apply {
+                    put(normalizedEssenceCode, cleaned)
+                }
+                userPreferences.setMartelageHeights(scopeKey, newMartelageHeights)
+
+                val parcelleScopeKey = "PARCELLE_${parcelleId}"
+                if (parcelleScopeKey != scopeKey) {
+                    val parcelleHeights = userPreferences.martelageHeightsFlow(parcelleScopeKey).first()
+                    val updatedParcelleHeights = parcelleHeights.toMutableMap().apply {
                         put(normalizedEssenceCode, cleaned)
                     }
-                    userPreferences.setMartelageHeights(scopeKey, newMartelageHeights)
-
-                    // Propager vers le scope parcelle
-                    val parcelleScopeKey = "PARCELLE_${parcelleId}"
-                    if (parcelleScopeKey != scopeKey) {
-                        val parcelleHeights = userPreferences.martelageHeightsFlow(parcelleScopeKey).first()
-                        val updatedParcelleHeights = parcelleHeights.toMutableMap().apply {
-                            put(normalizedEssenceCode, cleaned)
-                        }
-                        userPreferences.setMartelageHeights(parcelleScopeKey, updatedParcelleHeights)
-                    }
-
-                    // Maintenir l'ancien stockage "HEIGHT_MODES" (global) en cohérence
-                    orderedClasses.forEach { d ->
-                        val v = cleaned[d]
-                        if (v != null && v > 0.0) {
-                            calculator.setHeightMode(
-                                HeightModeEntry(
-                                    essence = essenceCode,
-                                    diamClass = d,
-                                    mode = "FIXED",
-                                    fixed = v
-                                )
-                            )
-                        } else {
-                            calculator.setHeightMode(
-                                HeightModeEntry(
-                                    essence = essenceCode,
-                                    diamClass = d,
-                                    mode = "SAMPLES",
-                                    fixed = null
-                                )
-                            )
-                        }
-                    }
-
-                    showHeightDialog = false
-                    snackbar.showSnackbar(appContext.getString(R.string.heights_saved))
+                    userPreferences.setMartelageHeights(parcelleScopeKey, updatedParcelleHeights)
                 }
+
+                orderedClasses.forEach { d ->
+                    val v = cleaned[d]
+                    if (v != null && v > 0.0) {
+                        calculator.setHeightMode(HeightModeEntry(essence = essenceCode, diamClass = d, mode = "FIXED", fixed = v))
+                    } else {
+                        calculator.setHeightMode(HeightModeEntry(essence = essenceCode, diamClass = d, mode = "SAMPLES", fixed = null))
+                    }
+                }
+
+                showHeightDialog = false
+                snackbar.showSnackbar(appContext.getString(R.string.heights_saved))
             }
-        ) {
-            Column(
-                modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                // Bannière info tarif
-                val tarifLabel = activeTarifMethod?.label ?: ""
-                Surface(
-                    color = if (tarifRequiresHeight) MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f)
-                        else MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
-                    shape = RoundedCornerShape(8.dp)
-                ) {
-                    Text(
-                        text = if (tarifRequiresHeight) stringResource(R.string.height_tarif_info_2e) + " ($tarifLabel)"
-                            else stringResource(R.string.height_tarif_info_1e) + " ($tarifLabel)",
-                        style = MaterialTheme.typography.labelMedium,
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
-                    )
-                }
+        }
 
-                // Bouton mesure clinométrique par capteur
-                FilledTonalButton(
-                    onClick = { showHeightMeasureDialog = true },
-                    modifier = Modifier.fillMaxWidth()
+        ModalBottomSheet(
+            onDismissRequest = { showHeightDialog = false },
+            sheetState = heightSheetState,
+            dragHandle = { BottomSheetDefaults.DragHandle() },
+        ) {
+            Column(modifier = Modifier.fillMaxWidth()) {
+                // ── En-tête ──────────────────────────────────────────────────────
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Icon(
                         Icons.Default.Height,
-                        contentDescription = stringResource(R.string.cd_height),
-                        modifier = Modifier.size(16.dp)
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(28.dp)
                     )
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text(stringResource(R.string.height_measure_open_button))
-                }
-
-                // Quick-fill : appliquer une même hauteur à toutes les classes vides
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    OutlinedTextField(
-                        value = quickFillInput,
-                        onValueChange = { quickFillInput = it },
-                        modifier = Modifier.weight(1f),
-                        label = { Text(stringResource(R.string.height_quick_fill_title)) },
-                        placeholder = { Text(stringResource(R.string.placeholder_height)) },
-                        suffix = { Text(stringResource(R.string.unit_m)) },
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Decimal,
-                            imeAction = ImeAction.Done
-                        ),
-                        singleLine = true
-                    )
-                    FilledTonalButton(
-                        onClick = {
-                            val v = quickFillInput.replace(',', '.').toDoubleOrNull()
-                            if (v != null && v > 0.0) {
-                                val formatted = String.format(Locale.getDefault(), "%.1f", v)
-                                populatedClasses.forEach { d ->
-                                    heightByClassInput[d] = formatted
-                                }
-                            }
-                        }
-                    ) {
-                        Text(stringResource(R.string.height_quick_fill_apply), style = MaterialTheme.typography.labelSmall)
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = stringResource(R.string.height_dialog_essence_title_format, essenceName),
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = stringResource(R.string.martelage_height_by_class_hint),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     }
                 }
 
-                HorizontalDivider()
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
 
-                // Liste des classes avec des tiges uniquement
+                // ── Contenu scrollable ────────────────────────────────────────────
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(6.dp),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f, fill = false)
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = 20.dp, vertical = 14.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
+                    // Bannière info tarif
+                    val tarifLabel = activeTarifMethod?.label ?: ""
+                    Surface(
+                        color = if (tarifRequiresHeight) MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f)
+                            else MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Text(
+                            text = if (tarifRequiresHeight) stringResource(R.string.height_tarif_info_2e) + " ($tarifLabel)"
+                                else stringResource(R.string.height_tarif_info_1e) + " ($tarifLabel)",
+                            style = MaterialTheme.typography.labelMedium,
+                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp)
+                        )
+                    }
+
+                    // Bouton mesure clinométrique
+                    FilledTonalButton(
+                        onClick = { showHeightMeasureDialog = true },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Icon(Icons.Default.Height, contentDescription = stringResource(R.string.cd_height), modifier = Modifier.size(18.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(stringResource(R.string.height_measure_open_button))
+                    }
+
+                    // Quick-fill
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        OutlinedTextField(
+                            value = quickFillInput,
+                            onValueChange = { quickFillInput = it },
+                            modifier = Modifier.weight(1f),
+                            label = { Text(stringResource(R.string.height_quick_fill_title)) },
+                            placeholder = { Text(stringResource(R.string.placeholder_height)) },
+                            suffix = { Text(stringResource(R.string.unit_m)) },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
+                            singleLine = true
+                        )
+                        FilledTonalButton(
+                            onClick = {
+                                val v = quickFillInput.replace(',', '.').toDoubleOrNull()
+                                if (v != null && v > 0.0) {
+                                    val formatted = String.format(Locale.getDefault(), "%.1f", v)
+                                    populatedClasses.forEach { d -> heightByClassInput[d] = formatted }
+                                }
+                            }
+                        ) {
+                            Text(stringResource(R.string.height_quick_fill_apply), style = MaterialTheme.typography.labelSmall)
+                        }
+                    }
+
+                    HorizontalDivider()
+
+                    // Classes de diamètre
                     populatedClasses.forEach { d -> key(d) {
                         val count = counts[d] ?: 0
                         val tiges = tigesByDiamClass[d].orEmpty()
@@ -832,18 +831,12 @@ fun EssenceDiamScreen(
                         }
                         val cardColor by animateColorAsState(
                             targetValue = cardTargetColor,
-                            animationSpec = tween(
-                                durationMillis = if (animationsEnabled) 220 else 0,
-                                easing = FastOutSlowInEasing
-                            ),
+                            animationSpec = tween(durationMillis = if (animationsEnabled) 220 else 0, easing = FastOutSlowInEasing),
                             label = "heightClassCardColor"
                         )
                         val cardElevation by animateDpAsState(
                             targetValue = if (needsValue && tarifRequiresHeight) 4.dp else 1.dp,
-                            animationSpec = tween(
-                                durationMillis = if (animationsEnabled) 220 else 0,
-                                easing = FastOutSlowInEasing
-                            ),
+                            animationSpec = tween(durationMillis = if (animationsEnabled) 220 else 0, easing = FastOutSlowInEasing),
                             label = "heightClassCardElevation"
                         )
 
@@ -853,8 +846,8 @@ fun EssenceDiamScreen(
                             elevation = CardDefaults.elevatedCardElevation(defaultElevation = cardElevation)
                         ) {
                             Column(
-                                modifier = Modifier.padding(12.dp),
-                                verticalArrangement = Arrangement.spacedBy(6.dp)
+                                modifier = Modifier.padding(16.dp),
+                                verticalArrangement = Arrangement.spacedBy(10.dp)
                             ) {
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
@@ -863,12 +856,13 @@ fun EssenceDiamScreen(
                                 ) {
                                     Text(
                                         text = stringResource(R.string.diameter_cm_value_format, d),
-                                        style = MaterialTheme.typography.titleSmall,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.SemiBold,
                                         modifier = Modifier.weight(1f)
                                     )
                                     Text(
                                         text = stringResource(R.string.height_n_stems_format, count),
-                                        style = MaterialTheme.typography.labelSmall,
+                                        style = MaterialTheme.typography.labelMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                     if (needsValue && tarifRequiresHeight) {
@@ -890,10 +884,7 @@ fun EssenceDiamScreen(
                                     modifier = Modifier.fillMaxWidth(),
                                     isError = needsValue && tarifRequiresHeight,
                                     label = { Text(stringResource(R.string.height)) },
-                                    keyboardOptions = KeyboardOptions(
-                                        keyboardType = KeyboardType.Decimal,
-                                        imeAction = ImeAction.Done
-                                    ),
+                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
                                     placeholder = { Text(stringResource(R.string.placeholder_height_short)) },
                                     suffix = { Text(stringResource(R.string.unit_m)) },
                                     supportingText = {
@@ -911,6 +902,29 @@ fun EssenceDiamScreen(
                         }
                     } }
                 }
+
+                // ── Boutons d'action ─────────────────────────────────────────────
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 14.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    OutlinedButton(
+                        onClick = { showHeightDialog = false },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(stringResource(R.string.cancel))
+                    }
+                    Button(
+                        onClick = { confirmHeights() },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(stringResource(R.string.validate))
+                    }
+                }
+                Spacer(modifier = Modifier.height(20.dp))
             }
         }
     }

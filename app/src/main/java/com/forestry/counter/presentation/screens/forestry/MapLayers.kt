@@ -89,7 +89,7 @@ internal fun rasterStyle(
   },
   "layers": [
     { "id": "background", "type": "background", "paint": { "background-color": "#EFF5EC" } },
-    { "id": "$id", "type": "raster", "source": "$id" }
+    { "id": "$id", "type": "raster", "source": "$id", "paint": { "raster-fade-duration": 0 } }
   ]
 }"""
 }
@@ -113,13 +113,13 @@ internal fun rasterStyleMulti(
     val baseId = "${id}_base"
     sources += """"$baseId":{"type":"raster","tiles":["$baseTileUrl"],"tileSize":$tileSize,"maxzoom":$maxZoom$baseAttrField}"""
     layers += """{ "id": "background", "type": "background", "paint": { "background-color": "#EFF5EC" } }"""
-    layers += """{ "id": "$baseId", "type": "raster", "source": "$baseId" }"""
+    layers += """{ "id": "$baseId", "type": "raster", "source": "$baseId", "paint": { "raster-fade-duration": 0 } }"""
     overlayTileUrls.forEachIndexed { i, url ->
         val ovAttr = overlayAttributions.getOrNull(i) ?: ""
         val ovAttrField = if (ovAttr.isNotEmpty()) ""","attribution":"$ovAttr"""" else ""
         val overlayId = "${id}_overlay$i"
         sources += """"$overlayId":{"type":"raster","tiles":["$url"],"tileSize":256,"maxzoom":$maxZoom$ovAttrField}"""
-        layers += """{ "id": "$overlayId", "type": "raster", "source": "$overlayId", "paint": { "raster-opacity": 0.7 } }"""
+        layers += """{ "id": "$overlayId", "type": "raster", "source": "$overlayId", "paint": { "raster-opacity": 0.7, "raster-fade-duration": 0 } }"""
     }
     return """{"version":8,"name":"$name","glyphs":"https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf","sources":{${sources.joinToString(",")}},"layers":[${layers.joinToString(",")}]}"""
 }

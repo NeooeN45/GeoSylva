@@ -308,10 +308,10 @@ enum class ExplorerCategory(
     // diagnostics" indépendante à construire.
     PARCELLES("Parcelles", Icons.Filled.Park, isImplemented = true),
     PLACETTES("Placettes", Icons.Filled.Map, isImplemented = true),
-    ARBRES("Arbres", Icons.Filled.Category),
+    ARBRES("Arbres", Icons.Filled.Category, isImplemented = true),
     OBSERVATIONS("Observations", Icons.Filled.Biotech),
-    MESURES("Mesures", Icons.Filled.Straighten),
-    CALCULS("Calculs", Icons.Filled.Calculate),
+    MESURES("Mesures", Icons.Filled.Straighten, isImplemented = true),
+    CALCULS("Calculs", Icons.Filled.Calculate, isImplemented = true),
     PREUVES("Preuves", Icons.Filled.PhotoLibrary),
     ESSENCES("Essences", Icons.Filled.Hub, isImplemented = true),
     STATIONS("Stations", Icons.Filled.Science),

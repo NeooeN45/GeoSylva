@@ -157,6 +157,69 @@ android {
     }
 }
 
+val APP_VERSION_METADATA_FILE = rootProject.file("docs/APP_VERSION.md")
+val ROOM_DATABASE_SOURCE_FILE =
+    file("src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt")
+val ROOM_DATABASE_VERSION_PATTERN =
+    Regex("""@Database\s*\([\s\S]*?\bversion\s*=\s*(\d+)\b""")
+val APP_VERSION_NAME = android.defaultConfig.versionName
+    ?: throw org.gradle.api.GradleException("La versionName Android doit être définie.")
+val APP_VERSION_CODE = android.defaultConfig.versionCode
+    ?: throw org.gradle.api.GradleException("Le versionCode Android doit être défini.")
+
+fun renderVersionMetadata(): String {
+    val roomDatabaseVersion = ROOM_DATABASE_VERSION_PATTERN
+        .find(ROOM_DATABASE_SOURCE_FILE.readText(Charsets.UTF_8))
+        ?.groupValues
+        ?.getOrNull(1)
+        ?: throw org.gradle.api.GradleException(
+            "Impossible de détecter la version Room dans ${ROOM_DATABASE_SOURCE_FILE.path}."
+        )
+    return """
+        # Métadonnées de version GeoSylva
+
+        > Fichier généré par `:app:generateVersionMetadata`. Ne pas modifier manuellement.
+
+        | Élément | Valeur | Source |
+        |---|---|---|
+        | Version applicative (`versionName`) | `$APP_VERSION_NAME` | `app/build.gradle.kts` |
+        | Code applicatif (`versionCode`) | `$APP_VERSION_CODE` | `app/build.gradle.kts` |
+        | Schéma Room | `$roomDatabaseVersion` | `app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt` |
+    """.trimIndent() + "\n"
+}
+
+fun normalizeLineEndings(value: String): String =
+    value.replace("\r\n", "\n").replace("\r", "\n")
+
+tasks.register("generateVersionMetadata") {
+    inputs.property("versionName", APP_VERSION_NAME)
+    inputs.property("versionCode", APP_VERSION_CODE)
+    inputs.file(ROOM_DATABASE_SOURCE_FILE)
+    outputs.file(APP_VERSION_METADATA_FILE)
+    doLast {
+        APP_VERSION_METADATA_FILE.writeText(renderVersionMetadata(), Charsets.UTF_8)
+    }
+}
+
+tasks.register("verifyVersionMetadata") {
+    inputs.property("versionName", APP_VERSION_NAME)
+    inputs.property("versionCode", APP_VERSION_CODE)
+    inputs.file(ROOM_DATABASE_SOURCE_FILE)
+    doLast {
+        val actual = if (APP_VERSION_METADATA_FILE.isFile) {
+            normalizeLineEndings(APP_VERSION_METADATA_FILE.readText(Charsets.UTF_8))
+        } else {
+            null
+        }
+        if (actual != renderVersionMetadata()) {
+            throw org.gradle.api.GradleException(
+                "docs/APP_VERSION.md est absent ou périmé. " +
+                    "Exécuter ./gradlew :app:generateVersionMetadata."
+            )
+        }
+    }
+}
+
 /*
 ksp {
     arg("room.schemaLocation", "$projectDir/schemas")

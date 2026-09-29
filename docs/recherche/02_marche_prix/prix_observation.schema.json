@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:geosylva:schema:prix-observation:0.1.0",
+  "title": "Observation de prix de bois GeoSylva",
+  "description": "Schéma de validation d'une observation ou règle de prix sourcée et historisée.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "record_type", "species", "product", "sale_stage", "price", "validity", "provenance", "source", "evidence_level"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "record_type": {"type": "string", "enum": ["observation", "rule"]},
+    "species": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["local_code"],
+      "properties": {
+        "local_code": {"type": "string", "minLength": 1},
+        "scientific_name": {"type": ["string", "null"]},
+        "taxonomic_id": {"type": ["string", "null"]}
+      }
+    },
+    "product": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "form"],
+      "properties": {
+        "code": {"type": "string", "minLength": 1},
+        "form": {"type": "string", "enum": ["standing", "log", "sawnwood", "veneer", "pulp", "panel", "firewood", "chip", "pellet", "other"]},
+        "quality_grade": {"type": ["string", "null"]},
+        "diameter_min_cm": {"type": ["number", "null"], "minimum": 0},
+        "diameter_max_cm": {"type": ["number", "null"], "minimum": 0},
+        "length_min_m": {"type": ["number", "null"], "minimum": 0},
+        "length_max_m": {"type": ["number", "null"], "minimum": 0},
+        "humidity_percent": {"type": ["number", "null"], "minimum": 0, "maximum": 100}
+      }
+    },
+    "sale_stage": {"type": "string", "enum": ["standing", "roadside", "delivered", "sawnwood", "veneer", "industrial", "energy"]},
+    "price": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "unit", "currency", "vat_status", "volume_measure"],
+      "properties": {
+        "value": {"type": "number", "minimum": 0},
+        "unit": {"type": "string", "enum": ["EUR_PER_M3", "EUR_PER_M3_REAL", "EUR_PER_M3_APPARENT", "EUR_PER_STERE", "EUR_PER_TONNE", "EUR_PER_MWH_PCI", "INDEX_BASE_100"]},
+        "currency": {"type": "string", "const": "EUR"},
+        "vat_status": {"type": "string", "enum": ["HT", "TTC", "UNKNOWN"]},
+        "volume_measure": {"type": "string", "enum": ["with_bark", "without_bark", "net", "gross", "apparent", "not_applicable"]}
+      }
+    },
+    "validity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["valid_from"],
+      "properties": {
+        "observation_date": {"type": "string", "format": "date"},
+        "valid_from": {"type": "string", "format": "date"},
+        "valid_to": {"type": ["string", "null"], "format": "date"},
+        "publication_date": {"type": ["string", "null"], "format": "date"}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope", "forest_type"],
+      "properties": {
+        "scope": {"type": "string", "enum": ["national", "region", "department", "massif", "ser", "greco", "parcel", "lot", "unknown"]},
+        "country": {"type": ["string", "null"]},
+        "region": {"type": ["string", "null"]},
+        "department": {"type": ["string", "null"]},
+        "massif": {"type": ["string", "null"]},
+        "forest_type": {"type": "string", "enum": ["private", "public_state", "public_communal", "unknown"]},
+        "evidence_kind": {"type": ["string", "null"], "enum": ["cadastre", "gps", "contract", "invoice", "certificate", "source_document", "user_declaration", "unknown", null]},
+        "evidence_attachment_id": {"type": ["string", "null"]},
+        "certification": {"type": "string", "enum": ["NONE", "PEFC", "FSC", "PEFC_FSC", "OTHER", "UNKNOWN"]},
+        "certifier_code": {"type": ["string", "null"]},
+        "certificate_number": {"type": ["string", "null"]},
+        "certificate_valid_until": {"type": ["string", "null"], "format": "date"},
+        "coc_percentage": {"type": ["number", "null"], "minimum": 0, "maximum": 100}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "url"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "format": "uri"},
+        "edition": {"type": ["string", "null"]},
+        "licence": {"type": ["string", "null"]},
+        "sample_size": {"type": ["integer", "null"], "minimum": 0}
+      }
+    },
+    "evidence_level": {"type": "string", "enum": ["A", "B", "C", "D", "E", "F"], "description": "Niveau de preuve interne GeoSylva ; ne constitue ni une preuve juridique ni une certification."},
+    "uncertainty": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": {"type": "string", "enum": ["standard_error", "confidence_interval", "range", "sample_size", "unknown"]},
+        "value": {"type": ["number", "null"], "minimum": 0},
+        "confidence_level": {"type": ["number", "null"], "minimum": 0, "maximum": 1}
+      }
+    },
+    "notes": {"type": ["string", "null"]},
+    "supersedes_id": {"type": ["string", "null"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"record_type": {"const": "observation"}}},
+      "then": {"properties": {"validity": {"required": ["observation_date"]}}}
+    }
+  ]
+}

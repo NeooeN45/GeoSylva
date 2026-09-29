@@ -35,6 +35,9 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      - name: Verify generated version metadata
+        run: ./gradlew :app:verifyVersionMetadata --stacktrace
+
       - name: Run Android Lint
         run: ./gradlew lint --stacktrace
 

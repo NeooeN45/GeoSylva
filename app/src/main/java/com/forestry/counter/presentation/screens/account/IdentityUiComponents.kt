@@ -130,6 +130,7 @@ internal fun identityErrorMessage(error: IdentityError): Int = when (error) {
     IdentityError.GOOGLE_NOT_CONFIGURED -> R.string.identity_error_google_config
     IdentityError.SECURE_STORAGE_UNAVAILABLE -> R.string.identity_error_secure_storage
     IdentityError.INVALID_INPUT -> R.string.identity_error_invalid_input
+    IdentityError.REGISTRATION_CONSENT_REQUIRED -> R.string.identity_error_consent_required
     IdentityError.INVALID_CREDENTIALS -> R.string.identity_error_invalid_credentials
     IdentityError.ACCOUNT_ALREADY_EXISTS -> R.string.identity_error_account_exists
     IdentityError.ACCOUNT_LINK_REQUIRED -> R.string.identity_error_link_required

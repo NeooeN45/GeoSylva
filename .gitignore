@@ -65,3 +65,10 @@ app/build/
 **/reports/
 *.log
 gsie/
+
+# Rapports security_diag (hooks Quintessences)
+output/
+
+# Artefacts d'outils IA (sessions/specs locales, dumps UI)
+docs/superpowers/
+.devin/scratch/

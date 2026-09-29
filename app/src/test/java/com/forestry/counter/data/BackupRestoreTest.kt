@@ -66,11 +66,15 @@ class BackupRestoreTest {
         override fun getAllGroups(): Flow<List<Group>> = groups
         override fun getGroupById(groupId: String): Flow<Group?> =
             groups.map { list -> list.find { g -> g.id == groupId } }
+        override suspend fun getByForetId(foretId: String): Group? =
+            throw UnsupportedOperationException("non utilisé par les tests d'export/import")
         override suspend fun insertGroup(group: Group) = groups.update { it -> it + group }
         override suspend fun updateGroup(group: Group) =
             groups.update { list -> list.map { if (it.id == group.id) group else it } }
         override suspend fun deleteGroup(groupId: String) =
             groups.update { list -> list.filter { it.id != groupId } }
+        override suspend fun deleteByForetId(foretId: String) =
+            throw UnsupportedOperationException("non utilisé par les tests d'export/import")
         override suspend fun deleteAllGroups() { groups.value = emptyList() }
         override suspend fun duplicateGroup(groupId: String): String =
             throw UnsupportedOperationException("non utilisé par les tests d'export/import")

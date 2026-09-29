@@ -1,7 +1,5 @@
 package com.forestry.counter.presentation.screens.account
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.rememberCoroutineScope
@@ -14,6 +12,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.offset
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
@@ -49,6 +48,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -105,7 +105,7 @@ import com.forestry.counter.presentation.viewmodel.LoginUiState
 import com.forestry.counter.presentation.viewmodel.LoginViewModel
 
 /**
- * Écran de connexion — porte d'entrée de GeoSylva.
+ * Écran de connexion et de création de compte — porte d'entrée de GeoSylva.
  *
  * Registre consultation, poussé à son maximum : c'est le seul écran porteur
  * d'une vidéo, et le seul moment où l'application se présente avant que le
@@ -116,9 +116,9 @@ import com.forestry.counter.presentation.viewmodel.LoginViewModel
  * l'écran, dans la zone du pouce. La version précédente empilait le formulaire
  * dans un panneau presque opaque qui couvrait les deux tiers de l'image.
  *
- * La création de compte n'a pas lieu ici : elle ouvre le site Quintessences.
- * Un compte se crée une fois, sur un vrai clavier ; l'application n'a pas à
- * porter un second formulaire pour ça.
+ * La création de compte utilise le même socle visuel et le même dépôt
+ * d'identité, mais possède une route native dédiée. GeoSylva reste utilisable
+ * hors ligne : la création est proposée comme un service GSIE optionnel.
  */
 @Composable
 fun LoginScreen(
@@ -128,6 +128,9 @@ fun LoginScreen(
     onForgotPassword: () -> Unit,
     animationsEnabled: Boolean = true,
     preferencesManager: UserPreferencesManager? = null,
+    initialMode: LoginMode = LoginMode.SIGN_IN,
+    onCreateAccount: () -> Unit = {},
+    onNavigateBackFromRegistration: (() -> Unit)? = null,
 ) {
     val factory = remember(repository) { GeoSylvaViewModelFactory { LoginViewModel(repository) } }
     val viewModel: LoginViewModel = viewModel(factory = factory)
@@ -139,8 +142,7 @@ fun LoginScreen(
         if (state.completed) onAuthenticated()
     }
 
-    // L'écran ne propose que la connexion : la création de compte part sur le web.
-    LaunchedEffect(Unit) { viewModel.setMode(LoginMode.SIGN_IN) }
+    LaunchedEffect(initialMode) { viewModel.setMode(initialMode) }
 
     if (preferencesManager != null) {
         LanguageSuggestionHost(preferencesManager)
@@ -148,13 +150,31 @@ fun LoginScreen(
 
     VideoBackdrop(animationsEnabled = animationsEnabled) {
         Box(modifier = Modifier.fillMaxSize()) {
-            OfflineEscape(
-                onContinueOffline = onContinueOffline,
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .windowInsetsPadding(WindowInsets.safeDrawing)
-                    .padding(Space.sm),
-            )
+            // En mode inscription, le bouton "hors ligne" n'a pas de sens :
+            // on remplace par une simple flèche de retour.
+            if (initialMode == LoginMode.REGISTER) {
+                IconButton(
+                    onClick = { onNavigateBackFromRegistration?.invoke() ?: onForgotPassword() },
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .windowInsetsPadding(WindowInsets.safeDrawing)
+                        .padding(Space.xs),
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Retour",
+                        tint = TextOnMedia,
+                    )
+                }
+            } else {
+                OfflineEscape(
+                    onContinueOffline = onContinueOffline,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .windowInsetsPadding(WindowInsets.safeDrawing)
+                        .padding(Space.sm),
+                )
+            }
 
             val bottomModifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -182,20 +202,18 @@ fun LoginScreen(
                     onSubmit = viewModel::submit,
                     onGoogle = { viewModel.signInWithGoogle(googleClient) },
                     onForgotPassword = onForgotPassword,
-                    // La création de compte se fait sur le site Quintessences
-                    // (DEC-000057). Si aucun navigateur ne peut s'ouvrir, on
-                    // bascule sur le formulaire embarqué plutôt que de laisser
-                    // l'utilisateur devant un bouton sans effet.
-                    onCreateAccount = {
-                        val url = context.getString(R.string.identity_signup_url)
-                        val opened = runCatching {
-                            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-                        }.isSuccess
-                        if (!opened) viewModel.setMode(LoginMode.REGISTER)
+                    onCreateAccount = onCreateAccount,
+                    onBackToSignIn = {
+                        if (initialMode == LoginMode.REGISTER && onNavigateBackFromRegistration != null) {
+                            onNavigateBackFromRegistration()
+                        } else {
+                            viewModel.setMode(LoginMode.SIGN_IN)
+                        }
                     },
-                    onBackToSignIn = { viewModel.setMode(LoginMode.SIGN_IN) },
                     onDisplayNameChange = viewModel::setDisplayName,
                     onPasswordConfirmationChange = viewModel::setPasswordConfirmation,
+                    onTermsAcceptedChange = viewModel::setTermsAccepted,
+                    onPrivacyAcceptedChange = viewModel::setPrivacyAccepted,
                     modifier = bottomModifier,
                 )
             }
@@ -282,6 +300,8 @@ private fun LoginForm(
     onBackToSignIn: () -> Unit,
     onDisplayNameChange: (String) -> Unit,
     onPasswordConfirmationChange: (String) -> Unit,
+    onTermsAcceptedChange: (Boolean) -> Unit,
+    onPrivacyAcceptedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val registering = state.mode == LoginMode.REGISTER
@@ -299,18 +319,44 @@ private fun LoginForm(
             .padding(bottom = Space.lg),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(
-            text = stringResource(
-                if (registering) R.string.identity_create_account
-                else R.string.identity_welcome
-            ),
-            color = TextOnMedia,
-            fontSize = if (registering) 32.sp else 40.sp,
-            fontWeight = FontWeight.Light,
-            textAlign = TextAlign.Center,
-        )
-
-        Spacer(Modifier.height(Space.lg))
+        if (registering) {
+            // En mode inscription, le titre et le sous-titre sont regroupés
+            // sur un fond translucide pour rester lisibles sur la vidéo.
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(FieldOnMedia, GsShape.md)
+                    .padding(horizontal = Space.md, vertical = Space.sm),
+                contentAlignment = Alignment.Center,
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = stringResource(R.string.identity_create_account),
+                        color = TextOnMedia,
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Light,
+                        textAlign = TextAlign.Center,
+                    )
+                    Spacer(Modifier.height(Space.xs))
+                    Text(
+                        text = stringResource(R.string.identity_create_account_subtitle),
+                        color = TextSecondaryOnMedia,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            }
+            Spacer(Modifier.height(Space.md))
+        } else {
+            Text(
+                text = stringResource(R.string.identity_welcome),
+                color = TextOnMedia,
+                fontSize = 40.sp,
+                fontWeight = FontWeight.Light,
+                textAlign = TextAlign.Center,
+            )
+            Spacer(Modifier.height(Space.lg))
+        }
 
         if (registering) {
             MediaTextField(
@@ -340,6 +386,10 @@ private fun LoginForm(
         )
 
         if (registering) {
+            RegistrationPasswordGuidance(password = state.password)
+        }
+
+        if (registering) {
             Spacer(Modifier.height(Space.sm))
             MediaTextField(
                 value = state.passwordConfirmation,
@@ -350,6 +400,13 @@ private fun LoginForm(
                     imeAction = ImeAction.Done,
                 ),
                 visualTransformation = PasswordVisualTransformation(),
+            )
+
+            RegistrationConsentFields(
+                termsAccepted = state.termsAccepted,
+                privacyAccepted = state.privacyAccepted,
+                onTermsAcceptedChange = onTermsAcceptedChange,
+                onPrivacyAcceptedChange = onPrivacyAcceptedChange,
             )
         }
 
@@ -409,8 +466,12 @@ private fun LoginForm(
         Spacer(Modifier.height(Space.md))
 
         if (registering) {
-            // Repli hors ligne du site : on sort par où on est entré.
-            TextButton(onClick = onBackToSignIn) {
+            // La page native revient à la connexion sans quitter GeoSylva.
+            TextButton(
+                onClick = onBackToSignIn,
+                modifier = Modifier
+                    .background(FieldOnMedia, GsShape.md),
+            ) {
                 Text(
                     text = stringResource(R.string.identity_mfa_cancel),
                     color = TextSecondaryOnMedia,
@@ -432,6 +493,68 @@ private fun LoginForm(
 
             CreateAccountRow(onCreateAccount = onCreateAccount)
         }
+    }
+}
+
+/** Consentements obligatoires, séparés et jamais pré-cochés. */
+@Composable
+private fun RegistrationConsentFields(
+    termsAccepted: Boolean,
+    privacyAccepted: Boolean,
+    onTermsAcceptedChange: (Boolean) -> Unit,
+    onPrivacyAcceptedChange: (Boolean) -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = Space.sm)
+            .background(FieldOnMedia, GsShape.md)
+            .padding(horizontal = Space.xs, vertical = Space.xxs),
+        verticalArrangement = Arrangement.spacedBy(Space.xxs),
+    ) {
+        Text(
+            text = stringResource(R.string.identity_consent_title),
+            color = TextOnMedia,
+            style = MaterialTheme.typography.labelLarge,
+            modifier = Modifier.padding(horizontal = Space.xs, vertical = Space.xxs),
+        )
+        ConsentCheckboxRow(
+            checked = termsAccepted,
+            onCheckedChange = onTermsAcceptedChange,
+            label = stringResource(R.string.identity_consent_terms),
+        )
+        ConsentCheckboxRow(
+            checked = privacyAccepted,
+            onCheckedChange = onPrivacyAcceptedChange,
+            label = stringResource(R.string.identity_consent_privacy),
+        )
+        Text(
+            text = stringResource(R.string.identity_consent_required),
+            color = TextSecondaryOnMedia,
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(horizontal = Space.xs, vertical = Space.xxs),
+        )
+    }
+}
+
+@Composable
+private fun ConsentCheckboxRow(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    label: String,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(Space.xxs),
+    ) {
+        Checkbox(checked = checked, onCheckedChange = onCheckedChange)
+        Text(
+            text = label,
+            color = TextOnMedia,
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.weight(1f),
+        )
     }
 }
 
@@ -612,6 +735,69 @@ private fun PasswordFieldOnMedia(
             }
         },
     )
+}
+
+/**
+ * Repère de robustesse local, sans remplacer le contrôle serveur Argon2id / HIBP.
+ * Il donne une réponse immédiate au moment de la saisie sans exposer le secret.
+ */
+@Composable
+private fun RegistrationPasswordGuidance(password: String) {
+    val checks = listOf(
+        password.length >= 12,
+        password.any(Char::isLetter),
+        password.any(Char::isDigit),
+    )
+    val score = checks.count { it }
+    val label = when {
+        password.isEmpty() -> stringResource(R.string.identity_password_hint)
+        score == checks.size -> stringResource(R.string.identity_password_strength_ready)
+        else -> stringResource(R.string.identity_password_strength_weak)
+    }
+
+    // Fond translucide identique aux champs de saisie — le guide ne doit
+    // pas flotter nu sur la vidéo comme le reste du formulaire en dessous.
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = Space.xs)
+            .background(FieldOnMedia, GsShape.md),
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = Space.sm, vertical = Space.xs),
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(Space.xxs),
+            ) {
+                checks.indices.forEach { index ->
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(Space.xxs)
+                            .background(
+                                color = if (checks[index]) GreenOnMedia else FieldBorderOnMedia,
+                                shape = GsShape.pill,
+                            ),
+                    )
+                }
+            }
+            Text(
+                text = label,
+                color = if (score == checks.size) GreenOnMedia else TextSecondaryOnMedia,
+                style = MaterialTheme.typography.labelMedium,
+                modifier = Modifier.padding(top = Space.xxs),
+            )
+            Text(
+                text = stringResource(R.string.identity_registration_security),
+                color = TextSecondaryOnMedia.copy(alpha = 0.82f),
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(top = Space.xxs),
+            )
+        }
+    }
 }
 
 /**

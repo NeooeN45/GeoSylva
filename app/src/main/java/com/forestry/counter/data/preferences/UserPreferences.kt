@@ -92,6 +92,9 @@ class UserPreferencesManager(private val context: Context) {
         val PROFESSION_SELECTION_COMPLETED = booleanPreferencesKey("profession_selection_completed")
         val PROFESSION_PENDING_SYNC = booleanPreferencesKey("profession_pending_sync")
 
+        // Packs départementaux sélectionnés lors du wizard d'onboarding
+        val SELECTED_DEPARTMENTS = stringSetPreferencesKey("selected_departments")
+
         // Visite guidée (coachmarks) des 5 onglets principaux — se déclenche
         // une fois, juste après la réponse aux autorisations GPS/caméra/
         // galerie qui suivent l'onboarding.
@@ -386,11 +389,11 @@ class UserPreferencesManager(private val context: Context) {
     }
 
     val mapLastLayerKey: Flow<String> = dataStore.data.map { prefs ->
-        // Satellite Monde (ESRI, couverture mondiale, sans dépendance à une
-        // clé API) plutôt que Plan IGN (France uniquement) — un premier
-        // lancement sans position GPS encore connue ne doit jamais risquer
-        // de tomber hors de la couverture du fond de carte par défaut.
-        prefs[MAP_LAST_LAYER_KEY] ?: "SATELLITE"
+        // OSM Standard (OpenStreetMap, couverture mondiale, thème clair) —
+        // couverture mondiale comme ESRI Satellite mais fond clair par défaut,
+        // sans dépendance à une clé API. Le fond vert de repli (#EFF5EC) couvre
+        // les zones sans tuile si le GPS est hors couverture au premier lancement.
+        prefs[MAP_LAST_LAYER_KEY] ?: "OSM_STANDARD"
     }
 
     suspend fun setMapLastLayerKey(layerKey: String) {
@@ -520,6 +523,38 @@ class UserPreferencesManager(private val context: Context) {
                 val snapshot = MartelageHeightsSnapshot(heights)
                 prefs[key] = json.encodeToString(snapshot)
             }
+        }
+    }
+
+    // ── Sessions de martelage ──────────────────────────────────────────────
+    private fun martelageSessionsKey(placetteId: String) = stringPreferencesKey("martelage_sessions_$placetteId")
+
+    @Serializable
+    data class MartelageSessionRecord(
+        val startMs: Long = 0L,
+        val endMs: Long = 0L,
+        val stemsAdded: Int = 0,
+        val totalStemsAtEnd: Int = 0,
+        val categoryBreakdown: Map<String, Int> = emptyMap(),
+        val essenceCodes: List<String> = emptyList(),
+    )
+
+    @Serializable
+    private data class MartelageSessionsSnapshot(val records: List<MartelageSessionRecord> = emptyList())
+
+    fun martelageSessionsFlow(placetteId: String): Flow<List<MartelageSessionRecord>> =
+        dataStore.data.map { prefs ->
+            val raw = prefs[martelageSessionsKey(placetteId)] ?: return@map emptyList()
+            runCatching { json.decodeFromString<MartelageSessionsSnapshot>(raw).records }.getOrElse { emptyList() }
+        }
+
+    suspend fun addMartelageSession(placetteId: String, record: MartelageSessionRecord) {
+        dataStore.edit { prefs ->
+            val key = martelageSessionsKey(placetteId)
+            val existing = prefs[key]?.let {
+                runCatching { json.decodeFromString<MartelageSessionsSnapshot>(it).records }.getOrElse { emptyList() }
+            }.orEmpty()
+            prefs[key] = json.encodeToString(MartelageSessionsSnapshot(existing + record))
         }
     }
 
@@ -720,6 +755,16 @@ class UserPreferencesManager(private val context: Context) {
         dataStore.edit { prefs ->
             prefs[PROFESSION_SELECTION_COMPLETED] = completed
         }
+    }
+
+    // ── Packs départementaux ─────────────────────────────────────────────
+
+    val selectedDepartments: Flow<Set<String>> = dataStore.data.map { prefs ->
+        prefs[SELECTED_DEPARTMENTS] ?: emptySet()
+    }
+
+    suspend fun setSelectedDepartments(codes: Set<String>) {
+        dataStore.edit { prefs -> prefs[SELECTED_DEPARTMENTS] = codes }
     }
 
     // ── Visite guidée (coachmarks) ───────────────────────────────────────

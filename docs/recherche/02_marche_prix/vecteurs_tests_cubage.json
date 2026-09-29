@@ -1,0 +1,71 @@
+{
+  "schema_version": "0.1.0",
+  "status": "Draft",
+  "description": "Vecteurs numériques de référence pour les formules géométriques. Ils ne valident pas les coefficients empiriques de TarifData.kt.",
+  "cases": [
+    {
+      "id": "huber_cylindrical_log",
+      "method": "HUBER",
+      "inputs": {"length_m": 5.0, "diameter_mid_m": 0.4},
+      "expected": {"volume_m3": 0.6283185307},
+      "tolerance_m3": 0.0000001,
+      "source_reference": "Formule géométrique documentée dans GEOSYLVA-RECH-CUBAGE-006"
+    },
+    {
+      "id": "smalian_log",
+      "method": "SMALIAN",
+      "inputs": {"length_m": 5.0, "diameter_base_m": 0.5, "diameter_top_m": 0.3},
+      "expected": {"volume_m3": 0.6675884389},
+      "tolerance_m3": 0.0000001,
+      "source_reference": "Formule géométrique documentée dans GEOSYLVA-RECH-CUBAGE-006"
+    },
+    {
+      "id": "newton_log",
+      "method": "NEWTON",
+      "inputs": {"length_m": 5.0, "diameter_base_m": 0.5, "diameter_mid_m": 0.4, "diameter_top_m": 0.3},
+      "expected": {"volume_m3": 0.6414085001},
+      "tolerance_m3": 0.0000001,
+      "source_reference": "Formule géométrique documentée dans GEOSYLVA-RECH-CUBAGE-006"
+    },
+    {
+      "id": "cone_frustum_log",
+      "method": "CONE_FRUSTUM",
+      "inputs": {"length_m": 4.0, "diameter_base_m": 0.6, "diameter_top_m": 0.2},
+      "expected": {"volume_m3": 0.5445427266},
+      "tolerance_m3": 0.0000001,
+      "source_reference": "Formule exacte du tronc de cône V=(h/3)(S1+S2+√(S1·S2)) documentée dans GEOSYLVA-RECH-CUBAGE-006"
+    },
+    {
+      "id": "form_factor_tree",
+      "method": "FORM_FACTOR",
+      "inputs": {"diameter_cm": 40.0, "height_m": 25.0, "form_factor": 0.45},
+      "expected": {"volume_m3": 1.4137166941},
+      "tolerance_m3": 0.0000001,
+      "source_reference": "V = G × H × f ; facteur fourni explicitement"
+    },
+    {
+      "id": "unit_round_trip_stere",
+      "method": "STERE_CONVERSION",
+      "inputs": {"volume_stere": 10.0, "conversion_factor_m3_per_stere": 0.7},
+      "expected": {"volume_m3": 7.0, "round_trip_stere": 10.0},
+      "tolerance_m3": 0.0000001,
+      "source_reference": "Facteur de test ; ne constitue pas une valeur universelle"
+    },
+    {
+      "id": "schaeffer_fast_reference_d30_n9",
+      "method": "SCHAEFFER_FAST_REFERENCE",
+      "inputs": {"diameter_cm": 30.0, "tariff_number": 9, "reference_volume_m3_at_d45": 1.7},
+      "expected": {"volume_m3": 0.6071428571},
+      "tolerance_m3": 0.0000001,
+      "source_reference": "Forme historique Schaeffer rapide ; à comparer à TarifData.kt avant correction"
+    },
+    {
+      "id": "schaeffer_slow_reference_d45_n9",
+      "method": "SCHAEFFER_SLOW_REFERENCE",
+      "inputs": {"diameter_cm": 45.0, "tariff_number": 9, "reference_volume_m3_at_d45": 1.7},
+      "expected": {"volume_m3": 1.7},
+      "tolerance_m3": 0.0000001,
+      "source_reference": "Forme historique Schaeffer lente ; à comparer à TarifData.kt avant correction"
+    }
+  ]
+}

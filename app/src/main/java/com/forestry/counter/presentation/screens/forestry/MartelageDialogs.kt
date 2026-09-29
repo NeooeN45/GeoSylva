@@ -24,6 +24,8 @@ import com.forestry.counter.domain.calculation.tarifs.TarifCalculator
 import com.forestry.counter.domain.calculation.tarifs.TarifMethod
 import com.forestry.counter.domain.calculation.tarifs.TarifSelection
 import com.forestry.counter.domain.model.Tige
+import com.forestry.counter.presentation.theme.GsShape
+import com.forestry.counter.presentation.theme.Space
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -63,11 +65,11 @@ internal fun TarifMethodDialog(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clip(RoundedCornerShape(8.dp))
+                            .clip(GsShape.sm)
                             .background(
                                 if (selectedMethod == method) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f)
                                 else Color.Transparent,
-                                RoundedCornerShape(8.dp)
+                                GsShape.sm
                             )
                             .padding(vertical = 4.dp, horizontal = 4.dp)
                     ) {
@@ -270,6 +272,13 @@ internal fun ExportQgisDialog(
                         }
                     }
                 }
+
+                HorizontalDivider(modifier = Modifier.padding(vertical = Space.xxs))
+                Text(
+                    "Chaque export conserve le statut de validation, les avertissements, les unités et la méthode utilisée — jamais retirés pour la lisibilité.",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
     )

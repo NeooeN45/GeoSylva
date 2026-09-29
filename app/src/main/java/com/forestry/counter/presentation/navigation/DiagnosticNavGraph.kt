@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.forestry.counter.ForestryCounterApplication
+import com.forestry.counter.presentation.screens.forestry.DiagnosticHubScreen
 import com.forestry.counter.presentation.screens.forestry.DiagnosticMenuScreen
 import com.forestry.counter.presentation.screens.forestry.DiagnosticScreen
 import com.forestry.counter.presentation.screens.forestry.RipisylveDiagnosticScreen
@@ -24,6 +25,33 @@ fun NavGraphBuilder.diagnosticNavGraph(
     app: ForestryCounterApplication,
     transitions: NavTransitions,
 ) {
+    composable(
+        route = Screen.DiagnosticHub.route,
+        enterTransition = transitions.enter,
+        exitTransition = transitions.exit,
+        popEnterTransition = transitions.popEnter,
+        popExitTransition = transitions.popExit,
+    ) {
+        DiagnosticHubScreen(
+            foretRepository = app.foretRepository,
+            parcelleRepository = app.parcelleRepository,
+            placetteRepository = app.placetteRepository,
+            onNavigateBack = { navController.popBackStack() },
+            onLaunchIbp = { parcelleId, placetteId ->
+                navController.navigate(Screen.IbpEvaluation.createRoute(parcelleId, placetteId))
+            },
+            onLaunchStation = { parcelleId ->
+                navController.navigate(Screen.DiagnosticMenu.createRoute(parcelleId))
+            },
+            onLaunchRipisylve = { parcelleId ->
+                navController.navigate(Screen.RipisylveDiagnostic.createRoute(parcelleId))
+            },
+            onLaunchSylvicole = { parcelleId ->
+                navController.navigate(Screen.StandClassification.createRoute(parcelleId))
+            },
+        )
+    }
+
     composable(
         route = Screen.DiagnosticMenu.route,
         arguments = listOf(navArgument("parcelleId") { type = NavType.StringType }),

@@ -93,7 +93,13 @@ internal fun swapRasterLayer(
     style.addSource(RasterSource(ACTIVE_BASE_ID, baseTileSet, tileSize))
     // Juste au-dessus du fond beige de repli, donc sous tiges/mesure/tracé
     // (ajoutées séparément, toujours au sommet de la pile de couches).
-    style.addLayerAbove(RasterLayer(ACTIVE_BASE_ID, ACTIVE_BASE_ID), "background")
+    // rasterFadeDuration(0) : évite le fade-in depuis le noir natif de MapLibre
+    // qui rendait les dalles sombres pendant leur chargement.
+    style.addLayerAbove(
+        RasterLayer(ACTIVE_BASE_ID, ACTIVE_BASE_ID)
+            .withProperties(PropertyFactory.rasterFadeDuration(0f)),
+        "background",
+    )
 
     var lastId = ACTIVE_BASE_ID
     overlayTileUrls.take(ACTIVE_MAX_OVERLAYS).forEachIndexed { i, url ->
@@ -104,7 +110,10 @@ internal fun swapRasterLayer(
         }
         style.addSource(RasterSource(overlayId, overlayTileSet, 256))
         style.addLayerAbove(
-            RasterLayer(overlayId, overlayId).withProperties(PropertyFactory.rasterOpacity(0.7f)),
+            RasterLayer(overlayId, overlayId).withProperties(
+                PropertyFactory.rasterOpacity(0.7f),
+                PropertyFactory.rasterFadeDuration(0f),
+            ),
             lastId,
         )
         lastId = overlayId

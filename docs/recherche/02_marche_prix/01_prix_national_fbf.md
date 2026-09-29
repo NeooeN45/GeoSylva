@@ -4,6 +4,8 @@
 **Date de recherche** : 2026-07 (recherche web, contexte système daté 2026)
 **Agent** : sous-agent recherche marché/prix — actualisation §2.1 de `REFERENTIELS_FORESTIERS_EXTERNES.md`
 
+> **Complément du 2026-08-30** : les valeurs absolues FBF 2024-2025 par groupe d'essences ont été vérifiées contre la plaquette officielle `CP_PlaquettePrixDesBois_v4.pdf` et sont reprises dans `06_prix_provenance_actualisation.md`. Les réserves de lecture du PDF décrites ci-dessous restent valables pour les ventilations plus fines par qualité, diamètre et provenance.
+
 ---
 
 ## 1. Sources identifiées
@@ -21,7 +23,7 @@
 | MB Forêts Transactions (agence commerciale, article de blog reprenant/interprétant les chiffres FBF 2022-2024) | commerciale/tierce | Commerciale — à recouper, chiffres cohérents avec CNPF mais reformulés | https://mb-forets-transactions.fr/blog/prix-de-vente-feuillus-et-resineux-2024-2025/ | consulté 2026-07 |
 | bois.fordaq.com — reprise presse indicateur 2026 | commerciale/tierce (presse spécialisée bois) | Commerciale — accès bloqué (anti-bot 403), contenu confirmé via extraits d'indexation uniquement | https://bois.fordaq.com/news/Le_prix_des_bois_sur_120018.html | 2026 |
 
-**Note méthodologique** : les PDF officiels FBF (`FBF_PRIX_PIED_*.pdf`) sont des documents à forte mise en page graphique (quasi intégralement composés d'images/graphiques vectorisés) : leur extraction texte automatique a échoué (flux binaire brut renvoyé). Les chiffres ci-dessous proviennent donc des **articles de relais officiels** (FBF, CNPF, La Forestière) qui citent explicitement des valeurs numériques extraites de ces PDF, et non d'une lecture directe du PDF source. **[À VÉRIFIER MANUELLEMENT]** en ouvrant le PDF avec un lecteur classique (les liens sont donnés ci-dessus) pour confirmer les tableaux détaillés par essence et par qualité de l'indicateur 2026, qui n'ont pas pu être extraits ici essence par essence pour 2025.
+**Note méthodologique** : les premières sections de cette note ont été rédigées avant l'extraction exploitable de la plaquette 2026. Le complément du 2026-08-30 confirme les valeurs absolues 2024-2025 par groupe d'essences contre `CP_PlaquettePrixDesBois_v4.pdf`. Les ventilations plus fines par qualité, diamètre et provenance restent à vérifier manuellement.
 
 ---
 
@@ -66,7 +68,7 @@
 
 **Recoupement indépendant** : l'article commercial MB Forêts Transactions (source tierce, à pondérer) cite, pour **2023**, un chêne à **~235 €/m³** — cohérent avec 228 €/m³ en 2024 après -3 % (235 × 0,97 ≈ 228). Cette cohérence croisée renforce la fiabilité du chiffre chêne 2024, malgré la source secondaire.
 
-**2025 (indicateur 2026, publié mai 2026)** — les articles de relais (FBF, CNPF) ne donnent, à ce stade de la recherche, **que des indices agrégés et des tendances qualitatives par grande catégorie**, pas de tableau essence par essence en valeur absolue exploitable sans ouvrir le PDF source (bloqué, cf. §1) :
+**2025 (indicateur 2026, publié mai 2026)** — les valeurs par groupe d'essences ont été confirmées dans la plaquette officielle ; les données plus fines par qualité, diamètre et provenance restent soumises à vérification manuelle :
 
 | Catégorie | Donnée 2025 | Évolution |
 |---|---|---|

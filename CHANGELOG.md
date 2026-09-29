@@ -5,6 +5,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased] — 2026-08-03
 
+### Documentation
+
+- **Architecture V2 GeoSylva** — ajout de l'index documentaire, des spécifications
+  Martelage/Synthèse et du plan de migration Cubage–Martelage–Synthèse.
+- **Cubage offline-first** — documentation du calcul local, des sessions versionnées,
+  de la synchronisation idempotente et de la vérification distincte par GSIE.
+
 ### Fixed
 
 - **Chargement des fonds de carte** — les changements de couche sont désormais

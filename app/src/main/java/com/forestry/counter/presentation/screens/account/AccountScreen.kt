@@ -38,6 +38,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -70,6 +71,8 @@ import com.forestry.counter.domain.model.IdentityProvider
 import com.forestry.counter.domain.model.ProviderAvailability
 import com.forestry.counter.domain.model.AccountSession
 import com.forestry.counter.domain.model.AccountProfile
+import com.forestry.counter.domain.model.AccountConsent
+import com.forestry.counter.domain.model.AccountConsentPolicy
 import com.forestry.counter.domain.model.ProviderCapability
 import com.forestry.counter.domain.repository.IdentityRepository
 import com.forestry.counter.presentation.viewmodel.AccountUiState
@@ -129,6 +132,7 @@ fun AccountScreen(
             onRequestVerification = viewModel::requestEmailVerification,
             onConfirmVerification = viewModel::confirmEmailVerification,
             onLinkGoogle = { viewModel.linkGoogle(googleClient) },
+            onConsentChange = viewModel::setConsentAccepted,
             googleClientConfigured = repository.isGoogleClientConfigured,
             modifier = Modifier.padding(padding),
         )
@@ -145,6 +149,7 @@ private fun AccountContent(
     onRequestVerification: () -> Unit,
     onConfirmVerification: () -> Unit,
     onLinkGoogle: () -> Unit,
+    onConsentChange: (String, Boolean) -> Unit,
     googleClientConfigured: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -179,6 +184,14 @@ private fun AccountContent(
                     state = state,
                     googleClientConfigured = googleClientConfigured,
                     onLinkGoogle = onLinkGoogle,
+                )
+            }
+            item {
+                AccountConsentsCard(
+                    consents = state.consents,
+                    loading = state.isLoadingConsents,
+                    isWorking = state.isWorking,
+                    onConsentChange = onConsentChange,
                 )
             }
             item { AccountSecurityCard() }
@@ -269,6 +282,7 @@ private fun AccountNoticeCard(notice: AccountNotice) {
                     AccountNotice.VERIFICATION_SENT -> R.string.account_notice_verification_sent
                     AccountNotice.EMAIL_VERIFIED -> R.string.account_notice_email_verified
                     AccountNotice.GOOGLE_LINKED -> R.string.account_notice_google_linked
+                    AccountNotice.CONSENT_UPDATED -> R.string.account_notice_consent_updated
                 }
             ),
             color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -278,6 +292,66 @@ private fun AccountNoticeCard(notice: AccountNotice) {
                 .padding(16.dp),
         )
     }
+}
+
+@Composable
+private fun AccountConsentsCard(
+    consents: List<AccountConsent>,
+    loading: Boolean,
+    isWorking: Boolean,
+    onConsentChange: (String, Boolean) -> Unit,
+) {
+    val activeTypes = consents
+        .filter { it.revokedAt == null }
+        .map(AccountConsent::consentType)
+        .toSet()
+
+    IdentitySectionCard(stringResource(R.string.account_consents_title)) {
+        Text(
+            text = stringResource(R.string.account_consents_desc),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        if (loading) {
+            CircularProgressIndicator(Modifier.size(22.dp), strokeWidth = 2.dp)
+        }
+        AccountConsentPolicy.required.forEach { requirement ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = consentLabel(requirement.type),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                    Text(
+                        text = stringResource(
+                            R.string.account_consent_version,
+                            requirement.documentVersion,
+                        ),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                Switch(
+                    checked = requirement.type in activeTypes,
+                    onCheckedChange = { accepted ->
+                        onConsentChange(requirement.type, accepted)
+                    },
+                    enabled = !loading && !isWorking,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun consentLabel(type: String): String = when (type) {
+    AccountConsentPolicy.TERMS -> stringResource(R.string.account_consent_terms)
+    AccountConsentPolicy.PRIVACY -> stringResource(R.string.account_consent_privacy)
+    else -> type
 }
 
 @Composable
