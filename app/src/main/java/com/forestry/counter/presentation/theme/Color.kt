@@ -3,78 +3,81 @@ package com.forestry.counter.presentation.theme
 import androidx.compose.ui.graphics.Color
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Palette « Forêt tempérée » — GeoSylva 3.0
+// Direction artistique « Canopée » — GeoSylva 3.1
 //
-// Vert profond désaturé (marque), ambre chaud (accent d'action), neutres
-// légèrement chauds plutôt que des gris purs.
+// Carnet de forestier : papier crème (clair) / sous-bois nocturne vert-bleu
+// (sombre), épicéa profond pour la marque, mousse claire en sombre, ambre
+// « sève » réservé à l'action décisive. Les contenus sont posés sur des
+// cartes légèrement plus claires que le papier, jamais sur des gris purs.
 //
 // Elle remplace la palette vert néon d'origine (#00E676), dont le contraste
 // sur fond blanc était de 1,7:1 — très en dessous du minimum WCAG AA de 4,5:1
 // et donc inutilisable pour du texte ou une icône.
 //
-// Contrastes vérifiés : primaire/blanc 7,5:1 · texte/fond 16,5:1.
+// Contrastes vérifiés (WCAG) : primaire/papier 9,0:1 · texte/papier 15,0:1 ·
+// mousse/sous-bois 11,6:1 · texte/sous-bois 15,5:1.
 // ═══════════════════════════════════════════════════════════════════════════
 
 // ── Thème clair ──────────────────────────────────────────────────────────────
-val Primary = Color(0xFF2D5F3F)           // Vert forêt profond — couleur de marque
-val PrimaryVariant = Color(0xFFB8E6C5)    // Conteneur primaire (surfaces en avant)
-val Secondary = Color(0xFF4A6B58)         // Vert de support, désaturé
-val SecondaryVariant = Color(0xFFCDE8D8)  // Conteneur secondaire
+val Primary = Color(0xFF1B4A38)           // Épicéa — vert-bleu profond, couleur de marque
+val PrimaryVariant = Color(0xFFCFE6C9)    // Conteneur primaire (surfaces en avant)
+val Secondary = Color(0xFF506559)         // Vert de support, désaturé
+val SecondaryVariant = Color(0xFFE2E9D6)  // Conteneur secondaire
 
-val Background = Color(0xFFFBFAF7)        // Blanc cassé chaud — jamais blanc pur
-val Surface = Color(0xFFF4F3EE)           // Surface légèrement plus dense
+val Background = Color(0xFFF5F2E8)        // Papier de carnet — jamais blanc pur
+val Surface = Color(0xFFFBF9F2)           // Carte posée sur le papier
 val Error = Color(0xFFBA1A1A)
 
 val OnPrimary = Color(0xFFFFFFFF)
 val OnSecondary = Color(0xFFFFFFFF)
-val OnBackground = Color(0xFF191C17)      // Presque noir, teinté vert
-val OnSurface = Color(0xFF191C17)
+val OnBackground = Color(0xFF15201A)      // Presque noir, teinté vert
+val OnSurface = Color(0xFF15201A)
 val OnError = Color(0xFFFFFFFF)
 
 // Accent d'action — l'ambre. Un seul par écran, réservé à l'action décisive.
-val Tertiary = Color(0xFFB26A00)
+val Tertiary = Color(0xFF8F5200)
 val OnTertiary = Color(0xFFFFFFFF)
-val TertiaryContainer = Color(0xFFFFDDB3)
+val TertiaryContainer = Color(0xFFFFDCAE)
 val OnTertiaryContainer = Color(0xFF2A1800)
 
-val OnPrimaryContainer = Color(0xFF0C2417)
-val OnSecondaryContainer = Color(0xFF0C2417)
-val SurfaceVariant = Color(0xFFE0E4DB)
-val OnSurfaceVariant = Color(0xFF444A41)
-val Outline = Color(0xFF73796E)
-val OutlineVariant = Color(0xFFC3C8BC)
+val OnPrimaryContainer = Color(0xFF0B2A1D)
+val OnSecondaryContainer = Color(0xFF14261C)
+val SurfaceVariant = Color(0xFFE3E6D8)
+val OnSurfaceVariant = Color(0xFF4A5249)
+val Outline = Color(0xFF636C60)
+val OutlineVariant = Color(0xFFCDD0C0)
 
 // ── Thème sombre ─────────────────────────────────────────────────────────────
 // Neutres vraiment neutres (R=G=B) : la version précédente teintait fond et
 // surfaces vers le vert-jaune (ex. #12140F, G>R>B), perceptible comme un noir
 // « sale ». Seuls les accents (Primary, Tertiary) portent la couleur de
 // marque ; le fond reste un noir gris neutre, proche d'un noir OLED.
-val PrimaryDark = Color(0xFF8FD1A4)       // Vert clair lisible sur fond sombre
-val PrimaryVariantDark = Color(0xFF1B3D2C)
-val SecondaryDark = Color(0xFFB1CCBB)
-val SecondaryVariantDark = Color(0xFF2E3F35)
+val PrimaryDark = Color(0xFF94DBAB)       // Mousse claire, lisible sur fond sombre
+val PrimaryVariantDark = Color(0xFF1D4231)
+val SecondaryDark = Color(0xFFB6CDBC)
+val SecondaryVariantDark = Color(0xFF273A2F)
 
-val BackgroundDark = Color(0xFF0E0F0E)    // Quasi noir, neutre — plus de teinte jaune
-val SurfaceDark = Color(0xFF171817)
+val BackgroundDark = Color(0xFF0B1410)    // Sous-bois nocturne — noir vert-bleu, sans teinte jaune
+val SurfaceDark = Color(0xFF111C17)
 val ErrorDark = Color(0xFFFFB4AB)
 
-val OnPrimaryDark = Color(0xFF0B2417)
+val OnPrimaryDark = Color(0xFF06261A)
 val OnSecondaryDark = Color(0xFF1D3527)
-val OnBackgroundDark = Color(0xFFE4E4E2)
-val OnSurfaceDark = Color(0xFFE4E4E2)
+val OnBackgroundDark = Color(0xFFE6EBE4)
+val OnSurfaceDark = Color(0xFFE6EBE4)
 val OnErrorDark = Color(0xFF690005)
 
-val TertiaryDark = Color(0xFFFFB95C)
+val TertiaryDark = Color(0xFFFFBE66)
 val OnTertiaryDark = Color(0xFF452B00)
 val TertiaryContainerDark = Color(0xFF633F00)
 val OnTertiaryContainerDark = Color(0xFFFFDDB3)
 
-val OnPrimaryContainerDark = Color(0xFFB8E6C5)
+val OnPrimaryContainerDark = Color(0xFFCFE6C9)
 val OnSecondaryContainerDark = Color(0xFFCDE8D8)
-val SurfaceVariantDark = Color(0xFF3A3B3A)
-val OnSurfaceVariantDark = Color(0xFFC4C5C2)
-val OutlineDark = Color(0xFF8E8F8C)
-val OutlineVariantDark = Color(0xFF3A3B3A)
+val SurfaceVariantDark = Color(0xFF2B3A32)
+val OnSurfaceVariantDark = Color(0xFFB4BDB2)
+val OutlineDark = Color(0xFF86907F)
+val OutlineVariantDark = Color(0xFF2B3A32)
 
 // ── Surfaces conteneurs Material 3 ───────────────────────────────────────────
 // Material 3 a introduit une famille `surfaceContainer*` distincte de
@@ -82,25 +85,25 @@ val OutlineVariantDark = Color(0xFF3A3B3A)
 // par défaut — d'où la barre de navigation lavande observée sous des tuiles
 // vertes. Ces neutres sont légèrement chauds et teintés vert, comme le reste
 // de la palette : ils ne sont pas des gris purs.
-val SurfaceDim = Color(0xFFDBDBD3)
-val SurfaceBright = Color(0xFFFBFAF7)
+val SurfaceDim = Color(0xFFDAD8CB)
+val SurfaceBright = Color(0xFFFBF9F2)
 val SurfaceContainerLowest = Color(0xFFFFFFFF)
-val SurfaceContainerLow = Color(0xFFF5F4EF)
-val SurfaceContainer = Color(0xFFEFEEE9)
-val SurfaceContainerHigh = Color(0xFFEAE8E3)
-val SurfaceContainerHighest = Color(0xFFE4E3DE)
-val InverseSurface = Color(0xFF2E322C)
+val SurfaceContainerLow = Color(0xFFF8F6EE)
+val SurfaceContainer = Color(0xFFF0EEE3)
+val SurfaceContainerHigh = Color(0xFFEAE8DC)
+val SurfaceContainerHighest = Color(0xFFE4E2D5)
+val InverseSurface = Color(0xFF223028)
 val InverseOnSurface = Color(0xFFF0F1EB)
 
-val SurfaceDimDark = Color(0xFF0E0F0E)
-val SurfaceBrightDark = Color(0xFF313231)
-val SurfaceContainerLowestDark = Color(0xFF090A09)
-val SurfaceContainerLowDark = Color(0xFF161716)
-val SurfaceContainerDark = Color(0xFF1B1C1B)
-val SurfaceContainerHighDark = Color(0xFF252625)
-val SurfaceContainerHighestDark = Color(0xFF303130)
-val InverseSurfaceDark = Color(0xFFE4E4E2)
-val InverseOnSurfaceDark = Color(0xFF2E2F2E)
+val SurfaceDimDark = Color(0xFF0B1410)
+val SurfaceBrightDark = Color(0xFF2A3730)
+val SurfaceContainerLowestDark = Color(0xFF070D0A)
+val SurfaceContainerLowDark = Color(0xFF0F1A15)
+val SurfaceContainerDark = Color(0xFF14211B)
+val SurfaceContainerHighDark = Color(0xFF1B2A23)
+val SurfaceContainerHighestDark = Color(0xFF24342C)
+val InverseSurfaceDark = Color(0xFFE6EBE4)
+val InverseOnSurfaceDark = Color(0xFF223028)
 
 // ── Couleurs posées sur un média (vidéo ou photo) ────────────────────────────
 // Le vert de marque #2D5F3F est calibré pour du texte sur fond clair : sur une
@@ -128,7 +131,7 @@ val TextSecondaryOnMedia = Color(0xCCFFFFFF)
 val FieldBackground = Color(0xFFFFFFFF)
 val FieldSurface = Color(0xFFFFFFFF)
 val FieldOnSurface = Color(0xFF000000)
-val FieldOutline = Color(0xFF2D5F3F)
+val FieldOutline = Color(0xFF1B4A38)
 
 val FieldBackgroundDark = Color(0xFF000000)
 val FieldSurfaceDark = Color(0xFF0A0A0A)
