@@ -62,13 +62,6 @@ object Elevation {
     val modal = 16.dp
 }
 
-// ─── Filets ──────────────────────────────────────────────────────────────────
-
-object Hairline {
-    /** Contour fin des cartes (remplace l'ombre) et séparateurs. */
-    val width = 1.dp
-}
-
 // ─── Cibles tactiles ─────────────────────────────────────────────────────────
 
 object Touch {

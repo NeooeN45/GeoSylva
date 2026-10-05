@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -25,7 +23,6 @@ import androidx.compose.material.icons.filled.Forest
 import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Park
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -40,8 +37,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -50,16 +45,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.forestry.counter.R
 import com.forestry.counter.data.preferences.UserPreferencesManager
 import com.forestry.counter.domain.model.Foret
 import com.forestry.counter.presentation.theme.Elevation
-import com.forestry.counter.presentation.theme.GsDisplayFont
 import com.forestry.counter.presentation.theme.GsShape
-import com.forestry.counter.presentation.theme.Hairline
 import com.forestry.counter.presentation.theme.Space
 import com.forestry.counter.presentation.theme.Touch
 
@@ -189,144 +181,129 @@ private fun HomeContent(
 }
 
 /**
- * En-tête d'accueil « Canopée ».
+ * En-tête d'accueil.
  *
- * Un titre serif large posé sur un voile de papier translucide (la photo de
- * fond reste visible autour), puis un seul bandeau-bilan : les deux chiffres
- * clés partagent la même surface plutôt que deux tuiles jumelles.
+ * La photo de fond est portée par [HomeContent] (registre consultation,
+ * pleine page comme sur les autres écrans) : ce composant ne pose plus que
+ * le texte, en confiance sur le dégradé de légibilité déjà posé derrière.
  */
 @Composable
 private fun HomeHeader(state: HomeUiState.Success) {
-    Column(
-        modifier = Modifier.padding(
-            start = Space.screenH,
-            end = Space.screenH,
-            top = Space.xl,
-            bottom = Space.xs,
-        ),
-        verticalArrangement = Arrangement.spacedBy(Space.lg),
-    ) {
-        Surface(
-            color = MaterialTheme.colorScheme.background.copy(alpha = 0.72f),
-            shape = GsShape.lg,
+    Box {
+        Column(
+            modifier = Modifier.padding(
+                start = Space.screenH,
+                end = Space.screenH,
+                top = Space.xl,
+                bottom = Space.md,
+            ),
+            verticalArrangement = Arrangement.spacedBy(Space.lg),
         ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(Space.xxs),
-                modifier = Modifier.padding(horizontal = Space.md, vertical = Space.sm),
+            // Fondu localisé au seul bloc de texte — pas la pleine page (voir
+            // la note plus haut) : sur une photo claire, "Bonjour" devient
+            // illisible sans un minimum de contraste derrière. Un pavé
+            // arrondi cadré au texte (même traitement que "Accès rapide"
+            // plus bas) plutôt qu'un dégradé radial, qui rendait un bord
+            // rectangulaire dur au lieu d'un fondu.
+            Surface(
+                color = MaterialTheme.colorScheme.background.copy(alpha = 0.55f),
+                shape = GsShape.md,
             ) {
-                Text(
-                    text = stringResource(R.string.home_greeting),
-                    style = MaterialTheme.typography.headlineLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(Space.xxs),
+                    modifier = Modifier.padding(horizontal = Space.sm, vertical = Space.xs),
+                ) {
+                    Text(
+                        text = stringResource(R.string.home_greeting),
+                        style = MaterialTheme.typography.headlineLarge,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+                    Text(
+                        text = stringResource(R.string.home_subtitle),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+
+            Row(horizontalArrangement = Arrangement.spacedBy(Space.sm)) {
+                StatTile(
+                    modifier = Modifier.weight(1f),
+                    icon = Icons.Filled.Forest,
+                    value = state.foretCount,
+                    label = stringResource(R.string.home_stat_forests),
                 )
-                Text(
-                    text = stringResource(R.string.home_subtitle),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                StatTile(
+                    modifier = Modifier.weight(1f),
+                    icon = Icons.Filled.Park,
+                    value = state.parcelleCount,
+                    label = stringResource(R.string.home_stat_parcelles),
                 )
             }
         }
-
-        StatsBanner(state)
     }
 }
 
 /**
- * Bandeau-bilan : dégradé épicéa, deux grands chiffres serif séparés par un
- * filet. Le nombre porte l'information ; l'icône n'est qu'un repère discret.
+ * Tuile de chiffre.
+ *
+ * Le nombre porte l'information, pas l'icône : il occupe donc la plus grande
+ * taille de l'écran, aligné à gauche pour que deux tuiles côte à côte se
+ * lisent d'un seul balayage du regard.
  */
 @Composable
-private fun StatsBanner(state: HomeUiState.Success) {
-    val primary = MaterialTheme.colorScheme.primary
-    val onPrimary = MaterialTheme.colorScheme.onPrimary
-    val brush = remember(primary) {
-        Brush.linearGradient(listOf(primary, lerp(primary, Color.Black, 0.22f)))
-    }
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(GsShape.xl)
-            .background(brush)
-            .padding(vertical = Space.md),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        StatCell(
-            modifier = Modifier.weight(1f),
-            icon = Icons.Filled.Forest,
-            value = state.foretCount,
-            label = stringResource(R.string.home_stat_forests),
-            color = onPrimary,
-        )
-        Box(
-            modifier = Modifier
-                .width(Hairline.width)
-                .height(Space.xl)
-                .background(onPrimary.copy(alpha = 0.28f)),
-        )
-        StatCell(
-            modifier = Modifier.weight(1f),
-            icon = Icons.Filled.Park,
-            value = state.parcelleCount,
-            label = stringResource(R.string.home_stat_parcelles),
-            color = onPrimary,
-        )
-    }
-}
-
-@Composable
-private fun StatCell(
+private fun StatTile(
     icon: ImageVector,
     value: Int,
     label: String,
-    color: Color,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier.padding(horizontal = Space.md),
-        verticalArrangement = Arrangement.spacedBy(Space.xxs),
+    Surface(
+        modifier = modifier,
+        shape = GsShape.lg,
+        color = MaterialTheme.colorScheme.primaryContainer,
+        tonalElevation = Elevation.flat,
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Space.xxs),
+        Column(
+            modifier = Modifier.padding(Space.md),
+            verticalArrangement = Arrangement.spacedBy(Space.xs),
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                modifier = Modifier.size(Space.md),
-                tint = color.copy(alpha = 0.8f),
+                modifier = Modifier.size(Space.lg),
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
+            Text(
+                text = value.toString(),
+                style = MaterialTheme.typography.displaySmall,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
             Text(
                 text = label,
-                style = MaterialTheme.typography.labelMedium,
-                color = color.copy(alpha = 0.9f),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         }
-        Text(
-            text = value.toString(),
-            style = MaterialTheme.typography.displaySmall,
-            fontWeight = FontWeight.Medium,
-            color = color,
-        )
     }
 }
 
 @Composable
 private fun SectionTitle(text: String) {
-    // Surtitre : petites capitales espacées, sur un voile de papier cadré au
-    // texte (la section pose directement sur la photo de fond).
+    // Fondu léger, cadré au texte (pas pleine largeur) : "Accès rapide"
+    // pose directement sur la photo, sans carte opaque pour le porter.
     Surface(
-        color = MaterialTheme.colorScheme.background.copy(alpha = 0.72f),
-        shape = GsShape.pill,
+        color = MaterialTheme.colorScheme.background.copy(alpha = 0.55f),
+        shape = GsShape.sm,
         modifier = Modifier.padding(horizontal = Space.screenH),
     ) {
         Text(
-            text = text.uppercase(),
-            style = MaterialTheme.typography.labelMedium,
-            letterSpacing = 1.5.sp,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(horizontal = Space.sm, vertical = Space.xxs),
+            text = text,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(horizontal = Space.xs, vertical = Space.xxs),
         )
     }
 }
@@ -344,7 +321,6 @@ private fun QuickAccessCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
         ),
-        border = BorderStroke(Hairline.width, MaterialTheme.colorScheme.outlineVariant),
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = Space.screenH)
@@ -356,14 +332,14 @@ private fun QuickAccessCard(
             horizontalArrangement = Arrangement.spacedBy(Space.md),
         ) {
             Surface(
-                shape = GsShape.pill,
+                shape = GsShape.sm,
                 color = MaterialTheme.colorScheme.secondaryContainer,
             ) {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
                     modifier = Modifier
-                        .padding(Space.sm)
+                        .padding(Space.xs)
                         .size(Space.lg),
                     tint = MaterialTheme.colorScheme.onSecondaryContainer,
                 )
@@ -403,7 +379,6 @@ private fun EmptyForestsCard(onCreateForest: () -> Unit) {
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
         ),
-        border = BorderStroke(Hairline.width, MaterialTheme.colorScheme.outlineVariant),
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = Space.screenH),
@@ -421,8 +396,8 @@ private fun EmptyForestsCard(onCreateForest: () -> Unit) {
             )
             Text(
                 text = stringResource(R.string.home_empty_title),
-                style = MaterialTheme.typography.titleLarge,
-                fontFamily = GsDisplayFont,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
             )
             Text(
@@ -435,10 +410,6 @@ private fun EmptyForestsCard(onCreateForest: () -> Unit) {
             Button(
                 onClick = onCreateForest,
                 shape = GsShape.pill,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.tertiary,
-                    contentColor = MaterialTheme.colorScheme.onTertiary,
-                ),
                 modifier = Modifier.heightIn(min = Touch.min),
             ) {
                 Icon(
@@ -461,7 +432,6 @@ private fun RecentForetCard(foret: Foret, onClick: () -> Unit) {
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
         ),
-        border = BorderStroke(Hairline.width, MaterialTheme.colorScheme.outlineVariant),
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = Space.screenH)
@@ -472,21 +442,19 @@ private fun RecentForetCard(foret: Foret, onClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Space.md),
         ) {
-            // Monogramme : l'initiale en serif identifie la forêt d'un coup
-            // d'œil, mieux qu'une icône identique sur chaque ligne.
             Surface(
-                shape = GsShape.md,
+                shape = GsShape.sm,
                 color = MaterialTheme.colorScheme.primaryContainer,
-                modifier = Modifier.size(Touch.min),
+                modifier = Modifier.clip(GsShape.sm),
             ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Text(
-                        text = foret.nom.trim().firstOrNull()?.uppercase() ?: "·",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontFamily = GsDisplayFont,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    )
-                }
+                Icon(
+                    imageVector = Icons.Filled.Forest,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(Space.xs)
+                        .size(Space.lg),
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
             }
             Column(modifier = Modifier.weight(1f)) {
                 Text(
