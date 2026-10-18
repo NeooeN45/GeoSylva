@@ -1,41 +1,42 @@
 # Politique de sécurité — GeoSylva
 
-La sécurité des données forestières et personnelles de nos utilisateurs est une priorité.
-GeoSylva applique le chiffrement au repos (SQLCipher), HTTPS obligatoire avec
-la chaîne de confiance Android, une protection DNS/SSRF et une conformité RGPD
-documentée (registre des traitements, SCC pour les transferts hors-UE).
+Ne publiez ni secret, ni donnée client, ni preuve exploitable dans une issue,
+une pull request, une capture ou un journal public.
 
-## Versions supportées
+Utilisez **Security → Report a vulnerability** si cette fonction est disponible
+sur le dépôt. Sinon, écrivez à **camille@perraudeau.mozmail.com** pour convenir
+d’un canal privé. Le premier message contient uniquement le composant concerné,
+la version, l’impact estimé et un moyen de vous recontacter, sans secret.
+La présence de ce fichier ne signifie pas que le signalement privé GitHub est activé.
 
-| Version | Support sécurité |
-|---------|------------------|
-| 2.4.x   | ✅ Supportée     |
-| < 2.4   | ❌ Non supportée |
+## Versions et périmètre
 
-## Signaler une vulnérabilité
+La version 2.8 est utilisée par les testeurs et la version 3.0 est en développement.
+Signaler aussi les problèmes de stockage chiffré, compte, synchronisation, photos,
+cartographie, imports et exports. La présence de contrôles techniques ne constitue
+pas une certification RGPD ou une garantie générale de sécurité.
 
-**Ne publiez jamais une vulnérabilité de sécurité dans une issue ou une discussion publique.**
+## Périmètre et traitement
 
-Merci de la signaler de façon responsable :
+Les versions en développement et distribuées peuvent être signalées.
+La correction et le calendrier sont évalués selon l’impact ; aucun délai de
+prise en charge ni programme de récompense n’est garanti.
 
-1. Envoyez un e-mail à **hydrogene.bonde@gmail.com** avec l'objet `[SECURITY] GeoSylva`.
-2. Décrivez la vulnérabilité, son impact potentiel et les étapes de reproduction.
-3. Joignez si possible une preuve de concept (logs, captures, payload).
+Si un identifiant a été exposé : le révoquer ou le renouveler chez le fournisseur,
+vérifier les accès et les journaux, puis retirer sa présence dans le code.
+Effacer un fichier ou rendre le dépôt privé ne révoque pas un secret.
+Une réécriture d’historique doit être préparée séparément, avec sauvegarde et
+coordination des contributeurs ; elle ne supprime pas les copies externes.
 
-### Engagement de réponse
+## Contrôles du dépôt
 
-| Étape | Délai cible |
-|-------|-------------|
-| Accusé de réception | 72 heures |
-| Évaluation initiale | 7 jours |
-| Correctif ou plan de remédiation | 30 jours (selon sévérité) |
+- Permissions CI minimales et actions référencées par commit immuable.
+- Gitleaks 8.30.1 vérifié par SHA-256 : historique Git, résultats masqués.
+- Refus des fichiers d’environnement et de signature versionnés ; les rares
+  fixtures cryptographiques publiques de test sont vérifiées par empreinte.
+- Aucun secret de production ni donnée client requis pour les tests.
+- Revue des dépendances et licences avant mise à jour ; aucune fusion automatique.
 
-Nous nous engageons à vous tenir informé de l'avancement et à créditer publiquement
-votre signalement (sauf demande contraire) une fois le correctif publié.
-
-## Périmètre
-
-Sont concernés : l'application Android GeoSylva, son stockage local chiffré, ses
-communications réseau (tuiles cartographiques) et ses exports de données.
-
-Merci de contribuer à rendre GeoSylva plus sûr pour toute la communauté forestière. 🌲
+Ces contrôles ne constituent pas un audit exhaustif du logiciel ou du serveur.
+Les autorisations GitHub, sauvegardes, clés de signature et traitements de
+données doivent aussi être suivis hors du dépôt.
