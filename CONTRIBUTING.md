@@ -152,7 +152,7 @@ Format: `type/short-description`
 By contributing to GeoSylva, you acknowledge that:
 
 1. **NO FORKS ALLOWED** - Creating forks of this codebase is strictly prohibited
-2. **PROPRIETARY CODE** - All contributions become exclusive property of GeoSylva
+2. **CONTRIBUTION RIGHTS** - Before accepting external code, record its author, provenance, third-party licences and the applicable written contribution agreement. This guide does not itself transfer ownership.
 3. **NO REDISTRIBUTION** - Code cannot be shared or redistributed outside the project
 4. **COMMERCIAL USE RESTRICTED** - Only for direct professional forestry activities
 
