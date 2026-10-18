@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pack_region_departments_included">Une région inclut automatiquement tous ses départements. Les versions déjà actives ne sont pas téléchargées à nouveau.</string>
+    <string name="pack_region_department_count">Couverture régionale : %1$d départements. Les versions déjà actives sont conservées.</string>
+    <string name="pack_region_download_departments">Télécharger les départements liés</string>
+    <string name="pack_region_incomplete">Tous les départements de la région ne sont pas disponibles. Actualisez le catalogue avant de réessayer, ou choisissez un département séparément.</string>
+</resources>

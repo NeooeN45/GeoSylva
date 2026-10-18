@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="synthesis_sections_details_show">Détails repliés</string>
+    <string name="synthesis_sections_details_hide">Détails affichés</string>
+    <string name="synthesis_sections_recorded_heights">Hauteurs renseignées</string>
+    <string name="synthesis_sections_surface_protocol">Cette surface décrit la géométrie de référence. Les indicateurs par hectare demandent un protocole complet et une surface réellement inventoriée ; ils restent indisponibles pour ce relevé.</string>
+    <string name="synthesis_sections_wood_scope">Ces volumes suivent la méthode de cubage du relevé. La conversion en lots commerciaux demande des conventions de mesure, une qualité et une découpe renseignées.</string>
+</resources>

@@ -1,5 +1,16 @@
 # GeoSylva — AI Context / Documentation technique de référence
 
+## État courant — 18 octobre 2026
+
+Les décisions récentes du fondateur priment sur les sections historiques ci-dessous.
+Lire `.obsidian-vault/50_CONTEXT/PROJECT_STATE.md`, puis
+`docs/FORMULAIRES_BOIS_C02_C03_2026-10-18.md` pour le lot de saisie manuelle et ses
+preuves. Le code courant est en version 3.0.0 (11), avec migration additive Room 44.
+Le parcours chantier/parcelles et les enlèvements datés sont cadrés dans
+`docs/CHANTIERS_PARCELLES_SUIVI_DATE_BOIS_2026-10-18.md` ; ils ne sont pas livrés par
+les formulaires locaux. Les affirmations de connexion/serveur de 2026-08-03 plus
+bas sont historiques et ne prouvent pas une configuration Google/GSIE active ici.
+
 ## 0) À lire en premier (pour une nouvelle session IA)
 
 Ce fichier est la **source de vérité technique** pour comprendre le code de GeoSylva.

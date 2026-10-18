@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pack_content_forestry_title">Offline cartography</string>
+    <string name="pack_content_forestry_catalog_summary">Contents depend on the published pack. Each card lists its available layers, version and size.</string>
+    <string name="pack_content_forestry_summary">Cadastral parcels and public forest boundaries available for offline viewing and selection. ONF forest parcels are included when listed in the published contents below.</string>
+    <string name="pack_forestry_cadastral_count">Cadastral parcels: %1$d</string>
+    <string name="pack_forestry_forest_count">Public forest boundaries: %1$d</string>
+    <string name="pack_forestry_onf_count">ONF forest parcels: %1$d</string>
+</resources>

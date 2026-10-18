@@ -1,5 +1,8 @@
 package com.forestry.counter.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Parcelle(
     val id: String,
     val forestId: String?,

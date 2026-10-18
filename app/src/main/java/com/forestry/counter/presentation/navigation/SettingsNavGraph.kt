@@ -21,6 +21,7 @@ import com.forestry.counter.presentation.screens.account.AccountScreen
 import com.forestry.counter.presentation.screens.account.DeveloperOptionsScreen
 import com.forestry.counter.presentation.screens.account.LoginScreen
 import com.forestry.counter.presentation.screens.account.PasswordRecoveryScreen
+import com.forestry.counter.presentation.screens.account.ParcelSyncSelectionScreen
 
 /**
  * Sous-graphe Settings, outils et groupes (comptage).
@@ -125,10 +126,11 @@ fun NavGraphBuilder.settingsNavGraph(
             onNavigateToSection = { section ->
                 // « Compte » n'est pas une sous-page filtrée de Réglages : c'est
                 // l'écran Compte lui-même, ré-utilisé tel quel (ID-F-013).
-                if (section == "compte") {
-                    navController.navigate(Screen.Account.route)
-                } else {
-                    navController.navigate(Screen.Settings.createRoute(section))
+                when (section) {
+                    "metier" -> navController.navigate(Screen.ProfessionSelection.route)
+                    "compte" -> navController.navigate(Screen.Account.route)
+                    "packs" -> navController.navigate(Screen.PackManager.route)
+                    else -> navController.navigate(Screen.Settings.createRoute(section))
                 }
             },
             onNavigateBack = { navController.popBackStack() },
@@ -203,6 +205,38 @@ fun NavGraphBuilder.settingsNavGraph(
             repository = app.identityRepository,
             onNavigateToLogin = { navController.navigate(Screen.Login.route) },
             onNavigateBack = { navController.popBackStack() },
+            onNavigateToParcelSync = { navController.navigate(Screen.ParcelSyncSelection.route) },
+            onNavigateToForestSync = { navController.navigate(Screen.ForestSyncSelection.route) },
+        )
+    }
+
+    composable(
+        route = Screen.ParcelSyncSelection.route,
+        enterTransition = transitions.enter,
+        exitTransition = transitions.exit,
+        popEnterTransition = transitions.popEnter,
+        popExitTransition = transitions.popExit,
+    ) {
+        ParcelSyncSelectionScreen(
+            identityRepository = app.identityRepository,
+            parcelSyncRepository = app.parcelleSyncRepository,
+            onNavigateBack = { navController.popBackStack() },
+            onNavigateToLogin = { navController.navigate(Screen.Login.route) },
+        )
+    }
+
+    composable(
+        route = Screen.ForestSyncSelection.route,
+        enterTransition = transitions.enter,
+        exitTransition = transitions.exit,
+        popEnterTransition = transitions.popEnter,
+        popExitTransition = transitions.popExit,
+    ) {
+        com.forestry.counter.presentation.screens.account.ForestSyncSelectionScreen(
+            identityRepository = app.identityRepository,
+            hierarchySyncRepository = app.hierarchySyncRepository,
+            onNavigateBack = { navController.popBackStack() },
+            onNavigateToLogin = { navController.navigate(Screen.Login.route) },
         )
     }
 
@@ -247,6 +281,7 @@ fun NavGraphBuilder.settingsNavGraph(
             parcelSyncRepository = app.parcelleSyncRepository,
             preferences = app.userPreferences,
             onNavigateBack = { navController.popBackStack() },
+            onNavigateToParcelSync = { navController.navigate(Screen.ParcelSyncSelection.route) },
         )
     }
 

@@ -1,9 +1,12 @@
 package com.forestry.counter.domain.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Domain model pour une forêt.
  * Mappé depuis/vers ForetEntity dans data/mapper.
  */
+@Serializable
 data class Foret(
     val foretId: String,
     val nom: String,
@@ -30,7 +33,13 @@ data class Foret(
     override val deletedAt: Long? = null,
     override val auteur: String? = null,
     override val source: String? = null,
-    override val version: Int = 1
+    override val version: Int = 1,
+    /** Validated WGS84 2D polygon WKT when an official forest has been selected. */
+    val shape: String? = null,
+    /** Source feature identifier, distinct from this user's dossier identifier [foretId]. */
+    val sourceForestId: String? = null,
+    /** Stable source dataset reference; unaffected by local metadata enrichment. */
+    val sourceForestDataset: String? = null,
 ) : Metadatable<Foret> {
     override fun withMetadata(auteur: String, source: String, version: Int): Foret =
         copy(auteur = auteur, source = source, version = version)

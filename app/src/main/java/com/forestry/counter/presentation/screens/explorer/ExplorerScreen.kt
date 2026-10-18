@@ -1,24 +1,25 @@
 package com.forestry.counter.presentation.screens.explorer
 
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.material.icons.filled.Inventory2
+import androidx.compose.ui.platform.testTag
+import com.forestry.counter.domain.journey.JourneyFeature
+import com.forestry.counter.domain.journey.NavigationAccessDecision
+import com.forestry.counter.presentation.navigation.JourneyNavigation
+import com.forestry.counter.presentation.screens.home.JourneyActionCard
+import com.forestry.counter.presentation.screens.home.JourneyChoiceScreen
+
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.AccountTree
@@ -36,258 +37,134 @@ import androidx.compose.material.icons.filled.Science
 import androidx.compose.material.icons.filled.Straighten
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.forestry.counter.R
 import com.forestry.counter.data.preferences.UserPreferencesManager
 import com.forestry.counter.presentation.theme.GsShape
-import com.forestry.counter.presentation.theme.Motion
 import com.forestry.counter.presentation.theme.Space
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
-/**
- * Écran Explorer — 13 catégories de données forestières.
- *
- * Spec GEOSYLVA-003 §29.4 : grille de catégories permettant de parcourir
- * toutes les entités du contrat de données.
- *
- * Refondu dans le style de l'accueil Réglages (cartes arrondies sur
- * `surfaceContainerHigh`, icône en pastille de couleur, pression animée) —
- * même fond d'écran par défaut que l'Accueil pour rester le même produit
- * d'un onglet à l'autre. Entrée en cascade et tirer-pour-actualiser en plus,
- * couleurs de l'indicateur adaptées au thème.
- */
-@OptIn(ExperimentalMaterial3Api::class)
+/** Only connected tools for the current journey. A profession does not grant data access. */
 @Composable
 fun ExplorerScreen(
     onNavigateToForets: () -> Unit,
     onNavigateToProjects: () -> Unit,
     onCategoryClick: (ExplorerCategory) -> Unit,
+    onNavigateToWoodDepots: () -> Unit,
+    onChooseProfession: () -> Unit,
+    professionCode: String?,
     modifier: Modifier = Modifier,
+    onNavigateToWorksites: (() -> Unit)? = null,
 ) {
-    val preferencesManager = LocalContext.current.let { remember(it) { UserPreferencesManager(it) } }
-    val backgroundImageEnabled by preferencesManager.backgroundImageEnabled.collectAsStateWithLifecycle(initialValue = true)
-    val backgroundImageUri by preferencesManager.backgroundImageUri.collectAsStateWithLifecycle(initialValue = null)
-    var isRefreshing by remember { mutableStateOf(false) }
-    val scope = rememberCoroutineScope()
-
+    val preferences = LocalContext.current.let { remember(it) { UserPreferencesManager(it) } }
+    val backgroundEnabled by preferences.backgroundImageEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val backgroundUri by preferences.backgroundImageUri.collectAsStateWithLifecycle(initialValue = null)
+    val access = remember(professionCode) { JourneyNavigation.access(professionCode) }
+    if (access.profile.journey == null) {
+        JourneyChoiceScreen(onChooseProfession, modifier)
+        return
+    }
     Box(modifier = modifier.fillMaxSize()) {
-        if (backgroundImageEnabled) {
-            val uriString = backgroundImageUri
-            if (uriString != null) {
-                AsyncImage(
-                    model = uriString,
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop,
-                )
-            } else {
-                Image(
-                    painter = painterResource(id = R.drawable.forest_background),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop,
-                )
+        if (backgroundEnabled) {
+            if (backgroundUri != null) AsyncImage(model = backgroundUri, contentDescription = null,
+                modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+            else Image(painterResource(R.drawable.forest_background), contentDescription = null,
+                modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+        }
+        ExplorerContent(access, onNavigateToForets, onNavigateToProjects, onCategoryClick,
+            onNavigateToWoodDepots, onChooseProfession, onNavigateToWorksites = onNavigateToWorksites)
+    }
+}
+
+@Composable
+internal fun ExplorerContent(
+    access: NavigationAccessDecision,
+    onNavigateToForets: () -> Unit,
+    onNavigateToProjects: () -> Unit,
+    onCategoryClick: (ExplorerCategory) -> Unit,
+    onNavigateToWoodDepots: () -> Unit,
+    onChooseProfession: () -> Unit,
+    modifier: Modifier = Modifier,
+    onNavigateToWorksites: (() -> Unit)? = null,
+) {
+    // Categories are navigation, not downloaded data: no simulated pull-to-refresh.
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(156.dp),
+        modifier = modifier.fillMaxSize().testTag("journey_explorer"),
+        contentPadding = PaddingValues(Space.screenH),
+        horizontalArrangement = Arrangement.spacedBy(Space.sm),
+        verticalArrangement = Arrangement.spacedBy(Space.sm),
+    ) {
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            Surface(color = MaterialTheme.colorScheme.surface, shape = GsShape.lg) {
+                Column(Modifier.padding(Space.lg), verticalArrangement = Arrangement.spacedBy(Space.sm)) {
+                    Text(stringResource(R.string.explorer_title), style = MaterialTheme.typography.headlineMedium)
+                    Text(stringResource(R.string.journey_explorer_description), style = MaterialTheme.typography.bodyLarge)
+                }
             }
         }
-
-        Scaffold(
-            containerColor = androidx.compose.ui.graphics.Color.Transparent,
-        ) { innerPadding ->
-            PullToRefreshBox(
-                isRefreshing = isRefreshing,
-                onRefresh = {
-                    // Rien à recharger tant que les catégories restent des
-                    // compteurs statiques (Lot 1) — le geste reste branché
-                    // pour les écrans à données réelles à mesure qu'ils
-                    // arrivent, sans revenir modifier cet écran plus tard.
-                    isRefreshing = true
-                    scope.launch {
-                        delay(700)
-                        isRefreshing = false
-                    }
-                },
-                modifier = Modifier.fillMaxSize(),
-                indicator = {
-                    // Noir + bleu en sombre, blanc + bleu en clair — demandé
-                    // explicitement, délibérément hors de la palette verte de
-                    // marque pour cette seule interaction.
-                    PullToRefreshDefaults.Indicator(
-                        state = androidx.compose.material3.pulltorefresh.rememberPullToRefreshState(),
-                        isRefreshing = isRefreshing,
-                        modifier = Modifier.align(Alignment.TopCenter),
-                        containerColor = MaterialTheme.colorScheme.background,
-                        color = ExplorerRefreshBlue,
-                    )
-                },
-            ) {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(
-                        start = Space.screenH,
-                        end = Space.screenH,
-                        top = innerPadding.calculateTopPadding() + Space.sm,
-                        bottom = innerPadding.calculateBottomPadding() + Space.xxl,
-                    ),
-                    horizontalArrangement = Arrangement.spacedBy(Space.sm),
-                    verticalArrangement = Arrangement.spacedBy(Space.sm),
-                ) {
-                    // Titre collé au fond de la page, scrollant avec les
-                    // cartes — pas de barre séparée qui se replie à son
-                    // propre rythme : le défilement doit rester aussi fluide
-                    // que pour n'importe quelle carte de la grille.
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        Surface(
-                            color = MaterialTheme.colorScheme.background.copy(alpha = 0.55f),
-                            shape = GsShape.md,
-                            modifier = Modifier.padding(bottom = Space.sm),
-                        ) {
-                            Text(
-                                text = stringResource(R.string.explorer_title),
-                                style = MaterialTheme.typography.headlineSmall,
-                                fontWeight = FontWeight.SemiBold,
-                                modifier = Modifier.padding(horizontal = Space.md, vertical = Space.xs),
-                            )
-                        }
-                    }
-                    itemsIndexed(ExplorerCategory.entries) { index, category ->
-                        ExplorerCategoryCard(
-                            category = category,
-                            index = index,
-                            onClick = {
-                                when (category) {
-                                    ExplorerCategory.FORETS -> onNavigateToForets()
-                                    ExplorerCategory.PROJECTS -> onNavigateToProjects()
-                                    else -> onCategoryClick(category)
-                                }
-                            },
-                        )
-                    }
+        if (access.allows(JourneyFeature.WORKSITES) && onNavigateToWorksites != null) {
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                JourneyActionCard(Icons.Default.Inventory2, R.string.site_title, R.string.site_empty,
+                    onNavigateToWorksites, Modifier.testTag("journey_worksites"), prominent = true)
+            }
+        }
+        if (access.allows(JourneyFeature.WOOD_DEPOTS)) {
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                JourneyActionCard(Icons.Default.Inventory2, R.string.journey_depots_title,
+                    R.string.journey_depots_description, onNavigateToWoodDepots,
+                    Modifier.testTag("journey_depots"), prominent = true)
+            }
+        }
+        itemsIndexed(JourneyNavigation.categories(access), key = { _, category -> category.name }) { _, category ->
+            ExplorerCategoryCard(category, onClick = {
+                when (category) {
+                    ExplorerCategory.FORETS -> onNavigateToForets()
+                    ExplorerCategory.PROJECTS -> onNavigateToProjects()
+                    else -> onCategoryClick(category)
                 }
+            })
+        }
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            androidx.compose.material3.TextButton(onClick = onChooseProfession) {
+                Text(stringResource(R.string.journey_change_action))
             }
         }
     }
 }
 
-// Bleu volontairement hors palette de marque — demandé pour l'indicateur
-// de tirer-pour-actualiser uniquement, identique dans les deux thèmes.
-private val ExplorerRefreshBlue = androidx.compose.ui.graphics.Color(0xFF1E88E5)
-
 @Composable
-private fun ExplorerCategoryCard(
-    category: ExplorerCategory,
-    index: Int,
-    onClick: () -> Unit,
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val pressed by interactionSource.collectIsPressedAsState()
-    val scale by animateFloatAsState(
-        targetValue = if (pressed) Motion.PRESS_SCALE else 1f,
-        animationSpec = Motion.springSnappy(),
-        label = "explorerCardScale",
-    )
-
-    // Pas d'entrée en cascade ici : `LazyVerticalGrid` dispose et recompose
-    // les cartes hors-écran, donc une animation basée sur `index` rejouait
-    // à chaque défilement — la carte n'existait pas encore (alpha 0, non
-    // cliquable) le temps du délai. Les cartes doivent être disponibles
-    // immédiatement dès qu'elles entrent dans le viewport.
-    Card(
-        onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(1f)
-            .scale(scale),
+private fun ExplorerCategoryCard(category: ExplorerCategory, onClick: () -> Unit) {
+    Card(onClick = onClick,
+        modifier = Modifier.fillMaxWidth().testTag("explorer_${category.name}"),
         shape = GsShape.lg,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.9f)),
-        interactionSource = interactionSource,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh),
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
-                // Icône fantôme — grande, très pâle, en fond de carte : une
-                // touche de profondeur sans surcharger le badge, qui reste
-                // seul repère net à l'échelle de lecture.
-                Icon(
-                    imageVector = category.icon,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.06f),
-                    modifier = Modifier
-                        .size(96.dp)
-                        .align(Alignment.BottomEnd)
-                        .padding(end = 4.dp, bottom = 4.dp),
-                )
-
-                Column(
-                    modifier = Modifier.padding(Space.md).fillMaxSize(),
-                    verticalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Surface(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        modifier = Modifier.size(48.dp),
-                    ) {
-                        Box(contentAlignment = Alignment.Center) {
-                            Icon(
-                                imageVector = category.icon,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                            )
-                        }
-                    }
-                    Column {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(Space.xxs),
-                        ) {
-                            Text(
-                                text = category.label,
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.SemiBold,
-                                modifier = Modifier.weight(1f, fill = false),
-                            )
-                            if (category.isImplemented) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(16.dp),
-                                    tint = MaterialTheme.colorScheme.primary,
-                                )
-                            }
-                        }
-                        if (!category.isImplemented) {
-                            Text(
-                                text = stringResource(R.string.explorer_coming_soon),
-                                style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    }
-                }
-            }
+        Column(Modifier.padding(Space.lg), verticalArrangement = Arrangement.spacedBy(Space.lg)) {
+            Icon(category.icon, contentDescription = null)
+            Text(stringResource(when (category) {
+                ExplorerCategory.FORETS -> R.string.journey_forests
+                ExplorerCategory.PARCELLES -> R.string.journey_parcels
+                ExplorerCategory.PLACETTES -> R.string.journey_plots
+                ExplorerCategory.DIAGNOSTICS -> R.string.journey_diagnostics
+                ExplorerCategory.PROJECTS -> R.string.journey_projects
+                else -> error("Unconnected Explorer destination: $category")
+            }), style = MaterialTheme.typography.titleMedium)
+            Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null)
         }
     }
 }

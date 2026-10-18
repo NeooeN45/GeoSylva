@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="forest_creation_title">Créer une forêt</string>
+    <string name="forest_creation_intro">Votre forêt, simplement</string>
+    <string name="forest_creation_intro_detail">Un dossier pour vos parcelles et vos relevés.</string>
+    <string name="forest_creation_step_count">Étape %1$d sur %2$d</string>
+    <string name="forest_creation_identity_help">Seul le nom est obligatoire. Renseignez les autres informations si vous les connaissez.</string>
+    <string name="forest_creation_name_required">Nom de la forêt *</string>
+    <string name="forest_creation_department_optional">Département (facultatif)</string>
+    <string name="forest_creation_owner_help">Renseignez les coordonnées que vous connaissez. Tous les champs de cette étape sont facultatifs.</string>
+    <string name="forest_creation_owner_name_optional">Nom du propriétaire</string>
+    <string name="forest_creation_owner_email_optional">E-mail du propriétaire</string>
+    <string name="forest_creation_manager_optional">Nom du gestionnaire</string>
+    <string name="forest_creation_email_invalid">Vérifiez l’adresse e-mail, par exemple nom@domaine.fr.</string>
+    <string name="forest_creation_management_help">Précisez la gestion si vous la connaissez. Vous pouvez ajuster ces informations avant la création.</string>
+    <string name="forest_creation_plan_optional">Document de gestion · référence</string>
+    <string name="forest_creation_management_optional">Informations de gestion facultatives</string>
+    <string name="forest_creation_save">Créer la forêt</string>
+    <string name="forest_creation_saving">Enregistrement…</string>
+    <string name="forest_creation_save_error">La forêt n’a pas pu être enregistrée. Vos informations sont conservées : réessayez.</string>
+    <string name="forest_creation_photo_credit">Photo d’illustration : Ірина Бучнєва · CC0</string>
+    <string name="forest_creation_lookup_loading">Recherche de forêts…</string>
+    <string name="forest_creation_lookup_help">Choisissez une forêt proposée, ou conservez le nom saisi.</string>
+    <string name="forest_creation_lookup_selected">Forêt sélectionnée</string>
+    <string name="forest_creation_lookup_department">Département : %1$s</string>
+    <string name="forest_creation_lookup_unavailable">La recherche est indisponible. Vous pouvez continuer avec le nom saisi.</string>
+    <string name="forest_creation_lookup_empty">Aucune forêt proposée. Vous pouvez continuer avec le nom saisi.</string>
+</resources>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tarif_qualified_title">Repères de cubage</string>
+    <string name="tarif_qualified_tab_sources">Sources</string>
+    <string name="tarif_qualified_tab_choice">Choisir une méthode</string>
+    <string name="tarif_qualified_tab_formulas">Formules</string>
+    <string name="tarif_qualified_sources_title">Des références pour le terrain</string>
+    <string name="tarif_qualified_sources_description">Comprendre les mesures, les familles de tarifs et leurs conditions d\'emploi avant d\'interpréter un résultat.</string>
+    <string name="tarif_qualified_sources_scope">Ces documents expliquent des principes. Ils ne certifient ni les calculs de GeoSylva, ni un tarif local, ni une quantité payable.</string>
+    <string name="tarif_qualified_source_inventory_title">Inventaire forestier</string>
+    <string name="tarif_qualified_source_inventory_detail">CNPF · e-for-OWN · juin 2019 · PDF p. 11–12</string>
+    <string name="tarif_qualified_source_inventory_body">Référence de mesure du diamètre, classes de diamètre et hauteurs d\'arbres-études. La hauteur d\'un arbre représentatif ne devient pas une mesure individuelle de tous les arbres de sa classe.</string>
+    <string name="tarif_qualified_source_standing_title">Estimation des bois sur pied</string>
+    <string name="tarif_qualified_source_standing_detail">CRPF Île-de-France / Centre · décembre 2013 · p. 1–4</string>
+    <string name="tarif_qualified_source_standing_body">Distinguer hauteur à la découpe, diamètre médian et diamètre à 1,30 m ; adapter l\'estimation à la forme des bois. Les conventions commerciales et leur actualité restent à vérifier pour le contrat concerné.</string>
+    <string name="tarif_qualified_source_slenderness_title">Futaie régulière et élancement</string>
+    <string name="tarif_qualified_source_slenderness_detail">CNPF · e-for-OWN · juin 2019 · PDF p. 6</string>
+    <string name="tarif_qualified_source_slenderness_body">Exemples du rapport hauteur/diamètre dans un contexte de premières éclaircies. Leur interprétation dépend du peuplement ; elle ne constitue pas un seuil de stabilité universel.</string>
+    <string name="tarif_qualified_source_schaeffer_title">Tarifs rapides et tarifs lents</string>
+    <string name="tarif_qualified_source_schaeffer_detail">Léon Schaeffer · Revue forestière française · 1949 · p. 7–13</string>
+    <string name="tarif_qualified_source_schaeffer_body">La publication décrit deux familles à une entrée. « Rapide » et « lent » ne signifient pas « une » et « deux » entrées. Le choix du numéro de tarif demande une calibration adaptée.</string>
+    <string name="tarif_qualified_source_fao_title">Mesurage des grumes</string>
+    <string name="tarif_qualified_source_fao_detail">FAO · K. Jayaraman · Statistical Manual for Forestry Research · § 6.2.1</string>
+    <string name="tarif_qualified_source_fao_body">Formules de Huber, Smalian et Newton selon les sections disponibles et leur position. Le manuel distingue ces mesurages des équations de prédiction à calibrer pour une essence et un peuplement. Document en anglais.</string>
+    <string name="tarif_qualified_source_basal_title">Surface terrière et diamètre quadratique</string>
+    <string name="tarif_qualified_source_basal_detail">Australian National University · Brack et Wood · Stand basal area</string>
+    <string name="tarif_qualified_source_basal_body">Définitions de la section d\'un arbre, de leur somme et du diamètre quadratique moyen. Les unités et la population mesurée doivent être conservées pour un passage à l\'hectare. Document en anglais.</string>
+    <string name="tarif_qualified_source_open">Consulter le document source</string>
+    <string name="tarif_qualified_source_external">Ouvre un document externe. Connexion Internet nécessaire.</string>
+    <string name="tarif_qualified_source_unavailable">Impossible d\'ouvrir le document. Vérifiez qu\'un navigateur est disponible.</string>
+    <string name="tarif_qualified_choice_title">Partir des mesures disponibles</string>
+    <string name="tarif_qualified_choice_description">Le nom d\'un tarif ou la seule localisation ne suffit pas à choisir une équation fiable.</string>
+    <string name="tarif_qualified_one_entry_title">Tarif à une entrée</string>
+    <string name="tarif_qualified_one_entry_inputs">Une dimension · généralement diamètre ou circonférence</string>
+    <string name="tarif_qualified_one_entry_body">L\'équation estime le volume à partir d\'une dimension, selon une référence de mesure définie. Elle peut demander un numéro de tarif calibré au peuplement. L\'absence de hauteur ne dispense pas de vérifier sa validité pour les bois observés.</string>
+    <string name="tarif_qualified_two_entries_title">Tarif à deux entrées</string>
+    <string name="tarif_qualified_two_entries_inputs">Deux dimensions · généralement diamètre et hauteur</string>
+    <string name="tarif_qualified_two_entries_body">La méthode précise la hauteur attendue : totale, à une découpe définie ou une autre référence. Une hauteur dominante de peuplement ou une hauteur moyenne de classe ne remplace pas une hauteur individuelle sans modèle explicite d\'estimation.</string>
+    <string name="tarif_qualified_domain_title">Vérifier le domaine d\'emploi</string>
+    <string name="tarif_qualified_domain_body">Essence ou groupe d\'essences, plage de dimensions, forme du tronc, structure et conditions de station : vérifier ce que couvre la méthode. Utiliser le lieu de la parcelle ou du relevé ; le GPS actuel du téléphone ou un pack téléchargé ne prouve pas l\'adéquation d\'un tarif.</string>
+    <string name="tarif_qualified_measurements_title">Qualifier chaque mesure</string>
+    <string name="tarif_qualified_measurements_body">Préciser diamètre mesuré ou centre de classe, hauteur totale ou commerciale, mesure ou estimation, et référence individuelle ou collective. Pour H/D individuel, hauteur et diamètre doivent concerner le même arbre. Les valeurs inconnues restent inconnues.</string>
+    <string name="tarif_qualified_trace_title">Conserver les références</string>
+    <string name="tarif_qualified_trace_body">Garder méthode et version, origine des coefficients, date des mesures, protocole, découpe et convention d\'écorce. Une nouvelle table ou une correction ne doit pas réinterpréter les résultats déjà clôturés.</string>
+    <string name="tarif_qualified_no_precision">Aucune précision universelle n\'est garantie. Un écart ou un intervalle d\'incertitude demande une validation documentée dans les conditions d\'emploi de la méthode.</string>
+    <string name="tarif_qualified_formulas_title">Des grandeurs bien définies</string>
+    <string name="tarif_qualified_formulas_description">Ces identités expliquent les unités et les données nécessaires. Leur présence dans cette aide n\'active pas un calcul ni une extrapolation dans votre dossier.</string>
+    <string name="tarif_qualified_basal_title">Surface terrière d\'un arbre</string>
+    <string name="tarif_qualified_basal_formula">g = π × (D / 200)²</string>
+    <string name="tarif_qualified_basal_body">D en cm ; g en m². Section circulaire au niveau de mesure du diamètre. Pour les arbres observés, G = somme des g. Un comptage par classe fournit une approximation liée au diamètre de référence de cette classe.</string>
+    <string name="tarif_qualified_quadratic_title">Diamètre quadratique moyen</string>
+    <string name="tarif_qualified_quadratic_formula">Dg = 100 × √(4G / (π × N))</string>
+    <string name="tarif_qualified_quadratic_body">G en m², N nombre d\'arbres strictement positif, Dg en cm. G et N doivent décrire exactement la même population. Dg est fondé sur les carrés des diamètres, pas sur leur moyenne arithmétique.</string>
+    <string name="tarif_qualified_per_hectare_title">Rapport à l\'hectare</string>
+    <string name="tarif_qualified_per_hectare_formula">G/ha = G × 10 000 / A</string>
+    <string name="tarif_qualified_per_hectare_body">A est la surface horizontale réellement inventoriée, en m², strictement positive. Ce rapport suppose un dénombrement complet de la population retenue sur cette surface. Un échantillonnage demande ses propres pondérations ; le contour cadastral seul ne suffit pas.</string>
+    <string name="tarif_qualified_slenderness_title">Élancement individuel H/D</string>
+    <string name="tarif_qualified_slenderness_formula">H/D = 100 × H / D</string>
+    <string name="tarif_qualified_slenderness_body">H est la hauteur totale en m et D le diamètre en cm du même arbre individuel, avec une convention de mesure explicite. Le rapport est sans dimension. Une hauteur commerciale, une hauteur de classe ou un diamètre moyen collectif ne donnent pas cet H/D individuel.</string>
+    <string name="tarif_qualified_slenderness_limit">H/D décrit une proportion. Sa valeur seule ne prédit pas la stabilité : essence, structure du peuplement, enracinement, exposition et interventions doivent aussi être analysés. Aucun seuil universel n\'est appliqué ici.</string>
+    <string name="tarif_qualified_logs_title">Volumes géométriques de grumes</string>
+    <string name="tarif_qualified_logs_formula">Huber : V = L × Sm\nSmalian : V = L × (S0 + S1) / 2\nNewton : V = L × (S0 + 4Sm + S1) / 6</string>
+    <string name="tarif_qualified_logs_body">L en m ; sections S0 au début, Sm à mi-longueur et S1 à la fin en m² ; V en m³. Pour une section circulaire, S = π × (d / 200)² avec d en cm. Mesurer aux positions prévues et conserver la convention sur ou sous écorce.</string>
+    <string name="tarif_qualified_logs_limit">Ces formules géométriques concernent des grumes mesurées ; elles ne sont pas des tarifs d\'arbres sur pied. Un volume provisoire ne devient pas une quantité payable sans convention applicable et validation commerciale. L\'enveloppe d\'une pile inclut les vides et ne donne pas directement un volume de bois solide.</string>
+</resources>

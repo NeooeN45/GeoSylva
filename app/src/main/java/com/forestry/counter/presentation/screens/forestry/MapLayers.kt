@@ -3,6 +3,8 @@ package com.forestry.counter.presentation.screens.forestry
 import android.util.Log
 import com.forestry.counter.BuildConfig
 import com.forestry.counter.R
+import com.forestry.counter.domain.location.MapLabelGlyphs
+import com.forestry.counter.domain.location.MapSourcePolicy
 import com.forestry.counter.network.SecureHttpClient
 
 private const val TAG_LAYERS = "MapLayers"
@@ -46,6 +48,7 @@ internal fun offlineLocalStyle(name: String = "Offline Local"): String {
     return """{
   "version": 8,
   "name": "$name",
+  "glyphs": "${MapLabelGlyphs.URI_TEMPLATE}",
   "sources": {},
   "layers": [
     { "id": "background", "type": "background", "paint": { "background-color": "#EFF5EC" } }
@@ -61,6 +64,7 @@ internal fun rasterStyle(
     maxZoom: Int = 19,
     attribution: String = ""
 ): String {
+    if (!MapSourcePolicy.isOnlineTemplateQualified(tileUrl)) return offlineLocalStyle(name)
     if (!SecureHttpClient.isSecureDomain(tileUrl)) {
         Log.e(TAG_LAYERS, "URL de tuile non sécurisée: $tileUrl")
         throw SecurityException("URL de tuile non sécurisée: $tileUrl")
@@ -78,7 +82,7 @@ internal fun rasterStyle(
     return """{
   "version": 8,
   "name": "$name",
-  "glyphs": "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
+  "glyphs": "${MapLabelGlyphs.URI_TEMPLATE}",
   "sources": {
     "$id": {
       "type": "raster",
@@ -104,6 +108,9 @@ internal fun rasterStyleMulti(
     baseAttribution: String = "",
     overlayAttributions: List<String> = emptyList()
 ): String {
+    if ((listOf(baseTileUrl) + overlayTileUrls).any { !MapSourcePolicy.isOnlineTemplateQualified(it) }) {
+        return offlineLocalStyle(name)
+    }
     val sources = mutableListOf<String>()
     val layers = mutableListOf<String>()
     val baseAttrField = if (baseAttribution.isNotEmpty()) ""","attribution":"$baseAttribution"""" else ""
@@ -121,7 +128,7 @@ internal fun rasterStyleMulti(
         sources += """"$overlayId":{"type":"raster","tiles":["$url"],"tileSize":256,"maxzoom":$maxZoom$ovAttrField}"""
         layers += """{ "id": "$overlayId", "type": "raster", "source": "$overlayId", "paint": { "raster-opacity": 0.7 } }"""
     }
-    return """{"version":8,"name":"$name","glyphs":"https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf","sources":{${sources.joinToString(",")}},"layers":[${layers.joinToString(",")}]}"""
+    return """{"version":8,"name":"$name","glyphs":"${MapLabelGlyphs.URI_TEMPLATE}","sources":{${sources.joinToString(",")}},"layers":[${layers.joinToString(",")}]}"""
 }
 
 /**
@@ -134,6 +141,7 @@ internal fun rasterStyleMulti(
  * derrière eux.
  */
 internal fun activeStyleJsonFor(layer: MapLayerDef): String {
+    if (!MapSourcePolicy.isLayerActivatable(layer.key)) return offlineLocalStyle(layer.key)
     val base = layer.tileUrls.getOrNull(0) ?: return offlineLocalStyle(layer.key)
     val overlays = layer.tileUrls.drop(1)
     return if (overlays.isEmpty()) {
@@ -163,6 +171,10 @@ internal fun vectorStyleWithTerrain(
     displayName: String,
     isDark: Boolean = false
 ): String {
+    // La clé API n'est pas une qualification de l'offre ou des droits.
+    if (!MapSourcePolicy.isOnlineTemplateQualified(maptilerTilesUrl(maptilerStyleId))) {
+        return offlineLocalStyle(displayName)
+    }
     val key = BuildConfig.MAPTILER_KEY
     if (key.isBlank()) {
         Log.w(TAG_LAYERS, "MAPTILER_KEY empty — falling back to raster style")
@@ -272,6 +284,9 @@ internal fun vectorStyleSimple(
     maptilerStyleId: String,
     displayName: String
 ): String {
+    if (!MapSourcePolicy.isOnlineTemplateQualified(maptilerTilesUrl(maptilerStyleId))) {
+        return offlineLocalStyle(displayName)
+    }
     val key = BuildConfig.MAPTILER_KEY
     if (key.isBlank()) {
         Log.w(TAG_LAYERS, "MAPTILER_KEY empty — falling back to raster")
@@ -293,7 +308,7 @@ enum class LayerCategory(val labelResId: Int) {
  * @param isVector Indique si la couche utilise des tuiles vectorielles
  * @param hasTerrain Indique si la couche inclut le terrain 3D
  * @param isDark Indique si la couche est sombre (pour l'UI)
- * @param tileUrls URLs de tuiles pour téléchargement hors-ligne
+ * @param tileUrls URLs de tuiles d'affichage ; droits hors ligne distincts
  */
 data class MapLayerDef(
     val key: String,
@@ -326,16 +341,12 @@ data class MapLayerDef(
     val rasterMaxZoom: Int = 19,
 )
 
-// ── Liste des couches disponibles ───────────────────────────────────────────
+// ── Références historiques (la présence ne donne aucun droit d'activation) ────
 
-internal val MAP_LAYERS: List<MapLayerDef> = buildList {
-    // ── Couches vectorielles MapTiler (qualité supérieure) ── Nécessitent
-    // MAPTILER_KEY (local.properties / variable d'environnement) : sans clé,
-    // vectorStyleWithTerrain()/vectorStyleSimple() replient silencieusement
-    // sur le Plan IGN, rendant ces 4 entrées indiscernables les unes des
-    // autres et de PLAN_IGN — on ne les propose donc que si la clé existe,
-    // remplacées sinon par les couches OSM/CARTO ci-dessous (gratuites, sans
-    // clé, couverture mondiale).
+internal val REFERENCED_MAP_LAYERS: List<MapLayerDef> = buildList {
+    // Références MapTiler conservées lorsqu'une clé est configurée. Même
+    // avec cette clé elles restent non activables tant que l'offre, les
+    // conditions du service et les droits n'ont pas été qualifiés.
     if (BuildConfig.MAPTILER_KEY.isNotBlank()) {
         add(MapLayerDef(
             key = "MAPTILER_TOPO",
@@ -398,13 +409,13 @@ internal val MAP_LAYERS: List<MapLayerDef> = buildList {
         key = "ORTHO_IGN",
         labelResId = R.string.map_layer_ortho_ign,
         emoji = "🛰️",
-        styleJson = rasterStyle("ORTHO_IGN", "Ortho IGN", geopfLayer("ORTHOIMAGERY.ORTHOPHOTOS", "image/jpeg"), attribution = ATTR_IGN),
+        styleJson = rasterStyle("ORTHO_IGN", "Ortho IGN", MapSourcePolicy.ORTHOPHOTO_TEMPLATE, attribution = MapSourcePolicy.ORTHOPHOTO_ATTRIBUTION),
         isDark = true,
         category = LayerCategory.GENERAL,
-        tileUrls = listOf(geopfLayer("ORTHOIMAGERY.ORTHOPHOTOS", "image/jpeg")),
+        tileUrls = listOf(MapSourcePolicy.ORTHOPHOTO_TEMPLATE),
         previewLabelResId = R.string.map_preview_ortho_ign,
         franceOnly = true,
-        attribution = ATTR_IGN,
+        attribution = MapSourcePolicy.ORTHOPHOTO_ATTRIBUTION,
     ))
 
     // ── Couches composites IGN ──
@@ -513,6 +524,12 @@ internal val MAP_LAYERS: List<MapLayerDef> = buildList {
         tileUrls = emptyList(),
         previewLabelResId = R.string.map_layer_offline_local,
     ))
+}
+
+/** Fonds activables par la version commerciale, quelle que soit la clé API. */
+internal val MAP_LAYERS: List<MapLayerDef> = REFERENCED_MAP_LAYERS.filter { layer ->
+    MapSourcePolicy.isLayerActivatable(layer.key) &&
+        layer.tileUrls.all(MapSourcePolicy::isOnlineTemplateQualified)
 }
 
 // ── Palette de couleurs pour les essences ───────────────────────────────────

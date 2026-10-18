@@ -14,8 +14,6 @@ internal object OfflineTilePolicy {
     private const val MIN_ZOOM = 0
     private const val MAX_ZOOM = 22
 
-    private val offlineRasterHosts = setOf("data.geopf.fr")
-
     fun validateTemplate(template: String): String? {
         val url = runCatching { URL(template) }.getOrNull()
             ?: return "Source cartographique invalide"
@@ -28,8 +26,8 @@ internal object OfflineTilePolicy {
         if (url.path.lowercase().endsWith(".pbf")) {
             return "Ce flux vectoriel n'est pas compatible avec le cache raster hors ligne"
         }
-        if (url.host.lowercase() !in offlineRasterHosts) {
-            return "Cette source n'autorise pas encore la création de packs hors ligne"
+        if (!MapSourcePolicy.isOfflineRasterTemplateQualified(template)) {
+            return "Le téléchargement raster hors ligne de cette source n'est pas encore qualifié"
         }
         return null
     }

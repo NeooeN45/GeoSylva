@@ -55,6 +55,7 @@ fun DeveloperOptionsScreen(
     parcelSyncRepository: ParcelSyncRepository,
     preferences: UserPreferencesManager,
     onNavigateBack: () -> Unit,
+    onNavigateToParcelSync: () -> Unit,
 ) {
     val factory = remember(repository, parcelSyncRepository, preferences) {
         GeoSylvaViewModelFactory {
@@ -84,7 +85,7 @@ fun DeveloperOptionsScreen(
             state = state,
             apiBaseUrl = repository.apiBaseUrl,
             onRefresh = viewModel::refresh,
-            onSynchronizeParcels = viewModel::synchronizeParcels,
+            onSynchronizeParcels = onNavigateToParcelSync,
             onPullParcels = viewModel::pullParcels,
             onDisable = viewModel::disableDeveloperMode,
             modifier = Modifier.padding(padding),
@@ -151,27 +152,14 @@ private fun ParcelSyncDiagnosticCard(
                 DateFormat.getDateTimeInstance().format(Date(timestamp)),
             )
         }
-        state.queuedParcelCount?.let { count ->
-            Text(stringResource(R.string.developer_sync_queued_result, count))
-        }
-        if (state.parcelSyncError) {
-            Text(
-                stringResource(R.string.developer_sync_requires_account),
-                color = MaterialTheme.colorScheme.error,
-            )
-        }
         Button(
             onClick = onSynchronizeParcels,
-            enabled = !state.isQueueingParcels && state.session != null,
+            enabled = state.session != null && state.session?.isExpired() == false,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            if (state.isQueueingParcels) {
-                CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
-            } else {
-                Icon(Icons.Default.Refresh, contentDescription = null)
-            }
+            Icon(Icons.Default.Refresh, contentDescription = null)
             Text(
-                stringResource(R.string.developer_sync_all_parcels),
+                stringResource(R.string.parcel_selection_open),
                 modifier = Modifier.padding(start = 8.dp),
             )
         }
@@ -185,6 +173,12 @@ private fun ParcelSyncDiagnosticCard(
                     result.skippedLocalDirty,
                 ),
             )
+            if (result.skippedOtherAccount > 0) {
+                Text(
+                    stringResource(R.string.parcel_selection_pull_other_account, result.skippedOtherAccount),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
         }
         if (state.pullError) {
             Text(

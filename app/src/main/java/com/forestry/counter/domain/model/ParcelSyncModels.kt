@@ -1,5 +1,38 @@
 package com.forestry.counter.domain.model
 
+import com.forestry.counter.domain.repository.IdentitySessionGuard
+
+/** Choix initial lié à une génération précise de session, sans exposer de jeton. */
+data class ParcelSyncSelection(
+    val accountId: String,
+    val sessionGuard: IdentitySessionGuard,
+    val parcels: List<ParcelSyncCandidate>,
+)
+
+data class ParcelSyncCandidate(
+    val parcelId: String,
+    val name: String,
+    val surfaceHa: Double?,
+    val commune: String?,
+    val isLinked: Boolean,
+    val blockedByOtherAccount: Boolean,
+    val recoveryRequired: Boolean = false,
+    val recoveryPreview: ParcelSyncRecoveryPreview? = null,
+    val recoveryUnavailable: Boolean = false,
+    val isDeleted: Boolean = false,
+)
+
+/** Read-only preview. The opaque token binds the exact local/server versions held by the repository. */
+data class ParcelSyncRecoveryPreview(
+    val token: String,
+    val localName: String,
+    val localUpdatedAt: Long,
+    val remoteName: String?,
+    val remoteUpdatedAt: String?,
+    val remoteVersion: Int?,
+    val deletesParcel: Boolean,
+)
+
 data class ParcelSyncSummary(
     val pending: Int = 0,
     val syncing: Int = 0,
@@ -7,6 +40,7 @@ data class ParcelSyncSummary(
     val conflicts: Int = 0,
     val errors: Int = 0,
     val lastSuccessAt: Long? = null,
+    val recoveryRequired: Int = 0,
 ) {
     val hasWork: Boolean
         get() = pending > 0 || syncing > 0
@@ -33,4 +67,5 @@ data class ParcelSyncPullResult(
     val deleted: Int = 0,
     val skippedLocalDirty: Int = 0,
     val pagesFetched: Int = 0,
+    val skippedOtherAccount: Int = 0,
 )

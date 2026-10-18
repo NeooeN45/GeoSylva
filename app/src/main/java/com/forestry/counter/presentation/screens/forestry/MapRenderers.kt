@@ -4,6 +4,8 @@ import android.util.Log
 import com.forestry.counter.BuildConfig
 import com.forestry.counter.domain.geo.ShapefileOverlay
 import com.forestry.counter.domain.location.GpsParcelTracer
+import com.forestry.counter.domain.location.MapSourcePolicy
+import com.forestry.counter.domain.location.MapLabelGlyphs
 import com.forestry.counter.domain.model.Essence
 import com.forestry.counter.domain.model.Tige
 import com.forestry.counter.presentation.theme.SemanticSuccess
@@ -76,6 +78,9 @@ internal fun swapRasterLayer(
     maxZoom: Int,
     tileSize: Int = 256,
 ) {
+    require((listOf(baseTileUrl) + overlayTileUrls).all(MapSourcePolicy::isOnlineTemplateQualified)) {
+        "Source cartographique non qualifiée pour l'affichage commercial"
+    }
     for (i in 0 until ACTIVE_MAX_OVERLAYS) {
         val overlayId = "$ACTIVE_OVERLAY_PREFIX$i"
         try { style.removeLayer(overlayId) } catch (e: Throwable) { Log.w(TAG_R, "removeLayer $overlayId", e) }
@@ -179,6 +184,7 @@ internal fun applyShapefileOverlay(
             style.addLayer(
                 SymbolLayer(SHP_LABEL_ID, SHP_SOURCE_ID).withProperties(
                     PropertyFactory.textField(textExpr),
+                    PropertyFactory.textFont(arrayOf(MapLabelGlyphs.FONT_STACK)),
                     PropertyFactory.textSize(overlay.labelSize),
                     PropertyFactory.textColor(android.graphics.Color.BLACK),
                     PropertyFactory.textHaloColor(android.graphics.Color.WHITE),
@@ -335,6 +341,7 @@ internal fun renderTigesOnMap(
             .withFilter(has("point_count"))
             .withProperties(
                 PropertyFactory.textField("{point_count_abbreviated}"),
+                PropertyFactory.textFont(arrayOf(MapLabelGlyphs.FONT_STACK)),
                 PropertyFactory.textSize(12f),
                 PropertyFactory.textColor(Color.White.toArgb()),
                 PropertyFactory.textAllowOverlap(true),

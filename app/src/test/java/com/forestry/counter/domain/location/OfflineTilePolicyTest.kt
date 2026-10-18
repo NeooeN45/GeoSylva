@@ -8,12 +8,20 @@ import org.junit.Test
 class OfflineTilePolicyTest {
 
     @Test
-    fun `accepte un flux raster HTTPS de la Geoplateforme`() {
+    fun `le domaine IGN ne qualifie pas un telechargement raster hors ligne`() {
         val error = OfflineTilePolicy.validateTemplate(
             "https://data.geopf.fr/wmts?FORMAT=image/png&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}"
         )
 
-        assertNull(error)
+        assertTrue(error.orEmpty().contains("hors ligne"))
+    }
+
+    @Test
+    fun `la qualification ortho en ligne ne permet pas le telechargement organise`() {
+        assertTrue(
+            OfflineTilePolicy.validateTemplate(MapSourcePolicy.ORTHOPHOTO_TEMPLATE)
+                .orEmpty().contains("pas encore qualifié")
+        )
     }
 
     @Test

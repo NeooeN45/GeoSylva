@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profession_conducteur_travaux">Conducteur de travaux forestiers</string>
+    <string name="profession_commerce_bois">Commerce et valorisation des bois</string>
+    <string name="explorer_wood_depots_exploitant">Dépôts de bois</string>
+    <string name="explorer_wood_depots_conducteur">Dépôts de chantier</string>
+    <string name="explorer_wood_depots_commerce">Lieux de dépôt des bois</string>
+    <string name="explorer_wood_depots_description">Localisez et gérez vos dépôts. Vos enregistrements restent disponibles hors connexion.</string>
+</resources>

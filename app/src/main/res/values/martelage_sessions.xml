@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="martelage_session_title">Martelage</string>
+    <string name="martelage_session_running">En cours</string>
+    <string name="martelage_session_paused">En pause</string>
+    <string name="martelage_session_closed">Clôturé</string>
+    <string name="martelage_session_ready">Prêt à démarrer</string>
+    <string name="martelage_session_revision">Version %1$d</string>
+    <string name="martelage_session_clock_recovery">La mesure du temps a été interrompue. La durée déjà enregistrée est conservée. Reprenez le martelage lorsque vous êtes prêt.</string>
+    <string name="martelage_session_action_failed">Cette action n’a pas abouti. Vos relevés sont conservés. Vérifiez le statut avant de réessayer.</string>
+    <string name="martelage_session_retry">Actualiser le statut</string>
+    <string name="martelage_session_loading">Chargement du martelage…</string>
+    <string name="martelage_session_pause">Pause</string>
+    <string name="martelage_session_resume">Reprendre</string>
+    <string name="martelage_session_finish">Terminer</string>
+    <string name="martelage_session_open_synthesis">Voir la synthèse</string>
+    <string name="martelage_session_correction">Corriger</string>
+    <string name="martelage_session_new_campaign">Nouveau martelage</string>
+    <string name="martelage_session_start_description">Démarrez le temps de terrain. Les nouveaux arbres seront liés à ce martelage.</string>
+    <string name="martelage_session_start">Démarrer le martelage</string>
+    <string name="martelage_session_legacy_preserved">Les anciens relevés restent conservés séparément.</string>
+    <string name="martelage_session_finish_title">Terminer le travail de terrain ?</string>
+    <string name="martelage_session_finish_description">Le temps sera mis en pause. La synthèse vous permettra de vérifier vos données et les résultats avant de clôturer cette version.</string>
+    <string name="martelage_session_finish_check">J’ai terminé la saisie de ce martelage.</string>
+    <string name="martelage_session_finish_review">Vérifier la synthèse</string>
+    <string name="martelage_session_correction_title">Créer une correction ?</string>
+    <string name="martelage_session_correction_description">Une nouvelle version reprend les mesures de ce martelage. La version clôturée et sa synthèse restent conservées. Reprenez ensuite le temps pour modifier les relevés.</string>
+    <string name="martelage_session_correction_create">Créer la correction</string>
+    <string name="martelage_plot_start_title">Marteler cette placette</string>
+    <string name="martelage_plot_start_explanation">Démarrez le martelage pour saisir les arbres de cette placette et mesurer votre temps sur le terrain.</string>
+    <string name="martelage_plot_start_steps">Le minuteur apparaît en haut de la page. Vous pouvez mettre en pause, reprendre, puis terminer pour vérifier votre fiche de synthèse. Chaque martelage reste daté et indépendant.</string>
+    <string name="martelage_plot_consult">Consulter la placette</string>
+    <string name="martelage_plot_history_title">Martelages de cette placette</string>
+    <string name="martelage_plot_history_legacy">Relevés antérieurs sans martelage associé</string>
+    <string name="martelage_plot_history_count">%1$d arbres · %2$d essences</string>
+    <string name="martelage_plot_unavailable">Cette placette est introuvable ou n’est pas accessible dans cet espace.</string>
+    <string name="martelage_plot_start_required">Démarrez le martelage pour modifier les essences et les relevés.</string>
+</resources>

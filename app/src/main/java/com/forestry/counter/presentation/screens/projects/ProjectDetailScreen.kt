@@ -39,7 +39,9 @@ fun ProjectDetailScreen(
     modifier: Modifier = Modifier,
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
-    val tabs = ProjectDetailTab.entries
+    val missionAvailable = com.forestry.counter.presentation.navigation.JourneyNavigation.access(null)
+        .allows(com.forestry.counter.domain.journey.JourneyFeature.MISSIONS)
+    val tabs = ProjectDetailTab.entries.filter { it != ProjectDetailTab.MISSIONS || missionAvailable }
 
     Scaffold(
         modifier = modifier,

@@ -2,10 +2,55 @@ package com.forestry.counter.data.local.dao
 
 import androidx.room.*
 import com.forestry.counter.data.local.entity.TigeEntity
+import com.forestry.counter.data.local.entity.InventaireSessionEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TigeDao {
+
+    @Transaction
+    suspend fun withTigeMutationTransaction(block: suspend () -> Unit) { block() }
+
+    @Query("SELECT * FROM inventaire_sessions WHERE parcelleId = :parcelleId AND martelageState IS NOT NULL ORDER BY dateDebut DESC")
+    suspend fun getManagedSessionsForMutation(parcelleId: String): List<InventaireSessionEntity>
+
+    @Query("SELECT * FROM inventaire_sessions WHERE parcelleId = :parcelleId AND (placetteId = :placetteId OR placetteId IS NULL) AND martelageState IS NOT NULL ORDER BY dateDebut DESC")
+    suspend fun getManagedSessionsForPlacetteMutation(parcelleId: String, placetteId: String?): List<InventaireSessionEntity>
+
+    @Query("SELECT * FROM inventaire_sessions WHERE sessionId = :sessionId")
+    suspend fun getSessionForMutation(sessionId: String): InventaireSessionEntity?
+
+    @Query("SELECT COUNT(*) FROM parcelles WHERE parcelleId = :parcelleId AND deletedAt IS NULL")
+    suspend fun countLiveParentForMutation(parcelleId: String): Int
+
+    @Query("""
+        SELECT accountId FROM parcel_sync_queue WHERE parcelId = :parcelleId
+        UNION
+        SELECT a.accountId FROM hierarchy_sync_associations a
+        JOIN parcelles p ON p.foretId = a.forestId WHERE p.parcelleId = :parcelleId
+    """)
+    suspend fun getLinkedAccountsForMutation(parcelleId: String): List<String>
+
+    @Query("SELECT COUNT(*) FROM placettes WHERE placetteId = :placetteId AND parcelleOwnerId = :parcelleId AND deletedAt IS NULL")
+    suspend fun countLivePlotForMutation(parcelleId: String, placetteId: String): Int
+
+    @Query("SELECT * FROM tiges WHERE parcelleOwnerId = :parcelleId AND deletedAt IS NULL ORDER BY timestamp ASC")
+    suspend fun getTigesByParcelleNow(parcelleId: String): List<TigeEntity>
+
+    @Query("""
+        SELECT * FROM tiges WHERE parcelleOwnerId = :parcelleId
+        AND ((:placetteId IS NULL AND placetteOwnerId IS NULL) OR placetteOwnerId = :placetteId)
+        AND essenceCode = :essenceCode AND diamCm = :diamCm AND deletedAt IS NULL
+        AND ((:sessionId IS NULL AND sessionId IS NULL) OR sessionId = :sessionId)
+        ORDER BY timestamp DESC, tigeId DESC LIMIT 1
+    """)
+    suspend fun getLatestMatchingInSession(
+        parcelleId: String, placetteId: String?, essenceCode: String, diamCm: Double, sessionId: String?,
+    ): TigeEntity?
+
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    suspend fun insertNewTiges(entities: List<TigeEntity>)
+
     @Query("SELECT * FROM tiges WHERE deletedAt IS NULL ORDER BY timestamp ASC")
     fun getAllTiges(): Flow<List<TigeEntity>>
 

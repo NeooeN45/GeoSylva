@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="essence_session_loading">Checking the current marking session…</string>
+    <string name="essence_session_unavailable">The session cannot be verified. Entry is suspended; return to plots and try again.</string>
+    <string name="essence_session_legacy">Legacy observations remain separate from versioned marking campaigns.</string>
+    <string name="essence_session_running">Marking in progress · revision %1$d</string>
+    <string name="essence_session_paused">Marking is paused. Observations remain readable; resume from plots to add, edit or delete them.</string>
+    <string name="essence_session_recovery">Resume the timer explicitly from plots. Observations remain readable; entry is suspended.</string>
+    <string name="essence_session_closed">Revision %1$d is closed and read-only. Start a correction from plots to edit observations.</string>
+    <string name="essence_session_changed">The session or observation state has changed. The requested change was not fully applied; check the displayed values before trying again.</string>
+    <string name="essence_session_write_failed">The change could not be saved. Check the displayed observations before trying again.</string>
+    <string name="essence_session_height_by_class_hint">Enter a reference height for each diameter class, in metres. Use a comma or a point for decimals; separate multiple heights with semicolons or spaces (e.g. 18.5;20;21). This reference will be applied to stems in that class in the displayed campaign: it is not an individual measurement of each tree. Other campaigns and legacy observations remain unchanged.</string>
+    <string name="essence_session_read_only">Read only</string>
+</resources>

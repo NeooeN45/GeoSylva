@@ -2,6 +2,7 @@ package com.forestry.counter.data
 
 import com.forestry.counter.data.local.dao.PlacetteDao
 import com.forestry.counter.data.local.entity.PlacetteEntity
+import com.forestry.counter.data.local.entity.ParcelleEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -17,6 +18,15 @@ class FakePlacetteDao : PlacetteDao {
     override suspend fun getAllPlacettesNow(): List<PlacetteEntity> = data.filter { it.deletedAt == null }
     override suspend fun insertPlacette(entity: PlacetteEntity) { data.add(entity) }
     override suspend fun insertPlacettes(entities: List<PlacetteEntity>) { data.addAll(entities) }
+    override suspend fun insertNewPlacettes(entities: List<PlacetteEntity>) {
+        check(entities.map { it.placetteId }.distinct().size == entities.size)
+        check(entities.none { incoming -> data.any { it.placetteId == incoming.placetteId } })
+        data.addAll(entities)
+    }
+    override suspend fun getLiveParentForCreation(parcelleId: String): ParcelleEntity? = null
+    override suspend fun getLinkedAccountsForCreation(parcelleId: String): List<String> = emptyList()
+    override suspend fun countActiveSessionsForPlot(parcelleId: String, placetteId: String): Int = 0
+    override suspend fun countActiveSessionsForParcel(parcelleId: String): Int = 0
     override suspend fun updatePlacette(entity: PlacetteEntity) {
         val idx = data.indexOfFirst { it.placetteId == entity.placetteId }
         if (idx >= 0) data[idx] = entity

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pack_presentation_title">Découvrir le territoire</string>
+    <string name="pack_presentation_open">Découvrir ce territoire</string>
+    <string name="pack_presentation_close">Fermer la fiche du territoire</string>
+    <string name="pack_presentation_outline_description">Silhouette du territoire : %1$s</string>
+    <string name="pack_presentation_outline_source">Silhouette originale · limites IGN 2026 · Licence Ouverte 2.0</string>
+    <string name="pack_presentation_region">Région</string>
+    <string name="pack_presentation_department">Département</string>
+    <string name="pack_presentation_separate_content">Cette présentation est embarquée dans l’application. Ses images et textes sont distincts du contenu des packs téléchargés depuis GSIE.</string>
+    <string name="pack_presentation_not_qualified">La présentation touristique et forestière de ce territoire n’est pas encore qualifiée.</string>
+    <string name="pack_presentation_unavailable">La présentation locale ne peut pas être vérifiée actuellement.</string>
+    <string name="pack_presentation_outline_unavailable">Les limites de ce territoire ne peuvent pas être chargées actuellement.</string>
+    <string name="pack_presentation_photo_unavailable">Cette image locale ne peut pas être vérifiée ou affichée.</string>
+    <string name="pack_presentation_highlights">Repères du territoire</string>
+    <string name="pack_presentation_sources">Sources de la présentation</string>
+    <string name="pack_presentation_license">Licence : %1$s</string>
+    <string name="pack_presentation_image_source">Source de l’image</string>
+    <string name="pack_presentation_image_author">Auteur : %1$s</string>
+    <string name="pack_presentation_link_unavailable">Ce lien ne peut pas être ouvert actuellement.</string>
+    <string name="pack_presentation_aerial_view">Vue aérienne d’un secteur du territoire</string>
+    <string name="pack_presentation_capture_unknown">La date de prise de vue n’est pas qualifiée ; elle peut varier selon le secteur.</string>
+    <string name="pack_presentation_capture_date">Date de prise de vue : %1$s</string>
+    <string name="pack_presentation_media_rights">Droits de réutilisation des vues aériennes</string>
+</resources>

@@ -11,7 +11,7 @@ internal data class StoredIdentityTokens(
 )
 
 /** Stockage dédié : aucun jeton d'identité ne transite par DataStore en clair. */
-internal class EncryptedIdentitySessionStore(context: Context) {
+internal class EncryptedIdentitySessionStore(context: Context) : IdentitySessionStore(coordinator) {
     private val preferences: Result<SharedPreferences> = runCatching {
         val masterKey = MasterKey.Builder(context)
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
@@ -28,33 +28,36 @@ internal class EncryptedIdentitySessionStore(context: Context) {
     val isAvailable: Boolean
         get() = preferences.isSuccess
 
-    fun read(): StoredIdentityTokens? {
+    override fun readState(): IdentitySessionSnapshot? {
         val prefs = preferences.getOrNull() ?: return null
-        val accessToken = prefs.getString(KEY_ACCESS_TOKEN, null)?.takeIf(String::isNotBlank)
-            ?: return null
-        val refreshToken = prefs.getString(KEY_REFRESH_TOKEN, null)?.takeIf(String::isNotBlank)
-            ?: return null
-        return StoredIdentityTokens(accessToken, refreshToken)
+        return runCatching {
+            val accessToken = prefs.getString(KEY_ACCESS_TOKEN, null)?.takeIf(String::isNotBlank)
+            val refreshToken = prefs.getString(KEY_REFRESH_TOKEN, null)?.takeIf(String::isNotBlank)
+            IdentitySessionSnapshot(
+                revision = prefs.getString(KEY_REVISION, "") ?: "",
+                tokens = if (accessToken != null && refreshToken != null) {
+                    StoredIdentityTokens(accessToken, refreshToken)
+                } else null,
+            )
+        }.getOrNull()
     }
 
-    fun save(tokens: StoredIdentityTokens): Boolean {
+    override fun writeState(state: IdentitySessionSnapshot): Boolean {
         val prefs = preferences.getOrNull() ?: return false
         return runCatching {
             prefs.edit()
-                .putString(KEY_ACCESS_TOKEN, tokens.accessToken)
-                .putString(KEY_REFRESH_TOKEN, tokens.refreshToken)
+                .putString(KEY_REVISION, state.revision)
+                .putString(KEY_ACCESS_TOKEN, state.tokens?.accessToken)
+                .putString(KEY_REFRESH_TOKEN, state.tokens?.refreshToken)
                 .commit()
         }.getOrDefault(false)
     }
 
-    fun clear() {
-        val prefs = preferences.getOrNull() ?: return
-        runCatching { prefs.edit().clear().commit() }
-    }
-
     private companion object {
+        val coordinator = IdentitySessionCoordinator()
         const val FILE_NAME = "quintessences_identity_session"
         const val KEY_ACCESS_TOKEN = "access_token"
         const val KEY_REFRESH_TOKEN = "refresh_token"
+        const val KEY_REVISION = "session_revision"
     }
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="forest_management_title">Forêt</string>
+    <string name="forest_management_loading">Chargement de la forêt…</string>
+    <string name="forest_management_unavailable">Cette forêt est indisponible dans cet espace.</string>
+    <string name="forest_management_details">Détails</string>
+</resources>

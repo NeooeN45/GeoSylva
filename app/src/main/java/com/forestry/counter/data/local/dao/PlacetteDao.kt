@@ -2,6 +2,7 @@ package com.forestry.counter.data.local.dao
 
 import androidx.room.*
 import com.forestry.counter.data.local.entity.PlacetteEntity
+import com.forestry.counter.data.local.entity.ParcelleEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -23,6 +24,34 @@ interface PlacetteDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPlacettes(entities: List<PlacetteEntity>)
+
+    /** New plots never REPLACE an existing plot and its dependent observations. */
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    suspend fun insertNewPlacettes(entities: List<PlacetteEntity>)
+
+    @Query("SELECT * FROM parcelles WHERE parcelleId = :parcelleId AND deletedAt IS NULL")
+    suspend fun getLiveParentForCreation(parcelleId: String): ParcelleEntity?
+
+    @Query("""
+        SELECT accountId FROM parcel_sync_queue WHERE parcelId = :parcelleId
+        UNION
+        SELECT a.accountId FROM hierarchy_sync_associations a
+        JOIN parcelles p ON p.foretId = a.forestId WHERE p.parcelleId = :parcelleId
+    """)
+    suspend fun getLinkedAccountsForCreation(parcelleId: String): List<String>
+
+    @Query("SELECT COUNT(*) FROM inventaire_sessions WHERE parcelleId = :parcelleId AND placetteId = :placetteId AND martelageState IN ('RUNNING', 'PAUSED') AND deletedAt IS NULL")
+    suspend fun countActiveSessionsForPlot(parcelleId: String, placetteId: String): Int
+
+    /** Includes historical unknown plot scope, so deleting a parent cannot discard its active campaign. */
+    @Query("SELECT COUNT(*) FROM inventaire_sessions WHERE parcelleId = :parcelleId AND martelageState IN ('RUNNING', 'PAUSED') AND deletedAt IS NULL")
+    suspend fun countActiveSessionsForParcel(parcelleId: String): Int
+
+    /** The callback must perform only local operations against this same Room DB. */
+    @Transaction
+    suspend fun withPlacetteCreationTransaction(block: suspend () -> Unit) {
+        block()
+    }
 
     @Update
     suspend fun updatePlacette(entity: PlacetteEntity)

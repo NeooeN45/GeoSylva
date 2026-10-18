@@ -1,32 +1,17 @@
 package com.forestry.counter.presentation.screens.account
 
-import android.content.Intent
-import android.net.Uri
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.activity.compose.BackHandler
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.core.os.LocaleListCompat
-import com.forestry.counter.data.preferences.UserPreferencesManager
-import com.forestry.counter.presentation.components.LanguageSuggestionDialog
-import com.forestry.counter.presentation.components.shouldSuggestFrench
-import kotlinx.coroutines.launch
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.offset
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import com.forestry.counter.presentation.theme.Elevation
-import com.forestry.counter.presentation.theme.GreenDeepOnMedia
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -35,15 +20,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.CloudOff
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -54,42 +42,60 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.forestry.counter.R
+import com.forestry.counter.data.preferences.UserPreferencesManager
 import com.forestry.counter.data.remote.identity.GoogleCredentialClient
 import com.forestry.counter.domain.model.IdentityProvider
 import com.forestry.counter.domain.model.ProviderAvailability
 import com.forestry.counter.domain.repository.IdentityRepository
+import com.forestry.counter.presentation.components.LanguageSuggestionDialog
 import com.forestry.counter.presentation.components.VideoBackdrop
-import com.forestry.counter.presentation.theme.GreenOnMedia
+import com.forestry.counter.presentation.components.shouldSuggestFrench
+import com.forestry.counter.presentation.screens.settings.PrivacyPolicyScreen
+import com.forestry.counter.presentation.theme.Elevation
 import com.forestry.counter.presentation.theme.FieldBorderOnMedia
 import com.forestry.counter.presentation.theme.FieldOnMedia
+import com.forestry.counter.presentation.theme.GreenDeepOnMedia
+import com.forestry.counter.presentation.theme.GreenOnMedia
 import com.forestry.counter.presentation.theme.GsShape
 import com.forestry.counter.presentation.theme.Motion
 import com.forestry.counter.presentation.theme.OnGreenOnMedia
@@ -103,23 +109,10 @@ import com.forestry.counter.presentation.viewmodel.GeoSylvaViewModelFactory
 import com.forestry.counter.presentation.viewmodel.LoginMode
 import com.forestry.counter.presentation.viewmodel.LoginUiState
 import com.forestry.counter.presentation.viewmodel.LoginViewModel
+import com.forestry.counter.presentation.viewmodel.RegistrationStep
+import kotlinx.coroutines.launch
 
-/**
- * Écran de connexion — porte d'entrée de GeoSylva.
- *
- * Registre consultation, poussé à son maximum : c'est le seul écran porteur
- * d'une vidéo, et le seul moment où l'application se présente avant que le
- * travail commence.
- *
- * Parti pris de composition : **aucune carte**. Les champs sont des surfaces
- * sombres translucides posées directement sur la vidéo, alignées en bas de
- * l'écran, dans la zone du pouce. La version précédente empilait le formulaire
- * dans un panneau presque opaque qui couvrait les deux tiers de l'image.
- *
- * La création de compte n'a pas lieu ici : elle ouvre le site Quintessences.
- * Un compte se crée une fois, sur un vrai clavier ; l'application n'a pas à
- * porter un second formulaire pour ça.
- */
+/** Connexion vidéo conservée ; inscription native sur un fond de verre distinct. */
 @Composable
 fun LoginScreen(
     repository: IdentityRepository,
@@ -134,22 +127,97 @@ fun LoginScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val googleClient = remember(context) { GoogleCredentialClient(context) }
+    var showPrivacyPolicy by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(state.completed) {
         if (state.completed) onAuthenticated()
     }
 
-    // L'écran ne propose que la connexion : la création de compte part sur le web.
-    LaunchedEffect(Unit) { viewModel.setMode(LoginMode.SIGN_IN) }
+    BackHandler(enabled = showPrivacyPolicy || state.mode == LoginMode.REGISTER || state.isSubmitting) {
+        if (!state.isSubmitting) {
+            when {
+                showPrivacyPolicy -> showPrivacyPolicy = false
+                state.registrationStep == RegistrationStep.EMAIL -> viewModel.setMode(LoginMode.SIGN_IN)
+                else -> viewModel.previousRegistrationStep()
+            }
+        }
+    }
+
+    if (showPrivacyPolicy) {
+        MaterialTheme(colorScheme = identityLightColorScheme()) {
+            PrivacyPolicyScreen(onNavigateBack = { showPrivacyPolicy = false })
+        }
+        return
+    }
 
     if (preferencesManager != null) {
         LanguageSuggestionHost(preferencesManager)
+    }
+
+    if (state.mode == LoginMode.REGISTER && !state.isAwaitingMfa) {
+        MaterialTheme(colorScheme = registrationGlassColorScheme()) {
+            // La vidéo locale préfloutée assure le rendu dès Android API 24.
+            // Ce voile de verre appartient uniquement au parcours d'inscription.
+            VideoBackdrop(
+                videoRes = R.raw.registration_nature,
+                posterRes = R.drawable.registration_nature_poster,
+                animationsEnabled = animationsEnabled,
+                scrim = registrationGlassWash(),
+            ) {
+                CompositionLocalProvider(
+                    LocalContentColor provides MaterialTheme.colorScheme.onSurface,
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .windowInsetsPadding(WindowInsets.safeDrawing)
+                            .consumeWindowInsets(WindowInsets.safeDrawing)
+                            .imePadding(),
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = Space.screenH, vertical = Space.sm),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = stringResource(R.string.registration_app_title),
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.primary,
+                            )
+                            OfflineEscape(
+                                onContinueOffline = onContinueOffline,
+                                enabled = !state.isSubmitting,
+                                onMedia = false,
+                            )
+                        }
+                        RegistrationForm(
+                            state = state,
+                            onEmailChange = viewModel::setEmail,
+                            onPasswordChange = viewModel::setPassword,
+                            onPasswordConfirmationChange = viewModel::setPasswordConfirmation,
+                            onDisplayNameChange = viewModel::setDisplayName,
+                            onNext = viewModel::continueRegistration,
+                            onPrevious = viewModel::previousRegistrationStep,
+                            onBackToSignIn = { viewModel.setMode(LoginMode.SIGN_IN) },
+                            onSubmit = viewModel::submit,
+                            onPrivacyPolicy = { showPrivacyPolicy = true },
+                            modifier = Modifier.weight(1f).fillMaxWidth(),
+                        )
+                    }
+                }
+            }
+        }
+        return
     }
 
     VideoBackdrop(animationsEnabled = animationsEnabled) {
         Box(modifier = Modifier.fillMaxSize()) {
             OfflineEscape(
                 onContinueOffline = onContinueOffline,
+                enabled = !state.isSubmitting,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .windowInsetsPadding(WindowInsets.safeDrawing)
@@ -182,20 +250,7 @@ fun LoginScreen(
                     onSubmit = viewModel::submit,
                     onGoogle = { viewModel.signInWithGoogle(googleClient) },
                     onForgotPassword = onForgotPassword,
-                    // La création de compte se fait sur le site Quintessences
-                    // (DEC-000057). Si aucun navigateur ne peut s'ouvrir, on
-                    // bascule sur le formulaire embarqué plutôt que de laisser
-                    // l'utilisateur devant un bouton sans effet.
-                    onCreateAccount = {
-                        val url = context.getString(R.string.identity_signup_url)
-                        val opened = runCatching {
-                            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-                        }.isSuccess
-                        if (!opened) viewModel.setMode(LoginMode.REGISTER)
-                    },
-                    onBackToSignIn = { viewModel.setMode(LoginMode.SIGN_IN) },
-                    onDisplayNameChange = viewModel::setDisplayName,
-                    onPasswordConfirmationChange = viewModel::setPasswordConfirmation,
+                    onCreateAccount = { viewModel.setMode(LoginMode.REGISTER) },
                     modifier = bottomModifier,
                 )
             }
@@ -203,21 +258,42 @@ fun LoginScreen(
     }
 }
 
-/**
- * Déclenche [LanguageSuggestionDialog] une fois, au tout premier lancement,
- * si le téléphone est localisé en France sans que l'application affiche déjà
- * le français. GeoSylva force le français par défaut : ce cas ne se présente
- * donc que si l'utilisateur a explicitement choisi une autre langue.
- */
+/** Le verre garde les textes foncés lisibles quelle que soit la scène. */
+@Composable
+private fun registrationGlassColorScheme() = identityLightColorScheme().copy(
+    primary = com.forestry.counter.presentation.theme.OnPrimaryContainer,
+    onSurfaceVariant = com.forestry.counter.presentation.theme.OnSurface,
+    error = com.forestry.counter.presentation.theme.OnErrorDark,
+)
+
+/** Une surface de verre transparente et continue sur toute la page. */
+private fun registrationGlassWash(): Brush = Brush.verticalGradient(
+    0f to com.forestry.counter.presentation.theme.SurfaceBright.copy(alpha = 0.80f),
+    0.30f to com.forestry.counter.presentation.theme.SurfaceBright.copy(alpha = 0.70f),
+    0.68f to com.forestry.counter.presentation.theme.SurfaceBright.copy(alpha = 0.74f),
+    1f to com.forestry.counter.presentation.theme.SurfaceBright.copy(alpha = 0.82f),
+)
+
+@Composable
+private fun identityLightColorScheme() = MaterialTheme.colorScheme.copy(
+    primary = com.forestry.counter.presentation.theme.Primary,
+    onPrimary = com.forestry.counter.presentation.theme.OnPrimary,
+    surface = com.forestry.counter.presentation.theme.SurfaceBright,
+    onSurface = com.forestry.counter.presentation.theme.OnSurface,
+    onSurfaceVariant = com.forestry.counter.presentation.theme.OnSurfaceVariant,
+    surfaceVariant = com.forestry.counter.presentation.theme.SurfaceVariant,
+    outline = com.forestry.counter.presentation.theme.Outline,
+    outlineVariant = com.forestry.counter.presentation.theme.OutlineVariant,
+    error = com.forestry.counter.presentation.theme.Error,
+)
+
 @Composable
 private fun LanguageSuggestionHost(preferencesManager: UserPreferencesManager) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val appLanguage by preferencesManager.appLanguage.collectAsStateWithLifecycle(initialValue = "fr")
     val answered by preferencesManager.languageSuggestionAnswered.collectAsStateWithLifecycle(initialValue = true)
-
     val shouldShow = !answered && shouldSuggestFrench(context, appLanguage)
-
     if (shouldShow) {
         LanguageSuggestionDialog(
             onAccept = {
@@ -234,35 +310,30 @@ private fun LanguageSuggestionHost(preferencesManager: UserPreferencesManager) {
     }
 }
 
-/**
- * Sortie hors ligne, toujours accessible.
- *
- * GeoSylva fonctionne entièrement sans compte ni réseau : cette porte ne doit
- * jamais ressembler à un abandon. Elle est traitée comme un contrôle à part
- * entière, sur une pastille de verre, pas comme un lien discret.
- */
 @Composable
 private fun OfflineEscape(
     onContinueOffline: () -> Unit,
+    enabled: Boolean,
+    onMedia: Boolean = true,
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier
+        modifier = if (onMedia) modifier
             .background(FieldOnMedia, GsShape.pill)
-            .padding(horizontal = Space.xxs),
+            .padding(horizontal = Space.xxs) else modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        TextButton(onClick = onContinueOffline) {
+        TextButton(onClick = onContinueOffline, enabled = enabled) {
             Icon(
                 Icons.Default.CloudOff,
                 contentDescription = null,
-                tint = TextSecondaryOnMedia,
+                tint = if (onMedia) TextSecondaryOnMedia else MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(Space.md),
             )
             Spacer(Modifier.size(Space.xs))
             Text(
                 text = stringResource(R.string.identity_continue_offline),
-                color = TextOnMedia,
+                color = if (onMedia) TextOnMedia else MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.labelLarge,
             )
         }
@@ -279,12 +350,9 @@ private fun LoginForm(
     onGoogle: () -> Unit,
     onForgotPassword: () -> Unit,
     onCreateAccount: () -> Unit,
-    onBackToSignIn: () -> Unit,
-    onDisplayNameChange: (String) -> Unit,
-    onPasswordConfirmationChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val registering = state.mode == LoginMode.REGISTER
+    val focusManager = LocalFocusManager.current
     // Une erreur ne s'affiche qu'après une action de l'utilisateur. Sans ce
     // garde-fou, l'échec du chargement des fournisseurs d'identité — normal
     // hors réseau, ce qui est le cas nominal en forêt — accueillait
@@ -300,27 +368,14 @@ private fun LoginForm(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = stringResource(
-                if (registering) R.string.identity_create_account
-                else R.string.identity_welcome
-            ),
+            text = stringResource(R.string.identity_welcome),
             color = TextOnMedia,
-            fontSize = if (registering) 32.sp else 40.sp,
+            fontSize = 40.sp,
             fontWeight = FontWeight.Light,
             textAlign = TextAlign.Center,
         )
 
         Spacer(Modifier.height(Space.lg))
-
-        if (registering) {
-            MediaTextField(
-                value = state.displayName,
-                onValueChange = onDisplayNameChange,
-                placeholder = stringResource(R.string.identity_display_name),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            )
-            Spacer(Modifier.height(Space.sm))
-        }
 
         MediaTextField(
             value = state.email,
@@ -328,8 +383,11 @@ private fun LoginForm(
             placeholder = stringResource(R.string.identity_email),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email,
+                autoCorrect = false,
                 imeAction = ImeAction.Next,
             ),
+            enabled = !state.isSubmitting,
+            keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(androidx.compose.ui.focus.FocusDirection.Down) }),
         )
 
         Spacer(Modifier.height(Space.sm))
@@ -337,41 +395,24 @@ private fun LoginForm(
         PasswordFieldOnMedia(
             value = state.password,
             onValueChange = onPasswordChange,
+            enabled = !state.isSubmitting,
+            onDone = { attempted = true; onSubmit() },
         )
 
-        if (registering) {
-            Spacer(Modifier.height(Space.sm))
-            MediaTextField(
-                value = state.passwordConfirmation,
-                onValueChange = onPasswordConfirmationChange,
-                placeholder = stringResource(R.string.identity_password_confirmation),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Done,
-                ),
-                visualTransformation = PasswordVisualTransformation(),
-            )
-        }
-
-        if (!registering) {
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                TextButton(onClick = onForgotPassword) {
-                    Text(
-                        text = stringResource(R.string.identity_forgot_password),
-                        color = TextSecondaryOnMedia,
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                }
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+            TextButton(onClick = onForgotPassword, enabled = !state.isSubmitting) {
+                Text(
+                    text = stringResource(R.string.identity_forgot_password),
+                    color = TextSecondaryOnMedia,
+                    style = MaterialTheme.typography.bodySmall,
+                )
             }
         }
 
-        Spacer(Modifier.height(if (registering) Space.md else Space.xs))
+        Spacer(Modifier.height(Space.xs))
 
         PrimaryMediaButton(
-            label = stringResource(
-                if (registering) R.string.identity_create_account
-                else R.string.identity_sign_in
-            ),
+            label = stringResource(R.string.identity_sign_in),
             loading = state.isSubmitting,
             onClick = { attempted = true; onSubmit() },
         )
@@ -390,58 +431,39 @@ private fun LoginForm(
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .semantics { liveRegion = LiveRegionMode.Polite }
                     .padding(top = Space.sm),
             )
         }
 
         state.error?.takeIf { attempted }?.let { error ->
-            Text(
-                text = stringResource(identityErrorMessage(error)),
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodySmall,
-                textAlign = TextAlign.Center,
+            IdentityErrorBanner(
+                error = error,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .semantics { liveRegion = LiveRegionMode.Polite }
                     .padding(top = Space.sm),
             )
         }
 
         Spacer(Modifier.height(Space.md))
 
-        if (registering) {
-            // Repli hors ligne du site : on sort par où on est entré.
-            TextButton(onClick = onBackToSignIn) {
-                Text(
-                    text = stringResource(R.string.identity_mfa_cancel),
-                    color = TextSecondaryOnMedia,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-            }
-        } else {
-            OrSeparator()
+        OrSeparator()
 
-            Spacer(Modifier.height(Space.md))
+        Spacer(Modifier.height(Space.md))
 
-            GoogleMediaButton(
-                state = state,
-                googleClientConfigured = googleClientConfigured,
-                onGoogle = { attempted = true; onGoogle() },
-            )
+        GoogleMediaButton(
+            state = state,
+            googleClientConfigured = googleClientConfigured,
+            onGoogle = { attempted = true; onGoogle() },
+        )
 
-            Spacer(Modifier.height(Space.lg))
+        Spacer(Modifier.height(Space.lg))
 
-            CreateAccountRow(onCreateAccount = onCreateAccount)
-        }
+        CreateAccountRow(onCreateAccount = onCreateAccount, enabled = !state.isSubmitting)
     }
 }
 
-/**
- * Second facteur — étape qui suit un mot de passe accepté mais insuffisant.
- *
- * Reprend exactement le vocabulaire visuel de l'écran de connexion : mêmes
- * champs sombres translucides sur la vidéo, même bouton vert. L'utilisateur
- * doit sentir qu'il poursuit la même action, pas qu'il change d'application.
- */
 @Composable
 private fun MfaForm(
     state: LoginUiState,
@@ -493,6 +515,8 @@ private fun MfaForm(
                                else KeyboardType.NumberPassword,
                 imeAction = ImeAction.Done,
             ),
+            enabled = !state.isSubmitting,
+            keyboardActions = KeyboardActions(onDone = { if (!state.isSubmitting) onSubmit() }),
         )
 
         state.error?.let { error ->
@@ -517,7 +541,7 @@ private fun MfaForm(
 
         Spacer(Modifier.height(Space.xs))
 
-        TextButton(onClick = { onToggleRecovery(!state.mfaUsesRecoveryCode) }) {
+        TextButton(onClick = { onToggleRecovery(!state.mfaUsesRecoveryCode) }, enabled = !state.isSubmitting) {
             Text(
                 text = stringResource(
                     if (state.mfaUsesRecoveryCode) R.string.identity_mfa_use_totp
@@ -528,7 +552,7 @@ private fun MfaForm(
             )
         }
 
-        TextButton(onClick = onCancel) {
+        TextButton(onClick = onCancel, enabled = !state.isSubmitting) {
             Text(
                 text = stringResource(R.string.identity_mfa_cancel),
                 color = TextSecondaryOnMedia,
@@ -538,19 +562,14 @@ private fun MfaForm(
     }
 }
 
-/**
- * Champ de saisie posé sur le média.
- *
- * Sans étiquette flottante ni contour Material : une surface sombre arrondie,
- * l'intitulé à l'intérieur. C'est ce qui permet de garder la vidéo lisible
- * derrière tout en gardant le texte saisi parfaitement contrasté.
- */
 @Composable
 private fun MediaTextField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
     keyboardOptions: KeyboardOptions,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    enabled: Boolean = true,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     trailingIcon: (@Composable () -> Unit)? = null,
 ) {
@@ -560,6 +579,8 @@ private fun MediaTextField(
         placeholder = { Text(placeholder, color = PlaceholderOnMedia) },
         singleLine = true,
         keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        enabled = enabled,
         visualTransformation = visualTransformation,
         trailingIcon = trailingIcon,
         shape = RoundedCornerShape(Radius.lg),
@@ -587,20 +608,25 @@ private fun MediaTextField(
 private fun PasswordFieldOnMedia(
     value: String,
     onValueChange: (String) -> Unit,
+    enabled: Boolean,
+    onDone: () -> Unit,
 ) {
-    var visible by rememberSaveable { mutableStateOf(false) }
+    var visible by remember { mutableStateOf(false) }
     MediaTextField(
         value = value,
         onValueChange = onValueChange,
+        enabled = enabled,
         placeholder = stringResource(R.string.identity_password),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,
+            autoCorrect = false,
             imeAction = ImeAction.Done,
         ),
+        keyboardActions = KeyboardActions(onDone = { if (enabled) onDone() }),
         visualTransformation = if (visible) VisualTransformation.None
                                else PasswordVisualTransformation(),
         trailingIcon = {
-            IconButton(onClick = { visible = !visible }) {
+            IconButton(onClick = { visible = !visible }, enabled = enabled) {
                 Icon(
                     imageVector = if (visible) Icons.Default.VisibilityOff
                                   else Icons.Default.Visibility,
@@ -614,18 +640,6 @@ private fun PasswordFieldOnMedia(
     )
 }
 
-/**
- * Action principale.
- *
- * Le vert clair est la seule surface pleine de l'écran : tout le reste est
- * translucide. La cible est donc évidente sans flèche directrice ni consigne.
- *
- * Trois détails qui distinguent ce bouton d'un aplat de couleur :
- * un dégradé vertical très léger qui lui donne du relief sans virer au
- * clinquant, une ombre portée verte qui le décolle de la vidéo, et un chevron
- * qui avance de quelques points à l'appui — le geste est confirmé visuellement
- * avant même que le réseau réponde.
- */
 @Composable
 private fun PrimaryMediaButton(
     label: String,
@@ -762,7 +776,7 @@ private fun GoogleMediaButton(
 }
 
 @Composable
-private fun CreateAccountRow(onCreateAccount: () -> Unit) {
+private fun CreateAccountRow(onCreateAccount: () -> Unit, enabled: Boolean) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
@@ -773,7 +787,7 @@ private fun CreateAccountRow(onCreateAccount: () -> Unit) {
             color = TextSecondaryOnMedia,
             style = MaterialTheme.typography.bodyMedium,
         )
-        TextButton(onClick = onCreateAccount) {
+        TextButton(onClick = onCreateAccount, enabled = enabled) {
             Text(
                 text = stringResource(R.string.identity_signup_web).uppercase(),
                 color = GreenOnMedia,

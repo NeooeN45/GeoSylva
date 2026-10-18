@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="diag_scope_title">Diagnostics</string>
+    <string name="diag_scope_intro">Choose the observed area, then select your diagnostic.</string>
+    <string name="diag_scope_forest">Forest</string>
+    <string name="diag_scope_all_forests">All recorded forests</string>
+    <string name="diag_scope_parcel">Parcel</string>
+    <string name="diag_scope_plot">Plot (required for IBP)</string>
+    <string name="diag_scope_choose_plot">Choose a plot</string>
+    <string name="diag_scope_no_parcels">No parcel is recorded in this workspace. Add a forest and its parcel to prepare a diagnostic.</string>
+    <string name="diag_scope_observations_present">Tree observations are recorded in this parcel.</string>
+    <string name="diag_scope_observations_absent">No tree observation is recorded in this parcel.</string>
+    <string name="diag_scope_ibp">Index of potential biodiversity</string>
+    <string name="diag_scope_ibp_description">Create a potential biodiversity evaluation linked to the selected plot.</string>
+    <string name="diag_scope_station">Site diagnostic</string>
+    <string name="diag_scope_ripisylve">Riparian diagnostic</string>
+    <string name="diag_scope_parcel_method">This diagnostic is saved on the selected parcel.</string>
+    <string name="diag_scope_open">Open diagnostic</string>
+    <string name="diag_scope_changed">The selected area is no longer available in this workspace. Check your selection.</string>
+    <string name="plot_geometric_edit_hint">The footprint and sampling plan are retained. You can edit the name of this plot.</string>
+</resources>

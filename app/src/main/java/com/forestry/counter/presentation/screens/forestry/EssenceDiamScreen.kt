@@ -49,6 +49,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -64,6 +67,7 @@ import androidx.activity.compose.BackHandler
 import androidx.core.content.ContextCompat
 import com.forestry.counter.R
 import com.forestry.counter.presentation.components.AppMiniDialog
+import com.forestry.counter.presentation.components.HeightClassInputField
 import com.forestry.counter.presentation.components.TreeHeightMeasureDialog
 import com.forestry.counter.presentation.components.WoodQualityDialog
 import com.forestry.counter.presentation.components.TipCard
@@ -72,11 +76,15 @@ import com.forestry.counter.domain.calculation.HeightModeEntry
 import com.forestry.counter.domain.calculation.tarifs.TarifMethod
 import com.forestry.counter.domain.calculation.tarifs.TarifCalculator
 import com.forestry.counter.domain.repository.TigeRepository
+import com.forestry.counter.domain.repository.InventaireSessionRepository
+import com.forestry.counter.domain.model.MartelageStates
+import com.forestry.counter.domain.model.InventaireSession
 import com.forestry.counter.data.preferences.UserPreferencesManager
 import com.forestry.counter.data.preferences.GpsCaptureMode
 import com.forestry.counter.domain.repository.EssenceRepository
 import com.forestry.counter.domain.calculation.quality.WoodQualityGrade
 import com.forestry.counter.presentation.utils.parseHeightInputMean
+import com.forestry.counter.presentation.utils.hasInvalidHeightInput
 import com.forestry.counter.presentation.utils.rememberHapticFeedback
 import com.forestry.counter.presentation.utils.rememberSoundFeedback
 import com.forestry.counter.domain.location.GpsAverager
@@ -86,6 +94,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.Locale
 import java.util.UUID
@@ -100,11 +114,93 @@ fun EssenceDiamScreen(
     calculator: ForestryCalculator?,
     userPreferences: UserPreferencesManager,
     essenceRepository: EssenceRepository? = null,
+    sessionRepository: InventaireSessionRepository? = null,
+    identityRepository: com.forestry.counter.domain.repository.IdentityRepository? = null,
+    observationQualificationRepository: com.forestry.counter.domain.repository.ObservationQualificationRepository? = null,
+    businessReadAccess: com.forestry.counter.data.sync.hierarchy.BusinessReadAccess? = null,
     onNavigateBack: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val snackbar = remember { SnackbarHostState() }
     val appContext = LocalContext.current
+    var sessionReadError by remember(sessionRepository, parcelleId, placetteId) { mutableStateOf(false) }
+    var reconciliationError by remember(sessionRepository, parcelleId, placetteId) { mutableStateOf(false) }
+    var reconcilingSession by remember(sessionRepository, parcelleId, placetteId) { mutableStateOf(sessionRepository != null) }
+    val sessionSource = remember(sessionRepository, parcelleId, placetteId) { sessionRepository?.getByPlacette(placetteId) }
+    val sessionsFlow = remember(sessionSource) {
+        val source: Flow<List<InventaireSession>?> = sessionSource
+            ?.map { it } ?: flowOf(emptyList())
+        source.catch { error ->
+            if (error is CancellationException) throw error
+            sessionReadError = true
+            emit(null)
+        }
+    }
+    val sessions by sessionsFlow.collectAsStateWithLifecycle(initialValue = null)
+    val sessionsReady = sessionRepository == null || sessions != null
+    val selectedSession = remember(sessions, parcelleId, placetteId) {
+        selectEssenceSession(sessions.orEmpty(), parcelleId, if (sessionRepository != null) placetteId else null)
+    }
+    val sessionUnavailable = sessionReadError || reconciliationError
+    val canWrite = sessionsReady && !sessionUnavailable && !reconcilingSession && selectedSession.writable
+    val currentCanWrite by rememberUpdatedState(canWrite)
+    val currentSelection by rememberUpdatedState(selectedSession)
+
+    suspend fun writeObservation(block: suspend (String?) -> Unit): Boolean {
+        // Keep the campaign displayed when this callback was created, even if a new one appears meanwhile.
+        val expected = selectedSession
+        return try {
+            check(currentCanWrite && currentSelection.managed == expected.managed &&
+                currentSelection.session?.sessionId == expected.session?.sessionId) { "MARTELAGE_ENTRY_STATE_CHANGED" }
+            sessionRepository?.let { repository ->
+                repository.reconcileForPlacette(parcelleId, placetteId)
+                val fresh = selectEssenceSession(checkNotNull(sessionSource).first(), parcelleId, placetteId)
+                check(fresh.writable && fresh.managed == expected.managed &&
+                    fresh.session?.sessionId == expected.session?.sessionId) { "MARTELAGE_ENTRY_STATE_CHANGED" }
+            }
+            block(expected.session?.sessionId)
+            true
+        } catch (cancelled: CancellationException) {
+            throw cancelled
+        } catch (error: Exception) {
+            val stateChanged = error is IllegalStateException ||
+                error.message?.startsWith("MARTELAGE_") == true || error.message?.startsWith("TIGE_") == true
+            snackbar.showSnackbar(appContext.getString(
+                if (stateChanged) R.string.essence_session_changed else R.string.essence_session_write_failed
+            ))
+            false
+        }
+    }
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner, sessionRepository, parcelleId, placetteId) {
+        var reconciliationJob: Job? = null
+        fun reconcile() {
+            val repository = sessionRepository ?: return
+            if (reconciliationJob?.isActive == true) return
+            reconciliationJob = scope.launch {
+                reconcilingSession = true
+                try {
+                    repository.reconcileForPlacette(parcelleId, placetteId)
+                    reconciliationError = false
+                } catch (cancelled: CancellationException) {
+                    throw cancelled
+                } catch (_: Exception) {
+                    reconciliationError = true
+                    snackbar.showSnackbar(appContext.getString(R.string.essence_session_unavailable))
+                } finally {
+                    reconcilingSession = false
+                }
+            }
+        }
+        reconcile()
+        val observer = LifecycleEventObserver { _, event -> if (event == Lifecycle.Event.ON_RESUME) reconcile() }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+            reconciliationJob?.cancel()
+        }
+    }
 
     val hapticEnabled by userPreferences.hapticEnabled.collectAsStateWithLifecycle(initialValue = true)
     val soundEnabled by userPreferences.soundEnabled.collectAsStateWithLifecycle(initialValue = true)
@@ -138,13 +234,18 @@ fun EssenceDiamScreen(
                     maxAccuracyM = 20f,
                     timeoutMs = 15_000L
                 ) ?: return@launch
-                tigeRepository.setTigeGps(
+                val saved = tigeRepository.setTigeGps(
                     tigeId = tigeId,
                     wkt = averaged.wkt,
                     precisionM = averaged.precisionM,
                     altitudeM = averaged.altitude
                 )
-            } catch (_: Throwable) { /* permission lost or GPS error — silent */ }
+                if (!saved) snackbar.showSnackbar(appContext.getString(R.string.essence_session_changed))
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (_: Exception) {
+                snackbar.showSnackbar(appContext.getString(R.string.gps_periodic_unavailable))
+            }
         }
     }
 
@@ -185,11 +286,15 @@ fun EssenceDiamScreen(
     }
 
     // Charger les tiges de la placette
-    val tiges by tigeRepository.getTigesByPlacette(placetteId).collectAsStateWithLifecycle(initialValue = emptyList())
+    val tigesFlow = remember(tigeRepository, placetteId) { tigeRepository.getTigesByPlacette(placetteId) }
+    val tiges by tigesFlow.collectAsStateWithLifecycle(initialValue = emptyList())
 
     // Tiges "normales" uniquement : les arbres spéciaux doivent rester dans l'onglet "feuille"
-    val tigesEssence = remember(tiges, essenceCode) {
-        tiges.filter { t ->
+    val campaignTiges = remember(tiges, selectedSession, sessionsReady, sessionReadError) {
+        if (!sessionsReady || sessionReadError) emptyList() else selectedSession.selectTiges(tiges)
+    }
+    val tigesEssence = remember(campaignTiges, essenceCode) {
+        campaignTiges.filter { t ->
             t.essenceCode.equals(essenceCode, true) &&
                 (t.categorie?.uppercase(Locale.getDefault()) !in specialCategories)
         }
@@ -201,16 +306,22 @@ fun EssenceDiamScreen(
             .mapValues { it.value.size }
     }
 
-    val scopeKey = remember(placetteId) { "PLACETTE_${placetteId}" }
-    val martelageHeights by userPreferences.martelageHeightsFlow(scopeKey).collectAsStateWithLifecycle(initialValue = emptyMap())
-    val savedSurface by userPreferences.martelageSurfaceFlow(scopeKey).collectAsStateWithLifecycle(initialValue = null)
+    val scopeKey = remember(placetteId, selectedSession.session?.sessionId) {
+        if (selectedSession.managed) "PLACETTE_${placetteId}_SESSION_${selectedSession.session?.sessionId}"
+        else "PLACETTE_${placetteId}"
+    }
+    val legacyHeightsFlow = remember(userPreferences, scopeKey) { userPreferences.martelageHeightsFlow(scopeKey) }
+    val legacyHeights by legacyHeightsFlow.collectAsStateWithLifecycle(initialValue = emptyMap())
+    val martelageHeights = if (selectedSession.managed) emptyMap() else legacyHeights
+    val savedSurfaceFlow = remember(userPreferences, scopeKey) { userPreferences.martelageSurfaceFlow(scopeKey) }
+    val savedSurface by savedSurfaceFlow.collectAsStateWithLifecycle(initialValue = null)
 
     val tigesByDiamClass = remember(tigesEssence) {
         tigesEssence.groupBy { it.diamCm.toInt() }
     }
 
-    val specialTiges = remember(tiges) {
-        tiges.filter { t ->
+    val specialTiges = remember(campaignTiges, essenceCode) {
+        campaignTiges.filter { t ->
             t.essenceCode.equals(essenceCode, true) &&
                 (t.categorie?.uppercase(Locale.getDefault()) in specialCategories)
         }
@@ -319,7 +430,7 @@ fun EssenceDiamScreen(
     val isHeightPromptSnoozed = heightPromptSnoozeUntilMs > System.currentTimeMillis()
 
     val safeNavigateBack = {
-        if (!skipMissingHeightsPrompt && !isHeightPromptSnoozed && missingHeightClasses.isNotEmpty() && calculator != null) {
+        if (canWrite && !skipMissingHeightsPrompt && !isHeightPromptSnoozed && missingHeightClasses.isNotEmpty() && calculator != null) {
             showMissingHeightsDialog = true
         } else {
             onNavigateBack()
@@ -336,6 +447,18 @@ fun EssenceDiamScreen(
     // Hauteur globales / par classe de diamètre pour cette essence
     var showHeightDialog by remember { mutableStateOf(false) }
     val heightByClassInput = remember { mutableStateMapOf<Int, String>() }
+
+    LaunchedEffect(canWrite, selectedSession.session?.sessionId) {
+        // A stale dialog or Undo must not survive a pause, closure or campaign switch.
+        snackbar.currentSnackbarData?.dismiss()
+        showQualityDialog = false
+        showHeightDialog = false
+        showHeightMeasureDialog = false
+        showSpecialDialog = false
+        showMissingHeightsDialog = false
+        showSnoozeHeightsDialog = false
+        heightByClassInput.clear()
+    }
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbar) },
@@ -358,7 +481,7 @@ fun EssenceDiamScreen(
                             tint = if (showSpecialList) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
-                    IconButton(onClick = {
+                    IconButton(enabled = canWrite, onClick = {
                         playClickFeedback()
                         val lastTige = tigesEssence.maxByOrNull { it.timestamp }
                         if (lastTige != null) {
@@ -373,7 +496,7 @@ fun EssenceDiamScreen(
                     }) {
                         Icon(Icons.Default.Star, contentDescription = stringResource(R.string.quality_assess))
                     }
-                    IconButton(onClick = {
+                    IconButton(enabled = canWrite, onClick = {
                         playClickFeedback()
                         val currentMax = classes.maxOrNull() ?: 0
                         val next = if (currentMax < 5) 5 else currentMax + 5
@@ -388,23 +511,40 @@ fun EssenceDiamScreen(
         }
     ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding).padding(12.dp)) {
+            val campaignMessage = when {
+                sessionUnavailable || selectedSession.inconsistent -> stringResource(R.string.essence_session_unavailable)
+                !sessionsReady || reconcilingSession -> stringResource(R.string.essence_session_loading)
+                !selectedSession.managed && sessionRepository != null -> stringResource(R.string.martelage_plot_start_required)
+                !selectedSession.managed -> stringResource(R.string.essence_session_legacy)
+                selectedSession.session?.recoveryRequired == true -> stringResource(R.string.essence_session_recovery)
+                selectedSession.session?.martelageState == MartelageStates.PAUSED -> stringResource(R.string.essence_session_paused)
+                selectedSession.session?.martelageState == MartelageStates.CLOSED -> stringResource(
+                    R.string.essence_session_closed, selectedSession.session?.revisionNumber ?: 1
+                )
+                else -> stringResource(R.string.essence_session_running, selectedSession.session?.revisionNumber ?: 1)
+            }
+            Surface(color = MaterialTheme.colorScheme.surfaceVariant, shape = RoundedCornerShape(12.dp)) {
+                Text(campaignMessage, style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.fillMaxWidth().padding(10.dp))
+            }
+            Spacer(modifier = Modifier.height(8.dp))
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                SpecialTreeButton(label = stringResource(R.string.special_tree_dying)) {
+                SpecialTreeButton(label = stringResource(R.string.special_tree_dying), enabled = canWrite) {
                     playClickFeedback()
                     openSpecialDialog(SpecialTreeType.DEPERISSANT)
                 }
-                SpecialTreeButton(label = stringResource(R.string.special_tree_bio)) {
+                SpecialTreeButton(label = stringResource(R.string.special_tree_bio), enabled = canWrite) {
                     playClickFeedback()
                     openSpecialDialog(SpecialTreeType.ARBRE_BIO)
                 }
-                SpecialTreeButton(label = stringResource(R.string.special_tree_dead)) {
+                SpecialTreeButton(label = stringResource(R.string.special_tree_dead), enabled = canWrite) {
                     playClickFeedback()
                     openSpecialDialog(SpecialTreeType.MORT)
                 }
-                SpecialTreeButton(label = stringResource(R.string.special_tree_parasite)) {
+                SpecialTreeButton(label = stringResource(R.string.special_tree_parasite), enabled = canWrite) {
                     playClickFeedback()
                     openSpecialDialog(SpecialTreeType.PARASITE)
                 }
@@ -499,12 +639,13 @@ fun EssenceDiamScreen(
 
                         heightByClassInput.clear()
                         populatedClasses.forEach { d ->
-                            val v = manual[d] ?: fixed[d]
+                            val measured = tigesByDiamClass[d].orEmpty().mapNotNull { it.hauteurM }.takeIf { it.isNotEmpty() }?.average()
+                            val v = if (selectedSession.managed) measured else manual[d] ?: fixed[d]
                             heightByClassInput[d] = v?.let { String.format(Locale.getDefault(), "%.1f", it) } ?: ""
                         }
                         showHeightDialog = true
                     },
-                    enabled = calculator != null,
+                    enabled = calculator != null && canWrite,
                     colors = ButtonDefaults.filledTonalButtonColors(containerColor = heightButtonColor)
                 ) {
                     Icon(
@@ -527,6 +668,29 @@ fun EssenceDiamScreen(
                 }
             }
 
+            if (identityRepository != null && observationQualificationRepository != null &&
+                businessReadAccess != null && sessionRepository != null) {
+                Spacer(modifier = Modifier.height(8.dp))
+                ObservationQualificationEntry(
+                    parcelleId = parcelleId,
+                    placetteId = placetteId,
+                    essenceCode = essenceCode,
+                    essenceName = essenceName,
+                    session = selectedSession.session,
+                    observations = campaignTiges.filter { it.essenceCode.equals(essenceCode, true) },
+                    available = sessionsReady && !sessionUnavailable && !reconcilingSession &&
+                        selectedSession.managed && !selectedSession.inconsistent,
+                    identityRepository = identityRepository,
+                    businessReadAccess = businessReadAccess,
+                    tigeRepository = tigeRepository,
+                    sessionRepository = sessionRepository,
+                    qualificationRepository = observationQualificationRepository,
+                    onSaved = { scope.launch {
+                        snackbar.showSnackbar(appContext.getString(R.string.observation_qualification_saved))
+                    } },
+                )
+            }
+
             Spacer(modifier = Modifier.height(4.dp))
 
             TipCard(
@@ -547,11 +711,13 @@ fun EssenceDiamScreen(
                     items(specialTiges, key = { it.id }) { t ->
                         SpecialTreeCard(
                             tige = t,
+                            enabled = canWrite,
                             onLongPress = {
                                 playClickFeedback()
                                 scope.launch {
-                                    tigeRepository.deleteTige(t.id)
-                                    snackbar.showSnackbar(appContext.getString(R.string.tree_deleted))
+                                    if (writeObservation { tigeRepository.deleteTige(t.id) }) {
+                                        snackbar.showSnackbar(appContext.getString(R.string.tree_deleted))
+                                    }
                                 }
                             }
                         )
@@ -578,6 +744,7 @@ fun EssenceDiamScreen(
                         DiameterCard(
                             diameter = d,
                             count = count,
+                            enabled = canWrite,
                             heightStatus = hStatus,
                             onTap = {
                                 playClickFeedback()
@@ -588,7 +755,7 @@ fun EssenceDiamScreen(
                                         .filter { it.diamCm.toInt() == d && it.gpsWkt != null }
                                         .maxByOrNull { it.timestamp }
 
-                                    val ok = runCatching {
+                                    val ok = writeObservation { sessionId ->
                                         tigeRepository.insertTige(
                                             com.forestry.counter.domain.model.Tige(
                                                 id = id,
@@ -603,10 +770,11 @@ fun EssenceDiamScreen(
                                                 note = null,
                                                 produit = null,
                                                 fCoef = null,
-                                                valueEur = null
+                                                valueEur = null,
+                                                sessionId = sessionId
                                             )
                                         )
-                                    }.isSuccess
+                                    }
                                     if (ok) {
                                         // Déclencher le GPS immédiatement — persiste même si l'utilisateur quitte
                                         // Seulement si pas de point GPS existant pour cette classe
@@ -618,29 +786,22 @@ fun EssenceDiamScreen(
                                             actionLabel = appContext.getString(R.string.undo)
                                         )
                                         if (res == SnackbarResult.ActionPerformed) {
-                                            tigeRepository.deleteLatest(
-                                                parcelleId = parcelleId,
-                                                placetteId = placetteId,
-                                                essenceCode = essenceCode,
-                                                diamCm = d.toDouble()
-                                            )
-                                            snackbar.showSnackbar(appContext.getString(R.string.add_undone))
+                                            if (writeObservation { tigeRepository.deleteTige(id) }) {
+                                                snackbar.showSnackbar(appContext.getString(R.string.add_undone))
+                                            }
                                         }
-                                    } else {
-                                        snackbar.showSnackbar(appContext.getString(R.string.insert_failed))
                                     }
                                 }
                             },
                             onLongPress = {
                                 playClickFeedback()
                                 scope.launch {
-                                    val ok = tigeRepository.deleteLatest(
-                                        parcelleId = parcelleId,
-                                        placetteId = placetteId,
-                                        essenceCode = essenceCode,
-                                        diamCm = d.toDouble()
-                                    )
-                                    if (!ok) snackbar.showSnackbar(appContext.getString(R.string.no_tige_to_remove_for_diameter_format, d))
+                                    val target = tigesByDiamClass[d].orEmpty().maxByOrNull { it.timestamp }
+                                    if (target == null) {
+                                        snackbar.showSnackbar(appContext.getString(R.string.no_tige_to_remove_for_diameter_format, d))
+                                    } else if (writeObservation { tigeRepository.deleteTige(target.id) }) {
+                                        snackbar.showSnackbar(appContext.getString(R.string.tree_deleted))
+                                    }
                                 }
                             }
                         )
@@ -653,7 +814,7 @@ fun EssenceDiamScreen(
     var quickFillInput by remember { mutableStateOf("") }
 
     // Dialogue mesure clinométrique via capteur
-    if (showHeightMeasureDialog) {
+    if (showHeightMeasureDialog && canWrite) {
         TreeHeightMeasureDialog(
             skipWaistWarning = skipWaistWarning,
             phoneHeightM     = phoneHeightMPref,
@@ -677,17 +838,25 @@ fun EssenceDiamScreen(
     }
 
     // Dialogue de configuration des hauteurs (amélioré)
-    if (showHeightDialog && calculator != null) {
+    if (showHeightDialog && calculator != null && canWrite) {
+        val invalidHeightInput = hasInvalidHeightInput(populatedClasses.map { heightByClassInput[it] ?: "" })
         AppMiniDialog(
             onDismissRequest = { showHeightDialog = false },
             animationsEnabled = animationsEnabled,
             icon = Icons.Default.Height,
             title = stringResource(R.string.height_dialog_essence_title_format, essenceName),
-            description = stringResource(R.string.martelage_height_by_class_hint),
+            description = stringResource(if (selectedSession.managed)
+                R.string.essence_session_height_by_class_hint else R.string.martelage_height_by_class_hint),
             confirmText = stringResource(R.string.validate),
+            confirmEnabled = canWrite && !invalidHeightInput,
             dismissText = stringResource(R.string.cancel),
             onConfirm = {
                 scope.launch {
+                    // Ne pas enregistrer les classes valides en ignorant une autre saisie invalide.
+                    if (hasInvalidHeightInput(populatedClasses.map { heightByClassInput[it] ?: "" })) {
+                        snackbar.showSnackbar(appContext.getString(R.string.height_input_invalid))
+                        return@launch
+                    }
                     val cleaned: Map<Int, Double> = populatedClasses.mapNotNull { d ->
                         val (mean, _) = parseHeightInputMean(heightByClassInput[d] ?: "")
                         if (mean != null && mean > 0.0) d to mean else null
@@ -698,47 +867,46 @@ fun EssenceDiamScreen(
                         return@launch
                     }
 
-                    val newMartelageHeights = martelageHeights.toMutableMap().apply {
-                        put(normalizedEssenceCode, cleaned)
-                    }
-                    userPreferences.setMartelageHeights(scopeKey, newMartelageHeights)
-
-                    // Propager vers le scope parcelle
-                    val parcelleScopeKey = "PARCELLE_${parcelleId}"
-                    if (parcelleScopeKey != scopeKey) {
-                        val parcelleHeights = userPreferences.martelageHeightsFlow(parcelleScopeKey).first()
-                        val updatedParcelleHeights = parcelleHeights.toMutableMap().apply {
-                            put(normalizedEssenceCode, cleaned)
-                        }
-                        userPreferences.setMartelageHeights(parcelleScopeKey, updatedParcelleHeights)
-                    }
-
-                    // Maintenir l'ancien stockage "HEIGHT_MODES" (global) en cohérence
-                    orderedClasses.forEach { d ->
-                        val v = cleaned[d]
-                        if (v != null && v > 0.0) {
-                            calculator.setHeightMode(
-                                HeightModeEntry(
-                                    essence = essenceCode,
-                                    diamClass = d,
-                                    mode = "FIXED",
-                                    fixed = v
-                                )
-                            )
+                    val saved = writeObservation { sessionId ->
+                        if (sessionId != null) {
+                            // Campaign heights belong to observations, not to shared legacy/global preferences.
+                            for (tree in tigesEssence) {
+                                val height = cleaned[tree.diamCm.toInt()] ?: continue
+                                check(tree.sessionId == sessionId && tigeRepository.setTigeHeight(tree.id, height)) {
+                                    "MARTELAGE_HEIGHT_STATE_CHANGED"
+                                }
+                            }
                         } else {
-                            calculator.setHeightMode(
-                                HeightModeEntry(
+                            val newMartelageHeights = martelageHeights.toMutableMap().apply {
+                                put(normalizedEssenceCode, cleaned)
+                            }
+                            userPreferences.setMartelageHeights(scopeKey, newMartelageHeights)
+
+                            // Preserve the separate legacy calculator/preferences flow.
+                            val parcelleScopeKey = "PARCELLE_${parcelleId}"
+                            if (parcelleScopeKey != scopeKey) {
+                                val parcelleHeights = userPreferences.martelageHeightsFlow(parcelleScopeKey).first()
+                                val updatedParcelleHeights = parcelleHeights.toMutableMap().apply {
+                                    put(normalizedEssenceCode, cleaned)
+                                }
+                                userPreferences.setMartelageHeights(parcelleScopeKey, updatedParcelleHeights)
+                            }
+                            orderedClasses.forEach { d ->
+                                val height = cleaned[d]
+                                calculator.setHeightMode(HeightModeEntry(
                                     essence = essenceCode,
                                     diamClass = d,
-                                    mode = "SAMPLES",
-                                    fixed = null
-                                )
-                            )
+                                    mode = if (height != null && height > 0.0) "FIXED" else "SAMPLES",
+                                    fixed = height,
+                                ))
+                            }
                         }
                     }
 
-                    showHeightDialog = false
-                    snackbar.showSnackbar(appContext.getString(R.string.heights_saved))
+                    if (saved) {
+                        showHeightDialog = false
+                        snackbar.showSnackbar(appContext.getString(R.string.heights_saved))
+                    }
                 }
             }
         ) {
@@ -884,28 +1052,13 @@ fun EssenceDiamScreen(
                                         }
                                     }
                                 }
-                                OutlinedTextField(
+                                HeightClassInputField(
                                     value = heightByClassInput[d] ?: "",
                                     onValueChange = { heightByClassInput[d] = it },
                                     modifier = Modifier.fillMaxWidth(),
-                                    isError = needsValue && tarifRequiresHeight,
-                                    label = { Text(stringResource(R.string.height)) },
-                                    keyboardOptions = KeyboardOptions(
-                                        keyboardType = KeyboardType.Decimal,
-                                        imeAction = ImeAction.Done
-                                    ),
-                                    placeholder = { Text(stringResource(R.string.placeholder_height_short)) },
-                                    suffix = { Text(stringResource(R.string.unit_m)) },
-                                    supportingText = {
-                                        val parts = mutableListOf<String>()
-                                        if (missingCount > 0) parts += stringResource(R.string.height_n_missing_format, missingCount)
-                                        if (measuredCount > 0) parts += "$measuredCount ${stringResource(R.string.height_status_measured).lowercase()}"
-                                        if (meanCount > 1 && meanVal != null) {
-                                            parts += stringResource(R.string.height_mean_computed_format, meanVal, meanCount)
-                                        }
-                                        if (parts.isNotEmpty()) Text(parts.joinToString(" · "))
-                                    },
-                                    singleLine = true
+                                    missingCount = missingCount,
+                                    recordedCount = measuredCount,
+                                    tarifRequiresHeight = tarifRequiresHeight,
                                 )
                             }
                         }
@@ -915,7 +1068,7 @@ fun EssenceDiamScreen(
         }
     }
 
-    if (showMissingHeightsDialog) {
+    if (showMissingHeightsDialog && canWrite) {
         val list = missingHeightClasses
         val tarifLabel = activeTarifMethod?.label ?: ""
         val descText = if (tarifRequiresHeight && tarifLabel.isNotBlank()) {
@@ -955,7 +1108,8 @@ fun EssenceDiamScreen(
                 val manual = martelageHeights[normalizedEssenceCode].orEmpty()
                 heightByClassInput.clear()
                 populatedClasses.forEach { d ->
-                    val v = manual[d] ?: fixed[d]
+                    val measured = tigesByDiamClass[d].orEmpty().mapNotNull { it.hauteurM }.takeIf { it.isNotEmpty() }?.average()
+                    val v = if (selectedSession.managed) measured else manual[d] ?: fixed[d]
                     if (v != null && v > 0.0) heightByClassInput[d] = v.toString()
                 }
                 showHeightDialog = true
@@ -1026,7 +1180,7 @@ fun EssenceDiamScreen(
         }
     }
 
-    if (showSnoozeHeightsDialog) {
+    if (showSnoozeHeightsDialog && canWrite) {
         AppMiniDialog(
             onDismissRequest = { showSnoozeHeightsDialog = false },
             animationsEnabled = animationsEnabled,
@@ -1063,7 +1217,7 @@ fun EssenceDiamScreen(
         }
     }
 
-    if (showSpecialDialog && specialType != null) {
+    if (showSpecialDialog && specialType != null && canWrite) {
         val type = specialType ?: return
         val titleRes = when (type) {
             SpecialTreeType.DEPERISSANT -> R.string.add_dying_tree_title
@@ -1077,12 +1231,18 @@ fun EssenceDiamScreen(
             icon = Icons.Default.Eco,
             title = stringResource(titleRes),
             confirmText = stringResource(R.string.validate),
+            confirmEnabled = canWrite,
             dismissText = stringResource(R.string.cancel),
             onConfirm = {
                 val diam = specialDiameterInput.replace(',', '.').toDoubleOrNull()
                 val h = specialHeightInput.replace(',', '.').toDoubleOrNull()
-                if (diam == null || diam <= 0.0) {
+                if (diam == null || !diam.isFinite() || diam <= 0.0) {
                     scope.launch { snackbar.showSnackbar(appContext.getString(R.string.invalid_diameter)) }
+                    return@AppMiniDialog
+                }
+                // Une hauteur inconnue reste vide ; une saisie incorrecte ne devient pas un faux inconnu.
+                if (specialHeightInput.isNotBlank() && (h == null || !h.isFinite() || h <= 0.0)) {
+                    scope.launch { snackbar.showSnackbar(appContext.getString(R.string.observation_qualification_single_height_invalid)) }
                     return@AppMiniDialog
                 }
                 val id = UUID.randomUUID().toString()
@@ -1099,7 +1259,7 @@ fun EssenceDiamScreen(
                 }
                 showSpecialDialog = false
                 scope.launch {
-                    val ok = runCatching {
+                    val ok = writeObservation { sessionId ->
                         tigeRepository.insertTige(
                             com.forestry.counter.domain.model.Tige(
                                 id = id,
@@ -1119,16 +1279,15 @@ fun EssenceDiamScreen(
                                 categorie = categorie,
                                 qualite = null,
                                 defauts = defects,
-                                photoUri = null
+                                photoUri = null,
+                                sessionId = sessionId
                             )
                         )
-                    }.isSuccess
+                    }
                     if (ok) {
                         playClickFeedback()
                         captureGpsForTige(id)
                         snackbar.showSnackbar(appContext.getString(R.string.tree_added))
-                    } else {
-                        snackbar.showSnackbar(appContext.getString(R.string.insert_failed))
                     }
                 }
             }
@@ -1168,7 +1327,7 @@ fun EssenceDiamScreen(
     }
 
     // Dialogue d'évaluation qualité bois (optionnel)
-    if (showQualityDialog && qualityTargetTigeId != null) {
+    if (showQualityDialog && qualityTargetTigeId != null && canWrite) {
         val targetTige = tigesEssence.firstOrNull { it.id == qualityTargetTigeId }
         WoodQualityDialog(
             essenceCode = essenceCode,
@@ -1182,13 +1341,15 @@ fun EssenceDiamScreen(
                 showQualityDialog = false
                 val tigeId = qualityTargetTigeId ?: return@WoodQualityDialog
                 scope.launch {
-                    try {
-                        tigeRepository.updateTigeQuality(
+                    val saved = writeObservation {
+                        check(tigeRepository.updateTigeQuality(
                             tigeId = tigeId,
                             qualite = grade.ordinal,
                             produit = classification.primary.code,
                             qualiteDetail = detailJson
-                        )
+                        )) { "MARTELAGE_QUALITY_STATE_CHANGED" }
+                    }
+                    if (saved) {
                         snackbar.showSnackbar(
                             appContext.getString(
                                 R.string.quality_saved,
@@ -1196,8 +1357,6 @@ fun EssenceDiamScreen(
                                 classification.primary.label
                             )
                         )
-                    } catch (e: Exception) {
-                        snackbar.showSnackbar(appContext.getString(R.string.insert_failed))
                     }
                 }
             }
@@ -1232,6 +1391,7 @@ private fun DiameterCard(
     diameter: Int,
     count: Int,
     heightStatus: HeightStatus = HeightStatus.NONE,
+    enabled: Boolean = true,
     onTap: () -> Unit,
     onLongPress: () -> Unit
 ) {
@@ -1246,7 +1406,7 @@ private fun DiameterCard(
                 if (heightStatus != HeightStatus.NONE) Modifier.border(1.5.dp, borderColor, RoundedCornerShape(12.dp))
                 else Modifier
             )
-            .combinedClickable(onClick = onTap, onLongClick = onLongPress),
+            .combinedClickable(enabled = enabled, onClick = onTap, onLongClick = onLongPress),
         colors = CardDefaults.elevatedCardColors()
     ) {
         Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -1261,7 +1421,8 @@ private fun DiameterCard(
                 }
                 Text(label, style = MaterialTheme.typography.labelSmall, color = color)
             } else {
-                Text(stringResource(R.string.diameter_card_hint), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(if (enabled) R.string.diameter_card_hint else R.string.essence_session_read_only),
+                    style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
     }
@@ -1277,10 +1438,12 @@ private enum class SpecialTreeType {
 @Composable
 private fun SpecialTreeButton(
     label: String,
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     FilledTonalButton(
         onClick = onClick,
+        enabled = enabled,
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
     ) {
         Text(label, style = MaterialTheme.typography.labelLarge)
@@ -1291,6 +1454,7 @@ private fun SpecialTreeButton(
 @Composable
 private fun SpecialTreeCard(
     tige: com.forestry.counter.domain.model.Tige,
+    enabled: Boolean = true,
     onLongPress: () -> Unit
 ) {
     val catLabel = when (tige.categorie?.uppercase(Locale.getDefault())) {
@@ -1313,7 +1477,7 @@ private fun SpecialTreeCard(
 
     ElevatedCard(
         modifier = Modifier
-            .combinedClickable(onClick = {}, onLongClick = onLongPress),
+            .combinedClickable(enabled = enabled, onClick = {}, onLongClick = onLongPress),
         colors = CardDefaults.elevatedCardColors()
     ) {
         Column(modifier = Modifier.padding(16.dp)) {

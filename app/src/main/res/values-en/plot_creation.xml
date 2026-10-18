@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="plot_point_limit">This group has reached the 500-plot limit. Save it before adding another group.</string>
+    <string name="plot_choose_scope">How would you like to survey this parcel?</string>
+    <string name="plot_scope_whole">Entire parcel</string>
+    <string name="plot_scope_whole_description">One survey covering the entire selected boundary.</string>
+    <string name="plot_scope_points">Plots on the map</string>
+    <string name="plot_scope_points_description">Place one or more points, then choose their radius.</string>
+    <string name="plot_missing_boundary">The parcel boundary is unavailable. Select a parcel on the map first to position your surveys.</string>
+    <string name="plot_missing_area">The parcel area is unavailable. Enter it in the parcel before creating a survey for the entire area.</string>
+    <string name="plot_whole_summary">One survey for the entire parcel</string>
+    <string name="plot_whole_area">Reference area: %1$s ha. No radius is needed.</string>
+    <string name="plot_points_selected">%1$d point(s) selected</string>
+    <string name="plot_points_hint">Tap inside the boundary to place plot centres. Check that each circular plot remains within the parcel.</string>
+    <string name="plot_number">Plot %1$d</string>
+    <string name="plot_remove_point">Remove</string>
+    <string name="plot_common_radius">Radius of each plot</string>
+    <string name="plot_radius_hint">Enter a positive radius in metres.</string>
+    <string name="plot_circle_area">Area of each plot: %1$s m²</string>
+    <string name="plot_name_prefix">Survey name</string>
+    <string name="plot_default_prefix">Plot</string>
+    <string name="plot_create_points">Create %1$d plot(s)</string>
+    <string name="plot_create_whole">Create survey</string>
+    <string name="plot_parent_unavailable">The parcel cannot be loaded. Return to the list and try again.</string>
+    <string name="plot_point_outside">Choose a point inside the parcel boundary.</string>
+    <string name="plot_save_failed">The surveys could not be created. Check the parcel boundary and area, then try again.</string>
+    <string name="plot_whole_edit_hint">This survey covers the entire parcel. You can change its name; its recorded area and survey mode are preserved.</string>
+    <string name="plot_whole_card">Entire parcel</string>
+</resources>

@@ -9,6 +9,8 @@ import com.forestry.counter.data.local.dao.IbpEvaluationDao
 import com.forestry.counter.data.local.dao.InventaireSessionDao
 import com.forestry.counter.data.local.dao.ObservationFloreDao
 import com.forestry.counter.data.local.dao.ParcelleDao
+import com.forestry.counter.data.local.dao.ParcelSyncOperationDao
+import com.forestry.counter.data.local.dao.ParcelSyncDao
 import com.forestry.counter.data.local.dao.PlacetteDao
 import com.forestry.counter.data.local.dao.RipisylveDao
 import com.forestry.counter.data.local.dao.StationDao
@@ -19,7 +21,11 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.junit.Rule
+import org.junit.rules.TemporaryFolder
 import java.io.File
 
 /**
@@ -29,6 +35,7 @@ import java.io.File
  * l'exécution, et que le compte retourné correspond au nombre de DAOs.
  */
 class DeleteAllUserDataUseCaseTest {
+    @get:Rule val privateFiles = TemporaryFolder()
 
     private val foretDao = mockk<ForetDao>(relaxed = true)
     private val parcelleDao = mockk<ParcelleDao>(relaxed = true)
@@ -43,6 +50,18 @@ class DeleteAllUserDataUseCaseTest {
     private val alerteSanitaireDao = mockk<AlerteSanitaireDao>(relaxed = true)
     private val observationFloreDao = mockk<ObservationFloreDao>(relaxed = true)
     private val context = mockk<Context>(relaxed = true)
+    private val operationDao = mockk<ParcelSyncOperationDao>(relaxed = true)
+    private val syncDao = mockk<ParcelSyncDao>(relaxed = true)
+    private val hierarchySyncDao = mockk<com.forestry.counter.data.local.dao.HierarchySyncDao>(relaxed = true)
+    private val woodObjectDao = mockk<com.forestry.counter.data.local.dao.WoodObjectDao>(relaxed = true)
+    private val woodDepotDao = mockk<com.forestry.counter.data.local.dao.WoodDepotDao>(relaxed = true)
+    private val fieldDao = mockk<com.forestry.counter.data.local.dao.FieldDao>(relaxed = true)
+
+    init {
+        every { context.filesDir } answers { privateFiles.root }
+        every { context.cacheDir } answers { privateFiles.root }
+        coEvery { operationDao.runJournalTransaction(any()) } coAnswers { firstArg<suspend () -> Unit>().invoke() }
+    }
 
     private val useCase = DeleteAllUserDataUseCase(
         foretDao = foretDao,
@@ -58,6 +77,13 @@ class DeleteAllUserDataUseCaseTest {
         alerteSanitaireDao = alerteSanitaireDao,
         observationFloreDao = observationFloreDao,
         context = context,
+        operationDao = operationDao,
+        syncDao = syncDao,
+        hierarchySyncDao = hierarchySyncDao,
+        woodDepotDao = woodDepotDao,
+        woodObjectDao = woodObjectDao,
+        woodDataGate = com.forestry.counter.data.repository.WoodDataAccessGate(),
+        fieldDao = fieldDao,
     )
 
     @Test
@@ -66,6 +92,21 @@ class DeleteAllUserDataUseCaseTest {
 
         useCase.execute()
 
+        coVerify(exactly = 1) { operationDao.hardDeleteAll() }
+        coVerify(exactly = 1) { syncDao.hardDeleteAll() }
+        coVerify(exactly = 1) { hierarchySyncDao.hardDeleteOperations() }
+        coVerify(exactly = 1) { hierarchySyncDao.hardDeleteAssociations() }
+        coVerify(exactly = 1) { woodObjectDao.deleteCommands() }
+        coVerify(exactly = 1) { woodObjectDao.deleteSelections() }
+        coVerify(exactly = 1) { woodObjectDao.deleteObservations() }
+        coVerify(exactly = 1) { woodObjectDao.deleteObjects() }
+        coVerify(exactly = 1) { woodDepotDao.hardDeleteAll() }
+        coVerify(exactly = 1) { fieldDao.deleteChunks() }
+        coVerify(exactly = 1) { fieldDao.deletePhotos() }
+        coVerify(exactly = 1) { fieldDao.deleteDrafts() }
+        coVerify(exactly = 1) { fieldDao.deleteEntries() }
+        coVerify(exactly = 1) { fieldDao.deleteLinks() }
+        coVerify(exactly = 1) { fieldDao.deleteSites() }
         // Les 11 entités cœur métier (Vague C) : suppression physique via hardDeleteAll.
         coVerify(exactly = 1) { foretDao.hardDeleteAll() }
         coVerify(exactly = 1) { parcelleDao.hardDeleteAll() }
@@ -89,5 +130,41 @@ class DeleteAllUserDataUseCaseTest {
         val result = useCase.execute()
 
         assertEquals(DeleteAllUserDataUseCase.DAO_COUNT, result)
+    }
+
+    @Test
+    fun should_remove_private_closed_reports_with_local_privacy_purge() = runTest {
+        val directory = createTempDir(prefix = "geosylva-report-purge-test-")
+        every { context.filesDir } returns directory
+        every { context.getExternalFilesDir(null) } returns directory
+        val report = File(directory, "martelage_reports/revision/report.pdf").also {
+            it.parentFile.mkdirs(); it.writeText("TESTONLY private report")
+        }
+        try {
+            useCase.execute()
+            assertFalse(report.exists())
+            coVerify(exactly = 1) { hierarchySyncDao.hardDeleteOperations() }
+            coVerify(exactly = 1) { hierarchySyncDao.hardDeleteAssociations() }
+        } finally { directory.deleteRecursively() }
+    }
+
+    @Test
+    fun failed_local_database_purge_keeps_photos_and_does_not_report_success() = runTest {
+        val directory = createTempDir(prefix = "geosylva-purge-test-")
+        val photo = File(directory, "photos/fixture.txt").also {
+            it.parentFile.mkdirs()
+            it.writeText("Test fixture, no user data")
+        }
+        every { context.getExternalFilesDir(null) } returns directory
+        coEvery { parcelleDao.hardDeleteAll() } throws IllegalStateException("fixture-transaction-failure")
+        try {
+            val failure = runCatching { useCase.execute() }.exceptionOrNull()
+            assertEquals("fixture-transaction-failure", failure?.message)
+            assertTrue(photo.exists())
+            coVerify(exactly = 0) { tigeDao.hardDeleteAll() }
+            coVerify(exactly = 0) { placetteDao.hardDeleteAll() }
+        } finally {
+            directory.deleteRecursively()
+        }
     }
 }

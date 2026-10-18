@@ -1,7 +1,10 @@
 package com.forestry.counter.presentation.screens.forestry
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -67,6 +70,7 @@ import com.forestry.counter.R
 import com.forestry.counter.data.preferences.UserPreferencesManager
 import com.forestry.counter.domain.location.OfflineTileManager
 import com.forestry.counter.domain.location.OfflineTilePolicy
+import com.forestry.counter.domain.location.MapSourcePolicy
 import com.forestry.counter.domain.location.TreeNavigator
 import com.forestry.counter.domain.location.WktUtils
 import com.forestry.counter.domain.model.Essence
@@ -97,6 +101,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
+/** Repli local sans changer le choix utilisateur ni effacer les fichiers installés. */
+private fun hasLegacyMapInternet(context: Context): Boolean = runCatching {
+    val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+    manager?.activeNetwork?.let { manager.getNetworkCapabilities(it) }
+        ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+}.getOrDefault(false)
+
 private const val TAG = "MapRechercheScreen"
 
 /**
@@ -125,7 +136,7 @@ fun MapRechercheScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val tigesFlow = remember(parcelleId) {
+    val tigesFlow = remember(tigeRepository, parcelleRepository, parcelleId) {
         when {
             parcelleId == "none" -> flowOf(emptyList<Tige>())
             parcelleId == "all" -> tigeRepository.getAllTiges()
@@ -143,11 +154,13 @@ fun MapRechercheScreen(
         }
     }
     val tiges by tigesFlow.collectAsStateWithLifecycle(initialValue = emptyList())
-    val essences by (essenceRepository?.getAllEssences() ?: flowOf(emptyList<Essence>()))
-        .collectAsStateWithLifecycle(initialValue = emptyList())
+    val essencesFlow = remember(essenceRepository) { essenceRepository?.getAllEssences() ?: flowOf(emptyList<Essence>()) }
+    val essences by essencesFlow.collectAsStateWithLifecycle(initialValue = emptyList())
     val essenceMap = remember(essences) { essences.associateBy { it.code.uppercase() } }
 
-    val mapLastLayerKey by preferencesManager.mapLastLayerKey.collectAsStateWithLifecycle(initialValue = "SATELLITE")
+    val mapLastLayerKey by preferencesManager.mapLastLayerKey.collectAsStateWithLifecycle(
+        initialValue = MapSourcePolicy.DEFAULT_LAYER_KEY,
+    )
     val mapOnlyReliableGps by preferencesManager.mapOnlyReliableGps.collectAsStateWithLifecycle(initialValue = false)
     val mapReliableGpsThresholdM by preferencesManager.mapReliableGpsThresholdM.collectAsStateWithLifecycle(initialValue = 8f)
 
@@ -293,6 +306,7 @@ fun MapRechercheScreen(
         }
         val layer = MAP_LAYERS.getOrElse(request.layerIndex) { MAP_LAYERS[0] }
         val isOfflineSpecial = layer.key == "OFFLINE_LOCAL" && offlineTileManager.hasOfflineTiles()
+        val useLocalBackground = !hasLegacyMapInternet(context)
         scope.launch { preferencesManager.setMapLastLayerKey(layer.key) }
 
         // Chemin rapide : le style actif utilise déjà les ids stables
@@ -300,7 +314,7 @@ fun MapRechercheScreen(
         // raster simple — on remplace juste la source/couche active, sans
         // recharger tout le style (voir swapRasterLayer, MapRenderers.kt).
         // Bien plus fiable qu'un setStyle() complet à chaque changement.
-        if (activeStyleIsIncremental && !layer.isVector && !isOfflineSpecial && layer.tileUrls.isNotEmpty()) {
+        if (activeStyleIsIncremental && !layer.isVector && !isOfflineSpecial && !useLocalBackground && layer.tileUrls.isNotEmpty()) {
             val style = map.style
             if (style != null) {
                 try {
@@ -335,6 +349,7 @@ fun MapRechercheScreen(
         // le chemin rapide.
         val styleJson = when {
             isOfflineSpecial -> offlineTileManager.buildOfflineStyle(offlineTileManager.downloadedLayerCount().coerceAtLeast(1))
+            useLocalBackground -> offlineLocalStyle("Local — réseau indisponible")
             layer.isVector -> layer.styleJson
             else -> activeStyleJsonFor(layer)
         }
@@ -438,6 +453,7 @@ fun MapRechercheScreen(
                                     val initIsOfflineSpecial = selectedLayer.key == "OFFLINE_LOCAL" && offlineTileManager.hasOfflineTiles()
                                     val initStyleJson = when {
                                         initIsOfflineSpecial -> offlineTileManager.buildOfflineStyle(offlineTileManager.downloadedLayerCount().coerceAtLeast(1))
+                                        !hasLegacyMapInternet(context) -> offlineLocalStyle("Local — réseau indisponible")
                                         selectedLayer.isVector -> selectedLayer.styleJson
                                         // Ids stables "active_base"/"active_overlayN" dès le premier
                                         // chargement, pour que le premier changement de calque puisse

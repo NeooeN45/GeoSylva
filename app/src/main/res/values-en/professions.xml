@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profession_choice_intro">Choose the profile that best matches your fieldwork.</string>
+    <string name="profession_onf">ONF technician</string>
+    <string name="profession_cnpf">CNPF technician</string>
+    <string name="profession_ddt">DDT officer</string>
+    <string name="profession_organisation_note">Choosing a profession does not verify organisation membership. Its approval is still required to access its workspace.</string>
+</resources>

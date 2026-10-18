@@ -341,10 +341,21 @@ fun InventaireSessionEntity.toDomain(): InventaireSession = InventaireSession(
     objectifSession = objectifSession,
     remarques = remarques,
     createdAt = createdAt,
+    martelageState = martelageState,
+    activeDurationMs = activeDurationMs,
+    segmentStartedElapsedMs = segmentStartedElapsedMs,
+    segmentBootCount = segmentBootCount,
+    campaignId = campaignId,
+    revisionNumber = revisionNumber,
+    previousSessionId = previousSessionId,
+    closedSnapshotJson = closedSnapshotJson,
+    recoveryRequired = recoveryRequired,
     deletedAt = deletedAt,
     auteur = auteur,
     source = source,
-    version = version
+    version = version,
+    placetteId = placetteId,
+    traceJson = traceJson,
 )
 
 fun InventaireSession.toEntity(): InventaireSessionEntity = InventaireSessionEntity(
@@ -359,10 +370,21 @@ fun InventaireSession.toEntity(): InventaireSessionEntity = InventaireSessionEnt
     objectifSession = objectifSession,
     remarques = remarques,
     createdAt = createdAt,
+    martelageState = martelageState,
+    activeDurationMs = activeDurationMs,
+    segmentStartedElapsedMs = segmentStartedElapsedMs,
+    segmentBootCount = segmentBootCount,
+    campaignId = campaignId,
+    revisionNumber = revisionNumber,
+    previousSessionId = previousSessionId,
+    closedSnapshotJson = closedSnapshotJson,
+    recoveryRequired = recoveryRequired,
     deletedAt = deletedAt,
     auteur = auteur,
     source = source,
-    version = version
+    version = version,
+    placetteId = placetteId,
+    traceJson = traceJson,
 )
 
 // ── Foret ───────────────────────────────────────────────────────────────────
@@ -384,7 +406,10 @@ fun ForetEntity.toDomain(): Foret = Foret(
     deletedAt = deletedAt,
     auteur = auteur,
     source = source,
-    version = version
+    version = version,
+    shape = shape,
+    sourceForestId = sourceForestId,
+    sourceForestDataset = sourceForestDataset,
 )
 
 fun Foret.toEntity(): ForetEntity = ForetEntity(
@@ -404,7 +429,10 @@ fun Foret.toEntity(): ForetEntity = ForetEntity(
     deletedAt = deletedAt,
     auteur = auteur,
     source = source,
-    version = version
+    version = version,
+    shape = shape,
+    sourceForestId = sourceForestId,
+    sourceForestDataset = sourceForestDataset,
 )
 
 // ── FloraFts ────────────────────────────────────────────────────────────────

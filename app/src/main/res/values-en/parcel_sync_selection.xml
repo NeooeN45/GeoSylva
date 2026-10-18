@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="parcel_selection_title">Synchronization</string>
+    <string name="parcel_selection_account_hint">Choose which parcel records to add to synchronization with your personal space.</string>
+    <string name="parcel_selection_open">Choose parcels to synchronize</string>
+    <string name="parcel_selection_choose_title">Your parcels, your choice</string>
+    <string name="parcel_selection_choose_hint">Select the records you want to access with this account. Nothing is added before you confirm.</string>
+    <string name="parcel_selection_scope">This process includes parcel records only. Trees, marking surveys and PDFs are not included.</string>
+    <string name="parcel_selection_destination_label">Destination</string>
+    <string name="parcel_selection_destination">Personal space of the signed-in account</string>
+    <string name="parcel_selection_loading">Loading available parcels…</string>
+    <string name="parcel_selection_empty_title">No local parcels</string>
+    <string name="parcel_selection_empty_hint">Create a parcel in GeoSylva, then return here to choose whether to synchronize it.</string>
+    <string name="parcel_selection_unnamed">Unnamed parcel</string>
+    <string name="parcel_selection_surface">%1$s ha</string>
+    <string name="parcel_selection_already_linked">Already associated with synchronization for this account</string>
+    <string name="parcel_selection_other_account">Associated with another account · unavailable to add here</string>
+    <string name="parcel_selection_other_account_title">Parcel linked to another account</string>
+    <string name="parcel_selection_review">Review my selection</string>
+    <string name="parcel_selection_review_title">Confirm addition</string>
+    <string name="parcel_selection_review_hint">Only the parcels listed below will be added to synchronization. Existing associations are kept.</string>
+    <string name="parcel_selection_edit">Edit my selection</string>
+    <string name="parcel_selection_cancel">Cancel and close</string>
+    <string name="parcel_selection_submitting">Adding parcels…</string>
+    <string name="parcel_selection_success_title">Addition recorded</string>
+    <string name="parcel_selection_queued_explanation">The records are queued for synchronization. This confirmation does not mean their transfer to GSIE is complete.</string>
+    <string name="parcel_selection_done">Done</string>
+    <string name="parcel_selection_error_title">Verification needed</string>
+    <string name="parcel_selection_error_session">Sign in with a valid session to choose the destination and parcels to synchronize.</string>
+    <string name="parcel_selection_error_changed">The session changed. Your selection was cleared to avoid using a different account. Reload the list before continuing.</string>
+    <string name="parcel_selection_error_load">The parcel list could not be loaded. Reload it to try again.</string>
+    <string name="parcel_selection_error_enqueue">The addition could not be confirmed. Reload the list to check existing associations before trying again.</string>
+    <string name="parcel_selection_login">Sign in</string>
+    <string name="parcel_selection_reload">Reload list</string>
+    <string name="parcel_selection_pull_other_account">%1$d record(s) were not applied: their parcels are associated with another account. Local data was kept.</string>
+    <plurals name="parcel_selection_selected">
+        <item quantity="one">%d parcel selected</item>
+        <item quantity="other">%d parcels selected</item>
+    </plurals>
+    <plurals name="parcel_selection_confirm">
+        <item quantity="one">Add %d parcel to synchronization</item>
+        <item quantity="other">Add %d parcels to synchronization</item>
+    </plurals>
+    <plurals name="parcel_selection_added">
+        <item quantity="one">%d new parcel associated with this account.</item>
+        <item quantity="other">%d new parcels associated with this account.</item>
+    </plurals>
+</resources>

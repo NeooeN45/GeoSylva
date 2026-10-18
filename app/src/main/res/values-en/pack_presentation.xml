@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pack_presentation_title">Discover the territory</string>
+    <string name="pack_presentation_open">Discover this territory</string>
+    <string name="pack_presentation_close">Close the territory presentation</string>
+    <string name="pack_presentation_outline_description">Territory silhouette: %1$s</string>
+    <string name="pack_presentation_outline_source">Original silhouette · IGN boundaries 2026 · Open Licence 2.0</string>
+    <string name="pack_presentation_region">Region</string>
+    <string name="pack_presentation_department">Department</string>
+    <string name="pack_presentation_separate_content">This presentation is bundled with the app. Its images and text are separate from packs downloaded from GSIE.</string>
+    <string name="pack_presentation_not_qualified">The tourism and forest presentation for this territory has not yet been qualified.</string>
+    <string name="pack_presentation_unavailable">The local presentation cannot currently be verified.</string>
+    <string name="pack_presentation_outline_unavailable">The boundaries of this territory cannot currently be loaded.</string>
+    <string name="pack_presentation_photo_unavailable">This local image cannot be verified or displayed.</string>
+    <string name="pack_presentation_highlights">Territory highlights</string>
+    <string name="pack_presentation_sources">Presentation sources</string>
+    <string name="pack_presentation_license">Licence: %1$s</string>
+    <string name="pack_presentation_image_source">Image source</string>
+    <string name="pack_presentation_image_author">Author: %1$s</string>
+    <string name="pack_presentation_link_unavailable">This link cannot currently be opened.</string>
+    <string name="pack_presentation_aerial_view">Aerial view of part of the territory</string>
+    <string name="pack_presentation_capture_unknown">The capture date is not qualified and may vary by area.</string>
+    <string name="pack_presentation_capture_date">Capture date: %1$s</string>
+    <string name="pack_presentation_media_rights">Aerial imagery reuse rights</string>
+</resources>

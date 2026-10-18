@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profession_conducteur_travaux">Forestry works supervisor</string>
+    <string name="profession_commerce_bois">Timber trade and valuation</string>
+    <string name="explorer_wood_depots_exploitant">Timber depots</string>
+    <string name="explorer_wood_depots_conducteur">Worksite depots</string>
+    <string name="explorer_wood_depots_commerce">Timber depot locations</string>
+    <string name="explorer_wood_depots_description">Locate and manage your depots. Your records remain available offline.</string>
+</resources>

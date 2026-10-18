@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sampling_grid_title">Grille automatique</string>
+    <string name="sampling_grid_description">Répartir des centres de placettes selon une maille hexagonale réglable.</string>
+    <string name="sampling_grid_density_title">Répartition des centres</string>
+    <string name="sampling_grid_cell_area">Surface par centre de placette</string>
+    <string name="sampling_grid_cell_hint">1 ha par centre = environ un centre par hectare. Cette maille ne définit pas la surface réellement échantillonnée.</string>
+    <string name="sampling_grid_rotation">Orientation de la grille</string>
+    <string name="sampling_grid_rotation_hint">De 0 à moins de 360°. La grille est ancrée au centre de l’emprise cartographique.</string>
+    <string name="sampling_hexagon_rotation">Orientation de l’hexagone</string>
+    <string name="sampling_hexagon_rotation_hint">Angle de 0 à moins de 360° dans le plan local de la carte.</string>
+    <string name="sampling_footprint_title">Surface échantillonnée à chaque centre</string>
+    <string name="sampling_shape_circle">Cercle</string>
+    <string name="sampling_shape_hexagon">Hexagone</string>
+    <string name="sampling_measure_radius">Rayon</string>
+    <string name="sampling_measure_area">Surface</string>
+    <string name="sampling_footprint_area">Surface de la placette</string>
+    <string name="sampling_footprint_hint">Renseignez un rayon positif ou une surface de 1 à 1 000 000 m².</string>
+    <string name="sampling_circle_dimensions">Surface cible %1$s m² · rayon %2$s m</string>
+    <string name="sampling_hexagon_dimensions">Surface cible %1$s m² · côté %2$s m</string>
+    <string name="sampling_boundary_exclude">Exclure les placettes en bordure</string>
+    <string name="sampling_boundary_exclude_hint">Conserver uniquement les empreintes entièrement intérieures. Cette exclusion modifie la répartition et doit être adaptée au protocole.</string>
+    <string name="sampling_grid_generate">Prévisualiser la grille</string>
+    <string name="sampling_grid_regenerate">Régénérer la grille</string>
+    <string name="sampling_grid_preview_hint">Vérifiez la répartition avant de créer les placettes. Vous pouvez retirer un centre. Aucun relevé n’est enregistré avant confirmation.</string>
+    <string name="sampling_grid_distance">Distance approximative entre centres voisins : %1$s m</string>
+    <string name="sampling_grid_excluded">%1$d placette(s) en bordure exclue(s) de ce plan.</string>
+    <string name="sampling_boundary_warning">%1$d empreinte(s) touchent une limite de parcelle ou une zone exclue. La surface affichée est la surface cible ; aucune surface effective ni extrapolation n’est déduite.</string>
+    <string name="sampling_planned_location_notice">Centres planifiés sur la carte, distincts des positions GPS mesurées. Surfaces horizontales et distances approximatives ; adaptez le protocole au terrain et aux objectifs de l’inventaire.</string>
+    <string name="sampling_grid_unsupported">Cette emprise ou ces paramètres ne permettent pas de générer une grille locale. Utilisez des points manuels ou une parcelle de moins de 50 km d’étendue.</string>
+    <string name="sampling_grid_empty">Aucun centre retenu. Diminuez la surface par centre, changez l’orientation ou adaptez l’exclusion des bordures.</string>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="parcel_recovery_required">An earlier attempt needs your approval before resuming.</string>
+    <string name="parcel_recovery_unavailable">Server preview unavailable. Sign in and reload before recovery.</string>
+    <string name="parcel_recovery_preview">Local version: %1$s. Server reference: %2$s, version %3$s.</string>
+    <string name="parcel_recovery_remote_absent">no saved parcel</string>
+    <string name="parcel_recovery_deletion">The local version marks this parcel as deleted.</string>
+    <string name="parcel_recovery_consent">Confirming resubmits this local version with a new operation identifier against the displayed server version. No automatic merge.</string>
+</resources>

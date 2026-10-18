@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="forest_detail_add_parcel">Ajouter une parcelle</string>
+    <string name="forest_detail_empty_parcels_hint">Utilisez le bouton « Ajouter une parcelle » pour créer une parcelle dans cette forêt.</string>
+</resources>

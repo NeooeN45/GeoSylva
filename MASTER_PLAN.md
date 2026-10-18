@@ -14,6 +14,16 @@
 
 ---
 
+## Complément du 18 octobre 2026
+
+Les décisions actuelles du fondateur et l'état vérifié de
+`.obsidian-vault/50_CONTEXT/PROJECT_STATE.md` priment sur le plan historique.
+La démonstration visée est le 21 octobre : deux parcours métier distincts,
+saisie réelle et sauvegarde locale des bois avant les échanges FORLOG.
+Voir `docs/FORMULAIRES_BOIS_C02_C03_2026-10-18.md` pour la tranche en cours et
+`docs/CHANTIERS_PARCELLES_SUIVI_DATE_BOIS_2026-10-18.md` pour les liens chantier,
+parcelles multiples et contrôles/enlèvements successifs. Missions reste Entreprise.
+
 ## 0. LIRE CE FICHIER EN PREMIER
 
 Ce fichier est la **source de vérité unique** pour :

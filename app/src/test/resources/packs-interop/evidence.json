@@ -1,0 +1,25 @@
+{
+  "purpose": "Fixture exclusivement de test JVM d’interopérabilité GSIE–GeoSylva ; aucune publication ni clé de production.",
+  "generated_at_utc": "2026-10-02T07:30:53.345660+00:00",
+  "data_source_id": "ign-admin-express-cog-carto-pe-2026",
+  "territory_id": "department:16",
+  "pack_id": "fr-department-16",
+  "version": "2026-bfd0c4f96813cbdcd7b996b79e87463e",
+  "key_id_test_only": "63a166ee59f7632643c694d2940202d609d57f42b782a7df367d5aba97d103a9",
+  "files": {
+    "artifact.pack": {
+      "bytes": 29352,
+      "sha256": "6b8b2b099032ed157b4078808aff16a1ba9029ff05a6ee76144bcb1c24656ddb"
+    },
+    "manifest.json": {
+      "bytes": 1021,
+      "sha256": "8be3db21b6a30231d426162709edb4d2701f08e8ce6010241963f51bcac95dd3"
+    },
+    "signing-public-key.der": {
+      "bytes": 44,
+      "sha256": "63a166ee59f7632643c694d2940202d609d57f42b782a7df367d5aba97d103a9"
+    }
+  },
+  "private_key_shipped": false,
+  "production_trust_configuration_modified": false
+}

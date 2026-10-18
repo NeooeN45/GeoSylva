@@ -38,6 +38,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Backup
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Forest
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Mic
@@ -103,6 +104,13 @@ private data class SettingsCategory(
 
 private val CATEGORIES = listOf(
     SettingsCategory(
+        id = "metier",
+        titleRes = R.string.settings_category_profession,
+        subtitleRes = R.string.settings_category_profession_sub,
+        icon = Icons.Filled.Person,
+        targetSection = "metier",
+    ),
+    SettingsCategory(
         id = "compte",
         titleRes = R.string.settings_category_account,
         subtitleRes = R.string.settings_category_account_sub,
@@ -138,6 +146,13 @@ private val CATEGORIES = listOf(
         targetSection = "donnees",
     ),
     SettingsCategory(
+        id = "packs",
+        titleRes = R.string.packs_title,
+        subtitleRes = R.string.settings_category_packs_sub,
+        icon = Icons.Filled.Download,
+        targetSection = "packs",
+    ),
+    SettingsCategory(
         id = "a_propos",
         titleRes = R.string.settings_category_about,
         subtitleRes = R.string.settings_category_about_sub,
@@ -150,6 +165,7 @@ private val CATEGORIES = listOf(
 private data class SearchEntry(val labelRes: Int, val keywords: String, val sectionId: String)
 
 private val SEARCH_INDEX = listOf(
+    SearchEntry(R.string.settings_category_profession, "metier profession profil onf cnpf ddt etudiant chercheur", "metier"),
     SearchEntry(R.string.settings_account_title, "compte connexion identite quintessences google", "compte"),
     SearchEntry(R.string.theme, "theme sombre clair jour nuit apparence", "apparence"),
     SearchEntry(R.string.language, "langue francais anglais traduction", "apparence"),
@@ -158,6 +174,7 @@ private val SEARCH_INDEX = listOf(
     SearchEntry(R.string.settings_section_tarifs, "tarif cubage schaeffer algan ifn volume", "foret"),
     SearchEntry(R.string.settings_section_products_prices, "prix produit bareme vente", "foret"),
     SearchEntry(R.string.settings_section_offline_map, "carte hors ligne tuile telechargement gps", "foret"),
+    SearchEntry(R.string.packs_title, "packs donnees regions departements hors ligne telechargement versions", "packs"),
     SearchEntry(R.string.settings_section_forestry_exports, "export csv geojson gpx excel", "foret"),
     SearchEntry(R.string.settings_section_interaction, "vibration haptique son animation", "interaction"),
     SearchEntry(R.string.settings_section_data, "donnees import stockage", "donnees"),

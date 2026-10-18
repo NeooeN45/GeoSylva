@@ -50,7 +50,14 @@ import com.forestry.counter.presentation.coachmark.rememberCoachMarkAnchorRegist
 import com.forestry.counter.presentation.coachmark.rememberCoachMarkController
 import com.forestry.counter.presentation.coachmark.shouldStartCoachMarkTour
 import com.forestry.counter.presentation.screens.settings.SettingsHomeScreen
-import com.forestry.counter.presentation.screens.common.ComingSoonScreen
+import com.forestry.counter.R
+import com.forestry.counter.domain.journey.ProfessionJourney
+import com.forestry.counter.presentation.screens.home.OperationsHomeScreen
+import com.forestry.counter.presentation.screens.home.JourneyChoiceScreen
+import com.forestry.counter.presentation.screens.home.JourneyUnavailableScreen
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.forestry.counter.presentation.screens.explorer.ExplorerCategory
 import com.forestry.counter.presentation.screens.explorer.ExplorerScreen
 import com.forestry.counter.presentation.screens.home.HomeScreen
@@ -82,6 +89,9 @@ fun MainScaffold(
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
     val currentDestination = BottomNavDestination.fromRoute(currentRoute)
+    val professionCode by app.userPreferences.userProfession.collectAsStateWithLifecycle(initialValue = null)
+    val access = remember(professionCode) { JourneyNavigation.access(professionCode) }
+    val destinations = JourneyNavigation.tabs(access)
     val isTopLevel = currentDestination != null
     // Écrans d'avant-entrée dans l'app (connexion, sélection du métier,
     // onboarding) : ni barre complète, ni mini-menu. Le mini-menu
@@ -92,6 +102,7 @@ fun MainScaffold(
         Screen.Welcome.route,
         Screen.ProfessionSelection.route,
         Screen.Onboarding.route,
+        Screen.PackOnboarding.route,
         Screen.Login.route,
         Screen.PasswordRecovery.route,
     )
@@ -100,13 +111,18 @@ fun MainScaffold(
     // fois, dès qu'on atteint un écran de premier niveau après que
     // `coachMarkTourPending` a été armé (juste après les autorisations
     // GPS/caméra/galerie qui suivent l'onboarding, voir OnboardingNavGraph).
-    val coachMarkController = rememberCoachMarkController()
+    val coachMarkSteps = remember(destinations) {
+        com.forestry.counter.presentation.coachmark.COACH_MARK_STEPS.filter { step ->
+            destinations.any { step.anchorKey == "nav_${it.route}" }
+        }
+    }
+    val coachMarkController = rememberCoachMarkController(coachMarkSteps)
     val coachMarkAnchors = rememberCoachMarkAnchorRegistry()
     val coachMarkPending by app.userPreferences.coachMarkTourPending.collectAsStateWithLifecycle(initialValue = false)
     val coachMarkCompleted by app.userPreferences.coachMarkTourCompleted.collectAsStateWithLifecycle(initialValue = false)
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(coachMarkPending, coachMarkCompleted, isTopLevel) {
+    LaunchedEffect(coachMarkPending, coachMarkCompleted, isTopLevel, coachMarkController) {
         if (coachMarkCompleted && coachMarkPending) {
             // Répare un éventuel état hérité incohérent sans relancer une
             // visite déjà terminée.
@@ -126,6 +142,7 @@ fun MainScaffold(
     }
 
     fun navigateToTab(route: String) {
+        if (destinations.none { it.route == route }) return
         navController.navigate(route) {
             // `saveState`/`restoreState` mémorisaient l'état de toute la
             // portion de pile entre le départ et l'onglet quitté — y compris
@@ -148,7 +165,7 @@ fun MainScaffold(
                     exit = slideOutVertically(animationSpec = tween(180)) { it } + fadeOut(tween(180)),
                 ) {
                     NavigationBar {
-                        BottomNavDestination.entries.forEach { destination ->
+                        destinations.forEach { destination ->
                             NavigationBarItem(
                                 selected = currentRoute == destination.route,
                                 onClick = { navigateToTab(destination.route) },
@@ -160,12 +177,12 @@ fun MainScaffold(
                                     Icon(
                                         imageVector = if (currentRoute == destination.route)
                                             destination.selectedIcon else destination.unselectedIcon,
-                                        contentDescription = destination.label,
+                                        contentDescription = stringResource(destination.labelRes),
                                     )
                                 },
                                 label = {
                                     Text(
-                                        destination.label,
+                                        stringResource(destination.labelRes),
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis,
                                     )
@@ -179,8 +196,12 @@ fun MainScaffold(
             content(Modifier.padding(innerPadding))
         }
 
-        if (!isTopLevel && !isPreEntry) {
+        if (!isTopLevel && !isPreEntry && currentRoute != Screen.PackManager.route &&
+            currentRoute != Screen.ParcelSyncSelection.route &&
+            currentRoute != Screen.CreateParcelle.route && currentRoute != Screen.CreateForest.route &&
+            currentRoute != Screen.CreatePlacette.route) {
             CollapsedMiniNav(
+                destinations = destinations,
                 currentRoute = currentRoute,
                 onNavigateToTab = ::navigateToTab,
                 modifier = Modifier.align(Alignment.BottomCenter),
@@ -191,7 +212,7 @@ fun MainScaffold(
             anchors = coachMarkAnchors,
             step = coachMarkController.currentStep,
             stepIndex = coachMarkController.stepIndex ?: 0,
-            totalSteps = com.forestry.counter.presentation.coachmark.COACH_MARK_STEPS.size,
+            totalSteps = coachMarkController.totalSteps,
             onNext = {
                 coachMarkController.next()
                 if (!coachMarkController.isActive) {
@@ -218,7 +239,8 @@ fun MainScaffold(
  * déraper d'un côté.
  */
 @Composable
-private fun CollapsedMiniNav(
+internal fun CollapsedMiniNav(
+    destinations: List<BottomNavDestination>,
     currentRoute: String?,
     onNavigateToTab: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -245,12 +267,12 @@ private fun CollapsedMiniNav(
                 exit = fadeOut(tween(140)) + shrinkHorizontally(tween(140)),
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    BottomNavDestination.entries.forEach { destination ->
+                    destinations.forEach { destination ->
                         IconButton(onClick = { onNavigateToTab(destination.route) }, modifier = Modifier.size(48.dp)) {
                             Icon(
                                 imageVector = if (currentRoute == destination.route)
                                     destination.selectedIcon else destination.unselectedIcon,
-                                contentDescription = destination.label,
+                                contentDescription = stringResource(destination.labelRes),
                                 modifier = Modifier.size(26.dp),
                             )
                         }
@@ -260,7 +282,7 @@ private fun CollapsedMiniNav(
             IconButton(onClick = { expanded = !expanded }, modifier = Modifier.size(48.dp)) {
                 Icon(
                     imageVector = if (expanded) Icons.Filled.Close else Icons.Filled.Apps,
-                    contentDescription = if (expanded) "Fermer la navigation" else "Ouvrir la navigation",
+                    contentDescription = stringResource(if (expanded) R.string.journey_nav_close else R.string.journey_nav_open),
                     modifier = Modifier.size(26.dp),
                 )
             }
@@ -274,7 +296,7 @@ private fun CollapsedMiniNav(
  * Accueil affiche [HomeScreen] (tableau de bord).
  * Explorer liste les catégories de données.
  * Carte affiche la carte globale (scope "all", toutes forêts confondues).
- * Missions affiche encore [ComingSoonScreen] (aucune donnée métier dédiée).
+ * Missions reste inaccessible tant que son module et les preuves Entreprise ne sont pas raccordés.
  */
 @Composable
 fun TopLevelTabContent(
@@ -283,38 +305,64 @@ fun TopLevelTabContent(
     carteMode: com.forestry.counter.presentation.screens.forestry.CarteMode?,
     onCarteModeChange: (com.forestry.counter.presentation.screens.forestry.CarteMode?) -> Unit,
     onNavigateToExplorer: () -> Unit,
+    onNavigateToMap: () -> Unit,
     onNavigateToForet: (String) -> Unit,
     onNavigateToForets: () -> Unit,
     onNavigateToProjects: () -> Unit,
+    onNavigateToWoodDepots: () -> Unit,
     onNavigateToLogin: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToSettingsCategory: (String) -> Unit,
     onCreateForest: () -> Unit,
     onCategoryClick: (ExplorerCategory) -> Unit,
     modifier: Modifier = Modifier,
+    onNavigateToWorksites: (() -> Unit)? = null,
 ) {
+    val professionCode by app.userPreferences.userProfession.collectAsStateWithLifecycle(initialValue = null)
+    val access = remember(professionCode) { JourneyNavigation.access(professionCode) }
+    val destination = BottomNavDestination.fromRoute(route)
+    if (destination != null && !JourneyNavigation.allowsTab(access, destination)) {
+        // Also covers an old restored Missions route, not just the visible button.
+        JourneyUnavailableScreen(onNavigateToExplorer, modifier)
+        return
+    }
     when (route) {
-        BottomNavDestination.ACCUEIL.route -> {
-            val viewModel = HomeViewModel(app.foretRepository, app.parcelleRepository)
-            HomeScreen(
-                viewModel = viewModel,
-                onNavigateToExplorer = onNavigateToExplorer,
-                onNavigateToForet = onNavigateToForet,
-                onCreateForest = onCreateForest,
+        BottomNavDestination.ACCUEIL.route -> when (access.profile.journey) {
+            ProfessionJourney.OPERATIONS -> OperationsHomeScreen(
+                profile = access.profile,
+                onDepots = onNavigateToWoodDepots,
+                onWorksites = onNavigateToWorksites,
+                onMap = onNavigateToMap,
+                onPacks = { onNavigateToSettingsCategory("packs") },
+                onChangeProfession = { onNavigateToSettingsCategory("metier") },
                 modifier = modifier,
             )
+            ProfessionJourney.MANAGEMENT -> {
+                val factory = remember(app) {
+                    object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            require(modelClass.isAssignableFrom(HomeViewModel::class.java))
+                            return HomeViewModel(app.foretRepository, app.parcelleRepository) as T
+                        }
+                    }
+                }
+                val home: HomeViewModel = viewModel(factory = factory)
+                HomeScreen(home, onNavigateToExplorer, onNavigateToForet, onCreateForest, modifier)
+            }
+            null -> JourneyChoiceScreen({ onNavigateToSettingsCategory("metier") }, modifier)
         }
-        BottomNavDestination.EXPLORER.route -> {
-            ExplorerScreen(
-                onNavigateToForets = onNavigateToForets,
-                onNavigateToProjects = onNavigateToProjects,
-                onCategoryClick = onCategoryClick,
-                modifier = modifier,
-            )
-        }
-        BottomNavDestination.MISSIONS.route -> {
-            ComingSoonScreen("Missions", modifier)
-        }
+        BottomNavDestination.EXPLORER.route -> ExplorerScreen(
+            onNavigateToForets = onNavigateToForets,
+            onNavigateToProjects = onNavigateToProjects,
+            onNavigateToWoodDepots = onNavigateToWoodDepots,
+            onNavigateToWorksites = onNavigateToWorksites,
+            onCategoryClick = onCategoryClick,
+            professionCode = professionCode,
+            onChooseProfession = { onNavigateToSettingsCategory("metier") },
+            modifier = modifier,
+        )
+        BottomNavDestination.MISSIONS.route -> JourneyUnavailableScreen(onNavigateToExplorer, modifier)
         BottomNavDestination.CARTE.route -> {
             // Taper l'onglet Carte n'affiche jamais directement une carte :
             // on choisit d'abord un mode (Maps/Recherche/Libre), chacun une

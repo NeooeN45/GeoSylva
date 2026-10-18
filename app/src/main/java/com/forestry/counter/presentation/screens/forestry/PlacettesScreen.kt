@@ -22,7 +22,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Assessment
 import androidx.compose.material.icons.filled.Straighten
@@ -47,6 +46,7 @@ import com.forestry.counter.domain.model.Placette
 import com.forestry.counter.domain.repository.PlacetteRepository
 import com.forestry.counter.domain.repository.ParcelleRepository
 import com.forestry.counter.domain.repository.TigeRepository
+import com.forestry.counter.domain.repository.InventaireSessionRepository
 import com.forestry.counter.data.preferences.UserPreferencesManager
 import com.forestry.counter.presentation.components.AppMiniDialog
 import com.forestry.counter.presentation.components.LoadingState
@@ -55,9 +55,7 @@ import com.forestry.counter.presentation.utils.rememberHapticFeedback
 import com.forestry.counter.presentation.utils.rememberSoundFeedback
 import com.forestry.counter.presentation.utils.StaggerEntrance
 import kotlinx.coroutines.launch
-import java.util.UUID
 import kotlin.math.PI
-import kotlin.math.sqrt
 import com.forestry.counter.R
 import android.os.Build
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -72,16 +70,21 @@ fun PlacettesScreen(
     onNavigateBack: () -> Unit,
     onNavigateToMartelageForParcelle: ((String) -> Unit)? = null,
     onNavigateToMap: ((String) -> Unit)? = null,
-    onNavigateToDashboard: ((String) -> Unit)? = null,
     onNavigateToDiagnostic: ((String) -> Unit)? = null,
     onNavigateToCreatePlacette: ((String) -> Unit)? = null,
+    sessionRepository: InventaireSessionRepository? = null,
+    onOpenSessionSynthesis: ((String, String) -> Unit)? = null,
+    onOpenFieldJournal: (() -> Unit)? = null,
 ) {
     val scope = rememberCoroutineScope()
     val snackbar = remember { SnackbarHostState() }
     val context = LocalContext.current
-    val placettesState by placetteRepository.getPlacettesByParcelle(parcelleId).collectAsStateWithLifecycle(initialValue = null)
+    // Keep subscriptions across elapsed-time recompositions; these flows still observe access changes.
+    val placettesFlow = remember(placetteRepository, parcelleId) { placetteRepository.getPlacettesByParcelle(parcelleId) }
+    val placettesState by placettesFlow.collectAsStateWithLifecycle(initialValue = null)
     val placettes = placettesState ?: emptyList<Placette>()
-    val parcelle by parcelleRepository.getParcelleById(parcelleId).collectAsStateWithLifecycle(initialValue = null)
+    val parcelleFlow = remember(parcelleRepository, parcelleId) { parcelleRepository.getParcelleById(parcelleId) }
+    val parcelle by parcelleFlow.collectAsStateWithLifecycle(initialValue = null)
 
     val hapticEnabled by userPreferences.hapticEnabled.collectAsStateWithLifecycle(initialValue = true)
     val soundEnabled by userPreferences.soundEnabled.collectAsStateWithLifecycle(initialValue = true)
@@ -116,25 +119,7 @@ fun PlacettesScreen(
 
     fun addPlacette() {
         playClickFeedback()
-        scope.launch {
-            val id = UUID.randomUUID().toString()
-            val defaultArea = parcelle?.sampleAreaM2 ?: (PI * 25.23 * 25.23)
-            val rayon = sqrt(defaultArea / PI)
-            val surface = defaultArea
-            val defaultName = context.getString(R.string.placette_default_name_format, placettes.size + 1)
-            placetteRepository.insertPlacette(
-                Placette(
-                    id = id,
-                    parcelleId = parcelleId,
-                    name = defaultName,
-                    type = "CIRC",
-                    rayonM = rayon,
-                    surfaceM2 = surface,
-                    centerWkt = null
-                )
-            )
-            snackbar.showSnackbar(context.getString(R.string.placette_added))
-        }
+        onNavigateToCreatePlacette?.invoke(parcelleId)
     }
 
     if (placettesState == null) {
@@ -202,21 +187,8 @@ fun PlacettesScreen(
                         }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back)) }
                     },
                     actions = {
-                        if (onNavigateToDashboard != null) {
-                            IconButton(onClick = {
-                                playClickFeedback()
-                                onNavigateToDashboard(parcelleId)
-                            }) {
-                                Icon(Icons.Default.BarChart, contentDescription = stringResource(R.string.dashboard_button))
-                            }
-                        }
-                        if (onNavigateToDiagnostic != null) {
-                            IconButton(onClick = {
-                                playClickFeedback()
-                                onNavigateToDiagnostic(parcelleId)
-                            }) {
-                                Icon(Icons.Default.Assessment, contentDescription = stringResource(R.string.cd_diagnostic))
-                            }
+                        onOpenFieldJournal?.let { open ->
+                            com.forestry.counter.presentation.screens.field.FieldJournalButton(open)
                         }
                         if (onNavigateToMap != null) {
                             IconButton(onClick = {
@@ -231,7 +203,7 @@ fun PlacettesScreen(
                                 playClickFeedback()
                                 onNavigateToMartelageForParcelle(parcelleId)
                             }) {
-                                Icon(Icons.Default.Straighten, contentDescription = stringResource(R.string.martelage))
+                                Icon(Icons.Default.Straighten, contentDescription = stringResource(R.string.martelage_synthesis_title))
                             }
                         }
                     }
@@ -239,13 +211,7 @@ fun PlacettesScreen(
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = {
-                        if (onNavigateToCreatePlacette != null) {
-                            onNavigateToCreatePlacette(parcelleId)
-                        } else {
-                            addPlacette()
-                        }
-                    },
+                    onClick = { addPlacette() },
                     modifier = Modifier.offset(x = 8.dp),
                 ) {
                     Icon(Icons.Default.Add, contentDescription = stringResource(R.string.create_placette))
@@ -253,11 +219,12 @@ fun PlacettesScreen(
             },
             containerColor = Color.Transparent
         ) { padding ->
-            Box(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
             ) {
+                Box(Modifier.fillMaxWidth().weight(1f)) {
                 Crossfade(
                     targetState = placettes.isEmpty(),
                     animationSpec = if (animationsEnabled) {
@@ -341,8 +308,8 @@ fun PlacettesScreen(
                                         playClickFeedback()
                                         editPlacette = pl
                                         editName = pl.name ?: ""
-                                        editSurfaceM2 = pl.surfaceM2?.let { String.format(java.util.Locale.US, "%.0f", it) } ?: ""
-                                        editRayonM = pl.rayonM?.let { String.format(java.util.Locale.US, "%.2f", it) } ?: ""
+                                        editSurfaceM2 = pl.surfaceM2?.toString() ?: ""
+                                        editRayonM = pl.rayonM?.toString() ?: ""
                                         editType = pl.type ?: "CIRC"
                                     },
                                     onDelete = {
@@ -355,6 +322,7 @@ fun PlacettesScreen(
                             }
                         }
                     }
+                }
                 }
             }
         }
@@ -372,13 +340,23 @@ fun PlacettesScreen(
                 val p = editPlacette ?: return@AppMiniDialog
                 val newSurface = editSurfaceM2.replace(',', '.').toDoubleOrNull()
                 val newRayon = editRayonM.replace(',', '.').toDoubleOrNull()
+                val hasMappedGeometry = p.type == "ENTIRE_PARCEL" || p.type == "HEX" ||
+                    p.samplingPlanJson != null || p.footprintGeoJson != null
+                val retainedRadius = newRayon?.takeIf { it.isFinite() && it > 0.0 && (PI * it * it).isFinite() } ?: p.rayonM
+                val retainedType = if (hasMappedGeometry) p.type else editType.ifBlank { p.type }
+                val retainedArea = when {
+                    hasMappedGeometry -> p.surfaceM2
+                    retainedType == "CIRC" && retainedRadius != p.rayonM -> retainedRadius?.let { PI * it * it }
+                    retainedType == "CIRC" -> p.surfaceM2
+                    else -> newSurface?.takeIf { it.isFinite() && it > 0.0 } ?: p.surfaceM2
+                }
                 scope.launch {
                     placetteRepository.updatePlacette(
                         p.copy(
                             name = editName.trim().ifBlank { null },
-                            surfaceM2 = newSurface ?: p.surfaceM2,
-                            rayonM = newRayon ?: p.rayonM,
-                            type = editType.ifBlank { p.type },
+                            surfaceM2 = retainedArea,
+                            rayonM = if (hasMappedGeometry) p.rayonM else retainedRadius,
+                            type = retainedType,
                             updatedAt = System.currentTimeMillis()
                         )
                     )
@@ -398,11 +376,17 @@ fun PlacettesScreen(
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
                 )
+                if (editPlacette?.let { it.type == "ENTIRE_PARCEL" || it.type == "HEX" ||
+                        it.samplingPlanJson != null || it.footprintGeoJson != null } == true) {
+                    Text(stringResource(if (editPlacette?.type == "ENTIRE_PARCEL")
+                        R.string.plot_whole_edit_hint else R.string.plot_geometric_edit_hint), style = MaterialTheme.typography.bodyMedium)
+                } else {
                 OutlinedTextField(
                     value = editSurfaceM2,
                     onValueChange = { txt -> editSurfaceM2 = txt.filter { ch -> ch.isDigit() || ch == '.' || ch == ',' } },
                     label = { Text(stringResource(R.string.placette_surface_m2)) },
                     modifier = Modifier.fillMaxWidth(),
+                    enabled = editType != "CIRC",
                     singleLine = true,
                     suffix = { Text(stringResource(R.string.unit_m2)) }
                 )
@@ -422,6 +406,7 @@ fun PlacettesScreen(
                             label = { Text(label, style = MaterialTheme.typography.labelSmall) }
                         )
                     }
+                }
                 }
             }
         }
@@ -491,6 +476,9 @@ private fun PlacetteCard(
     ) {
         ListItem(
             headlineContent = { Text(localizeDefaultName(placette.name) ?: placette.id.take(8)) },
+            supportingContent = if (placette.type == "ENTIRE_PARCEL") {
+                { Text(stringResource(R.string.plot_whole_card)) }
+            } else null,
             trailingContent = {
                 Row {
                     IconButton(onClick = onEdit) {

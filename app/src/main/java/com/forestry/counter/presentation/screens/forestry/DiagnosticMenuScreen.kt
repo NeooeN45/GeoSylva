@@ -85,6 +85,9 @@ fun DiagnosticMenuScreen(
     }
     val station by stationFlow.collectAsStateWithLifecycle(initialValue = null)
 
+    val treesFlow = remember(tigeRepository, parcelleId) { tigeRepository.getTigesByParcelle(parcelleId) }
+    val trees by treesFlow.collectAsStateWithLifecycle(initialValue = emptyList())
+
     val latestDiagnosticFlow = remember(diagnosticRepository, parcelleId) {
         diagnosticRepository.getByParcelle(parcelleId)
     }
@@ -134,7 +137,7 @@ fun DiagnosticMenuScreen(
             // Pré-requis
             PrerequisCard(
                 hasStation   = station != null,
-                hasTiges     = true
+                hasTiges     = trees.any { it.deletedAt == null && it.parcelleId == parcelleId }
             )
 
             // Dernier diagnostic

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pack_region_departments_included">A region automatically includes all its departments. Active versions are not downloaded again.</string>
+    <string name="pack_region_department_count">Regional coverage: %1$d departments. Active versions are kept.</string>
+    <string name="pack_region_download_departments">Download related departments</string>
+    <string name="pack_region_incomplete">Not all departments in the region are available. Refresh the catalogue before retrying, or select a department separately.</string>
+</resources>

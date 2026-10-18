@@ -9,6 +9,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import androidx.datastore.preferences.preferencesDataStore
+import com.forestry.counter.domain.location.MapSourcePolicy
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -386,16 +387,15 @@ class UserPreferencesManager(private val context: Context) {
     }
 
     val mapLastLayerKey: Flow<String> = dataStore.data.map { prefs ->
-        // Satellite Monde (ESRI, couverture mondiale, sans dépendance à une
-        // clé API) plutôt que Plan IGN (France uniquement) — un premier
-        // lancement sans position GPS encore connue ne doit jamais risquer
-        // de tomber hors de la couverture du fond de carte par défaut.
-        prefs[MAP_LAST_LAYER_KEY] ?: "SATELLITE"
+        // Résolution du seul fond de carte ; les relevés, fichiers et autres
+        // préférences restent intacts. Les références non qualifiées ne
+        // déclenchent plus de réseau via un ancien choix mémorisé.
+        MapSourcePolicy.resolveLayerKey(prefs[MAP_LAST_LAYER_KEY])
     }
 
     suspend fun setMapLastLayerKey(layerKey: String) {
         dataStore.edit { prefs ->
-            prefs[MAP_LAST_LAYER_KEY] = layerKey
+            prefs[MAP_LAST_LAYER_KEY] = MapSourcePolicy.resolveLayerKey(layerKey)
         }
     }
 

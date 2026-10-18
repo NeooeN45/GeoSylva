@@ -9,6 +9,8 @@ import com.forestry.counter.data.local.dao.IbpEvaluationDao
 import com.forestry.counter.data.local.dao.InventaireSessionDao
 import com.forestry.counter.data.local.dao.ObservationFloreDao
 import com.forestry.counter.data.local.dao.ParcelleDao
+import com.forestry.counter.data.local.dao.ParcelSyncDao
+import com.forestry.counter.data.local.dao.ParcelSyncOperationDao
 import com.forestry.counter.data.local.dao.PlacetteDao
 import com.forestry.counter.data.local.dao.RipisylveDao
 import com.forestry.counter.data.local.dao.StationDao
@@ -43,6 +45,13 @@ class DeleteAllUserDataUseCase(
     private val alerteSanitaireDao: AlerteSanitaireDao,
     private val observationFloreDao: ObservationFloreDao,
     private val context: Context,
+    private val operationDao: ParcelSyncOperationDao,
+    private val syncDao: ParcelSyncDao,
+    private val hierarchySyncDao: com.forestry.counter.data.local.dao.HierarchySyncDao,
+    private val woodObjectDao: com.forestry.counter.data.local.dao.WoodObjectDao,
+    private val woodDataGate: com.forestry.counter.data.repository.WoodDataAccessGate,
+    private val woodDepotDao: com.forestry.counter.data.local.dao.WoodDepotDao,
+    private val fieldDao: com.forestry.counter.data.local.dao.FieldDao,
 ) {
 
     /**
@@ -59,37 +68,59 @@ class DeleteAllUserDataUseCase(
      * Vague C) : son `deleteAll` reste une suppression physique `DELETE FROM`,
      * il n'y a donc pas de `hardDeleteAll` à appeler.
      */
-    suspend fun execute(): Int = withContext(Dispatchers.IO) {
-        foretDao.hardDeleteAll()
-        parcelleDao.hardDeleteAll()
-        tigeDao.hardDeleteAll()
-        placetteDao.hardDeleteAll()
-        inventaireSessionDao.hardDeleteAll()
-        stationDao.hardDeleteAll()
-        ripisylveDao.hardDeleteAll()
-        ibpEvaluationDao.deleteAll()
-        arbreHabitatDao.hardDeleteAll()
-        diagnosticSylvicoleDao.hardDeleteAll()
-        alerteSanitaireDao.hardDeleteAll()
-        observationFloreDao.hardDeleteAll()
+    suspend fun execute(): Int = withContext(Dispatchers.IO) { woodDataGate.purge {
+        // The only authorized physical removal of retained operation snapshots.
+        // Pending deletes and retries survive ordinary business deletes and logout.
+        operationDao.runJournalTransaction {
+            fieldDao.deleteChunks()
+            fieldDao.deletePhotos()
+            fieldDao.deleteDrafts()
+            fieldDao.deleteEntries()
+            fieldDao.deleteLinks()
+            fieldDao.deleteSites()
+            operationDao.hardDeleteAll()
+            syncDao.hardDeleteAll()
+            hierarchySyncDao.hardDeleteOperations()
+            hierarchySyncDao.hardDeleteAssociations()
+            woodObjectDao.deleteCommands()
+            woodObjectDao.deleteSelections()
+            woodObjectDao.deleteObservations()
+            woodObjectDao.deleteObjects()
+            woodDepotDao.hardDeleteAll()
+            foretDao.hardDeleteAll()
+            parcelleDao.hardDeleteAll()
+            tigeDao.hardDeleteAll()
+            placetteDao.hardDeleteAll()
+            inventaireSessionDao.hardDeleteAll()
+            stationDao.hardDeleteAll()
+            ripisylveDao.hardDeleteAll()
+            ibpEvaluationDao.deleteAll()
+            arbreHabitatDao.hardDeleteAll()
+            diagnosticSylvicoleDao.hardDeleteAll()
+            alerteSanitaireDao.hardDeleteAll()
+            observationFloreDao.hardDeleteAll()
+        }
         deleteAllPhotos()
+        val captures = File(context.cacheDir, "field_capture")
+        check(!captures.exists() || captures.deleteRecursively()) { "LOCAL_CAPTURE_PURGE_FAILED" }
+        val reports = File(context.filesDir, "martelage_reports")
+        check(!reports.exists() || reports.deleteRecursively()) { "LOCAL_REPORT_PURGE_FAILED" }
         DAO_COUNT
-    }
+    } }
 
     /**
      * Supprime récursivement le dossier des photos de diagnostic.
      * Les photos sont stockées dans getExternalFilesDir(null)/photos.
      */
     private fun deleteAllPhotos() {
-        val photosDir = File(context.getExternalFilesDir(null), PHOTOS_DIR_NAME)
-        if (photosDir.exists()) {
-            photosDir.deleteRecursively()
-        }
+        val externalDirectory = context.getExternalFilesDir(null) ?: return
+        val photosDir = File(externalDirectory, PHOTOS_DIR_NAME)
+        check(!photosDir.exists() || photosDir.deleteRecursively()) { "LOCAL_PHOTO_PURGE_FAILED" }
     }
 
     companion object {
         /** Nombre de DAOs purgés par le use case (pour vérification en test). */
-        const val DAO_COUNT = 12
+        const val DAO_COUNT = 18
         private const val PHOTOS_DIR_NAME = "photos"
     }
 }

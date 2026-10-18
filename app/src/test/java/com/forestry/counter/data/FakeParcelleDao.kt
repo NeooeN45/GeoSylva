@@ -18,8 +18,14 @@ class FakeParcelleDao : ParcelleDao {
         data.find { it.parcelleId == id && it.deletedAt == null }
     override suspend fun getParcelleByIdAny(id: String): ParcelleEntity? =
         data.find { it.parcelleId == id }
-    override suspend fun insertParcelle(parcelle: ParcelleEntity) { data.add(parcelle) }
-    override suspend fun insertParcelles(entities: List<ParcelleEntity>) { data.addAll(entities) }
+    override suspend fun insertParcelleIfAbsent(entity: ParcelleEntity): Long {
+        if (data.any { it.parcelleId == entity.parcelleId }) return -1L
+        data.add(entity)
+        return data.size.toLong()
+    }
+    override suspend fun insertParcelles(entities: List<ParcelleEntity>) {
+        entities.forEach { insertParcelle(it) }
+    }
     override suspend fun updateParcelle(parcelle: ParcelleEntity) {
         val idx = data.indexOfFirst { it.parcelleId == parcelle.parcelleId }
         if (idx >= 0) data[idx] = parcelle

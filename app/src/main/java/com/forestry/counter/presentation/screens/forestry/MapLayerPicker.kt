@@ -242,6 +242,7 @@ internal fun MapLayerPicker(
  */
 private fun previewTileUrl(layer: MapLayerDef): String? {
     val template = layer.tileUrls.firstOrNull() ?: return null
+    if (!com.forestry.counter.domain.location.MapSourcePolicy.isOnlineTemplateQualified(template)) return null
     if (template.contains(".pbf")) return null
     val url = template.replace("{z}", "6").replace("{x}", "32").replace("{y}", "22")
     return if (SecureHttpClient.isSecureDomain(url)) url else null

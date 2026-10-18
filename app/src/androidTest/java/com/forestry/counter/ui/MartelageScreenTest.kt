@@ -1,5 +1,6 @@
 package com.forestry.counter.ui
 
+import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -18,7 +19,7 @@ class MartelageScreenTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun `martelageScreen should display tree data entry form`() {
+    fun martelageScreen_should_display_tree_data_entry_form() {
         // Given
         composeTestRule.setContent {
             // MartelageScreen content
@@ -43,7 +44,7 @@ class MartelageScreenTest {
     }
 
     @Test
-    fun `martelageScreen should validate tree diameter input`() {
+    fun martelageScreen_should_validate_tree_diameter_input() {
         // Given
         composeTestRule.setContent {
             // MartelageScreen with form
@@ -65,7 +66,7 @@ class MartelageScreenTest {
     }
 
     @Test
-    fun `martelageScreen should calculate tree volume automatically`() {
+    fun martelageScreen_should_calculate_tree_volume_automatically() {
         // Given
         composeTestRule.setContent {
             // MartelageScreen with calculation
@@ -87,7 +88,7 @@ class MartelageScreenTest {
     }
 
     @Test
-    fun `martelageScreen should be accessible with screen readers`() {
+    fun martelageScreen_should_be_accessible_with_screen_readers() {
         // Given
         composeTestRule.setContent {
             // Accessible MartelageScreen
@@ -112,7 +113,7 @@ class MartelageScreenTest {
     }
 
     @Test
-    fun `martelageScreen should handle tree species selection`() {
+    fun martelageScreen_should_handle_tree_species_selection() {
         // Given
         composeTestRule.setContent {
             // MartelageScreen with species selector
@@ -134,7 +135,7 @@ class MartelageScreenTest {
     }
 
     @Test
-    fun `martelageScreen should save data automatically`() {
+    fun martelageScreen_should_save_data_automatically() {
         // Given
         composeTestRule.setContent {
             // MartelageScreen with auto-save
@@ -159,7 +160,7 @@ class MartelageScreenTest {
     }
 
     @Test
-    fun `martelageScreen should show error for invalid height`() {
+    fun martelageScreen_should_show_error_for_invalid_height() {
         // Given
         composeTestRule.setContent {
             // MartelageScreen with validation
@@ -181,7 +182,7 @@ class MartelageScreenTest {
     }
 
     @Test
-    fun `martelageScreen should support keyboard navigation`() {
+    fun martelageScreen_should_support_keyboard_navigation() {
         // Given
         composeTestRule.setContent {
             // Accessible MartelageScreen
@@ -207,7 +208,7 @@ class MartelageScreenTest {
     }
 
     @Test
-    fun `martelageScreen should display tree statistics`() {
+    fun martelageScreen_should_display_tree_statistics() {
         // Given
         composeTestRule.setContent {
             // MartelageScreen with statistics
@@ -233,7 +234,7 @@ class MartelageScreenTest {
     }
 
     @Test
-    fun `martelageScreen should handle data export`() {
+    fun martelageScreen_should_handle_data_export() {
         // Given
         composeTestRule.setContent {
             // MartelageScreen with export

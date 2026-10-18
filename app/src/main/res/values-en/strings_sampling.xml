@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sampling_grid_title">Automatic grid</string>
+    <string name="sampling_grid_description">Distribute plot centres on an adjustable hexagonal grid.</string>
+    <string name="sampling_grid_density_title">Distribution of centres</string>
+    <string name="sampling_grid_cell_area">Area per plot centre</string>
+    <string name="sampling_grid_cell_hint">1 ha per centre means approximately one centre per hectare. This grid does not define the area actually sampled.</string>
+    <string name="sampling_grid_rotation">Grid orientation</string>
+    <string name="sampling_grid_rotation_hint">From 0 to less than 360°. The grid is anchored at the centre of the map extent.</string>
+    <string name="sampling_hexagon_rotation">Hexagon orientation</string>
+    <string name="sampling_hexagon_rotation_hint">Angle from 0 to less than 360° in the local map plane.</string>
+    <string name="sampling_footprint_title">Sampled area at each centre</string>
+    <string name="sampling_shape_circle">Circle</string>
+    <string name="sampling_shape_hexagon">Hexagon</string>
+    <string name="sampling_measure_radius">Radius</string>
+    <string name="sampling_measure_area">Area</string>
+    <string name="sampling_footprint_area">Plot area</string>
+    <string name="sampling_footprint_hint">Enter a positive radius or an area from 1 to 1,000,000 m².</string>
+    <string name="sampling_circle_dimensions">Target area %1$s m² · radius %2$s m</string>
+    <string name="sampling_hexagon_dimensions">Target area %1$s m² · side length %2$s m</string>
+    <string name="sampling_boundary_exclude">Exclude boundary plots</string>
+    <string name="sampling_boundary_exclude_hint">Keep only footprints lying entirely inside the parcel. This exclusion changes the distribution and must suit the sampling protocol.</string>
+    <string name="sampling_grid_generate">Preview grid</string>
+    <string name="sampling_grid_regenerate">Regenerate grid</string>
+    <string name="sampling_grid_preview_hint">Check the distribution before creating plots. You can remove a centre. No survey is saved until you confirm.</string>
+    <string name="sampling_grid_distance">Approximate distance between neighbouring centres: %1$s m</string>
+    <string name="sampling_grid_excluded">%1$d boundary plot(s) excluded from this plan.</string>
+    <string name="sampling_boundary_warning">%1$d footprint(s) touch a parcel boundary or an excluded area. The displayed area is the target area; no effective area or extrapolation is inferred.</string>
+    <string name="sampling_planned_location_notice">Centres planned on the map are distinct from measured GPS positions. Areas are horizontal and distances approximate; adapt the protocol to the terrain and survey objectives.</string>
+    <string name="sampling_grid_unsupported">This extent or these settings cannot produce a local grid. Use manual points or a parcel spanning less than 50 km.</string>
+    <string name="sampling_grid_empty">No centres retained. Reduce the area per centre, change the orientation or adjust boundary exclusion.</string>
+</resources>

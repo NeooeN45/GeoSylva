@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="geographic_map_recenter">Recentrer sur la zone</string>
+    <string name="geographic_loading">Chargement…</string>
+    <string name="geographic_save_failed">Enregistrement impossible. Votre sélection est conservée.</string>
+    <string name="geographic_data_unavailable">Données indisponibles. Vérifiez vos packs et votre connexion.</string>
+    <string name="geographic_retry">Réessayer</string>
+    <string name="forest_map_title">Ajouter une forêt</string>
+    <string name="forest_map_search">Rechercher une forêt</string>
+    <string name="forest_map_zoom">Recherchez un nom ou zoomez pour afficher les forêts.</string>
+    <string name="forest_map_tap">Touchez une forêt pour afficher son résumé.</string>
+    <string name="forest_map_summary">Emprise calculée : %1$s ha · Département %2$s</string>
+    <string name="forest_map_owner_unknown">Propriétaire et gestionnaire : non fournis par cette couche. Vous pouvez les compléter.</string>
+    <string name="forest_map_scope">Emprises des forêts publiques disponibles. Pour une forêt non répertoriée, utilisez la saisie manuelle.</string>
+    <string name="forest_map_details">Compléter</string>
+    <string name="forest_map_manual">Saisie manuelle</string>
+    <string name="forest_map_confirm">Créer la forêt</string>
+    <string name="parcel_map_title">Choisir une parcelle</string>
+    <string name="parcel_map_cadastre">Cadastre</string>
+    <string name="parcel_map_onf">Parcellaire ONF</string>
+    <string name="parcel_map_onf_pending">La couche ONF est indisponible pour le moment. Le cadastre reste disponible.</string>
+    <string name="parcel_map_outside">Choisissez un point situé dans l’emprise de cette forêt.</string>
+    <string name="parcel_map_zoom">Zoomez pour afficher les parcelles cadastrales.</string>
+    <string name="parcel_map_truncated">Affichage partiel. Zoomez ou vérifiez les packs de cette zone.</string>
+    <string name="parcel_map_tap">Touchez une parcelle. Un nouveau choix remplace le précédent.</string>
+    <string name="parcel_map_name">Nom de la parcelle</string>
+    <string name="parcel_map_surface">Surface du contour : %1$s ha (calcul approximatif)</string>
+    <string name="parcel_map_cadastral_area">Contenance cadastrale : %1$s ha</string>
+    <string name="parcel_map_source_area">Surface de référence ONF : %1$s ha</string>
+    <string name="parcel_map_terrain_unknown">Pente, altitude et accessibilité : non renseignées par cette couche.</string>
+    <string name="parcel_map_clear">Effacer le choix</string>
+    <string name="parcel_map_confirm">Créer la parcelle</string>
+</resources>

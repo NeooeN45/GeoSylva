@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="journey_operations_title">Chantiers et bois</string>
+    <string name="journey_supervisor_label">Conducteur de travaux</string>
+    <string name="journey_contractor_label">Exploitation forestière</string>
+    <string name="journey_trade_label">Commerce du bois</string>
+    <string name="journey_operations_intro">Retrouvez vos dépôts, préparez vos accès et conservez vos informations de terrain.</string>
+    <string name="journey_depots_title">Mes dépôts de bois</string>
+    <string name="journey_depots_description">Créer, localiser et retrouver les dépôts bord de route et les autres lieux de stockage.</string>
+    <string name="journey_map_title">Consulter la carte</string>
+    <string name="journey_map_description">Repérer le terrain et consulter les couches cartographiques disponibles.</string>
+    <string name="journey_packs_title">Préparer le hors-ligne</string>
+    <string name="journey_packs_description">Gérer les packs des territoires sur lesquels vous travaillez.</string>
+    <string name="journey_explorer_description">Les outils de votre parcours, accessibles directement.</string>
+    <string name="journey_choose_title">Un parcours adapté à votre métier</string>
+    <string name="journey_choose_description">Choisissez votre métier pour retrouver les outils utiles à votre travail. Vos dossiers sont conservés lorsque vous changez de métier.</string>
+    <string name="journey_choose_action">Choisir mon métier</string>
+    <string name="journey_change_action">Changer de métier</string>
+    <string name="journey_unavailable_title">Cet outil n’est pas disponible dans ce parcours</string>
+    <string name="journey_unavailable_description">Retrouvez vos outils dans Explorer ou choisissez le métier correspondant à votre activité.</string>
+    <string name="journey_back_explorer">Ouvrir Explorer</string>
+    <string name="journey_nav_open">Ouvrir la navigation</string>
+    <string name="journey_nav_close">Fermer la navigation</string>
+    <string name="journey_nav_home">Accueil</string>
+    <string name="journey_nav_explorer">Explorer</string>
+    <string name="journey_nav_missions">Missions</string>
+    <string name="journey_nav_map">Carte</string>
+    <string name="journey_nav_settings">Réglages</string>
+    <string name="journey_forests">Forêts</string>
+    <string name="journey_parcels">Parcelles</string>
+    <string name="journey_plots">Placettes</string>
+    <string name="journey_diagnostics">Diagnostics</string>
+    <string name="journey_projects">Projets</string>
+</resources>

@@ -37,24 +37,26 @@ fun shouldStartCoachMarkTour(
     isActive: Boolean,
 ): Boolean = pending && !completed && isTopLevel && !isActive
 
-class CoachMarkController {
+class CoachMarkController(steps: List<CoachMarkStep> = COACH_MARK_STEPS) {
+    private val steps = steps.toList()
+    val totalSteps: Int get() = steps.size
     var stepIndex by mutableStateOf<Int?>(null)
         private set
 
     val isActive: Boolean get() = stepIndex != null
 
     val currentStep: CoachMarkStep?
-        get() = stepIndex?.let { COACH_MARK_STEPS.getOrNull(it) }
+        get() = stepIndex?.let { steps.getOrNull(it) }
 
     fun start() {
-        stepIndex = 0
+        stepIndex = 0.takeIf { steps.isNotEmpty() }
     }
 
     /** Avance d'une étape ; termine la visite après la dernière. */
     fun next() {
         val current = stepIndex ?: return
         val nextIndex = current + 1
-        stepIndex = if (nextIndex < COACH_MARK_STEPS.size) nextIndex else null
+        stepIndex = if (nextIndex < steps.size) nextIndex else null
     }
 
     fun stop() {
@@ -63,4 +65,5 @@ class CoachMarkController {
 }
 
 @Composable
-fun rememberCoachMarkController(): CoachMarkController = remember { CoachMarkController() }
+fun rememberCoachMarkController(steps: List<CoachMarkStep> = COACH_MARK_STEPS): CoachMarkController =
+    remember(steps) { CoachMarkController(steps) }

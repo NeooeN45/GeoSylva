@@ -1,5 +1,8 @@
 package com.forestry.counter.presentation.screens.forestry
 
+import com.forestry.counter.domain.repository.IdentityRepository
+import com.forestry.counter.domain.repository.SurveyContextRepository
+
 import android.graphics.BitmapFactory
 import android.Manifest
 import android.content.pm.PackageManager
@@ -84,7 +87,11 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.foundation.shape.CircleShape
 import com.forestry.counter.R
 import com.forestry.counter.domain.model.Essence
+import com.forestry.counter.domain.model.InventaireSession
+import com.forestry.counter.domain.model.MartelageStates
+import com.forestry.counter.domain.model.Placette
 import com.forestry.counter.domain.model.Tige
+import com.forestry.counter.domain.repository.InventaireSessionRepository
 import com.forestry.counter.domain.repository.EssenceRepository
 import com.forestry.counter.domain.repository.PlacetteRepository
 import com.forestry.counter.domain.repository.TigeRepository
@@ -95,10 +102,16 @@ import com.forestry.counter.presentation.components.AppMiniDialog
 import com.forestry.counter.presentation.components.LoadingState
 import com.forestry.counter.presentation.utils.rememberHapticFeedback
 import com.forestry.counter.presentation.utils.rememberSoundFeedback
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.File
 import java.text.Normalizer
 import java.util.UUID
+
+private data class PlotDetailReadValue(val loaded: Boolean = false, val value: Placette? = null)
 
 private fun getPlacettePhotoDir(context: android.content.Context, placetteId: String): File {
     val dir = File(context.getExternalFilesDir(null), "photos/$placetteId")
@@ -157,13 +170,18 @@ fun PlacetteDetailScreen(
     tigeRepository: TigeRepository,
     placetteRepository: PlacetteRepository,
     userPreferences: UserPreferencesManager,
+    sessionRepository: InventaireSessionRepository? = null,
+    identityRepository: IdentityRepository? = null,
+    surveyContextRepository: SurveyContextRepository? = null,
+    onOpenSessionSynthesis: ((parcelleId: String, placetteId: String, sessionId: String) -> Unit)? = null,
     onNavigateToDiametres: (parcelleId: String, placetteId: String, essenceCode: String) -> Unit,
     onNavigateToMartelage: (parcelleId: String, placetteId: String) -> Unit,
     onNavigateToIbp: ((parcelleId: String, placetteId: String) -> Unit)? = null,
     onNavigateToStationDiag: ((parcelleId: String) -> Unit)? = null,
     onNavigateToRipisylveDiag: ((parcelleId: String) -> Unit)? = null,
     onNavigateToEvolution: ((parcelleId: String, placetteId: String, year: Int) -> Unit)? = null,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onOpenFieldJournal: (() -> Unit)? = null,
 ) {
     val scope = rememberCoroutineScope()
     val snackbar = remember { SnackbarHostState() }
@@ -178,13 +196,32 @@ fun PlacetteDetailScreen(
     var searchActive by remember { mutableStateOf(false) }
     var searchQuery  by remember { mutableStateOf("") }
 
-    val allEssencesState by essenceRepository.getAllEssences().collectAsStateWithLifecycle(initialValue = null)
+    val allEssencesFlow = remember(essenceRepository) { essenceRepository.getAllEssences() }
+    val allEssencesState by allEssencesFlow.collectAsStateWithLifecycle(initialValue = null)
     val allEssences = allEssencesState ?: emptyList<Essence>()
-    val tigesState by tigeRepository.getTigesByPlacette(placetteId).collectAsStateWithLifecycle(initialValue = null)
-    val tiges = tigesState ?: emptyList<Tige>()
-    val placetteState by placetteRepository.getPlacetteById(placetteId).collectAsStateWithLifecycle(initialValue = null)
+    val tigesFlow = remember(tigeRepository, placetteId) { tigeRepository.getTigesByPlacette(placetteId) }
+    val tigesState by tigesFlow.collectAsStateWithLifecycle(initialValue = null)
+    val allTiges = tigesState.orEmpty()
+    val placetteFlow = remember(placetteRepository, placetteId) {
+        placetteRepository.getPlacetteById(placetteId).map { PlotDetailReadValue(true, it) }
+    }
+    val placetteRead by placetteFlow.collectAsStateWithLifecycle(initialValue = PlotDetailReadValue())
+    val placetteState = placetteRead.value
+    val sessionsFlow = remember(sessionRepository, placetteId) {
+        sessionRepository?.getByPlacette(placetteId) ?: flowOf(emptyList())
+    }
+    val sessionsState by sessionsFlow.collectAsStateWithLifecycle(initialValue = null)
+    val sessions = sessionsState.orEmpty()
+    val selection = remember(sessionsState, parcelleId, placetteId, sessionRepository) {
+        selectEssenceSession(sessions, parcelleId, if (sessionRepository != null) placetteId else null)
+    }
+    val tiges = remember(allTiges, selection) { selection.selectTiges(allTiges) }
+    val canRecord = placetteState != null && sessionsState != null && selection.writable
+    val currentCanRecord by rememberUpdatedState(canRecord)
+    val currentSelection by rememberUpdatedState(selection)
     val placetteName = placetteState?.name
-    val persistedOrder by userPreferences.essenceOrderFlow(placetteId).collectAsStateWithLifecycle(initialValue = emptyList())
+    val persistedOrderFlow = remember(userPreferences, placetteId) { userPreferences.essenceOrderFlow(placetteId) }
+    val persistedOrder by persistedOrderFlow.collectAsStateWithLifecycle(initialValue = emptyList())
 
     val hapticEnabled by userPreferences.hapticEnabled.collectAsStateWithLifecycle(initialValue = true)
     val soundEnabled by userPreferences.soundEnabled.collectAsStateWithLifecycle(initialValue = true)
@@ -196,6 +233,32 @@ fun PlacetteDetailScreen(
     fun playClickFeedback() {
         if (hapticEnabled) haptic.performWithIntensity(hapticIntensity)
         if (soundEnabled) sound.click()
+    }
+
+    fun performRecording(action: suspend () -> Unit) {
+        val expectedSessionId = selection.session?.sessionId
+        scope.launch {
+            try {
+                check(currentCanRecord && currentSelection.session?.sessionId == expectedSessionId) {
+                    "MARTELAGE_ENTRY_STATE_CHANGED"
+                }
+                check(placetteRepository.getPlacetteById(placetteId).first() != null) {
+                    "PLACETTE_READ_ACCESS_CHANGED"
+                }
+                sessionRepository?.let { repository ->
+                    repository.reconcileForPlacette(parcelleId, placetteId)
+                    val fresh = selectEssenceSession(repository.getByPlacette(placetteId).first(), parcelleId, placetteId)
+                    check(fresh.writable && fresh.session?.sessionId == expectedSessionId) {
+                        "MARTELAGE_ENTRY_STATE_CHANGED"
+                    }
+                }
+                action()
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (_: Exception) {
+                snackbar.showSnackbar(context.getString(R.string.essence_session_changed))
+            }
+        }
     }
 
     // Usage par essence dans cette placette
@@ -245,13 +308,24 @@ fun PlacetteDetailScreen(
     var query by remember { mutableStateOf("") }
 
     // ── Photos (F6) ──────────────────────────────────────────────────────────
-    var photoFiles        by remember { mutableStateOf(getPlacettePhotos(context, placetteId)) }
+    var photoFiles        by remember(placetteId) { mutableStateOf(emptyList<File>()) }
     var pendingPhotoFile  by remember { mutableStateOf<File?>(null) }
     var deleteTargetPhoto by remember { mutableStateOf<File?>(null) }
     var photoViewerIndex  by remember { mutableStateOf<Int?>(null) }
     var renameTargetPhoto by remember { mutableStateOf<File?>(null) }
     var photoSelectionMode by remember { mutableStateOf(false) }
     val selectedPhotos = remember { mutableStateListOf<File>() }
+
+    LaunchedEffect(canRecord, selection.session?.sessionId) {
+        if (!canRecord) {
+            showAddDialog = false
+            deleteTargetEssenceCode = null
+            reorderMode = false
+        }
+    }
+    LaunchedEffect(placetteState?.id) {
+        photoFiles = if (placetteState != null) getPlacettePhotos(context, placetteId) else emptyList()
+    }
 
     fun exportPhotos(files: List<File>) {
         if (files.isEmpty()) return
@@ -306,8 +380,16 @@ fun PlacetteDetailScreen(
         pendingCameraLaunch = false
     }
 
-    if (allEssencesState == null || tigesState == null) {
+    if (allEssencesState == null || tigesState == null || !placetteRead.loaded || sessionsState == null) {
         LoadingState("Chargement de la placette…")
+        return
+    }
+
+    if (placetteState == null || placetteState.parcelleId != parcelleId) {
+        Column(Modifier.fillMaxSize().padding(24.dp), verticalArrangement = Arrangement.Center) {
+            Text(stringResource(R.string.martelage_plot_unavailable), style = MaterialTheme.typography.bodyLarge)
+            TextButton(onClick = onNavigateBack) { Text(stringResource(R.string.back)) }
+        }
         return
     }
 
@@ -346,6 +428,9 @@ fun PlacetteDetailScreen(
                     }
                 },
                 actions = {
+                        onOpenFieldJournal?.let { open ->
+                            com.forestry.counter.presentation.screens.field.FieldJournalButton(open)
+                        }
                     // Recherche
                     IconButton(onClick = {
                         playClickFeedback()
@@ -373,7 +458,8 @@ fun PlacetteDetailScreen(
                                 onClick = {
                                     showMoreMenu = false
                                     playClickFeedback()
-                                    reorderMode = !reorderMode
+                                    if (canRecord) reorderMode = !reorderMode
+                                    else scope.launch { snackbar.showSnackbar(context.getString(R.string.martelage_plot_start_required)) }
                                     if (reorderMode && orderOverride.isEmpty()) orderOverride = displayEssenceOrder()
                                 }
                             )
@@ -419,7 +505,8 @@ fun PlacetteDetailScreen(
             FloatingActionButton(
                 onClick = {
                     playClickFeedback()
-                    showAddDialog = true
+                    if (canRecord) showAddDialog = true
+                    else scope.launch { snackbar.showSnackbar(context.getString(R.string.martelage_plot_start_required)) }
                 },
                 modifier = Modifier.offset(x = 8.dp),
             ) {
@@ -428,54 +515,27 @@ fun PlacetteDetailScreen(
         }
     ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding).padding(12.dp)) {
-            // ── Actions diagnostics centrées (Martelage / Station / Ripisylve / IBP) ──
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp)
-            ) {
-                Button(onClick = {
-                    playClickFeedback()
-                    onNavigateToMartelage(parcelleId, placetteId)
-                }) {
-                    Icon(Icons.Default.Straighten, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(6.dp))
-                    Text(stringResource(R.string.martelage))
-                }
-                if (onNavigateToStationDiag != null) {
-                    OutlinedButton(onClick = {
-                        playClickFeedback()
-                        onNavigateToStationDiag(parcelleId)
-                    }) {
-                        Icon(Icons.Default.Science, contentDescription = null, modifier = Modifier.size(18.dp), tint = SemanticInfo)
-                        Spacer(Modifier.width(6.dp))
-                        Text(stringResource(R.string.diag_station_btn))
-                    }
-                }
-                if (onNavigateToRipisylveDiag != null) {
-                    OutlinedButton(onClick = {
-                        playClickFeedback()
-                        onNavigateToRipisylveDiag(parcelleId)
-                    }) {
-                        Icon(Icons.Default.Water, contentDescription = null, modifier = Modifier.size(18.dp), tint = Color(0xFF0277BD))
-                        Spacer(Modifier.width(6.dp))
-                        Text(stringResource(R.string.diag_ripisylve_btn))
-                    }
-                }
-                if (onNavigateToIbp != null) {
-                    OutlinedButton(onClick = {
-                        playClickFeedback()
-                        onNavigateToIbp(parcelleId, placetteId)
-                    }) {
-                        Icon(Icons.Default.EmojiNature, contentDescription = null, modifier = Modifier.size(18.dp), tint = SemanticSuccess)
-                        Spacer(Modifier.width(6.dp))
-                        Text(stringResource(R.string.ibp_start))
-                    }
+            if (sessionRepository != null) {
+                MartelageSessionControls(
+                    parcelleId = parcelleId,
+                    placetteId = placetteId,
+                    sessionRepository = sessionRepository,
+                    identityRepository = identityRepository,
+                    surveyContextRepository = surveyContextRepository,
+                    onOpenSessionSynthesis = onOpenSessionSynthesis,
+                    onFeedback = ::playClickFeedback,
+                    modifier = Modifier.padding(bottom = 8.dp),
+                )
+            } else {
+                TextButton(onClick = { playClickFeedback(); onNavigateToMartelage(parcelleId, placetteId) }) {
+                    Icon(Icons.Default.Description, contentDescription = null, modifier = Modifier.size(18.dp))
+                    Text(stringResource(R.string.martelage_synthesis_title), modifier = Modifier.padding(start = 6.dp))
                 }
             }
-            Spacer(Modifier.height(4.dp))
+
+            if (sessionRepository != null) {
+                MartelageGpsTracking(selection.session)
+            }
 
             // ── TabRow : Essences / Évolution ──────────────────────────────────────
             TabRow(
@@ -717,7 +777,7 @@ fun PlacetteDetailScreen(
                                 },
                                 onDragEnd = {
                                     draggingCode = null
-                                    scope.launch { userPreferences.setEssenceOrder(placetteId, orderOverride) }
+                                    performRecording { userPreferences.setEssenceOrder(placetteId, orderOverride) }
                                 },
                                 onClick = {
                                     playClickFeedback()
@@ -730,7 +790,7 @@ fun PlacetteDetailScreen(
                                         val uses = usageByEssence[code] ?: 0
                                         if (uses == 0 && orderOverride.isNotEmpty()) {
                                             orderOverride = orderOverride.filterNot { it == code }
-                                            scope.launch { userPreferences.setEssenceOrder(placetteId, orderOverride) }
+                                            performRecording { userPreferences.setEssenceOrder(placetteId, orderOverride) }
                                         } else {
                                             scope.launch { snackbar.showSnackbar(context.getString(R.string.cannot_delete_existing_data)) }
                                         }
@@ -748,8 +808,10 @@ fun PlacetteDetailScreen(
             }
                     } // fin tab 0 Column
                     1 -> PlacetteEvolutionTab(
-                        tiges = tiges,
+                        tiges = allTiges,
                         allEssences = allEssences,
+                        sessions = sessions,
+                        onOpenSession = { sid -> onOpenSessionSynthesis?.invoke(parcelleId, placetteId, sid) },
                         animationsEnabled = animationsEnabled,
                         onYearClick = { clickedYear ->
                             playClickFeedback()
@@ -912,7 +974,8 @@ fun PlacetteDetailScreen(
                 onClick = {
                     showEssenceActionsDialog = false
                     actionTargetEssenceCode = null
-                    deleteTargetEssenceCode = code
+                    if (canRecord) deleteTargetEssenceCode = code
+                    else scope.launch { snackbar.showSnackbar(context.getString(R.string.martelage_plot_start_required)) }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -935,9 +998,12 @@ fun PlacetteDetailScreen(
             confirmText = stringResource(R.string.delete),
             dismissText = stringResource(R.string.cancel),
             confirmIsDestructive = true,
+            confirmEnabled = canRecord,
             onConfirm = {
-                scope.launch {
-                    tigeRepository.deleteTigesByPlacetteAndEssence(placetteId, code)
+                val sessionId = selection.session?.sessionId
+                performRecording {
+                    if (sessionId != null) tigeRepository.deleteTigesBySessionAndEssence(sessionId, code)
+                    else tigeRepository.deleteTigesByPlacetteAndEssence(placetteId, code)
                     val baseOrder = if (orderOverride.isNotEmpty()) orderOverride else displayEssenceOrder()
                     val newOrder = baseOrder.filterNot { it == code }
                     orderOverride = newOrder
@@ -1067,15 +1133,15 @@ fun PlacetteDetailScreen(
             animationsEnabled = animationsEnabled,
             onDismiss = { showAddDialog = false; query = "" },
             onAdd = { code ->
-                // On ajoute l'essence dans l'ordre et on persiste pour qu'elle reste visible.
-                if (orderOverride.isEmpty()) {
-                    orderOverride = displayEssenceOrder()
+                performRecording {
+                    val baseOrder = if (orderOverride.isEmpty()) displayEssenceOrder() else orderOverride
+                    if (code !in baseOrder) {
+                        val newOrder = baseOrder + code
+                        userPreferences.setEssenceOrder(placetteId, newOrder)
+                        orderOverride = newOrder
+                    }
+                    showAddDialog = false
                 }
-                if (code !in orderOverride) {
-                    orderOverride = orderOverride + code
-                    scope.launch { userPreferences.setEssenceOrder(placetteId, orderOverride) }
-                }
-                showAddDialog = false
             }
         )
     }
@@ -1270,71 +1336,82 @@ private fun levenshtein(a: String, b: String): Int {
 private fun PlacetteEvolutionTab(
     tiges: List<Tige>,
     allEssences: List<Essence>,
+    sessions: List<InventaireSession>,
+    onOpenSession: (String) -> Unit,
     animationsEnabled: Boolean,
-    onYearClick: (Int) -> Unit = {}
+    onYearClick: (Int) -> Unit = {},
 ) {
-    val context = LocalContext.current
-
-    // Grouper les tiges par année (extraite du timestamp)
-    val tigesByYear = remember(tiges) {
-        tiges.groupBy { tige ->
-            val cal = java.util.Calendar.getInstance().apply { timeInMillis = tige.timestamp }
-            cal.get(java.util.Calendar.YEAR)
-        }.toSortedMap(reverseOrder())
+    val managed = remember(sessions) {
+        sessions.filter { it.deletedAt == null && it.martelageState != null }
+            .sortedWith(compareByDescending<InventaireSession> { it.dateDebut }
+                .thenByDescending { it.revisionNumber }.thenByDescending { it.sessionId })
     }
-
-    if (tiges.isEmpty()) {
-        // État vide : aucune tige enregistrée
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Icon(
-                Icons.Default.Science,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(48.dp)
-            )
+    val legacyIds = remember(sessions) {
+        sessions.filter { it.martelageState == null && it.deletedAt == null }.map { it.sessionId }.toSet()
+    }
+    val legacyByYear = remember(tiges, legacyIds) {
+        tiges.filter { it.deletedAt == null && (it.sessionId == null || it.sessionId in legacyIds) }
+            .groupBy { tree ->
+                java.util.Calendar.getInstance().apply { timeInMillis = tree.timestamp }
+                    .get(java.util.Calendar.YEAR)
+            }.toSortedMap(reverseOrder())
+    }
+    if (managed.isEmpty() && legacyByYear.isEmpty()) {
+        Column(Modifier.fillMaxSize().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center) {
+            Icon(Icons.Default.Description, contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(48.dp))
             Spacer(Modifier.height(12.dp))
-            Text(
-                stringResource(R.string.placette_evolution_empty),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            Text(stringResource(R.string.placette_evolution_empty), style = MaterialTheme.typography.titleMedium)
             Spacer(Modifier.height(4.dp))
-            Text(
-                stringResource(R.string.placette_evolution_empty_desc),
-                style = MaterialTheme.typography.bodySmall,
+            Text(stringResource(R.string.placette_evolution_empty_desc), style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center
-            )
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center)
         }
         return
     }
-
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        contentPadding = PaddingValues(bottom = 80.dp)
-    ) {
-        item {
-            Text(
-                stringResource(R.string.placette_evolution_by_year, tigesByYear.size),
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Bold
-            )
+    LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(bottom = 80.dp)) {
+        if (managed.isNotEmpty()) item {
+            Text(stringResource(R.string.martelage_plot_history_title), style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
         }
-
-        tigesByYear.forEach { (year, yearTiges) ->
-            item(key = "year-$year") {
-                YearEvolutionCard(
-                    year = year,
-                    yearTiges = yearTiges,
-                    allEssences = allEssences,
-                    animationsEnabled = animationsEnabled,
-                    onClick = { onYearClick(year) }
-                )
+        items(managed, key = { "session-${it.sessionId}" }) { session ->
+            val ownTrees = tiges.filter { it.deletedAt == null && it.sessionId == session.sessionId }
+            val state = when (session.martelageState) {
+                MartelageStates.RUNNING -> stringResource(R.string.martelage_session_running)
+                MartelageStates.PAUSED -> stringResource(R.string.martelage_session_paused)
+                else -> stringResource(R.string.martelage_session_closed)
+            }
+            Card(shape = MaterialTheme.shapes.large, modifier = Modifier.fillMaxWidth()) {
+                Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(remember(session.dateDebut) {
+                            java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT, java.text.DateFormat.SHORT)
+                                .format(java.util.Date(session.dateDebut))
+                        }, style = MaterialTheme.typography.titleSmall)
+                        Text(state, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary)
+                    }
+                    Text(stringResource(R.string.martelage_session_revision, session.revisionNumber),
+                        style = MaterialTheme.typography.bodySmall)
+                    Text(stringResource(R.string.martelage_plot_history_count,
+                        ownTrees.size, ownTrees.map { it.essenceCode }.distinct().size), style = MaterialTheme.typography.bodyMedium)
+                    if (session.martelageState != MartelageStates.RUNNING) {
+                        TextButton(onClick = { onOpenSession(session.sessionId) }) {
+                            Icon(Icons.Default.Description, contentDescription = null, modifier = Modifier.size(18.dp))
+                            Text(stringResource(R.string.martelage_synthesis_title), modifier = Modifier.padding(start = 6.dp))
+                        }
+                    }
+                }
+            }
+        }
+        if (legacyByYear.isNotEmpty()) item {
+            Text(stringResource(R.string.martelage_plot_history_legacy), style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        legacyByYear.forEach { (year, yearTiges) ->
+            item(key = "legacy-year-$year") {
+                YearEvolutionCard(year, yearTiges, allEssences, animationsEnabled, onClick = { onYearClick(year) })
             }
         }
     }

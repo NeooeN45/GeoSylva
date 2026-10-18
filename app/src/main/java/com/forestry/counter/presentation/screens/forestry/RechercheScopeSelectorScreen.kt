@@ -65,7 +65,8 @@ fun RechercheScopeSelectorScreen(
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val groups by groupRepository.getAllGroups().collectAsStateWithLifecycle(initialValue = emptyList())
+    val groupsFlow = remember(groupRepository) { groupRepository.getAllGroups() }
+    val groups by groupsFlow.collectAsStateWithLifecycle(initialValue = emptyList())
 
     // Un seul choix évident (une seule forêt enregistrée) : on saute l'écran
     // de sélection et on ouvre directement la carte dessus.
@@ -143,8 +144,8 @@ private fun ForestScopeItem(
             onTrailingClick = { expanded = !expanded },
         )
         if (expanded) {
-            val parcelles by parcelleRepository.getParcellesByForest(group.id)
-                .collectAsStateWithLifecycle(initialValue = emptyList())
+            val parcellesFlow = remember(parcelleRepository, group.id) { parcelleRepository.getParcellesByForest(group.id) }
+            val parcelles by parcellesFlow.collectAsStateWithLifecycle(initialValue = emptyList())
             parcelles.forEach { parcelle ->
                 ParcelleScopeItem(
                     parcelle = parcelle,
@@ -173,8 +174,8 @@ private fun ParcelleScopeItem(
             onTrailingClick = { expanded = !expanded },
         )
         if (expanded) {
-            val placettes by placetteRepository.getPlacettesByParcelle(parcelle.id)
-                .collectAsStateWithLifecycle(initialValue = emptyList())
+            val placettesFlow = remember(placetteRepository, parcelle.id) { placetteRepository.getPlacettesByParcelle(parcelle.id) }
+            val placettes by placettesFlow.collectAsStateWithLifecycle(initialValue = emptyList())
             placettes.forEach { placette ->
                 ScopeRow(
                     icon = Icons.Default.MyLocation,

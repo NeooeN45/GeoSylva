@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tarif_qualified_title">Volume estimation guide</string>
+    <string name="tarif_qualified_tab_sources">Sources</string>
+    <string name="tarif_qualified_tab_choice">Choosing a method</string>
+    <string name="tarif_qualified_tab_formulas">Formulas</string>
+    <string name="tarif_qualified_sources_title">References for fieldwork</string>
+    <string name="tarif_qualified_sources_description">Understand measurements, volume table families and their applicability before interpreting a result.</string>
+    <string name="tarif_qualified_sources_scope">These documents explain principles. They certify neither GeoSylva\'s calculations, nor a local volume table, nor a payable quantity.</string>
+    <string name="tarif_qualified_source_inventory_title">Forest inventory</string>
+    <string name="tarif_qualified_source_inventory_detail">CNPF · e-for-OWN · June 2019 · PDF pp. 11–12</string>
+    <string name="tarif_qualified_source_inventory_body">Diameter measurement reference, diameter classes and heights of sample trees. The height of a representative tree does not become an individual measurement for every tree in its class.</string>
+    <string name="tarif_qualified_source_standing_title">Standing timber volume estimation</string>
+    <string name="tarif_qualified_source_standing_detail">CRPF Île-de-France / Centre · December 2013 · pp. 1–4</string>
+    <string name="tarif_qualified_source_standing_body">Distinguish height to a specified cut-off, mid-point diameter and diameter at 1.30 m; match the estimate to stem form. Commercial conventions and their current applicability still need checking for the relevant contract.</string>
+    <string name="tarif_qualified_source_slenderness_title">Even-aged stands and slenderness</string>
+    <string name="tarif_qualified_source_slenderness_detail">CNPF · e-for-OWN · June 2019 · PDF p. 6</string>
+    <string name="tarif_qualified_source_slenderness_body">Examples of the height/diameter ratio in the context of first thinnings. Their interpretation depends on the stand; they do not establish a universal stability threshold.</string>
+    <string name="tarif_qualified_source_schaeffer_title">Rapid and slow volume tables</string>
+    <string name="tarif_qualified_source_schaeffer_detail">Léon Schaeffer · Revue forestière française · 1949 · pp. 7–13</string>
+    <string name="tarif_qualified_source_schaeffer_body">The publication describes two single-entry families. “Rapid” and “slow” do not mean “one” and “two” entries. Choosing a table number requires suitable calibration.</string>
+    <string name="tarif_qualified_source_fao_title">Log measurement</string>
+    <string name="tarif_qualified_source_fao_detail">FAO · K. Jayaraman · Statistical Manual for Forestry Research · § 6.2.1</string>
+    <string name="tarif_qualified_source_fao_body">Huber, Smalian and Newton formulas according to available sections and their positions. The manual distinguishes these measurements from prediction equations requiring calibration to a species and stand. Document in English.</string>
+    <string name="tarif_qualified_source_basal_title">Basal area and quadratic mean diameter</string>
+    <string name="tarif_qualified_source_basal_detail">Australian National University · Brack and Wood · Stand basal area</string>
+    <string name="tarif_qualified_source_basal_body">Definitions of individual tree section area, their sum and quadratic mean diameter. Preserve units and the measured population when converting to a per-hectare value. Document in English.</string>
+    <string name="tarif_qualified_source_open">Read the source document</string>
+    <string name="tarif_qualified_source_external">Opens an external document. Internet connection required.</string>
+    <string name="tarif_qualified_source_unavailable">Unable to open the document. Check that a browser is available.</string>
+    <string name="tarif_qualified_choice_title">Start with the available measurements</string>
+    <string name="tarif_qualified_choice_description">A table name or location alone is insufficient to choose a reliable equation.</string>
+    <string name="tarif_qualified_one_entry_title">Single-entry volume table</string>
+    <string name="tarif_qualified_one_entry_inputs">One dimension · usually diameter or circumference</string>
+    <string name="tarif_qualified_one_entry_body">The equation estimates volume from one dimension with a defined measurement reference. It may require a table number calibrated to the stand. Not requiring height does not remove the need to check applicability to the observed timber.</string>
+    <string name="tarif_qualified_two_entries_title">Double-entry volume table</string>
+    <string name="tarif_qualified_two_entries_inputs">Two dimensions · usually diameter and height</string>
+    <string name="tarif_qualified_two_entries_body">The method defines the required height: total, to a specified cut-off, or another reference. Stand dominant height or a diameter class mean height cannot replace an individual height without an explicit estimation model.</string>
+    <string name="tarif_qualified_domain_title">Check the domain of applicability</string>
+    <string name="tarif_qualified_domain_body">Species or species group, size range, stem form, stand structure and site conditions: check what the method covers. Use the location of the parcel or survey; the phone\'s current GPS position or a downloaded pack does not establish that a volume table applies.</string>
+    <string name="tarif_qualified_measurements_title">Describe each measurement</string>
+    <string name="tarif_qualified_measurements_body">Distinguish measured diameter from class midpoint, total height from commercial height, measurement from estimate, and individual from collective reference. For individual H/D, height and diameter must refer to the same tree. Unknown values remain unknown.</string>
+    <string name="tarif_qualified_trace_title">Keep the references</string>
+    <string name="tarif_qualified_trace_body">Keep the method and version, coefficient source, measurement date, protocol, cut-off and bark convention. A new table or correction must not reinterpret results from an already closed survey.</string>
+    <string name="tarif_qualified_no_precision">No universal accuracy is guaranteed. An error estimate or uncertainty interval requires documented validation under the method\'s conditions of use.</string>
+    <string name="tarif_qualified_formulas_title">Clearly defined quantities</string>
+    <string name="tarif_qualified_formulas_description">These identities explain units and required data. Their presence in this guide does not activate a calculation or extrapolation in your records.</string>
+    <string name="tarif_qualified_basal_title">Basal area of a tree</string>
+    <string name="tarif_qualified_basal_formula">g = π × (D / 200)²</string>
+    <string name="tarif_qualified_basal_body">D in cm; g in m². Circular section at the diameter measurement level. For observed trees, G is the sum of g. A count by diameter class gives an approximation tied to that class\'s reference diameter.</string>
+    <string name="tarif_qualified_quadratic_title">Quadratic mean diameter</string>
+    <string name="tarif_qualified_quadratic_formula">Dg = 100 × √(4G / (π × N))</string>
+    <string name="tarif_qualified_quadratic_body">G in m², N a strictly positive tree count, Dg in cm. G and N must describe exactly the same population. Dg uses squared diameters, not their arithmetic mean.</string>
+    <string name="tarif_qualified_per_hectare_title">Per-hectare conversion</string>
+    <string name="tarif_qualified_per_hectare_formula">G/ha = G × 10 000 / A</string>
+    <string name="tarif_qualified_per_hectare_body">A is the actually inventoried horizontal area in m², strictly positive. This ratio assumes a complete count of the chosen population over that area. Sampling requires its own weights; a cadastral boundary alone is insufficient.</string>
+    <string name="tarif_qualified_slenderness_title">Individual slenderness H/D</string>
+    <string name="tarif_qualified_slenderness_formula">H/D = 100 × H / D</string>
+    <string name="tarif_qualified_slenderness_body">H is total height in m and D is diameter in cm for the same individual tree, with an explicit measurement convention. The ratio is dimensionless. Commercial height, class height or a collective mean diameter cannot yield this individual H/D.</string>
+    <string name="tarif_qualified_slenderness_limit">H/D describes a proportion. Its value alone does not predict stability: species, stand structure, rooting, exposure and interventions also need assessment. No universal threshold is applied here.</string>
+    <string name="tarif_qualified_logs_title">Geometric log volumes</string>
+    <string name="tarif_qualified_logs_formula">Huber: V = L × Sm\nSmalian: V = L × (S0 + S1) / 2\nNewton: V = L × (S0 + 4Sm + S1) / 6</string>
+    <string name="tarif_qualified_logs_body">L in m; section areas S0 at the start, Sm at mid-length and S1 at the end in m²; V in m³. For a circular section, S = π × (d / 200)² with d in cm. Measure at the required positions and preserve the over-bark or under-bark convention.</string>
+    <string name="tarif_qualified_logs_limit">These geometric formulas apply to measured logs; they are not standing-tree volume tables. A provisional volume does not become a payable quantity without the applicable convention and commercial validation. A stack envelope includes voids and does not directly give solid wood volume.</string>
+</resources>

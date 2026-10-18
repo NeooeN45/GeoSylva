@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profession_choice_intro">Choisissez le profil qui correspond à votre activité sur le terrain.</string>
+    <string name="profession_onf">Technicien ONF</string>
+    <string name="profession_cnpf">Technicien CNPF</string>
+    <string name="profession_ddt">Agent DDT</string>
+    <string name="profession_organisation_note">Le choix du métier ne valide pas votre appartenance à une organisation. Son accord reste nécessaire pour accéder à son espace.</string>
+</resources>

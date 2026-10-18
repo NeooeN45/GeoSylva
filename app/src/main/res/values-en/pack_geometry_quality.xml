@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pack_invalid_contours_count">%1$d original boundaries retained but unavailable on the map. Other features remain available.</string>
+    <string name="pack_invalid_contours_ids">Invalid boundaries reported in the installed pack: %1$s. Originals retained; selection unavailable.</string>
+    <string name="pack_rejected_contours">%1$d received boundaries are invalid and cannot be selected.</string>
+</resources>

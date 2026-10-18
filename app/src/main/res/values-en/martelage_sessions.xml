@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="martelage_session_title">Tree marking</string>
+    <string name="martelage_session_running">Running</string>
+    <string name="martelage_session_paused">Paused</string>
+    <string name="martelage_session_closed">Closed</string>
+    <string name="martelage_session_ready">Ready to start</string>
+    <string name="martelage_session_revision">Version %1$d</string>
+    <string name="martelage_session_clock_recovery">Time measurement was interrupted. Previously recorded time is retained. Resume tree marking when you are ready.</string>
+    <string name="martelage_session_action_failed">This action could not be completed. Your observations are retained. Check the status before trying again.</string>
+    <string name="martelage_session_retry">Refresh status</string>
+    <string name="martelage_session_loading">Loading tree marking…</string>
+    <string name="martelage_session_pause">Pause</string>
+    <string name="martelage_session_resume">Resume</string>
+    <string name="martelage_session_finish">Finish</string>
+    <string name="martelage_session_open_synthesis">View synthesis</string>
+    <string name="martelage_session_correction">Correct</string>
+    <string name="martelage_session_new_campaign">New tree marking</string>
+    <string name="martelage_session_start_description">Start recording field time. New trees will belong to this tree-marking session.</string>
+    <string name="martelage_session_start">Start tree marking</string>
+    <string name="martelage_session_legacy_preserved">Previous observations are retained separately.</string>
+    <string name="martelage_session_finish_title">Finish field work?</string>
+    <string name="martelage_session_finish_description">The timer will pause. The synthesis lets you check your observations and results before closing this version.</string>
+    <string name="martelage_session_finish_check">I have finished recording this tree-marking session.</string>
+    <string name="martelage_session_finish_review">Review synthesis</string>
+    <string name="martelage_session_correction_title">Create a correction?</string>
+    <string name="martelage_session_correction_description">A new version copies the observations from this session. The closed version and its synthesis are retained. Resume the timer before editing observations.</string>
+    <string name="martelage_session_correction_create">Create correction</string>
+    <string name="martelage_plot_start_title">Mark trees in this plot</string>
+    <string name="martelage_plot_start_explanation">Start tree marking to record the trees in this plot and measure your field time.</string>
+    <string name="martelage_plot_start_steps">The timer appears at the top of the page. Pause, resume, then finish to review your synthesis. Each tree-marking session is dated and independent.</string>
+    <string name="martelage_plot_consult">View the plot</string>
+    <string name="martelage_plot_history_title">Tree-marking sessions in this plot</string>
+    <string name="martelage_plot_history_legacy">Previous observations without a tree-marking session</string>
+    <string name="martelage_plot_history_count">%1$d trees · %2$d species</string>
+    <string name="martelage_plot_unavailable">This plot cannot be found or is not accessible in this workspace.</string>
+    <string name="martelage_plot_start_required">Start tree marking to edit species and observations.</string>
+</resources>

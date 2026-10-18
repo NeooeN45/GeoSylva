@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="geographic_map_recenter">Recenter on the area</string>
+    <string name="geographic_loading">Loading…</string>
+    <string name="geographic_save_failed">Unable to save. Your selection has been kept.</string>
+    <string name="geographic_data_unavailable">Data unavailable. Check your packs and connection.</string>
+    <string name="geographic_retry">Retry</string>
+    <string name="forest_map_title">Add a forest</string>
+    <string name="forest_map_search">Find a forest</string>
+    <string name="forest_map_zoom">Search by name or zoom in to display forests.</string>
+    <string name="forest_map_tap">Tap a forest to display its summary.</string>
+    <string name="forest_map_summary">Calculated extent: %1$s ha · Department %2$s</string>
+    <string name="forest_map_owner_unknown">Owner and manager: not supplied by this layer. You can add them.</string>
+    <string name="forest_map_scope">Public forest boundaries available. Use manual entry for an unlisted forest.</string>
+    <string name="forest_map_details">Add details</string>
+    <string name="forest_map_manual">Manual entry</string>
+    <string name="forest_map_confirm">Create forest</string>
+    <string name="parcel_map_title">Choose a parcel</string>
+    <string name="parcel_map_cadastre">Cadastre</string>
+    <string name="parcel_map_onf">ONF parcels</string>
+    <string name="parcel_map_onf_pending">The ONF layer is currently unavailable. Cadastre remains available.</string>
+    <string name="parcel_map_outside">Choose a point inside this forest boundary.</string>
+    <string name="parcel_map_zoom">Zoom in to display cadastral parcels.</string>
+    <string name="parcel_map_truncated">Partial coverage. Zoom in or check the packs for this area.</string>
+    <string name="parcel_map_tap">Tap one parcel. A new selection replaces the previous one.</string>
+    <string name="parcel_map_name">Parcel name</string>
+    <string name="parcel_map_surface">Boundary area: %1$s ha (approximate calculation)</string>
+    <string name="parcel_map_cadastral_area">Cadastral area: %1$s ha</string>
+    <string name="parcel_map_source_area">ONF reference area: %1$s ha</string>
+    <string name="parcel_map_terrain_unknown">Slope, elevation and access: not supplied by this layer.</string>
+    <string name="parcel_map_clear">Clear selection</string>
+    <string name="parcel_map_confirm">Create parcel</string>
+</resources>

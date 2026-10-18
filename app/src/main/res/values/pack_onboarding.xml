@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pack_onboarding_step_one">1 / 2 · Vos territoires</string>
+    <string name="pack_onboarding_step_two">2 / 2 · Disponible hors ligne</string>
+    <string name="pack_onboarding_map_title">Votre terrain de travail</string>
+    <string name="pack_onboarding_skip">Plus tard</string>
+    <string name="pack_onboarding_map_hint">Touchez une région. Zoomez pour choisir les départements ; vous pouvez en sélectionner plusieurs.</string>
+    <string name="pack_onboarding_validate">Valider mes territoires</string>
+    <string name="pack_onboarding_download_title">Vos packs hors ligne</string>
+    <string name="pack_onboarding_return_map">Revenir au choix des territoires</string>
+    <string name="pack_onboarding_continue">Continuer vers GeoSylva</string>
+    <string name="pack_onboarding_settings_reminder">Téléchargement facultatif. Retrouvez vos choix dans Réglages → Packs.</string>
+    <string name="pack_onboarding_independent_archives">Télécharger une région inclut tous ses départements. Les archives restent distinctes ; celles déjà actives ne sont pas téléchargées à nouveau.</string>
+    <string name="pack_onboarding_unpublished">Aucun pack publié dans le catalogue disponible pour : %1$s. Votre sélection reste enregistrée.</string>
+    <string name="pack_onboarding_leave_title">Interrompre et continuer ?</string>
+    <string name="pack_onboarding_leave_body">Les opérations de packs en cours seront interrompues. Les téléchargements partiels sont conservés pour une reprise dans Réglages → Packs.</string>
+    <string name="pack_onboarding_stop_continue">Interrompre et continuer</string>
+</resources>

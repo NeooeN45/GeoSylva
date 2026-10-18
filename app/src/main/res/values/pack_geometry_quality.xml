@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pack_invalid_contours_count">%1$d contours originaux conservés mais non utilisables sur la carte. Les autres objets restent disponibles.</string>
+    <string name="pack_invalid_contours_ids">Contours invalides signalés dans le pack installé : %1$s. Originaux conservés ; sélection indisponible.</string>
+    <string name="pack_rejected_contours">%1$d contours reçus sont invalides et ne peuvent pas être sélectionnés.</string>
+</resources>

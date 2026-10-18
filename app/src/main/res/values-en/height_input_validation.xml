@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="height_input_invalid">Enter heights between 0.5 and 80 m. Use a comma or period for decimals, and a semicolon or space between measurements.</string>
+    <string name="height_n_recorded_format">Recorded heights: %1$d</string>
+</resources>

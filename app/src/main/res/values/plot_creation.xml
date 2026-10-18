@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="plot_point_limit">Limite de 500 placettes par création atteinte. Enregistrez ce groupe avant de poursuivre.</string>
+    <string name="plot_choose_scope">Comment souhaitez-vous relever cette parcelle ?</string>
+    <string name="plot_scope_whole">Toute la parcelle</string>
+    <string name="plot_scope_whole_description">Un seul relevé, sur l’ensemble du contour sélectionné.</string>
+    <string name="plot_scope_points">Placettes sur la carte</string>
+    <string name="plot_scope_points_description">Placez un ou plusieurs points, puis choisissez leur rayon.</string>
+    <string name="plot_missing_boundary">Le contour de cette parcelle n’est pas disponible. Sélectionnez d’abord une parcelle sur la carte pour positionner vos relevés.</string>
+    <string name="plot_missing_area">La surface de la parcelle n’est pas disponible. Renseignez-la dans la parcelle avant de créer un relevé sur toute sa surface.</string>
+    <string name="plot_whole_summary">Un relevé pour toute la parcelle</string>
+    <string name="plot_whole_area">Surface retenue : %1$s ha. Aucun rayon n’est nécessaire.</string>
+    <string name="plot_points_selected">%1$d point(s) sélectionné(s)</string>
+    <string name="plot_points_hint">Touchez l’intérieur du contour pour placer les centres des placettes. Vérifiez que chaque placette circulaire reste dans la parcelle.</string>
+    <string name="plot_number">Placette %1$d</string>
+    <string name="plot_remove_point">Retirer</string>
+    <string name="plot_common_radius">Rayon de chaque placette</string>
+    <string name="plot_radius_hint">Saisissez un rayon positif en mètres.</string>
+    <string name="plot_circle_area">Surface de chaque placette : %1$s m²</string>
+    <string name="plot_name_prefix">Nom des relevés</string>
+    <string name="plot_default_prefix">Placette</string>
+    <string name="plot_create_points">Créer %1$d placette(s)</string>
+    <string name="plot_create_whole">Créer le relevé</string>
+    <string name="plot_parent_unavailable">La parcelle ne peut pas être chargée. Revenez à la liste et réessayez.</string>
+    <string name="plot_point_outside">Choisissez un point à l’intérieur du contour de la parcelle.</string>
+    <string name="plot_save_failed">Les relevés n’ont pas été créés. Vérifiez le contour et la surface de la parcelle, puis réessayez.</string>
+    <string name="plot_whole_edit_hint">Ce relevé couvre toute la parcelle. Vous pouvez modifier son nom ; sa surface enregistrée et son mode de relevé sont conservés.</string>
+    <string name="plot_whole_card">Toute la parcelle</string>
+</resources>

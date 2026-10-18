@@ -66,6 +66,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.forestry.counter.R
 import com.forestry.counter.domain.model.Tige
+import com.forestry.counter.domain.repository.InventaireSessionRepository
 import com.forestry.counter.domain.repository.EssenceRepository
 import com.forestry.counter.domain.repository.PlacetteRepository
 import com.forestry.counter.domain.repository.TigeRepository
@@ -80,15 +81,17 @@ fun PlacetteEvolutionScreen(
     tigeRepository: TigeRepository,
     essenceRepository: EssenceRepository,
     placetteRepository: PlacetteRepository,
+    sessionRepository: InventaireSessionRepository? = null,
     onNavigateBack: () -> Unit
 ) {
-    val viewModel = remember(placetteId, year) {
+    val viewModel = remember(placetteId, year, sessionRepository) {
         PlacetteEvolutionViewModel(
             placetteId = placetteId,
             year = year,
             tigeRepository = tigeRepository,
             essenceRepository = essenceRepository,
-            placetteRepository = placetteRepository
+            placetteRepository = placetteRepository,
+            sessionRepository = sessionRepository,
         )
     }
 

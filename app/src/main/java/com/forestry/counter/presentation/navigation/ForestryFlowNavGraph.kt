@@ -5,9 +5,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.forestry.counter.ForestryCounterApplication
-import com.forestry.counter.presentation.screens.forestry.DashboardScreen
 import com.forestry.counter.presentation.screens.forestry.EssenceDiamScreen
+import com.forestry.counter.presentation.screens.forestry.ForestListScreen
 import com.forestry.counter.presentation.screens.forestry.MapRechercheScreen
 import com.forestry.counter.presentation.screens.forestry.MartelageScreen
 import com.forestry.counter.presentation.screens.forestry.ParcellesScreen
@@ -20,7 +21,7 @@ import com.forestry.counter.presentation.screens.groups.GroupsScreen
  * Sous-graphe flux forestier principal.
  *
  * Routes : [Screen.Forets], [Screen.Parcelles], [Screen.Placettes],
- * [Screen.PlacetteDetail], [Screen.EssenceDiam], [Screen.Dashboard],
+ * [Screen.PlacetteDetail], [Screen.EssenceDiam],
  * [Screen.Martelage], [Screen.Map]
  */
 fun NavGraphBuilder.forestryFlowNavGraph(
@@ -28,6 +29,73 @@ fun NavGraphBuilder.forestryFlowNavGraph(
     app: ForestryCounterApplication,
     transitions: NavTransitions,
 ) {
+    composable(Screen.Worksites.route) {
+        val profession = app.userPreferences.userProfession.collectAsStateWithLifecycle(initialValue = null)
+        if (JourneyNavigation.access(profession.value).allows(com.forestry.counter.domain.journey.JourneyFeature.WORKSITES)) {
+            com.forestry.counter.presentation.screens.field.WorksitesScreen(app.fieldRepository,
+                onJournal = { navController.navigate(Screen.FieldJournal.createRoute(it)) },
+                onBack = { navController.popBackStack() })
+        } else com.forestry.counter.presentation.screens.home.JourneyUnavailableScreen({ navController.popBackStack() })
+    }
+    composable(Screen.FieldJournal.route, arguments = listOf(navArgument("kind") { type = NavType.StringType }, navArgument("targetId") { type = NavType.StringType })) { entry ->
+        val profession = app.userPreferences.userProfession.collectAsStateWithLifecycle(initialValue = null)
+        val target = runCatching { com.forestry.counter.domain.field.FieldTarget(
+            com.forestry.counter.domain.field.FieldTargetKind.valueOf(checkNotNull(entry.arguments?.getString("kind"))),
+            checkNotNull(entry.arguments?.getString("targetId"))) }.getOrNull()
+        val feature = when (target?.kind) {
+            com.forestry.counter.domain.field.FieldTargetKind.WORKSITE -> com.forestry.counter.domain.journey.JourneyFeature.WORKSITES
+            com.forestry.counter.domain.field.FieldTargetKind.WOOD_DEPOT, com.forestry.counter.domain.field.FieldTargetKind.WOOD_OBJECT -> com.forestry.counter.domain.journey.JourneyFeature.WOOD_DEPOTS
+            else -> com.forestry.counter.domain.journey.JourneyFeature.FORESTS
+        }
+        if (target != null && JourneyNavigation.access(profession.value).allows(feature)) {
+            com.forestry.counter.presentation.screens.field.FieldJournalScreen(app.fieldRepository, target,
+                onOpenWood = { depot, wood -> navController.navigate(Screen.WoodObjects.createRoute(depot,wood)) },
+                onBack = { navController.popBackStack() })
+        } else com.forestry.counter.presentation.screens.home.JourneyUnavailableScreen({ navController.popBackStack() })
+    }
+    composable(
+        route = Screen.WoodDepots.route,
+        enterTransition = transitions.enter,
+        exitTransition = transitions.exit,
+        popEnterTransition = transitions.popEnter,
+        popExitTransition = transitions.popExit,
+    ) {
+        val profession = app.userPreferences.userProfession.collectAsStateWithLifecycle(initialValue = null)
+        if (JourneyNavigation.access(profession.value).allows(com.forestry.counter.domain.journey.JourneyFeature.WOOD_DEPOTS)) {
+            com.forestry.counter.presentation.screens.wood.WoodDepotsScreen(
+                repository = app.woodDepotRepository,
+                onOpenWood = { navController.navigate(Screen.WoodObjects.createRoute(it)) },
+                professionCode = profession.value,
+                onNavigateBack = { navController.popBackStack() },
+            )
+        } else {
+            com.forestry.counter.presentation.screens.home.JourneyUnavailableScreen(
+                onExplorer = { navController.navigate(BottomNavDestination.EXPLORER.route) { launchSingleTop = true } },
+            )
+        }
+    }
+    composable(
+        route = Screen.WoodObjects.route,
+        arguments = listOf(navArgument("depotId") { type = NavType.StringType }, navArgument("objectId") { type = NavType.StringType; nullable = true; defaultValue = null }),
+        enterTransition = transitions.enter, exitTransition = transitions.exit,
+        popEnterTransition = transitions.popEnter, popExitTransition = transitions.popExit,
+    ) { entry ->
+        val profession = app.userPreferences.userProfession.collectAsStateWithLifecycle(initialValue = null)
+        val depotId = entry.arguments?.getString("depotId")?.let { raw ->
+            runCatching { com.forestry.counter.domain.model.requireWoodDepotId(raw); java.util.UUID.fromString(raw) }.getOrNull()
+        }
+        if (depotId != null && JourneyNavigation.access(profession.value).allows(com.forestry.counter.domain.journey.JourneyFeature.WOOD_DEPOTS)) {
+            com.forestry.counter.presentation.screens.wood.WoodObjectsScreen(app.woodObjectRepository, depotId,
+                fieldRepository = app.fieldRepository,
+                initialObjectId = entry.arguments?.getString("objectId")?.let { runCatching { java.util.UUID.fromString(it) }.getOrNull() },
+                onJournal = { id -> navController.navigate(Screen.FieldJournal.createRoute(com.forestry.counter.domain.field.FieldTarget(com.forestry.counter.domain.field.FieldTargetKind.WOOD_OBJECT,id.toString()))) },
+                onDepotJournal = { navController.navigate(Screen.FieldJournal.createRoute(com.forestry.counter.domain.field.FieldTarget(com.forestry.counter.domain.field.FieldTargetKind.WOOD_DEPOT,depotId.toString()))) },
+                onBack = { navController.popBackStack() })
+        } else {
+            com.forestry.counter.presentation.screens.home.JourneyUnavailableScreen(
+                onExplorer = { navController.navigate(BottomNavDestination.EXPLORER.route) { launchSingleTop = true } })
+        }
+    }
     composable(
         route = Screen.Forets.route,
         enterTransition = transitions.enter,
@@ -35,7 +103,24 @@ fun NavGraphBuilder.forestryFlowNavGraph(
         popEnterTransition = transitions.popEnter,
         popExitTransition = transitions.popExit,
     ) {
-        // Forests selection reuses the Groups screen
+        ForestListScreen(
+            foretRepository = app.foretRepository,
+            businessReadAccess = app.businessReadAccess,
+            onNavigateBack = { navController.popBackStack() },
+            onNavigateToForest = { id -> navController.navigate(Screen.ForestManagement.createRoute(id)) },
+            onCreateForest = { navController.navigate(Screen.CreateForest.route) },
+            onLegacyGroups = { navController.navigate(Screen.ForestryLegacyGroups.route) },
+        )
+    }
+
+    composable(
+        route = Screen.ForestryLegacyGroups.route,
+        enterTransition = transitions.enter,
+        exitTransition = transitions.exit,
+        popEnterTransition = transitions.popEnter,
+        popExitTransition = transitions.popExit,
+    ) {
+        // Les dossiers historiques conservent leur modèle et leurs identifiants.
         GroupsScreen(
             groupRepository = app.groupRepository,
             onNavigateToGroup = { groupId ->
@@ -71,12 +156,18 @@ fun NavGraphBuilder.forestryFlowNavGraph(
     ) { backStackEntry ->
         val forestArg = backStackEntry.arguments?.getString("forestId")
         val forestId = forestArg?.takeUnless { it == "none" }
+        // Historical Groups supply a groupId here. Their manual parcel creation must
+        // not enter the canonical forest wizard, which requires an actual Foret ID.
         ParcellesScreen(
             forestId = forestId,
             groupRepository = app.groupRepository,
             parcelleRepository = app.parcelleRepository,
             placetteRepository = app.placetteRepository,
             tigeRepository = app.tigeRepository,
+            sessionRepository = app.inventaireSessionRepository,
+            onOpenSessionSynthesis = { pid, sid ->
+                navController.navigate(Screen.Martelage.forParcelle(pid, sid))
+            },
             userPreferences = app.userPreferences,
             onNavigateToPlacettes = { parcelleId ->
                 navController.navigate(Screen.Placettes.createRoute(parcelleId))
@@ -95,9 +186,6 @@ fun NavGraphBuilder.forestryFlowNavGraph(
             onNavigateToIbp = { pid ->
                 navController.navigate(Screen.IbpHistory.createRoute(pid))
             },
-            onNavigateToCreateParcelle = { fid ->
-                navController.navigate(Screen.CreateParcelle.createRoute(fid))
-            }
         )
     }
 
@@ -111,10 +199,15 @@ fun NavGraphBuilder.forestryFlowNavGraph(
     ) { backStackEntry ->
         val parcelleId = backStackEntry.arguments?.getString("parcelleId") ?: return@composable
         PlacettesScreen(
+            onOpenFieldJournal = { navController.navigate(Screen.FieldJournal.createRoute(com.forestry.counter.domain.field.FieldTarget(com.forestry.counter.domain.field.FieldTargetKind.PARCEL,parcelleId))) },
             parcelleId = parcelleId,
             placetteRepository = app.placetteRepository,
             parcelleRepository = app.parcelleRepository,
             tigeRepository = app.tigeRepository,
+            sessionRepository = app.inventaireSessionRepository,
+            onOpenSessionSynthesis = { pid, sid ->
+                navController.navigate(Screen.Martelage.forParcelle(pid, sid))
+            },
             userPreferences = app.userPreferences,
             onNavigateToMartelage = { pid, plid ->
                 navController.navigate(Screen.PlacetteDetail.createRoute(pid, plid))
@@ -125,9 +218,6 @@ fun NavGraphBuilder.forestryFlowNavGraph(
             },
             onNavigateToMap = { pid ->
                 navController.navigate(Screen.Map.createRoute(pid))
-            },
-            onNavigateToDashboard = { pid ->
-                navController.navigate(Screen.Dashboard.createRoute(pid))
             },
             onNavigateToDiagnostic = { pid ->
                 navController.navigate(Screen.DiagnosticMenu.createRoute(pid))
@@ -152,12 +242,19 @@ fun NavGraphBuilder.forestryFlowNavGraph(
         val parcelleId = backStackEntry.arguments?.getString("parcelleId") ?: return@composable
         val placetteId = backStackEntry.arguments?.getString("placetteId") ?: return@composable
         PlacetteDetailScreen(
+            onOpenFieldJournal = { navController.navigate(Screen.FieldJournal.createRoute(com.forestry.counter.domain.field.FieldTarget(com.forestry.counter.domain.field.FieldTargetKind.PLOT,placetteId))) },
             parcelleId = parcelleId,
             placetteId = placetteId,
             essenceRepository = app.essenceRepository,
             tigeRepository = app.tigeRepository,
             placetteRepository = app.placetteRepository,
             userPreferences = app.userPreferences,
+            sessionRepository = app.inventaireSessionRepository,
+            identityRepository = app.identityRepository,
+            surveyContextRepository = app.surveyContextRepository,
+            onOpenSessionSynthesis = { pid, plid, sid ->
+                navController.navigate(Screen.Martelage.forPlacette(pid, plid, sid))
+            },
             onNavigateToDiametres = { pid, plid, essence ->
                 navController.navigate(Screen.EssenceDiam.createRoute(pid, plid, essence))
             },
@@ -201,6 +298,7 @@ fun NavGraphBuilder.forestryFlowNavGraph(
             tigeRepository = app.tigeRepository,
             essenceRepository = app.essenceRepository,
             placetteRepository = app.placetteRepository,
+            sessionRepository = app.inventaireSessionRepository,
             onNavigateBack = { navController.popBackStack() }
         )
     }
@@ -228,24 +326,10 @@ fun NavGraphBuilder.forestryFlowNavGraph(
             calculator = app.forestryCalculator,
             userPreferences = app.userPreferences,
             essenceRepository = app.essenceRepository,
-            onNavigateBack = { navController.popBackStack() }
-        )
-    }
-
-    composable(
-        route = Screen.Dashboard.route,
-        arguments = listOf(navArgument("parcelleId") { type = NavType.StringType }),
-        enterTransition = transitions.enter,
-        exitTransition = transitions.exit,
-        popEnterTransition = transitions.popEnter,
-        popExitTransition = transitions.popExit,
-    ) { backStackEntry ->
-        val parcelleId = backStackEntry.arguments?.getString("parcelleId") ?: return@composable
-        DashboardScreen(
-            parcelleId = parcelleId,
-            tigeRepository = app.tigeRepository,
-            essenceRepository = app.essenceRepository,
-            parcelleRepository = app.parcelleRepository,
+            sessionRepository = app.inventaireSessionRepository,
+            identityRepository = app.identityRepository,
+            observationQualificationRepository = app.observationQualificationRepository,
+            businessReadAccess = app.businessReadAccess,
             onNavigateBack = { navController.popBackStack() }
         )
     }
@@ -256,7 +340,8 @@ fun NavGraphBuilder.forestryFlowNavGraph(
             navArgument("scope") { type = NavType.StringType },
             navArgument("forestId") { type = NavType.StringType },
             navArgument("parcelleId") { type = NavType.StringType },
-            navArgument("placetteId") { type = NavType.StringType }
+            navArgument("placetteId") { type = NavType.StringType },
+            navArgument("sessionId") { type = NavType.StringType; nullable = true; defaultValue = null },
         ),
         enterTransition = transitions.enter,
         exitTransition = transitions.exit,
@@ -277,6 +362,10 @@ fun NavGraphBuilder.forestryFlowNavGraph(
             parcelleRepository = app.parcelleRepository,
             forestryCalculator = app.forestryCalculator,
             userPreferences = app.userPreferences,
+            placetteRepository = app.placetteRepository,
+            sessionRepository = app.inventaireSessionRepository,
+            initialSessionId = backStackEntry.arguments?.getString("sessionId"),
+            businessReadAccess = app.businessReadAccess,
             onNavigateToSettings = { navController.navigate(Screen.SettingsHome.route) },
             onNavigateToPriceTablesEditor = { navController.navigate(Screen.PriceTablesEditor.route) },
             onNavigateToMap = { pid -> navController.navigate(Screen.Map.createRoute(pid)) },

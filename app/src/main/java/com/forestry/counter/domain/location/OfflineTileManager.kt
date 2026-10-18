@@ -442,9 +442,9 @@ class OfflineTileManager(private val context: Context) {
     /**
      * Génère un style MapLibre JSON qui référence toutes les zones hors-ligne
      * téléchargées (une par une, empilées — les zones sont choisies par
-     * l'utilisateur et ne se chevauchent en général pas). Pas de `glyphs` :
-     * les couches raster hors-ligne n'affichent pas de texte, et pointer vers
-     * une police distante casserait l'usage vraiment hors-ligne.
+     * l'utilisateur et ne se chevauchent en général pas). Les glyphes sont
+     * embarqués pour les étiquettes SHP et comptes de tiges ajoutés au style ;
+     * aucune police distante n'est requise pour cette consultation locale.
      */
     fun buildOfflineStyle(@Suppress("UNUSED_PARAMETER") layerCount: Int = 1): String {
         val root = tilesRoot.absolutePath
@@ -457,15 +457,18 @@ class OfflineTileManager(private val context: Context) {
                 if (!first) { sources.append(","); layers.append(",") }
                 first = false
                 val sourceId = "${region.id}_layer$i"
+                // RegionMeta ne conserve pas le producteur, l'édition ou la
+                // licence des anciens caches : ne pas attribuer des droits IGN
+                // à un fichier dont la provenance n'a pas été enregistrée.
                 sources.append(
-                    """"$sourceId":{"type":"raster","tiles":["file://$root/${region.id}/layer$i/{z}/{x}/{y}.png"],"tileSize":256,"maxzoom":${region.maxZoom},"attribution":"IGN Géoportail — Licence Ouverte 2.0 (Etalab)"}"""
+                    """"$sourceId":{"type":"raster","tiles":["file://$root/${region.id}/layer$i/{z}/{x}/{y}.png"],"tileSize":256,"maxzoom":${region.maxZoom},"attribution":"Fond local · provenance historique non renseignée"}"""
                 )
                 val opacity = if (i == 0) "" else ""","paint":{"raster-opacity":0.7}"""
                 layers.append("""{"id":"$sourceId","type":"raster","source":"$sourceId"$opacity}""")
             }
         }
 
-        return """{"version":8,"name":"Offline Local","sources":{$sources},"layers":[$layers]}"""
+        return """{"version":8,"name":"Offline Local","glyphs":"${MapLabelGlyphs.URI_TEMPLATE}","sources":{$sources},"layers":[$layers]}"""
     }
 
     /**

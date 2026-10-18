@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="essence_session_loading">Vérification du martelage en cours…</string>
+    <string name="essence_session_unavailable">Le martelage ne peut pas être vérifié. La saisie est suspendue ; revenez aux placettes puis réessayez.</string>
+    <string name="essence_session_legacy">Anciens relevés : ils restent séparés des campagnes de martelage versionnées.</string>
+    <string name="essence_session_running">Martelage en cours · révision %1$d</string>
+    <string name="essence_session_paused">Martelage en pause : les relevés restent consultables. Reprenez-le depuis les placettes pour saisir, modifier ou supprimer.</string>
+    <string name="essence_session_recovery">Le chronomètre doit être repris explicitement depuis les placettes. Les relevés restent consultables ; la saisie est suspendue.</string>
+    <string name="essence_session_closed">Révision %1$d clôturée : consultation seule. Créez une correction depuis les placettes pour modifier les relevés.</string>
+    <string name="essence_session_changed">L’état du martelage ou du relevé a changé. La modification demandée n’a pas été entièrement appliquée ; vérifiez les valeurs affichées avant de réessayer.</string>
+    <string name="essence_session_write_failed">La modification n’a pas pu être enregistrée. Vérifiez les relevés affichés avant de réessayer.</string>
+    <string name="essence_session_height_by_class_hint">Renseignez une hauteur de référence par classe de diamètre, en mètres. Utilisez la virgule ou le point pour les décimales ; séparez plusieurs hauteurs par des points-virgules ou des espaces (ex. : 18,5;20;21). Cette référence sera appliquée aux tiges de la classe dans la campagne affichée : elle ne constitue pas une mesure individuelle de chaque arbre. Les autres campagnes et anciens relevés restent inchangés.</string>
+    <string name="essence_session_read_only">Consultation seule</string>
+</resources>

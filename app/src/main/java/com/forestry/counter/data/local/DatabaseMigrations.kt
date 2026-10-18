@@ -454,6 +454,22 @@ object DatabaseMigrations {
         }
     }
 
+    /** Managed campaigns preserve all legacy sessions and unassigned observations. */
+    val MIGRATION_36_37 = object : Migration(36, 37) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE `inventaire_sessions` ADD COLUMN `martelageState` TEXT")
+            db.execSQL("ALTER TABLE `inventaire_sessions` ADD COLUMN `activeDurationMs` INTEGER NOT NULL DEFAULT 0")
+            db.execSQL("ALTER TABLE `inventaire_sessions` ADD COLUMN `segmentStartedElapsedMs` INTEGER")
+            db.execSQL("ALTER TABLE `inventaire_sessions` ADD COLUMN `segmentBootCount` INTEGER")
+            db.execSQL("ALTER TABLE `inventaire_sessions` ADD COLUMN `campaignId` TEXT")
+            db.execSQL("ALTER TABLE `inventaire_sessions` ADD COLUMN `revisionNumber` INTEGER NOT NULL DEFAULT 1")
+            db.execSQL("ALTER TABLE `inventaire_sessions` ADD COLUMN `previousSessionId` TEXT")
+            db.execSQL("ALTER TABLE `inventaire_sessions` ADD COLUMN `closedSnapshotJson` TEXT")
+            db.execSQL("ALTER TABLE `inventaire_sessions` ADD COLUMN `recoveryRequired` INTEGER NOT NULL DEFAULT 0")
+            db.execSQL("ALTER TABLE `tiges` ADD COLUMN `originTigeId` TEXT")
+        }
+    }
+
     /** Liste ordonnée de toutes les migrations pour Room.databaseBuilder */
     val MIGRATION_32_33 = object : Migration(32, 33) {
         override fun migrate(db: SupportSQLiteDatabase) {
@@ -844,6 +860,30 @@ object DatabaseMigrations {
         }
     }
 
+    /**
+     * Retains a selected official forest boundary and its source identity.
+     * Existing forests remain without inferred geometry/source; no table rewrite,
+     * dossier deduplication or unique index on official source identifiers.
+     */
+    val MIGRATION_35_36 = object : Migration(35, 36) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE `forets` ADD COLUMN `shape` TEXT")
+            db.execSQL("ALTER TABLE `forets` ADD COLUMN `sourceForestId` TEXT")
+            db.execSQL("ALTER TABLE `forets` ADD COLUMN `sourceForestDataset` TEXT")
+        }
+    }
+
+    /** Scope new campaigns to a plot without attributing any historical observations. */
+    val MIGRATION_39_40 = object : Migration(39, 40) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE `inventaire_sessions` ADD COLUMN `placetteId` TEXT")
+            db.execSQL("CREATE INDEX `index_sessions_placetteId` ON `inventaire_sessions` (`placetteId`)")
+            db.execSQL("ALTER TABLE `inventaire_sessions` ADD COLUMN `traceJson` TEXT")
+            db.execSQL("ALTER TABLE `placettes` ADD COLUMN `samplingPlanJson` TEXT")
+            db.execSQL("ALTER TABLE `placettes` ADD COLUMN `footprintGeoJson` TEXT")
+        }
+    }
+
     /** Liste ordonnée de toutes les migrations pour Room.databaseBuilder. */
     val ALL = arrayOf(
         MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5,
@@ -858,5 +898,15 @@ object DatabaseMigrations {
         MIGRATION_32_33,
         MIGRATION_33_34,
         MIGRATION_34_35,
+        MIGRATION_35_36,
+        MIGRATION_36_37,
+        ParcelJournalMigrations.MIGRATION_37_38,
+        HierarchySyncMigrations.MIGRATION_38_39,
+        MIGRATION_39_40,
+        SurveyContextMigrations.MIGRATION_40_41,
+            ObservationQualificationMigrations.MIGRATION_41_42,
+        WoodDepotMigrations.MIGRATION_42_43,
+        WoodObjectMigrations.MIGRATION_43_44,
+        FieldMigrations.MIGRATION_44_45,
     )
 }

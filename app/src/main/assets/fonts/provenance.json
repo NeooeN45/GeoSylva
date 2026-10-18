@@ -1,0 +1,2363 @@
+{
+  "schema_version": 1,
+  "purpose": "Glyphes SDF locaux pour conserver les labels MapLibre de relevés et SHP sans service de démonstration distant.",
+  "font_stack": [
+    "Open Sans Regular"
+  ],
+  "glyphs_uri": "asset://fonts/{fontstack}/{range}.pbf",
+  "font_family": "Open Sans",
+  "font_style": "Regular",
+  "source_font_version": "1.10",
+  "commercial_reuse": "Qualified font and glyph bundle redistribution subject to Apache-2.0 and preserved repository BSD notices; no hosted demo-service dependency.",
+  "font_license": {
+    "spdx": "Apache-2.0",
+    "source_repository": "openmaptiles/fonts",
+    "git_revision": "d48c5fce2fc58b55c98d353558d807cac45e7262",
+    "source_font_url": "https://raw.githubusercontent.com/openmaptiles/fonts/d48c5fce2fc58b55c98d353558d807cac45e7262/open-sans/OpenSans-Regular.ttf",
+    "license_url": "https://raw.githubusercontent.com/openmaptiles/fonts/d48c5fce2fc58b55c98d353558d807cac45e7262/open-sans/Apache%20License.txt",
+    "copyright": "Digitized data copyright © 2010-2011, Google Corporation.",
+    "local_license": "LICENSE-OpenSans-Apache-2.0.txt",
+    "source_font_sha256": "e64e508b2aa2880f907e470c4550980ec4c0694d103a43f36150ac3f93189bee",
+    "font_name_table_license": "Licensed under the Apache License, Version 2.0"
+  },
+  "glyph_source": {
+    "repository": "maplibre/demotiles",
+    "git_revision": "601ae60796ceceda2cbd2ed3d2ea92d17a84be4b",
+    "source_directory": "font/Open Sans Regular,Arial Unicode MS Regular",
+    "import_commit": "fee1b6ef9a33582e065b74faee9f459c3ecac537",
+    "import_statement": "Publish the glyphs for Open Sans Regular under the expected path to unblock the demo pages from that project.",
+    "repository_license": "BSD-3-Clause",
+    "local_repository_license": "LICENSE-MapLibre-DemoTiles-BSD-3-Clause.txt",
+    "unchanged_bytes": true,
+    "path_rename_only": true
+  },
+  "coverage": {
+    "range_file_count": 256,
+    "first_range": "0-255",
+    "last_range": "65280-65535",
+    "range_file_bytes": 399783,
+    "glyph_count": 883,
+    "nonempty_ranges": 15,
+    "required_french_characters_verified": "ÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸàâäçéèêëîïôöùûüÿŒœ’–—·0123456789",
+    "warning": "All BMP request-range files supplied, but empty ranges do not add characters. No guarantee of all Unicode, supplementary codepoints, CJK or complex-script shaping."
+  },
+  "sdk_contract": {
+    "android_version": "10.3.1",
+    "git_revision": "e6e8cb9d5145034e3856b7c0e183fb93f54fdda3",
+    "asset_file_source_url": "https://raw.githubusercontent.com/maplibre/maplibre-native/e6e8cb9d5145034e3856b7c0e183fb93f54fdda3/platform/android/MapboxGLAndroidSDK/src/cpp/asset_manager_file_source.cpp",
+    "statically_verified": "asset:// accepted, URL percent-decoded, Android AAssetManager_open used.",
+    "runtime_visual_validation": "Pending; static source verification does not replace APK/emulator recipe."
+  },
+  "validated_utc": "2026-10-02T09:54:56.361422+00:00",
+  "files": [
+    {
+      "range": "0-255",
+      "file": "0-255.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/0-255.pbf",
+      "git_blob_sha1": "ab811ae10a2e7bd58ab67fd120cc313a03e3bc11",
+      "sha256": "0c8bdb284f2ad6f69bbb434a0208393f3a517bc8bf7ed1eccc4ac4791ebbcbfe",
+      "bytes": 74696,
+      "glyph_count": 191
+    },
+    {
+      "range": "256-511",
+      "file": "256-511.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/256-511.pbf",
+      "git_blob_sha1": "6e108e53a26f8579a46c9626a5e312c95c8ed83f",
+      "sha256": "9962ad38d064edbeb226a6c7dcf1d58e7678508a805f980d2fe81bb3178ba68a",
+      "bytes": 66481,
+      "glyph_count": 140
+    },
+    {
+      "range": "512-767",
+      "file": "512-767.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/512-767.pbf",
+      "git_blob_sha1": "5dbfb5b43cb4d9e0ca68b729ad2f3169d9b9ab59",
+      "sha256": "2a7c191141c66e209d08d834df530a06a234224d48ae97d69f1bde1b1b5db404",
+      "bytes": 3653,
+      "glyph_count": 16
+    },
+    {
+      "range": "768-1023",
+      "file": "768-1023.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/768-1023.pbf",
+      "git_blob_sha1": "a3efbb9361d4d603042de3f2bdb4e261b8170763",
+      "sha256": "fea6a1c8e1be55d9725520627b108d425723b2dc189b7dddfe56abd7d8238ea9",
+      "bytes": 33767,
+      "glyph_count": 81
+    },
+    {
+      "range": "1024-1279",
+      "file": "1024-1279.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/1024-1279.pbf",
+      "git_blob_sha1": "7cda8da1d0388a7d800e57f25a5a2844722cf6ed",
+      "sha256": "36d60967995aa49522f4c6466550ef75c0c7255fa5ee414b928db238a4d97e86",
+      "bytes": 122545,
+      "glyph_count": 255
+    },
+    {
+      "range": "1280-1535",
+      "file": "1280-1535.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/1280-1535.pbf",
+      "git_blob_sha1": "d9c3d45910c26cf32563d7955f1f846e21509ed6",
+      "sha256": "bf08ae34d3af2fd63a8dae2b7e8749156bf291b33fbf386bd77028de96665d65",
+      "bytes": 9913,
+      "glyph_count": 20
+    },
+    {
+      "range": "1536-1791",
+      "file": "1536-1791.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/1536-1791.pbf",
+      "git_blob_sha1": "2fc6ce0497ba164b9dfa55d84335108bc7774a8d",
+      "sha256": "9444475f1687ae6ed985193abf64404c36a81a3710f2ae3d67e681e5fa2c96e7",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "1792-2047",
+      "file": "1792-2047.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/1792-2047.pbf",
+      "git_blob_sha1": "79c5860db8e871bb352896be82f02ba72b632729",
+      "sha256": "8f22ab9c3359c91adf6a91fb7762741bd227987cfedf5cd621b1e84c0970d8e5",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "2048-2303",
+      "file": "2048-2303.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/2048-2303.pbf",
+      "git_blob_sha1": "9a336438dbb90f9c6ca71cc642f3c5df46de73a7",
+      "sha256": "5a3417c007ec8332fd46cec6f60e487c6562371c478b97700306000a6540ead1",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "2304-2559",
+      "file": "2304-2559.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/2304-2559.pbf",
+      "git_blob_sha1": "7869eab1f767beea08adab8fc99cd64394a7cdb1",
+      "sha256": "9ae187bd9a86359cdad83272d6952c98e0aeba4f91827a816f62c0e798d0fede",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "2560-2815",
+      "file": "2560-2815.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/2560-2815.pbf",
+      "git_blob_sha1": "95cae83ecb450eeaf1a8e15cf0fbc62795316702",
+      "sha256": "8426877d8e46058c94e7be820fe4049fe537723ddf79d8b8c32fbb0e4a89a6e4",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "2816-3071",
+      "file": "2816-3071.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/2816-3071.pbf",
+      "git_blob_sha1": "6882bd66f658971efa5dd8923305f294269792b1",
+      "sha256": "c170829aa58e470e919f7f97026626f9df5270be88c8a535fd481e208f74ba52",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "3072-3327",
+      "file": "3072-3327.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/3072-3327.pbf",
+      "git_blob_sha1": "3d69aa084812f29f5a9002b377b8b56f365e54fe",
+      "sha256": "1b0268fac4d32bd6167afcedec54108e0577225b006b0d6ad74db6f3bc9b02c9",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "3328-3583",
+      "file": "3328-3583.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/3328-3583.pbf",
+      "git_blob_sha1": "2a1576ef00a6e585d07b6766f52bcb169289e87a",
+      "sha256": "1105c3c39dc29ab88a37b58bb0825b1c261db71c935d2fd608249966f64b0c82",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "3584-3839",
+      "file": "3584-3839.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/3584-3839.pbf",
+      "git_blob_sha1": "ddaad66954596e3a83137ee48c25943cbde8fcf5",
+      "sha256": "f7cf3451ac47de11c3c002dcd65a65cb5ff6165801ee7cf6891c436f9484a89b",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "3840-4095",
+      "file": "3840-4095.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/3840-4095.pbf",
+      "git_blob_sha1": "4d6576fce1d482b6bb8b805a4b58c923338f6335",
+      "sha256": "c441a57abb402bf480f0805d4c2b020ebf41f99aa201bd572510be0bdb104f48",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "4096-4351",
+      "file": "4096-4351.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/4096-4351.pbf",
+      "git_blob_sha1": "a89dd21bf8b8a9f8c3cf6bc894ba44056a5eba1c",
+      "sha256": "8ef9742ab09ce535c2c7ed95242bba392d796158e05836b1a50bda92b794422a",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "4352-4607",
+      "file": "4352-4607.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/4352-4607.pbf",
+      "git_blob_sha1": "666d277cd3a331f91ccdbbbf60d2f385dd8b5f00",
+      "sha256": "62b83812cd55e3178c1137bbae95239e0236cad101f2e06f6a606a6ba5cc2b6c",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "4608-4863",
+      "file": "4608-4863.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/4608-4863.pbf",
+      "git_blob_sha1": "e0c982a565dbaf46fdc0ceba27122c61fb178be9",
+      "sha256": "16f54641262ca90594b0b9adbb4f34eea0efc3f39aeed85ae3bc28db7fdd22e8",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "4864-5119",
+      "file": "4864-5119.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/4864-5119.pbf",
+      "git_blob_sha1": "091e71552d02cf8c4bb3c26e441d054d8c4ca88e",
+      "sha256": "46769310b2bbc9ab17f63d8fc35a49d4a1e316c19e0fa877103232ce8426550d",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "5120-5375",
+      "file": "5120-5375.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/5120-5375.pbf",
+      "git_blob_sha1": "999f7b6991f68c5335a74fcc83790b5f83236946",
+      "sha256": "ac39de3809fd8a92046721f1f569619b609514e1f4ba0920c899d574cbd3d25b",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "5376-5631",
+      "file": "5376-5631.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/5376-5631.pbf",
+      "git_blob_sha1": "8f94cb454827fa4a55cfde4321a27643e5015273",
+      "sha256": "2f18d041f3adf31cc4a0322ca6699c303d088d0e4f7f8b86581fc600cab8ddd3",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "5632-5887",
+      "file": "5632-5887.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/5632-5887.pbf",
+      "git_blob_sha1": "82962694cafa9234f9c73e19105b01b8b3d5ede8",
+      "sha256": "aed091fb936d45dc1d2372e153ae432198bb808b5408b2cbcfd73939f3b81be5",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "5888-6143",
+      "file": "5888-6143.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/5888-6143.pbf",
+      "git_blob_sha1": "84e3d95f9a617234660e72a5e708c3c74c7ce62d",
+      "sha256": "2c2a35d7babeef7a64c2ca85970864d91128b8625f5a31f0eddaad5f3bc5a726",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "6144-6399",
+      "file": "6144-6399.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/6144-6399.pbf",
+      "git_blob_sha1": "fce178caff40c569667c6c97d1a92423fdfadd1f",
+      "sha256": "773a3074ac5aaf7b709e13505eba3f94c1c1cb0a692488817140a21268791769",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "6400-6655",
+      "file": "6400-6655.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/6400-6655.pbf",
+      "git_blob_sha1": "5ab3d50e57d92deb208dcbbde7d1c350ba54260e",
+      "sha256": "e03be3f98ab5f4cec65c039bdba2c4160c4bc5578de5317ae2cb10cec4f4ab87",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "6656-6911",
+      "file": "6656-6911.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/6656-6911.pbf",
+      "git_blob_sha1": "c907674e9b3301d261a38742f1ff67eb5104f75c",
+      "sha256": "b7e86963d103a0956024014880c99fb7b5783c47af19cef70e896bb921ffd9b4",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "6912-7167",
+      "file": "6912-7167.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/6912-7167.pbf",
+      "git_blob_sha1": "604e99fedb2a7b98402c8e1b1775984935665fb2",
+      "sha256": "2280842eaa18bbb330967aa2b9e8c42bc5369e3c87e8e203d73a3435835a508a",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "7168-7423",
+      "file": "7168-7423.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/7168-7423.pbf",
+      "git_blob_sha1": "db7ab67f030531e66b6ebf8e37d6275b279f6488",
+      "sha256": "90fedc9a3543652f46dafd42ee4fd2d8152ceb21c4c2526c3a74db1405ed39a7",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "7424-7679",
+      "file": "7424-7679.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/7424-7679.pbf",
+      "git_blob_sha1": "baf35dc5c97a582612ed46d6fdb1ea54e9e1e0db",
+      "sha256": "c46a60fb45c697cb201677f0b1b094d92f2042b68e58467071b4e5e22f48a94a",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "7680-7935",
+      "file": "7680-7935.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/7680-7935.pbf",
+      "git_blob_sha1": "ab644c38fee6854555d99d713aa1590231c4b838",
+      "sha256": "d83e773d45d475f5ffd25917cd8735450586bc9d42a53fb54ccce5618241d976",
+      "bytes": 55070,
+      "glyph_count": 100
+    },
+    {
+      "range": "7936-8191",
+      "file": "7936-8191.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/7936-8191.pbf",
+      "git_blob_sha1": "6954b314431e4d961085ac24224e4779f5e59afe",
+      "sha256": "00aff42fa3fa7fcbeee0fd25e624e703ce992e1697c8eb127dfd9c3e7c4abee8",
+      "bytes": 650,
+      "glyph_count": 1
+    },
+    {
+      "range": "8192-8447",
+      "file": "8192-8447.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/8192-8447.pbf",
+      "git_blob_sha1": "e053cb51c438c98658a4c5ac8ed52ab3e2f9407d",
+      "sha256": "a57611157f0597b267ef36eb07ce5a41dddcc3b2f3b5b85779108b7bb48b1cde",
+      "bytes": 9663,
+      "glyph_count": 47
+    },
+    {
+      "range": "8448-8703",
+      "file": "8448-8703.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/8448-8703.pbf",
+      "git_blob_sha1": "e06496e0ca2e21d7c4058251287d4f8c794caf6e",
+      "sha256": "aafd5cae68819f66b84bcef46e5df7fdf3a78e9661e87a3d4a305e8a4ba9aa49",
+      "bytes": 5373,
+      "glyph_count": 11
+    },
+    {
+      "range": "8704-8959",
+      "file": "8704-8959.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/8704-8959.pbf",
+      "git_blob_sha1": "70ef669e04326142d729be444248de679743390a",
+      "sha256": "b91184e62356f3fdc5b8d8621a198fbad26763547993cac9c810973154851178",
+      "bytes": 4875,
+      "glyph_count": 12
+    },
+    {
+      "range": "8960-9215",
+      "file": "8960-9215.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/8960-9215.pbf",
+      "git_blob_sha1": "8e94e5093d234249134d69b08bf5fedf25e80705",
+      "sha256": "3622da2d11c8b01c6c105fd464dde2afacee9d707db59f09d6cbdcd8cd9801f0",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "9216-9471",
+      "file": "9216-9471.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/9216-9471.pbf",
+      "git_blob_sha1": "cb7d5397540431dfebfabea29178c0518dcf6f23",
+      "sha256": "54d7ebd0dd372f61c4ed46f1086b0dfc0f24d7c09982563b8ae94f7d2ba89f01",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "9472-9727",
+      "file": "9472-9727.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/9472-9727.pbf",
+      "git_blob_sha1": "cea1ee8bbbc70114388e675ceb7e76e1a9fe7d85",
+      "sha256": "abb2dc8d12ed07bb9b06b182b116e3c56cbcb0dad35a9dd6622f211cca6187a6",
+      "bytes": 466,
+      "glyph_count": 1
+    },
+    {
+      "range": "9728-9983",
+      "file": "9728-9983.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/9728-9983.pbf",
+      "git_blob_sha1": "2d4ac11f6a32fcd47b9c3ad5f295f0952c5215a5",
+      "sha256": "093e08add166a227f798dbd386643361d0142f29356a77a66d42aa3e58a3b824",
+      "bytes": 32,
+      "glyph_count": 0
+    },
+    {
+      "range": "9984-10239",
+      "file": "9984-10239.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/9984-10239.pbf",
+      "git_blob_sha1": "eb8a3fc796e80aa0feeddc7a8ab4d9322d3793be",
+      "sha256": "bf288e9537f8710f2f899bda3e624732837d919de9a8e29b441c587142221dd2",
+      "bytes": 33,
+      "glyph_count": 0
+    },
+    {
+      "range": "10240-10495",
+      "file": "10240-10495.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/10240-10495.pbf",
+      "git_blob_sha1": "5141144d1bed2bb0cb12b4ab880ad9e88de4e65a",
+      "sha256": "ecf76b5f657276935ffb706784abf7e03b4874d526d5d36bf6d2859d240f1b17",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "10496-10751",
+      "file": "10496-10751.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/10496-10751.pbf",
+      "git_blob_sha1": "152b3f79b6273aade24dfd838acda06e03b3b682",
+      "sha256": "3ac3eb2a1e4f767d7380bc90169da25d0497f599bed66ce85ced4dcd5b7f4f7f",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "10752-11007",
+      "file": "10752-11007.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/10752-11007.pbf",
+      "git_blob_sha1": "ecb8db5efa20f770d3aeb3ea87dec0e8d6fb624a",
+      "sha256": "50c995d2e528b774dc7cadf72633ee43be81a2794993a892beb626f955a55c41",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "11008-11263",
+      "file": "11008-11263.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/11008-11263.pbf",
+      "git_blob_sha1": "c522005c6859179b832a02fe413412e1c4a6e67c",
+      "sha256": "42919e6752bc159aecfc9c50f8275c3694bf12e6336fcfba77dfecaec53cc8e0",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "11264-11519",
+      "file": "11264-11519.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/11264-11519.pbf",
+      "git_blob_sha1": "63222366bc9e2327fa630fef7f6fc3df7e18e8d3",
+      "sha256": "bef0871dfdf3ec1cd47c1a9e5196810f604980fe70e3def1be56054706db2150",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "11520-11775",
+      "file": "11520-11775.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/11520-11775.pbf",
+      "git_blob_sha1": "07f434598473826e9760a23bb98bce0c5c0a4e84",
+      "sha256": "3b6189e4597bd5bd6b8e92b77963368040e000b8fc62fc7bcc070563a97da609",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "11776-12031",
+      "file": "11776-12031.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/11776-12031.pbf",
+      "git_blob_sha1": "4258e2ee81e5f4324240aa81e64c0b236d80ad20",
+      "sha256": "34c3dd7210ea83e4e85262e32e31bc57240d8679bced1daf6a3315e66f1dfe5c",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "12032-12287",
+      "file": "12032-12287.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/12032-12287.pbf",
+      "git_blob_sha1": "db84bf7c60e56ea1891624bb1325f235e1cef79f",
+      "sha256": "90102dc673829c1c6fa6a38ce916b785f77095d94908ba7ec4ea82def65af23a",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "12288-12543",
+      "file": "12288-12543.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/12288-12543.pbf",
+      "git_blob_sha1": "f1f346c9ff08432b3542abe5f66f1b2b7a38458f",
+      "sha256": "63980394b4fe4c345778a7d0627d4329eb89f16ee8cb6d2e555eb8801430ca2b",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "12544-12799",
+      "file": "12544-12799.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/12544-12799.pbf",
+      "git_blob_sha1": "9684bfaea85d197493c2523221244806fe4afe1c",
+      "sha256": "022750ed68c9a9016a53af66bcaeaf6527676118c053da3a812dcdd7bf2e3469",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "12800-13055",
+      "file": "12800-13055.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/12800-13055.pbf",
+      "git_blob_sha1": "fb130e04b81ce76c366a4252724210f8994c37fc",
+      "sha256": "7dffb448dcfeb088e5e9ff7fe5743f949b5f148b5380a587fb86d0c184fc4c3e",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "13056-13311",
+      "file": "13056-13311.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/13056-13311.pbf",
+      "git_blob_sha1": "68ba0d2772d4e237d87a3f5c0fc41cea328b243d",
+      "sha256": "9e7244c88efc4febf99b428cae6df8d4ec53dc96071fe731b1548eafd9e56d64",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "13312-13567",
+      "file": "13312-13567.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/13312-13567.pbf",
+      "git_blob_sha1": "dca913c6f465f1ab1ba6bff8c5b0b1dd13f52bda",
+      "sha256": "3cc3d73e07900fb28687f927e6ba90ecda8daccdd473b814e22605dca2a1a36c",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "13568-13823",
+      "file": "13568-13823.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/13568-13823.pbf",
+      "git_blob_sha1": "c099df2a92ef7c65596bf4a4cd95ade51198e212",
+      "sha256": "94ec9ee2ad41fdec5a5362b326f01b762801870ac068f9894a088dc37628587e",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "13824-14079",
+      "file": "13824-14079.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/13824-14079.pbf",
+      "git_blob_sha1": "675ca91dc1fa85e76ebebbe32513cbcc48a4eeab",
+      "sha256": "2c76d6088cb36fc4b8cae0353748a3ece446be9b925b46e8f284c8a5eadf0b85",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "14080-14335",
+      "file": "14080-14335.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/14080-14335.pbf",
+      "git_blob_sha1": "a8692c0f35bab1a3e725b33fdcd05ae68c4541d4",
+      "sha256": "e588d208bf79878999016d77e598a9d8486ae49d3f1aa150c7dfe208a2e28d1e",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "14336-14591",
+      "file": "14336-14591.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/14336-14591.pbf",
+      "git_blob_sha1": "8155ca60b30ce14e6f7a4a73a0c29070b60c26e9",
+      "sha256": "167e4c68b21863c668fb029345901862d776393e12eb7e46847133ee5092a521",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "14592-14847",
+      "file": "14592-14847.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/14592-14847.pbf",
+      "git_blob_sha1": "da20df3e87ae73b923b1ddced623de094bacac58",
+      "sha256": "3b638c8c26881d95a90cf679f5d8043f6659088975841040140495327f9ceb52",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "14848-15103",
+      "file": "14848-15103.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/14848-15103.pbf",
+      "git_blob_sha1": "61d923b0202614491457b38927b0bcc98d7d13b1",
+      "sha256": "de170220146a871bb631d055dd30550cee3d471eaf5fbb16d9abf7c996681581",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "15104-15359",
+      "file": "15104-15359.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/15104-15359.pbf",
+      "git_blob_sha1": "52ef6b7fe823f484002a7b13cb8c163518a4333e",
+      "sha256": "ee33aa882bd6198290a3a24d85fda951e54642fa9dedafdced3e19281e85ec3c",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "15360-15615",
+      "file": "15360-15615.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/15360-15615.pbf",
+      "git_blob_sha1": "6558161b729969124b4b98f09d3de20c6f8d2bfb",
+      "sha256": "ced347f0eefc8bc2e983c40453f9755530c47261b8f2a8f989507f921677aef0",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "15616-15871",
+      "file": "15616-15871.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/15616-15871.pbf",
+      "git_blob_sha1": "275e74b7b070e29db85c84ff9de59658f820c01a",
+      "sha256": "44eac33a8fe3e196f3b7c80eee1c436237cfdd3ecbbe0f73c729f468b5ba3f57",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "15872-16127",
+      "file": "15872-16127.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/15872-16127.pbf",
+      "git_blob_sha1": "e2a3cc3b5d2be9dbed7bf2af5c2cce6f8eef98f1",
+      "sha256": "82ec70dcbee9f1bb8187ced5142ae35ec0d02d6807260e0fdf2428bb0200f01c",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "16128-16383",
+      "file": "16128-16383.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/16128-16383.pbf",
+      "git_blob_sha1": "87425c2ea3ca71f56707128964072a0919cfab56",
+      "sha256": "eb7ad6cbb73bdb6ad1f6986d2fb177b4127ced8bf8bcf8c32dd8556904a0dbe3",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "16384-16639",
+      "file": "16384-16639.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/16384-16639.pbf",
+      "git_blob_sha1": "69324e5c5da0a6d8673b8bfc6742e6a5564bee74",
+      "sha256": "53fbe2534ed87d135dce25d50a1e08da408611d5386d048fa7560e24cc81b481",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "16640-16895",
+      "file": "16640-16895.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/16640-16895.pbf",
+      "git_blob_sha1": "8255e9b4b50b8ce2d7096b661504e2dd3887add8",
+      "sha256": "f7de0be50ea7d6b0d6dec00b39a68318dfb5c2945490e3904a0c2bf78468a888",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "16896-17151",
+      "file": "16896-17151.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/16896-17151.pbf",
+      "git_blob_sha1": "4ca23ea3a5cd7c1992f65499ec1b847f99ef9988",
+      "sha256": "7116aa17596151bb89262997780ef842f8dd94e6f8b6cdba45c73db45231ffa7",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "17152-17407",
+      "file": "17152-17407.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/17152-17407.pbf",
+      "git_blob_sha1": "135b9c9668fd4b72d430048c2569fd60ec937127",
+      "sha256": "4f5cea8534d21dae8239c1cb3fedca7ebfdf981da173a07df9ace87e60c838c5",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "17408-17663",
+      "file": "17408-17663.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/17408-17663.pbf",
+      "git_blob_sha1": "e8b48c3c27c5ae5188c1689aa289025a94408da2",
+      "sha256": "76d1d9c21261871bc0e4fe44f1ce8f01b8fc54cbd390ddc6b5a0b14431e0255c",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "17664-17919",
+      "file": "17664-17919.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/17664-17919.pbf",
+      "git_blob_sha1": "5ceb7aaf473f12bedb63de23da3d0c319ace19f2",
+      "sha256": "bebd31dd7b8ec18d9a647f03918cf8ef07e3de6869fc5e9d981ffbe0561d7b97",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "17920-18175",
+      "file": "17920-18175.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/17920-18175.pbf",
+      "git_blob_sha1": "e215e52610af7b8a15f8cc711d33d3f966a973e7",
+      "sha256": "1e487971d6d09d8c3040c890f876e52c6357c1f2dae2360c1479bd0c5d2acf2b",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "18176-18431",
+      "file": "18176-18431.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/18176-18431.pbf",
+      "git_blob_sha1": "32911ec4e33cfd47df9ca60708accbf0f568637d",
+      "sha256": "da6b1392701978fa0cd79b9962c6530b9c6d3ee49514961ec85625cc054dd34a",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "18432-18687",
+      "file": "18432-18687.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/18432-18687.pbf",
+      "git_blob_sha1": "eaaf9e42bb7ac9a6310573eba5ffe8156e824dd9",
+      "sha256": "8c4a555fb7420e0727966a9227150c1b1ad376e92bd16f13e221965b08f48b95",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "18688-18943",
+      "file": "18688-18943.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/18688-18943.pbf",
+      "git_blob_sha1": "fe17c8294da9b4b743b0539444960b0554ded09f",
+      "sha256": "b250b577c828e66c0b4285b46fb15cb2b5870f5a5ae123246c3e8a7f9f8b615c",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "18944-19199",
+      "file": "18944-19199.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/18944-19199.pbf",
+      "git_blob_sha1": "a5ff51587974a663de5e0cfc105464dbffdbe56c",
+      "sha256": "53ea730683f82541cfe9878fc39e66308febe7de9184d81c52d77289e4f5b605",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "19200-19455",
+      "file": "19200-19455.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/19200-19455.pbf",
+      "git_blob_sha1": "9e74bac37390db5c950c8b19384fdf84d67464d2",
+      "sha256": "5a47439e8231671c6ada96f964a0d5f4253ba20bdb3442807081b44a17267683",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "19456-19711",
+      "file": "19456-19711.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/19456-19711.pbf",
+      "git_blob_sha1": "8bd1640520af549938777119f052eb0fd72ef99b",
+      "sha256": "75822a6291a5001fc543d5b24bdd301e8339afbe63632e732a6261b2e78fe47f",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "19712-19967",
+      "file": "19712-19967.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/19712-19967.pbf",
+      "git_blob_sha1": "4a788846ed2fbdb0a3f734774861991f95e174a2",
+      "sha256": "67f31b3e76d3d1f4606a6c2a6cb84dcce26d060c294300299484e65790b40f66",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "19968-20223",
+      "file": "19968-20223.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/19968-20223.pbf",
+      "git_blob_sha1": "2d1088dfce4b48eacf8bbda2ed8559b5c8d2ef3a",
+      "sha256": "521426dbb3f3576a9e0af8399ba9440df71ce270e39d2486a0af5dac2fca9593",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "20224-20479",
+      "file": "20224-20479.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/20224-20479.pbf",
+      "git_blob_sha1": "ccc2df053e752b8dadf99407af0eaa577482f987",
+      "sha256": "c7c38c0d552309688415610a31975d92bb97a3e8ca7c87ee80ae228f6467108e",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "20480-20735",
+      "file": "20480-20735.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/20480-20735.pbf",
+      "git_blob_sha1": "43e6a3560adea4ae5978a9e0831b50e34a12367f",
+      "sha256": "0ac55629334eadfdb75a7fbc15786bb905d3b912c604f31a067421e1df87d3ba",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "20736-20991",
+      "file": "20736-20991.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/20736-20991.pbf",
+      "git_blob_sha1": "5fb1d27e1e504d39580216eb42d9c77443b05bf1",
+      "sha256": "8e2777efded7303c721a059973bc473c7b620a5d95a894ba081e8095e309b113",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "20992-21247",
+      "file": "20992-21247.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/20992-21247.pbf",
+      "git_blob_sha1": "ff01cb2487607e9c4717bf8a903677db8134035c",
+      "sha256": "bbdc7e47d4d7a8c0929294e5bd6017f2705e2fa10727484f63719bca943a1c1a",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "21248-21503",
+      "file": "21248-21503.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/21248-21503.pbf",
+      "git_blob_sha1": "1b05baad49fef084fa096f7ffc76044cc9cdf292",
+      "sha256": "ba63879dc269b822b197ee70952b568769da3bef266c37b219c46bfaa61b00dc",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "21504-21759",
+      "file": "21504-21759.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/21504-21759.pbf",
+      "git_blob_sha1": "d877e199df8523e7aa1e3259e02ea53768bc4311",
+      "sha256": "b0342b3f8d07d45ed3a6895c86a6ed57bbc9c6f1b39507433f6e26af8336a9fe",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "21760-22015",
+      "file": "21760-22015.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/21760-22015.pbf",
+      "git_blob_sha1": "bea8b6186dc1641c404897f4fc58f3e2c8973288",
+      "sha256": "d2c0c87cfcfec1895dffd6847abde9d041b2c36aff216517fde80f2ea5ddc391",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "22016-22271",
+      "file": "22016-22271.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/22016-22271.pbf",
+      "git_blob_sha1": "7e5769e8944d3917df2e2ec6ba9c8066e19b836d",
+      "sha256": "f4ab4d67d589ceaa63b6384cb01899dec5e732ab2c0466549124c033b0789061",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "22272-22527",
+      "file": "22272-22527.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/22272-22527.pbf",
+      "git_blob_sha1": "51000759e4be538b5cc25a09502ab73072a3d2ad",
+      "sha256": "8314eea438bd942ae9aaac5c7bac6634fd91aee259ff3206d3dc3147cdd7a2d6",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "22528-22783",
+      "file": "22528-22783.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/22528-22783.pbf",
+      "git_blob_sha1": "8a0ff5c430e417c07abfc47f19347674f8c45397",
+      "sha256": "a6fbe43d4572f2591fe4718507abe1290917545278f66919da99d74543ed9024",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "22784-23039",
+      "file": "22784-23039.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/22784-23039.pbf",
+      "git_blob_sha1": "4009839588817aecfeabe2dc5e65432020bbd347",
+      "sha256": "b545c36c5ee4f7f13ac2c51f0d4a3dbb946359acd952b7e4a54c56153c1b84db",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "23040-23295",
+      "file": "23040-23295.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/23040-23295.pbf",
+      "git_blob_sha1": "e1293d962ba3408d53b5face24e510b3352c9f7a",
+      "sha256": "a1d1fc5d757e77f3a40e2e2a901f862abd8871dc884344cb72e234efa93414da",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "23296-23551",
+      "file": "23296-23551.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/23296-23551.pbf",
+      "git_blob_sha1": "eba885b1fae1e49a7d2e9fe1e33813481b804b80",
+      "sha256": "c6b6258ee1904877d86fa3131b82e88cac5ef5187b6f3c6ddde06e2d2eec11c1",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "23552-23807",
+      "file": "23552-23807.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/23552-23807.pbf",
+      "git_blob_sha1": "4177422bed0e5cd29112e7b9d2d36645c532f95c",
+      "sha256": "86399173793ccedd9a5418bb95a606524d20f1872f34a87b8de2cd7c7f80af38",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "23808-24063",
+      "file": "23808-24063.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/23808-24063.pbf",
+      "git_blob_sha1": "9d117c90749275853497d20b272ae72db3baa5f1",
+      "sha256": "3bc1577cbbbc79ee2907a1a374f2581ca16f528e9047ba79617a12413aaea26c",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "24064-24319",
+      "file": "24064-24319.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/24064-24319.pbf",
+      "git_blob_sha1": "34e45ac176fd39b774270e6886d2650386b7f732",
+      "sha256": "014f1d71c9e7476f174630eea1345b613d22f96443590ab93f34c5b5570a1cb0",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "24320-24575",
+      "file": "24320-24575.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/24320-24575.pbf",
+      "git_blob_sha1": "f47322b2e04c0a19c033a8f12a8b38b2209ff335",
+      "sha256": "17266c48ebb33536ce034b9e614e27259b9ed99fa1e4d20ec3957bc9fe7605e1",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "24576-24831",
+      "file": "24576-24831.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/24576-24831.pbf",
+      "git_blob_sha1": "2c3518dc8e611574c4ceeee6d2d655cae5846978",
+      "sha256": "8ac6866120eca239e414f966fe0d9c5d30fcb38512ed7f959ec8102dbea2b32a",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "24832-25087",
+      "file": "24832-25087.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/24832-25087.pbf",
+      "git_blob_sha1": "18792a21ecd471a1846291cea03f5e4710ec6c20",
+      "sha256": "843daef9ffe62c4e3dc8c7462d918d0afaff9069dd435ce4b1005f2c9a180c56",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "25088-25343",
+      "file": "25088-25343.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/25088-25343.pbf",
+      "git_blob_sha1": "83e63c9a437dbd0f84148cc5265dbfdeda51b80f",
+      "sha256": "b17083f736e6d2883941621e554d320fcda317b500aaf9e47a09a1fd03d3cf13",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "25344-25599",
+      "file": "25344-25599.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/25344-25599.pbf",
+      "git_blob_sha1": "7c6a728631b17c0645ab50889255a0c8b3b6e174",
+      "sha256": "3fe5cbe397949249b9a1685da09bf81cc6765e4c456caf2943ee0aa702d39a02",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "25600-25855",
+      "file": "25600-25855.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/25600-25855.pbf",
+      "git_blob_sha1": "b5102f7db9e48956691f9ef122f1ce87ec1741aa",
+      "sha256": "2c790da763a4d9112cfdbc25b850077b23e7cdbec89576815541e79d99b15512",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "25856-26111",
+      "file": "25856-26111.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/25856-26111.pbf",
+      "git_blob_sha1": "5be13688a6c8af9fb2bc408f650aac431423a8de",
+      "sha256": "4facf60dd3b4c7631cb6f0d2fdd728cc17616cba93328e4fc5daa7cd5d5c7c88",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "26112-26367",
+      "file": "26112-26367.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/26112-26367.pbf",
+      "git_blob_sha1": "e3e60606e7879ccd2522fd3132892bb938bea3a3",
+      "sha256": "409ecf3bee3579540bc8a46d406cf46174f8ecdaba7c25a44a6a8413c014b7e3",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "26368-26623",
+      "file": "26368-26623.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/26368-26623.pbf",
+      "git_blob_sha1": "c855d60f9313f391a2f149e6d378be0118c4a9ce",
+      "sha256": "0bde67d9d80ccf363208deaca77d825cf1ee5810da6ec797c1896a9f0f79aa23",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "26624-26879",
+      "file": "26624-26879.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/26624-26879.pbf",
+      "git_blob_sha1": "97cd65d4d800847fb40598faf927675513308ac4",
+      "sha256": "d6f7a3765e219479359ab97ff58c886be204fbabd3552ab6b6cb18eae8467f55",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "26880-27135",
+      "file": "26880-27135.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/26880-27135.pbf",
+      "git_blob_sha1": "4be4b3599dd249632cd0917577aefded00a0b77e",
+      "sha256": "599b5f3cc791e555cf8b524ff4e7caefeddbe72968f201670a6d9025717ee392",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "27136-27391",
+      "file": "27136-27391.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/27136-27391.pbf",
+      "git_blob_sha1": "cc9e560655cfccab97eb1f8bb61d5337a22975f6",
+      "sha256": "23e6b942b11d5364a86234df2b7a896f2c8fd309a1c98e984080681190a639bf",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "27392-27647",
+      "file": "27392-27647.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/27392-27647.pbf",
+      "git_blob_sha1": "582b089f95165d6e5b659953c6bf1ab206c42024",
+      "sha256": "f3c6ce7644c2309fcdb1cbd5583420bbbd6ee2a221dee1ff0017d48194b6ef7e",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "27648-27903",
+      "file": "27648-27903.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/27648-27903.pbf",
+      "git_blob_sha1": "2129b87c362126e34db63bad896c4f6f8168fe80",
+      "sha256": "0b6f8015a4c06ecc4f932e2b3bf15b4926218ffa9334facf2883b3133100eea5",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "27904-28159",
+      "file": "27904-28159.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/27904-28159.pbf",
+      "git_blob_sha1": "f807492610f2abcf2718ad5ed6cfc910493c5e8a",
+      "sha256": "d1498eaee9f42e848b9b83a993c72e04dbcb12dc74440f82b8a346c491493c67",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "28160-28415",
+      "file": "28160-28415.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/28160-28415.pbf",
+      "git_blob_sha1": "5b92b6463a3d2c34b9da92f3ec60cd68e65c3dd5",
+      "sha256": "ad7113a8d02fe43e763da10f42fee5345c90b43289f47a706cc2ba70f96d8be5",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "28416-28671",
+      "file": "28416-28671.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/28416-28671.pbf",
+      "git_blob_sha1": "40016518fb929fd73f3c4138f0228f04d5362e20",
+      "sha256": "532a038e9b3250722de257efa831c6c96a77e8fea48c5d0db1dfbb5431dbab20",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "28672-28927",
+      "file": "28672-28927.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/28672-28927.pbf",
+      "git_blob_sha1": "aee687d36d9ca52219a297bb9763a453755c9413",
+      "sha256": "534b92a0201509ca0aeece06be3e569a245d6e63b67280af61c68771982b04ab",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "28928-29183",
+      "file": "28928-29183.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/28928-29183.pbf",
+      "git_blob_sha1": "0d759f033da37c2ecb6876b10fa2b6c82b179172",
+      "sha256": "b9792af286488d63356dd96c1814fb28f70513eebc0fdc848463769945437576",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "29184-29439",
+      "file": "29184-29439.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/29184-29439.pbf",
+      "git_blob_sha1": "80cccb05818ff2f7160ca235dd404005b7ea2a59",
+      "sha256": "03efd9ee0fb0a71668677fe961a9172e1f3a372ce1e6bd849ca74ef7ea35303e",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "29440-29695",
+      "file": "29440-29695.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/29440-29695.pbf",
+      "git_blob_sha1": "8f27cd42cb4506a7b48bc6cca65ef2a99ded708b",
+      "sha256": "eb35868ae2a72cf0e30dc24c23db1ddfd3309727d5e8709b0d25bb170dade3ed",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "29696-29951",
+      "file": "29696-29951.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/29696-29951.pbf",
+      "git_blob_sha1": "be5cb7a2fbf3b37aba5ee8e4f8172f5943ec2e4e",
+      "sha256": "411171a66a372b4855601ed5df6dd5ee5cf34179d6fa65ed9e6f7be28e254312",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "29952-30207",
+      "file": "29952-30207.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/29952-30207.pbf",
+      "git_blob_sha1": "87f27ca6c5a66016e69918cb708cdf921db57a35",
+      "sha256": "08adb24c4e2cb4ab1947c810462347ad9ea0586f62baaa2dcfe720b8a83399f6",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "30208-30463",
+      "file": "30208-30463.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/30208-30463.pbf",
+      "git_blob_sha1": "425caec8d9a4b91560256d04add271e8557e8f1b",
+      "sha256": "92d002076dd1f7f407514b6a7e35b11f21709bf7ed9b9f947859079d176ead70",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "30464-30719",
+      "file": "30464-30719.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/30464-30719.pbf",
+      "git_blob_sha1": "5663cef76b27901db973f98e3e5ecb9616aa8080",
+      "sha256": "dd182af9bd0b488549009294267d4fb8256412527e5f25cf77512051a2ff1e5b",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "30720-30975",
+      "file": "30720-30975.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/30720-30975.pbf",
+      "git_blob_sha1": "b638ca410669d8765251ce9ef5f37eef19f4c7a1",
+      "sha256": "bf283745c512a8adbfa9f72a1a51553bbff77026381fc54dc56d7719862b7787",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "30976-31231",
+      "file": "30976-31231.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/30976-31231.pbf",
+      "git_blob_sha1": "c43f789a4e46cf74e331c95f67c08075c41fd1ce",
+      "sha256": "ec265276f068e147f270d5e6d0c6469bd970e80a38c09064b2e032f131c4fbfa",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "31232-31487",
+      "file": "31232-31487.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/31232-31487.pbf",
+      "git_blob_sha1": "7e02f409ab3ce6b6fa5116eb97dfae889c9352eb",
+      "sha256": "aa52a0c79dca87c67ecbeb579197eef2f5c087890950c490286863da75a3962b",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "31488-31743",
+      "file": "31488-31743.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/31488-31743.pbf",
+      "git_blob_sha1": "6f859bff6d127b9d44482facb00934ff488b30a5",
+      "sha256": "8d7013b6b562405b6eb9f5af7ff5d98e344183e219844ba24dc8a0b811625683",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "31744-31999",
+      "file": "31744-31999.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/31744-31999.pbf",
+      "git_blob_sha1": "4458128ce85cb290c543e51b7a10ba07504a8eaa",
+      "sha256": "c35607dcc628cf97c80fa8819bc8df23c5d0acf8b6331c2b06b6440db3211829",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "32000-32255",
+      "file": "32000-32255.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/32000-32255.pbf",
+      "git_blob_sha1": "a30218445b8f8e0f34052b5e8e7b614913fe1a6e",
+      "sha256": "dc4889cb0f315550cf78c8ba4938beadab3bdc38e5451c788491963c410b7c76",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "32256-32511",
+      "file": "32256-32511.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/32256-32511.pbf",
+      "git_blob_sha1": "44772c3afac66ce8a658401643bbc897f181f650",
+      "sha256": "685731c7afe6e23ee97c2ccee0d6ef5d6e39fa9870cb7b421f25b2c49de0bcf1",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "32512-32767",
+      "file": "32512-32767.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/32512-32767.pbf",
+      "git_blob_sha1": "22144373cddf220e9b884fd3fa08067f21078637",
+      "sha256": "f071082e9a6127d8e679d3895774c235b8df7b64a5903e3ce9f80a0b438fd714",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "32768-33023",
+      "file": "32768-33023.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/32768-33023.pbf",
+      "git_blob_sha1": "9ec5292f073def1a8da2fa440b7f748f52b9cbd7",
+      "sha256": "09515cae8437f2cf1fbc59644c8d81ec38094af5b880cb13130702c6353f2315",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "33024-33279",
+      "file": "33024-33279.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/33024-33279.pbf",
+      "git_blob_sha1": "0ce0358dffc685a2730e394f3974da6977963195",
+      "sha256": "46f8205fe2e43881226b715a3230845967884314fc8201cc33b70626617fb460",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "33280-33535",
+      "file": "33280-33535.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/33280-33535.pbf",
+      "git_blob_sha1": "8b7166d8c1a022a11daba5bc6a0e6bcb4456b2be",
+      "sha256": "2307c42c8aace8a204740e2e583c6cb9eec81af4314d75c022bbf69b524ca309",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "33536-33791",
+      "file": "33536-33791.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/33536-33791.pbf",
+      "git_blob_sha1": "5f08cd6c60cf10184ea97e72dd9b75994955c4d8",
+      "sha256": "efc170301e856e564eff9396632a4985f9fffcf61793f80c241982d86d3badf8",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "33792-34047",
+      "file": "33792-34047.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/33792-34047.pbf",
+      "git_blob_sha1": "30f3ca1e5a9d162c479e6d557ce7dc0ac46d3941",
+      "sha256": "8973ace0ea26078dc004a9ecdf87135cee4a6f520c8ba87ec0dfb18c92e2d3bf",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "34048-34303",
+      "file": "34048-34303.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/34048-34303.pbf",
+      "git_blob_sha1": "87278184beaec5c3e9e3ec3cdd3cacfb6b0f54a0",
+      "sha256": "fcba4e1bf298206c5831cf3c05cc9af73d94f132daf96188b0feef50c14fa527",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "34304-34559",
+      "file": "34304-34559.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/34304-34559.pbf",
+      "git_blob_sha1": "61885c5da669290a7aaa7737e5d37615bc6ff3ef",
+      "sha256": "d28f7984437318aa657338253a9825820201b17ae35f45288113e81ba3966892",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "34560-34815",
+      "file": "34560-34815.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/34560-34815.pbf",
+      "git_blob_sha1": "757dfb8f5018f459e80d8307af0574665eb01390",
+      "sha256": "459f8cfb61e87fe56fb4af4909e84ee6f90c9e2f86c8c630b4e97e54963a6264",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "34816-35071",
+      "file": "34816-35071.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/34816-35071.pbf",
+      "git_blob_sha1": "e1a7652b8997f58b08ab90fffe779f61e2fa8552",
+      "sha256": "ff470713b40deab9684b177153c61f496d71675c32cc8158f45f8396661516d4",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "35072-35327",
+      "file": "35072-35327.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/35072-35327.pbf",
+      "git_blob_sha1": "9351365640426e59c97ffb1c3219cad73713a877",
+      "sha256": "e9f3d442422c0e1639100454efae471ccc46e90d52d081be7aee611b5e94c87f",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "35328-35583",
+      "file": "35328-35583.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/35328-35583.pbf",
+      "git_blob_sha1": "585f4028eb6ea482ffeabc387903a430fdc195ac",
+      "sha256": "35667d658775986c71eb9f7add4e563ed712aeadd146c9f7f219176152388f33",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "35584-35839",
+      "file": "35584-35839.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/35584-35839.pbf",
+      "git_blob_sha1": "cb0aacc68072bfb02699e396ea9501b57a6145ee",
+      "sha256": "fae80f6721162c739562ca4becf7073a817033ff84991cdef5d03dc2c03766b9",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "35840-36095",
+      "file": "35840-36095.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/35840-36095.pbf",
+      "git_blob_sha1": "ec0bf33ce873f685b58928e5c81b6aa38b326a00",
+      "sha256": "f2efcca7908b2e50ad501e3162e2605eadd884d99855f6e580dda2a414bea808",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "36096-36351",
+      "file": "36096-36351.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/36096-36351.pbf",
+      "git_blob_sha1": "4ea7f3a6daf41094d6eac59ce7cc89c10e2840e5",
+      "sha256": "ed996626ab79542d50cb187a292e7b6554403f0b8bc7bbace1ee22bdc16cfcaa",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "36352-36607",
+      "file": "36352-36607.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/36352-36607.pbf",
+      "git_blob_sha1": "9c397899ba17b44ebaed2f904773942b0af1e813",
+      "sha256": "1c4b9d7a282ae4a11260f914d977fb29abe108e71e5249f296f811e9abfe4d9e",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "36608-36863",
+      "file": "36608-36863.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/36608-36863.pbf",
+      "git_blob_sha1": "cc6d45d38e5f12cd6e6afd9d932c8f08d24f0a2c",
+      "sha256": "8435b6dbdcd70e76047129f686d95383e70de2361227299d2a106f17e410b17c",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "36864-37119",
+      "file": "36864-37119.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/36864-37119.pbf",
+      "git_blob_sha1": "6bd5cadcac73a52ced8df2959391a7985c1ea657",
+      "sha256": "36270aef883460f75594c4c9adc37b41410ad6a5a436abd4a4e07b813a9d30b6",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "37120-37375",
+      "file": "37120-37375.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/37120-37375.pbf",
+      "git_blob_sha1": "fdbe413824a09dfeddb65bee0f96c1419d9cccd1",
+      "sha256": "23a2df7ad1bb1a5f04759575949fa948ddc332d935e9234d3bc5262637fb8cbe",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "37376-37631",
+      "file": "37376-37631.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/37376-37631.pbf",
+      "git_blob_sha1": "10001257a66433dba442c6ddc7e629ce127e3e31",
+      "sha256": "343724adcceeeef1e6f98c9f40058924f7a86b663ea1955146e17bb701e10029",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "37632-37887",
+      "file": "37632-37887.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/37632-37887.pbf",
+      "git_blob_sha1": "0415c427fb5ecfa532a996ce1ff27d6c093b44fa",
+      "sha256": "a565ed6024031c17927f65a28b765c42091940fe9fefc4261fc64852d7927aa4",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "37888-38143",
+      "file": "37888-38143.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/37888-38143.pbf",
+      "git_blob_sha1": "c76ce4450893f4467ea6f43c01b321d17017824f",
+      "sha256": "967a4b88501da68bbcfae3de568fa3d92dbad48b29b6d697325cef54009de090",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "38144-38399",
+      "file": "38144-38399.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/38144-38399.pbf",
+      "git_blob_sha1": "c4c156ab39f30e79c525a2c515c0e4047a320470",
+      "sha256": "e505dc947dcaa36f916feaa69b97c8eb11cccad5a8a06603993b2f4d942d8f0d",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "38400-38655",
+      "file": "38400-38655.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/38400-38655.pbf",
+      "git_blob_sha1": "289445b9ec9cedca154bb4d8a8958ac9d8aaf167",
+      "sha256": "5a500323b59a31a299db7f9e61eea028641783aaf59398b31f7266752a21147a",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "38656-38911",
+      "file": "38656-38911.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/38656-38911.pbf",
+      "git_blob_sha1": "a198c1e03f1022a95d40f5816b05b1135feecccb",
+      "sha256": "e080a2eccb2374827d40c4c119820a4fcfba344b6901fb5aa1e3339d99e9314c",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "38912-39167",
+      "file": "38912-39167.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/38912-39167.pbf",
+      "git_blob_sha1": "7f621c1a107bdbcd9a06c1bc996aba0cd86dccb3",
+      "sha256": "e2ca30a043a7b6190b7eada649222f0c1f9122549d8caba11eefcdd8101ab065",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "39168-39423",
+      "file": "39168-39423.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/39168-39423.pbf",
+      "git_blob_sha1": "40aee1184c53cdb7c972de5c5b15140b373439da",
+      "sha256": "0e76c1638b6f96c98d245a09c03b1bf5aec2b751704ea6dfaa508a5c71edc38a",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "39424-39679",
+      "file": "39424-39679.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/39424-39679.pbf",
+      "git_blob_sha1": "477d2720882fe800a0bac3d8813657a82dc184ff",
+      "sha256": "d6722195a5f79836cec0a552280a144fc85464d1197fe88881b7d2259b34ccf5",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "39680-39935",
+      "file": "39680-39935.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/39680-39935.pbf",
+      "git_blob_sha1": "62bae24ec687b137edc23a8db7def90fe4ccf6b5",
+      "sha256": "88960df26353c30cf177f63bedd94c809d5e4bbcbec124845f4a55217863b8a6",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "39936-40191",
+      "file": "39936-40191.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/39936-40191.pbf",
+      "git_blob_sha1": "21691f2652853795a4b3ad5b48068a37e3546bcf",
+      "sha256": "f43fa6b3ed3a11f210d56ab5c8a19af9280e913a80283cb6d4b93f25001aefd0",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "40192-40447",
+      "file": "40192-40447.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/40192-40447.pbf",
+      "git_blob_sha1": "a1b160ed8665b316cc8c9df3a69aa907f63cc235",
+      "sha256": "b337b8eea812e0cecffd90632f9c7d024238185a713534a7e9eabb6739f754e2",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "40448-40703",
+      "file": "40448-40703.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/40448-40703.pbf",
+      "git_blob_sha1": "c141efecebd578b6d0bde205889659c6a47b836e",
+      "sha256": "316b2d9e0898b75567775e9d68d4d52c8ec5debb72bc682213578d7feb3d7cff",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "40704-40959",
+      "file": "40704-40959.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/40704-40959.pbf",
+      "git_blob_sha1": "de557c0ff4ee14eb36f6053c7c4a488fa1c821c3",
+      "sha256": "28842bebe37972cc569e42dc34a41eaafdc0ec0aba6c7c4ae0a3a6d7515991ab",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "40960-41215",
+      "file": "40960-41215.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/40960-41215.pbf",
+      "git_blob_sha1": "357d35e9d7dc0b4e8483d0925f0b0dc0cec061ef",
+      "sha256": "601567dd29dff19361b67bba1a7461ea116456ca403625dd6126f85411530ed8",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "41216-41471",
+      "file": "41216-41471.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/41216-41471.pbf",
+      "git_blob_sha1": "ed8e5561ff80f0973f6e08240225b246f9c4a284",
+      "sha256": "56edd2460acc5c09273f598e2aa79df5b47bdc8effc5f209473ba7adb547d704",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "41472-41727",
+      "file": "41472-41727.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/41472-41727.pbf",
+      "git_blob_sha1": "5012a4e5237437a6df623b203ae64b511d3af399",
+      "sha256": "8f1ac80072abdfd46b296da566a46a099803585673c993fe439fd53f5835b49b",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "41728-41983",
+      "file": "41728-41983.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/41728-41983.pbf",
+      "git_blob_sha1": "212c333d42b993eb17cda861beb01a3532d15937",
+      "sha256": "0ac8433d0ff60b7371741dd0369d36021fe1ca7663286756d1663928e510bee3",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "41984-42239",
+      "file": "41984-42239.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/41984-42239.pbf",
+      "git_blob_sha1": "2b8e37d95d6f5ea41467bcd227f89d04dc3c61ed",
+      "sha256": "10e8f4ab84e4515e248f5abe2c2f6f5fe4498f6cb55ed3b63071956fa4e4f04d",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "42240-42495",
+      "file": "42240-42495.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/42240-42495.pbf",
+      "git_blob_sha1": "2d047890942c9ede7d4fcf7b68bf67ff58305ade",
+      "sha256": "fac1581c02acb44fb0c04c80027eb846af45bba4bb7688742b98601118d7c89f",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "42496-42751",
+      "file": "42496-42751.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/42496-42751.pbf",
+      "git_blob_sha1": "2eb78fa1e29b82402f9bc5dda3335814245e4150",
+      "sha256": "d8c1add8d2b790a4f83893d41e3489b10e4c18b3f027737518e90aafb9fc3cb8",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "42752-43007",
+      "file": "42752-43007.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/42752-43007.pbf",
+      "git_blob_sha1": "9017adc2f4beb93bbf816cd187cd2720a6c53744",
+      "sha256": "c0b5e014c324e9b01e674765985b4985634b32d7d6904245a38e6fd84b54bfc2",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "43008-43263",
+      "file": "43008-43263.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/43008-43263.pbf",
+      "git_blob_sha1": "5d9d7ff5a0d5d9eb254e460bc6c3172e513d3262",
+      "sha256": "857696f1b32ddb3d9db44931d1396416716208cb666bdbba9452ae4f78dad35e",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "43264-43519",
+      "file": "43264-43519.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/43264-43519.pbf",
+      "git_blob_sha1": "c313fbadf8667e4a674777c17d6486c0af7230c2",
+      "sha256": "ab73eaa334a3b612317519833f0d6f8a55043a6128af420cf6b3fd2ba353a014",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "43520-43775",
+      "file": "43520-43775.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/43520-43775.pbf",
+      "git_blob_sha1": "2319aa440890dcecc07cadff2d49a0b25a9c01b6",
+      "sha256": "44577a4b9841a2f40d6d78a458bfe45f8cdf9406ea5886add6ad2e1ac07507d5",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "43776-44031",
+      "file": "43776-44031.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/43776-44031.pbf",
+      "git_blob_sha1": "b25ef4dce447a3c06400d99e4f4e83c5928495ca",
+      "sha256": "e8acef8cbd6cb4fde1bfbd33c2f225e02409d7ad6a128030b96f2cce95ef0332",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "44032-44287",
+      "file": "44032-44287.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/44032-44287.pbf",
+      "git_blob_sha1": "452907e78ea30fcfce25db84c44c8ea20bb4ab76",
+      "sha256": "5195e502f8860368ae1e9661387280b287ab3ada2ebaa60c66a090d003c1fbfb",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "44288-44543",
+      "file": "44288-44543.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/44288-44543.pbf",
+      "git_blob_sha1": "0722ea4d5a50a9f65a3fe56328a3b2d1be8311d3",
+      "sha256": "04a5e36ae205c77c795619657fb739f0af65efe04a3174f7925609ab7ad82f48",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "44544-44799",
+      "file": "44544-44799.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/44544-44799.pbf",
+      "git_blob_sha1": "87dfa82624f0f465674e2af453655ada8099b90b",
+      "sha256": "474303124818781c501c8726165e773de724b84ebda6d2cd9b1eee292bb01dd9",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "44800-45055",
+      "file": "44800-45055.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/44800-45055.pbf",
+      "git_blob_sha1": "c7d56ca288ee18db1a6777f5248c5e17097aff8a",
+      "sha256": "b1264db7c1e8e5735c3b290d307956937a52f78cfb7f03fbcfb28a0f28d347dd",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "45056-45311",
+      "file": "45056-45311.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/45056-45311.pbf",
+      "git_blob_sha1": "700e718d402d5968fffb3261837b78cfcd65ed32",
+      "sha256": "a02ee092c96f0c7000f31bd81710cbc4970bb07853584fb6fbe688fca9d50b86",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "45312-45567",
+      "file": "45312-45567.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/45312-45567.pbf",
+      "git_blob_sha1": "162362b650c9667be6e22ac82e3e214bf400d0d1",
+      "sha256": "1bf044acc04a463f9d9e011950dc6248eedd0f3c32a629ab29c9558a7a208ef1",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "45568-45823",
+      "file": "45568-45823.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/45568-45823.pbf",
+      "git_blob_sha1": "a7351b26bfd11cd97c41518986edb719347ae331",
+      "sha256": "e421472581ee0d99453ed346a65fe268c490a4b475b16c93c3bd504cec1132b0",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "45824-46079",
+      "file": "45824-46079.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/45824-46079.pbf",
+      "git_blob_sha1": "a23d834f53099ddf3d49ac73ccc376695e5043e8",
+      "sha256": "019da63fd92bc8b5c7cc39b88c6c8c65e5c4e9a4b521bfeff1201370d71ff38f",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "46080-46335",
+      "file": "46080-46335.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/46080-46335.pbf",
+      "git_blob_sha1": "313eff1ae9b52f2ca5747f2d58f91a97ca339588",
+      "sha256": "c0690cc6f9db3c511d6c590e0fc7a4911f0f92f54e2cf1911561c460f8a3df43",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "46336-46591",
+      "file": "46336-46591.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/46336-46591.pbf",
+      "git_blob_sha1": "080b8e37b9b392ee417b212582165881beadb9cf",
+      "sha256": "d2d91d1d032f09d21ff333122e74e3f2a7b380e867449bc2d5b2f84056d7004a",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "46592-46847",
+      "file": "46592-46847.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/46592-46847.pbf",
+      "git_blob_sha1": "d3f6ab15c8c5c1e86638f501bae0f771588ffc0b",
+      "sha256": "8c4f7a06800b1f5b8a160e8547225809d84e27ed9473da48865c9a8969a65dc7",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "46848-47103",
+      "file": "46848-47103.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/46848-47103.pbf",
+      "git_blob_sha1": "debb3b9adc96396af2daab75dd7c612d32b5e553",
+      "sha256": "ee888dd145d812d347fef168856ddb5928a59e030e1190d0031b8107354aad7d",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "47104-47359",
+      "file": "47104-47359.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/47104-47359.pbf",
+      "git_blob_sha1": "ccfd55fdebd5308990f49e8a4f5bb640c848ca54",
+      "sha256": "bfa05a6eb3397aa91d9a18e11a97a50fa89f03a8dc5f05d36644d03b4269c6c1",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "47360-47615",
+      "file": "47360-47615.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/47360-47615.pbf",
+      "git_blob_sha1": "2bc6ddd36cb777dfa469917b60ee2a7dadcda465",
+      "sha256": "e02c00f6b1c439ba386dd78e50a01d887eb74cd79310712e55b67112c6e1a973",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "47616-47871",
+      "file": "47616-47871.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/47616-47871.pbf",
+      "git_blob_sha1": "3d01e9c2797c3f24a0bde55d233035d14bb7ca6e",
+      "sha256": "cfab3423cd9bf9f426ae4eca19953fb97d5b3ea301c47df2c951c24a19301c56",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "47872-48127",
+      "file": "47872-48127.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/47872-48127.pbf",
+      "git_blob_sha1": "7e86554b47faebc9104c7a12b8924613ef1ab0d6",
+      "sha256": "def2cc91c764e2c6ab713081277bb4a7cfd0e03253b85eab6cb95b64954c578e",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "48128-48383",
+      "file": "48128-48383.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/48128-48383.pbf",
+      "git_blob_sha1": "430b4c5d964df6a607c8917b1dc8e4e52b6bb557",
+      "sha256": "2dadbbc7f1e0f1742cfda1105abe3daebe0a93e0606ab2b8c0ec2232d551af05",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "48384-48639",
+      "file": "48384-48639.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/48384-48639.pbf",
+      "git_blob_sha1": "f10114d522e5294aae746f737197caad83f2f69c",
+      "sha256": "93e29e62eeec332f3ecfeaf0bd75c581c449062b6909d665ebf31914ecade981",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "48640-48895",
+      "file": "48640-48895.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/48640-48895.pbf",
+      "git_blob_sha1": "fced1b712c4acea5a1f22b5fe337de33ea12232f",
+      "sha256": "b40f7e12f7b2b9a872f6f4189781a3a5d7fe36d2becf212f3d40537565c6fb60",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "48896-49151",
+      "file": "48896-49151.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/48896-49151.pbf",
+      "git_blob_sha1": "b3f65d6a6a80246749d94f2e065df3c025ed5e30",
+      "sha256": "d33fd3bb3139edc4fa3cc5e24276655fc4019496b12ab832338266794ab04f6a",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "49152-49407",
+      "file": "49152-49407.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/49152-49407.pbf",
+      "git_blob_sha1": "59586bb26fd6c91985d65d078acfd7c187a24bf7",
+      "sha256": "0e993572275c6c5eace4de0b67dcea17324a2bcdcdbddb715fd3e7f4b2640cb1",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "49408-49663",
+      "file": "49408-49663.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/49408-49663.pbf",
+      "git_blob_sha1": "045ee69f55bb21484fc2a6479c83e3362e23abd3",
+      "sha256": "7f0d9786f9ff32c27aed827bd658de6cc6df3ee5909af8a43dbb0ad31c4da60d",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "49664-49919",
+      "file": "49664-49919.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/49664-49919.pbf",
+      "git_blob_sha1": "7d5137fe65be958e7c76443acdddc18090fab087",
+      "sha256": "14754a1396feac56cc54dd2cfa94cc166cecd9a5f0f979648ffe738163665b03",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "49920-50175",
+      "file": "49920-50175.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/49920-50175.pbf",
+      "git_blob_sha1": "e01f73f7779bfe0cf71fac6e3e3e99d2ab43f42e",
+      "sha256": "ee30dd7b0d91452e6a464a7325612ddcd5957a3e8b2af4c37dee0befb9afc0c1",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "50176-50431",
+      "file": "50176-50431.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/50176-50431.pbf",
+      "git_blob_sha1": "253992b96e13577937655d3a66b8137d44b2bdf1",
+      "sha256": "c5ac45bf4c6dc846fd3a2c9bf04c84a84bec19ce9bf326c94402a5ca7494f77b",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "50432-50687",
+      "file": "50432-50687.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/50432-50687.pbf",
+      "git_blob_sha1": "cbaceb5fa312178420b12027f71322c54626dfbb",
+      "sha256": "179cecda3ed3df8bd04f530af9aef4133714d491672944c643c4c3d0baaf58b3",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "50688-50943",
+      "file": "50688-50943.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/50688-50943.pbf",
+      "git_blob_sha1": "356e589ce9cef11ce27b4e08f4b6188a692f5fc9",
+      "sha256": "6fa86a086f26099fb6714f90040859113f0ae2a3f7a3a4337d4fdba482b7a4c1",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "50944-51199",
+      "file": "50944-51199.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/50944-51199.pbf",
+      "git_blob_sha1": "c70a41ad6812eaf14688828571e93cf38078cb54",
+      "sha256": "6b61403ac2f2323af5727049c80ff738add960da366009256e277aeb78077b83",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "51200-51455",
+      "file": "51200-51455.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/51200-51455.pbf",
+      "git_blob_sha1": "48d3135e39d54825138dc2e166cf6741f1f5f88b",
+      "sha256": "bae781e3533d6ef662bff9c34e5bddd99379887f1e7970e6a9d64768002c4c53",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "51456-51711",
+      "file": "51456-51711.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/51456-51711.pbf",
+      "git_blob_sha1": "55bc48bc54aa866b8241d9b0c77b4dfb231a3d37",
+      "sha256": "0089e4fafde8b131d86a8666aa6705680652f841206275cd94102cd8b0a9e794",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "51712-51967",
+      "file": "51712-51967.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/51712-51967.pbf",
+      "git_blob_sha1": "6f3a3fd0d59aeb07461bfa757fde7ca4f1f2c44a",
+      "sha256": "d88b6482e06e6c3de36d75a1c99e994dd69624d6ee94a53fa0cc60105e0c782e",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "51968-52223",
+      "file": "51968-52223.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/51968-52223.pbf",
+      "git_blob_sha1": "44f032d788680e683963f5b7943675df1a8e7e2b",
+      "sha256": "1c4270a00f98f4b7ef721434630907dd5c789cb69a95b2b0cdbb3e53e7146636",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "52224-52479",
+      "file": "52224-52479.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/52224-52479.pbf",
+      "git_blob_sha1": "e6f893686550aa5c2c96c2119f24fcf392bb445f",
+      "sha256": "87882556172589a914d050c7cb682255144efd463c596a81dc7a3a86fd9b0f0b",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "52480-52735",
+      "file": "52480-52735.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/52480-52735.pbf",
+      "git_blob_sha1": "56d19823a287e2f3bf4846b7803da99c02c2867f",
+      "sha256": "b7d3bf6780063dc237cca83809523269682ef3f1ded5cecc0ce90acefb724141",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "52736-52991",
+      "file": "52736-52991.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/52736-52991.pbf",
+      "git_blob_sha1": "7f99bc1365ae58b97f39f8c4e833c965bde7c8eb",
+      "sha256": "e554bd2b734e5232079fb63902db345459bc4663fb770dab1be2d165a1da1860",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "52992-53247",
+      "file": "52992-53247.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/52992-53247.pbf",
+      "git_blob_sha1": "d8aaff0d6f0e811f97236999d280779873e5a6f6",
+      "sha256": "505364c2071d216d9027ba73278de00aff6c63a08bca9fe78cb24f6b8eaad971",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "53248-53503",
+      "file": "53248-53503.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/53248-53503.pbf",
+      "git_blob_sha1": "36243fee940e51673bf75f81d531e56f15b8b099",
+      "sha256": "9f6e62f22ad48cefa876f2aadd5121ed42f20e5dfc61dcb02033ab25521400da",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "53504-53759",
+      "file": "53504-53759.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/53504-53759.pbf",
+      "git_blob_sha1": "a4f83f96329b331ae381b2a7acb72178610afbd4",
+      "sha256": "2b40003bd2e65f932807954a9b325125b031e759db60a3921f6689ee5eac65e9",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "53760-54015",
+      "file": "53760-54015.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/53760-54015.pbf",
+      "git_blob_sha1": "07ae9aeb248a46ac3986b3b404cf53cced7e74c9",
+      "sha256": "c25606e432131854c7284c6d724349059cf82a27820dbee2abdf88d2525123e3",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "54016-54271",
+      "file": "54016-54271.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/54016-54271.pbf",
+      "git_blob_sha1": "2ab22951211ea2e6f87e24ef61f96e6348257777",
+      "sha256": "9f8e8cd3292bb2174f0973a332f64635833c88b658007f768bdab7b3fa500684",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "54272-54527",
+      "file": "54272-54527.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/54272-54527.pbf",
+      "git_blob_sha1": "349cf1fb325e8d2658224aeec6eb917a2968a25a",
+      "sha256": "3cc92df9919edd274d6c36f261388d3babfc2da1570fce7ad961386adf90514e",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "54528-54783",
+      "file": "54528-54783.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/54528-54783.pbf",
+      "git_blob_sha1": "e0553b5a07fcb310825e12617e5a861b8728046b",
+      "sha256": "2a17a1df844d1e7480f3edf3c79779ecb3a58b4189b77c4185ffb74d662734ad",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "54784-55039",
+      "file": "54784-55039.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/54784-55039.pbf",
+      "git_blob_sha1": "291b5b5e37d79f68f3524117882df065799c4eaa",
+      "sha256": "92e66b816af94aa9fc828140ccaf37f64842aefa2d89431ab093f7e177279c2d",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "55040-55295",
+      "file": "55040-55295.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/55040-55295.pbf",
+      "git_blob_sha1": "ca770006b240a25adf7e913f750e659282a2eb87",
+      "sha256": "99927d2583062dc1aaacfd218a41629651b743d38c1ca62f298cba68e2bf86b7",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "55296-55551",
+      "file": "55296-55551.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/55296-55551.pbf",
+      "git_blob_sha1": "548e28b1f700709660889696706a6a142c2c6b9e",
+      "sha256": "9b53c5fb74b70c950cbe265a91407bf9094a4953c9d25d65cb079257ce19fa5b",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "55552-55807",
+      "file": "55552-55807.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/55552-55807.pbf",
+      "git_blob_sha1": "94b268abe60c3c48731582eaa21c178c3dfaf078",
+      "sha256": "d53bae0f524be278c5dd2bc38ee182160e6b70f781c1028e46114ef9eeeca1e1",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "55808-56063",
+      "file": "55808-56063.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/55808-56063.pbf",
+      "git_blob_sha1": "90d869d0322bd1c47b343894fd6824a1e809b553",
+      "sha256": "b06cca09f0fca6459ac5a44d30fd42f1cd34d72e0867d277a2479a13cc65bc7a",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "56064-56319",
+      "file": "56064-56319.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/56064-56319.pbf",
+      "git_blob_sha1": "6ab33f24596ef2ae318f22d7fd37de9ad08592f2",
+      "sha256": "aa0e6349497bfb34266c6970394d597f7d12a79695ef3b05ac33c7da91734b11",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "56320-56575",
+      "file": "56320-56575.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/56320-56575.pbf",
+      "git_blob_sha1": "8075b501846d77ad2d62490058ebda72bc48a9d4",
+      "sha256": "2307333436c081a7fa2a12f0cdee13e29fd71e1749e3d2541fbcde11939fe31e",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "56576-56831",
+      "file": "56576-56831.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/56576-56831.pbf",
+      "git_blob_sha1": "d700f63f829e69fa4219bd7d9a08663152ad7459",
+      "sha256": "0bc7f126d5680d2df6a5052483a38532efb61994a1ee3d09fff83d7a11eafee8",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "56832-57087",
+      "file": "56832-57087.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/56832-57087.pbf",
+      "git_blob_sha1": "b8a7be89ce30b6b2dd917fd6d9b1ac3e8c65467c",
+      "sha256": "f9c7f89da1dbdcd773e9618791f7b15cf164993ee27c8b51c754d9bbb53c4949",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "57088-57343",
+      "file": "57088-57343.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/57088-57343.pbf",
+      "git_blob_sha1": "d748ea8c6a2abeda1ecf1ac71124e2e2527a1f22",
+      "sha256": "41718c33d2e2305bdcd2e1103b1fb9ecb8feb995880178e2f712956ef606403c",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "57344-57599",
+      "file": "57344-57599.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/57344-57599.pbf",
+      "git_blob_sha1": "43511bf367a0e61d66f5d508bc10ad7e762f6476",
+      "sha256": "fa9423295022f74e81e38989306094e2f4697719848f1fda311d7e7f93e5424d",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "57600-57855",
+      "file": "57600-57855.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/57600-57855.pbf",
+      "git_blob_sha1": "bbaada85e8dfd5e6743852fb88935df7f0b0f5e3",
+      "sha256": "777df1a355b62b01f7ae93ac599eb32580a69c694d8caad6b8cf8816a76f3106",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "57856-58111",
+      "file": "57856-58111.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/57856-58111.pbf",
+      "git_blob_sha1": "0475bb9a24b730bd9df548b0c1c66eb0b481afbc",
+      "sha256": "4ee8abf2f83af25bf086311a0acba4dbd22eb4b143389cc8021e220e87a5c727",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "58112-58367",
+      "file": "58112-58367.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/58112-58367.pbf",
+      "git_blob_sha1": "152e11fe0fc5032cd1bb7f81346f3633cf34146e",
+      "sha256": "4667537cd61ba6af0ef8d3b4bfe1f2512a39fd3893c761342b4241a5a39a677b",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "58368-58623",
+      "file": "58368-58623.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/58368-58623.pbf",
+      "git_blob_sha1": "da4caca0402a1b0230f49dc9bd9911d421faf3af",
+      "sha256": "80564658d9713a70e51770a30094ca68f815ffc87542fdaa817828300d7a1428",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "58624-58879",
+      "file": "58624-58879.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/58624-58879.pbf",
+      "git_blob_sha1": "d4820ce5d8df412552dab0de6b8ccd940e6eb4b6",
+      "sha256": "6435a56a965440f62313779ef767763d239abdebff0e477fa51795691977e262",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "58880-59135",
+      "file": "58880-59135.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/58880-59135.pbf",
+      "git_blob_sha1": "cc40115ba828390f96d29c358a5ab906d2858f02",
+      "sha256": "aeb487be5ec59a617bb6524d9340e0c65b543b642f5f691c63c31df14c1e702d",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "59136-59391",
+      "file": "59136-59391.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/59136-59391.pbf",
+      "git_blob_sha1": "d6fcfe161c7e10ff4dd2438d66fd2f79620d185b",
+      "sha256": "f8ac621dd4a1d55cbda0238020b604ae77d3cfe9cf34648bfd38d3ef8ed0377a",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "59392-59647",
+      "file": "59392-59647.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/59392-59647.pbf",
+      "git_blob_sha1": "acbd0f5b17609c7304c39df461e95b32413403e7",
+      "sha256": "d51108725fe66f444170137eb90acdf3388156c5e77f6818912e44abefe9e367",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "59648-59903",
+      "file": "59648-59903.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/59648-59903.pbf",
+      "git_blob_sha1": "9f718ff404feabf1296a4c0900fe4ce895ceefa9",
+      "sha256": "34b25369fccd8094205d87bb239bc56263b7b68d616da2ff3d3f4abb24dc8d07",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "59904-60159",
+      "file": "59904-60159.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/59904-60159.pbf",
+      "git_blob_sha1": "a9b7ce8ac7005e70dc418b3b8aa4d01216c9b5f6",
+      "sha256": "0bc990a1c831cdafcb9cb126ba5fc201059a5fb1cad355b00144d3ea410d594f",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "60160-60415",
+      "file": "60160-60415.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/60160-60415.pbf",
+      "git_blob_sha1": "db2d057f9e5a5019d913e3ae3f643693772dc272",
+      "sha256": "6914eefa8253c7d1e085385bede2ac87f77703e25404dbb45ef32612f1b34e71",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "60416-60671",
+      "file": "60416-60671.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/60416-60671.pbf",
+      "git_blob_sha1": "7618bcc613592ceacbc0917570cf90f66993cf2c",
+      "sha256": "893fc64c495a137406ddfd6800f41e8128cae3949f696a46120f69dd933387bb",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "60672-60927",
+      "file": "60672-60927.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/60672-60927.pbf",
+      "git_blob_sha1": "45a732e2ee5c94497594ecd98dc01082b933e133",
+      "sha256": "ab0a7d960da0bf49c8f271222fa97baa15b52670a8d7e99d041032de741305cc",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "60928-61183",
+      "file": "60928-61183.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/60928-61183.pbf",
+      "git_blob_sha1": "dfd7f01d4675b240acf21153046ad6324dc293c9",
+      "sha256": "8be02b897a83b2c7e70ba66653b041f1274cfc2d8a2b59c7dc0f16c8063ce46b",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "61184-61439",
+      "file": "61184-61439.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/61184-61439.pbf",
+      "git_blob_sha1": "27c984190c30dbb531fbfc2ced90b2e53a7457a5",
+      "sha256": "755080ae793dc7f494fb6dab3f7919f2d01173881bed57cc94369167584871c1",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "61440-61695",
+      "file": "61440-61695.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/61440-61695.pbf",
+      "git_blob_sha1": "66d2c0916bc177c362447abf0fd6bacc71189a34",
+      "sha256": "07f8f7839f5b4b01ead4b7a9ca0a40c580381fa6cbd222584cc029a67911bc96",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "61696-61951",
+      "file": "61696-61951.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/61696-61951.pbf",
+      "git_blob_sha1": "ac993314453f7cdd98f60015578c261b12b60ac2",
+      "sha256": "b28f5c03aa8abf6743a573ec2a5dc49bc093b147e9d7e07ef3aac4a39753152c",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "61952-62207",
+      "file": "61952-62207.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/61952-62207.pbf",
+      "git_blob_sha1": "936a329d6864ca1e1953a98751c6cd7821544036",
+      "sha256": "e9b1ce6553623bf32ba0f466eb2ae1e189a12e4ef4fef651b389c6efd463d7fa",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "62208-62463",
+      "file": "62208-62463.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/62208-62463.pbf",
+      "git_blob_sha1": "bb9629b687f817cbe26c3934095c05fcb8065a26",
+      "sha256": "fb00cccff38cbca21f251c22d42b7e75cbfc7bf3379dba55824674de6958a0d4",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "62464-62719",
+      "file": "62464-62719.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/62464-62719.pbf",
+      "git_blob_sha1": "00c395a5919e860a7206bbf2422e92b6d85f73cf",
+      "sha256": "53b957e10d14b1278ad015887797d20c239331b15a7eff9edc657e48236d1ffd",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "62720-62975",
+      "file": "62720-62975.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/62720-62975.pbf",
+      "git_blob_sha1": "f783e3747d84eb819ec4676f8c7c56475235963e",
+      "sha256": "ce7d244a86cb2c3236fb2dfcd7f90659eab6da94c2c6e1414d456a9e4f8fb165",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "62976-63231",
+      "file": "62976-63231.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/62976-63231.pbf",
+      "git_blob_sha1": "b09691048f4c1fd4097e8039974f91efe3ac9ef7",
+      "sha256": "e7a05af848b5274aa0fc2dcfcf0339041caae8fca3c165ef484ce2df553397f5",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "63232-63487",
+      "file": "63232-63487.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/63232-63487.pbf",
+      "git_blob_sha1": "bafac1016e540eed133af443f998c14b954c8629",
+      "sha256": "321757909b4db6629f2c9cc4c85b371a94b9257b010b6ae5085c67fe8a353b52",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "63488-63743",
+      "file": "63488-63743.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/63488-63743.pbf",
+      "git_blob_sha1": "3c4e327e5c570bd91363aa7868cabdb056ff3a2e",
+      "sha256": "21230e8eb0a6881778da2c1b7224323a450170c2e77a44c5b83d7e5c1660b798",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "63744-63999",
+      "file": "63744-63999.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/63744-63999.pbf",
+      "git_blob_sha1": "4c3686ad656d8cd21e6e53f924e92356b07a6817",
+      "sha256": "55bdad816ba85b3a2f8a1670eeb1403a24506b015996bb918fd2069804fed0d9",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "64000-64255",
+      "file": "64000-64255.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/64000-64255.pbf",
+      "git_blob_sha1": "df613c79bb40ed40479223ff11a39c84f03b8cdc",
+      "sha256": "9962b6fd501ca32bce9727224217027907aefa22b7de997f04172e689b4fac50",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "64256-64511",
+      "file": "64256-64511.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/64256-64511.pbf",
+      "git_blob_sha1": "eac2c885b53773c8df4e58516a34be20066a5ce1",
+      "sha256": "1e11eb24f8c3008e84d96b3a52475614003912010b2a94ceb9bc999228c02abc",
+      "bytes": 2799,
+      "glyph_count": 5
+    },
+    {
+      "range": "64512-64767",
+      "file": "64512-64767.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/64512-64767.pbf",
+      "git_blob_sha1": "5976a9087484008247893ca58d1f43a8f5882d20",
+      "sha256": "baad70b78bf3bbd7c394ec99b03f40120f79b9e89c7365f51dd9c4b5fbb2b6ef",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "64768-65023",
+      "file": "64768-65023.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/64768-65023.pbf",
+      "git_blob_sha1": "0c77f3b587b3dd87e729face2ec25708d3ebed4f",
+      "sha256": "1a5cc8cdf47bdf20e64f4e7aec7e61c5b09dbe0e117ca448b2830a9320a274c3",
+      "bytes": 34,
+      "glyph_count": 0
+    },
+    {
+      "range": "65024-65279",
+      "file": "65024-65279.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/65024-65279.pbf",
+      "git_blob_sha1": "b8ba5f0e14d4574358b0558777d1ec16a6527473",
+      "sha256": "4a8cda576e7f10a063b984265d0055c3e3a4459c59cb50d0579bad71de31b33c",
+      "bytes": 50,
+      "glyph_count": 1
+    },
+    {
+      "range": "65280-65535",
+      "file": "65280-65535.pbf",
+      "source_url": "https://raw.githubusercontent.com/maplibre/demotiles/601ae60796ceceda2cbd2ed3d2ea92d17a84be4b/font/Open%20Sans%20Regular%2CArial%20Unicode%20MS%20Regular/65280-65535.pbf",
+      "git_blob_sha1": "ed56ddcc99f19dfff1588c1d07dcae133144f703",
+      "sha256": "0e5a065c67386d92e3408e3bf8c97dcf9b91ebe464bcfbe5c397beff57f11031",
+      "bytes": 1643,
+      "glyph_count": 2
+    }
+  ],
+  "notices": {
+    "NOTICE.txt": "d871c0df3fd96f779241d61607db64461c0a2520969b35cc270faa61928f95d9",
+    "LICENSE-OpenSans-Apache-2.0.txt": "283ea6cc2997a1a70da0049e09adf9317bb60ca1b51279b65196b83a69e1996b",
+    "LICENSE-MapLibre-DemoTiles-BSD-3-Clause.txt": "5dd1cfc5b6f7bef1363ba3f79d7c11c04b12ea1782d8b8d0f3c4366b60640eb2"
+  }
+}

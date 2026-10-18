@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="parcel_selection_title">Synchronisation</string>
+    <string name="parcel_selection_account_hint">Choisissez les fiches parcelles à ajouter à la synchronisation de votre espace personnel.</string>
+    <string name="parcel_selection_open">Choisir les parcelles à synchroniser</string>
+    <string name="parcel_selection_choose_title">Vos parcelles, votre choix</string>
+    <string name="parcel_selection_choose_hint">Sélectionnez les fiches que vous souhaitez retrouver avec ce compte. Rien n’est ajouté avant votre confirmation.</string>
+    <string name="parcel_selection_scope">Ce parcours concerne uniquement les fiches parcelles. Les arbres, martelages et PDF ne sont pas inclus.</string>
+    <string name="parcel_selection_destination_label">Destination</string>
+    <string name="parcel_selection_destination">Espace personnel du compte connecté</string>
+    <string name="parcel_selection_loading">Chargement des parcelles disponibles…</string>
+    <string name="parcel_selection_empty_title">Aucune parcelle locale</string>
+    <string name="parcel_selection_empty_hint">Créez une parcelle dans GeoSylva, puis revenez ici pour choisir de la synchroniser.</string>
+    <string name="parcel_selection_unnamed">Parcelle sans nom</string>
+    <string name="parcel_selection_surface">%1$s ha</string>
+    <string name="parcel_selection_already_linked">Déjà associée à la synchronisation de ce compte</string>
+    <string name="parcel_selection_other_account">Associée à un autre compte · ajout indisponible ici</string>
+    <string name="parcel_selection_other_account_title">Parcelle liée à un autre compte</string>
+    <string name="parcel_selection_review">Vérifier ma sélection</string>
+    <string name="parcel_selection_review_title">Confirmer l’ajout</string>
+    <string name="parcel_selection_review_hint">Seules les parcelles listées ci-dessous seront ajoutées à la synchronisation. Les associations existantes sont conservées.</string>
+    <string name="parcel_selection_edit">Modifier ma sélection</string>
+    <string name="parcel_selection_cancel">Annuler et fermer</string>
+    <string name="parcel_selection_submitting">Ajout en cours…</string>
+    <string name="parcel_selection_success_title">Ajout enregistré</string>
+    <string name="parcel_selection_queued_explanation">Les fiches sont mises en file pour la synchronisation. Cette confirmation ne signifie pas que leur transfert vers GSIE est terminé.</string>
+    <string name="parcel_selection_done">Terminer</string>
+    <string name="parcel_selection_error_title">Vérification nécessaire</string>
+    <string name="parcel_selection_error_session">Connectez-vous avec une session valide pour choisir la destination et les parcelles à synchroniser.</string>
+    <string name="parcel_selection_error_changed">La session a changé. Votre sélection a été effacée pour éviter d’utiliser un autre compte. Rechargez la liste avant de continuer.</string>
+    <string name="parcel_selection_error_load">La liste des parcelles n’a pas pu être chargée. Rechargez-la pour réessayer.</string>
+    <string name="parcel_selection_error_enqueue">L’ajout n’a pas pu être confirmé. Rechargez la liste pour vérifier les associations déjà enregistrées avant de réessayer.</string>
+    <string name="parcel_selection_login">Se connecter</string>
+    <string name="parcel_selection_reload">Recharger la liste</string>
+    <string name="parcel_selection_pull_other_account">%1$d fiche(s) non appliquée(s) : leurs parcelles sont associées à un autre compte. Les données locales ont été conservées.</string>
+    <plurals name="parcel_selection_selected">
+        <item quantity="one">%d parcelle sélectionnée</item>
+        <item quantity="other">%d parcelles sélectionnées</item>
+    </plurals>
+    <plurals name="parcel_selection_confirm">
+        <item quantity="one">Ajouter %d parcelle à la synchronisation</item>
+        <item quantity="other">Ajouter %d parcelles à la synchronisation</item>
+    </plurals>
+    <plurals name="parcel_selection_added">
+        <item quantity="one">%d nouvelle parcelle associée à ce compte.</item>
+        <item quantity="other">%d nouvelles parcelles associées à ce compte.</item>
+    </plurals>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="forest_list_title">Forêts</string>
+    <string name="forest_list_add">Ajouter une forêt</string>
+    <string name="forest_list_legacy">Dossiers historiques</string>
+    <string name="forest_list_loading">Chargement des forêts…</string>
+    <string name="forest_list_load_error">Les forêts ne peuvent pas être chargées. Réessayez.</string>
+    <string name="forest_list_action_error">Ce dossier ne peut pas être ouvert pour le moment. Réessayez.</string>
+    <string name="forest_list_empty">Aucune forêt enregistrée</string>
+    <string name="forest_list_empty_help">Ajoutez une forêt sur la carte, ou consultez vos dossiers historiques.</string>
+    <string name="forest_list_area">Surface du contour : environ %1$s ha</string>
+    <string name="forest_list_area_unknown">Surface non renseignée</string>
+    <string name="forest_list_source">Source : %1$s</string>
+</resources>

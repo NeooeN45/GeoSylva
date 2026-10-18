@@ -1,5 +1,8 @@
 package com.forestry.counter.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Tige(
     val id: String,
     val parcelleId: String,
@@ -35,6 +38,8 @@ data class Tige(
     val houppierPct: Double? = null,
     val isTigeHabitat: Boolean = false,
     val sessionId: String? = null,
+    /** Original local observation identity retained across explicit corrections. */
+    val originTigeId: String? = null,
 
     // Metadata spec GeoSylva 3.0 §3.1 — provenance et traçabilité
     override val deletedAt: Long? = null,

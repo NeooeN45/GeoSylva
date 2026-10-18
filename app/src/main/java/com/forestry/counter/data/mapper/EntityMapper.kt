@@ -249,7 +249,9 @@ fun PlacetteEntity.toPlacette(): Placette {
         deletedAt = deletedAt,
         auteur = auteur,
         source = source,
-        version = version
+        version = version,
+        samplingPlanJson = samplingPlanJson,
+        footprintGeoJson = footprintGeoJson,
     )
 }
 
@@ -271,7 +273,9 @@ fun Placette.toPlacetteEntity(): PlacetteEntity {
         deletedAt = deletedAt,
         auteur = auteur,
         source = source,
-        version = version
+        version = version,
+        samplingPlanJson = samplingPlanJson,
+        footprintGeoJson = footprintGeoJson,
     )
 }
 
@@ -357,6 +361,7 @@ fun TigeEntity.toTige(): Tige {
         houppierPct = houppierPct,
         isTigeHabitat = isTigeHabitat,
         sessionId = sessionId,
+        originTigeId = originTigeId,
         deletedAt = deletedAt,
         auteur = auteur,
         source = source,
@@ -370,6 +375,7 @@ fun Tige.toTigeEntity(): TigeEntity {
         parcelleOwnerId = parcelleId,
         placetteOwnerId = placetteId,
         sessionId = sessionId,
+        originTigeId = originTigeId,
         essenceCode = essenceCode,
         diamCm = diamCm,
         hauteurM = hauteurM,

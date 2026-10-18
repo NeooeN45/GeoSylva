@@ -1,5 +1,7 @@
 package com.forestry.counter.presentation.navigation
 
+import com.forestry.counter.R
+import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Checklist
 import androidx.compose.material.icons.filled.Explore
@@ -25,7 +27,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
  */
 enum class BottomNavDestination(
     val route: String,
-    val label: String,
+    @StringRes val labelRes: Int,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
     /** Indique si la destination est implémentée (false = stub "À venir"). */
@@ -33,19 +35,19 @@ enum class BottomNavDestination(
 ) {
     ACCUEIL(
         route = "accueil",
-        label = "Accueil",
+        labelRes = R.string.journey_nav_home,
         selectedIcon = Icons.Filled.Home,
         unselectedIcon = Icons.Outlined.Home,
     ),
     EXPLORER(
         route = "explorer",
-        label = "Explorer",
+        labelRes = R.string.journey_nav_explorer,
         selectedIcon = Icons.Filled.Explore,
         unselectedIcon = Icons.Outlined.Explore,
     ),
     MISSIONS(
         route = "missions",
-        label = "Missions",
+        labelRes = R.string.journey_nav_missions,
         // Partageait Icons.Filled.Map avec Carte — les deux étaient
         // strictement identiques dans la barre du bas comme dans le
         // mini-menu des sous-pages.
@@ -55,17 +57,16 @@ enum class BottomNavDestination(
     ),
     CARTE(
         route = "carte",
-        label = "Carte",
+        labelRes = R.string.journey_nav_map,
         selectedIcon = Icons.Filled.Map,
         unselectedIcon = Icons.Outlined.Map,
-        isImplemented = false,
     ),
     PARAMETRES(
         route = "parametres",
         // « Paramètres » (10 caractères, contre 5-8 pour les autres onglets)
         // était le seul libellé à passer sur deux lignes dans la barre du
         // bas. « Réglages » tient sur une ligne, comme ses voisins.
-        label = "Réglages",
+        labelRes = R.string.journey_nav_settings,
         selectedIcon = Icons.Filled.Settings,
         unselectedIcon = Icons.Outlined.Settings,
     );

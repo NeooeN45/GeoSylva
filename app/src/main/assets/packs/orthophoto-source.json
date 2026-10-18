@@ -1,0 +1,238 @@
+{
+  "schema_version": 1,
+  "purpose": "Fond photographique réel en ligne de la carte de sélection des packs. Aucun calcul forestier, cadastre ou réseau de routage.",
+  "provider": "Institut national de l’information géographique et forestière (IGN)",
+  "product": "BD ORTHO®",
+  "dataset_identifier": "IGNF_BD-ORTHO",
+  "qualified_utc": "2026-10-02T09:16:36.375032+00:00",
+  "source": {
+    "protocol": "WMTS 1.0.0",
+    "service_url": "https://data.geopf.fr/wmts",
+    "capabilities_url": "https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetCapabilities",
+    "tile_url": "https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&FORMAT=image/jpeg&TILEMATRIXSET=PM_0_19&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}",
+    "layer": "ORTHOIMAGERY.ORTHOPHOTOS",
+    "style": "normal",
+    "format": "image/jpeg",
+    "matrix_set": "PM_0_19",
+    "crs": "EPSG:3857",
+    "scheme": "xyz",
+    "tile_size": 256,
+    "min_zoom": 0,
+    "max_zoom": 19,
+    "advertised_wgs84_bounds": [
+      -180,
+      -80,
+      180,
+      80
+    ],
+    "anonymous_access_verified": true,
+    "api_key_required_for_verified_public_layer": false,
+    "tls_verified": true,
+    "coverage_caution": "L’emprise mondiale annoncée par WMTS ne garantit pas un contenu orthophotographique actuel sur chaque pixel. Le catalogue BD ORTHO et le tableau IGN précisent la couverture et les prises de vue."
+  },
+  "attribution": {
+    "text": "© IGN · BD ORTHO® · Licence Ouverte 2.0",
+    "source_url": "https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_BD-ORTHO",
+    "metadata_url": "https://data.geopf.fr/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&OUTPUTSCHEMA=http://standards.iso.org/iso/19115/-3/mdb/2.0&elementSetName=full&ID=IGNF_BD-ORTHO",
+    "data_catalogue_revision": "2026-09-11",
+    "metadata_revision": "2026-09-24T14:47:04.331225Z",
+    "details": "Source IGN ; catalogue BD ORTHO® mis à jour le 11/09/2026. Mosaïque de prises de vue de dates variables selon le territoire.",
+    "requirement": "Paternité effective : source (a minima IGN) et date de dernière mise à jour, éventuellement par lien vers l’information. Ne pas suggérer une caution officielle de GeoSylva.",
+    "imagery_dates_url": "https://data.geopf.fr/annexes/ressources/fiches/photographies-aeriennes-RVB/geoportail_dates_des_prises_de_vues_aeriennes-RVB.pdf",
+    "imagery_dates_table_updated": "2026-09-21",
+    "examples_at_qualification": [
+      {
+        "department": "16",
+        "name": "Charente",
+        "capture_year": 2023,
+        "resolution_cm": 20
+      },
+      {
+        "department": "17",
+        "name": "Charente-Maritime",
+        "capture_year": 2024,
+        "resolution_cm": 20
+      }
+    ],
+    "not_a_uniform_capture_year": "2026"
+  },
+  "data_rights": {
+    "status": "qualified_commercial_reuse_with_attribution",
+    "license_name": "Licence Ouverte / Open Licence 2.0",
+    "license_spdx": "etalab-2.0",
+    "commercial_application_display": true,
+    "metadata_license_anchor": "https://www.etalab.gouv.fr/wp-content/uploads/2018/11/open-licence.pdf",
+    "official_license_source_url": "https://raw.githubusercontent.com/etalab/licence-ouverte/48b983e67f2dcbd9a851daa178876b1ec6b49785/LO.md",
+    "official_license_repository": "etalab/licence-ouverte",
+    "official_license_git_revision": "48b983e67f2dcbd9a851daa178876b1ec6b49785",
+    "commercial_quote": "de l’exploiter à titre commercial, par exemple en la combinant avec d’autres informations, ou en l’incluant dans votre propre produit ou application.",
+    "obligations": [
+      "Mention de source et dernière mise à jour",
+      "Respect des données à caractère personnel, le cas échéant",
+      "Aucune caution officielle suggérée",
+      "Ne pas induire en erreur sur contenu, source ou date"
+    ]
+  },
+  "service_conditions": {
+    "status": "qualified_for_online_commercial_application_display",
+    "cgu_url": "https://cartes.gouv.fr/cgu",
+    "official_source_url": "https://raw.githubusercontent.com/IGNF/cartes.gouv.fr-edito/8aa56991e9bc7de973f8751f9855596fb32bd782/content/cgu/index.md",
+    "official_repository": "IGNF/cartes.gouv.fr-edito",
+    "official_git_revision": "8aa56991e9bc7de973f8751f9855596fb32bd782",
+    "cgu_document_version": "2024-10-15",
+    "evidence": [
+      "Définition Développeur : application mobile à des fins commerciales ou non",
+      "Annexe 1 : API Géoplateforme - Diffusion d’images tuilées WMTS",
+      "Annexe 2 : utilisation des géodonnées et géoservices gratuite sauf licence spécifique"
+    ],
+    "rate_limit_source_url": "https://raw.githubusercontent.com/IGNF/cartes.gouv.fr-documentation/56ad829110d4d64e3832810b15f9ae0460bda8f2/content/fr/guides-utilisateur/utiliser-les-services-de-la-geoplateforme/limites-d-usage.md",
+    "rate_limit_official_repository": "IGNF/cartes.gouv.fr-documentation",
+    "rate_limit_official_git_revision": "56ad829110d4d64e3832810b15f9ae0460bda8f2",
+    "rate_limiting": "WMTS explicitement exclu du rate limiting par IP décrit dans la documentation officielle. Aucune garantie d’usage illimité ; CGU anti-abus applicables.",
+    "requirements": [
+      "Respecter la documentation et la licence des données",
+      "Ne pas nuire au fonctionnement ni contourner les sécurités des API",
+      "Faire respecter les CGU aux utilisateurs concernés",
+      "Revoir les conditions officielles à chaque évolution du service"
+    ],
+    "observed_cache_control": "private, max-age=1814400",
+    "hosting_pricing_scope": "Les seuils Découverte/Essentiel/Premium concernent les fournisseurs qui hébergent/diffusent leurs données ; aucun tarif de consommation du fond public IGN n’en est déduit.",
+    "fetch_limit": "La page CGU cartes.gouv.fr et les PDF Etalab ont été refusés par le proxy CONNECT (403) de cet environnement. Leurs sources officielles IGN/Etalab versionnées ont été lues via GitHub, sans contournement TLS."
+  },
+  "implementation_scope": {
+    "online_viewport_streaming_only": true,
+    "imagery_in_signed_administrative_packs": false,
+    "signed_administrative_pack_count_at_qualification": 119,
+    "offline_imagery_download_implemented": false,
+    "bulk_download_implemented": false,
+    "offline_behavior": "Fond local sobre et géométries administratives ; la photographie ne constitue pas une donnée disponible hors ligne garantie.",
+    "future_offline_review": "Qualifier séparément format, volume, stockage, actualisation, attribution, redistribution et conditions du service avant téléchargement organisé des orthophotos.",
+    "authentication": "Endpoint WMTS public ; aucun JWT GSIE, identifiant de compte ou secret envoyé au fournisseur.",
+    "render_order": "Raster sous les contours, noms et sélection administratifs ; conserver leur lisibilité et interaction."
+  },
+  "qualification_evidence": {
+    "files": {
+      "capabilities.xml": {
+        "sha256": "b7e90beaf6f2f9f359fbe8c7cf2d67c0a73d4ed2760a04e0982662e6dd160083",
+        "bytes": 2960376
+      },
+      "orthophoto-layer.xml": {
+        "sha256": "bad1d822e3a2412da90269a3ae1827df545f7d5b294548e603d425c214e2519c",
+        "bytes": 6288
+      },
+      "pm-0-19-matrix.xml": {
+        "sha256": "254e5389bd54c8f3670d9f26d6c2f6a9786cced6d83d68738f363138866d9936",
+        "bytes": 7726
+      },
+      "csw-metadata.xml": {
+        "sha256": "2f06194365679e932ce0933aee9c93a1d7a784364c8f3c401931cbae8870b87e",
+        "bytes": 166023
+      },
+      "LO-pinned.md": {
+        "sha256": "a1deb9d7554ad10e041dbd7440b3dec0ac0d3679f9e1655ee9d850908b015995",
+        "bytes": 8026
+      },
+      "cgu-official-source.md": {
+        "sha256": "7c10e41c083872af1868834ba8f4149aeca65fee3a748dce88627c343c4e799f",
+        "bytes": 55643
+      },
+      "limits-official-source.md": {
+        "sha256": "6850635b3b50a9d222cff95b933c441a4f07ce56ba649c32c69923abfcebda23",
+        "bytes": 3952
+      },
+      "wmts-official-source.md": {
+        "sha256": "b7d91fe196f12e656644fe5503a66a9176e885d6f9f18c3e464a3ea144ced32b",
+        "bytes": 2577
+      },
+      "bd-ortho-official-source.md": {
+        "sha256": "f673a4041e0dbd1a19381ee84a7358911f5d72d523907e69cb46756fcacbd214",
+        "bytes": 772
+      },
+      "geopf-ortho-dates.pdf": {
+        "sha256": "5920c160af3454e51571e928609ca8a0e5e67de6ec7daa528e0c60c4f1a6c839",
+        "bytes": 161919
+      }
+    },
+    "real_tile_checks": [
+      {
+        "zxy": [
+          4,
+          8,
+          5
+        ],
+        "status": 200,
+        "content_type": "image/jpeg",
+        "bytes": 14241,
+        "sha256": "16cae5afd3b299c7027e25043d7541c7a98bf085462d874da6bcb64873d69d50",
+        "image_size": [
+          256,
+          256
+        ],
+        "coordinate": [
+          2.2,
+          46.6
+        ]
+      },
+      {
+        "zxy": [
+          5,
+          16,
+          11
+        ],
+        "status": 200,
+        "content_type": "image/jpeg",
+        "bytes": 13379,
+        "sha256": "79aaebb4089883122c6e803bbc62c6af449354dfe33dc127614e982745712496",
+        "image_size": [
+          256,
+          256
+        ],
+        "coordinate": [
+          2.2,
+          46.6
+        ]
+      },
+      {
+        "zxy": [
+          6,
+          32,
+          22
+        ],
+        "status": 200,
+        "content_type": "image/jpeg",
+        "bytes": 15812,
+        "sha256": "c6dd844fdf0594293564358a9831b1877f411f6dd5394d7f1fb27dbbbb825786",
+        "image_size": [
+          256,
+          256
+        ],
+        "coordinate": [
+          0.15,
+          45.65
+        ]
+      },
+      {
+        "zxy": [
+          12,
+          2049,
+          1462
+        ],
+        "status": 200,
+        "content_type": "image/jpeg",
+        "bytes": 24200,
+        "sha256": "9d094e581a9abdbab2248657ba6e39ac59c6b17f6a69cb94558d325603e89f79",
+        "image_size": [
+          256,
+          256
+        ],
+        "coordinate": [
+          0.15,
+          45.65
+        ]
+      }
+    ],
+    "tile_http_proof_date": "2026-10-02",
+    "result": "4 réponses HTTP 200, JPEG 256 × 256 réels sans clé ; matrice PM_0_19 vérifiée pour z0 à z19 ; tuile Charente z12 et tuile France z4 inspectées visuellement.",
+    "limits": "Qualification limitée à cette couche, aux conditions officielles relevées et à l’affichage commercial en ligne. Aucun droit global présumé pour d’autres produits IGN, cadastre, calculs, navigation ou photos hors ligne."
+  }
+}

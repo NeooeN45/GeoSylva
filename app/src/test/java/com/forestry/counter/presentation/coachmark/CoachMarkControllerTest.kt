@@ -8,6 +8,26 @@ import org.junit.Test
 
 class CoachMarkControllerTest {
 
+    @Test fun filtered_tour_never_waits_for_a_hidden_missions_anchor() {
+        val steps = COACH_MARK_STEPS.filter { it.anchorKey != "nav_missions" }
+        val controller = CoachMarkController(steps)
+        controller.start()
+        val seen = mutableListOf<String>()
+        while (controller.isActive) {
+            seen.add(requireNotNull(controller.currentStep).anchorKey)
+            controller.next()
+        }
+        assertEquals(listOf("nav_accueil", "nav_explorer", "nav_carte", "nav_parametres"), seen)
+        assertEquals(4, controller.totalSteps)
+    }
+
+    @Test fun empty_tour_does_not_create_an_active_step_without_a_target() {
+        val controller = CoachMarkController(emptyList())
+        controller.start()
+        assertFalse(controller.isActive)
+        assertNull(controller.currentStep)
+    }
+
     @Test
     fun should_start_at_first_step_when_tour_is_pending() {
         val controller = CoachMarkController()

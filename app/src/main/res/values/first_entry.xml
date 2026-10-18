@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="first_entry_profession_save_error">Le choix du métier n’a pas pu être enregistré. Réessayez pour continuer.</string>
+    <string name="first_entry_finish_error">La configuration n’a pas pu être enregistrée. Réessayez pour ouvrir GeoSylva.</string>
+</resources>

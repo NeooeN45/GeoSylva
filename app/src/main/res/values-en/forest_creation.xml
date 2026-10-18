@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="forest_creation_title">Create a forest</string>
+    <string name="forest_creation_intro">Your forest, simply</string>
+    <string name="forest_creation_intro_detail">A place for your parcels and field observations.</string>
+    <string name="forest_creation_step_count">Step %1$d of %2$d</string>
+    <string name="forest_creation_identity_help">Only the name is required. Add other information if you know it.</string>
+    <string name="forest_creation_name_required">Forest name *</string>
+    <string name="forest_creation_department_optional">Department (optional)</string>
+    <string name="forest_creation_owner_help">Enter the details you know. All fields in this step are optional.</string>
+    <string name="forest_creation_owner_name_optional">Owner name</string>
+    <string name="forest_creation_owner_email_optional">Owner email address</string>
+    <string name="forest_creation_manager_optional">Manager name</string>
+    <string name="forest_creation_email_invalid">Check the email address, for example name@domain.com.</string>
+    <string name="forest_creation_management_help">Add management details if known. You can adjust this information before creating the forest.</string>
+    <string name="forest_creation_plan_optional">Management document reference</string>
+    <string name="forest_creation_management_optional">Optional management information</string>
+    <string name="forest_creation_save">Create forest</string>
+    <string name="forest_creation_saving">Saving…</string>
+    <string name="forest_creation_save_error">The forest could not be saved. Your entries have been kept: please try again.</string>
+    <string name="forest_creation_photo_credit">Illustration photo: Ірина Бучнєва · CC0</string>
+    <string name="forest_creation_lookup_loading">Searching for forests…</string>
+    <string name="forest_creation_lookup_help">Choose a suggested forest, or keep the name you entered.</string>
+    <string name="forest_creation_lookup_selected">Forest selected</string>
+    <string name="forest_creation_lookup_department">Department: %1$s</string>
+    <string name="forest_creation_lookup_unavailable">Search is unavailable. You can continue with the name you entered.</string>
+    <string name="forest_creation_lookup_empty">No suggested forest. You can continue with the name you entered.</string>
+</resources>

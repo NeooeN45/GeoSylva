@@ -1,6 +1,7 @@
 package com.forestry.counter.data.repository
 
 import androidx.room.withTransaction
+import com.forestry.counter.data.sync.hierarchy.BusinessReadAccess
 import com.forestry.counter.data.local.ForestryDatabase
 import com.forestry.counter.data.local.dao.CounterDao
 import com.forestry.counter.data.local.dao.FormulaDao
@@ -35,11 +36,12 @@ class GroupRepositoryImpl(
     private val groupVariableDao: GroupVariableDao,
     private val parcelleDao: ParcelleDao? = null,
     private val placetteDao: PlacetteDao? = null,
-    private val tigeDao: TigeDao? = null
+    private val tigeDao: TigeDao? = null,
+    private val readAccess: BusinessReadAccess? = null,
 ) : GroupRepository {
 
     override fun getAllGroups(): Flow<List<Group>> {
-        return groupDao.getAllGroups().transform { entities ->
+        val source = groupDao.getAllGroups().transform { entities ->
             val result = mutableListOf<Group>()
             for (entity in entities) {
                 val count = counterDao.getCounterCountByGroup(entity.groupId)
@@ -48,10 +50,14 @@ class GroupRepositoryImpl(
             }
             emit(result)
         }
+        val access = readAccess ?: return source
+        return access.observe(source, emptyList()) { groups, snapshot ->
+            groups.filter { access.canReadForest(it.id, snapshot) }
+        }
     }
 
     override fun getGroupById(groupId: String): Flow<Group?> {
-        return groupDao.getGroupByIdFlow(groupId).transform { entity ->
+        val source = groupDao.getGroupByIdFlow(groupId).transform { entity ->
             if (entity == null) {
                 emit(null)
             } else {
@@ -60,28 +66,63 @@ class GroupRepositoryImpl(
                 emit(entity.toGroup(counterCount = count, totalValue = total))
             }
         }
+        val access = readAccess ?: return source
+        return access.observe(source, null) { group, snapshot ->
+            group?.takeIf { access.canReadForest(groupId, snapshot) }
+        }
     }
 
-    override suspend fun insertGroup(group: Group) {
+    override suspend fun insertGroup(group: Group) = guarded(group.id) {
         groupDao.insertGroup(group.toGroupEntity())
     }
 
-    override suspend fun updateGroup(group: Group) {
+    override suspend fun updateGroup(group: Group) = guarded(group.id) {
         groupDao.updateGroup(group.toGroupEntity())
     }
 
-    override suspend fun deleteGroup(groupId: String) {
+    override suspend fun deleteGroup(groupId: String) = guarded(groupId) {
         groupDao.deleteGroupById(groupId)
     }
 
     override suspend fun deleteAllGroups() {
         android.util.Log.w("GroupRepo", "deleteAllGroups() called — purging ALL groups and cascaded data")
         database.withTransaction {
+            val snapshot = readAccess?.capture()
+            val ids = groupDao.getAllGroups().first().map { it.groupId }
+            if (snapshot != null) {
+                check(ids.all { readAccess!!.canReadForest(it, snapshot) } &&
+                    readAccess!!.revalidate(snapshot)) { "GROUP_READ_NOT_AVAILABLE" }
+            }
             groupDao.deleteAllGroups()
+            if (snapshot != null) requireOriginalAccess(snapshot, ids)
         }
     }
 
+    private suspend fun <T> guarded(groupId: String, action: suspend () -> T): T = database.withTransaction {
+        val snapshot = readAccess?.capture()
+        if (snapshot != null) check(readAccess!!.canReadForest(groupId, snapshot) && readAccess.revalidate(snapshot)) {
+            "GROUP_READ_NOT_AVAILABLE"
+        }
+        val result = action()
+        if (snapshot != null) requireOriginalAccess(snapshot, listOf(groupId))
+        result
+    }
+
+    private suspend fun requireOriginalAccess(snapshot: BusinessReadAccess.AccessSnapshot, forestIds: List<String>) {
+        val access = checkNotNull(readAccess)
+        check(access.isCurrent(snapshot)) { "GROUP_READ_SESSION_CHANGED" }
+        // Copy/delete may legitimately change the parent mapping. Recheck the
+        // source authorities while retaining the original opaque identity guard.
+        val fresh = access.capture()
+        check(access.isCurrent(snapshot) && forestIds.all { access.canReadForest(it, fresh) } &&
+            access.revalidate(fresh) && access.isCurrent(snapshot)) { "GROUP_READ_SESSION_CHANGED" }
+    }
+
     override suspend fun duplicateGroup(groupId: String): String = database.withTransaction {
+        val snapshot = readAccess?.capture()
+        if (snapshot != null) check(readAccess!!.canReadForest(groupId, snapshot) && readAccess.revalidate(snapshot)) {
+            "GROUP_READ_NOT_AVAILABLE"
+        }
         val group = groupDao.getGroupById(groupId) ?: return@withTransaction ""
         val counters = counterDao.getCountersByGroup(groupId).first()
         val formulas = formulaDao.getFormulasByGroup(groupId).first()
@@ -130,8 +171,13 @@ class GroupRepositoryImpl(
         if (newVariables.isNotEmpty()) groupVariableDao.insertVariables(newVariables)
 
         // Duplicate parcelles, placettes and tiges (forestry data)
+        val sourceParcelIds = mutableSetOf<String>()
         if (parcelleDao != null) {
             val parcelles = parcelleDao.getParcellesByForest(groupId).first()
+            sourceParcelIds.addAll(parcelles.map { it.parcelleId })
+            if (snapshot != null) check(parcelles.all { readAccess!!.canReadParcelle(it.parcelleId, snapshot) }) {
+                "GROUP_READ_NOT_AVAILABLE"
+            }
             if (parcelles.isNotEmpty()) {
                 // Map old parcelleId -> new parcelleId
                 val parcelleIdMap = mutableMapOf<String, String>()
@@ -178,6 +224,9 @@ class GroupRepositoryImpl(
                                     tigeId = UUID.randomUUID().toString(),
                                     parcelleOwnerId = newParcelleId,
                                     placetteOwnerId = t.placetteOwnerId?.let { placetteIdMap[it] },
+                                    sessionId = null,
+                                    originTigeId = null,
+                                    uuid = null,
                                     timestamp = System.currentTimeMillis()
                                 )
                             }
@@ -188,6 +237,9 @@ class GroupRepositoryImpl(
             }
         }
 
+        if (snapshot != null) check(readAccess!!.revalidateSources(snapshot, setOf(groupId), sourceParcelIds)) {
+            "GROUP_READ_SESSION_CHANGED"
+        }
         return@withTransaction newGroupId
     }
 }

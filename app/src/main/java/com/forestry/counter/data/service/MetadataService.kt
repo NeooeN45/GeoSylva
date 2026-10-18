@@ -15,6 +15,9 @@ import com.forestry.counter.domain.model.Metadatable
 class MetadataService(
     private val accountProvider: () -> String?,
 ) {
+    /** Current authenticated account, without inferring permissions from author metadata. */
+    fun currentAccountId(): String? = accountProvider()
+
     /** Source par défaut selon le point d'entrée à l'origine de la donnée. */
     enum class Source(val value: String) {
         MANUAL("manual"),

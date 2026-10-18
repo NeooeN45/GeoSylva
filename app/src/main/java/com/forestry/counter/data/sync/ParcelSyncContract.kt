@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 internal const val PARCEL_STATUS_DELETED = "deleted"
 
 /** Résultat de la fusion serveur→local d'une parcelle (GEOSYLVA P0-3, pull). */
-internal enum class MergeOutcome { INSERTED, UPDATED, DELETED, SKIPPED_LOCAL_DIRTY, NOOP }
+internal enum class MergeOutcome { INSERTED, UPDATED, DELETED, SKIPPED_LOCAL_DIRTY, SKIPPED_OTHER_ACCOUNT, NOOP }
 
 /**
  * Décide l'action de fusion pour UNE parcelle reçue du serveur, sans

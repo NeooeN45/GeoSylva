@@ -15,6 +15,7 @@ interface TigeRepository {
     suspend fun deleteTigesByParcelle(parcelleId: String)
     suspend fun deleteTigesByPlacette(placetteId: String)
     suspend fun deleteTigesByPlacetteAndEssence(placetteId: String, essenceCode: String)
+    suspend fun deleteTigesBySessionAndEssence(sessionId: String, essenceCode: String)
     suspend fun deleteLatest(
         parcelleId: String,
         placetteId: String?,

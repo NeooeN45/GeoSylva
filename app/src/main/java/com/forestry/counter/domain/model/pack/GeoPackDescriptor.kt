@@ -1,5 +1,7 @@
 package com.forestry.counter.domain.model.pack
 
+import kotlinx.serialization.Serializable
+
 /**
  * Modèle de description d'un pack territorial GeoSylva.
  *
@@ -13,12 +15,14 @@ package com.forestry.counter.domain.model.pack
 //  Types de packs
 // ─────────────────────────────────────────────────────────────────────────────
 
+@Serializable
 enum class PackLevel(val labelFr: String, val priority: Int) {
     SOCLE_NATIONAL("Socle national",       0),
     REGIONAL(      "Pack régional",        1),
     DEPARTEMENTAL( "Pack départemental",   2)
 }
 
+@Serializable
 enum class PackStatus(val labelFr: String) {
     EMBEDDED(       "Embarqué (intégré dans l'app)"),
     INSTALLED(      "Installé"),
@@ -60,6 +64,7 @@ enum class RegionFrance(val labelFr: String, val codeINSEE: String) {
 //  Descripteur principal d'un pack
 // ─────────────────────────────────────────────────────────────────────────────
 
+@Serializable
 data class GeoPackDescriptor(
     val id: String,                     // ex: "fr.region.84", "fr.dept.63"
     val level: PackLevel,
@@ -73,12 +78,34 @@ data class GeoPackDescriptor(
     val downloadUrl: String? = null,
     val checksum: String? = null,
     val features: PackFeatures,
-    val metaInfo: PackMetaInfo = PackMetaInfo()
+    val metaInfo: PackMetaInfo = PackMetaInfo(),
+    // Version réellement activée sur cet appareil ; `version` reste celle du catalogue.
+    val installedVersion: String? = null,
+    // Champs du contrat signé GSIE ; null pour les anciens fichiers non qualifiés.
+    val contentKind: String? = null,
+    val archiveBytes: Long? = null,
+    val territoryId: String? = null,
+    val signedManifest: SignedPackMetadata? = null,
+    // Comptes vérifiés du manifeste publié, pas des exemples embarqués.
+    val forestryLayerCounts: Map<String, Int> = emptyMap(),
+    val forestryQuarantinedCounts: Map<String, Int> = emptyMap()
+) {
+    val isUsable: Boolean
+        get() = status == PackStatus.EMBEDDED || status == PackStatus.INSTALLED ||
+            (installedVersion != null && status == PackStatus.UPDATE_PENDING)
+}
+
+@Serializable
+data class SignedPackMetadata(
+    val manifestJson: String,
+    val signatureBase64: String,
+    val keyId: String
 )
 
 /**
  * Capacités fonctionnelles incluses dans ce pack.
  */
+@Serializable
 data class PackFeatures(
     val hasFloraDatabase: Boolean       = false,  // base d'espèces locales
     val hasStationRules: Boolean        = false,  // règles stationnelles
@@ -93,6 +120,7 @@ data class PackFeatures(
     val essencesCount: Int              = 0
 )
 
+@Serializable
 data class PackMetaInfo(
     val author: String          = "GeoSylva Team",
     val license: String         = "Internal",

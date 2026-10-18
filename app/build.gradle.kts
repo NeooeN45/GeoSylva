@@ -65,6 +65,13 @@ android {
             "GSIE_API_BASE_URL",
             "\"${buildConfigString(gsieApiBaseUrl)}\""
         )
+        // Clé publique de distribution, distincte de la clé de signature JWT.
+        // Aucun remplacement par une clé de démonstration si elle est absente.
+        val packPublicKey = providers.gradleProperty("geosylva.gsiePackPublicKeyDerBase64")
+            .orElse(providers.environmentVariable("GSIE_PACK_PUBLIC_KEY_DER_BASE64"))
+            .orElse(localProps.getProperty("GSIE_PACK_PUBLIC_KEY_DER_BASE64", ""))
+            .get()
+        buildConfigField("String", "GSIE_PACK_PUBLIC_KEY_DER_BASE64", "\"${buildConfigString(packPublicKey)}\"")
         buildConfigField(
             "String",
             "GOOGLE_WEB_CLIENT_ID",
@@ -138,6 +145,8 @@ android {
 
     packaging {
         resources {
+            // Preserve the notices contributed by instrumentation dependencies.
+            merges += setOf("META-INF/LICENSE.md", "META-INF/LICENSE-notice.md", "META-INF/NOTICE.md")
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
             excludes += "META-INF/DEPENDENCIES"
             excludes += "META-INF/LICENSE"
@@ -171,6 +180,7 @@ ksp {
 }
 
 dependencies {
+    implementation(project(":capsule-verifier"))
     implementation(libs.coil.compose)
     // Core Android
     implementation(libs.core.ktx)

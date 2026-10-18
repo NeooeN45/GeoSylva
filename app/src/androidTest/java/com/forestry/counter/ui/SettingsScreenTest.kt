@@ -1,5 +1,6 @@
 package com.forestry.counter.ui
 
+import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -18,7 +19,7 @@ class SettingsScreenTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun `settingsScreen should display main settings categories`() {
+    fun settingsScreen_should_display_main_settings_categories() {
         // Given
         composeTestRule.setContent {
             // SettingsScreen content
@@ -43,7 +44,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun `settingsScreen should handle language selection`() {
+    fun settingsScreen_should_handle_language_selection() {
         // Given
         composeTestRule.setContent {
             // SettingsScreen with language options
@@ -65,7 +66,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun `settingsScreen should be accessible with screen readers`() {
+    fun settingsScreen_should_be_accessible_with_screen_readers() {
         // Given
         composeTestRule.setContent {
             // Accessible SettingsScreen
@@ -90,7 +91,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun `settingsScreen should handle theme selection`() {
+    fun settingsScreen_should_handle_theme_selection() {
         // Given
         composeTestRule.setContent {
             // SettingsScreen with theme options
@@ -112,7 +113,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun `settingsScreen should show security settings`() {
+    fun settingsScreen_should_show_security_settings() {
         // Given
         composeTestRule.setContent {
             // SettingsScreen with security section
@@ -138,7 +139,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun `settingsScreen should handle PIN code setup`() {
+    fun settingsScreen_should_handle_PIN_code_setup() {
         // Given
         composeTestRule.setContent {
             // SettingsScreen with PIN setup
@@ -168,7 +169,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun `settingsScreen should handle data export`() {
+    fun settingsScreen_should_handle_data_export() {
         // Given
         composeTestRule.setContent {
             // SettingsScreen with data export
@@ -194,7 +195,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun `settingsScreen should handle data import`() {
+    fun settingsScreen_should_handle_data_import() {
         // Given
         composeTestRule.setContent {
             // SettingsScreen with data import
@@ -220,7 +221,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun `settingsScreen should show app information`() {
+    fun settingsScreen_should_show_app_information() {
         // Given
         composeTestRule.setContent {
             // SettingsScreen with app info
@@ -246,7 +247,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun `settingsScreen should handle backup settings`() {
+    fun settingsScreen_should_handle_backup_settings() {
         // Given
         composeTestRule.setContent {
             // SettingsScreen with backup options
@@ -272,7 +273,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun `settingsScreen should validate PIN code strength`() {
+    fun settingsScreen_should_validate_PIN_code_strength() {
         // Given
         composeTestRule.setContent {
             // SettingsScreen with PIN validation
@@ -302,7 +303,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun `settingsScreen should support keyboard navigation`() {
+    fun settingsScreen_should_support_keyboard_navigation() {
         // Given
         composeTestRule.setContent {
             // Accessible SettingsScreen

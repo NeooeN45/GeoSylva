@@ -11,6 +11,10 @@ import com.forestry.counter.data.remote.identity.GoogleLoginRequestDto
 import com.forestry.counter.data.remote.identity.HealthResponseDto
 import com.forestry.counter.data.remote.identity.IdentityApiFactory
 import com.forestry.counter.data.remote.identity.IdentityApiService
+import com.forestry.counter.data.remote.identity.IdentitySessionSnapshot
+import com.forestry.counter.data.remote.identity.IdentitySessionCoordinator
+import com.forestry.counter.data.remote.identity.IdentitySessionStore
+import com.forestry.counter.data.remote.identity.IdentitySessionWrite
 import com.forestry.counter.data.remote.identity.JwtSessionDecoder
 import com.forestry.counter.data.remote.identity.LocalLoginRequestDto
 import com.forestry.counter.data.remote.identity.LogoutRequestDto
@@ -22,6 +26,7 @@ import com.forestry.counter.data.remote.identity.StoredIdentityTokens
 import com.forestry.counter.data.remote.identity.TokenResponseDto
 import com.forestry.counter.data.remote.identity.UpdateProfileRequestDto
 import com.forestry.counter.domain.model.AccountProfile
+import com.forestry.counter.domain.model.AccountActionCode
 import com.forestry.counter.domain.model.AccountSession
 import com.forestry.counter.domain.model.ApiConnectionState
 import com.forestry.counter.domain.model.ApiDiagnostic
@@ -35,13 +40,18 @@ import com.forestry.counter.domain.model.IdentityProvider
 import com.forestry.counter.domain.model.ProviderAvailability
 import com.forestry.counter.domain.model.ProviderCapability
 import com.forestry.counter.domain.repository.IdentityRepository
+import com.forestry.counter.domain.repository.IdentitySessionGuard
+import com.forestry.counter.domain.repository.GuardedProfileResult
 import java.io.IOException
 import java.util.Locale
 import java.util.concurrent.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.json.Json
+import kotlin.coroutines.coroutineContext
 import retrofit2.HttpException
 import retrofit2.Response
 
@@ -49,15 +59,18 @@ internal class IdentityRepositoryImpl(
     private val api: IdentityApiService?,
     override val apiBaseUrl: String,
     override val isGoogleClientConfigured: Boolean,
-    private val sessionStore: EncryptedIdentitySessionStore,
+    private val sessionStore: IdentitySessionStore,
 ) : IdentityRepository {
     private val json = Json { ignoreUnknownKeys = true }
     private val _session = MutableStateFlow(
         sessionStore.read()?.let { JwtSessionDecoder.decode(it.accessToken) }
     )
     private val _profile = MutableStateFlow<AccountProfile?>(null)
+    // Une seule continuation prouvée ; une rotation externe inconnue reste refusée.
+    private var lastRefreshCommit: RefreshCommit? = null
 
     override val session: StateFlow<AccountSession?> = _session.asStateFlow()
+    override val sessionGeneration: StateFlow<Long> = sessionStore.coordinator.generation.asStateFlow()
     override val profile: StateFlow<AccountProfile?> = _profile.asStateFlow()
     override val isApiConfigured: Boolean = api != null
 
@@ -114,60 +127,194 @@ internal class IdentityRepositoryImpl(
     override suspend fun loginWithGoogle(
         idToken: String,
         nonce: String,
-    ): Result<AccountSession> = authenticate {
+    ): Result<LoginOutcome> = authenticateOrChallenge {
         loginWithGoogle(GoogleLoginRequestDto(idToken, nonce))
     }
 
     override suspend fun linkGoogle(
         idToken: String,
         nonce: String,
-    ): Result<LoginOutcome> = authenticateOrChallenge {
-        linkGoogle(authorizationHeader(), GoogleLoginRequestDto(idToken, nonce))
+    ): Result<LoginOutcome> {
+        val expected = reserveAuthentication(requireSession = true).getOrElse { return Result.failure(it) }
+        val accountId = expected.accountId() ?: return invalidSession()
+        return authenticateOrChallenge(expected, accountId) {
+            linkGoogle(expected.authorizationHeader(), GoogleLoginRequestDto(idToken, nonce))
+        }
     }
 
     override suspend fun refreshSession(): Result<AccountSession> {
-        val refreshToken = sessionStore.read()?.refreshToken
-            ?: return Result.failure(IdentityClientException(IdentityError.INVALID_CREDENTIALS))
-        return authenticate { refresh(RefreshRequestDto(refreshToken)) }
+        val requested = sessionStore.snapshot() ?: return secureStorageUnavailable()
+        val accountId = requested.accountId() ?: return invalidSession()
+        return sessionStore.coordinator.refreshMutex.withLock {
+            val current = sessionStore.snapshot() ?: return@withLock secureStorageUnavailable()
+            if (current != requested) {
+                // Un autre transport a déjà renouvelé : réutiliser seulement
+                // une session du même compte, jamais un nouveau compte B.
+                if (current.accountId() != accountId || current.tokens == requested.tokens) {
+                    return@withLock staleSession()
+                }
+                val adopted = apiResult { adoptSession(current) }
+                return@withLock adopted
+            }
+            authenticate(current, accountId, recordRefresh = true) {
+                refresh(RefreshRequestDto(requireNotNull(current.tokens).refreshToken))
+            }
+        }
+    }
+
+    override fun captureSessionGuard(expectedAccountId: String): Result<IdentitySessionGuard> =
+        synchronized(sessionStore.coordinator.monitor) {
+            val current = sessionStore.snapshot() ?: return@synchronized secureStorageUnavailable()
+            if (current.accountId() != expectedAccountId) return@synchronized staleSession()
+            Result.success(StoredSessionGuard(sessionStore.coordinator, current, expectedAccountId))
+        }
+
+    override fun isSessionGuardCurrent(guard: IdentitySessionGuard): Boolean =
+        synchronized(sessionStore.coordinator.monitor) {
+            val stored = guard as? StoredSessionGuard ?: return@synchronized false
+            stored.coordinator === sessionStore.coordinator &&
+                stored.state.accountId() == stored.accountId && sessionStore.isCurrent(stored.state)
+        }
+
+    override fun isSessionGuardRenewalCurrent(parent: IdentitySessionGuard): Boolean =
+        synchronized(sessionStore.coordinator.monitor) { provenRefreshChild(parent) != null }
+
+    override suspend fun refreshSession(expected: IdentitySessionGuard): Result<IdentitySessionGuard> =
+        refreshSessionGuard(expected, validateProfile = true)
+
+    private suspend fun refreshSessionGuard(
+        expected: IdentitySessionGuard,
+        validateProfile: Boolean,
+    ): Result<StoredSessionGuard> {
+        val requested = synchronized(sessionStore.coordinator.monitor) {
+            val stored = expected as? StoredSessionGuard
+            if (stored == null || stored.coordinator !== sessionStore.coordinator ||
+                stored.state.accountId() != stored.accountId ||
+                (!isSessionGuardCurrent(stored) && (validateProfile || provenRefreshChild(stored) == null))
+            ) null else stored
+        } ?: return staleSession()
+        return sessionStore.coordinator.refreshMutex.withLock {
+            if (!validateProfile) {
+                val child = synchronized(sessionStore.coordinator.monitor) { provenRefreshChild(requested) }
+                if (child != null) return@withLock apiResult {
+                    adoptSession(child.state)
+                    child
+                }
+            }
+            // Le mutex peut avoir attendu un autre transport. Ne jamais adopter B,
+            // ni une nouvelle connexion A, à la place de la session demandée.
+            val stillCurrent = synchronized(sessionStore.coordinator.monitor) {
+                isSessionGuardCurrent(requested)
+            }
+            if (!stillCurrent) return@withLock staleSession()
+            val result = if (validateProfile) {
+                authenticateCommit(requested.state, requested.accountId, recordRefresh = true) {
+                    refresh(RefreshRequestDto(requireNotNull(requested.state.tokens).refreshToken))
+                }
+            } else apiResult {
+                persistSession(
+                    requested.state,
+                    refresh(RefreshRequestDto(requireNotNull(requested.state.tokens).refreshToken)),
+                    requested.accountId,
+                    recordRefresh = true,
+                )
+            }
+            if (result.isFailure && !validateProfile) {
+                if (!isSessionGuardCurrent(requested)) return@withLock staleSession()
+                val failure = result.exceptionOrNull()
+                if ((failure as? IdentityClientException)?.error in setOf(
+                        IdentityError.INVALID_CREDENTIALS, IdentityError.INVALID_SERVER_RESPONSE,
+                    )
+                ) {
+                    clearRejectedSession(requested.state).exceptionOrNull()?.let {
+                        return@withLock Result.failure(it)
+                    }
+                }
+            }
+            result.map { committed ->
+                StoredSessionGuard(sessionStore.coordinator, committed.state, committed.session.accountId)
+            }
+        }
+    }
+
+    override fun reloadStoredSession() {
+        synchronized(sessionStore.coordinator.monitor) {
+            val restored = sessionStore.read()?.let { JwtSessionDecoder.decode(it.accessToken) }
+            if (_session.value?.accountId != restored?.accountId) _profile.value = null
+            _session.value = restored
+        }
     }
 
     override suspend fun logout(): Result<Unit> {
-        val refreshToken = sessionStore.read()?.refreshToken
-        val result = if (refreshToken == null || api == null) {
-            Result.success(Unit)
-        } else {
-            apiResult {
-                logout(LogoutRequestDto(refreshToken))
-                Unit
+        // Invalider immédiatement les opérations en vol ; une panne réseau
+        // ne doit jamais empêcher la déconnexion locale.
+        val (refreshToken, cleared) = synchronized(sessionStore.coordinator.monitor) {
+            lastRefreshCommit = null
+            val token = sessionStore.read()?.refreshToken
+            val succeeded = sessionStore.clear()
+            _session.value = null
+            _profile.value = null
+            token to succeeded
+        }
+        val remote = if (refreshToken == null) Result.success(Unit) else apiResult {
+            val response = logout(LogoutRequestDto(refreshToken))
+            if (!response.isSuccessful) throw HttpException(response)
+            if (response.body() == null) {
+                throw IdentityClientException(IdentityError.INVALID_SERVER_RESPONSE)
+            }
+            Unit
+        }
+        return if (cleared) remote else secureStorageUnavailable()
+    }
+
+    override suspend fun loadProfile(): Result<AccountProfile> {
+        val expected = sessionStore.snapshot() ?: return secureStorageUnavailable()
+        val accountId = expected.accountId() ?: return invalidSession()
+        return loadProfile(StoredSessionGuard(sessionStore.coordinator, expected, accountId)).result
+    }
+
+    override suspend fun loadProfile(expected: IdentitySessionGuard): GuardedProfileResult {
+        val requested = expected as? StoredSessionGuard
+        if (requested == null || requested.coordinator !== sessionStore.coordinator ||
+            requested.state.accountId() != requested.accountId
+        ) return GuardedProfileResult(expected, staleSession())
+        val initial = profileForExactSnapshot(requested.state)
+        if (!initial.isHttpUnauthorized()) {
+            return GuardedProfileResult(requested, if (isSessionGuardCurrent(requested)) initial else staleSession())
+        }
+        val refreshed = refreshSessionGuard(requested, validateProfile = false)
+        val child = refreshed.getOrElse { return GuardedProfileResult(requested, Result.failure(it)) }
+        val retried = profileForExactSnapshot(child.state)
+        if (!isSessionGuardCurrent(child)) return GuardedProfileResult(child, staleSession())
+        if (retried.isHttpUnauthorized() ||
+            (retried.exceptionOrNull() as? IdentityClientException)?.error == IdentityError.INVALID_SERVER_RESPONSE
+        ) {
+            clearRejectedSession(child.state).exceptionOrNull()?.let {
+                return GuardedProfileResult(child, Result.failure(it))
             }
         }
-        sessionStore.clear()
-        _session.value = null
-        _profile.value = null
-        return result
+        return GuardedProfileResult(child, retried)
     }
 
-    override suspend fun loadProfile(): Result<AccountProfile> = apiResult {
-        profile(authorizationHeader()).toDomain().also { _profile.value = it }
-    }
-
-    override suspend fun updateDisplayName(displayName: String?): Result<AccountProfile> = apiResult {
+    override suspend fun updateDisplayName(displayName: String?): Result<AccountProfile> = authenticatedProfile { expected ->
         updateProfile(
-            authorizationHeader(),
+            expected.authorizationHeader(),
             UpdateProfileRequestDto(displayName?.trim()?.takeIf(String::isNotEmpty)),
-        ).toDomain().also { _profile.value = it }
+        )
     }
 
     override suspend fun requestEmailVerification(): Result<Unit> = apiResult {
-        requestEmailVerification(authorizationHeader())
+        val expected = requireStoredSession()
+        requestEmailVerification(expected.authorizationHeader())
+        requireCurrent(expected)
         Unit
     }
 
-    override suspend fun confirmEmailVerification(code: String): Result<AccountProfile> = apiResult {
+    override suspend fun confirmEmailVerification(code: String): Result<AccountProfile> = authenticatedProfile { expected ->
         confirmEmailVerification(
-            authorizationHeader(),
-            ActionCodeRequestDto(code.trim()),
-        ).toDomain().also { _profile.value = it }
+            expected.authorizationHeader(),
+            ActionCodeRequestDto(normalizeActionCode(code)),
+        )
     }
 
     override suspend fun requestPasswordReset(email: String): Result<Unit> = apiResult {
@@ -180,16 +327,26 @@ internal class IdentityRepositoryImpl(
         code: String,
         newPassword: String,
     ): Result<Unit> = apiResult {
+        val expected = sessionStore.snapshot()
+            ?: throw IdentityClientException(IdentityError.SECURE_STORAGE_UNAVAILABLE)
         confirmPasswordReset(
             PasswordResetConfirmRequestDto(
                 email = normalizeEmail(email),
-                code = code.trim(),
+                code = normalizeActionCode(code),
                 newPassword = newPassword,
             )
         )
-        sessionStore.clear()
-        _session.value = null
-        _profile.value = null
+        coroutineContext.ensureActive()
+        synchronized(sessionStore.coordinator.monitor) {
+            // Ne pas déconnecter B si ce reset a été lancé dans l'état A.
+            if (sessionStore.isCurrent(expected)) {
+                if (!sessionStore.clearIfCurrent(expected)) {
+                    throw IdentityClientException(IdentityError.SECURE_STORAGE_UNAVAILABLE)
+                }
+                _session.value = null
+                _profile.value = null
+            }
+        }
         Unit
     }
 
@@ -230,11 +387,26 @@ internal class IdentityRepositoryImpl(
     }
 
     private suspend fun authenticate(
+        expected: IdentitySessionSnapshot? = null,
+        expectedAccountId: String? = null,
+        recordRefresh: Boolean = false,
         block: suspend IdentityApiService.() -> TokenResponseDto,
-    ): Result<AccountSession> {
-        val result = apiResult { persistSession(block()) }
-        if (result.isSuccess) loadProfile()
-        return result
+    ): Result<AccountSession> = authenticateCommit(expected, expectedAccountId, recordRefresh, block).map { it.session }
+
+    private suspend fun authenticateCommit(
+        expected: IdentitySessionSnapshot? = null,
+        expectedAccountId: String? = null,
+        recordRefresh: Boolean = false,
+        block: suspend IdentityApiService.() -> TokenResponseDto,
+    ): Result<SessionCommit> {
+        val reserved = expected ?: reserveAuthentication().getOrElse { return Result.failure(it) }
+        val result = apiResult { persistSession(reserved, block(), expectedAccountId, recordRefresh) }
+        val committed = result.getOrElse { return Result.failure(it) }
+        validateAuthenticatedProfile(committed.state)?.let { return Result.failure(it) }
+        return apiResult {
+            requireCurrent(committed.state)
+            committed
+        }
     }
 
     /**
@@ -243,21 +415,35 @@ internal class IdentityRepositoryImpl(
      * enregistrée que lorsque des jetons sont réellement émis.
      */
     private suspend fun authenticateOrChallenge(
+        expected: IdentitySessionSnapshot? = null,
+        expectedAccountId: String? = null,
         block: suspend IdentityApiService.() -> LoginOutcomeDto,
     ): Result<LoginOutcome> {
+        val reserved = expected ?: reserveAuthentication().getOrElse { return Result.failure(it) }
+        var committed: SessionCommit? = null
         val result = apiResult {
             val dto = block()
+            requireCurrent(reserved)
             val tokens = dto.tokensOrNull()
+            val kinds = listOf(tokens != null, dto.mfaRequired, dto.mfaSetupRequired).count { it }
+            if (
+                kinds != 1 ||
+                (tokens == null && (dto.accessToken != null || dto.refreshToken != null))
+            ) throw IdentityClientException(IdentityError.INVALID_SERVER_RESPONSE)
             when {
-                tokens != null -> LoginOutcome.Authenticated(persistSession(tokens))
+                tokens != null -> {
+                    val saved = persistSession(reserved, tokens, expectedAccountId)
+                    committed = saved
+                    LoginOutcome.Authenticated(saved.session)
+                }
 
-                dto.mfaRequired && dto.challengeToken != null ->
+                dto.mfaRequired && !dto.challengeToken.isNullOrBlank() && (dto.expiresIn ?: 0) > 0 ->
                     LoginOutcome.MfaRequired(
                         challengeToken = dto.challengeToken,
                         expiresInSeconds = dto.expiresIn ?: 0,
                     )
 
-                dto.mfaSetupRequired && dto.setupToken != null ->
+                dto.mfaSetupRequired && !dto.setupToken.isNullOrBlank() && (dto.expiresIn ?: 0) > 0 ->
                     LoginOutcome.MfaSetupRequired(
                         setupToken = dto.setupToken,
                         expiresInSeconds = dto.expiresIn ?: 0,
@@ -268,8 +454,14 @@ internal class IdentityRepositoryImpl(
                 else -> throw IdentityClientException(IdentityError.INVALID_SERVER_RESPONSE)
             }
         }
-        if (result.getOrNull() is LoginOutcome.Authenticated) loadProfile()
-        return result
+        if (result.isFailure) return result
+        committed?.let { saved ->
+            validateAuthenticatedProfile(saved.state)?.let { return Result.failure(it) }
+        }
+        return apiResult {
+            requireCurrent(committed?.state ?: reserved)
+            result.getOrThrow()
+        }
     }
 
     private suspend fun <T> apiResult(block: suspend IdentityApiService.() -> T): Result<T> {
@@ -284,18 +476,162 @@ internal class IdentityRepositoryImpl(
         }
     }
 
-    private fun persistSession(response: TokenResponseDto): AccountSession {
+    private data class SessionCommit(val session: AccountSession, val state: IdentitySessionSnapshot)
+    private data class RefreshCommit(val parent: IdentitySessionSnapshot, val child: IdentitySessionSnapshot)
+
+    private class StoredSessionGuard(
+        val coordinator: IdentitySessionCoordinator,
+        val state: IdentitySessionSnapshot,
+        override val accountId: String,
+    ) : IdentitySessionGuard
+
+    private suspend fun persistSession(
+        expected: IdentitySessionSnapshot,
+        response: TokenResponseDto,
+        expectedAccountId: String?,
+        recordRefresh: Boolean = false,
+    ): SessionCommit {
+        coroutineContext.ensureActive()
+        if (
+            response.accessToken.isBlank() || response.refreshToken.isBlank() ||
+            !response.tokenType.equals("Bearer", ignoreCase = true) || response.expiresIn <= 0
+        ) throw IdentityClientException(IdentityError.INVALID_SERVER_RESPONSE)
         val session = JwtSessionDecoder.decode(response.accessToken)
             ?: throw IdentityClientException(IdentityError.INVALID_SERVER_RESPONSE)
-        val saved = sessionStore.save(
+        if (expectedAccountId != null && session.accountId != expectedAccountId) {
+            throw IdentityClientException(IdentityError.INVALID_SERVER_RESPONSE)
+        }
+        val saved = sessionStore.saveIfCurrent(
+            expected,
             StoredIdentityTokens(response.accessToken, response.refreshToken)
         )
-        if (!saved) {
-            sessionStore.clear()
-            throw IdentityClientException(IdentityError.SECURE_STORAGE_UNAVAILABLE)
+        val state = when (saved) {
+            is IdentitySessionWrite.Saved -> saved.state
+            IdentitySessionWrite.Stale -> throw IdentityClientException(IdentityError.CANCELLED)
+            IdentitySessionWrite.Unavailable -> throw IdentityClientException(IdentityError.SECURE_STORAGE_UNAVAILABLE)
         }
-        _session.value = session
-        return session
+        if (!sessionStore.withCurrent(state) {
+                // La preuve précède l'émission de session, y compris pour le collecteur du Compte.
+                lastRefreshCommit = if (recordRefresh) RefreshCommit(expected, state) else null
+                adoptSession(state)
+            }
+        ) throw IdentityClientException(IdentityError.CANCELLED)
+        return SessionCommit(session, state)
+    }
+
+    private fun reserveAuthentication(requireSession: Boolean = false): Result<IdentitySessionSnapshot> {
+        if (api == null) return Result.failure(IdentityClientException(IdentityError.API_NOT_CONFIGURED))
+        return synchronized(sessionStore.coordinator.monitor) {
+            val current = sessionStore.snapshot() ?: return@synchronized secureStorageUnavailable()
+            if (requireSession && current.accountId() == null) return@synchronized invalidSession()
+            val reserved = sessionStore.reserveAuthentication() ?: return@synchronized secureStorageUnavailable()
+            lastRefreshCommit = null
+            Result.success(reserved)
+        }
+    }
+
+    private fun adoptSession(expected: IdentitySessionSnapshot): AccountSession {
+        val restored = expected.tokens?.let { JwtSessionDecoder.decode(it.accessToken) }
+            ?: throw IdentityClientException(IdentityError.INVALID_CREDENTIALS)
+        if (!sessionStore.withCurrent(expected) {
+                if (_session.value?.accountId != restored.accountId) _profile.value = null
+                _session.value = restored
+            }
+        ) throw IdentityClientException(IdentityError.CANCELLED)
+        return restored
+    }
+
+    private suspend fun requireCurrent(expected: IdentitySessionSnapshot) {
+        coroutineContext.ensureActive()
+        if (!sessionStore.isCurrent(expected)) throw IdentityClientException(IdentityError.CANCELLED)
+    }
+
+    private fun requireStoredSession(): IdentitySessionSnapshot {
+        val expected = sessionStore.snapshot()
+            ?: throw IdentityClientException(IdentityError.SECURE_STORAGE_UNAVAILABLE)
+        if (expected.accountId() == null) throw IdentityClientException(IdentityError.INVALID_CREDENTIALS)
+        return expected
+    }
+
+    private suspend fun authenticatedProfile(
+        expected: IdentitySessionSnapshot? = null,
+        block: suspend IdentityApiService.(IdentitySessionSnapshot) -> AccountProfileDto,
+    ): Result<AccountProfile> = apiResult {
+        val origin = expected ?: requireStoredSession()
+        requireCurrent(origin)
+        val accountId = requireNotNull(origin.accountId())
+        val updated = block(origin).toDomain()
+        coroutineContext.ensureActive()
+        if (updated.accountId != accountId) {
+            throw IdentityClientException(IdentityError.INVALID_SERVER_RESPONSE)
+        }
+        if (!sessionStore.withCurrent(origin) {
+                adoptSession(origin)
+                _profile.value = updated
+            }
+        ) throw IdentityClientException(IdentityError.CANCELLED)
+        updated
+    }
+
+    /** Lecture brute sans renouvellement : nécessaire à la validation d'un commit sous refreshMutex. */
+    private suspend fun profileForExactSnapshot(expected: IdentitySessionSnapshot): Result<AccountProfile> =
+        authenticatedProfile(expected) { origin -> profile(origin.authorizationHeader()) }
+
+    private fun provenRefreshChild(parent: IdentitySessionGuard): StoredSessionGuard? {
+        val guard = parent as? StoredSessionGuard ?: return null
+        if (guard.coordinator !== sessionStore.coordinator || guard.state.accountId() != guard.accountId) return null
+        val commit = lastRefreshCommit ?: return null
+        if (commit.parent != guard.state || !sessionStore.isCurrent(commit.child) ||
+            commit.child.accountId() != guard.accountId
+        ) return null
+        return StoredSessionGuard(sessionStore.coordinator, commit.child, guard.accountId)
+    }
+
+    private fun clearRejectedSession(expected: IdentitySessionSnapshot): Result<Unit> =
+        synchronized(sessionStore.coordinator.monitor) {
+            if (!sessionStore.isCurrent(expected)) return@synchronized staleSession()
+            val cleared = sessionStore.clearIfCurrent(expected)
+            lastRefreshCommit = null
+            _session.value = null
+            _profile.value = null
+            if (cleared) Result.success(Unit) else secureStorageUnavailable()
+        }
+
+    private fun Result<*>.isHttpUnauthorized(): Boolean =
+        ((exceptionOrNull() as? IdentityClientException)?.cause as? HttpException)?.code() == 401
+
+    private fun IdentitySessionSnapshot.accountId(): String? =
+        tokens?.let { JwtSessionDecoder.decode(it.accessToken)?.accountId }
+
+    private fun IdentitySessionSnapshot.authorizationHeader(): String =
+        "Bearer ${tokens?.accessToken ?: throw IdentityClientException(IdentityError.INVALID_CREDENTIALS)}"
+
+    private fun <T> invalidSession(): Result<T> =
+        Result.failure(IdentityClientException(IdentityError.INVALID_CREDENTIALS))
+
+    private fun <T> secureStorageUnavailable(): Result<T> =
+        Result.failure(IdentityClientException(IdentityError.SECURE_STORAGE_UNAVAILABLE))
+
+    private fun <T> staleSession(): Result<T> =
+        Result.failure(IdentityClientException(IdentityError.CANCELLED))
+
+    private suspend fun validateAuthenticatedProfile(expected: IdentitySessionSnapshot): Throwable? {
+        val error = profileForExactSnapshot(expected).exceptionOrNull() ?: return null
+        if (!sessionStore.isCurrent(expected)) return IdentityClientException(IdentityError.CANCELLED)
+        val kind = (error as? IdentityClientException)?.error
+        if (kind == IdentityError.CANCELLED) return error
+        if (kind !in setOf(IdentityError.INVALID_CREDENTIALS, IdentityError.INVALID_SERVER_RESPONSE)) return null
+        synchronized(sessionStore.coordinator.monitor) {
+            // Une identité /me incohérente n'est jamais annoncée connectée.
+            // Ne pas supprimer une session B établie depuis cette requête.
+            if (!sessionStore.isCurrent(expected)) return IdentityClientException(IdentityError.CANCELLED)
+            val cleared = sessionStore.clearIfCurrent(expected)
+            lastRefreshCommit = null
+            _session.value = null
+            _profile.value = null
+            if (!cleared) return IdentityClientException(IdentityError.SECURE_STORAGE_UNAVAILABLE)
+        }
+        return error
     }
 
     private fun Exception.toIdentityException(): IdentityClientException {
@@ -331,11 +667,8 @@ internal class IdentityRepositoryImpl(
 
     private fun normalizeEmail(email: String): String = email.trim().lowercase(Locale.ROOT)
 
-    private fun authorizationHeader(): String {
-        val accessToken = sessionStore.read()?.accessToken
-            ?: throw IdentityClientException(IdentityError.INVALID_CREDENTIALS)
-        return "Bearer $accessToken"
-    }
+    private fun normalizeActionCode(value: String): String = AccountActionCode.normalize(value)
+        ?: throw IdentityClientException(IdentityError.INVALID_INPUT)
 
     private fun AccountProfileDto.toDomain(): AccountProfile = AccountProfile(
         accountId = accountId,

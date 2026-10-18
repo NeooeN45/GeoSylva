@@ -872,7 +872,7 @@
 
     <string name="martelage_heights_dialog_title_format">Hauteurs – %1$s</string>
     <string name="martelage_no_stem_for_species">Aucune tige pour cette essence dans ce périmètre.</string>
-    <string name="martelage_height_by_class_hint">Renseignez une hauteur moyenne par classe de diamètre (m). Vous pouvez saisir plusieurs hauteurs séparées par des virgules (ex : 25,20,27) : la moyenne sera utilisée. Laissez vide seulement si toutes les tiges de la classe ont une hauteur mesurée.</string>
+    <string name="martelage_height_by_class_hint">Renseignez une hauteur de référence par classe de diamètre, en mètres. La virgule ou le point indique les décimales. Pour calculer une moyenne, séparez les hauteurs par des points-virgules ou des espaces (ex. : 18,5;20;21). Une valeur invalide empêche le calcul. Laissez vide seulement si toutes les tiges de la classe ont une hauteur mesurée.</string>
     <string name="martelage_diameter_class_cm_format">Classe %1$d cm</string>
 
     <string name="settings_background_image">Image de fond</string>
@@ -1129,10 +1129,10 @@
     <string name="onboarding_start">Commencer</string>
     <string name="onboarding_next">Suivant</string>
     <string name="onboarding_skip">Passer</string>
-    <string name="coachmark_accueil_title">Votre tableau de bord</string>
-    <string name="coachmark_accueil_desc">Vue d\'ensemble de vos forêts et parcelles, et accès rapide à vos actions du moment.</string>
+    <string name="coachmark_accueil_title">Votre espace de travail</string>
+    <string name="coachmark_accueil_desc">Retrouvez les accès utiles à votre métier et vos dossiers de terrain.</string>
     <string name="coachmark_explorer_title">Explorer</string>
-    <string name="coachmark_explorer_desc">Parcourez les 13 catégories de données : forêts, essences, projets, mesures…</string>
+    <string name="coachmark_explorer_desc">Accédez aux outils disponibles pour votre métier. Vous pouvez changer de métier dans les réglages.</string>
     <string name="coachmark_missions_title">Missions</string>
     <string name="coachmark_missions_desc">Suivez vos tâches de terrain (à venir).</string>
     <string name="coachmark_carte_title">Carte</string>
@@ -1591,9 +1591,9 @@
 
     <!-- Page consentement RGPD onboarding (R-C3) -->
     <string name="onboarding_privacy_title">Confidentialité &amp; Protection des données</string>
-    <string name="onboarding_privacy_desc">GeoSylva respecte votre vie privée. Toutes les données restent sur votre appareil. Découvrez quelles données sont collectées et comment elles sont protégées.</string>
-    <string name="onboarding_privacy_b1">Toutes les données forestières (arbres, placettes, parcelles, photos) sont stockées localement et chiffrées en AES-256 (SQLCipher + Android Keystore)</string>
-    <string name="onboarding_privacy_b2">Aucune donnée personnelle n\'est envoyée vers un serveur. Le réseau sert aux tuiles cartographiques et, si vous l\'activez, à la synchronisation d\'une grille tarifaire. HTTPS et la validation stricte des destinations protègent les échanges.</string>
+    <string name="onboarding_privacy_desc">Découvrez les usages locaux, les échanges avec les services en ligne et les paramètres de confidentialité de GeoSylva.</string>
+    <string name="onboarding_privacy_b1">Vous pouvez saisir et conserver vos relevés forestiers localement pour les consulter et travailler hors ligne.</string>
+    <string name="onboarding_privacy_b2">La connexion échange les informations du compte avec GSIE. Le téléchargement des packs et l\'affichage cartographique en ligne utilisent également le réseau.</string>
     <string name="onboarding_privacy_b3">Vous gardez le contrôle : export (CSV/XLSX/JSON), suppression, révocation des permissions GPS/caméra à tout moment. Consultez la politique de confidentialité complète dans les Paramètres.</string>
     <string name="onboarding_accept">Accepter &amp; Continuer</string>
     <string name="onboarding_decline">Refuser</string>
@@ -1618,12 +1618,33 @@
 
     <!-- i18n : PackManagerScreen (I-C1) -->
     <string name="packs_title">Packs de données</string>
+    <string name="pack_map_regions">Choisir des régions</string>
+    <string name="pack_map_departments">Choisir des départements</string>
+    <string name="pack_map_hint">Touchez un territoire ; zoomez pour afficher les départements.</string>
+    <plurals name="pack_map_selection_count">
+        <item quantity="one">%1$d territoire sélectionné</item>
+        <item quantity="other">%1$d territoires sélectionnés</item>
+    </plurals>
+    <string name="pack_map_clear">Effacer</string>
+    <string name="pack_map_remove">Retirer %1$s de la sélection</string>
+    <string name="pack_map_selection_error">La sélection locale n’a pas pu être restaurée ou enregistrée.</string>
+    <string name="pack_map_retry_selection">Réessayer l’enregistrement</string>
+    <string name="pack_map_download_unavailable">Téléchargements indisponibles pour le moment. Taille à télécharger inconnue.</string>
+    <plurals name="pack_local_storage_summary">
+        <item quantity="one">%1$d pack local actif · fichiers %2$.1f Mo</item>
+        <item quantity="other">%1$d packs locaux actifs · fichiers %2$.1f Mo</item>
+    </plurals>
+    <string name="pack_local_version_format">Version locale conservée : %1$s</string>
+    <string name="pack_local_metadata_unqualified">Fichier local conservé. Contenu et date de publication non qualifiés.</string>
     <string name="pack_install">Installer</string>
+    <string name="pack_update">Mettre à jour</string>
     <string name="pack_update_available">MAJ dispo</string>
     <string name="pack_uninstall">Désinstaller</string>
     <string name="pack_status_installed">Installé</string>
     <string name="pack_status_embedded">Embarqué</string>
     <string name="pack_status_available">Disponible</string>
+    <string name="pack_status_unavailable">Indisponible</string>
+    <string name="pack_status_update_unavailable">MAJ indisponible</string>
     <string name="pack_status_error">Erreur</string>
 
     <!-- i18n : StationPhotoGalleryBlock (I-C1) -->
@@ -1674,7 +1695,17 @@
 
     <!-- i18n : PackManagerScreen extras (I-C1) -->
     <string name="pack_no_regional">Aucun pack régional disponible pour cette sélection.</string>
-    <string name="pack_installed_summary_format">%1$d pack(s) installé(s) · %2$.1f Mo</string>
+    <string name="pack_installed_summary_format">%1$d pack(s) actif(s) · stockage %2$.1f Mo</string>
+    <string name="pack_size_estimate_format">%1$s · estimation %2$.1f Mo</string>
+    <string name="pack_active_version_format">Version active hors ligne : %1$s</string>
+    <string name="pack_distribution_unavailable">Distribution serveur non disponible pour cette version.</string>
+    <string name="pack_interrupt">Interrompre le transfert</string>
+    <string name="pack_deactivate">Désactiver</string>
+    <string name="pack_deactivate_title">Désactiver %1$s ?</string>
+    <string name="pack_deactivate_description">Ce pack ne sera plus utilisé. Les fichiers des versions conservées resteront sur le téléphone ; cette action ne libère pas leur espace.</string>
+    <string name="pack_keep_active">Garder actif</string>
+    <string name="pack_reactivate_version_format">Réactiver la version %1$s conservée</string>
+    <string name="settings_category_packs_sub">Versions et données hors ligne</string>
     <string name="pack_all_format">Tout (%1$d)</string>
     <string name="pack_national_offline_format">Données nationales — disponible hors ligne (%1$d sp.)</string>
     <string name="pack_national_label">National</string>
@@ -2239,7 +2270,7 @@
     <string name="map_mesures_sauvegardees">Mesures sauvegardées</string>
 
     <!-- i18n : OnboardingScreen -->
-    <string name="onboarding_version_info">Version 2.1 · Offline-first · CNPF</string>
+    <string name="onboarding_version_info">Version %1$s</string>
 
     <!-- i18n : ProductBreakdownCard -->
     <string name="product_qualite">Qualité %1$s</string>
@@ -2476,4 +2507,66 @@
     <string name="map_layer_loading">Chargement du fond de carte…</string>
     <string name="map_layer_load_error">Ce fond de carte est temporairement indisponible.</string>
     <string name="retry">Réessayer</string>
+    <string name="pack_catalog_refresh">Actualiser le catalogue GSIE</string>
+    <string name="pack_tab_map">Carte</string>
+    <string name="pack_tab_files">Packs</string>
+    <string name="pack_show_selected_files">Voir les packs (%1$d)</string>
+    <string name="pack_administrative_scope">Limites administratives : contour, ancre du nom et provenance. Ces packs ne contiennent pas encore de cadastre, de parcellaire forestier ni de règles de calcul.</string>
+    <string name="pack_catalog_empty">Aucun pack chargé pour cette sélection. Actualisez le catalogue ou choisissez un autre territoire.</string>
+    <string name="pack_interrupt_selection">Interrompre les téléchargements</string>
+    <string name="pack_prepare_download">Préparer le téléchargement</string>
+    <string name="pack_plan_title">Confirmer le téléchargement</string>
+    <string name="pack_plan_already_installed">Ces versions exactes sont déjà actives. Aucun téléchargement nécessaire.</string>
+    <string name="pack_plan_archive_bytes">Volume total des archives : %1$s octets</string>
+    <string name="pack_plan_required_bytes">Volume supplémentaire maximal des archives : %1$s octets</string>
+    <string name="pack_plan_available_bytes">Espace réellement libre : %1$s octets</string>
+    <string name="pack_plan_bytes_note">Ces archives sont conservées directement, sans extraction. Une reprise peut réduire le transfert. Les versions précédentes restent conservées ; l’espace sera revérifié au démarrage.</string>
+    <string name="pack_plan_no_space">Espace insuffisant pour ce téléchargement.</string>
+    <string name="pack_confirm_download">Télécharger</string>
+    <string name="pack_preview_title">Pack installé</string>
+    <string name="pack_preview_version">%1$s · version %2$s</string>
+    <string name="pack_preview_actual_file">Aperçu du fichier actif réellement lu sur ce téléphone.</string>
+    <string name="pack_preview_open">Voir le pack installé sur la carte</string>
+    <string name="pack_catalog_loading">Actualisation du catalogue GSIE…</string>
+    <string name="pack_catalog_not_configured">Le serveur GSIE n’est pas configuré. La carte embarquée reste disponible.</string>
+    <string name="pack_catalog_auth_required">Connectez votre compte dans Réglages → Compte pour télécharger. Les comptes gratuits sont inclus.</string>
+    <string name="pack_catalog_network_error">Le serveur est inaccessible. Les packs installés restent disponibles hors ligne.</string>
+    <string name="pack_catalog_invalid">Le catalogue reçu n’a pas pu être vérifié.</string>
+    <string name="pack_catalog_storage_error">Le catalogue local n’a pas pu être lu ou enregistré.</string>
+    <string name="pack_catalog_server_error">Le serveur ne peut pas fournir le catalogue actuellement.</string>
+    <string name="pack_catalog_cache">Catalogue vérifié conservé localement ; actualité non confirmée.</string>
+    <string name="pack_catalog_current">Catalogue chargé depuis GSIE.</string>
+    <string name="pack_version_format">Version : %1$s</string>
+    <string name="pack_archive_bytes">Archive : %1$s octets</string>
+    <string name="pack_map_embedded_attribution">© IGN · ADMIN EXPRESS COG CARTO PE 2026 · Licence Ouverte 2.0</string>
+    <string name="pack_map_zoom_in">Zoomer</string>
+    <string name="pack_map_zoom_out">Dézoomer</string>
+    <string name="pack_map_recenter">Recentrer sur la France métropolitaine</string>
+    <string name="pack_map_recenter_installed">Recentrer sur le pack installé</string>
+    <string name="pack_catalog_refresh_failed">Le catalogue n’a pas pu être actualisé. Réessayez ; la carte embarquée reste disponible.</string>
+    <string name="pack_plan_failed">Le téléchargement n’a pas pu être préparé. Actualisez le catalogue et vérifiez l’espace libre avant de réessayer.</string>
+    <string name="pack_action_failed">Une action sur les packs n’a pas abouti. Réessayez ou choisissez une autre version.</string>
+    <string name="pack_preview_failed">Le pack installé n’a pas pu être lu et vérifié. Réessayez ou choisissez une autre version.</string>
+    <string name="pack_map_multiselect">Sélection multiple</string>
+    <string name="pack_territories_title">Vos territoires</string>
+    <string name="pack_content_administrative_title">Limites administratives</string>
+    <string name="pack_content_administrative_summary">Contours, noms et provenance. Cadastre et parcellaires forestiers non inclus.</string>
+    <string name="pack_preview_actual_file_short">Fichier actif vérifié sur ce téléphone</string>
+    <string name="pack_source_and_version">Source et version</string>
+    <string name="pack_level_region_short">Région</string>
+    <string name="pack_level_department_short">Département</string>
+    <string name="pack_created_date">Préparé le %1$s</string>
+    <string name="pack_insee_code">Code INSEE : %1$s</string>
+    <string name="pack_map_render_failed">La carte n’a pas pu être affichée. Rouvrez cette page pour réessayer.</string>
+    <string name="pack_map_photo_active">Photo aérienne · IGN</string>
+    <string name="pack_map_photo_loading">Chargement photo IGN…</string>
+    <string name="pack_map_local_offline">Contours hors ligne</string>
+    <string name="pack_map_photo_unavailable">Photo indisponible · contours</string>
+    <string name="pack_map_local_selected">Contours · photo en option</string>
+    <plurals name="pack_active_count">
+        <item quantity="one">%1$d pack actif</item>
+        <item quantity="other">%1$d packs actifs</item>
+    </plurals>
+    <string name="pack_stored_files_size">Fichiers : %1$s</string>
+    <string name="pack_map_photo_attribution">© IGN · BD ORTHO® · Licence Ouverte 2.0 · catalogue 11/09/2026 · prises de vue variables</string>
 </resources>

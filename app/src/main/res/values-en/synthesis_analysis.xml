@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analysis_missing_value">—</string>
+    <string name="analysis_section_management">Forest management</string>
+    <string name="analysis_section_wood">Timber and value</string>
+    <string name="analysis_section_ecology">Ecology</string>
+    <string name="analysis_section_management_description">Inventory, volume, structure and survey history.</string>
+    <string name="analysis_section_wood_description">Quality, commercial volumes, revenue and costs.</string>
+    <string name="analysis_section_ecology_description">Observations, site, water and linked assessments.</string>
+    <string name="analysis_section_label">Analysis section</string>
+    <string name="analysis_selected_section">Selected section: %1$s</string>
+    <string name="analysis_dendrometry_title">Survey dendrometry</string>
+    <string name="analysis_recorded_scope">Results for the stems in this version, using valid recorded diameters.</string>
+    <string name="analysis_count_label">Recorded stems</string>
+    <string name="analysis_basal_label">Basal area of the stems</string>
+    <string name="analysis_dg_label">Quadratic mean diameter</string>
+    <string name="analysis_basal_value">%1$s m²</string>
+    <string name="analysis_diameter_value">%1$s cm</string>
+    <string name="analysis_valid_diameters">Valid diameters: %1$s / %2$s</string>
+    <string name="analysis_diameter_basis_unknown">Recorded diameters may be measurements or class representatives; their basis needs to be specified.</string>
+    <string name="analysis_projection_unavailable">Check the measurements and results of this version before viewing dendrometry.</string>
+    <string name="analysis_distribution_title">Diameter frequencies</string>
+    <string name="analysis_distribution_scope">Distribution of the diameters as recorded in this survey.</string>
+    <string name="analysis_distribution_empty">No valid diameter is available for a distribution.</string>
+    <string name="analysis_distribution_partial">Partial preview: %1$d distinct diameters shown out of %2$d.</string>
+    <string name="analysis_frequency_row">Diameter %1$s cm · count %2$d</string>
+    <string name="analysis_distribution_accessible">Recorded diameter frequencies: %1$s</string>
+    <string name="analysis_distribution_axes">Distinct diameters (cm) · Stem counts</string>
+    <string name="analysis_height_title">Heights and stand</string>
+    <string name="analysis_height_coverage">Recorded heights: %1$d / %2$d</string>
+    <string name="analysis_hd_label">Individual H/D ratio</string>
+    <string name="analysis_spacing_label">Relative spacing S %</string>
+    <string name="analysis_unavailable">Qualification needed</string>
+    <string name="analysis_hd_missing">A qualified total height paired with the diameter of the same tree is required.</string>
+    <string name="analysis_spacing_missing">Dominant height and a stand inventory with its density and area are required.</string>
+    <string name="analysis_show_requirements">Data required for calculation</string>
+    <string name="analysis_hide_requirements">Hide explanations</string>
+    <string name="analysis_hd_formula">H/D = 100 × H (m) / D (cm)</string>
+    <string name="analysis_height_requirements">H and D refer to the same tree. The origin of the height must be known. Stand Hdom/Dg is a separate indicator; no automatic stability threshold is applied.</string>
+    <string name="analysis_stand_requirements" formatted="false">S % requires N/ha, dominant height of the same population, effectively surveyed area and an explicit square or equilateral triangular convention. Marked stems alone are insufficient.</string>
+    <string name="analysis_quality_title">Timber quality and value</string>
+    <string name="analysis_quality_recorded">Recorded quality assessments</string>
+    <string name="analysis_coverage_value">%1$d / %2$d</string>
+    <string name="analysis_quality_limit">Quality comes from recorded assessments, whose grading reference needs to be checked.</string>
+    <string name="analysis_products_missing">Assortments, cut specifications and prices require their own references. Quality alone does not determine timber value.</string>
+    <string name="analysis_ecology_title">Ecological observations</string>
+    <string name="analysis_ecology_scope">Recorded tree observations and locations from this version.</string>
+    <string name="analysis_locations_recorded">Geolocated stems</string>
+    <string name="analysis_categories_empty">No ecological category is recorded in this survey.</string>
+    <string name="analysis_category_count">%1$s · %2$d</string>
+    <string name="analysis_station_missing">Data to complete: soil, water, site context and climate references.</string>
+    <string name="analysis_ecology_limit">These observations alone cannot predict development or diagnose the site. Find linked assessments in Explore.</string>
+    <string name="analysis_explain_measurements">Understand the required measurements</string>
+    <string name="analysis_protocol_help_title">Before calculating H/D and S %</string>
+    <string name="analysis_protocol_help_paired">H/D pairs the diameter and total height of the same tree. The height origin — measured or estimated — and its method must be known.</string>
+    <string name="analysis_protocol_help_stand">S % describes an inventoried stand: dominant height, density, population and effectively surveyed area must match. Stand Hdom/Dg differs from individual H/D.</string>
+    <string name="analysis_protocol_help_convention">A merchantable or diameter-class height does not automatically qualify H/D. This help describes the required information and does not change your survey.</string>
+    <string name="analysis_protocol_help_close">Close</string>
+</resources>

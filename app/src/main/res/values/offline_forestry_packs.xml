@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pack_content_forestry_title">Cartographie hors ligne</string>
+    <string name="pack_content_forestry_catalog_summary">Le contenu varie selon le pack publié. Chaque fiche précise les couches disponibles, leur version et leur volume.</string>
+    <string name="pack_content_forestry_summary">Cadastre et emprises des forêts publiques consultables et sélectionnables hors ligne. Le parcellaire ONF est inclus lorsqu’il figure dans le contenu publié ci-dessous.</string>
+    <string name="pack_forestry_cadastral_count">Parcelles cadastrales : %1$d</string>
+    <string name="pack_forestry_forest_count">Emprises de forêts publiques : %1$d</string>
+    <string name="pack_forestry_onf_count">Parcelles forestières ONF : %1$d</string>
+</resources>

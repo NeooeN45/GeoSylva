@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="height_input_invalid">Saisissez des hauteurs entre 0,5 et 80 m. Utilisez une virgule ou un point pour les décimales, un point-virgule ou un espace entre les mesures.</string>
+    <string name="height_n_recorded_format">Hauteurs renseignées : %1$d</string>
+</resources>

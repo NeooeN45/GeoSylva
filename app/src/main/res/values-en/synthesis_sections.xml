@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="synthesis_sections_details_show">Details collapsed</string>
+    <string name="synthesis_sections_details_hide">Details expanded</string>
+    <string name="synthesis_sections_recorded_heights">Recorded heights</string>
+    <string name="synthesis_sections_surface_protocol">This area describes the reference geometry. Per-hectare indicators require a complete protocol and the area actually surveyed; they remain unavailable for this survey.</string>
+    <string name="synthesis_sections_wood_scope">These volumes follow the survey’s volume method. Converting them to commercial assortments requires recorded measurement conventions, quality and cutting dimensions.</string>
+</resources>

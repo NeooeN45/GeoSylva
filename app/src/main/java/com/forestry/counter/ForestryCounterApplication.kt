@@ -64,7 +64,7 @@ import com.forestry.counter.domain.model.ParameterItem
 import com.forestry.counter.data.sylviculture.SylvicultureDataSeeder
 import com.forestry.counter.domain.location.LocalisationResolverService
 
-class ForestryCounterApplication : Application() {
+class ForestryCounterApplication : Application(), com.forestry.counter.data.sync.hierarchy.HierarchySyncOwner {
 
     companion object {
         init {
@@ -80,6 +80,12 @@ class ForestryCounterApplication : Application() {
         private set
 
     // Repositories
+    lateinit var woodObjectRepository: com.forestry.counter.domain.repository.WoodObjectRepository
+        private set
+    lateinit var fieldRepository: com.forestry.counter.domain.repository.FieldRepository
+        private set
+    lateinit var woodDepotRepository: com.forestry.counter.domain.repository.WoodDepotRepository
+        private set
     lateinit var groupRepository: GroupRepository
         private set
     lateinit var counterRepository: CounterRepository
@@ -102,6 +108,10 @@ class ForestryCounterApplication : Application() {
         private set
     lateinit var inventaireSessionRepository: InventaireSessionRepository
         private set
+    lateinit var surveyContextRepository: com.forestry.counter.domain.repository.SurveyContextRepository
+        private set
+    lateinit var observationQualificationRepository: com.forestry.counter.domain.repository.ObservationQualificationRepository
+        private set
     lateinit var stationEnvironnementaleRepository: StationEnvironnementaleRepository
         private set
     lateinit var diagnosticSylvicoleRepository: DiagnosticSylvicoleRepository
@@ -117,6 +127,10 @@ class ForestryCounterApplication : Application() {
     lateinit var identityRepository: IdentityRepository
         private set
     lateinit var parcelleSyncRepository: ParcelSyncRepository
+        private set
+    override lateinit var hierarchySyncRepository: com.forestry.counter.domain.repository.HierarchySyncRepository
+        private set
+    lateinit var businessReadAccess: com.forestry.counter.data.sync.hierarchy.BusinessReadAccess
         private set
     lateinit var projectRepository: com.forestry.counter.domain.repository.ProjectRepository
         private set
@@ -174,18 +188,42 @@ class ForestryCounterApplication : Application() {
         // mettre chaque mutation de parcelle en attente, sans bloquer le mode local.
         userPreferences = UserPreferencesManager(applicationContext)
         identityRepository = IdentityRepositoryFactory.create(applicationContext)
-        parcelleSyncRepository = ParcelSyncRepositoryFactory.create(
-            context = applicationContext,
-            syncDao = database.parcelSyncDao(),
-            parcelleDao = database.parcelleDao(),
-            identityRepository = identityRepository,
-        )
-
         // Service metadata — renseigne auteur/source/version à l'écriture (spec §3.1).
         // Le accountProvider lit l'identité courante de façon synchrone via le StateFlow.
         metadataService = MetadataService(
             accountProvider = { identityRepository.session.value?.accountId }
         )
+        val mutationGuardFactory = com.forestry.counter.data.sync.hierarchy.BusinessMutationGuard(identityRepository)::capture
+        woodObjectRepository = com.forestry.counter.data.repository.WoodObjectRepositoryImpl(database, identityRepository)
+        woodDepotRepository = com.forestry.counter.data.repository.WoodDepotRepositoryImpl(database, identityRepository)
+        businessReadAccess = com.forestry.counter.data.sync.hierarchy.BusinessReadAccess(
+            identityRepository, database.parcelSyncDao(),
+        )
+        fieldRepository = com.forestry.counter.data.repository.FieldRepositoryImpl(database, identityRepository, businessReadAccess)
+        businessReadAccess.startObserving(applicationScope)
+        val mutationJournal = com.forestry.counter.data.sync.ParcelMutationJournal(
+            parcelleDao = database.parcelleDao(),
+            syncDao = database.parcelSyncDao(),
+            operationDao = database.parcelSyncOperationDao(),
+            apiOrigin = BuildConfig.GSIE_API_BASE_URL.trim().trimEnd('/').takeIf { it.isNotBlank() },
+            accountProvider = { identityRepository.session.value?.accountId },
+            onCommitted = { applicationScope.launch {
+                ParcelSyncRepositoryFactory.resumeStoredWork(parcelleSyncRepository)
+            } },
+            mutationGuardFactory = mutationGuardFactory,
+        )
+        parcelleSyncRepository = ParcelSyncRepositoryFactory.create(
+            context = applicationContext,
+            syncDao = database.parcelSyncDao(),
+            parcelleDao = database.parcelleDao(),
+            operationDao = database.parcelSyncOperationDao(),
+            mutationJournal = mutationJournal,
+            identityRepository = identityRepository,
+        )
+        hierarchySyncRepository = com.forestry.counter.data.sync.hierarchy.HierarchySyncRepositoryFactory.create(
+            applicationContext, database.hierarchySyncDao(), identityRepository,
+        )
+        val martelageClock = com.forestry.counter.data.service.AndroidMartelageClock(this)
 
         // Initialize calculator
         formulaParser = FormulaParser()
@@ -199,7 +237,8 @@ class ForestryCounterApplication : Application() {
             database.groupVariableDao(),
             database.parcelleDao(),
             database.placetteDao(),
-            database.tigeDao()
+            database.tigeDao(),
+            readAccess = businessReadAccess,
         )
 
         counterRepository = CounterRepositoryImpl(
@@ -220,16 +259,28 @@ class ForestryCounterApplication : Application() {
         parcelleRepository = ParcelleRepositoryImpl(
             parcelleDao = database.parcelleDao(),
             metadataService = metadataService,
-            onUpsert = parcelleSyncRepository::enqueueUpsert,
-            onDelete = parcelleSyncRepository::enqueueDelete,
+            mutationJournal = mutationJournal,
+            tigeDao = database.tigeDao(),
+            placetteDao = database.placetteDao(),
+            readAccess = businessReadAccess,
         )
-        placetteRepository = PlacetteRepositoryImpl(database.placetteDao(), metadataService)
+        placetteRepository = PlacetteRepositoryImpl(database.placetteDao(), metadataService,
+            mutationGuardFactory = mutationGuardFactory, readAccess = businessReadAccess)
         essenceRepository = EssenceRepositoryImpl(database.essenceDao(), metadataService)
-        tigeRepository = TigeRepositoryImpl(database.tigeDao(), metadataService)
+        tigeRepository = TigeRepositoryImpl(database.tigeDao(), metadataService, martelageClock,
+            mutationGuardFactory = mutationGuardFactory, readAccess = businessReadAccess)
+        observationQualificationRepository = com.forestry.counter.data.repository.ObservationQualificationRepositoryImpl(
+            database.tigeDao(), database.inventaireSessionDao(), database.observationQualificationDao(),
+            metadataService, businessReadAccess, mutationGuardFactory)
         parameterRepository = ParameterRepositoryImpl(database.parameterDao())
         ibpRepository = IbpRepositoryImpl(database.ibpEvaluationDao())
-        foretRepository = ForetRepositoryImpl(database.foretDao(), metadataService)
-        inventaireSessionRepository = InventaireSessionRepositoryImpl(database.inventaireSessionDao(), metadataService)
+        foretRepository = ForetRepositoryImpl(database.foretDao(), metadataService,
+            database.parcelSyncDao(), database.parcelSyncOperationDao(), mutationGuardFactory,
+            readAccess = businessReadAccess)
+        inventaireSessionRepository = InventaireSessionRepositoryImpl(database.inventaireSessionDao(), metadataService, martelageClock,
+            mutationGuardFactory = mutationGuardFactory, readAccess = businessReadAccess,
+            surveyContextDao = database.surveyContextDao(),
+            qualificationDao = database.observationQualificationDao()).also { surveyContextRepository = it }
         stationEnvironnementaleRepository = StationEnvironnementaleRepositoryImpl(database.stationEnvironnementaleDao())
         diagnosticSylvicoleRepository = DiagnosticSylvicoleRepositoryImpl(database.diagnosticSylvicoleDao(), metadataService)
         observationFloreRepository = ObservationFloreRepositoryImpl(database.observationFloreDao(), metadataService)
@@ -279,6 +330,22 @@ class ForestryCounterApplication : Application() {
             alerteSanitaireDao = database.alerteSanitaireDao(),
             observationFloreDao = database.observationFloreDao(),
             context = applicationContext,
+            operationDao = database.parcelSyncOperationDao(),
+            syncDao = database.parcelSyncDao(),
+            hierarchySyncDao = database.hierarchySyncDao(),
+            woodDepotDao = database.woodDepotDao(),
+            woodObjectDao = database.woodObjectDao(),
+            woodDataGate = database.woodDataGate,
+            fieldDao = database.fieldDao(),
+        )
+
+        applicationScope.launch {
+            identityRepository.session.collect {
+                ParcelSyncRepositoryFactory.resumeStoredWork(parcelleSyncRepository)
+            }
+        }
+        com.forestry.counter.data.sync.hierarchy.HierarchySyncRepositoryFactory.startObserving(
+            hierarchySyncRepository, applicationScope,
         )
 
         applicationScope.launch { seedSylvicultureData() }

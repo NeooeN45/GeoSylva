@@ -209,7 +209,7 @@ fun GroupsScreen(
                                             }
                                         }
                                     ) {
-                                        Icon(Icons.Default.Description, contentDescription = stringResource(R.string.martelage))
+                                        Icon(Icons.Default.Description, contentDescription = stringResource(R.string.martelage_synthesis_title))
                                     }
                                 }
                                 if (onNavigateToIbp != null) {

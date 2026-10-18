@@ -11,6 +11,7 @@ import com.forestry.counter.domain.model.IdentityClientException
 import com.forestry.counter.domain.model.IdentityError
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import kotlinx.coroutines.CancellationException
 
 /** Pont Android officiel entre Credential Manager et l'identité GSIE. */
 class GoogleCredentialClient(private val context: Context) {
@@ -44,6 +45,8 @@ class GoogleCredentialClient(private val context: Context) {
             Result.failure(IdentityClientException(IdentityError.CANCELLED, cancelled))
         } catch (error: GetCredentialException) {
             Result.failure(IdentityClientException(IdentityError.GOOGLE_NOT_CONFIGURED, error))
+        } catch (cancelled: CancellationException) {
+            throw cancelled
         } catch (error: Exception) {
             Result.failure(IdentityClientException(IdentityError.UNKNOWN, error))
         }

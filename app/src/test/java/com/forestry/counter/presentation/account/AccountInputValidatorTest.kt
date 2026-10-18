@@ -2,7 +2,9 @@ package com.forestry.counter.presentation.account
 
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Assert.assertEquals
 import org.junit.Test
+import com.forestry.counter.domain.model.AccountActionCode
 
 class AccountInputValidatorTest {
 
@@ -11,6 +13,15 @@ class AccountInputValidatorTest {
         assertTrue(AccountInputValidator.isValidActionCode("ABCD-EFGH"))
         assertTrue(AccountInputValidator.isValidActionCode("abcd efgh"))
         assertFalse(AccountInputValidator.isValidActionCode("1234"))
+        assertEquals("ABCDEFGH", AccountActionCode.normalize(" abcd - efgh "))
+    }
+
+    @Test
+    fun `account action codes reject unicode and unsupported separators`() {
+        assertFalse(AccountInputValidator.isValidActionCode("abcdéfgh"))
+        assertFalse(AccountInputValidator.isValidActionCode("abcßefg"))
+        assertFalse(AccountInputValidator.isValidActionCode("ABCD.EFGH"))
+        assertFalse(AccountInputValidator.isValidActionCode("ABCD\tEFGH"))
     }
 
     @Test

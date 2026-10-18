@@ -33,7 +33,7 @@ object PackResolver {
         if (context.regionCode != null) {
             allInstalled.firstOrNull {
                 it.level == PackLevel.REGIONAL && it.codeINSEE == context.regionCode &&
-                it.status in listOf(PackStatus.INSTALLED, PackStatus.EMBEDDED)
+                it.isUsable && it.contentKind !in setOf("administrative_boundaries", "forestry_layers")
             }?.let { result += it }
         }
 
@@ -41,7 +41,7 @@ object PackResolver {
         if (context.deptCode != null) {
             allInstalled.firstOrNull {
                 it.level == PackLevel.DEPARTEMENTAL && it.codeINSEE == context.deptCode &&
-                it.status in listOf(PackStatus.INSTALLED, PackStatus.EMBEDDED)
+                it.isUsable && it.contentKind !in setOf("administrative_boundaries", "forestry_layers")
             }?.let { result += it }
         }
 
@@ -58,7 +58,7 @@ object PackResolver {
         default: T
     ): ResolvedValue<T> {
         // Parcours du plus local au plus global
-        for (pack in activePacks.sortedByDescending { it.level.priority }) {
+        for (pack in activePacks.filter { it.contentKind !in setOf("administrative_boundaries", "forestry_layers") }.sortedByDescending { it.level.priority }) {
             val value = getter(pack)
             if (value != null) {
                 return ResolvedValue(value, pack.level, pack.id)
@@ -104,84 +104,31 @@ object PackResolver {
         )
     }
 
-    // ─── Socle national embarqué (toujours disponible sans téléchargement) ───
+    // Référence logique des fonctions embarquées, pas un jeu de données publié.
 
     val EMBEDDED_NATIONAL_PACK = GeoPackDescriptor(
         id           = "fr.national.v1",
         level        = PackLevel.SOCLE_NATIONAL,
-        name         = "France — Socle national",
+        name         = "Fonctions embarquées de l'application",
         codeINSEE    = "FR",
         parentId     = null,
-        version      = "1.0.0",
-        buildDate    = "2025-01",
+        version      = "",
+        buildDate    = "",
         sizeKb       = 0L,
         status       = PackStatus.EMBEDDED,
-        features     = PackFeatures(
-            hasFloraDatabase       = true,
-            hasStationRules        = true,
-            hasRipisylveRules      = true,
-            hasSylviculturalRules  = true,
-            hasDriasProjets        = true,
-            hasFtsIndex            = true,
-            hasGpsContextCache     = false,
-            hasRegionalSRGS        = false,
-            floraSpeciesCount      = 350,
-            stationTypesCount      = 45,
-            essencesCount          = 120
+        features     = PackFeatures(),
+        metaInfo     = PackMetaInfo(
+            author = "",
+            license = "",
+            minAppVersion = "",
+            notes = "Référence logique des fonctions embarquées ; aucun manifeste de pack national qualifié"
         )
     )
 
     /**
-     * Catalogue des packs régionaux disponibles (non installés par défaut).
-     * TODO(#2) METIER : charger depuis un manifest remote + cache local signé.
+     * Aucune publication GSIE de packs régionaux n'est actuellement raccordée.
+     * Les territoires de la carte et les fichiers locaux sont indépendants de ce
+     * catalogue. Ne pas inventer tailles, versions, contenus ou liens de packs.
      */
-    val REGIONAL_CATALOG: List<GeoPackDescriptor> = RegionFrance.values().map { region ->
-        GeoPackDescriptor(
-            id        = "fr.region.${region.codeINSEE}",
-            level     = PackLevel.REGIONAL,
-            name      = region.labelFr,
-            codeINSEE = region.codeINSEE,
-            parentId  = "fr.national.v1",
-            version   = "1.0.0",
-            buildDate = "2025-01",
-            sizeKb    = estimatedRegionalSizeKb(region),
-            status    = PackStatus.AVAILABLE,
-            features  = PackFeatures(
-                hasFloraDatabase      = true,
-                hasStationRules       = true,
-                hasRipisylveRules     = true,
-                hasSylviculturalRules = true,
-                hasDriasProjets       = true,
-                hasFtsIndex           = true,
-                hasGpsContextCache    = true,
-                hasRegionalSRGS       = true,
-                floraSpeciesCount     = regionalFloraCount(region),
-                stationTypesCount     = 25,
-                essencesCount         = regionalEssencesCount(region)
-            )
-        )
-    }
-
-    private fun estimatedRegionalSizeKb(region: RegionFrance): Long = when (region) {
-        RegionFrance.NOUVELLE_AQUITAINE    -> 4200L
-        RegionFrance.AUVERGNE_RHONE_ALPES  -> 4800L
-        RegionFrance.OCCITANIE             -> 3900L
-        RegionFrance.GRAND_EST             -> 3600L
-        RegionFrance.BOURGOGNE_FRANCHE_COMTE -> 3200L
-        else                               -> 2800L
-    }
-
-    private fun regionalFloraCount(region: RegionFrance): Int = when (region) {
-        RegionFrance.NOUVELLE_AQUITAINE    -> 580
-        RegionFrance.AUVERGNE_RHONE_ALPES  -> 640
-        RegionFrance.PROVENCE_ALPES_COTE_AZUR -> 720
-        RegionFrance.OCCITANIE             -> 700
-        else                               -> 450
-    }
-
-    private fun regionalEssencesCount(region: RegionFrance): Int = when (region) {
-        RegionFrance.AUVERGNE_RHONE_ALPES  -> 85
-        RegionFrance.NOUVELLE_AQUITAINE    -> 75
-        else                               -> 60
-    }
+    val REGIONAL_CATALOG: List<GeoPackDescriptor> = emptyList()
 }

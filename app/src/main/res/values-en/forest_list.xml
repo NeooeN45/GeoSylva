@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="forest_list_title">Forests</string>
+    <string name="forest_list_add">Add a forest</string>
+    <string name="forest_list_legacy">Historical dossiers</string>
+    <string name="forest_list_loading">Loading forests…</string>
+    <string name="forest_list_load_error">Forests could not be loaded. Try again.</string>
+    <string name="forest_list_action_error">This dossier cannot be opened right now. Try again.</string>
+    <string name="forest_list_empty">No forests saved</string>
+    <string name="forest_list_empty_help">Add a forest from the map, or browse your historical dossiers.</string>
+    <string name="forest_list_area">Boundary area: approximately %1$s ha</string>
+    <string name="forest_list_area_unknown">Area not provided</string>
+    <string name="forest_list_source">Source: %1$s</string>
+</resources>

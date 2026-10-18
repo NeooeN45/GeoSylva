@@ -2,6 +2,7 @@ package com.forestry.counter.presentation.screens.forestry
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Apartment
 import androidx.compose.material.icons.filled.Badge
 import androidx.compose.material.icons.filled.Category
@@ -26,12 +28,13 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -41,9 +44,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.forestry.counter.R
 import com.forestry.counter.domain.model.Foret
 import com.forestry.counter.domain.model.Parcelle
 import com.forestry.counter.presentation.screens.common.ComingSoonScreen
@@ -62,10 +68,13 @@ fun ForestDetailScreen(
     viewModel: ForestDetailViewModel,
     onNavigateBack: () -> Unit,
     onNavigateToParcelles: (String) -> Unit,
+    onCreateParcelle: (String) -> Unit,
     onEditForet: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val capturedState by viewModel.uiState.collectAsStateWithLifecycle()
+    val state = if (capturedState is ForestDetailUiState.Success && !viewModel.isCurrentState(capturedState))
+        ForestDetailUiState.NotFound else capturedState
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = ForestDetailTab.entries
 
@@ -98,7 +107,21 @@ fun ForestDetailScreen(
                     }
                 }
             )
-        }
+        },
+        floatingActionButton = {
+            val s = state
+            if (s is ForestDetailUiState.Success &&
+                tabs[selectedTab] in listOf(ForestDetailTab.OVERVIEW, ForestDetailTab.PARCELLES)
+            ) {
+                ExtendedFloatingActionButton(
+                    onClick = { onCreateParcelle(s.foret.foretId) },
+                    icon = { Icon(Icons.Filled.Add, contentDescription = null) },
+                    text = { Text(stringResource(R.string.forest_detail_add_parcel)) },
+                    // MainScaffold overlays its expandable mini-navigation at the bottom.
+                    modifier = Modifier.padding(bottom = 80.dp),
+                )
+            }
+        },
     ) { innerPadding ->
         when (val s = state) {
             is ForestDetailUiState.Loading -> {
@@ -113,19 +136,18 @@ fun ForestDetailScreen(
             }
             is ForestDetailUiState.Success -> {
                 Column(modifier = Modifier.padding(innerPadding)) {
-                    TabRow(selectedTabIndex = selectedTab) {
+                    ScrollableTabRow(selectedTabIndex = selectedTab, edgePadding = 16.dp) {
                         tabs.forEachIndexed { index, tab ->
                             Tab(
                                 selected = selectedTab == index,
                                 onClick = { selectedTab = index },
-                                text = { Text(tab.label) },
+                                text = { Text(tab.label, maxLines = 1, overflow = TextOverflow.Ellipsis) },
                             )
                         }
                     }
                     when (tabs[selectedTab]) {
                         ForestDetailTab.OVERVIEW -> OverviewTab(s.foret)
                         ForestDetailTab.PARCELLES -> ParcellesTab(
-                            foretId = s.foret.foretId,
                             parcelles = s.parcelles,
                             onNavigateToParcelles = onNavigateToParcelles,
                         )
@@ -143,10 +165,13 @@ fun ForestDetailScreen(
 private fun OverviewTab(foret: Foret) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp),
+        contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 160.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        item { InfoCard("Propriétaire", foret.proprietaireNom, Icons.Filled.Person) }
+        item {
+            InfoCard("Propriétaire", foret.proprietaireNom.takeIf(String::isNotBlank)
+                ?: stringResource(R.string.synthesis_unknown), Icons.Filled.Person)
+        }
         item { foret.proprietaireEmail?.let { InfoCard("Email", it, Icons.Filled.Description) } }
         item { foret.gestionnaireNom?.let { InfoCard("Gestionnaire", it, Icons.Filled.Person) } }
         item { foret.typeForet?.let { InfoCard("Type de forêt", it, Icons.Filled.Category) } }
@@ -236,7 +261,6 @@ private fun MetadataCard(foret: Foret) {
 
 @Composable
 private fun ParcellesTab(
-    foretId: String,
     parcelles: List<Parcelle>,
     onNavigateToParcelles: (String) -> Unit,
 ) {
@@ -254,7 +278,7 @@ private fun ParcellesTab(
             )
             Text("Aucune parcelle", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(top = 16.dp))
             Text(
-                "Appuyez sur le bouton + pour créer une parcelle.",
+                stringResource(R.string.forest_detail_empty_parcels_hint),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -262,7 +286,7 @@ private fun ParcellesTab(
     } else {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp),
+            contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 160.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(parcelles) { parcelle ->

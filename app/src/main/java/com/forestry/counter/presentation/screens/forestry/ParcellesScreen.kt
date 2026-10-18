@@ -47,9 +47,11 @@ import androidx.compose.ui.viewinterop.AndroidView
 import android.widget.ImageView
 import android.net.Uri
 import com.forestry.counter.domain.model.Parcelle
+import com.forestry.counter.domain.model.Foret
 import com.forestry.counter.domain.repository.ParcelleRepository
 import com.forestry.counter.domain.repository.PlacetteRepository
 import com.forestry.counter.domain.repository.TigeRepository
+import com.forestry.counter.domain.repository.InventaireSessionRepository
 import com.forestry.counter.data.preferences.UserPreferencesManager
 import com.forestry.counter.presentation.components.AppMiniDialog
 import com.forestry.counter.presentation.components.LoadingState
@@ -81,14 +83,25 @@ fun ParcellesScreen(
     onNavigateToDiagnostic: ((String) -> Unit)? = null,
     onNavigateToIbp: ((String) -> Unit)? = null,
     onNavigateToCreateParcelle: ((String) -> Unit)? = null,
+    sessionRepository: InventaireSessionRepository? = null,
+    onOpenSessionSynthesis: ((String, String) -> Unit)? = null,
+    managedForest: Foret? = null,
+    managedParcelles: List<Parcelle>? = null,
+    onNavigateToForestDetails: (() -> Unit)? = null,
+    canUseManagedState: () -> Boolean = { true },
+    validateManagedState: suspend () -> Boolean = { true },
+    onOpenFieldJournal: (() -> Unit)? = null,
 ) {
     val scope = rememberCoroutineScope()
     val snackbar = remember { SnackbarHostState() }
     val context = LocalContext.current
-    val parcellesState by (
-        if (forestId != null) parcelleRepository.getParcellesByForest(forestId) else parcelleRepository.getAllParcelles()
-    ).collectAsStateWithLifecycle(initialValue = null)
-    val parcelles = parcellesState ?: emptyList<Parcelle>()
+    val parcellesFlow = remember(parcelleRepository, forestId, managedForest != null) {
+        // Canonical management receives forest and parcels in the same guarded publication.
+        if (managedForest != null) kotlinx.coroutines.flow.flowOf(emptyList())
+        else if (forestId != null) parcelleRepository.getParcellesByForest(forestId) else parcelleRepository.getAllParcelles()
+    }
+    val parcellesState by parcellesFlow.collectAsStateWithLifecycle(initialValue = null)
+    val parcelles = managedParcelles ?: parcellesState ?: emptyList<Parcelle>()
 
     var editParcelle by remember { mutableStateOf<Parcelle?>(null) }
     var deleteParcelle by remember { mutableStateOf<Parcelle?>(null) }
@@ -103,8 +116,9 @@ fun ParcellesScreen(
     var tolerance by remember { mutableStateOf("") }
     var samplingMode by remember { mutableStateOf("CIRCULAR") }
     var sampleArea by remember { mutableStateOf("2000") }
-    val group by remember(forestId) {
-        if (forestId != null) groupRepository.getGroupById(forestId) else kotlinx.coroutines.flow.flowOf(null)
+    val group by remember(groupRepository, forestId, managedForest != null) {
+        if (managedForest == null && forestId != null) groupRepository.getGroupById(forestId)
+        else kotlinx.coroutines.flow.flowOf(null)
     }.collectAsStateWithLifecycle(initialValue = null)
 
     var showRenameProjectDialog by remember { mutableStateOf(false) }
@@ -129,8 +143,17 @@ fun ParcellesScreen(
     val toleranceOptions = listOf("5", "10", "15", "20", "25", "30")
 
     fun addParcelle() {
+        if (!canUseManagedState()) return
+        if (managedForest != null) {
+            if (onNavigateToCreateParcelle != null && forestId != null) {
+                playClickFeedback()
+                onNavigateToCreateParcelle(forestId)
+            }
+            return
+        }
         playClickFeedback()
         scope.launch {
+            if (!validateManagedState()) return@launch
             val id = UUID.randomUUID().toString()
             val defaultName = context.getString(R.string.parcelle_default_name_format, parcelles.size + 1)
             parcelleRepository.insertParcelle(
@@ -158,7 +181,7 @@ fun ParcellesScreen(
         }
     }
 
-    if (parcellesState == null) {
+    if ((managedForest == null && parcellesState == null) || !canUseManagedState()) {
         LoadingState("Chargement des parcelles…")
         return
     }
@@ -196,7 +219,7 @@ fun ParcellesScreen(
                     title = {
                         Column {
                             Text(
-                                stringResource(R.string.parcelles_title),
+                                managedForest?.nom ?: stringResource(R.string.parcelles_title),
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 style = MaterialTheme.typography.titleLarge
@@ -224,6 +247,16 @@ fun ParcellesScreen(
                         }
                     },
                     actions = {
+                        onOpenFieldJournal?.let { open ->
+                            com.forestry.counter.presentation.screens.field.FieldJournalButton(open)
+                        }
+                        if (onNavigateToForestDetails != null) {
+                            TextButton(onClick = {
+                                if (canUseManagedState()) onNavigateToForestDetails()
+                            }) {
+                                Text(stringResource(R.string.forest_management_details))
+                            }
+                        }
                         if (onNavigateToMap != null) {
                             IconButton(onClick = {
                                 playClickFeedback()
@@ -232,7 +265,7 @@ fun ParcellesScreen(
                                 Icon(Icons.Default.Map, contentDescription = stringResource(R.string.map_view))
                             }
                         }
-                        if (forestId != null) {
+                        if (forestId != null && managedForest == null) {
                             IconButton(onClick = {
                                 playClickFeedback()
                                 renameProjectName = group?.name ?: ""
@@ -246,7 +279,7 @@ fun ParcellesScreen(
                                 playClickFeedback()
                                 onNavigateToMartelage(forestId)
                             }) {
-                                Icon(Icons.Default.Straighten, contentDescription = stringResource(R.string.martelage))
+                                Icon(Icons.Default.Straighten, contentDescription = stringResource(R.string.martelage_synthesis_title))
                             }
                         }
                     }
@@ -255,13 +288,12 @@ fun ParcellesScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        if (onNavigateToCreateParcelle != null && forestId != null) {
+                        if (managedForest == null && onNavigateToCreateParcelle != null && forestId != null) {
                             onNavigateToCreateParcelle(forestId)
-                        } else {
-                            addParcelle()
-                        }
+                        } else addParcelle()
                     },
-                    modifier = Modifier.offset(x = 8.dp),
+                    modifier = if (managedForest != null) Modifier.padding(bottom = 80.dp)
+                        else Modifier.offset(x = 8.dp),
                 ) {
                     Icon(Icons.Default.Add, contentDescription = stringResource(R.string.create_parcelle))
                 }
@@ -369,6 +401,7 @@ fun ParcellesScreen(
                                 }
                                 itemsIndexed(displayedParcelles, key = { _, p -> p.id }) { idx, p ->
                                     StaggerEntrance(index = idx, staggerMs = 50) {
+                                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                                     ParcelleCard(
                                         parcelle = p,
                                         animationsEnabled = animationsEnabled,
@@ -378,8 +411,6 @@ fun ParcellesScreen(
                                             playClickFeedback()
                                             onNavigateToPlacettes(p.id)
                                         },
-                                        onNavigateToDiagnostic = onNavigateToDiagnostic?.let { nav -> { nav(p.id) } },
-                                        onNavigateToIbp = onNavigateToIbp?.let { nav -> { nav(p.id) } },
                                         onEdit = {
                                             playClickFeedback()
                                             editParcelle = p
@@ -402,6 +433,7 @@ fun ParcellesScreen(
                                         modifier = if (animationsEnabled) Modifier.animateItemPlacement() else Modifier
                                     )
                                     }
+                                    }
                                 }
                             }
                         }
@@ -422,6 +454,7 @@ fun ParcellesScreen(
             onConfirm = {
                 val p = editParcelle ?: return@AppMiniDialog
                 scope.launch {
+                    if (!validateManagedState()) return@launch
                     parcelleRepository.updateParcelle(
                         p.copy(
                             name = name.trim().ifBlank { p.name },
@@ -570,8 +603,9 @@ fun ParcellesScreen(
             onConfirm = {
                 scope.launch {
                     try {
-                        tigeRepository.deleteTigesByParcelle(p.id)
-                        placetteRepository.deletePlacettesByParcelle(p.id)
+                        if (!validateManagedState()) return@launch
+                        // The repository checks active sessions before one atomic cascade,
+                        // for canonical forests and historical groups alike.
                         parcelleRepository.deleteParcelle(p.id)
                         deleteParcelle = null
                         snackbar.showSnackbar(context.getString(R.string.parcelle_deleted))
@@ -638,11 +672,8 @@ private fun ParcelleCard(
     onClick: () -> Unit,
     onEdit: () -> Unit,
     onDelete: () -> Unit,
-    onNavigateToDiagnostic: (() -> Unit)? = null,
-    onNavigateToIbp: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
-    var menuExpanded by remember { mutableStateOf(false) }
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
     val scale by animateFloatAsState(
@@ -676,30 +707,6 @@ private fun ParcelleCard(
                     }
                     IconButton(onClick = onDelete) {
                         Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete_parcelle))
-                    }
-                    Box {
-                        IconButton(onClick = { menuExpanded = true }) {
-                            Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.more_options))
-                        }
-                        DropdownMenu(
-                            expanded = menuExpanded,
-                            onDismissRequest = { menuExpanded = false }
-                        ) {
-                            if (onNavigateToIbp != null) {
-                                DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.parcelles_menu_ibp_biodiversity)) },
-                                    leadingIcon = { Icon(Icons.Default.EmojiNature, contentDescription = "IBP Biodiversité") },
-                                    onClick = { menuExpanded = false; onNavigateToIbp() }
-                                )
-                            }
-                            if (onNavigateToDiagnostic != null) {
-                                DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.parcelles_menu_sylvicultural_diagnostic)) },
-                                    leadingIcon = { Icon(Icons.Default.Science, contentDescription = "Diagnostic sylvicole") },
-                                    onClick = { menuExpanded = false; onNavigateToDiagnostic() }
-                                )
-                            }
-                        }
                     }
                 }
             }

@@ -1,0 +1,110 @@
+{
+  "date": "2026-10-18",
+  "timezone": "Europe/Paris",
+  "status": "PRODUCT_RESEARCH_AND_PROPOSALS_NOT_IMPLEMENTATION",
+  "sources": [
+    {
+      "id": "S1",
+      "title": "Forêt Logistique Conseil — FORLOG",
+      "url": "https://www.foretlogistique.eu/Gestion-forestiere/forlog/r141.html",
+      "retrieved_date": "2026-10-18",
+      "read_date": "2026-10-18",
+      "http_status_observed": 200,
+      "reading_scope": "Descriptions des modules et FAQ ; offre commerciale, pas procédures ni API privées.",
+      "raw_path": "/workspace/.onboarding/usages-bois-2026-10-18/sources/forlog.html",
+      "raw_sha256": "69221e132f2bed3cb762e4c9efa1d3d525d0e14755c062356a3d584cae3a59f5",
+      "text_sha256": "be6d30857c92581dc74637bf9922643cef445b600694733cf78ea9967a084f18"
+    },
+    {
+      "id": "S2",
+      "title": "Timbeter",
+      "url": "https://timbeter.com/",
+      "retrieved_date": "2026-10-18",
+      "read_date": "2026-10-18",
+      "http_status_observed": 200,
+      "reading_scope": "Fonctionnement et solutions ; performances commerciales non évaluées.",
+      "raw_path": "/workspace/.onboarding/usages-bois-2026-10-18/sources/timbeter.html",
+      "raw_sha256": "478bba745e4589b37f20328d0f3e4817d0942000424305c2813945847aa69638",
+      "text_sha256": "fb12ff1e0550d063a564ed7385b9417f30f6a9006e9a72caff5be9fa7c148f7a"
+    },
+    {
+      "id": "S3",
+      "title": "Fovea / palos",
+      "url": "https://www.palos.eu/fovea/",
+      "retrieved_date": "2026-10-18",
+      "read_date": "2026-10-18",
+      "http_status_observed": 200,
+      "reading_scope": "Fonctions et FAQ ; redirection depuis https://www.fovea.eu/ ; limites photo-optiques et saisie de grumes.",
+      "raw_path": "/workspace/.onboarding/usages-bois-2026-10-18/sources/fovea.html",
+      "raw_sha256": "4bc55b43a82268897d3b9636eac02a05229659178bb675ffd1bfd6159abe787d",
+      "text_sha256": "ff2a5dc506492c2fcbd87b6be6d4b612a238b0fe84b289090896817d360d4119"
+    },
+    {
+      "id": "S4",
+      "title": "Skogforsk — StanForD",
+      "url": "https://www.skogforsk.se/english/projects/stanford/",
+      "retrieved_date": "2026-10-18",
+      "read_date": "2026-10-18",
+      "http_status_observed": 200,
+      "reading_scope": "Présentation, portée et index de versions ; schémas et fichiers machine non testés.",
+      "raw_path": "/workspace/.onboarding/usages-bois-2026-10-18/sources/skogforsk.html",
+      "raw_sha256": "623920419f5f88756a3d1314e36be9bed7f962396308a9fa708080d9e20e4885",
+      "text_sha256": "94769958e3d1dd6b3370e38c99f85c2a003fc461fcc038312599d9c5d93872c3"
+    },
+    {
+      "id": "S5",
+      "title": "FNB — REGLOBOIS",
+      "url": "https://www.fnbois.com/reglobois/",
+      "retrieved_date": "2026-10-18",
+      "read_date": "2026-10-18",
+      "http_status_observed": 200,
+      "reading_scope": "Présentation publique publiée le 18 juillet 2025 ; conformité et API non auditées.",
+      "raw_path": "/workspace/.onboarding/usages-bois-2026-10-18/sources/reglobois.html",
+      "raw_sha256": "e6446b9e438188ab0dbe323c443fcc28db74e7179fea1692fda50a6c4afc35ad",
+      "text_sha256": "791695b9a00d2da6be539de3fabcac57dd41bcaea9240ad6891d4a42e71df16a"
+    },
+    {
+      "id": "S6",
+      "title": "ONF — CNPEF",
+      "url": "https://www.onf.fr/produits-services/acheter-du-bois/les-essentiels/+/63f::cahier-national-des-prescriptions-dexploitation-forestiere-cnpef.html",
+      "retrieved_date": "2026-10-18",
+      "read_date": "2026-10-18",
+      "http_status_observed": 200,
+      "reading_scope": "Page de publication du CNPEF 2020 ; forêt publique, contrat applicable à vérifier.",
+      "raw_path": "/workspace/.onboarding/usages-bois-2026-10-18/sources/onf-cnpef.html",
+      "raw_sha256": "32dd4dfd008ad2e7a73ecc6d2a580bd243be41d1f3b977ae38c39b7b29cff5e0",
+      "text_sha256": "09908342e097843e797cb436c6cd13ef6bbc13fa852fd62866c7e8263ce94e2e"
+    },
+    {
+      "id": "S7",
+      "title": "CNPF — Vente de bois",
+      "url": "https://www.cnpf.fr/gestion-durable-des-forets/multifonctionnalite/vente-de-bois",
+      "retrieved_date": "2026-10-18",
+      "read_date": "2026-10-18",
+      "http_status_observed": 200,
+      "reading_scope": "Estimation, qualités et contrat ; ne vaut pas lecture de la norme AFNOR citée.",
+      "raw_path": "/workspace/.onboarding/usages-bois-2026-10-18/sources/cnpf-vente.html",
+      "raw_sha256": "26472d7fd92f2597d03ddc2b55b46151d7b78e8c24f574f39a2bab2fe7adfe69",
+      "text_sha256": "0fd2bfb67391514514a4d6515efbf79db210262adfbefb7bd290ab3f75a75f5d"
+    },
+    {
+      "id": "S8",
+      "title": "Cahier national des prescriptions d’exploitation forestière",
+      "url": "https://www.onf.fr/outils/ressources/446b758f-5352-451e-b90e-1d7768c3dc9c/++versions++/7/++paras++/2/++ass++/1/++i18n++data:fr?_=1686129404.254191&download=1",
+      "retrieved_date": "2026-10-08",
+      "read_date": "2026-10-18",
+      "edition": "Version 2020 ; PDF publication technique daté 2023, 64 pages",
+      "reading_scope": "Relecture ciblée §5.3.6 à 5.4, pages imprimées 44–45 : dépôts, enlèvement et remise en état. Ni lecture complète des 64 pages ni audit juridique actuel.",
+      "raw_path": "/workspace/.onboarding/cadrage-parcours-metiers-2026-10-08/recherche-transition-onf/cnpef.pdf",
+      "raw_sha256": "b1d4b1e5bda1eab81af2f71ba8f0f9f8573bd8a8ef992da5e96c04a4740e3202",
+      "text_sha256": "8fe7c2b5d1fc1e7ef0628ab66dd92a377a0be718b16a37e84f7ec561d6c40183"
+    }
+  ],
+  "limitations": [
+    "Descriptions publiques des éditeurs ; procédures FORLOG et contrat d’échange non confirmés.",
+    "Aucun login, contact, abonnement ni source client privée utilisé.",
+    "Les contenus externes sont conservés comme preuves locales de consultation, pas comme données redistribuables dans les packs.",
+    "Recherches Google sans résultats utilisables et réponses Bing sans pertinence : non utilisées comme preuves métier.",
+    "Les numéros de versions affichés sur les pages ne valent pas compatibilité GeoSylva."
+  ]
+}

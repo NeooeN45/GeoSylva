@@ -86,6 +86,9 @@ data class TigeEntity(
     val houppierPct: Double?,
     val isTigeHabitat: Boolean,
 
+    /** Original observation retained when a correction receives a new local ID. */
+    val originTigeId: String? = null,
+
     // Metadata spec GeoSylva 3.0 (GEOSYLVA-003 §3.1)
     val deletedAt: Long? = null,
     val auteur: String? = null,

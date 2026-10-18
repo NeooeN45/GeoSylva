@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="registration_app_title" translatable="false">GeoSylva</string>
+    <string name="registration_entry_action">Create an account</string>
+    <string name="registration_account_title">Quintessences account</string>
+    <string name="registration_step_count">Step %1$d of 3</string>
+    <string name="registration_back_to_login">Sign in</string>
+    <string name="registration_back">Back</string>
+    <string name="registration_continue">Continue</string>
+    <string name="registration_creating">Creating your account…</string>
+    <string name="registration_email_title">Your email address</string>
+    <string name="registration_email_description">One account for GeoSylva and Quintessences services.</string>
+    <string name="registration_email_error">Check your email address (320 characters maximum).</string>
+    <string name="registration_password_title">Your password</string>
+    <string name="registration_password_description">Choose a personal password. A long passphrase may be easier to remember.</string>
+    <string name="registration_password_error">Your password must contain between 12 and 128 characters.</string>
+    <string name="registration_confirmation_error">The two passwords must match.</string>
+    <string name="registration_profile_title">Your profile</string>
+    <string name="registration_profile_description">Add a name if you wish, then check your email address before creating the account.</string>
+    <string name="registration_display_name_error">Your display name can contain up to 200 characters.</string>
+    <string name="registration_email_summary">Account email address</string>
+    <string name="registration_data_information">Creating the account sends the information in this form to GSIE. Your field observations are not part of this registration.</string>
+    <string name="registration_privacy_policy">Read the privacy policy</string>
+</resources>

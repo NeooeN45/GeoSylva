@@ -96,6 +96,9 @@ import com.forestry.counter.data.local.dao.ProjectDao
         IbpEvaluationEntity::class,
         ForetEntity::class,
         InventaireSessionEntity::class,
+        com.forestry.counter.data.local.entity.SurveyContextEntity::class,
+        com.forestry.counter.data.local.entity.ObservationQualificationEntity::class,
+        com.forestry.counter.data.local.entity.WoodDepotEntity::class,
         StationEnvironnementaleEntity::class,
         DiagnosticSylvicoleEntity::class,
         ObservationFloreEntity::class,
@@ -113,6 +116,9 @@ import com.forestry.counter.data.local.dao.ProjectDao
         EntityRelationEntity::class,
         AdvancedCalculationEntity::class,
         ParcelSyncEntity::class,
+        com.forestry.counter.data.local.entity.ParcelSyncOperationEntity::class,
+        com.forestry.counter.data.local.entity.HierarchySyncAssociationEntity::class,
+        com.forestry.counter.data.local.entity.HierarchySyncOperationEntity::class,
         // Lot 1 — Contrat universel de données (GEOSYLVA-003 §7.6)
         PermanentTreeEntity::class,
         TreeObservationEntity::class,
@@ -122,19 +128,35 @@ import com.forestry.counter.data.local.dao.ProjectDao
         UnitEntity::class,
         EventLogEntity::class,
         ProjectEntity::class,
+        com.forestry.counter.data.local.entity.WoodObjectEntity::class,
+        com.forestry.counter.data.local.entity.WoodObservationEntity::class,
+        com.forestry.counter.data.local.entity.WoodEffectiveObservationEntity::class,
+        com.forestry.counter.data.local.entity.WoodCommandEntity::class,
+        com.forestry.counter.data.local.entity.FieldWorksiteEntity::class,
+        com.forestry.counter.data.local.entity.FieldSiteLinkEntity::class,
+        com.forestry.counter.data.local.entity.FieldEntryEntity::class,
+        com.forestry.counter.data.local.entity.FieldDraftEntity::class,
+        com.forestry.counter.data.local.entity.FieldPhotoEntity::class,
+        com.forestry.counter.data.local.entity.FieldPhotoChunkEntity::class,
         ProjectForestCrossRef::class
     ],
-    version = 35,
+    version = 45,
     exportSchema = true
 )
 @TypeConverters(EnumConverters::class)
 abstract class ForestryDatabase : RoomDatabase() {
+    abstract fun fieldDao(): com.forestry.counter.data.local.dao.FieldDao
+    val woodDataGate = com.forestry.counter.data.repository.WoodDataAccessGate()
+    abstract fun woodObjectDao(): com.forestry.counter.data.local.dao.WoodObjectDao
+    abstract fun woodDepotDao(): com.forestry.counter.data.local.dao.WoodDepotDao
     abstract fun groupDao(): GroupDao
     abstract fun counterDao(): CounterDao
     abstract fun formulaDao(): FormulaDao
     abstract fun groupVariableDao(): GroupVariableDao
     abstract fun parcelleDao(): ParcelleDao
     abstract fun parcelSyncDao(): ParcelSyncDao
+    abstract fun parcelSyncOperationDao(): com.forestry.counter.data.local.dao.ParcelSyncOperationDao
+    abstract fun hierarchySyncDao(): com.forestry.counter.data.local.dao.HierarchySyncDao
     abstract fun placetteDao(): PlacetteDao
     abstract fun essenceDao(): EssenceDao
     abstract fun tigeDao(): TigeDao
@@ -142,6 +164,8 @@ abstract class ForestryDatabase : RoomDatabase() {
     abstract fun ibpEvaluationDao(): IbpEvaluationDao
     abstract fun foretDao(): ForetDao
     abstract fun inventaireSessionDao(): InventaireSessionDao
+    abstract fun surveyContextDao(): com.forestry.counter.data.local.dao.SurveyContextDao
+    abstract fun observationQualificationDao(): com.forestry.counter.data.local.dao.ObservationQualificationDao
     abstract fun stationEnvironnementaleDao(): StationEnvironnementaleDao
     abstract fun diagnosticSylvicoleDao(): DiagnosticSylvicoleDao
     abstract fun observationFloreDao(): ObservationFloreDao

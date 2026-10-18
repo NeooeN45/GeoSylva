@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="registration_app_title" translatable="false">GeoSylva</string>
+    <string name="registration_entry_action">Créer un compte</string>
+    <string name="registration_account_title">Compte Quintessences</string>
+    <string name="registration_step_count">Étape %1$d sur 3</string>
+    <string name="registration_back_to_login">Connexion</string>
+    <string name="registration_back">Retour</string>
+    <string name="registration_continue">Continuer</string>
+    <string name="registration_creating">Création en cours…</string>
+    <string name="registration_email_title">Votre adresse e-mail</string>
+    <string name="registration_email_description">Un compte commun à GeoSylva et aux services Quintessences.</string>
+    <string name="registration_email_error">Vérifiez votre adresse e-mail (320 caractères maximum).</string>
+    <string name="registration_password_title">Votre mot de passe</string>
+    <string name="registration_password_description">Choisissez un mot de passe personnel. Une phrase longue peut être plus facile à retenir.</string>
+    <string name="registration_password_error">Le mot de passe doit contenir entre 12 et 128 caractères.</string>
+    <string name="registration_confirmation_error">Les deux mots de passe doivent être identiques.</string>
+    <string name="registration_profile_title">Votre profil</string>
+    <string name="registration_profile_description">Ajoutez un nom si vous le souhaitez, puis vérifiez votre adresse avant de créer le compte.</string>
+    <string name="registration_display_name_error">Le nom affiché peut contenir jusqu\'à 200 caractères.</string>
+    <string name="registration_email_summary">Adresse du compte</string>
+    <string name="registration_data_information">La création transmet les informations de ce formulaire au service GSIE. Vos relevés terrain ne font pas partie de cette inscription.</string>
+    <string name="registration_privacy_policy">Consulter la politique de confidentialité</string>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="parcel_recovery_required">Une ancienne tentative nécessite votre validation pour reprendre.</string>
+    <string name="parcel_recovery_unavailable">Aperçu serveur indisponible. Reconnectez-vous et rechargez avant toute reprise.</string>
+    <string name="parcel_recovery_preview">Version locale : %1$s. Référence serveur : %2$s, version %3$s.</string>
+    <string name="parcel_recovery_remote_absent">aucune parcelle enregistrée</string>
+    <string name="parcel_recovery_deletion">La version locale marque cette parcelle comme supprimée.</string>
+    <string name="parcel_recovery_consent">Confirmer relance cette version locale avec un nouvel identifiant de tentative, sur la version serveur affichée. Aucune fusion automatique.</string>
+</resources>

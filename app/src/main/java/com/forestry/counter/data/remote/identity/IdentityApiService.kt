@@ -28,7 +28,7 @@ internal interface IdentityApiService {
     suspend fun googleNonce(): GoogleNonceResponseDto
 
     @POST("api/v1/auth/login/google")
-    suspend fun loginWithGoogle(@Body request: GoogleLoginRequestDto): TokenResponseDto
+    suspend fun loginWithGoogle(@Body request: GoogleLoginRequestDto): LoginOutcomeDto
 
     /**
      * Rattache une identité Google au compte déjà connecté.

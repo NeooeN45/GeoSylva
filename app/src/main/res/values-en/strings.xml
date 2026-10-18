@@ -873,7 +873,7 @@
 
     <string name="martelage_heights_dialog_title_format">Heights – %1$s</string>
     <string name="martelage_no_stem_for_species">No stems for this species in this scope.</string>
-    <string name="martelage_height_by_class_hint">Enter a mean height by diameter class (m). You can enter multiple heights separated by commas (e.g. 25,20,27): the mean will be used. Leave blank only if all stems in that class have a measured height.</string>
+    <string name="martelage_height_by_class_hint">Enter a reference height for each diameter class, in metres. Use a comma or a point for decimals. To calculate a mean, separate heights with semicolons or spaces (e.g. 18.5;20;21). An invalid value prevents calculation. Leave blank only if all stems in that class have a measured height.</string>
     <string name="martelage_diameter_class_cm_format">Class %1$d cm</string>
 
     <string name="settings_background_image">Background image</string>
@@ -1138,10 +1138,10 @@
     <string name="onboarding_start">Get started</string>
     <string name="onboarding_next">Next</string>
     <string name="onboarding_skip">Skip</string>
-    <string name="coachmark_accueil_title">Your dashboard</string>
-    <string name="coachmark_accueil_desc">An overview of your forests and plots, and quick access to your current tasks.</string>
+    <string name="coachmark_accueil_title">Your workspace</string>
+    <string name="coachmark_accueil_desc">Find the tools and field records relevant to your profession.</string>
     <string name="coachmark_explorer_title">Explore</string>
-    <string name="coachmark_explorer_desc">Browse the 13 data categories: forests, species, projects, measurements…</string>
+    <string name="coachmark_explorer_desc">Open the tools available for your profession. You can change profession in settings.</string>
     <string name="coachmark_missions_title">Missions</string>
     <string name="coachmark_missions_desc">Track your field tasks (coming soon).</string>
     <string name="coachmark_carte_title">Map</string>
@@ -1600,9 +1600,9 @@
 
     <!-- RGPD consent onboarding page (R-C3) -->
     <string name="onboarding_privacy_title">Privacy &amp; Data Protection</string>
-    <string name="onboarding_privacy_desc">GeoSylva respects your privacy. All data stays on your device. Learn what data is collected and how it is protected.</string>
-    <string name="onboarding_privacy_b1">All forestry data (trees, plots, parcels, photos) is stored locally and encrypted with AES-256 (SQLCipher + Android Keystore)</string>
-    <string name="onboarding_privacy_b2">No personal data is sent to any server. Network is used for map tiles and, when enabled, price-grid synchronization. HTTPS and strict destination validation protect these exchanges.</string>
+    <string name="onboarding_privacy_desc">Learn about local use, exchanges with online services and GeoSylva privacy settings.</string>
+    <string name="onboarding_privacy_b1">You can record and keep forestry observations locally to view them and work offline.</string>
+    <string name="onboarding_privacy_b2">Signing in exchanges account information with GSIE. Pack downloads and online map display also use the network.</string>
     <string name="onboarding_privacy_b3">You control your data: export (CSV/XLSX/JSON), delete, or revoke GPS/camera permissions at any time. See the full privacy policy in Settings.</string>
     <string name="onboarding_accept">Accept &amp; Continue</string>
     <string name="onboarding_decline">Decline</string>
@@ -1627,12 +1627,33 @@
 
     <!-- i18n: PackManagerScreen (I-C1) -->
     <string name="packs_title">Data packs</string>
+    <string name="pack_map_regions">Choose regions</string>
+    <string name="pack_map_departments">Choose departments</string>
+    <string name="pack_map_hint">Tap a territory; zoom in to show departments.</string>
+    <plurals name="pack_map_selection_count">
+        <item quantity="one">%1$d territory selected</item>
+        <item quantity="other">%1$d territories selected</item>
+    </plurals>
+    <string name="pack_map_clear">Clear</string>
+    <string name="pack_map_remove">Remove %1$s from selection</string>
+    <string name="pack_map_selection_error">The local selection could not be restored or saved.</string>
+    <string name="pack_map_retry_selection">Retry saving</string>
+    <string name="pack_map_download_unavailable">Downloads are currently unavailable. Download size is unknown.</string>
+    <plurals name="pack_local_storage_summary">
+        <item quantity="one">%1$d active local pack · files %2$.1f MB</item>
+        <item quantity="other">%1$d active local packs · files %2$.1f MB</item>
+    </plurals>
+    <string name="pack_local_version_format">Retained local version: %1$s</string>
+    <string name="pack_local_metadata_unqualified">Local file retained. Contents and publication date are unqualified.</string>
     <string name="pack_install">Install</string>
+    <string name="pack_update">Update</string>
     <string name="pack_update_available">Update available</string>
     <string name="pack_uninstall">Uninstall</string>
     <string name="pack_status_installed">Installed</string>
     <string name="pack_status_embedded">Embedded</string>
     <string name="pack_status_available">Available</string>
+    <string name="pack_status_unavailable">Unavailable</string>
+    <string name="pack_status_update_unavailable">Update unavailable</string>
     <string name="pack_status_error">Error</string>
 
     <!-- i18n: StationPhotoGalleryBlock (I-C1) -->
@@ -1683,7 +1704,17 @@
 
     <!-- i18n: PackManagerScreen extras (I-C1) -->
     <string name="pack_no_regional">No regional pack available for this selection.</string>
-    <string name="pack_installed_summary_format">%1$d pack(s) installed · %2$.1f MB</string>
+    <string name="pack_installed_summary_format">%1$d active pack(s) · storage %2$.1f MB</string>
+    <string name="pack_size_estimate_format">%1$s · estimated %2$.1f MB</string>
+    <string name="pack_active_version_format">Active offline version: %1$s</string>
+    <string name="pack_distribution_unavailable">Server distribution unavailable for this version.</string>
+    <string name="pack_interrupt">Interrupt transfer</string>
+    <string name="pack_deactivate">Deactivate</string>
+    <string name="pack_deactivate_title">Deactivate %1$s?</string>
+    <string name="pack_deactivate_description">This pack will no longer be used. Retained version files will remain on the phone; this action does not free their storage.</string>
+    <string name="pack_keep_active">Keep active</string>
+    <string name="pack_reactivate_version_format">Reactivate retained version %1$s</string>
+    <string name="settings_category_packs_sub">Versions and offline data</string>
     <string name="pack_all_format">All (%1$d)</string>
     <string name="pack_national_offline_format">National data — available offline (%1$d sp.)</string>
     <string name="pack_national_label">National</string>
@@ -2228,7 +2259,7 @@
     <string name="map_mesures_sauvegardees">Saved measurements</string>
 
     <!-- i18n : OnboardingScreen -->
-    <string name="onboarding_version_info">Version 2.1 · Offline-first · CNPF</string>
+    <string name="onboarding_version_info">Version %1$s</string>
 
     <!-- i18n : ProductBreakdownCard -->
     <string name="product_qualite">Quality %1$s</string>
@@ -2483,4 +2514,66 @@
     <string name="map_layer_loading">Loading map layer…</string>
     <string name="map_layer_load_error">This map layer is temporarily unavailable.</string>
     <string name="retry">Retry</string>
+    <string name="pack_catalog_refresh">Refresh the GSIE catalog</string>
+    <string name="pack_tab_map">Map</string>
+    <string name="pack_tab_files">Packs</string>
+    <string name="pack_show_selected_files">View packs (%1$d)</string>
+    <string name="pack_administrative_scope">Administrative boundaries: outline, name anchor and provenance. These packs do not yet include cadastral data, forest parcels or calculation rules.</string>
+    <string name="pack_catalog_empty">No pack loaded for this selection. Refresh the catalog or select another territory.</string>
+    <string name="pack_interrupt_selection">Interrupt downloads</string>
+    <string name="pack_prepare_download">Prepare download</string>
+    <string name="pack_plan_title">Confirm download</string>
+    <string name="pack_plan_already_installed">These exact versions are already active. No download is needed.</string>
+    <string name="pack_plan_archive_bytes">Total archive size: %1$s bytes</string>
+    <string name="pack_plan_required_bytes">Maximum additional archive size: %1$s bytes</string>
+    <string name="pack_plan_available_bytes">Actual available storage: %1$s bytes</string>
+    <string name="pack_plan_bytes_note">These archives are retained directly without extraction. Resuming may reduce the transfer. Previous versions are retained; available storage is checked again before starting.</string>
+    <string name="pack_plan_no_space">Insufficient storage for this download.</string>
+    <string name="pack_confirm_download">Download</string>
+    <string name="pack_preview_title">Installed pack</string>
+    <string name="pack_preview_version">%1$s · version %2$s</string>
+    <string name="pack_preview_actual_file">Preview of the active file actually read from this phone.</string>
+    <string name="pack_preview_open">View the installed pack on the map</string>
+    <string name="pack_catalog_loading">Refreshing the GSIE catalog…</string>
+    <string name="pack_catalog_not_configured">The GSIE server is not configured. The embedded map remains available.</string>
+    <string name="pack_catalog_auth_required">Sign in under Settings → Account to download. Free accounts are included.</string>
+    <string name="pack_catalog_network_error">The server cannot be reached. Installed packs remain available offline.</string>
+    <string name="pack_catalog_invalid">The received catalog could not be verified.</string>
+    <string name="pack_catalog_storage_error">The local catalog could not be read or saved.</string>
+    <string name="pack_catalog_server_error">The server cannot provide the catalog at this time.</string>
+    <string name="pack_catalog_cache">Verified catalog retained locally; freshness is unconfirmed.</string>
+    <string name="pack_catalog_current">Catalog loaded from GSIE.</string>
+    <string name="pack_version_format">Version: %1$s</string>
+    <string name="pack_archive_bytes">Archive: %1$s bytes</string>
+    <string name="pack_map_embedded_attribution">© IGN · ADMIN EXPRESS COG CARTO PE 2026 · Open Licence 2.0</string>
+    <string name="pack_map_zoom_in">Zoom in</string>
+    <string name="pack_map_zoom_out">Zoom out</string>
+    <string name="pack_map_recenter">Recenter on metropolitan France</string>
+    <string name="pack_map_recenter_installed">Recenter on the installed pack</string>
+    <string name="pack_catalog_refresh_failed">The catalog could not be refreshed. Retry; the embedded map remains available.</string>
+    <string name="pack_plan_failed">The download could not be prepared. Refresh the catalog and check available storage before retrying.</string>
+    <string name="pack_action_failed">A pack action did not complete. Retry or select another version.</string>
+    <string name="pack_preview_failed">The installed pack could not be read and verified. Retry or select another version.</string>
+    <string name="pack_map_multiselect">Multiple selection</string>
+    <string name="pack_territories_title">Your territories</string>
+    <string name="pack_content_administrative_title">Administrative boundaries</string>
+    <string name="pack_content_administrative_summary">Outlines, names and provenance. Cadastral and forest parcels are not included.</string>
+    <string name="pack_preview_actual_file_short">Active file verified on this phone</string>
+    <string name="pack_source_and_version">Source and version</string>
+    <string name="pack_level_region_short">Region</string>
+    <string name="pack_level_department_short">Department</string>
+    <string name="pack_created_date">Prepared on %1$s</string>
+    <string name="pack_insee_code">INSEE code: %1$s</string>
+    <string name="pack_map_render_failed">The map could not be displayed. Reopen this page to retry.</string>
+    <string name="pack_map_photo_active">Aerial imagery · IGN</string>
+    <string name="pack_map_photo_loading">Loading IGN imagery…</string>
+    <string name="pack_map_local_offline">Offline outlines</string>
+    <string name="pack_map_photo_unavailable">Imagery unavailable · outlines</string>
+    <string name="pack_map_local_selected">Outlines · optional imagery</string>
+    <plurals name="pack_active_count">
+        <item quantity="one">%1$d active pack</item>
+        <item quantity="other">%1$d active packs</item>
+    </plurals>
+    <string name="pack_stored_files_size">Files: %1$s</string>
+    <string name="pack_map_photo_attribution">© IGN · BD ORTHO® · Open Licence 2.0 · catalog updated 2026-09-11 · imagery dates vary</string>
 </resources>

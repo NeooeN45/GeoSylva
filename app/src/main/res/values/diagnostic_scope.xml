@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="diag_scope_title">Diagnostics</string>
+    <string name="diag_scope_intro">Définissez le secteur observé, puis choisissez votre diagnostic.</string>
+    <string name="diag_scope_forest">Forêt</string>
+    <string name="diag_scope_all_forests">Toutes les forêts enregistrées</string>
+    <string name="diag_scope_parcel">Parcelle</string>
+    <string name="diag_scope_plot">Placette (nécessaire pour l’IBP)</string>
+    <string name="diag_scope_choose_plot">Choisir une placette</string>
+    <string name="diag_scope_no_parcels">Aucune parcelle enregistrée dans cet espace. Ajoutez une forêt et sa parcelle pour préparer un diagnostic.</string>
+    <string name="diag_scope_observations_present">Des relevés d’arbres sont enregistrés sur cette parcelle.</string>
+    <string name="diag_scope_observations_absent">Aucun relevé d’arbre enregistré sur cette parcelle.</string>
+    <string name="diag_scope_ibp">Indice de biodiversité potentielle</string>
+    <string name="diag_scope_ibp_description">Créez une évaluation de biodiversité potentielle liée à la placette choisie.</string>
+    <string name="diag_scope_station">Diagnostic stationnel</string>
+    <string name="diag_scope_ripisylve">Diagnostic de ripisylve</string>
+    <string name="diag_scope_parcel_method">Ce diagnostic s’enregistre sur la parcelle sélectionnée.</string>
+    <string name="diag_scope_open">Ouvrir le diagnostic</string>
+    <string name="diag_scope_changed">La zone sélectionnée n’est plus disponible dans cet espace. Vérifiez votre sélection.</string>
+    <string name="plot_geometric_edit_hint">Le périmètre et le plan d’échantillonnage sont conservés. Vous pouvez modifier le nom de cette placette.</string>
+</resources>

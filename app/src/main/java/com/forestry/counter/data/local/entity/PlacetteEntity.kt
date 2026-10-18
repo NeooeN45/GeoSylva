@@ -51,5 +51,7 @@ data class PlacetteEntity(
     val auteur: String? = null,
     val source: String? = null,
     @ColumnInfo(name = "version", defaultValue = "1")
-    val version: Int = 1
+    val version: Int = 1,
+    val samplingPlanJson: String? = null,
+    val footprintGeoJson: String? = null,
 )

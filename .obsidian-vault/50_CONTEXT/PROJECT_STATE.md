@@ -1,26 +1,172 @@
 ---
 date: 2026-06-29
-updated: 2026-07-17
+updated: 2026-10-18
 project: GeoSylva
-version: 2.4.0
-db_version: 32
+version: 3.0.0
+db_version: 45
 tags: [context, project-state]
 ---
 
 # GeoSylva — État du projet
 
+## Sécurisation du dépôt — 18 octobre 2026
+
+Socle CI de sécurité, fichiers sensibles contrôlés, fixtures publiques vérifiées
+par empreinte et procédure de contribution actualisée. Aucun changement des
+calculs, de Room ou des écrans dans ce lot. Le fondateur a confirmé la mise en
+privé ; l’API GitHub renvoie 403 avec le connecteur actuel, donc aucune
+confidentialité nouvelle n’est annoncée. Les sources métier restent sauvegardées
+séparément et ne doivent pas être publiées avant cette bascule.
+
+
+## Carnet terrain partagé et chantiers — 18 octobre 2026
+
+Le fondateur autorise l’implémentation des améliorations proposées et leur application
+pertinente à Gestion forestière. Le [lot commun](../../docs/CARNET_TERRAIN_CHANTIERS_2026-10-18.md)
+ajoute les carnets forêt/parcelle/placette et chantier/dépôt/bois, photos originales,
+accès/consignes, états avant/après, temps/activité/matériel, qualité bois, brouillons,
+saisie de grumes en série, recherche, archives de chantier et liens parcellaires multiples.
+Les événements physiques sont distincts du cubage et des quantités commerciales.
+Room 45 est additive, avec purge et contrôles de compte. Les Missions restent Entreprise.
+
+Compilation et Lint réussis (zéro erreur ; 983 avertissements documentés),
+**1 788 tests JVM et 37 tests Android distincts réussis** sur plusieurs passages ciblés.
+Voir [la validation](../../docs/VALIDATION_CARNET_CHANTIERS_2026-10-18.md) pour les
+incidents corrigés, les limites et les preuves. APK TEST, captures, guide d’essai et
+archive/manifeste dans `/workspace/outputs/2026-10-18/field-tools/`.
+La sauvegarde est locale, sans commit/push GitHub ; les archives antérieures sont conservées.
+Les associations ne créent ni géométrie ni droit d’accès. Pas de connecteur FORLOG,
+de paiement, de réception contractuelle ou d’estimation photo prétendument opérationnel.
+
+Les comptes rendus ci-dessous conservent l’état historique de chaque lot. Le présent
+complément fait foi pour les fonctionnalités désormais raccordées (notamment brouillons,
+photos, chantiers et mouvements physiques).
+
+## Recherche d'usage et complémentarité FORLOG — 18 octobre 2026
+
+Le fondateur confirme que **FORLOG possède un outil mobile existant**, puis précise
+que **GeoSylva le remplacera probablement**. Cette dernière orientation remplace
+sa première réponse « à compléter » et l'ancienne hypothèse d'absence de mobile.
+Le remplacement n'est pas encore une bascule convenue avec le partenaire et ne
+concerne pas l'ensemble du logiciel de gestion FORLOG. Architecture, périmètre client
+et API restent non confirmés. Préparer une matrice de couverture des tâches actuelles,
+un pilote, la reprise des références/données et l'absence de doubles imports.
+GeoSylva reste autonome ; les autorités et droits d'écriture seront explicites par donnée.
+
+La [recherche d'améliorations métier](../../docs/AMELIORATIONS_USAGES_METIERS_BOIS_2026-10-18.md)
+croise sept pages publiques consultées et une relecture ciblée du CNPEF archivé.
+Elle propose saisie en série, brouillons durables, recherche par repère, journal
+de pile, accès/consignes, photos et états des lieux, puis temps/matériel et imports
+machine. Dictionnaire de données, priorités et critères de recette documentés.
+Il s'agit de propositions, pas de code livré ni d'une promesse pour mercredi.
+Les profils bûcheron, débardeur/câbliste et chauffeur grumier restent à développer.
+Missions demeure Entreprise. Aucun changement du binaire ou des tests par cette étude.
+
+## Formulaires bois vérifiés — 18 octobre 2026
+
+Ce complément remplace le « prochaine étape C02/C03 » des notes historiques
+ci-dessous. Lire [le bilan du lot](../../docs/FORMULAIRES_BOIS_C02_C03_2026-10-18.md).
+
+Le parcours **Dépôt → Piles et grumes** permet création/modification d'identité,
+relevés manuels même incomplets, relecture, historique, correction motivée et choix
+explicite d'un relevé de référence. Les calculs individuels réutilisent les noyaux
+réels : enveloppe apparente pour les piles, Huber/Smalian/Newton pour les grumes.
+Les conventions et protocoles sont explicites. Remesurer ne crée pas du stock ; une
+correction conserve l'original et ne remplace pas silencieusement la référence.
+
+Room 44, migration additive 43 → 44, quatre tables et commandes idempotentes.
+Garde d'accès commune aux dépôts et bois, révision contrôlée, session/compte contrôlés,
+purge protégée jusqu'au nettoyage des fichiers. Les données enregistrées survivent
+à la fermeture ; les brouillons non enregistrés ne sont pas autosauvegardés sur disque.
+La migration et les relevés/choix/purge passent aussi dans une base SQLCipher de TEST.
+
+Compilation réussie, **1 776 tests JVM et 36 tests Android distincts réussis** sur
+plusieurs passages ciblés. Les quatre tests de formulaire passent ensemble dans
+le dernier passage UI. Les incidents initiaux et leur traitement sont documentés.
+Les 25 anciens schémas Room de l'archive C01 sont inchangés. Captures Android,
+journaux, résultats et archive avec manifeste sous
+`/workspace/outputs/2026-10-18/wood-forms/`. Sauvegarde locale uniquement ; aucun
+commit/push GitHub de ce lot. Les sauvegardes des lots précédents sont conservées.
+
+**Décision du fondateur à appliquer ensuite** : partir du chantier, lié à une ou
+plusieurs parcelles ONF, cadastrales ou d'un autre référentiel ; rattacher les bois
+explicitement ; saisir les passages partiels du grumier et les contrôles du restant
+par date. Le [modèle détaillé](../../docs/CHANTIERS_PARCELLES_SUIVI_DATE_BOIS_2026-10-18.md)
+distingue un enlèvement validé d'un constat de restant et d'une remesure.
+Ces associations et mouvements ne sont pas encore implémentés. Missions demeure
+réservé à Entreprise. Les réceptions commerciales, stocks, exports bois, photos et
+synchronisation GSIE/FORLOG restent à raccorder ; aucune configuration Google faite.
+
+## Complément du 18 octobre — prospection, photos et contrats bois
+
+Le fondateur ajoute prospection de chantier, estimation des bois et photos des
+piles/grumes ; étudier ensuite le cubage photographique, sans changer l’ordre.
+Voir [le cadrage](../../docs/PROSPECTION_ESTIMATION_PHOTOS_BOIS_2026-10-18.md).
+
+Les [contrats C01](../../docs/CONTRATS_BOIS_C01_2026-10-18.md) sont enrichis :
+modèles immuables d’identité et de relevé, six intentions de commande, JSON local
+v1 exact et SHA-256 de tout le contenu, validation stricte à la relecture.
+Longueur de pièce conservée sans substitution à la profondeur de pile.
+115 tests ciblés passent (sept suites, dont 15 nouveaux tests). Aucune migration,
+écriture Room, photographie ou estimation par image n’est encore raccordée par
+ce lot. Prochaine étape : C02, garde d’accès/purge, commandes/réponses persistées
+dans une transaction, puis C03/C04 et exports. Le détail de navigation ci-dessous
+reste valable ; son ancien « compléter C01 » est précisé par ce complément.
+
+Preuves et nouvelle archive locale : `/workspace/outputs/2026-10-18/wood-contracts/`.
+La sauvegarde de navigation du même jour reste conservée séparément. Aucun
+commit/push GitHub effectué.
+
+## Développement du 18 octobre — navigation métier
+
+Lire [les diagrammes et le plan des trois jours](../../docs/DIAGRAMMES_DEMONSTRATION_21_OCTOBRE_2026.md).
+Le nouvel accueil Chantiers et bois donne accès aux dépôts, à la carte et aux packs.
+Explorer filtre les outils raccordés selon le parcours. Les raccourcis Missions,
+y compris le mini-menu et la visite guidée, sont retirés tant que module et droits
+Entreprise ne sont pas raccordés. La route restaurée Missions ne rend plus son
+ancienne page d’attente. La route dépôt vérifie également sa présence dans le parcours.
+Aucun droit de données n’est déduit du métier ; les repositories gardent leurs contrôles.
+Le faux rafraîchissement et les catégories non raccordées sont retirés d’Explorer.
+Base Room43 inchangée (empreinte comparée au manifeste du 15). Compilation réussie,
+1 754 tests JVM et huit tests Android distincts réussis après reprise. Les cinq
+nouveaux tests d’entrée et la création/relecture de dépôt passent dans le dernier
+run ; les deux autres tests dépôt étaient verts au premier. Voir la
+[validation du 18](../../docs/VALIDATION_PARCOURS_2026-10-18.md) pour les deux
+incidents initiaux et les limites. Captures finales sous
+`/workspace/outputs/2026-10-18/android/`. Sauvegarde de sources locale avec manifeste,
+sans commit/push GitHub du travail repris et de ce lot.
+
+Prochaine tranche : compléter C01 (bruts/contrat/empreinte), C02 (objets et
+observations persistés, droits et transactions), puis C03/C04 (formulaires et
+calculs) et exports. Stocks, prix et quantités payables restent des modèles distincts.
+
+## Reprise vérifiée du 15 octobre 2026
+
+Lire d’abord [le bilan de récupération](../../docs/REPRISE_15_OCTOBRE_2026.md) et
+[les priorités pour mercredi 21 octobre](../../docs/PRIORITES_DEMONSTRATION_21_OCTOBRE_2026.md).
+Les conversations sont de nouveau lisibles. Tous les fichiers de production
+manquants du manifeste du 10 sont récupérés à SHA identique ; synthèse du 12,
+dépôts de bois et migration 43 du 13 sont réintégrés. Deux tests JVM incomplets
+ont été reconstitués et revus, sans revendiquer leur ancienne empreinte.
+La compilation Android complète et celle de la variante TEST passent ;
+1 745 tests JVM passent, dont les 106 tests des noyaux isolés.
+15 tests Android ciblés de migration, repository et UI sont réussis après
+reprise d’un incident System UI du simulateur. Voir
+[la preuve de validation](../../docs/VALIDATION_REPRISE_2026-10-15.md). Les notes plus anciennes ci-dessous décrivent leur date, pas un état
+actuel de production. La version du code restauré est 3.0.0, base Room 43.
+
 ## Identité
 
 - **Projet** : GeoSylva — app Android de gestion forestière française
 - **Fondateur** : Camil (auto-entrepreneur, Poitiers, Nouvelle-Aquitaine)
-- **Version** : 2.4.0 (versionCode 10)
-- **DB** : version 32
+- **Version** : 3.0.0 (versionCode 11)
+- **DB** : version 44
 - **Stack** : Kotlin 1.9.23, Compose BOM 2024.09.00, minSdk 26, targetSdk 35
 
 ## Architecture
 
 - **Pattern** : MVVM + Repository + injection manuelle dans `Application`
-- **DB** : Room + SQLCipher — version 32
+- **DB** : Room + SQLCipher — version 44
 - **Maps** : MapLibre GL + WMS IGN (Géoportail)
 - **GIS** : Lambert93 (EPSG:2154), WKT, SRTM embarqué
 - **Réseau** : OkHttp durci + Retrofit pour l’identité GSIE, APIs IGN/INRAE/Cerema/Open-Meteo

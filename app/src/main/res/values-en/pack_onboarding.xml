@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pack_onboarding_step_one">1 / 2 · Your territories</string>
+    <string name="pack_onboarding_step_two">2 / 2 · Available offline</string>
+    <string name="pack_onboarding_map_title">Your working area</string>
+    <string name="pack_onboarding_skip">Later</string>
+    <string name="pack_onboarding_map_hint">Tap a region. Zoom in to choose departments; you can select several.</string>
+    <string name="pack_onboarding_validate">Confirm my territories</string>
+    <string name="pack_onboarding_download_title">Your offline packs</string>
+    <string name="pack_onboarding_return_map">Return to territory selection</string>
+    <string name="pack_onboarding_continue">Continue to GeoSylva</string>
+    <string name="pack_onboarding_settings_reminder">Downloading is optional. Find your choices in Settings → Packs.</string>
+    <string name="pack_onboarding_independent_archives">Downloading a region includes all its departments. Archives remain separate; active versions are not downloaded again.</string>
+    <string name="pack_onboarding_unpublished">No published pack in the available catalogue for: %1$s. Your selection stays saved.</string>
+    <string name="pack_onboarding_leave_title">Stop and continue?</string>
+    <string name="pack_onboarding_leave_body">Current pack operations will stop. Partial downloads are retained for resuming in Settings → Packs.</string>
+    <string name="pack_onboarding_stop_continue">Stop and continue</string>
+</resources>

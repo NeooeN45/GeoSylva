@@ -1,18 +1,30 @@
 package com.forestry.counter.domain.usecase.pack
 
 import android.content.Context
-import android.content.SharedPreferences
+import com.forestry.counter.BuildConfig
+import com.forestry.counter.ForestryCounterApplication
+import com.forestry.counter.data.packs.*
 import com.forestry.counter.domain.model.pack.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import java.io.File
 import java.io.IOException
 import java.net.URL
+import java.util.concurrent.ConcurrentHashMap
+import kotlin.coroutines.coroutineContext
 
 /**
  * Gestionnaire de packs GeoSylva.
@@ -26,22 +38,36 @@ import java.net.URL
  *
  * OFFLINE-FIRST : fonctionne sans réseau avec les packs déjà installés.
  */
-class PackManager(private val context: Context) {
+class PackManager(private val context: Context, onStoredSessionUpdated: () -> Unit = {}) {
 
     companion object {
         private const val PREFS_NAME     = "geosylva_packs"
         private const val KEY_INSTALLED  = "installed_pack_ids"
         private const val KEY_VERSIONS   = "pack_versions"
+        private val operationLocks = ConcurrentHashMap<String, Mutex>()
 
         @Volatile private var instance: PackManager? = null
         fun getInstance(context: Context): PackManager =
             instance ?: synchronized(this) {
-                instance ?: PackManager(context.applicationContext).also { instance = it }
+                instance ?: context.applicationContext.let { application ->
+                    PackManager(application, onStoredSessionUpdated = {
+                        (application as? ForestryCounterApplication)?.identityRepository?.reloadStoredSession()
+                    }).also { instance = it }
+                }
             }
     }
 
-    private val prefs: SharedPreferences =
+    private val prefs =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    private val store = PackInstallationStore(File(context.filesDir, "packs"))
+    private val refreshMonitor = Any()
+    private val contract = AdministrativePackContract(BuildConfig.GSIE_PACK_PUBLIC_KEY_DER_BASE64)
+    private val repository = GsiePackRepository(context, contract, onStoredSessionUpdated)
+    private val catalogCache = SignedPackCatalogCache(File(context.filesDir, "pack-catalog/catalog.json"))
+    private val catalogMutex = Mutex()
+    private var catalogLoadError: String? = null
+    private var catalogFromCache = false
+    @Volatile private var catalog: List<GeoPackDescriptor> = loadCatalog()
 
     // ─── État observable ──────────────────────────────────────────────────────
 
@@ -51,10 +77,18 @@ class PackManager(private val context: Context) {
     data class PackState(
         val allPacks: List<GeoPackDescriptor>,
         val downloadProgress: Map<String, Float> = emptyMap(), // packId → 0.0–1.0
-        val lastError: String? = null
+        val lastError: String? = null,
+        val activePacks: List<GeoPackDescriptor> = emptyList(),
+        val diskUsageBytes: Long = 0L,
+        val retainedPacks: List<GeoPackDescriptor> = emptyList(),
+        val catalogRefreshing: Boolean = false,
+        val catalogError: String? = null,
+        val catalogIssue: PackCatalogIssue? = null,
+        val catalogFromCache: Boolean = false,
+        val availableStorageBytes: Long? = null
     ) {
         val installed: List<GeoPackDescriptor>
-            get() = allPacks.filter { it.status in listOf(PackStatus.INSTALLED, PackStatus.EMBEDDED) }
+            get() = allPacks.filter { it.status == PackStatus.EMBEDDED } + activePacks
         val available: List<GeoPackDescriptor>
             get() = allPacks.filter { it.status == PackStatus.AVAILABLE }
         val byLevel: Map<PackLevel, List<GeoPackDescriptor>>
@@ -64,34 +98,70 @@ class PackManager(private val context: Context) {
     // ─── Chargement initial ───────────────────────────────────────────────────
 
     private fun loadPackState(): PackState {
-        val installedIds = loadInstalledIds()
-        val versions     = loadStoredVersions()
-
-        val allPacks = buildAllPacksList(installedIds, versions)
-        return PackState(allPacks)
+        return try {
+            if (!store.hasRegistry()) {
+                val installedIds = loadInstalledIds()
+                val versions = loadStoredVersions()
+                store.migrateLegacy(installedIds, versions, legacyDescriptors(installedIds, versions))
+            }
+            val activeErrors = mutableListOf<String>()
+            val active = store.activePacks().filter { descriptor ->
+                if (descriptor.contentKind !in setOf(AdministrativePackContract.CONTENT_KIND, OfflineForestryLayerStore.CONTENT_KIND)) true
+                else runCatching {
+                    val file = store.fileFor(descriptor.id, descriptor.version)
+                    if (descriptor.contentKind == OfflineForestryLayerStore.CONTENT_KIND) OfflineForestryLayerStore.validateOnce(file, descriptor, contract)
+                    else contract.validateArtifact(file, descriptor)
+                }
+                    .onFailure { activeErrors += "${descriptor.name} : ${it.message}" }.isSuccess
+            }
+            val retained = store.retainedPacks()
+            PackState(
+                buildAllPacksList(active, retained), activePacks = active,
+                retainedPacks = retained, diskUsageBytes = store.storedSizeBytes(),
+                lastError = activeErrors.takeIf { it.isNotEmpty() }?.joinToString("\n"),
+                catalogError = catalogLoadError, catalogIssue = catalogLoadError?.let { PackCatalogIssue.INVALID_RESPONSE },
+                catalogFromCache = catalogFromCache,
+                availableStorageBytes = runCatching { context.filesDir.usableSpace }.getOrNull()
+            )
+        } catch (error: Exception) {
+            // Conserve le registre et les fichiers ; aucune activation n'est devinée.
+            PackState(
+                buildAllPacksList(emptyList()),
+                lastError = error.message,
+                diskUsageBytes = runCatching { store.storedSizeBytes() }.getOrDefault(0L)
+            )
+        }
     }
 
     private fun buildAllPacksList(
-        installedIds: Set<String>,
-        versions: Map<String, String>
+        activePacks: List<GeoPackDescriptor>,
+        retainedPacks: List<GeoPackDescriptor> = emptyList()
     ): List<GeoPackDescriptor> {
         val result = mutableListOf<GeoPackDescriptor>()
 
         // Socle national (toujours embarqué)
         result += PackResolver.EMBEDDED_NATIONAL_PACK
 
-        // Packs régionaux (catalogue officiel, état installé ou disponible)
-        PackResolver.REGIONAL_CATALOG.forEach { desc ->
-            val isInstalled = desc.id in installedIds && packFile(desc).isFile
-            val storedVersion = versions[desc.id]
-            val hasUpdate = isInstalled && storedVersion != null && storedVersion != desc.version
+        // Publications réellement raccordées ; aucune entrée statique de démonstration.
+        catalog.forEach { desc ->
+            val active = activePacks.find { it.id == desc.id }
+            val hasUpdate = active != null && active.version != desc.version
             result += desc.copy(
+                installedVersion = active?.version,
                 status = when {
-                    !isInstalled -> PackStatus.AVAILABLE
+                    active == null -> PackStatus.AVAILABLE
                     hasUpdate    -> PackStatus.UPDATE_PENDING
                     else         -> PackStatus.INSTALLED
                 }
             )
+        }
+        // Une suppression du catalogue serveur ne supprime pas une version locale.
+        result += activePacks.filter { active -> result.none { it.id == active.id } }
+        retainedPacks.forEach { retained ->
+            if (result.none { it.id == retained.id }) {
+                // Retrouvable hors ligne, sans présenter une ancienne URL comme catalogue courant.
+                result += retained.copy(status = PackStatus.AVAILABLE, installedVersion = null, downloadUrl = null)
+            }
         }
 
         return result
@@ -116,7 +186,22 @@ class PackManager(private val context: Context) {
      * @param onProgress Callback de progression [0.0 ; 1.0]
      */
     suspend fun installPack(packId: String, onProgress: (Float) -> Unit = {}) {
-        val pack = _packState.value.allPacks.find { it.id == packId } ?: return
+        operationLock(packId).withLock { installLocked(packId, onProgress) }
+    }
+
+    /** Identité confirmée par l'utilisateur ; un changement catalogue exige une nouvelle confirmation. */
+    suspend fun installPack(packId: String, expectedIdentity: PackArtifactIdentity, onProgress: (Float) -> Unit = {}) {
+        operationLock(packId).withLock {
+            installLocked(packId, onProgress, expectedIdentity)
+        }
+    }
+
+    private suspend fun installLocked(packId: String, onProgress: (Float) -> Unit, expectedIdentity: PackArtifactIdentity? = null) {
+        val pack = _packState.value.allPacks.find { it.id == packId }
+            ?: throw IllegalArgumentException("Aucun pack publié ou local ne correspond à $packId")
+        require(expectedIdentity == null || expectedIdentity == PackArtifactIdentity(pack.id, pack.version, pack.checksum.orEmpty())) {
+            "La version publiée a changé ; vérifiez de nouveau le téléchargement"
+        }
         if (pack.status == PackStatus.EMBEDDED) return
         val url = pack.downloadUrl?.takeIf { it.isNotBlank() }
             ?: throw IllegalStateException("Aucune URL de téléchargement pour ${pack.id}")
@@ -127,55 +212,100 @@ class PackManager(private val context: Context) {
         // pas la confidentialité de la source — un MITM sur HTTP pourrait
         // observer le flux. Validé ici (API publique) plutôt que dans
         // downloadWithChecksum (fonction pure testée avec MockWebServer HTTP).
-        checkHttpsScheme(URL(url))
+        // La distribution signée n'autorise que l'origine GSIE configurée.
+        // Les anciennes URL non signées ne deviennent pas des publications qualifiées.
+        check(pack.contentKind in setOf(AdministrativePackContract.CONTENT_KIND, OfflineForestryLayerStore.CONTENT_KIND) && pack.signedManifest != null) {
+            "Ce fichier ne possède pas de publication cartographique GSIE qualifiée"
+        }
+        contract.verify(pack.signedManifest)
+        val target = store.fileFor(pack.id, pack.version)
+        if (target.isFile) {
+            withContext(Dispatchers.IO) {
+                val reactivationContext = coroutineContext
+                contract.validateArtifact(target, pack) { reactivationContext.ensureActive() }
+                store.activate(pack, target) { reactivationContext.ensureActive() }
+                refreshState()
+            }
+            onProgress(1f)
+            return
+        }
+        checkDiskSpace(context.filesDir.usableSpace, pack.archiveBytes ?: error("Volume signé absent"), pack.id)
         updateDownloadProgress(packId, 0f)
-        val target = packFile(pack)
         val partial = File(target.parentFile, "${target.name}.part")
         try {
             target.parentFile?.mkdirs()
-            withContext(Dispatchers.IO) {
-                downloadWithChecksum(URL(url), partial, expectedSha) { progress ->
-                    updateDownloadProgress(packId, progress)
-                    onProgress(progress)
-                }
+            repository.download(pack, partial) { progress ->
+                updateDownloadProgress(packId, progress)
+                onProgress(progress)
             }
-            if (!partial.renameTo(target)) error("Impossible d'activer le fichier téléchargé")
-            saveInstalledIds(loadInstalledIds() + packId)
-            saveStoredVersions(loadStoredVersions() + (packId to pack.version))
-            refreshState()
+            withContext(Dispatchers.IO) {
+                val installContext = coroutineContext
+                contract.validateArtifact(partial, pack) { installContext.ensureActive() }
+                installContext.ensureActive()
+                store.activate(pack, partial) { installContext.ensureActive() }
+                refreshState()
+            }
         } catch (error: Throwable) {
             // Une coupure réseau (IOException) laisse le fragment `.part` et son
             // `.etag` en place : la prochaine tentative reprendra le
             // téléchargement au lieu de repartir de zéro. Toute autre erreur
             // (checksum invalide, espace disque, code HTTP) signale un état non
             // fiable pour la reprise -> nettoyage complet.
-            if (error !is IOException) {
+            if (error !is IOException && error !is CancellationException) {
                 partial.delete()
                 File(partial.parentFile, "${partial.name}.etag").delete()
             }
-            updateDownloadProgress(packId, -1f)
-            _packState.value = _packState.value.copy(lastError = error.message ?: "Échec du téléchargement")
+            _packState.update { current ->
+                current.copy(lastError = if (error is CancellationException) null else error.message ?: "Échec du téléchargement")
+            }
             throw error
+        } finally {
+            withContext(NonCancellable + Dispatchers.IO) {
+                val diskUsage = runCatching { store.storedSizeBytes() }.getOrNull()
+                _packState.update { current ->
+                    current.copy(
+                        downloadProgress = current.downloadProgress - packId,
+                        diskUsageBytes = diskUsage ?: current.diskUsageBytes
+                    )
+                }
+            }
         }
-        updateDownloadProgress(packId, -1f)
     }
 
     /**
-     * Désinstalle un pack régional ou départemental.
+     * Désactive un pack régional ou départemental.
      * Le socle national ne peut pas être désinstallé.
+     * Les fichiers restent conservés : des résultats peuvent citer ces versions.
      */
-    fun uninstallPack(packId: String) {
-        val pack = _packState.value.allPacks.find { it.id == packId } ?: return
-        if (pack.level == PackLevel.SOCLE_NATIONAL) return
-
-        val updatedIds = loadInstalledIds() - packId
-        saveInstalledIds(updatedIds)
-        _packState.value.allPacks.find { it.id == packId }?.let { packFile(it).parentFile?.deleteRecursively() }
-        refreshState()
+    suspend fun uninstallPack(packId: String) {
+        operationLock(packId).withLock {
+            val pack = _packState.value.allPacks.find { it.id == packId } ?: return@withLock
+            if (pack.level == PackLevel.SOCLE_NATIONAL) return@withLock
+            withContext(Dispatchers.IO) {
+                store.deactivate(packId)
+                refreshState()
+            }
+        }
     }
 
-    private fun packFile(pack: GeoPackDescriptor): File =
-        File(context.filesDir, "packs/${pack.id}/${pack.version}.pack")
+    /** Réactive une version conservée après vérification SHA-256, sans réseau. */
+    suspend fun reactivatePack(packId: String, version: String) {
+        operationLock(packId).withLock {
+            withContext(Dispatchers.IO) {
+                val retained = store.getRetained(packId, version)
+                    ?: throw IOException("Version locale conservée introuvable")
+                val reactivationContext = coroutineContext
+                if (retained.contentKind in setOf(AdministrativePackContract.CONTENT_KIND, OfflineForestryLayerStore.CONTENT_KIND)) {
+                    contract.validateArtifact(store.fileFor(packId, version), retained) { reactivationContext.ensureActive() }
+                }
+                store.activate(retained, store.fileFor(packId, version)) { reactivationContext.ensureActive() }
+                refreshState()
+            }
+        }
+    }
+
+    private fun operationLock(packId: String): Mutex =
+        operationLocks.computeIfAbsent("${context.filesDir.absolutePath}/$packId") { Mutex() }
 
     /**
      * Précharge automatiquement les packs autour d'une position GPS.
@@ -187,13 +317,13 @@ class PackManager(private val context: Context) {
 
         context.regionCode?.let { code ->
             val regionPack = _packState.value.available.find {
-                it.level == PackLevel.REGIONAL && it.codeINSEE == code
+                it.level == PackLevel.REGIONAL && it.codeINSEE == code && !it.downloadUrl.isNullOrBlank()
             }
             regionPack?.let { toInstall += it.id }
         }
         context.deptCode?.let { code ->
             val deptPack = _packState.value.available.find {
-                it.level == PackLevel.DEPARTEMENTAL && it.codeINSEE == code
+                it.level == PackLevel.DEPARTEMENTAL && it.codeINSEE == code && !it.downloadUrl.isNullOrBlank()
             }
             deptPack?.let { toInstall += it.id }
         }
@@ -207,62 +337,144 @@ class PackManager(private val context: Context) {
      */
     fun isFeatureEnabled(featureKey: String, packId: String? = null): Boolean {
         val packs = if (packId != null)
-            _packState.value.allPacks.filter { it.id == packId }
+            _packState.value.installed.filter { it.id == packId }
         else
             _packState.value.installed
-        return packs.any { it.metaInfo.featureFlags[featureKey] == true }
+        return packs.any { it.contentKind != AdministrativePackContract.CONTENT_KIND && it.metaInfo.featureFlags[featureKey] == true }
     }
 
     /**
      * Taille totale des packs installés en Mo.
      */
     fun installedSizeMb(): Float =
-        _packState.value.installed
-            .filterNot { it.level == PackLevel.SOCLE_NATIONAL }
-            .sumOf { it.sizeKb }
-            .toFloat() / 1024f
+        store.activeSizeBytes().toFloat() / (1024f * 1024f)
+
+    /** Taille réelle : versions actives, historiques conservées et fragments. */
+    fun storedSizeBytes(): Long = store.storedSizeBytes()
+
+    suspend fun actualAvailableBytes(): Long = withContext(Dispatchers.IO) {
+        context.filesDir.usableSpace.also { require(it >= 0) { "Espace disponible inaccessible" } }
+    }
+
+    /** Couverture attendue issue du vrai référentiel IGN ; aucun pack n’est fabriqué ici. */
+    suspend fun administrativeDepartmentsByRegion(): Map<String, Set<String>> = withContext(Dispatchers.IO) {
+        context.assets.open(AdministrativeTerritoryCoverage.ASSET_PATH).use(AdministrativeTerritoryCoverage::read)
+    }
+
+    /** Les contours et les libellés viennent exclusivement du fichier installé vérifié. */
+    suspend fun readActiveAdministrativePack(packId: String): AdministrativePackContent = withContext(Dispatchers.IO) {
+        operationLock(packId).withLock {
+            val descriptor = store.activePacks().find { it.id == packId && it.contentKind in setOf(AdministrativePackContract.CONTENT_KIND, OfflineForestryLayerStore.CONTENT_KIND) }
+                ?: error("Pack cartographique actif introuvable")
+            val readContext = coroutineContext
+            val file = store.fileFor(descriptor.id, descriptor.version)
+            if (descriptor.contentKind == OfflineForestryLayerStore.CONTENT_KIND) {
+                val manifest = contract.verify(descriptor.signedManifest ?: error("Manifeste signé absent"))
+                OfflineForestryLayerStore.validateOnce(file, descriptor, contract) { readContext.ensureActive() }
+                OfflineForestryLayerStore.administrativeProjection(file, manifest)
+            } else contract.read(file, descriptor) { readContext.ensureActive() }
+        }
+    }
+
+    /** Publication réelle authentifiée, tous comptes compris ; aucune condition d'abonnement. */
+    suspend fun refreshCatalog() = catalogMutex.withLock {
+        _packState.update { it.copy(catalogRefreshing = true, catalogError = null, catalogIssue = null) }
+        try {
+            withContext(Dispatchers.IO) {
+                val signed = repository.fetchCatalog()
+                val verified = signed.map { metadata ->
+                    contract.descriptor(metadata, repository.artifactUrl(contract.verify(metadata)))
+                }
+                try { catalogCache.write(signed) }
+                catch (error: IOException) { throw PackCatalogException(PackCatalogIssue.STORAGE, "Écriture du catalogue local impossible", error) }
+                catalog = verified
+                catalogFromCache = false
+                catalogLoadError = null
+                refreshState()
+            }
+        } catch (cancelled: CancellationException) { throw cancelled }
+        catch (error: Exception) {
+            val issue = (error as? PackCatalogException)?.issue ?: when (error) {
+                is IOException -> PackCatalogIssue.NETWORK
+                else -> PackCatalogIssue.INVALID_RESPONSE
+            }
+            _packState.update { it.copy(catalogError = error.message ?: "Catalogue GSIE indisponible", catalogIssue = issue) }
+            throw error
+        } finally { _packState.update { it.copy(catalogRefreshing = false) } }
+    }
+
+    private fun loadCatalog(): List<GeoPackDescriptor> = try {
+        catalogCache.read().map { metadata ->
+            contract.descriptor(metadata, repository.artifactUrl(contract.verify(metadata)))
+        }.also {
+            require(it.map { descriptor -> descriptor.id }.distinct().size == it.size && it.map { descriptor -> descriptor.territoryId }.distinct().size == it.size) {
+                "Identités du catalogue local dupliquées"
+            }
+            catalogFromCache = it.isNotEmpty()
+        }
+    } catch (error: Exception) {
+        // Ne supprime pas un cache illisible ou non approuvé.
+        catalogLoadError = "Catalogue local non accepté : ${error.message}"
+        emptyList()
+    }
 
     // ─── Persistance ─────────────────────────────────────────────────────────
 
     private fun loadInstalledIds(): Set<String> {
         val json = prefs.getString(KEY_INSTALLED, "[]") ?: "[]"
-        val arr = JSONArray(json)
-        return (0 until arr.length()).map { arr.getString(it) }.toSet()
-    }
-
-    private fun saveInstalledIds(ids: Set<String>) {
-        val arr = JSONArray(ids.toList())
-        prefs.edit().putString(KEY_INSTALLED, arr.toString()).apply()
+        return Json.parseToJsonElement(json).jsonArray.map { it.jsonPrimitive.content }.toSet()
     }
 
     private fun loadStoredVersions(): Map<String, String> {
         val json = prefs.getString(KEY_VERSIONS, "{}") ?: "{}"
-        val obj = JSONObject(json)
-        return obj.keys().asSequence().associateWith { obj.getString(it) }
+        return Json.parseToJsonElement(json).jsonObject.mapValues { it.value.jsonPrimitive.content }
     }
 
-    private fun saveStoredVersions(versions: Map<String, String>) {
-        val obj = JSONObject()
-        versions.forEach { (k, v) -> obj.put(k, v) }
-        prefs.edit().putString(KEY_VERSIONS, obj.toString()).apply()
+    /** Index de migration de fichiers existants, jamais un catalogue disponible. */
+    private fun legacyDescriptors(
+        installedIds: Set<String>,
+        versions: Map<String, String>
+    ): List<GeoPackDescriptor> = installedIds.mapNotNull { id ->
+        val identity = Regex("fr\\.(region|dept)\\.([A-Za-z0-9]+)").matchEntire(id)
+            ?: return@mapNotNull null
+        val version = versions[id] ?: return@mapNotNull null
+        val file = runCatching { store.fileFor(id, version) }.getOrNull()
+            ?: return@mapNotNull null
+        if (!file.isFile) return@mapNotNull null
+        GeoPackDescriptor(
+            id = id,
+            level = if (identity.groupValues[1] == "region") PackLevel.REGIONAL else PackLevel.DEPARTEMENTAL,
+            name = "Pack local hérité ($id)",
+            codeINSEE = identity.groupValues[2],
+            version = version,
+            buildDate = "",
+            sizeKb = file.length() / 1024L + if (file.length() % 1024L == 0L) 0L else 1L,
+            status = PackStatus.INSTALLED,
+            features = PackFeatures(),
+            metaInfo = PackMetaInfo(
+                author = "Inconnu", license = "Inconnue", minAppVersion = "",
+                notes = "Fichier local hérité ; contenu et provenance historiques non qualifiés"
+            )
+        )
     }
 
     // ─── Helpers internes ────────────────────────────────────────────────────
 
     private fun updateDownloadProgress(packId: String, progress: Float) {
-        val current = _packState.value
-        val updated = if (progress < 0) {
-            current.copy(downloadProgress = current.downloadProgress - packId)
-        } else {
-            current.copy(downloadProgress = current.downloadProgress + (packId to progress))
+        _packState.update { current ->
+            current.copy(downloadProgress = if (progress < 0) current.downloadProgress - packId
+            else current.downloadProgress + (packId to progress))
         }
-        _packState.value = updated
     }
 
-    private fun refreshState() {
-        _packState.value = loadPackState().copy(
-            downloadProgress = _packState.value.downloadProgress
-        )
+    private fun refreshState() = synchronized(refreshMonitor) {
+        val reloaded = loadPackState()
+        _packState.update { current -> reloaded.copy(
+            downloadProgress = current.downloadProgress,
+            catalogRefreshing = current.catalogRefreshing,
+            catalogError = current.catalogError ?: reloaded.catalogError,
+            catalogIssue = current.catalogIssue ?: reloaded.catalogIssue
+        ) }
     }
 
     /**

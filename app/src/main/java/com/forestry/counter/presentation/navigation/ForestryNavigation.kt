@@ -13,6 +13,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
@@ -24,11 +25,13 @@ import com.forestry.counter.ForestryCounterApplication
 import com.forestry.counter.presentation.screens.account.LoginScreen
 import com.forestry.counter.presentation.screens.explorer.ExplorerCategory
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.CancellationException
 
 // ─── Routes ──────────────────────────────────────────────────────────────────
 
 sealed class Screen(val route: String) {
     object Forets : Screen("forets")
+    object ForestryLegacyGroups : Screen("forets/legacy-groups")
     object Groups : Screen("groups")
     object GroupDetail : Screen("group/{groupId}") {
         fun createRoute(groupId: String) = "group/$groupId"
@@ -45,6 +48,7 @@ sealed class Screen(val route: String) {
             if (section != null) "settings?section=$section" else "settings"
     }
     object Account : Screen("settings/account")
+    object ParcelSyncSelection : Screen("settings/account/parcel-sync-selection")
     object Login : Screen("settings/account/login")
     object PasswordRecovery : Screen("settings/account/password-recovery")
     object DeveloperOptions : Screen("settings/developer")
@@ -55,6 +59,18 @@ sealed class Screen(val route: String) {
     object Placettes : Screen("placettes/{parcelleId}") {
         fun createRoute(parcelleId: String) = "placettes/$parcelleId"
     }
+    object Worksites : Screen("worksites")
+    object FieldJournal : Screen("field/{kind}/{targetId}") {
+        fun createRoute(target: com.forestry.counter.domain.field.FieldTarget) = "field/${target.kind.name}/${android.net.Uri.encode(target.id)}"
+    }
+    object WoodDepots : Screen("wood/depots")
+    object WoodObjects : Screen("wood/depots/{depotId}/objects?objectId={objectId}") {
+        fun createRoute(depotId: String, objectId: String? = null): String {
+            com.forestry.counter.domain.model.requireWoodDepotId(depotId)
+            if (objectId != null) require(java.util.UUID.fromString(objectId).toString() == objectId)
+            return "wood/depots/$depotId/objects" + (objectId?.let { "?objectId=$it" } ?: "")
+        }
+    }
     object PlacetteDetail : Screen("placette/{parcelleId}/{placetteId}") {
         fun createRoute(parcelleId: String, placetteId: String) = "placette/$parcelleId/$placetteId"
     }
@@ -62,20 +78,21 @@ sealed class Screen(val route: String) {
         fun createRoute(parcelleId: String, placetteId: String, year: Int) =
             "placette/$parcelleId/$placetteId/evolution/$year"
     }
-    object Martelage : Screen("martelage/{scope}/{forestId}/{parcelleId}/{placetteId}") {
+    object Martelage : Screen("martelage/{scope}/{forestId}/{parcelleId}/{placetteId}?sessionId={sessionId}") {
         fun forGlobal(): String = "martelage/GLOBAL/none/none/none"
         fun forForest(forestId: String): String = "martelage/FOREST/$forestId/none/none"
-        fun forParcelle(parcelleId: String): String = "martelage/PARCELLE/none/$parcelleId/none"
-        fun forPlacette(parcelleId: String, placetteId: String): String = "martelage/PLACETTE/none/$parcelleId/$placetteId"
+        fun forParcelle(parcelleId: String, sessionId: String? = null): String =
+            "martelage/PARCELLE/none/$parcelleId/none" +
+                (sessionId?.let { "?sessionId=${android.net.Uri.encode(it)}" } ?: "")
+        fun forPlacette(parcelleId: String, placetteId: String, sessionId: String? = null): String =
+            "martelage/PLACETTE/none/$parcelleId/$placetteId" +
+                (sessionId?.let { "?sessionId=${android.net.Uri.encode(it)}" } ?: "")
     }
     object Map : Screen("map/{parcelleId}") {
         fun createRoute(parcelleId: String) = "map/$parcelleId"
     }
     object EssenceDiam : Screen("placette/{parcelleId}/{placetteId}/essence/{essenceCode}") {
         fun createRoute(parcelleId: String, placetteId: String, essenceCode: String) = "placette/$parcelleId/$placetteId/essence/$essenceCode"
-    }
-    object Dashboard : Screen("dashboard/{parcelleId}") {
-        fun createRoute(parcelleId: String) = "dashboard/$parcelleId"
     }
     object IbpEvaluation : Screen("ibp/{parcelleId}/{placetteId}?evalId={evalId}") {
         fun createRoute(parcelleId: String, placetteId: String, evalId: String? = null): String =
@@ -99,10 +116,16 @@ sealed class Screen(val route: String) {
     object DiagnosticMenu : Screen("diagnostic/menu/{parcelleId}") {
         fun createRoute(parcelleId: String) = "diagnostic/menu/$parcelleId"
     }
+    object DiagnosticScopes : Screen("diagnostics/scopes")
+    object StationDiagnostic : Screen("diagnostics/station/{parcelleId}") {
+        fun createRoute(parcelleId: String) = "diagnostics/station/$parcelleId"
+    }
     object DiagnosticResult : Screen("diagnostic/result/{diagnosticId}") {
         fun createRoute(diagnosticId: String) = "diagnostic/result/$diagnosticId"
     }
+    /** Final first-entry permissions bridge; the six legacy presentation pages were removed. */
     object Onboarding : Screen("onboarding")
+    object PackOnboarding : Screen("onboarding/packs")
 
     /**
      * Porte d'entrée de l'application, au tout premier lancement.
@@ -114,9 +137,9 @@ sealed class Screen(val route: String) {
      */
     object Welcome : Screen("welcome")
     /**
-     * Sélection du métier — juste après connexion ou "Continuer hors
-     * ligne", avant l'onboarding. Vue une seule fois par installation,
-     * comme Welcome dont elle hérite la place dans le parcours.
+     * Premier choix du parcours initial, avant Welcome/connexion.
+     * Le métier est enregistré localement avant toute navigation ; cette
+     * déclaration ne crée ni affiliation entreprise ni consentement.
      */
     object ProfessionSelection : Screen("profession_selection")
     object RipisylveDiagnostic : Screen("ripisylve/diagnostic/{parcelleId}") {
@@ -129,6 +152,7 @@ sealed class Screen(val route: String) {
     object TarifDocs : Screen("settings/tarif_docs")
     object PrivacyPolicy : Screen("settings/privacy_policy")
     object PackManager : Screen("packs")
+    object ForestSyncSelection : Screen("settings/forest_sync")
     object SuperCorrelateur : Screen("super_correlateur/{parcelleId}") {
         fun createRoute(parcelleId: String) = "super_correlateur/$parcelleId"
     }
@@ -138,6 +162,9 @@ sealed class Screen(val route: String) {
     }
     object ForestDetail : Screen("forest/{forestId}") {
         fun createRoute(forestId: String) = "forest/$forestId"
+    }
+    object ForestManagement : Screen("forest/{forestId}/management") {
+        fun createRoute(forestId: String) = "forest/$forestId/management"
     }
     object CreateForest : Screen("forest/create")
     object CreateParcelle : Screen("parcelle/create/{forestId}") {
@@ -152,6 +179,16 @@ sealed class Screen(val route: String) {
 
 @Composable
 fun ForestryNavigation(app: ForestryCounterApplication) {
+    val session by app.identityRepository.session.collectAsStateWithLifecycle()
+    // A new account receives a fresh controller and screen state; the previous
+    // account's saved business destinations cannot be restored by the tab bar.
+    key(session?.accountId) {
+        ForestryIdentityNavigation(app)
+    }
+}
+
+@Composable
+private fun ForestryIdentityNavigation(app: ForestryCounterApplication) {
     val navController = rememberNavController()
     // Remonté depuis TopLevelTabContent (branche Carte) pour piloter le
     // masquage plein écran de la bottom nav sur les modes Maps/Recherche/
@@ -232,10 +269,14 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
         },
     )
 
-    // Premier lancement : connexion → onboarding → accueil.
+    // Premier lancement : métier → connexion → packs facultatifs → permissions → accueil.
     // Ensuite : accueil directement. La connexion n'est donc vue qu'une fois
     // par installation, ce qui justifie d'y placer la vidéo de présentation.
-    val startDest = if (onboardingCompleted) BottomNavDestination.startRoute else Screen.Welcome.route
+    val startDest = when {
+        onboardingCompleted -> BottomNavDestination.startRoute
+        app.identityRepository.session.value != null -> Screen.PackOnboarding.route
+        else -> Screen.ProfessionSelection.route
+    }
 
     MainScaffold(navController = navController, app = app, hideBottomBar = carteMode != null) { innerModifier ->
         NavHost(
@@ -249,15 +290,18 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                 popEnterTransition = transitions.popEnter,
                 popExitTransition = transitions.popExit,
             ) {
-                val goToProfessionSelection = {
-                    navController.navigate(Screen.ProfessionSelection.route) {
-                        popUpTo(Screen.Welcome.route) { inclusive = true }
-                    }
-                }
                 LoginScreen(
                     repository = app.identityRepository,
-                    onAuthenticated = goToProfessionSelection,
-                    onContinueOffline = goToProfessionSelection,
+                    onAuthenticated = {
+                        navController.navigate(if (onboardingCompleted) BottomNavDestination.startRoute else Screen.PackOnboarding.route) {
+                            popUpTo(Screen.Welcome.route) { inclusive = true }
+                        }
+                    },
+                    onContinueOffline = {
+                        navController.navigate(if (onboardingCompleted) BottomNavDestination.startRoute else Screen.Onboarding.route) {
+                            popUpTo(Screen.Welcome.route) { inclusive = true }
+                        }
+                    },
                     onForgotPassword = { navController.navigate(Screen.PasswordRecovery.route) },
                     animationsEnabled = animationsEnabled,
                     preferencesManager = app.userPreferences,
@@ -272,13 +316,43 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                 popExitTransition = transitions.popExit,
             ) {
                 val scope = rememberCoroutineScope()
+                val currentProfession by app.userPreferences.userProfession.collectAsStateWithLifecycle(initialValue = null)
+                val currentProfessionText by app.userPreferences.userProfessionCustomText.collectAsStateWithLifecycle(initialValue = null)
+                var savingProfession by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(false) }
+                var professionSaveFailed by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(false) }
                 com.forestry.counter.presentation.screens.onboarding.ProfessionSelectionScreen(
+                    isSaving = savingProfession,
+                    saveFailed = professionSaveFailed,
+                    initialCode = currentProfession,
+                    initialCustomText = currentProfessionText,
                     onComplete = { code, customText ->
-                        scope.launch {
-                            app.userPreferences.setUserProfession(code, customText)
-                        }
-                        navController.navigate(Screen.Onboarding.route) {
-                            popUpTo(Screen.ProfessionSelection.route) { inclusive = true }
+                        if (!savingProfession) {
+                            savingProfession = true
+                            professionSaveFailed = false
+                            scope.launch {
+                                try {
+                                    val saved = try {
+                                        app.userPreferences.setUserProfession(code, customText)
+                                        true
+                                    } catch (cancelled: CancellationException) {
+                                        throw cancelled
+                                    } catch (_: Exception) {
+                                        false
+                                    }
+                                    if (saved) {
+                                        if (onboardingCompleted) {
+                                            navController.popBackStack()
+                                        } else {
+                                            navController.navigate(Screen.Welcome.route) {
+                                                popUpTo(Screen.ProfessionSelection.route) { inclusive = true }
+                                                launchSingleTop = true
+                                            }
+                                        }
+                                    } else professionSaveFailed = true
+                                } finally {
+                                    savingProfession = false
+                                }
+                            }
                         }
                     },
                 )
@@ -305,8 +379,9 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                                 restoreState = true
                             }
                         },
+                        onNavigateToMap = { navController.navigate(BottomNavDestination.CARTE.route) { launchSingleTop = true } },
                         onNavigateToForet = { foretId ->
-                            navController.navigate(Screen.ForestDetail.createRoute(foretId))
+                            navController.navigate(Screen.ForestManagement.createRoute(foretId))
                         },
                         onNavigateToForets = {
                             navController.navigate(Screen.Forets.route)
@@ -323,11 +398,12 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                         onNavigateToSettingsCategory = { category ->
                             // Même logique que SettingsHomeScreen poussé en pile
                             // (SettingsNavGraph) : « compte » ouvre l'espace Compte
-                            // lui-même, les autres catégories filtrent Réglages.
-                            if (category == "compte") {
-                                navController.navigate(Screen.Account.route)
-                            } else {
-                                navController.navigate(Screen.Settings.createRoute(category))
+                            // lui-même et « packs » le gestionnaire hors ligne.
+                            when (category) {
+                                "metier" -> navController.navigate(Screen.ProfessionSelection.route)
+                                "compte" -> navController.navigate(Screen.Account.route)
+                                "packs" -> navController.navigate(Screen.PackManager.route)
+                                else -> navController.navigate(Screen.Settings.createRoute(category))
                             }
                         },
                         onCreateForest = {
@@ -343,13 +419,15 @@ fun ForestryNavigation(app: ForestryCounterApplication) {
                                 ExplorerCategory.PARCELLES,
                                 ExplorerCategory.PLACETTES,
                                 ExplorerCategory.DIAGNOSTICS -> {
-                                    navController.navigate(Screen.Parcelles.createRoute(null))
+                                    navController.navigate(Screen.DiagnosticScopes.route)
                                 }
                                 // Le reste n'a encore ni écran ni entrée dédiée
                                 // (Lot 1) : rien à faire.
                                 else -> {}
                             }
                         },
+                        onNavigateToWoodDepots = { navController.navigate(Screen.WoodDepots.route) },
+                        onNavigateToWorksites = { navController.navigate(Screen.Worksites.route) },
                         modifier = innerModifier,
                     )
                 }

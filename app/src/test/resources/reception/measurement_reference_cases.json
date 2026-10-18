@@ -1,0 +1,144 @@
+{
+  "schema_version": "wood-reception-volume-1",
+  "qualification": "analytic_test_cases_only",
+  "cases": [
+    {
+      "id": "cylinder-huber-over",
+      "reference": "Cylindre analytique : rayon 0,2 m ; longueur 10 m.",
+      "input": {
+        "kind": "log",
+        "method": "huber",
+        "length_m": 10,
+        "bark_convention": "OVER_BARK",
+        "middle_diameter_cm": 40
+      },
+      "volume_m3": 1.2566370614359172,
+      "volume_kind": "GEOMETRIC_LOG_M3",
+      "method_code": "huber"
+    },
+    {
+      "id": "cylinder-smalian-under",
+      "reference": "Même cylindre, convention sous écorce déclarée sans déduction calculée.",
+      "input": {
+        "kind": "log",
+        "method": "smalian",
+        "length_m": 10,
+        "bark_convention": "UNDER_BARK",
+        "start_diameter_cm": 40,
+        "end_diameter_cm": 40
+      },
+      "volume_m3": 1.2566370614359172,
+      "volume_kind": "GEOMETRIC_LOG_M3",
+      "method_code": "smalian"
+    },
+    {
+      "id": "cylinder-newton-over",
+      "reference": "Même cylindre ; trois sections mesurées égales.",
+      "input": {
+        "kind": "log",
+        "method": "newton",
+        "length_m": 10,
+        "bark_convention": "OVER_BARK",
+        "start_diameter_cm": 40,
+        "middle_diameter_cm": 40,
+        "end_diameter_cm": 40
+      },
+      "volume_m3": 1.2566370614359172,
+      "volume_kind": "GEOMETRIC_LOG_M3",
+      "method_code": "newton"
+    },
+    {
+      "id": "cone-newton",
+      "reference": "Cône de rayon de base 1 m et longueur 3 m : volume exact pi m3.",
+      "input": {
+        "kind": "log",
+        "method": "newton",
+        "length_m": 3,
+        "bark_convention": "OVER_BARK",
+        "start_diameter_cm": 200,
+        "middle_diameter_cm": 100,
+        "end_diameter_cm": 0
+      },
+      "volume_m3": 3.141592653589793,
+      "volume_kind": "GEOMETRIC_LOG_M3",
+      "method_code": "newton"
+    },
+    {
+      "id": "cone-huber-bias",
+      "reference": "Même cône : Huber produit une approximation différente du volume exact.",
+      "input": {
+        "kind": "log",
+        "method": "huber",
+        "length_m": 3,
+        "bark_convention": "OVER_BARK",
+        "middle_diameter_cm": 100
+      },
+      "volume_m3": 2.356194490192345,
+      "volume_kind": "GEOMETRIC_LOG_M3",
+      "method_code": "huber"
+    },
+    {
+      "id": "cone-smalian-bias",
+      "reference": "Même cône : Smalian produit une approximation différente du volume exact.",
+      "input": {
+        "kind": "log",
+        "method": "smalian",
+        "length_m": 3,
+        "bark_convention": "OVER_BARK",
+        "start_diameter_cm": 200,
+        "end_diameter_cm": 0
+      },
+      "volume_m3": 4.71238898038469,
+      "volume_kind": "GEOMETRIC_LOG_M3",
+      "method_code": "smalian"
+    },
+    {
+      "id": "paraboloid-huber",
+      "reference": "Aire décroissant linéairement de pi à zéro sur 3 m : volume exact 3*pi/2.",
+      "input": {
+        "kind": "log",
+        "method": "huber",
+        "length_m": 3,
+        "bark_convention": "UNDER_BARK",
+        "middle_diameter_cm": 141.4213562373095
+      },
+      "volume_m3": 4.71238898038469,
+      "volume_kind": "GEOMETRIC_LOG_M3",
+      "method_code": "huber"
+    },
+    {
+      "id": "rectangular-envelope",
+      "reference": "Enveloppe rectangulaire analytique 5 x 2 x 1,5 m, vides inclus.",
+      "input": {
+        "kind": "rectangular-stack",
+        "length_m": 5,
+        "width_m": 2,
+        "mean_height_m": 1.5,
+        "protocol_reference": "analytic-rectangular-envelope-1"
+      },
+      "volume_m3": 15,
+      "volume_kind": "STACKED_ENVELOPE_M3",
+      "method_code": "rectangular-envelope"
+    }
+  ],
+  "aggregate_cases": [
+    {
+      "id": "finite-total-near-double-limit",
+      "heights_m": [
+        1.7976931348623155e+308,
+        1.097712170244096e+292,
+        1.097712170244096e+292
+      ],
+      "accepted": true,
+      "volume_m3": 1.7976931348623157e+308
+    },
+    {
+      "id": "unrepresentable-total",
+      "heights_m": [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308
+      ],
+      "accepted": false
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 package com.forestry.counter.ui
 
+import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -18,7 +19,7 @@ class MapScreenTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun `mapScreen should display map when loaded`() {
+    fun mapScreen_should_display_map_when_loaded() {
         // Given
         composeTestRule.setContent {
             // MapScreen content - à adapter selon l'implémentation réelle
@@ -31,7 +32,7 @@ class MapScreenTest {
     }
 
     @Test
-    fun `mapScreen should handle GPS permission request`() {
+    fun mapScreen_should_handle_GPS_permission_request() {
         // Given
         composeTestRule.setContent {
             // MapScreen content
@@ -49,7 +50,7 @@ class MapScreenTest {
     }
 
     @Test
-    fun `mapScreen should show location markers`() {
+    fun mapScreen_should_show_location_markers() {
         // Given
         composeTestRule.setContent {
             // MapScreen with location data
@@ -62,7 +63,7 @@ class MapScreenTest {
     }
 
     @Test
-    fun `mapScreen should be accessible with TalkBack`() {
+    fun mapScreen_should_be_accessible_with_TalkBack() {
         // Given
         composeTestRule.setContent {
             // Accessible MapScreen
@@ -79,7 +80,7 @@ class MapScreenTest {
     }
 
     @Test
-    fun `mapScreen should handle zoom gestures`() {
+    fun mapScreen_should_handle_zoom_gestures() {
         // Given
         composeTestRule.setContent {
             // MapScreen content
@@ -89,7 +90,7 @@ class MapScreenTest {
         composeTestRule
             .onNodeWithContentDescription("Carte forestière")
             .performTouchInput {
-                zoom(start = center, end = centerLeft)
+                pinch(start0 = centerLeft, start1 = centerRight, end0 = topLeft, end1 = bottomRight)
             }
 
         // Then
@@ -100,7 +101,7 @@ class MapScreenTest {
     }
 
     @Test
-    fun `mapScreen should show error when location fails`() {
+    fun mapScreen_should_show_error_when_location_fails() {
         // Given
         composeTestRule.setContent {
             // MapScreen with location error
@@ -113,7 +114,7 @@ class MapScreenTest {
     }
 
     @Test
-    fun `mapScreen should handle offline mode`() {
+    fun mapScreen_should_handle_offline_mode() {
         // Given
         composeTestRule.setContent {
             // MapScreen in offline mode
@@ -130,7 +131,7 @@ class MapScreenTest {
     }
 
     @Test
-    fun `mapScreen should support keyboard navigation`() {
+    fun mapScreen_should_support_keyboard_navigation() {
         // Given
         composeTestRule.setContent {
             // Accessible MapScreen

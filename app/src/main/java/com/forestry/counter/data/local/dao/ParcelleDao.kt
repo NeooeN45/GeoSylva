@@ -12,7 +12,7 @@ interface ParcelleDao {
     @Query("SELECT * FROM parcelles WHERE deletedAt IS NULL ORDER BY name ASC")
     suspend fun getAllParcellesNow(): List<ParcelleEntity>
 
-    @Query("SELECT * FROM parcelles WHERE forestOwnerId = :forestId AND deletedAt IS NULL ORDER BY name ASC")
+    @Query("SELECT * FROM parcelles WHERE (foretId = :forestId OR forestOwnerId = :forestId) AND deletedAt IS NULL ORDER BY name ASC")
     fun getParcellesByForest(forestId: String): Flow<List<ParcelleEntity>>
 
     @Query("SELECT * FROM parcelles WHERE parcelleId = :id AND deletedAt IS NULL")
@@ -29,11 +29,23 @@ interface ParcelleDao {
     @Query("SELECT * FROM parcelles WHERE parcelleId = :id")
     suspend fun getParcelleByIdAny(id: String): ParcelleEntity?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertParcelle(entity: ParcelleEntity)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertParcelleIfAbsent(entity: ParcelleEntity): Long
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertParcelles(entities: List<ParcelleEntity>)
+    /** REPLACE deletes a parent row before inserting it and would cascade to its children. */
+    @Transaction
+    suspend fun insertParcelle(entity: ParcelleEntity) {
+        if (insertParcelleIfAbsent(entity) == -1L) {
+            // A different row with the same unique UUID must fail rather than disappear silently.
+            check(getParcelleByIdAny(entity.parcelleId) != null) { "PARCEL_IDENTITY_CONFLICT" }
+            updateParcelle(entity)
+        }
+    }
+
+    @Transaction
+    suspend fun insertParcelles(entities: List<ParcelleEntity>) {
+        entities.forEach { insertParcelle(it) }
+    }
 
     @Update
     suspend fun updateParcelle(entity: ParcelleEntity)

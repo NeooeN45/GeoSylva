@@ -5,9 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.forestry.counter.domain.model.Essence
 import com.forestry.counter.domain.model.Placette
 import com.forestry.counter.domain.model.Tige
+import com.forestry.counter.domain.repository.InventaireSessionRepository
 import com.forestry.counter.domain.repository.EssenceRepository
 import com.forestry.counter.domain.repository.PlacetteRepository
 import com.forestry.counter.domain.repository.TigeRepository
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -83,12 +86,22 @@ class PlacetteEvolutionViewModel(
     val year: Int,
     private val tigeRepository: TigeRepository,
     private val essenceRepository: EssenceRepository,
-    private val placetteRepository: PlacetteRepository
+    private val placetteRepository: PlacetteRepository,
+    private val sessionRepository: InventaireSessionRepository? = null,
 ) : ViewModel() {
 
     val tiges: StateFlow<List<Tige>> =
-        tigeRepository.getTigesByPlacette(placetteId)
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+        combine(
+            tigeRepository.getTigesByPlacette(placetteId),
+            sessionRepository?.getByPlacette(placetteId) ?: flowOf(emptyList()),
+        ) { trees, sessions ->
+            if (sessionRepository == null) trees
+            else {
+                val legacyIds = sessions.filter { it.martelageState == null && it.deletedAt == null }
+                    .map { it.sessionId }.toSet()
+                trees.filter { it.deletedAt == null && (it.sessionId == null || it.sessionId in legacyIds) }
+            }
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
     val essences: StateFlow<List<Essence>> =
         essenceRepository.getAllEssences()

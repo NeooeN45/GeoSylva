@@ -11,6 +11,8 @@ import com.forestry.counter.presentation.screens.forestry.DiagnosticScreen
 import com.forestry.counter.presentation.screens.forestry.RipisylveDiagnosticScreen
 import com.forestry.counter.presentation.screens.forestry.StandClassificationScreen
 import com.forestry.counter.presentation.screens.forestry.SuperCorrelateurScreen
+import com.forestry.counter.presentation.screens.forestry.DiagnosticScopeScreen
+import com.forestry.counter.presentation.screens.forestry.StationDiagnosticScreen
 
 /**
  * Sous-graphe Diagnostic sylvicole, ripisylve et corrélateur.
@@ -24,6 +26,23 @@ fun NavGraphBuilder.diagnosticNavGraph(
     app: ForestryCounterApplication,
     transitions: NavTransitions,
 ) {
+    composable(Screen.DiagnosticScopes.route) {
+        DiagnosticScopeScreen(
+            foretRepository = app.foretRepository,
+            parcelleRepository = app.parcelleRepository,
+            placetteRepository = app.placetteRepository,
+            tigeRepository = app.tigeRepository,
+            readAccess = app.businessReadAccess,
+            onIbp = { pid, plid -> navController.navigate(Screen.IbpEvaluation.createRoute(pid, plid)) },
+            onStation = { pid -> navController.navigate(Screen.StationDiagnostic.createRoute(pid)) },
+            onRipisylve = { pid -> navController.navigate(Screen.RipisylveDiagnostic.createRoute(pid)) },
+            onBack = { navController.popBackStack() },
+        )
+    }
+    composable(Screen.StationDiagnostic.route, arguments = listOf(navArgument("parcelleId") { type = NavType.StringType })) { entry ->
+        val parcelleId = entry.arguments?.getString("parcelleId") ?: return@composable
+        StationDiagnosticScreen(parcelleId, app.stationRepository, app.userPreferences) { navController.popBackStack() }
+    }
     composable(
         route = Screen.DiagnosticMenu.route,
         arguments = listOf(navArgument("parcelleId") { type = NavType.StringType }),

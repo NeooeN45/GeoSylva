@@ -1,200 +1,113 @@
 package com.forestry.counter.presentation.screens.forestry
 
-import androidx.compose.foundation.layout.*
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
+import androidx.compose.material.icons.filled.Calculate
+import androidx.compose.material.icons.filled.Forest
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.MenuBook
+import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.Straighten
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.forestry.counter.R
 
+/** Teaching references only: this screen neither selects nor qualifies a volume model. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TarifDocumentationScreen(
-    onNavigateBack: () -> Unit
-) {
-    var selectedTab by remember { mutableIntStateOf(0) }
-    val tabs = listOf(stringResource(R.string.tarifdoc_tab_databases), stringResource(R.string.tarifdoc_tab_tarifs), stringResource(R.string.tarifdoc_tab_formulas))
+fun TarifDocumentationScreen(onNavigateBack: () -> Unit) {
+    var selectedTab by rememberSaveable { mutableIntStateOf(0) }
+    val tabs = listOf(
+        R.string.tarif_qualified_tab_sources,
+        R.string.tarif_qualified_tab_choice,
+        R.string.tarif_qualified_tab_formulas,
+    )
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.tarifdoc_title)) },
+                title = { Text(stringResource(R.string.tarif_qualified_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
-                    }
-                }
-            )
-        }
-    ) { padding ->
-        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
-            TabRow(selectedTabIndex = selectedTab) {
-                tabs.forEachIndexed { i, title ->
-                    Tab(selected = selectedTab == i, onClick = { selectedTab = i }, text = { Text(title, maxLines = 1, overflow = TextOverflow.Ellipsis) })
-                }
-            }
-            when (selectedTab) {
-                0 -> DatabasesTab()
-                1 -> TarifsTab()
-                2 -> FormulasTab()
-            }
-        }
-    }
-}
-
-@Composable
-private fun DatabasesTab() {
-    LazyColumn(
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        item {
-            DocCard(
-                title = stringResource(R.string.tarifdoc_db_ifn_title),
-                subtitle = stringResource(R.string.tarifdoc_db_ifn_subtitle),
-                color = Color(0xFF1565C0),
-                content = stringResource(R.string.tarifdoc_db_ifn_content)
-            )
-        }
-        item {
-            DocCard(
-                title = stringResource(R.string.tarifdoc_db_schaeffer1_title),
-                subtitle = stringResource(R.string.tarifdoc_db_schaeffer1_subtitle),
-                color = Color(0xFF2E7D32),
-                content = stringResource(R.string.tarifdoc_db_schaeffer1_content)
-            )
-        }
-        item {
-            DocCard(
-                title = stringResource(R.string.tarifdoc_db_schaeffer2_title),
-                subtitle = stringResource(R.string.tarifdoc_db_schaeffer2_subtitle),
-                color = Color(0xFF6A1B9A),
-                content = stringResource(R.string.tarifdoc_db_schaeffer2_content)
-            )
-        }
-        item {
-            DocCard(
-                title = stringResource(R.string.tarifdoc_db_algan_title),
-                subtitle = stringResource(R.string.tarifdoc_db_algan_subtitle),
-                color = Color(0xFFE65100),
-                content = stringResource(R.string.tarifdoc_db_algan_content)
-            )
-        }
-        item {
-            DocCard(
-                title = stringResource(R.string.tarifdoc_db_chaude_title),
-                subtitle = stringResource(R.string.tarifdoc_db_chaude_subtitle),
-                color = Color(0xFF37474F),
-                content = stringResource(R.string.tarifdoc_db_chaude_content)
-            )
-        }
-    }
-}
-
-@Composable
-private fun TarifsTab() {
-    data class TarifEntry(
-        val num: Int, val name: String, val essences: String,
-        val entrees: String, val precision: String, val source: String
-    )
-    val tarifs = listOf(
-        TarifEntry(1, "Schaeffer 1e — Douglas", "Douglas", "D", "±20%", "IFN"),
-        TarifEntry(2, "Schaeffer 2e — Douglas", "Douglas", "D, H", "±10%", "IFN"),
-        TarifEntry(3, "Algan — Chêne sessile", "Chêne sessile, pédonculé", "D, H", "±12%", "INRAE"),
-        TarifEntry(4, "Algan — Hêtre", "Hêtre", "D, H", "±11%", "INRAE"),
-        TarifEntry(5, "Chaudé — Épicéa", "Épicéa commun", "D", "±18%", "Chaudé 1991"),
-        TarifEntry(6, "Chaudé — Pin sylvestre", "Pin sylvestre", "D", "±18%", "Chaudé 1991"),
-        TarifEntry(7, "IFN rapide", "Toutes essences", "D", "±25%", "IFN"),
-        TarifEntry(8, "IFN lent", "Toutes essences (lent)", "D", "±22%", "IFN"),
-        TarifEntry(9, "FGH — Feuillu gros H", "Chênes, hêtre GB", "D, H", "±8%", "ONF"),
-        TarifEntry(10, "Schaeffer — Sapin", "Sapin pectiné", "D, H", "±10%", "IFN"),
-    )
-    LazyColumn(
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(tarifs) { t ->
-            Card(modifier = Modifier.fillMaxWidth()) {
-                Row(
-                    modifier = Modifier.padding(12.dp).fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Surface(
-                        shape = RoundedCornerShape(8.dp),
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        modifier = Modifier.size(40.dp)
-                    ) {
-                        Box(contentAlignment = Alignment.Center) {
-                            Text(stringResource(R.string.tarifdoc_tarif_num_format, t.num), fontWeight = FontWeight.Bold, fontSize = 11.sp)
-                        }
-                    }
-                    Spacer(Modifier.width(12.dp))
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(t.name, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                        Text(t.essences, style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                    }
-                    Column(horizontalAlignment = Alignment.End) {
-                        Text(t.entrees, style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.primary)
-                        Text(t.precision, style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun FormulasTab() {
-    data class FormulaEntry(val name: String, val formula: String, val desc: String)
-    val formulas = listOf(
-        FormulaEntry("Surface terrière", "G = π/4 × (D/100)²", "G en m² pour D en cm"),
-        FormulaEntry("G/ha", "G/ha = (N/ha) × (π/4) × Dg²/10000", "Avec Dg en cm"),
-        FormulaEntry("Diamètre quadratique", "Dg = √(4G/(π×N))", "En cm, G en m²"),
-        FormulaEntry("Volume Schaeffer 1e", "V = a + b×G", "a, b = coeff. tarif par essence"),
-        FormulaEntry("Volume Schaeffer 2e", "V = a + b×G×H", "H hauteur dominante en m"),
-        FormulaEntry("Élancement H/D", "e = H×100/D", "H en m, D en cm — stable si <85"),
-        FormulaEntry("H Lorey", "HL = Σ(Hi×Gi) / ΣGi", "Hauteur pondérée par surface terrière"),
-        FormulaEntry("Indice Shannon", "H' = -Σ(pi × ln(pi))", "pi = proportion de chaque essence"),
-        FormulaEntry("Équidistribution Piélou", "J = H' / ln(S)", "S = nombre total d'essences"),
-        FormulaEntry("Densité relative", "Dr = N/Nref × 100", "Nref = densité de référence CNPF"),
-    )
-    LazyColumn(
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(formulas) { f ->
-            Card(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.padding(12.dp)) {
-                    Text(f.name, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                    Spacer(Modifier.height(4.dp))
-                    Surface(
-                        shape = RoundedCornerShape(6.dp),
-                        color = MaterialTheme.colorScheme.surfaceVariant
-                    ) {
-                        Text(
-                            f.formula,
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
-                            fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
-                            fontWeight = FontWeight.Medium
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.cd_back),
                         )
                     }
-                    Text(f.desc, style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(top = 4.dp))
+                },
+            )
+        },
+    ) { padding ->
+        Column(
+            modifier = Modifier.fillMaxSize().padding(padding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            ScrollableTabRow(
+                selectedTabIndex = selectedTab,
+                edgePadding = 16.dp,
+                modifier = Modifier.widthIn(max = 840.dp).fillMaxWidth(),
+            ) {
+                tabs.forEachIndexed { index, title ->
+                    Tab(
+                        selected = selectedTab == index,
+                        onClick = { selectedTab = index },
+                        text = { Text(stringResource(title)) },
+                    )
+                }
+            }
+            Box(Modifier.weight(1f).widthIn(max = 840.dp).fillMaxWidth()) {
+                when (selectedTab) {
+                    0 -> QualifiedSourcesTab()
+                    1 -> QualifiedChoiceTab()
+                    2 -> QualifiedFormulasTab()
                 }
             }
         }
@@ -202,24 +115,339 @@ private fun FormulasTab() {
 }
 
 @Composable
-private fun DocCard(title: String, subtitle: String, color: Color, content: String) {
-    Card(modifier = Modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+private fun QualifiedSourcesTab() {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        item {
+            QualifiedIntroduction(
+                R.string.tarif_qualified_sources_title,
+                R.string.tarif_qualified_sources_description,
+            )
+        }
+        item { QualifiedNote(R.string.tarif_qualified_sources_scope) }
+        item {
+            QualifiedSourceCard(
+                R.string.tarif_qualified_source_inventory_title,
+                R.string.tarif_qualified_source_inventory_detail,
+                R.string.tarif_qualified_source_inventory_body,
+                "https://www.cnpf.fr/sites/socle/files/2024-05/16_Inventaire_forestier_par_echantillonnage_systematique.pdf",
+            )
+        }
+        item {
+            QualifiedSourceCard(
+                R.string.tarif_qualified_source_standing_title,
+                R.string.tarif_qualified_source_standing_detail,
+                R.string.tarif_qualified_source_standing_body,
+                "https://www.cnpf.fr/sites/socle/files/cnpf-old/498015_volume_pied_1.pdf",
+            )
+        }
+        item {
+            QualifiedSourceCard(
+                R.string.tarif_qualified_source_slenderness_title,
+                R.string.tarif_qualified_source_slenderness_detail,
+                R.string.tarif_qualified_source_slenderness_body,
+                "https://www.cnpf.fr/sites/socle/files/2024-05/13.c_La_futaie_reguliere_diagnostic_et_gestions_envisagees.pdf",
+            )
+        }
+        item {
+            QualifiedSourceCard(
+                R.string.tarif_qualified_source_schaeffer_title,
+                R.string.tarif_qualified_source_schaeffer_detail,
+                R.string.tarif_qualified_source_schaeffer_body,
+                "https://hal.science/hal-03382015v1/document",
+            )
+        }
+        item {
+            QualifiedSourceCard(
+                R.string.tarif_qualified_source_fao_title,
+                R.string.tarif_qualified_source_fao_detail,
+                R.string.tarif_qualified_source_fao_body,
+                "https://www.fao.org/4/x6831e/X6831E13.htm#5791",
+            )
+        }
+        item {
+            QualifiedSourceCard(
+                R.string.tarif_qualified_source_basal_title,
+                R.string.tarif_qualified_source_basal_detail,
+                R.string.tarif_qualified_source_basal_body,
+                "https://fennerschool-associated.anu.edu.au/mensuration/BrackandWood1998/S_BA.HTM",
+            )
+        }
+    }
+}
+
+@Composable
+private fun QualifiedChoiceTab() {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        item {
+            QualifiedIntroduction(
+                R.string.tarif_qualified_choice_title,
+                R.string.tarif_qualified_choice_description,
+            )
+        }
+        item {
+            QualifiedExplanationCard(
+                Icons.Default.Forest,
+                R.string.tarif_qualified_one_entry_title,
+                R.string.tarif_qualified_one_entry_body,
+                R.string.tarif_qualified_one_entry_inputs,
+            )
+        }
+        item {
+            QualifiedExplanationCard(
+                Icons.Default.Straighten,
+                R.string.tarif_qualified_two_entries_title,
+                R.string.tarif_qualified_two_entries_body,
+                R.string.tarif_qualified_two_entries_inputs,
+            )
+        }
+        item {
+            QualifiedExplanationCard(
+                Icons.Default.Place,
+                R.string.tarif_qualified_domain_title,
+                R.string.tarif_qualified_domain_body,
+            )
+        }
+        item {
+            QualifiedExplanationCard(
+                Icons.Default.Straighten,
+                R.string.tarif_qualified_measurements_title,
+                R.string.tarif_qualified_measurements_body,
+            )
+        }
+        item {
+            QualifiedExplanationCard(
+                Icons.Default.MenuBook,
+                R.string.tarif_qualified_trace_title,
+                R.string.tarif_qualified_trace_body,
+            )
+        }
+        item { QualifiedNote(R.string.tarif_qualified_no_precision) }
+    }
+}
+
+@Composable
+private fun QualifiedFormulasTab() {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        item {
+            QualifiedIntroduction(
+                R.string.tarif_qualified_formulas_title,
+                R.string.tarif_qualified_formulas_description,
+            )
+        }
+        item {
+            QualifiedFormulaCard(
+                R.string.tarif_qualified_basal_title,
+                R.string.tarif_qualified_basal_formula,
+                R.string.tarif_qualified_basal_body,
+            )
+        }
+        item {
+            QualifiedFormulaCard(
+                R.string.tarif_qualified_quadratic_title,
+                R.string.tarif_qualified_quadratic_formula,
+                R.string.tarif_qualified_quadratic_body,
+            )
+        }
+        item {
+            QualifiedFormulaCard(
+                R.string.tarif_qualified_per_hectare_title,
+                R.string.tarif_qualified_per_hectare_formula,
+                R.string.tarif_qualified_per_hectare_body,
+            )
+        }
+        item {
+            QualifiedFormulaCard(
+                R.string.tarif_qualified_slenderness_title,
+                R.string.tarif_qualified_slenderness_formula,
+                R.string.tarif_qualified_slenderness_body,
+            )
+        }
+        item { QualifiedNote(R.string.tarif_qualified_slenderness_limit) }
+        item {
+            QualifiedFormulaCard(
+                R.string.tarif_qualified_logs_title,
+                R.string.tarif_qualified_logs_formula,
+                R.string.tarif_qualified_logs_body,
+            )
+        }
+        item { QualifiedNote(R.string.tarif_qualified_logs_limit) }
+    }
+}
+
+@Composable
+private fun QualifiedIntroduction(@StringRes title: Int, @StringRes description: Int) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(
+            stringResource(title),
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.semantics { heading() },
+        )
+        Text(
+            stringResource(description),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+    }
+}
+
+@Composable
+private fun QualifiedExplanationCard(
+    icon: ImageVector,
+    @StringRes title: Int,
+    @StringRes body: Int,
+    @StringRes inputs: Int? = null,
+) {
+    OutlinedCard(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
+        Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Row(
+                verticalAlignment = Alignment.Top,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
                 Surface(
-                    modifier = Modifier.size(4.dp, 40.dp),
-                    shape = RoundedCornerShape(2.dp),
-                    color = color
-                ) {}
-                Spacer(Modifier.width(12.dp))
-                Column {
-                    Text(title, fontWeight = FontWeight.Bold)
-                    Text(subtitle, style = MaterialTheme.typography.bodySmall, color = color)
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(12.dp),
+                ) {
+                    Icon(
+                        icon,
+                        contentDescription = null,
+                        modifier = Modifier.padding(10.dp).size(24.dp),
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                    )
+                }
+                Text(
+                    stringResource(title),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.weight(1f).semantics { heading() },
+                )
+            }
+            if (inputs != null) {
+                Text(
+                    stringResource(inputs),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            }
+            Text(stringResource(body), style = MaterialTheme.typography.bodyMedium)
+        }
+    }
+}
+
+@Composable
+private fun QualifiedFormulaCard(@StringRes title: Int, @StringRes formula: Int, @StringRes body: Int) {
+    OutlinedCard(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
+        Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                Icon(
+                    Icons.Default.Calculate,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+                Text(
+                    stringResource(title),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.weight(1f).semantics { heading() },
+                )
+            }
+            Surface(
+                color = MaterialTheme.colorScheme.surfaceVariant,
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(
+                    stringResource(formula),
+                    modifier = Modifier.padding(14.dp),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontFamily = FontFamily.Monospace,
+                )
+            }
+            Text(stringResource(body), style = MaterialTheme.typography.bodyMedium)
+        }
+    }
+}
+
+@Composable
+private fun QualifiedNote(@StringRes text: Int) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.Top,
+        ) {
+            Icon(Icons.Default.Info, contentDescription = null)
+            Text(stringResource(text), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
+        }
+    }
+}
+
+@Composable
+private fun QualifiedSourceCard(
+    @StringRes title: Int,
+    @StringRes detail: Int,
+    @StringRes body: Int,
+    url: String,
+) {
+    val context = LocalContext.current
+    val unavailableMessage = stringResource(R.string.tarif_qualified_source_unavailable)
+    OutlinedCard(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
+        Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(
+                stringResource(title),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.semantics { heading() },
+            )
+            Text(
+                stringResource(detail),
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.primary,
+            )
+            Text(stringResource(body), style = MaterialTheme.typography.bodyMedium)
+            Spacer(Modifier.height(4.dp))
+            TextButton(
+                onClick = {
+                    // Fixed HTTPS references only; no third-party document is bundled.
+                    try {
+                        context.startActivity(
+                            Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                                .addCategory(Intent.CATEGORY_BROWSABLE),
+                        )
+                    } catch (_: ActivityNotFoundException) {
+                        Toast.makeText(context, unavailableMessage, Toast.LENGTH_LONG).show()
+                    } catch (_: SecurityException) {
+                        Toast.makeText(context, unavailableMessage, Toast.LENGTH_LONG).show()
+                    }
+                },
+                modifier = Modifier.heightIn(min = 48.dp),
+            ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Text(stringResource(R.string.tarif_qualified_source_open), modifier = Modifier.weight(1f, fill = false))
+                    Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null, modifier = Modifier.size(18.dp))
                 }
             }
-            Spacer(Modifier.height(8.dp))
-            Text(content, style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(
+                stringResource(R.string.tarif_qualified_source_external),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
     }
 }

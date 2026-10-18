@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analysis_missing_value">—</string>
+    <string name="analysis_section_management">Gestion forestière</string>
+    <string name="analysis_section_wood">Bois et valorisation</string>
+    <string name="analysis_section_ecology">Écologie</string>
+    <string name="analysis_section_management_description">Inventaire, cubage, structure et historique des relevés.</string>
+    <string name="analysis_section_wood_description">Qualité, volumes commerciaux, recettes et coûts.</string>
+    <string name="analysis_section_ecology_description">Observations, station, eau et diagnostics associés.</string>
+    <string name="analysis_section_label">Lecture de la synthèse</string>
+    <string name="analysis_selected_section">Section sélectionnée : %1$s</string>
+    <string name="analysis_dendrometry_title">Dendrométrie du relevé</string>
+    <string name="analysis_recorded_scope">Résultats des tiges de cette version, avec leurs diamètres exploitables.</string>
+    <string name="analysis_count_label">Tiges renseignées</string>
+    <string name="analysis_basal_label">Surface terrière des tiges</string>
+    <string name="analysis_dg_label">Diamètre quadratique</string>
+    <string name="analysis_basal_value">%1$s m²</string>
+    <string name="analysis_diameter_value">%1$s cm</string>
+    <string name="analysis_valid_diameters">Diamètres exploitables : %1$s / %2$s</string>
+    <string name="analysis_diameter_basis_unknown">Les diamètres enregistrés peuvent être des mesures ou des représentants de classe ; leur nature reste à préciser.</string>
+    <string name="analysis_projection_unavailable">Vérifiez les mesures et les résultats de cette version avant de consulter la dendrométrie.</string>
+    <string name="analysis_distribution_title">Fréquence des diamètres</string>
+    <string name="analysis_distribution_scope">Distribution des diamètres tels qu’ils sont enregistrés dans ce relevé.</string>
+    <string name="analysis_distribution_empty">Aucun diamètre exploitable pour afficher une distribution.</string>
+    <string name="analysis_distribution_partial">Aperçu partiel : %1$d diamètres distincts affichés sur %2$d.</string>
+    <string name="analysis_frequency_row">Diamètre %1$s cm · effectif %2$d</string>
+    <string name="analysis_distribution_accessible">Fréquence des diamètres enregistrés : %1$s</string>
+    <string name="analysis_distribution_axes">Diamètres distincts (cm) · Effectifs des tiges</string>
+    <string name="analysis_height_title">Hauteurs et peuplement</string>
+    <string name="analysis_height_coverage">Hauteurs renseignées : %1$d / %2$d</string>
+    <string name="analysis_hd_label">Rapport H/D individuel</string>
+    <string name="analysis_spacing_label">Facteur d’espacement S %</string>
+    <string name="analysis_unavailable">À qualifier</string>
+    <string name="analysis_hd_missing">Une hauteur totale qualifiée, appariée au diamètre du même arbre, est nécessaire.</string>
+    <string name="analysis_spacing_missing">Une hauteur dominante et un inventaire du peuplement avec sa densité et sa surface sont nécessaires.</string>
+    <string name="analysis_show_requirements">Données nécessaires au calcul</string>
+    <string name="analysis_hide_requirements">Masquer les explications</string>
+    <string name="analysis_hd_formula">H/D = 100 × H (m) / D (cm)</string>
+    <string name="analysis_height_requirements">H et D concernent le même arbre. L’origine de la hauteur doit être connue. Hdom/Dg du peuplement est un indicateur distinct ; aucun seuil automatique de stabilité n’est appliqué.</string>
+    <string name="analysis_stand_requirements" formatted="false">S % exige N/ha, une hauteur dominante de la même population, une surface effectivement inventoriée et une convention carré ou triangle équilatéral. Les seules tiges martelées ne suffisent pas.</string>
+    <string name="analysis_quality_title">Qualité et valorisation des bois</string>
+    <string name="analysis_quality_recorded">Qualités renseignées</string>
+    <string name="analysis_coverage_value">%1$d / %2$d</string>
+    <string name="analysis_quality_limit">Les qualités proviennent des évaluations enregistrées, avec leur référentiel à vérifier.</string>
+    <string name="analysis_products_missing">Assortiments, découpes et prix nécessitent leurs propres références. La qualité seule ne détermine pas la valeur du bois.</string>
+    <string name="analysis_ecology_title">Observations écologiques</string>
+    <string name="analysis_ecology_scope">Observations enregistrées sur les arbres et localisations de cette version.</string>
+    <string name="analysis_locations_recorded">Tiges géolocalisées</string>
+    <string name="analysis_categories_empty">Aucune catégorie écologique renseignée dans ce relevé.</string>
+    <string name="analysis_category_count">%1$s · %2$d</string>
+    <string name="analysis_station_missing">Données à compléter : sol, eau, contexte stationnel et références climatiques.</string>
+    <string name="analysis_ecology_limit">Ces observations ne suffisent pas pour prédire l’évolution ou diagnostiquer la station. Retrouvez les diagnostics associés dans Explorer.</string>
+    <string name="analysis_explain_measurements">Comprendre les mesures requises</string>
+    <string name="analysis_protocol_help_title">Avant de calculer H/D et S %</string>
+    <string name="analysis_protocol_help_paired">H/D associe le diamètre et la hauteur totale du même arbre. L’origine de la hauteur — mesurée ou estimée — et sa méthode doivent être connues.</string>
+    <string name="analysis_protocol_help_stand">S % décrit un peuplement inventorié : hauteur dominante, densité, population et surface effectivement relevée doivent correspondre. Hdom/Dg est distinct du H/D individuel.</string>
+    <string name="analysis_protocol_help_convention">Une hauteur commerciale ou une hauteur de classe ne qualifie pas automatiquement H/D. Cette aide présente les informations nécessaires ; elle ne modifie pas votre relevé.</string>
+    <string name="analysis_protocol_help_close">Fermer</string>
+</resources>

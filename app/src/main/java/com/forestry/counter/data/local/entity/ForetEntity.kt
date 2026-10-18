@@ -47,5 +47,11 @@ data class ForetEntity(
     val auteur: String? = null,
     val source: String? = null,
     @ColumnInfo(name = "version", defaultValue = "1")
-    val version: Int = 1
+    val version: Int = 1,
+    /** WGS84 2D polygon WKT; null for existing/manual forests without a known boundary. */
+    val shape: String? = null,
+    /** Official source feature identifier; not a uniqueness constraint on user dossiers. */
+    val sourceForestId: String? = null,
+    /** Source dataset reference retained separately from mutable local source metadata. */
+    val sourceForestDataset: String? = null,
 )

@@ -13,6 +13,16 @@ import org.junit.Test
  */
 class MetadataServiceTest {
 
+    @Test fun current_account_is_a_pure_identity_read_without_anonymous_fallback() {
+        var account: String? = null
+        val service = MetadataService { account }
+        assertNull(service.currentAccountId())
+        account = "account-uuid-123"
+        assertEquals("account-uuid-123", service.currentAccountId())
+        account = null
+        assertNull(service.currentAccountId())
+    }
+
     // ── Arrange : fabriques de modèles domaine minimaux ──────────────────────
 
     private fun foret(): Foret = Foret(
