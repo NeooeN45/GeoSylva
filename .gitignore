@@ -65,3 +65,16 @@ app/build/
 **/reports/
 *.log
 gsie/
+
+# Identifiants et signatures privés
+.env
+.env.*
+!.env.example
+!.env.template
+!.env.sample
+*.p12
+*.pfx
+
+__pycache__/
+
+*.py[cod]
