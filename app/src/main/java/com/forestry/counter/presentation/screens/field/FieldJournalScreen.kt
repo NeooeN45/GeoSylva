@@ -65,7 +65,7 @@ import com.forestry.counter.presentation.screens.wood.ObservationCard
                 val form=state.form
                 if (!state.accessLost && form != null) {
                     item { Text(stringResource(if (state.draftSaved) R.string.field_draft else R.string.field_draft_pending),style=MaterialTheme.typography.labelMedium) }
-                    item { FieldEntryEditor(form,vm.target,!state.busy && !state.retry && state.writable,vm::change) }
+                    item { FieldEntryEditor(form,vm.target,state.entries,!state.busy && !state.retry && state.writable,vm::change) }
                     item { FieldPhotos(vm,form.photoIds,!state.busy && !state.retry && state.writable) }
                     if (!state.retry) item { TextButton({discard=true},enabled=!state.busy) { Text(stringResource(R.string.field_discard)) } }
                 } else if (!state.accessLost) {
@@ -82,7 +82,7 @@ import com.forestry.counter.presentation.screens.wood.ObservationCard
                     val active=FieldBalance.active(state.entries).map { it.id }.toSet()
                     val timeline=state.entries.map { FieldTimelineRow(note=it) } + state.measurements?.observations.orEmpty().map { FieldTimelineRow(measurement=it) }
                     items(timeline.sortedByDescending { it.time },key={it.key}) { row ->
-                        row.note?.let { FieldEntryCard(it,it.id in active,state.entries,vm,state.writable) }
+                        row.note?.let { FieldEntryCard(it,it.id in active,state.entries,vm,state.writable,it.id in state.protectedEntryIds) }
                         row.measurement?.let { m -> ObservationCard(m,
                             state.measurements?.history?.currentStateObservation?.observationId == m.record.observationId,
                             state.measurements?.observations?.any { it.record.correctionOfObservationId == m.record.observationId } == true,
@@ -142,11 +142,11 @@ import com.forestry.counter.presentation.screens.wood.ObservationCard
     FieldRemainder.PARTIAL->R.string.field_partial;FieldRemainder.BOTTOM->R.string.field_bottom
     FieldRemainder.EMPTY->R.string.field_empty;FieldRemainder.UNKNOWN->R.string.field_unknown
 })
-@Composable private fun FieldEntryEditor(form: FieldEntryForm,target: FieldTarget,enabled: Boolean,change: (FieldEntryForm.()->FieldEntryForm)->Unit) {
+@Composable private fun FieldEntryEditor(form: FieldEntryForm,target: FieldTarget,entries: List<FieldEntry>,enabled: Boolean,change: (FieldEntryForm.()->FieldEntryForm)->Unit) {
     Column(verticalArrangement=Arrangement.spacedBy(12.dp)) {
         val kinds=FieldEntryKind.entries.filter { target.kind==FieldTargetKind.WOOD_OBJECT || it !in FieldEntryForm.quantityKinds && it!=FieldEntryKind.QUALITY }
         FieldChoice(R.string.field_type,form.kind,kinds,{kindLabel(it)},enabled && form.correctionOf==null) { kind ->
-            change { FieldEntryForm(kind=kind,title=title,notes=notes,observed=observed,zone=zone,latitude=latitude,longitude=longitude,photoIds=photoIds) }
+            change { FieldEntryForm(kind=kind,title=title,notes=notes,observed=observed,zone=zone,latitude=latitude,longitude=longitude,photoIds=photoIds,unit=unit,convention=convention) }
         }
         FieldText(R.string.field_name,form.title,enabled,tag="field_name") {change {copy(title=it)}}
         FieldText(R.string.field_date,form.observed,enabled,tag="field_date") {change {copy(observed=it)}}
@@ -174,6 +174,14 @@ import com.forestry.counter.presentation.screens.wood.ObservationCard
                 change {copy(remainder=it,quantity=when(it) {FieldRemainder.UNKNOWN->"";FieldRemainder.EMPTY->"0";else->quantity})}
             }
             if (form.remainder!=FieldRemainder.UNKNOWN) {
+                val ledgers=fieldLedgerChoices(entries)
+                if (form.kind != FieldEntryKind.INITIAL_STOCK && ledgers.isNotEmpty()) {
+                    FieldChoice(R.string.field_ledger_existing,form.unit?.let { it to form.convention },ledgers,
+                        { "${unitLabel(it.first)} · ${it.second}" },enabled && form.correctionOf==null) { selected ->
+                        change { copy(unit=selected.first,convention=selected.second) }
+                    }
+                    Text(stringResource(if(ledgers.size==1) R.string.field_ledger_single else R.string.field_ledger_multiple),style=MaterialTheme.typography.bodySmall)
+                }
                 FieldText(R.string.field_quantity,form.quantity,enabled,true,tag="field_quantity") {change {copy(quantity=it)}}
                 FieldChoice(R.string.field_unit,form.unit,FieldQuantityUnit.entries,{unitLabel(it)},enabled) {change {copy(unit=it)}}
                 FieldText(R.string.field_convention,form.convention,enabled,tag="field_convention") {change {copy(convention=it)}}
@@ -190,7 +198,7 @@ import com.forestry.counter.presentation.screens.wood.ObservationCard
         if(form.correctionOf!=null) FieldText(R.string.field_reason,form.correctionReason,enabled) {change {copy(correctionReason=it)}}
     }
 }
-@Composable private fun FieldEntryCard(entry: FieldEntry,active: Boolean,all: List<FieldEntry>,vm: FieldJournalViewModel,writable: Boolean) {
+@Composable private fun FieldEntryCard(entry: FieldEntry,active: Boolean,all: List<FieldEntry>,vm: FieldJournalViewModel,writable: Boolean,isReceiptProtected: Boolean) {
     Card(shape=MaterialTheme.shapes.large) { Column(Modifier.fillMaxWidth().padding(20.dp),verticalArrangement=Arrangement.spacedBy(8.dp)) {
         val f=entry.form
         Text(kindLabel(f.kind),style=MaterialTheme.typography.labelLarge,color=MaterialTheme.colorScheme.primary)
@@ -215,7 +223,8 @@ import com.forestry.counter.presentation.screens.wood.ObservationCard
         }
         if(f.correctionReason.isNotBlank()) Text(f.correctionReason)
         if(f.photoIds.isNotEmpty()) FieldPhotos(vm,f.photoIds,false)
-        if(active && writable) TextButton({vm.start(entry)}) {Text(stringResource(R.string.field_correction))}
+        if(isReceiptProtected) Text(stringResource(R.string.field_receipt_protected),style=MaterialTheme.typography.bodySmall)
+        else if(active && writable) TextButton({vm.start(entry)}) {Text(stringResource(R.string.field_correction))}
     } }
 }
 

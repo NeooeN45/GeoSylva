@@ -32,7 +32,7 @@ class Migration43To44Test {
             val encrypted = Room.databaseBuilder(context, ForestryDatabase::class.java, name).openHelperFactory(factory())
                 .addMigrations(*DatabaseMigrations.ALL).build()
             try {
-                assertEquals(45, encrypted.openHelper.writableDatabase.version)
+                assertEquals(46, encrypted.openHelper.writableDatabase.version)
                 encrypted.openHelper.writableDatabase.query("SELECT count(*) FROM wood_objects").use { c -> c.moveToFirst(); assertEquals(0, c.getInt(0)) }
             } finally { encrypted.close() }
         } finally { context.deleteDatabase(name) }
@@ -59,7 +59,7 @@ class Migration43To44Test {
                 db.query("PRAGMA foreign_key_check").use { assertFalse(it.moveToFirst()) }
             }
             val current = Room.databaseBuilder(context, ForestryDatabase::class.java, name).addMigrations(*DatabaseMigrations.ALL).build()
-            try { assertEquals(45, current.openHelper.writableDatabase.version) } finally { current.close() }
+            try { assertEquals(46, current.openHelper.writableDatabase.version) } finally { current.close() }
         } finally { context.deleteDatabase(name) }
     }
 }

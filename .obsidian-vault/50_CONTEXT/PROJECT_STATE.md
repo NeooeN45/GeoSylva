@@ -3,11 +3,33 @@ date: 2026-06-29
 updated: 2026-10-19
 project: GeoSylva
 version: 3.0.0
-db_version: 45
+db_version: 46
 tags: [context, project-state]
 ---
 
 # GeoSylva — État du projet
+
+## Réceptions, stocks et exports — 19 octobre 2026
+
+Cette section actualise les bilans historiques ci-dessous. Room 46 ajoute quatre
+tables de réception. Les brouillons, contrôles et validations locales sont durables ;
+rejouer une validation ou remesurer un bois ne crée pas un second crédit de stock.
+Les enlèvements et constats datés réutilisent l'unité/convention versionnée du stock.
+Le ZIP GeoSylva comprend un instantané JSON, cinq CSV, une notice et un manifeste
+d'empreintes, vérifiés avant enregistrement Android. Les photos sont référencées.
+
+1 822 tests JVM et 62 tests Android distincts réussis ; Lint sans erreur,
+997 avertissements documentés. Le correctif SQLCipher et sa reprise non destructive
+font partie des tests Android. Voir `docs/VALIDATION_RECEPTIONS_STOCK_EXPORTS_2026-10-19.md`
+et `docs/RECETTE_RECEPTIONS_TELEPHONE_2026-10-19.md` à la racine du dépôt.
+L'APK TEST utilise `com.forestry.counter.preview.receptions`, distinct des anciennes
+versions. Il n'active ni Google/GSIE ni FORLOG ; Missions reste Entreprise.
+
+Le 19 octobre, GitHub indique encore le dépôt public. Ne pas pousser ces nouvelles
+sources avant une mise en privé vérifiée. La sauvegarde locale comprend un commit,
+un bundle et les preuves de livraison sous `/workspace/outputs/2026-10-19/receipts/`.
+REA 6.7.0 est installé et son transport MCP testé ; le rechargement du client reste
+nécessaire pour exposer ses outils nativement. Aucune procédure FORLOG décompilée.
 
 ## Qualification FORLOG — 19 octobre 2026
 

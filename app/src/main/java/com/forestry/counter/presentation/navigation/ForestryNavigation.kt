@@ -60,6 +60,12 @@ sealed class Screen(val route: String) {
         fun createRoute(parcelleId: String) = "placettes/$parcelleId"
     }
     object Worksites : Screen("worksites")
+    object WorksiteReceipts : Screen("worksites/{siteId}/receipts") {
+        fun createRoute(siteId: String) = "worksites/${java.util.UUID.fromString(siteId)}/receipts"
+    }
+    object WorksiteExport : Screen("worksites/{siteId}/export") {
+        fun createRoute(siteId: String) = "worksites/${java.util.UUID.fromString(siteId)}/export"
+    }
     object FieldJournal : Screen("field/{kind}/{targetId}") {
         fun createRoute(target: com.forestry.counter.domain.field.FieldTarget) = "field/${target.kind.name}/${android.net.Uri.encode(target.id)}"
     }

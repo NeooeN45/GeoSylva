@@ -102,11 +102,11 @@ import kotlinx.serialization.json.Json
         return this
     }
 }
-data class SavedWorksite(val id: String, val form: WorksiteForm, val revision: Int, val archived: Boolean)
-data class FieldEntry(val id: String, val target: FieldTarget, val form: FieldEntryForm, val recordedAt: Long, val author: String)
+@Serializable data class SavedWorksite(val id: String, val form: WorksiteForm, val revision: Int, val archived: Boolean)
+@Serializable data class FieldEntry(val id: String, val target: FieldTarget, val form: FieldEntryForm, val recordedAt: Long, val author: String)
 data class FieldDraft(val revision: Long, val content: String, val updatedAt: Long)
-data class FieldPhoto(val id: String, val caption: String, val mime: String, val bytes: Int, val sha256: String)
-data class FieldTargetChoice(val target: FieldTarget, val label: String)
+@Serializable data class FieldPhoto(val id: String, val caption: String, val mime: String, val bytes: Int, val sha256: String)
+@Serializable data class FieldTargetChoice(val target: FieldTarget, val label: String)
 
 object FieldCodec {
     val json = Json { encodeDefaults = true; ignoreUnknownKeys = false }

@@ -908,5 +908,6 @@ object DatabaseMigrations {
         WoodDepotMigrations.MIGRATION_42_43,
         WoodObjectMigrations.MIGRATION_43_44,
         FieldMigrations.MIGRATION_44_45,
+        ReceiptMigrations.MIGRATION_45_46,
     )
 }

@@ -1,6 +1,9 @@
-# Prochain lot — réception locale, stock et exports
+# Lot du 19 octobre — réception locale, stock et exports
 
-Date : 19 octobre 2026. Statut : plan technique préparé, pas fonctionnalité livrée.
+Date : 19 octobre 2026. Statut : implémentation locale et tests réalisés.
+Le texte ci-dessous conserve le plan initial. Le périmètre effectivement livré,
+les résultats et les limites font foi dans le
+[bilan de validation](VALIDATION_RECEPTIONS_STOCK_EXPORTS_2026-10-19.md).
 Objectif : démonstration autonome du mercredi 21 octobre, sur données TEST explicites.
 Base : [qualification du dossier FORLOG](QUALIFICATION_FORLOG_2026-10-19.md),
 consignes du fondateur et socle GeoSylva Room 45.

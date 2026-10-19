@@ -29,6 +29,12 @@ import com.forestry.counter.data.local.entity.*
     @Query("DELETE FROM field_photo_chunks") suspend fun deleteChunks()
     @Query("DELETE FROM field_photos") suspend fun deletePhotos()
     @Query("DELETE FROM field_drafts") suspend fun deleteDrafts()
+    @Query("DELETE FROM field_receipt_commands") suspend fun deleteReceiptCommands()
+    @Query("DELETE FROM field_receipt_credits") suspend fun deleteReceiptCredits()
+    @Query("DELETE FROM field_receipt_versions") suspend fun deleteReceiptVersions()
+    @Query("DELETE FROM field_receipts") suspend fun deleteReceipts()
+    @Query("SELECT * FROM field_photos WHERE ownerKey=:owner AND targetKind=:kind AND targetId=:id ORDER BY id")
+    suspend fun photos(owner: String, kind: String, id: String): List<FieldPhotoEntity>
     @Query("DELETE FROM field_entries") suspend fun deleteEntries()
     @Query("DELETE FROM field_site_links") suspend fun deleteLinks()
     @Query("DELETE FROM field_worksites") suspend fun deleteSites()

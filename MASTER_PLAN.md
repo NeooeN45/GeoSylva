@@ -2,7 +2,7 @@
 
 **Document de référence stratégique et opérationnel**
 **Date de création** : 2026-06-29
-**Dernière révision factuelle** : 2026-08-03 (première synchronisation de parcelles avec GSIE)
+**Dernière révision factuelle** : 2026-10-19 (réceptions locales, stock et exports ; historique conservé)
 **Statut** : Actif — remplace tous les documents de planification précédents
 **Fondateur** : Camil (auto-entrepreneur, Poitiers, Nouvelle-Aquitaine)
 
@@ -30,9 +30,16 @@ Le lot carnet du 18 octobre fournit déjà les chantiers multi-parcelles, archiv
 photos et événements physiques locaux en Room 45. Le dossier FORLOG reçu est
 qualifié dans `docs/QUALIFICATION_FORLOG_2026-10-19.md` ; ses propositions ne sont
 pas des fonctionnalités exécutées ou des règles natives FORLOG établies.
-Le prochain périmètre est `docs/PLAN_RECEPTION_STOCK_EXPORTS_2026-10-19.md` :
+Le périmètre de `docs/PLAN_RECEPTION_STOCK_EXPORTS_2026-10-19.md` est désormais codé :
 document de réception, validation locale explicite, lien unique au stock et export
-relisible, puis recette sur Android. Les sources client restent hors dépôt.
+relisible. Room 46 ajoute quatre tables sans modifier les tables précédentes.
+Le bilan exécuté et les limites sont dans
+`docs/VALIDATION_RECEPTIONS_STOCK_EXPORTS_2026-10-19.md` : 1 822 tests JVM,
+62 tests Android distincts, aucun échec dans les passages de validation.
+La recette téléphone et les ajustements d'ergonomie constituent la prochaine étape ;
+la connexion Google/GSIE et le connecteur FORLOG ne sont pas activés dans l'APK TEST.
+Les sources client restent hors dépôt. Le dépôt étant encore public, les sources
+métier nouvelles ne sont pas poussées ; sauvegarde locale et bundle Git à conserver.
 
 ## 0. LIRE CE FICHIER EN PREMIER
 

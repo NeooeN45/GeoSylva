@@ -17,8 +17,8 @@ import javax.crypto.spec.GCMParameterSpec
  * supported devices), and never leaves the Keystore. The actual SQLCipher key
  * is encrypted with the Keystore key and persisted in SharedPreferences (encrypted).
  *
- * RGPD compliance: database contains personal data (parcel ownership, GPS tracks).
- * Plaintext SQLite is a RGPD violation (Article 32 — security of processing).
+ * Protects sensitive local data (parcel ownership, GPS tracks). Article 32 RGPD
+ * requires proportionate security measures; encryption alone is not compliance.
  */
 class DatabaseEncryptionService(private val context: Context) {
 
@@ -31,6 +31,7 @@ class DatabaseEncryptionService(private val context: Context) {
         private const val GCM_IV_LENGTH = 12
         private const val GCM_TAG_LENGTH = 128
         private const val DB_KEY_LENGTH_BYTES = 32 // 256-bit key for SQLCipher
+        private val databaseKeyLock = Any()
     }
 
     private val securePrefs by lazy {
@@ -44,24 +45,45 @@ class DatabaseEncryptionService(private val context: Context) {
      *
      * @return SQLCipher key as ByteArray (caller should zero it after use)
      */
-    fun getOrCreateDatabaseKey(): ByteArray {
+    fun getOrCreateDatabaseKey(): ByteArray = synchronized(databaseKeyLock) {
         val encryptedKey = securePrefs.getString(ENCRYPTED_DB_KEY, null)
         val storedIv = securePrefs.getString(DB_KEY_IV, null)
+        check((encryptedKey == null) == (storedIv == null)) { "DATABASE_KEY_METADATA_INCOMPLETE" }
 
-        return if (encryptedKey != null && storedIv != null) {
-            // Existing key — decrypt with Keystore
-            decryptKeyBytes(encryptedKey, Base64.decode(storedIv, Base64.NO_WRAP))
+        if (encryptedKey != null && storedIv != null) {
+            // Missing/corrupt metadata or an unavailable master key must never generate
+            // replacement material for an existing encrypted database.
+            val bytes = decryptKeyBytes(encryptedKey, Base64.decode(storedIv, Base64.NO_WRAP))
+            try {
+                check(bytes.size == DB_KEY_LENGTH_BYTES && bytes.any { it != 0.toByte() }) { "DATABASE_KEY_INVALID" }
+                // Also retries a previous failed durable write whose value may have
+                // entered SharedPreferences' process cache. Values are unchanged.
+                persistKey(encryptedKey, storedIv)
+                bytes
+            } catch (error: Exception) {
+                bytes.fill(0)
+                throw error
+            }
         } else {
-            // First run — generate new key
             val newKey = ByteArray(DB_KEY_LENGTH_BYTES)
             java.security.SecureRandom().nextBytes(newKey)
-            val (encrypted, iv) = encryptKey(newKey)
-            securePrefs.edit()
-                .putString(ENCRYPTED_DB_KEY, encrypted)
-                .putString(DB_KEY_IV, Base64.encodeToString(iv, Base64.NO_WRAP))
-                .apply()
-            newKey
+            try {
+                check(newKey.any { it != 0.toByte() }) { "DATABASE_KEY_INVALID" }
+                val (encrypted, iv) = encryptKey(newKey)
+                // Persist before the key can be used to create a database. apply() is
+                // asynchronous and could lose the only copy on an immediate process kill.
+                persistKey(encrypted, Base64.encodeToString(iv, Base64.NO_WRAP))
+                newKey
+            } catch (error: Exception) {
+                newKey.fill(0)
+                throw error
+            }
         }
+    }
+
+    private fun persistKey(encrypted: String, iv: String) {
+        check(securePrefs.edit().putString(ENCRYPTED_DB_KEY, encrypted)
+            .putString(DB_KEY_IV, iv).commit()) { "DATABASE_KEY_PERSISTENCE_FAILED" }
     }
 
     /**
@@ -71,9 +93,10 @@ class DatabaseEncryptionService(private val context: Context) {
         return securePrefs.getString(ENCRYPTED_DB_KEY, null) != null
     }
 
-    private fun getOrCreateMasterKey(): SecretKey {
+    private fun getOrCreateMasterKey(allowCreation: Boolean = true): SecretKey {
         val keyStore = KeyStore.getInstance(KEYSTORE_PROVIDER).apply { load(null) }
         keyStore.getKey(KEY_ALIAS, null)?.let { return it as SecretKey }
+        check(allowCreation) { "DATABASE_MASTER_KEY_UNAVAILABLE" }
 
         // Generate new AES-256 key in Keystore
         val keyGenerator = KeyGenerator.getInstance(
@@ -103,7 +126,8 @@ class DatabaseEncryptionService(private val context: Context) {
     }
 
     private fun decryptKeyBytes(encryptedKey: String, iv: ByteArray): ByteArray {
-        val masterKey = getOrCreateMasterKey()
+        val masterKey = getOrCreateMasterKey(allowCreation = false)
+        check(iv.size == GCM_IV_LENGTH) { "DATABASE_KEY_IV_INVALID" }
         val cipher = Cipher.getInstance("AES/GCM/NoPadding")
         val params = GCMParameterSpec(GCM_TAG_LENGTH, iv)
         cipher.init(Cipher.DECRYPT_MODE, masterKey, params)

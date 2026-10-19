@@ -1,0 +1,6 @@
+<resources>
+    <string name="field_ledger_existing">Reprendre une base de stock</string>
+    <string name="field_ledger_single">Une base disponible : son unité et sa convention sont proposées. La quantité reste à saisir.</string>
+    <string name="field_ledger_multiple">Choisissez la base concernée. Les unités et conventions différentes ne sont jamais additionnées.</string>
+    <string name="field_receipt_protected">Écriture liée à une réception : elle se gère depuis le document de réception. Son historique est conservé.</string>
+</resources>

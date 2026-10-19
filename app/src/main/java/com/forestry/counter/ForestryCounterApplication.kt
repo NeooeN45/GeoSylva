@@ -172,14 +172,13 @@ class ForestryCounterApplication : Application(), com.forestry.counter.data.sync
         val encryptionService = com.forestry.counter.security.DatabaseEncryptionService(this)
         val dbKey = encryptionService.getOrCreateDatabaseKey()
 
-        // Initialize database with SQLCipher encryption (RGPD compliance)
-        database = ForestryDatabase.createDatabase(
-            this,
-            DatabaseMigrations.ALL,
-            dbKey
-        )
-        // Zero out the key from memory as soon as Room has consumed it
-        dbKey.fill(0)
+        // Room opens lazily. Its factory owns a separate key copy until that opening;
+        // clearing the caller's buffer must never change the actual SQLCipher key.
+        try {
+            database = ForestryDatabase.createDatabase(this, DatabaseMigrations.ALL, dbKey)
+        } finally {
+            dbKey.fill(0)
+        }
 
         // Install crash logger (controlled via settings)
         CrashLogger.install(this)

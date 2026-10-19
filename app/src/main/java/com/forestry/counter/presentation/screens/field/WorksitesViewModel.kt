@@ -24,6 +24,14 @@ class WorksitesViewModel(private val repository: FieldRepository): ViewModel() {
         }}
     }
     private suspend fun refresh() {mutable.value=mutable.value.copy(sites=repository.sites(checkNotNull(access)))}
+    fun reload() {if(!ready() || mutable.value.form!=null) return;action {
+        refresh()
+        val id=mutable.value.detail?.id
+        if(id!=null) {
+            val current=mutable.value.sites.firstOrNull {it.id==id} ?: throw FieldException(FieldError.UNAVAILABLE)
+            mutable.value=mutable.value.copy(detail=current,linked=repository.linked(id,checkNotNull(access)),choices=repository.woodChoices(checkNotNull(access)))
+        }
+    }}
     fun create() {if(!ready()) return;newId=UUID.randomUUID().toString();action {
         mutable.value=mutable.value.copy(detail=null,form=WorksiteForm(),parcels=repository.parcelChoices(checkNotNull(access)))
     }}

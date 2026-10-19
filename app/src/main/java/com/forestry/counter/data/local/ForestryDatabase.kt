@@ -138,13 +138,19 @@ import com.forestry.counter.data.local.dao.ProjectDao
         com.forestry.counter.data.local.entity.FieldDraftEntity::class,
         com.forestry.counter.data.local.entity.FieldPhotoEntity::class,
         com.forestry.counter.data.local.entity.FieldPhotoChunkEntity::class,
+        com.forestry.counter.data.local.entity.FieldReceiptEntity::class,
+        com.forestry.counter.data.local.entity.FieldReceiptVersionEntity::class,
+        com.forestry.counter.data.local.entity.FieldReceiptCreditEntity::class,
+        com.forestry.counter.data.local.entity.FieldReceiptCommandEntity::class,
+
         ProjectForestCrossRef::class
     ],
-    version = 45,
+    version = 46,
     exportSchema = true
 )
 @TypeConverters(EnumConverters::class)
 abstract class ForestryDatabase : RoomDatabase() {
+    abstract fun receiptDao(): com.forestry.counter.data.local.dao.ReceiptDao
     abstract fun fieldDao(): com.forestry.counter.data.local.dao.FieldDao
     val woodDataGate = com.forestry.counter.data.repository.WoodDataAccessGate()
     abstract fun woodObjectDao(): com.forestry.counter.data.local.dao.WoodObjectDao
@@ -211,8 +217,8 @@ abstract class ForestryDatabase : RoomDatabase() {
             migrations: Array<Migration>,
             passphrase: ByteArray
         ): ForestryDatabase {
-            // SQLCipher SupportFactory for Room — passphrase is the raw key bytes
-            val factory = net.sqlcipher.database.SupportFactory(passphrase)
+            // The factory owns a copy until the first lazy opening and preserves legacy data.
+            val factory = com.forestry.counter.security.SecureSqlCipherOpenHelperFactory(passphrase)
             return Room.databaseBuilder(
                 context.applicationContext,
                 ForestryDatabase::class.java,

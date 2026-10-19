@@ -19,6 +19,7 @@ interface WoodObjectDao {
     suspend fun observations(objectId: String): List<WoodObservationEntity>
     @Query("SELECT * FROM wood_effective_observations WHERE objectId = :objectId")
     suspend fun effective(objectId: String): WoodEffectiveObservationEntity?
+    @Query("SELECT * FROM wood_commands WHERE objectId = :id ORDER BY appliedAt, commandId") suspend fun history(id: String): List<WoodCommandEntity>
     @Query("SELECT * FROM wood_commands WHERE commandId = :id") suspend fun receipt(id: String): WoodCommandEntity?
     @Insert(onConflict = OnConflictStrategy.ABORT) suspend fun insertObject(row: WoodObjectEntity)
     @Insert(onConflict = OnConflictStrategy.ABORT) suspend fun insertObservation(row: WoodObservationEntity)

@@ -34,6 +34,27 @@ fun NavGraphBuilder.forestryFlowNavGraph(
         if (JourneyNavigation.access(profession.value).allows(com.forestry.counter.domain.journey.JourneyFeature.WORKSITES)) {
             com.forestry.counter.presentation.screens.field.WorksitesScreen(app.fieldRepository,
                 onJournal = { navController.navigate(Screen.FieldJournal.createRoute(it)) },
+                onReceipts = { navController.navigate(Screen.WorksiteReceipts.createRoute(it)) },
+                onExport = { navController.navigate(Screen.WorksiteExport.createRoute(it)) },
+                onManageWood = { navController.navigate(Screen.WoodDepots.route) },
+                onBack = { navController.popBackStack() })
+        } else com.forestry.counter.presentation.screens.home.JourneyUnavailableScreen({ navController.popBackStack() })
+    }
+    composable(Screen.WorksiteReceipts.route, arguments = listOf(navArgument("siteId") { type = NavType.StringType })) { entry ->
+        val profession = app.userPreferences.userProfession.collectAsStateWithLifecycle(initialValue = null)
+        val site = entry.arguments?.getString("siteId")?.let { raw -> runCatching { java.util.UUID.fromString(raw).toString().takeIf { it == raw } }.getOrNull() }
+        if (site != null && JourneyNavigation.access(profession.value).allows(com.forestry.counter.domain.journey.JourneyFeature.WORKSITES)) {
+            com.forestry.counter.presentation.screens.field.ReceiptsScreen(app.fieldRepository, site,
+                onJournal = { navController.navigate(Screen.FieldJournal.createRoute(it)) },
+                onOpenWood = { navController.navigate(Screen.WoodDepots.route) },
+                onBack = { navController.popBackStack() })
+        } else com.forestry.counter.presentation.screens.home.JourneyUnavailableScreen({ navController.popBackStack() })
+    }
+    composable(Screen.WorksiteExport.route, arguments = listOf(navArgument("siteId") { type = NavType.StringType })) { entry ->
+        val profession = app.userPreferences.userProfession.collectAsStateWithLifecycle(initialValue = null)
+        val site = entry.arguments?.getString("siteId")?.let { raw -> runCatching { java.util.UUID.fromString(raw).toString().takeIf { it == raw } }.getOrNull() }
+        if (site != null && JourneyNavigation.access(profession.value).allows(com.forestry.counter.domain.journey.JourneyFeature.WORKSITES)) {
+            com.forestry.counter.presentation.screens.field.WorksiteExportScreen(app.fieldRepository, site,
                 onBack = { navController.popBackStack() })
         } else com.forestry.counter.presentation.screens.home.JourneyUnavailableScreen({ navController.popBackStack() })
     }
