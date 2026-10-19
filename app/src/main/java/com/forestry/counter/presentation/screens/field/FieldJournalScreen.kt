@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -33,6 +34,11 @@ import com.forestry.counter.presentation.screens.wood.ObservationCard
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable internal fun FieldJournalContent(vm: FieldJournalViewModel, onBack: ()->Unit, onOpenWood: ((String,String?)->Unit)? = null) {
     val state by vm.state.collectAsStateWithLifecycle()
+    val listState=rememberLazyListState()
+    val pageKey=state.form?.let { "editor-${it.correctionOf ?: "new"}" } ?: "journal"
+    LaunchedEffect(pageKey) { listState.scrollToItem(0) }
+    // Reveal a new validation failure; clearing it during typing never moves the editor.
+    LaunchedEffect(state.error) { if (state.error!=null) listState.scrollToItem(0) }
     var discard by remember { mutableStateOf(false) }
     var leaveUnsaved by remember { mutableStateOf(false) }
     val back={
@@ -57,28 +63,28 @@ import com.forestry.counter.presentation.screens.wood.ObservationCard
         }
     } }) { padding ->
         Box(Modifier.fillMaxSize().padding(padding),contentAlignment=androidx.compose.ui.Alignment.TopCenter) {
-            LazyColumn(Modifier.widthIn(max=760.dp).fillMaxWidth().testTag("field_content"),contentPadding=PaddingValues(16.dp),verticalArrangement=Arrangement.spacedBy(16.dp)) {
-                if (state.busy) item { LinearProgressIndicator(Modifier.fillMaxWidth()) }
-                if (!state.busy && !state.writable && !state.accessLost) item {Text(stringResource(R.string.field_error_unavailable))}
-                state.error?.let { item { FieldErrorCard(it) } }
-                item { Text(stringResource(R.string.field_local),style=MaterialTheme.typography.bodySmall) }
+            LazyColumn(Modifier.widthIn(max=760.dp).fillMaxWidth().testTag("field_content"),state=listState,contentPadding=PaddingValues(16.dp),verticalArrangement=Arrangement.spacedBy(16.dp)) {
+                if (state.busy) item(key = "field_loading") { LinearProgressIndicator(Modifier.fillMaxWidth()) }
+                if (!state.busy && !state.writable && !state.accessLost) item(key = "field_unavailable") {Text(stringResource(R.string.field_error_unavailable))}
+                state.error?.let { item(key = "field_error") { FieldErrorCard(it) } }
+                item(key = "field_local") { Text(stringResource(R.string.field_local),style=MaterialTheme.typography.bodySmall) }
                 val form=state.form
                 if (!state.accessLost && form != null) {
-                    item { Text(stringResource(if (state.draftSaved) R.string.field_draft else R.string.field_draft_pending),style=MaterialTheme.typography.labelMedium) }
-                    item { FieldEntryEditor(form,vm.target,state.entries,!state.busy && !state.retry && state.writable,vm::change) }
-                    item { FieldPhotos(vm,form.photoIds,!state.busy && !state.retry && state.writable) }
-                    if (!state.retry) item { TextButton({discard=true},enabled=!state.busy) { Text(stringResource(R.string.field_discard)) } }
+                    item(key = "field_draft") { Text(stringResource(if (state.draftSaved) R.string.field_draft else R.string.field_draft_pending),style=MaterialTheme.typography.labelMedium) }
+                    item(key = "field_editor") { FieldEntryEditor(form,vm.target,state.entries,!state.busy && !state.retry && state.writable,vm::change) }
+                    item(key = "field_photos") { FieldPhotos(vm,form.photoIds,!state.busy && !state.retry && state.writable) }
+                    if (!state.retry) item(key = "field_discard") { TextButton({discard=true},enabled=!state.busy) { Text(stringResource(R.string.field_discard)) } }
                 } else if (!state.accessLost) {
-                    if (state.writable) item { Button({vm.start()},enabled=!state.busy,modifier=Modifier.fillMaxWidth().heightIn(min=56.dp).testTag("field_add")) { Text(stringResource(R.string.field_add)) } }
-                    if (onOpenWood != null && vm.target.kind in setOf(FieldTargetKind.WOOD_OBJECT,FieldTargetKind.WOOD_DEPOT)) item {
+                    if (state.writable) item(key = "field_add") { Button({vm.start()},enabled=!state.busy,modifier=Modifier.fillMaxWidth().heightIn(min=56.dp).testTag("field_add")) { Text(stringResource(R.string.field_add)) } }
+                    if (onOpenWood != null && vm.target.kind in setOf(FieldTargetKind.WOOD_OBJECT,FieldTargetKind.WOOD_DEPOT)) item(key = "field_open_wood") {
                         OutlinedButton({
                             val wood=state.measurements?.item
                             if (wood != null) onOpenWood(wood.depotId.toString(),wood.id.toString())
                             else if (vm.target.kind==FieldTargetKind.WOOD_DEPOT) onOpenWood(vm.target.id,null)
                         }, enabled=vm.target.kind==FieldTargetKind.WOOD_DEPOT || state.measurements!=null, modifier=Modifier.fillMaxWidth()) {Text(stringResource(R.string.field_open_wood))}
                     }
-                    if (vm.target.kind==FieldTargetKind.WOOD_OBJECT) item { StockHelp() }
-                    if (state.entries.isEmpty()) item { Text(stringResource(R.string.field_no_entries)) }
+                    if (vm.target.kind==FieldTargetKind.WOOD_OBJECT) item(key = "field_stock_help") { StockHelp() }
+                    if (state.entries.isEmpty()) item(key = "field_empty") { Text(stringResource(R.string.field_no_entries)) }
                     val active=FieldBalance.active(state.entries).map { it.id }.toSet()
                     val timeline=state.entries.map { FieldTimelineRow(note=it) } + state.measurements?.observations.orEmpty().map { FieldTimelineRow(measurement=it) }
                     items(timeline.sortedByDescending { it.time },key={it.key}) { row ->

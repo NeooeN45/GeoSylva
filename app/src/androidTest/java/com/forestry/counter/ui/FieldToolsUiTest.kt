@@ -14,6 +14,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.forestry.counter.R
 import com.forestry.counter.data.local.*
 import com.forestry.counter.data.preferences.ThemeMode
 import com.forestry.counter.data.repository.*
@@ -69,8 +70,11 @@ class FieldToolsUiTest {
         mount(forest)
         compose.waitUntil(10_000) {mounted?.state?.value?.busy==false && mounted?.state?.value?.form!=null}
         assertEquals("TEST · Accès à vérifier",mounted?.state?.value?.form?.title)
+        // Save from the end of a long restored form; the resulting journal starts at the top.
+        field("field_notes")
         compose.onNodeWithTag("field_save").performClick()
         compose.waitUntil(10_000) {mounted?.state?.value?.form==null && mounted?.state?.value?.entries?.size==1}
+        compose.onNodeWithTag("field_add").assertIsDisplayed()
         compose.onNodeWithText("TEST · Accès à vérifier").assertIsDisplayed()
         compose.onNodeWithText("Stock physique initial").assertDoesNotExist()
         screenshot("gestion-forestiere-carnet.png")
@@ -113,6 +117,62 @@ class FieldToolsUiTest {
         compose.onNodeWithText("Enregistrer").performClick()
         compose.waitUntil(10_000) {!vm.state.value.busy && vm.state.value.detail==null}
         assertTrue(vm.state.value.sites.single().archived)
+    }
+    @Test fun worksite_name_keeps_keyboard_focus_when_empty_validation_is_cleared() {
+        lateinit var vm: WorksitesViewModel
+        InstrumentationRegistry.getInstrumentation().runOnMainSync { vm=WorksitesViewModel(repo);store.put("sites",vm) }
+        compose.setContent { CompositionLocalProvider(androidx.activity.compose.LocalActivityResultRegistryOwner provides compose.activity,
+            LocalContext provides context,LocalConfiguration provides context.resources.configuration) {
+            ForestryCounterTheme(themeMode=ThemeMode.LIGHT) { WorksitesContent(vm,{}, {}) }
+        } }
+        compose.waitUntil(10_000) { !vm.state.value.busy }
+        compose.onNodeWithTag("site_create").performClick()
+        compose.waitUntil(10_000) { !vm.state.value.busy && vm.state.value.form!=null }
+        compose.onNodeWithTag("site_save").performClick()
+        compose.onNodeWithText(context.getString(R.string.site_name_required)).assertIsDisplayed()
+        compose.onNodeWithText(context.getString(R.string.field_error_invalid)).assertDoesNotExist()
+
+        compose.onNodeWithTag("site_content").performScrollToNode(hasTestTag("site_name"))
+        typeWithoutRefocusing("site_name","TEST chantier")
+        compose.onNodeWithText(context.getString(R.string.site_name_required)).assertDoesNotExist()
+        assertEquals("TEST chantier",vm.state.value.form?.name)
+        screenshot("chantier-saisie-apres-erreur.png")
+
+        // Save from the bottom of the editor; the detail must start at its heading.
+        compose.onNodeWithTag("site_content").performScrollToNode(hasText(context.getString(R.string.site_add_parcel)))
+        compose.onNodeWithText(context.getString(R.string.site_add_parcel)).performScrollTo()
+        compose.onNodeWithTag("site_save").performClick()
+        compose.waitUntil(10_000) { !vm.state.value.busy && vm.state.value.detail!=null }
+        compose.onNodeWithText("TEST chantier").assertIsDisplayed()
+        assertEquals("TEST chantier",runBlocking { repo.sites(repo.captureAccess()) }.single().form.name)
+    }
+    @Test fun journal_name_keeps_keyboard_focus_when_empty_validation_is_cleared() {
+        mount(forest);content()
+        compose.onNodeWithTag("field_add").performClick()
+        field("field_notes").performTextInput("TEST note sans nom")
+        Espresso.closeSoftKeyboard()
+        field("field_notes")
+        compose.onNodeWithTag("field_save").performClick()
+        compose.waitUntil(10_000) { mounted?.state?.value?.error==FieldError.INVALID }
+        // No recovery scroll: an invalid save must show its explanation immediately.
+        compose.onNodeWithText(context.getString(R.string.field_error_invalid)).assertIsDisplayed()
+        field("field_name")
+        typeWithoutRefocusing("field_name","TEST observation")
+        assertEquals("TEST observation",mounted?.state?.value?.form?.title)
+        assertNull(mounted?.state?.value?.error)
+        compose.waitUntil(10_000) { mounted?.state?.value?.draftSaved==true }
+    }
+    private fun typeWithoutRefocusing(tag: String,text: String) {
+        // One tap only. Real key events never request focus again between letters:
+        // a disposed LazyColumn editor must fail this regression after the first key.
+        val input=compose.onNodeWithTag(tag)
+        input.performClick().assertIsFocused()
+        text.forEach { letter ->
+            InstrumentationRegistry.getInstrumentation().sendStringSync(letter.toString())
+            compose.waitForIdle()
+            input.assertIsFocused()
+        }
+        input.assertTextContains(text)
     }
     private fun screenshot(name:String) {
         Espresso.closeSoftKeyboard();compose.waitForIdle()

@@ -1,0 +1,24 @@
+GeoSylva — glyphes cartographiques locaux Open Sans Regular
+
+Open Sans Regular, version 1.10 :
+Digitized data copyright © 2010-2011, Google Corporation.
+Ascender Corporation.
+Open Sans is a trademark of Google and may be registered in certain jurisdictions.
+Licensed under the Apache License, Version 2.0.
+See LICENSE-OpenSans-Apache-2.0.txt.
+
+Glyphes PBF distribués dans le dépôt officiel MapLibre Demo Tiles :
+Copyright (c) 2021, MapLibre. BSD 3-Clause License.
+See LICENSE-MapLibre-DemoTiles-BSD-3-Clause.txt.
+Sources et empreintes exactes : provenance.json.
+
+Les PBF sont copiés sans modification, du répertoire historique
+« Open Sans Regular,Arial Unicode MS Regular » vers « Open Sans Regular ».
+Le commit d'import MapLibre précise que ce répertoire sert Open Sans Regular
+sous le chemin de la pile par défaut. Les PBF déclarent Open Sans Regular.
+Aucune police Arial Unicode MS Microsoft n'est embarquée ou autorisée par ce nom.
+
+La licence de police permet son utilisation dans une application commerciale
+avec conservation de licence et mentions. Le service de démonstration distant
+n'est pas utilisé par ce bundle. Aucune caution de Google, Ascender ou MapLibre
+n'est suggérée.

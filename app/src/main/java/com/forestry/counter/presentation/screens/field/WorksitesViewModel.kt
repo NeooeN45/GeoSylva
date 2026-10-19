@@ -43,6 +43,10 @@ class WorksitesViewModel(private val repository: FieldRepository): ViewModel() {
     fun close() {if(ready()) {mutable.value=mutable.value.copy(detail=null,form=null,error=null);action {refresh()}}}
     fun save() {if(!ready()) return
         val form=mutable.value.form ?: return
+        if (form.name.isBlank()) {
+            mutable.value=mutable.value.copy(error=FieldError.INVALID)
+            return
+        }
         action {
             val old=mutable.value.detail
             val saved=repository.saveSite(old?.id ?: checkNotNull(newId),form,old?.revision ?: 0,old?.archived ?: false,checkNotNull(access))

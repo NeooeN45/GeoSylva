@@ -14,6 +14,9 @@ Lire `docs/VALIDATION_RECEPTIONS_STOCK_EXPORTS_2026-10-19.md` et le guide télé
 associé. La validation locale n'est pas une réception contractuelle ; les échanges
 FORLOG et les bases commerciales restent à développer. La reprise SQLCipher corrige
 une clé effacée avant l'ouverture différée, sans supprimer les anciennes données.
+La recette utilisateur et les correctifs de focus/défilement/actions terrain sont
+décrits dans `docs/RECETTE_UTILISATEUR_2026-10-19.md`. Ils sont isolés du lot
+cartographique concurrent ; ne pas mélanger leurs preuves de compilation.
 Lire aussi la comparaison de preuves `docs/QUALIFICATION_FORLOG_2026-10-19.md`.
 Les affirmations de connexion/serveur de 2026-08-03 plus
 bas sont historiques et ne prouvent pas une configuration Google/GSIE active ici.

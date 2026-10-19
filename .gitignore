@@ -36,6 +36,12 @@ release_build.txt
 # Crash logs
 temp_crash_logs/
 *.txt
+# Required attribution/licence files bundled with Android assets.
+!app/src/main/assets/fonts/NOTICE.txt
+!app/src/main/assets/fonts/LICENSE-OpenSans-Apache-2.0.txt
+!app/src/main/assets/fonts/LICENSE-MapLibre-DemoTiles-BSD-3-Clause.txt
+!app/src/main/assets/onf_parcel_terms.txt
+!app/src/main/res/raw/registration_nature_credits.txt
 # Exception : SHA256SUMS.txt du corpus d'interopérabilité capsule doit être
 # versionné (le test InteropFixturesTest vérifie son intégrité en CI).
 !capsule-verifier/src/test/resources/**/SHA256SUMS.txt

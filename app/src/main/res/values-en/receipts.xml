@@ -82,4 +82,5 @@
     <string name="field_export_error">The archive could not be verified or saved. No synchronisation is confirmed; you can retry.</string>
     <string name="field_export_frozen">The archive represents the dossier when it was prepared. Prepare it again after changing the worksite.</string>
     <string name="field_export_cleanup_failed">The export was interrupted, but the file provider refused cleanup. Delete the ZIP file at the location you selected; it may contain partial data.</string>
+    <string name="site_name_required">Enter a worksite name.</string>
 </resources>

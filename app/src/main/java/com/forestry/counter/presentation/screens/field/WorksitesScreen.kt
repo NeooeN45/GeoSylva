@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Description
@@ -24,6 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.forestry.counter.R
 import com.forestry.counter.domain.field.*
 import com.forestry.counter.domain.repository.FieldRepository
+import com.forestry.counter.domain.repository.FieldError
 
 @Composable
 fun WorksitesScreen(repository: FieldRepository, onJournal: (FieldTarget) -> Unit, onBack: () -> Unit,
@@ -42,6 +44,15 @@ internal fun WorksitesContent(vm: WorksitesViewModel, onJournal: (FieldTarget) -
     onReceipts: ((String) -> Unit)? = null, onExport: ((String) -> Unit)? = null, onManageWood: (() -> Unit)? = null,
 ) {
     val state by vm.state.collectAsStateWithLifecycle()
+    val nameMissing = state.error == FieldError.INVALID && state.form?.name?.isBlank() == true
+    val listState = rememberLazyListState()
+    val pageKey = when {
+        state.form != null -> "editor-${state.detail?.id ?: "new"}"
+        state.detail != null -> "detail-${state.detail?.id}"
+        else -> "list"
+    }
+    // A saved worksite opens at its heading. Typing or clearing an error must never scroll.
+    LaunchedEffect(pageKey) { listState.scrollToItem(0) }
     var archives by remember { mutableStateOf(false) }
     var confirmArchive by remember { mutableStateOf(false) }
     var discard by remember { mutableStateOf(false) }
@@ -59,14 +70,14 @@ internal fun WorksitesContent(vm: WorksitesViewModel, onJournal: (FieldTarget) -
         Button(vm::save, enabled = !state.busy, modifier = Modifier.fillMaxWidth().navigationBarsPadding().imePadding().padding(16.dp).heightIn(min = 56.dp).testTag("site_save")) { Text(stringResource(R.string.field_save)) }
     } }) { padding ->
         Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.TopCenter) {
-            LazyColumn(Modifier.widthIn(max = 760.dp).fillMaxWidth().testTag("site_content"), contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                if (state.busy) item { LinearProgressIndicator(Modifier.fillMaxWidth()) }
-                state.error?.let { item { FieldErrorCard(it) } }
+            LazyColumn(Modifier.widthIn(max = 760.dp).fillMaxWidth().testTag("site_content"), state = listState, contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                if (state.busy) item(key = "site_loading") { LinearProgressIndicator(Modifier.fillMaxWidth()) }
+                state.error?.takeUnless { nameMissing }?.let { item(key = "site_error") { FieldErrorCard(it) } }
                 if (!state.accessLost) {
                     val form = state.form; val detail = state.detail
-                    if (form != null) item { WorksiteEditor(form, state.parcels, !state.busy, vm::change) }
+                    if (form != null) item(key = "site_editor") { WorksiteEditor(form, state.parcels, !state.busy, nameMissing, vm::change) }
                     else if (detail != null) {
-                        item {
+                        item(key = "site_detail_header") {
                             Surface(color = MaterialTheme.colorScheme.primaryContainer, shape = MaterialTheme.shapes.extraLarge) {
                                 Column(Modifier.fillMaxWidth().padding(24.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                     Text(stringResource(if (detail.archived) R.string.site_archive_badge else R.string.site_active_badge), style = MaterialTheme.typography.labelLarge)
@@ -77,9 +88,9 @@ internal fun WorksitesContent(vm: WorksitesViewModel, onJournal: (FieldTarget) -
                                 }
                             }
                         }
-                        if (onReceipts != null) item { WorksiteAction(Icons.Default.ReceiptLong, R.string.receipt_title, R.string.site_section_receipts_help,
+                        if (onReceipts != null) item(key = "site_receipts") { WorksiteAction(Icons.Default.ReceiptLong, R.string.receipt_title, R.string.site_section_receipts_help,
                             !state.busy, "site_receipts") { onReceipts(detail.id) } }
-                        item {
+                        item(key = "site_wood") {
                             Text(stringResource(R.string.site_section_wood), style = MaterialTheme.typography.titleLarge)
                             Text(stringResource(R.string.site_link_help), style = MaterialTheme.typography.bodyMedium)
                             if (state.linked.isEmpty()) Text(stringResource(R.string.site_empty_wood), Modifier.padding(top = 8.dp))
@@ -88,24 +99,24 @@ internal fun WorksitesContent(vm: WorksitesViewModel, onJournal: (FieldTarget) -
                             }
                             if (!detail.archived) FieldChoice(R.string.site_link, null, state.choices.filter { choice -> state.linked.none { it.target == choice.target } }, { it.label }, !state.busy, vm::link)
                         }
-                        item {
+                        item(key = "site_journal_heading") {
                             Text(stringResource(R.string.site_section_journal), style = MaterialTheme.typography.titleLarge)
                             Text(stringResource(R.string.site_section_journal_help), style = MaterialTheme.typography.bodyMedium)
                         }
                         items(state.linked, key = { "${it.target.kind}-${it.target.id}" }) { choice ->
                             OutlinedButton({ onJournal(choice.target) }, enabled = !state.busy, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) { Text(choice.label) }
                         }
-                        item { OutlinedButton({ onJournal(FieldTarget(FieldTargetKind.WORKSITE, detail.id)) }, enabled = !state.busy, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(stringResource(R.string.field_title)) } }
-                        if (onExport != null) item { WorksiteAction(Icons.Default.Description, R.string.site_section_documents, R.string.site_section_documents_help,
+                        item(key = "site_journal") { OutlinedButton({ onJournal(FieldTarget(FieldTargetKind.WORKSITE, detail.id)) }, enabled = !state.busy, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(stringResource(R.string.field_title)) } }
+                        if (onExport != null) item(key = "site_documents") { WorksiteAction(Icons.Default.Description, R.string.site_section_documents, R.string.site_section_documents_help,
                             !state.busy, "site_export") { onExport(detail.id) } }
-                        item { HorizontalDivider(); Text(stringResource(R.string.site_parcels), Modifier.padding(top = 16.dp), style = MaterialTheme.typography.titleMedium) }
-                        items(detail.form.parcels) { Text("${it.label}\n${it.source} · ${it.reference}") }
-                        if (!detail.archived) item { OutlinedButton(vm::edit, enabled = !state.busy, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(stringResource(R.string.site_edit)) } }
-                        item { TextButton(vm::reload, enabled = !state.busy, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(stringResource(R.string.site_refresh)) } }
-                        item { OutlinedButton({ confirmArchive = true }, enabled = !state.busy, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(stringResource(if (detail.archived) R.string.site_restore else R.string.site_archive)) } }
+                        item(key = "site_parcels") { HorizontalDivider(); Text(stringResource(R.string.site_parcels), Modifier.padding(top = 16.dp), style = MaterialTheme.typography.titleMedium) }
+                        items(detail.form.parcels, key = { "parcel-${it.source.length}:${it.source}:${it.reference}" }) { Text("${it.label}\n${it.source} · ${it.reference}") }
+                        if (!detail.archived) item(key = "site_edit") { OutlinedButton(vm::edit, enabled = !state.busy, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(stringResource(R.string.site_edit)) } }
+                        item(key = "site_refresh") { TextButton(vm::reload, enabled = !state.busy, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(stringResource(R.string.site_refresh)) } }
+                        item(key = "site_archive") { OutlinedButton({ confirmArchive = true }, enabled = !state.busy, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(stringResource(if (detail.archived) R.string.site_restore else R.string.site_archive)) } }
                     } else {
-                        item { Text(stringResource(R.string.site_empty)); Button(vm::create, enabled = !state.busy, modifier = Modifier.fillMaxWidth().padding(top = 12.dp).heightIn(min = 56.dp).testTag("site_create")) { Text(stringResource(R.string.site_new)) } }
-                        item { Row(verticalAlignment = Alignment.CenterVertically) { Switch(archives, { archives = it }); Text(stringResource(R.string.site_archived), Modifier.padding(start = 12.dp)) } }
+                        item(key = "site_create") { Text(stringResource(R.string.site_empty)); Button(vm::create, enabled = !state.busy, modifier = Modifier.fillMaxWidth().padding(top = 12.dp).heightIn(min = 56.dp).testTag("site_create")) { Text(stringResource(R.string.site_new)) } }
+                        item(key = "site_archives") { Row(verticalAlignment = Alignment.CenterVertically) { Switch(archives, { archives = it }); Text(stringResource(R.string.site_archived), Modifier.padding(start = 12.dp)) } }
                         items(state.sites.filter { it.archived == archives }, key = { it.id }) { site ->
                             Card(onClick = { vm.open(site) }, enabled = !state.busy, shape = MaterialTheme.shapes.large) { Column(Modifier.fillMaxWidth().padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 Text(site.form.name, style = MaterialTheme.typography.titleLarge)
@@ -135,10 +146,13 @@ internal fun WorksitesContent(vm: WorksitesViewModel, onJournal: (FieldTarget) -
         }
     }
 }
-@Composable private fun WorksiteEditor(form:WorksiteForm,parcels:List<WorksiteParcel>,enabled:Boolean,change:(WorksiteForm)->Unit) {
+@Composable private fun WorksiteEditor(form:WorksiteForm,parcels:List<WorksiteParcel>,enabled:Boolean,nameMissing:Boolean,change:(WorksiteForm)->Unit) {
     var source by remember {mutableStateOf("")};var reference by remember {mutableStateOf("")};var label by remember {mutableStateOf("")};var version by remember {mutableStateOf("")}
     Column(verticalArrangement=Arrangement.spacedBy(12.dp)) {
-        FieldText(R.string.site_name,form.name,enabled,tag="site_name") {change(form.copy(name=it))}
+        OutlinedTextField(form.name, { change(form.copy(name=it)) }, enabled=enabled,
+            label={ Text(stringResource(R.string.site_name)) }, isError=nameMissing,
+            supportingText=if (nameMissing) {{ Text(stringResource(R.string.site_name_required)) }} else null,
+            modifier=Modifier.fillMaxWidth().testTag("site_name"), shape=MaterialTheme.shapes.medium)
         FieldText(R.string.field_notes,form.notes,enabled) {change(form.copy(notes=it))}
         Text(stringResource(R.string.site_parcels),style=MaterialTheme.typography.titleLarge)
         form.parcels.forEach {p ->

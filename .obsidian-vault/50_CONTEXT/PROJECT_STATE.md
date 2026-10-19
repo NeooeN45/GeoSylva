@@ -9,6 +9,18 @@ tags: [context, project-state]
 
 # GeoSylva — État du projet
 
+## Recette utilisateur et correctifs UX — 19 octobre 2026
+
+Une recette par taps et clavier a parcouru le profil conducteur : chantier,
+dépôt, pile, mesure, brouillon de réception, validation, deux enlèvements,
+contrôle du restant, export Android et archivage. Données simulées et accès local.
+Les valeurs 100 − 25 − 30 = 45, puis constat 42 / écart −3 sont retrouvées dans
+l'interface et le ZIP réel relu indépendamment. Le changement vers le profil
+technicien adapte bien Accueil/Explorer ; le parcours forestier complet n'est
+pas rejoué ici. Voir `docs/RECETTE_UTILISATEUR_2026-10-19.md` pour les preuves,
+les corrections et les limites. La recette finale utilise un checkout isolé
+pour préserver le lot Maps en cours dans le dépôt partagé.
+
 ## Réceptions, stocks et exports — 19 octobre 2026
 
 Cette section actualise les bilans historiques ci-dessous. Room 46 ajoute quatre

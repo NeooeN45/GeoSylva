@@ -1,0 +1,42 @@
+GeoSylva — fond vidéo de création de compte / Registration video background
+
+Sources réelles / Real sources
+
+1. Nature montage around Aberfeldy
+Auteur / Author: Rose Abrams
+Source et déclaration de licence / Source and licence statement:
+https://commons.wikimedia.org/wiki/File:Nature_montage_around_Aberfeldy.webm
+Plans utilisés / Excerpts: 00:01–00:06 et 00:12–00:17.
+Licence / Licence: CC0 1.0 Universal (mise à disposition par l'auteur de sa propre œuvre).
+
+2. Overlooking a forest creek in the Tsimpsean Peninsula
+Auteur / Author: Extemporalist
+Source et déclaration de licence / Source and licence statement:
+https://commons.wikimedia.org/wiki/File:Overlooking_a_forest_creek_in_the_Tsimpsean_Peninsula.webm
+Plan utilisé / Excerpt: 00:06–00:11.
+Licence / Licence: CC0 1.0 Universal (mise à disposition par l'auteur de sa propre œuvre).
+
+Texte officiel / Official legal text:
+https://creativecommons.org/publicdomain/zero/1.0/legalcode
+Résumé officiel / Official deed:
+https://creativecommons.org/publicdomain/zero/1.0/
+
+CC0 autorise la copie, la modification et la redistribution, y compris commerciale.
+L'attribution n'est pas obligatoire ; les auteurs sont cités pour conserver la provenance.
+CC0 allows copying, modification and redistribution, including commercial use.
+Attribution is optional; the authors are credited to preserve provenance.
+
+Transformations GeoSylva / GeoSylva adaptations:
+Extraits coupés, recadrage portrait 720×1280, flou gaussien sigma 9,
+fondus enchaînés, suppression du son, encodage H.264 24 images/seconde.
+Short excerpts, portrait crop, Gaussian blur, crossfades, no audio, H.264 encoding.
+Le poster JPG provient de la première image de la vidéo adaptée.
+The JPG poster is the first frame of the adapted video.
+
+Décor nature générique : les images d'Écosse et du Canada ne sont pas présentées
+comme une forêt française ou un territoire sélectionné dans les packs.
+Generic nature decoration: these images of Scotland and Canada are not presented
+as a French forest or as a selected pack territory.
+
+Aucun soutien des auteurs, de Wikimedia ou de Creative Commons n'est revendiqué.
+No endorsement by the authors, Wikimedia or Creative Commons is claimed.

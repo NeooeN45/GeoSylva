@@ -24,6 +24,11 @@ Voir `docs/FORMULAIRES_BOIS_C02_C03_2026-10-18.md` pour la tranche en cours et
 `docs/CHANTIERS_PARCELLES_SUIVI_DATE_BOIS_2026-10-18.md` pour les liens chantier,
 parcelles multiples et contrôles/enlèvements successifs. Missions reste Entreprise.
 
+La recette par l’interface du 19 octobre confirme réception, sorties partielles,
+contrôle du restant, export et archivage sur données TEST. Voir
+`docs/RECETTE_UTILISATEUR_2026-10-19.md` : cinq corrections UX et priorités de
+simplification avant la démonstration.
+
 ### Actualisation du 19 octobre — réception du dossier FORLOG
 
 Le lot carnet du 18 octobre fournit déjà les chantiers multi-parcelles, archives,

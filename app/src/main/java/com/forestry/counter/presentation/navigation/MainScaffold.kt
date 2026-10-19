@@ -199,7 +199,15 @@ fun MainScaffold(
         if (!isTopLevel && !isPreEntry && currentRoute != Screen.PackManager.route &&
             currentRoute != Screen.ParcelSyncSelection.route &&
             currentRoute != Screen.CreateParcelle.route && currentRoute != Screen.CreateForest.route &&
-            currentRoute != Screen.CreatePlacette.route) {
+            currentRoute != Screen.CreatePlacette.route &&
+            // These routes contain full-width save/validate actions. Their own
+            // back navigation remains available; the floating menu must not
+            // cover a field action or bypass an unsaved-draft confirmation.
+            currentRoute !in setOf(
+                Screen.Worksites.route, Screen.WorksiteReceipts.route,
+                Screen.WorksiteExport.route, Screen.FieldJournal.route,
+                Screen.WoodDepots.route, Screen.WoodObjects.route,
+            )) {
             CollapsedMiniNav(
                 destinations = destinations,
                 currentRoute = currentRoute,

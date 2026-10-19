@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -47,6 +48,8 @@ fun ReceiptsScreen(repository: FieldRepository, siteId: String, onJournal: (Fiel
 @Composable
 internal fun ReceiptsContent(vm: ReceiptsViewModel, onJournal: (FieldTarget) -> Unit, onBack: () -> Unit, onOpenWood: (() -> Unit)? = null) {
     val state by vm.state.collectAsStateWithLifecycle()
+    val listState=rememberLazyListState()
+    LaunchedEffect(state.error) { if (state.error!=null) listState.scrollToItem(0) }
     var confirm by remember { mutableStateOf(false) }
     var cancelDialog by remember { mutableStateOf(false) }
     var cancelReason by remember { mutableStateOf("") }
@@ -95,17 +98,17 @@ internal fun ReceiptsContent(vm: ReceiptsViewModel, onJournal: (FieldTarget) -> 
         },
     ) { padding ->
         Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.TopCenter) {
-            LazyColumn(Modifier.widthIn(max = 760.dp).fillMaxWidth().testTag("receipt_content"), contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                if (state.busy) item { LinearProgressIndicator(Modifier.fillMaxWidth()) }
-                state.error?.let { item { ReceiptErrorCard(it) } }
+            LazyColumn(Modifier.widthIn(max = 760.dp).fillMaxWidth().testTag("receipt_content"), state = listState, contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                if (state.busy) item(key = "receipt_loading") { LinearProgressIndicator(Modifier.fillMaxWidth()) }
+                state.error?.let { item(key = "receipt_error") { ReceiptErrorCard(it) } }
                 if (!state.accessLost) {
-                    item { Text(stringResource(R.string.receipt_local_help), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                    item(key = "receipt_local") { Text(stringResource(R.string.receipt_local_help), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
                     val form = state.form
                     val detail = state.detail
                     if (form != null) {
-                        item { Text(stringResource(if (state.draftSaved) R.string.field_draft else R.string.field_draft_pending), style = MaterialTheme.typography.labelLarge) }
-                        item { ReceiptHeaderEditor(form, !state.busy && !state.retry, vm::change, vm::setNow) }
-                        item {
+                        item(key = "receipt_draft") { Text(stringResource(if (state.draftSaved) R.string.field_draft else R.string.field_draft_pending), style = MaterialTheme.typography.labelLarge) }
+                        item(key = "receipt_editor") { ReceiptHeaderEditor(form, !state.busy && !state.retry, vm::change, vm::setNow) }
+                        item(key = "receipt_wood") {
                             Text(stringResource(R.string.receipt_choose_wood), style = MaterialTheme.typography.titleLarge)
                             Text(stringResource(R.string.receipt_choose_help), style = MaterialTheme.typography.bodyMedium)
                             val candidates = state.choices.filter { !it.alreadyHasStock && form.lines.none { line -> line.objectId == it.objectId } }
@@ -117,13 +120,13 @@ internal fun ReceiptsContent(vm: ReceiptsViewModel, onJournal: (FieldTarget) -> 
                                 { change -> vm.line(line.id, change) }, { vm.removeLine(line.id) })
                         }
                     } else if (detail != null) {
-                        item { ReceiptHeading(detail) }
-                        item {
+                        item(key = "receipt_header") { ReceiptHeading(detail) }
+                        item(key = "receipt_metadata") {
                             Text(stringResource(R.string.receipt_date_summary, detail.form.observed, detail.form.zone), style = MaterialTheme.typography.bodyMedium)
                             if (detail.form.documentReference.isNotBlank()) Text(stringResource(R.string.receipt_document_reference, detail.form.documentReference))
                             if (detail.form.notes.isNotBlank()) Text(detail.form.notes)
                         }
-                        if (detail.status == ReceiptStatus.READY) item { Surface(color = MaterialTheme.colorScheme.secondaryContainer, shape = MaterialTheme.shapes.large) {
+                        if (detail.status == ReceiptStatus.READY) item(key = "receipt_effect") { Surface(color = MaterialTheme.colorScheme.secondaryContainer, shape = MaterialTheme.shapes.large) {
                             Text(stringResource(R.string.receipt_effect_help), Modifier.padding(20.dp))
                         } }
                         items(detail.form.lines, key = { it.id }) { line ->
@@ -133,13 +136,13 @@ internal fun ReceiptsContent(vm: ReceiptsViewModel, onJournal: (FieldTarget) -> 
                                 source?.observationSha256 ?: choice?.observationSha256,
                                 onJournal = { onJournal(FieldTarget(FieldTargetKind.WOOD_OBJECT, line.objectId)) })
                         }
-                        if (state.writable && !state.retry && detail.status in setOf(ReceiptStatus.DRAFT, ReceiptStatus.READY)) item {
+                        if (state.writable && !state.retry && detail.status in setOf(ReceiptStatus.DRAFT, ReceiptStatus.READY)) item(key = "receipt_edit") {
                             OutlinedButton(vm::edit, enabled = !state.busy, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp).testTag("receipt_edit")) { Text(stringResource(R.string.receipt_edit)) }
                         }
-                        if (detail.status == ReceiptStatus.CANCELLED) item {
+                        if (detail.status == ReceiptStatus.CANCELLED) item(key = "receipt_cancellation") {
                             Text(stringResource(R.string.receipt_cancellation_reason, detail.cancellationReason), style = MaterialTheme.typography.bodyMedium)
                         }
-                        item { TextButton({ history = !history }, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(stringResource(R.string.receipt_history, state.history.size)) } }
+                        item(key = "receipt_history") { TextButton({ history = !history }, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(stringResource(R.string.receipt_history, state.history.size)) } }
                         if (history) items(state.history, key = { "history-${it.revision}" }) { old ->
                             OutlinedCard(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                                 Text(stringResource(R.string.receipt_version, old.revision, receiptStatusLabel(old.status)), style = MaterialTheme.typography.titleSmall)
@@ -149,11 +152,11 @@ internal fun ReceiptsContent(vm: ReceiptsViewModel, onJournal: (FieldTarget) -> 
                                 if (old.cancellationReason.isNotBlank()) Text(old.cancellationReason)
                             } }
                         }
-                        if (state.writable && !state.retry && detail.status == ReceiptStatus.VALIDATED) item {
+                        if (state.writable && !state.retry && detail.status == ReceiptStatus.VALIDATED) item(key = "receipt_cancel") {
                             OutlinedButton({ cancelReason = ""; cancelDialog = true }, enabled = !state.busy, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(stringResource(R.string.receipt_cancel)) }
                         }
                     } else {
-                        item {
+                        item(key = "receipt_create") {
                             Text(stringResource(R.string.receipt_list_heading), style = MaterialTheme.typography.headlineSmall)
                             Text(stringResource(R.string.receipt_list_help))
                             if (state.writable && !state.retry) {
@@ -165,7 +168,7 @@ internal fun ReceiptsContent(vm: ReceiptsViewModel, onJournal: (FieldTarget) -> 
                                 }
                             }
                         }
-                        if (state.receipts.isEmpty()) item { Text(stringResource(R.string.receipt_empty)) }
+                        if (state.receipts.isEmpty()) item(key = "receipt_empty") { Text(stringResource(R.string.receipt_empty)) }
                         items(state.receipts, key = { it.id }) { receipt ->
                             Card(onClick = { vm.open(receipt.id) }, enabled = !state.busy && !state.retry, modifier = Modifier.fillMaxWidth(), shape = MaterialTheme.shapes.large) {
                                 Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {

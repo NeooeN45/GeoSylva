@@ -21,12 +21,16 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.viewModelScope
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.forestry.counter.R
 import com.forestry.counter.data.local.*
 import com.forestry.counter.data.preferences.ThemeMode
 import com.forestry.counter.data.repository.*
@@ -42,7 +46,10 @@ import java.io.File
 import java.util.Locale
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicReference
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeout
 import org.junit.*
 import org.junit.Assert.*
 import org.junit.runner.RunWith
@@ -55,6 +62,8 @@ class ReceiptFlowUiTest {
         it.createConfigurationContext(Configuration(it.resources.configuration).apply { setLocale(Locale.FRANCE) })
     } }
     private val store = ViewModelStore()
+    private val viewModelJobs = mutableListOf<Job>()
+    private val databaseName = "TEST-receipt-flow-ui-${UUID.randomUUID()}.db"
     private lateinit var db: ForestryDatabase
     private lateinit var repository: FieldRepositoryImpl
     private lateinit var site: SavedWorksite
@@ -63,9 +72,9 @@ class ReceiptFlowUiTest {
     private val depot = UUID.randomUUID()
 
     @Before fun setup() = runBlocking<Unit> {
-        context.deleteDatabase(DB)
+        context.deleteDatabase(databaseName)
         net.sqlcipher.database.SQLiteDatabase.loadLibs(context)
-        db = Room.databaseBuilder(context, ForestryDatabase::class.java, DB)
+        db = Room.databaseBuilder(context, ForestryDatabase::class.java, databaseName)
             .openHelperFactory(net.sqlcipher.database.SupportFactory("TEST-only-receipt-ui-key".toByteArray()))
             .addMigrations(*DatabaseMigrations.ALL).build()
         val depots = WoodDepotRepositoryImpl(db, identity)
@@ -87,13 +96,40 @@ class ReceiptFlowUiTest {
         repository.link(site.id, FieldTarget(FieldTargetKind.WOOD_OBJECT, wood.toString()), access)
     }
     @After fun cleanup() {
-        InstrumentationRegistry.getInstrumentation().runOnMainSync { store.clear() }
-        db.close(); context.deleteDatabase(DB)
+        var failure: Throwable? = null
+        fun attempt(block: () -> Unit) {
+            try { block() } catch (error: Throwable) {
+                if (failure == null) failure = error else failure!!.addSuppressed(error)
+            }
+        }
+        // @After runs before the Compose rule closes its activity. Dispose observers and
+        // lifecycle-owned VMs first, while their database still exists.
+        attempt { compose.activityRule.scenario.close() }
+        attempt { InstrumentationRegistry.getInstrumentation().runOnMainSync { store.clear() } }
+        var stopped = false
+        attempt {
+            // The test thread waits; Main stays free to finish cancellation/disposal.
+            runBlocking { withTimeout(15_000) {
+                viewModelJobs.forEach { it.cancel() }
+                viewModelJobs.joinAll()
+            } }
+            stopped = true
+        }
+        // Never delete files underneath an unfinished transaction after a timeout.
+        if (stopped) attempt {
+            if (::db.isInitialized) db.close()
+            context.deleteDatabase(databaseName)
+        }
+        failure?.let { throw it }
+    }
+
+    private fun <T : ViewModel> track(vm: T): T = vm.also {
+        viewModelJobs += checkNotNull(it.viewModelScope.coroutineContext[Job])
     }
 
     @Test fun receipt_review_confirmation_and_frozen_result_use_real_local_stock() {
         lateinit var vm: ReceiptsViewModel
-        InstrumentationRegistry.getInstrumentation().runOnMainSync { vm = ReceiptsViewModel(repository, site.id); store.put("receipts", vm) }
+        InstrumentationRegistry.getInstrumentation().runOnMainSync { vm = track(ReceiptsViewModel(repository, site.id)); store.put("receipts", vm) }
         compose.setContent { CompositionLocalProvider(androidx.activity.compose.LocalActivityResultRegistryOwner provides compose.activity,
             LocalContext provides context, LocalConfiguration provides context.resources.configuration) {
             ForestryCounterTheme(themeMode = ThemeMode.LIGHT) { ReceiptsContent(vm, {}, {}) }
@@ -128,7 +164,7 @@ class ReceiptFlowUiTest {
 
     @Test fun worksite_sections_are_connected_and_visible() {
         lateinit var vm: WorksitesViewModel
-        InstrumentationRegistry.getInstrumentation().runOnMainSync { vm = WorksitesViewModel(repository); store.put("sites", vm) }
+        InstrumentationRegistry.getInstrumentation().runOnMainSync { vm = track(WorksitesViewModel(repository)); store.put("sites", vm) }
         var openedReceipt: String? = null
         compose.setContent { CompositionLocalProvider(androidx.activity.compose.LocalActivityResultRegistryOwner provides compose.activity,
             LocalContext provides context, LocalConfiguration provides context.resources.configuration) {
@@ -145,6 +181,36 @@ class ReceiptFlowUiTest {
         screenshot("chantier-mouvements-exports.png")
     }
 
+    @Test fun receipt_name_keeps_keyboard_focus_when_empty_review_is_cleared() {
+        lateinit var vm: ReceiptsViewModel
+        InstrumentationRegistry.getInstrumentation().runOnMainSync { vm=track(ReceiptsViewModel(repository,site.id));store.put("receipts",vm) }
+        compose.setContent { CompositionLocalProvider(androidx.activity.compose.LocalActivityResultRegistryOwner provides compose.activity,
+            LocalContext provides context,LocalConfiguration provides context.resources.configuration) {
+            ForestryCounterTheme(themeMode=ThemeMode.LIGHT) { ReceiptsContent(vm,{}, {}) }
+        } }
+        compose.waitUntil(10_000) { !vm.state.value.busy }
+        compose.onNodeWithTag("receipt_create").performClick()
+        compose.waitUntil(10_000) { !vm.state.value.busy && vm.state.value.form!=null }
+        compose.onNodeWithTag("receipt_content").performScrollToNode(hasText(context.getString(R.string.receipt_choose_wood)))
+        compose.onNodeWithTag("receipt_review").performClick()
+        compose.waitUntil(10_000) { vm.state.value.error==FieldError.INVALID }
+        compose.onNodeWithText(context.getString(R.string.receipt_error_invalid)).assertIsDisplayed()
+        compose.onNodeWithTag("receipt_content").performScrollToNode(hasTestTag("receipt_name"))
+
+        // Do not performTextInput for every letter: that would restore focus and hide the bug.
+        val input=compose.onNodeWithTag("receipt_name")
+        input.performScrollTo().performClick().assertIsFocused()
+        "TEST reception".forEach { letter ->
+            InstrumentationRegistry.getInstrumentation().sendStringSync(letter.toString())
+            compose.waitForIdle()
+            input.assertIsFocused()
+        }
+        input.assertTextContains("TEST reception")
+        assertEquals("TEST reception",vm.state.value.form?.title)
+        assertNull(vm.state.value.error)
+        compose.waitUntil(10_000) { vm.state.value.draftSaved }
+    }
+
     @Test fun archive_is_prepared_and_verified_before_saf_action_is_enabled() {
         val exportedUri = AtomicReference<Uri?>(null)
         val pickerRegistry = ObservedSafRegistry(compose.activity.activityResultRegistry, exportedUri)
@@ -153,6 +219,10 @@ class ReceiptFlowUiTest {
             LocalContext provides context, LocalConfiguration provides context.resources.configuration) {
             ForestryCounterTheme(themeMode = ThemeMode.LIGHT) { WorksiteExportScreen(repository, site.id, {}) }
         } }
+        InstrumentationRegistry.getInstrumentation().runOnMainSync {
+            // Retrieve the VM already created by the real screen, which belongs to the activity.
+            track(ViewModelProvider(compose.activity)["site-export-${site.id}", WorksiteExportViewModel::class.java])
+        }
         compose.waitUntil(10_000) { runCatching { compose.onNodeWithTag("field_export_prepare").assertIsEnabled(); true }.getOrDefault(false) }
         compose.onNodeWithTag("field_export_prepare").performScrollTo().performClick()
         compose.waitUntil(10_000) { compose.onAllNodesWithTag("field_export_save").fetchSemanticsNodes().isNotEmpty() }
@@ -299,5 +369,4 @@ class ReceiptFlowUiTest {
         val file = File(context.getExternalFilesDir(null), "receipts/$name"); checkNotNull(file.parentFile).mkdirs()
         file.outputStream().use { image.compress(Bitmap.CompressFormat.PNG, 100, it) }
     }
-    companion object { private const val DB = "TEST-receipt-flow-ui.db" }
 }

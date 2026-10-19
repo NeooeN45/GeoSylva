@@ -82,4 +82,5 @@
     <string name="field_export_error">L’archive n’a pas pu être vérifiée ou enregistrée. Aucune confirmation de synchronisation n’est émise ; vous pouvez réessayer.</string>
     <string name="field_export_frozen">L’archive représente le dossier au moment de sa préparation. Préparez-la à nouveau après toute modification du chantier.</string>
     <string name="field_export_cleanup_failed">L’export a été interrompu, mais le fournisseur de fichiers a refusé son nettoyage. Supprimez le fichier ZIP créé à l’emplacement que vous aviez choisi ; il peut contenir des données partielles.</string>
+    <string name="site_name_required">Renseignez le nom du chantier.</string>
 </resources>

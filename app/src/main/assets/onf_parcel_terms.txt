@@ -1,0 +1,14 @@
+Parcelles forestières publiques de France métropolitaine
+Producteur : Office national des forêts.
+Source : https://geo-onf.opendata.arcgis.com/api/v3/datasets/77bd46b5d7684d588eb8dc25f55ceb33_11
+Dernière mise à jour de la source : 22 mars 2026.
+Conditions lues le 3 octobre 2026 ; licence CUSTOM du producteur.
+
+Utilisation libre sous réserve de mentionner la source (a minima le nom du producteur) et la date de sa dernière mise à jour.
+citation : Parcelles forestières publiques, © ONF Paris, 2026.
+
+Les contours ONF sont informatifs et peuvent différer du cadastre. Les calculs dérivés de surface sont identifiés séparément des surfaces fournies par la source.
+L'acquisition des objets, leur empreinte, leur référence et la version du pack sont conservées séparément de la date de mise à jour de la source.
+
+Politique du producteur : https://www.onf.fr/onf/connaitre-lonf/+/35::opendata-onf.html
+Les conditions de réutilisation sont celles de l'ONF ; GeoSylva utilise les données publiques et MapLibre, sans redistribuer un SDK ou fond de carte Esri.
