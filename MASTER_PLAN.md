@@ -24,6 +24,16 @@ Voir `docs/FORMULAIRES_BOIS_C02_C03_2026-10-18.md` pour la tranche en cours et
 `docs/CHANTIERS_PARCELLES_SUIVI_DATE_BOIS_2026-10-18.md` pour les liens chantier,
 parcelles multiples et contrôles/enlèvements successifs. Missions reste Entreprise.
 
+### Actualisation du 19 octobre — réception du dossier FORLOG
+
+Le lot carnet du 18 octobre fournit déjà les chantiers multi-parcelles, archives,
+photos et événements physiques locaux en Room 45. Le dossier FORLOG reçu est
+qualifié dans `docs/QUALIFICATION_FORLOG_2026-10-19.md` ; ses propositions ne sont
+pas des fonctionnalités exécutées ou des règles natives FORLOG établies.
+Le prochain périmètre est `docs/PLAN_RECEPTION_STOCK_EXPORTS_2026-10-19.md` :
+document de réception, validation locale explicite, lien unique au stock et export
+relisible, puis recette sur Android. Les sources client restent hors dépôt.
+
 ## 0. LIRE CE FICHIER EN PREMIER
 
 Ce fichier est la **source de vérité unique** pour :

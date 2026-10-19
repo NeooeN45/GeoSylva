@@ -2,15 +2,18 @@
 
 | Champ | Valeur |
 |---|---|
-| Statut | Draft — code de domaine, parcours mobile non raccordé |
+| Statut | Noyau géométrique raccordé aux formulaires bois ; conventions commerciales à qualifier |
 | Version du contrat | `wood-reception-volume-1` |
 | Version des méthodes | `1.0.0` |
-| Date | 2026-10-08 |
+| Date | 2026-10-19 (noyau initial du 8 octobre) |
 | Auteur | Codex |
 
-Cette tranche fournit un calcul local à partir de mesures explicitement
-déclarées. Elle n'ajoute ni écran, ni persistance, ni synchronisation, ni
-intégration Forlog. Aucune donnée de démonstration n'est ajoutée au produit.
+Ce noyau fournit un calcul local à partir de mesures explicitement déclarées.
+Le lot du 18 octobre le raccorde aux observations persistantes et aux formulaires
+pile/grume par `WoodObservationCalculator`. Les détails et preuves sont dans
+`docs/FORMULAIRES_BOIS_C02_C03_2026-10-18.md`, à la racine du dépôt. La présente
+mise à jour documentaire ne change aucune formule. Réception contractuelle,
+synchronisation de ces observations et intégration FORLOG restent distinctes.
 
 ## Grumes
 
@@ -78,8 +81,9 @@ ni relevés terrain, ni certification normative ou précision commerciale.
 Les sources formelles d'un protocole de réception, de son champ régional,
 des arrondis et tolérances restent à qualifier avant adoption métier.
 
-Le contrat devra être raccordé à des objets identifiés et localisés, des
-révisions persistantes et une synchronisation GSIE autorisée. Quantités
-contractuelles, stocks, achats, prestations, ventes, HT/TTC et Forlog restent
-hors de cette tranche. Les preuves d'exécution des tests seront consignées
-dans la qualification du lot ; aucun succès de build n'est déduit du code.
+Le contrat est raccordé aux objets bois et observations versionnées persistantes.
+Le carnet physique local ajouté séparément ne transforme pas ses résultats en
+quantités payables. Synchronisation GSIE de ces objets, quantités contractuelles,
+achats, prestations, ventes, HT/TTC et FORLOG restent hors de ce noyau. Les preuves
+de tests sont consignées dans les qualifications des lots ; aucun succès de
+build n'est déduit de la seule présence du code.

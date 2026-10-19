@@ -1,14 +1,18 @@
 # GeoSylva — AI Context / Documentation technique de référence
 
-## État courant — 18 octobre 2026
+## État courant — 19 octobre 2026
 
 Les décisions récentes du fondateur priment sur les sections historiques ci-dessous.
 Lire `.obsidian-vault/50_CONTEXT/PROJECT_STATE.md`, puis
 `docs/FORMULAIRES_BOIS_C02_C03_2026-10-18.md` pour le lot de saisie manuelle et ses
-preuves. Le code courant est en version 3.0.0 (11), avec migration additive Room 44.
-Le parcours chantier/parcelles et les enlèvements datés sont cadrés dans
-`docs/CHANTIERS_PARCELLES_SUIVI_DATE_BOIS_2026-10-18.md` ; ils ne sont pas livrés par
-les formulaires locaux. Les affirmations de connexion/serveur de 2026-08-03 plus
+preuves. Le code courant est en version 3.0.0 (11), avec base Room 45.
+Le lot `docs/CARNET_TERRAIN_CHANTIERS_2026-10-18.md` ajoute ensuite les chantiers
+multi-parcelles, photos, archives et événements physiques datés, dans l'espace local
+ou personnel. La réception contractuelle, les exports du carnet bois et les échanges
+FORLOG ne sont pas livrés par ce socle. Lire la comparaison de preuves dans
+`docs/QUALIFICATION_FORLOG_2026-10-19.md`, puis le prochain lot dans
+`docs/PLAN_RECEPTION_STOCK_EXPORTS_2026-10-19.md`.
+Les affirmations de connexion/serveur de 2026-08-03 plus
 bas sont historiques et ne prouvent pas une configuration Google/GSIE active ici.
 
 ## 0) À lire en premier (pour une nouvelle session IA)

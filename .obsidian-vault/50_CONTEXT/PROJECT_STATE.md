@@ -1,6 +1,6 @@
 ---
 date: 2026-06-29
-updated: 2026-10-18
+updated: 2026-10-19
 project: GeoSylva
 version: 3.0.0
 db_version: 45
@@ -8,6 +8,33 @@ tags: [context, project-state]
 ---
 
 # GeoSylva — État du projet
+
+## Qualification FORLOG — 19 octobre 2026
+
+Les deux archives reçues ont été contrôlées : CRC valides et 128 empreintes de
+livrables concordantes. Le dossier comporte 32 fiches d'actions et 108 références
+de preuve. Les schémas reçus confirment leurs comptages ; les originaux FORLOG de
+2,9 Go ne sont pas disponibles ici. Les 18 composants métier natifs prioritaires
+restent binaires : aucune équivalence de calcul, stock ou droit FORLOG n'est certifiée.
+
+La [qualification](../../docs/QUALIFICATION_FORLOG_2026-10-19.md) compare les
+propositions au code local sauvegardé le 18 octobre. Identités bois, observations,
+photos, chantiers multi-parcelles, archives et carnet physique existent déjà.
+Le [prochain lot](../../docs/PLAN_RECEPTION_STOCK_EXPORTS_2026-10-19.md) prépare
+réception métier, lien sans double crédit avec le stock, exports dédiés et recette.
+L'usage personnel hors ligne et les calculs géométriques existants sont conservés ;
+Missions reste réservé à Entreprise et n'est pas activé sans accès serveur fiable.
+Les codecs locaux ne sont pas remplacés par la sérialisation de l'audit.
+
+Cette tranche est documentaire : aucun écran, calcul, schéma Room ou connecteur
+modifié. Les sources/extraits client restent hors dépôt. La sauvegarde métier du
+18 octobre est désormais le commit local `576a256b7bfa22e2bbd23571b78c076bf78ee43f`,
+non poussé ; cette précision actualise les mentions « sans commit » des comptes
+rendus historiques. Le passage en privé reste non vérifié depuis le refus 403.
+
+Vérification du socle existant : 42 tests JVM ciblés réussis (soldes physiques,
+historique des observations, cas de référence de cubage), avec compilation debug.
+Pas de nouvelle recette UI, d'APK livré ou de validation de connecteur dans cette revue.
 
 ## Sécurisation du dépôt — 18 octobre 2026
 
