@@ -1,0 +1,88 @@
+diff --git a/app/src/main/java/com/forestry/counter/data/local/dao/OfflineMapPackDao.kt b/app/src/main/java/com/forestry/counter/data/local/dao/OfflineMapPackDao.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/local/dao/OfflineMapPackDao.kt
+@@ -0,0 +1,20 @@
++package com.forestry.counter.data.local.dao
++
++import androidx.room.Dao
++import androidx.room.Insert
++import androidx.room.OnConflictStrategy
++import androidx.room.Query
++import androidx.room.Update
++import com.forestry.counter.data.local.entity.OfflineMapPackEntity
++
++@Dao
++interface OfflineMapPackDao {
++    @Insert(onConflict = OnConflictStrategy.ABORT) suspend fun insert(row: OfflineMapPackEntity)
++    @Update suspend fun update(row: OfflineMapPackEntity): Int
++    @Query("SELECT * FROM offline_map_packs WHERE authorityKey = :authorityKey ORDER BY createdAt DESC, id ASC")
++    suspend fun inAuthority(authorityKey: String): List<OfflineMapPackEntity>
++    @Query("SELECT * FROM offline_map_packs WHERE id = :id") suspend fun byId(id: String): OfflineMapPackEntity?
++    @Query("SELECT * FROM offline_map_packs") suspend fun allForPurge(): List<OfflineMapPackEntity>
++    @Query("DELETE FROM offline_map_packs WHERE id = :id AND authorityKey = :authorityKey") suspend fun delete(id: String, authorityKey: String): Int
++    @Query("DELETE FROM offline_map_packs") suspend fun deleteAll()
++}
+diff --git a/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt b/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt
+@@ -0,0 +1,41 @@
++package com.forestry.counter.data.local.entity
++
++import androidx.room.Entity
++import androidx.room.Index
++import androidx.room.PrimaryKey
++
++/** Control metadata only; actual map resources belong to the shared native TileStore. */
++@Entity(tableName = "offline_map_packs", indices = [Index(value = ["authorityKey", "createdAt"]), Index(value = ["nativeRegionId"], unique = true)])
++data class OfflineMapPackEntity(
++    @PrimaryKey val id: String,
++    val authorityKey: String,
++    val ownerKey: String,
++    val scopeKind: String,
++    val scopeId: String,
++    val name: String,
++    val geometryJson: String,
++    val minZoom: Int,
++    val maxZoom: Int,
++    val pixelRatio: Float,
++    val styleUri: String,
++    val extraTilesetsJson: String,
++    val datasetsJson: String,
++    val territoriesJson: String,
++    val definitionHash: String,
++    val requestSha256: String,
++    val nativeRegionId: String,
++    val localVersion: String,
++    val createdAt: Long,
++    val status: String,
++    val familyId: String = id,
++    val replacesPackId: String? = null,
++    val versionOrdinal: Long = 1,
++    val selectedVersion: Boolean = true,
++    val stage: String? = null,
++    val completedResources: Long = 0,
++    val requiredResources: Long = 0,
++    val resourceBytes: Long = 0,
++    val validatedAt: Long? = null,
++    val expiresAt: Long? = null,
++    val issue: String? = null,
++)
+diff --git a/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt b/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt
+@@ -0,0 +1,12 @@
++package com.forestry.counter.data.packs.offline
++
++import androidx.sqlite.db.SupportSQLiteDatabase
++
++/** Additive Room migration helper, called by the application's single version migration. */
++object OfflineMapPackSchema {
++    fun create(db: SupportSQLiteDatabase) {
++        db.execSQL("""CREATE TABLE IF NOT EXISTS `offline_map_packs` (`id` TEXT NOT NULL, `authorityKey` TEXT NOT NULL, `ownerKey` TEXT NOT NULL, `scopeKind` TEXT NOT NULL, `scopeId` TEXT NOT NULL, `name` TEXT NOT NULL, `geometryJson` TEXT NOT NULL, `minZoom` INTEGER NOT NULL, `maxZoom` INTEGER NOT NULL, `pixelRatio` REAL NOT NULL, `styleUri` TEXT NOT NULL, `extraTilesetsJson` TEXT NOT NULL, `datasetsJson` TEXT NOT NULL, `territoriesJson` TEXT NOT NULL, `definitionHash` TEXT NOT NULL, `requestSha256` TEXT NOT NULL, `nativeRegionId` TEXT NOT NULL, `localVersion` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `status` TEXT NOT NULL, `familyId` TEXT NOT NULL, `replacesPackId` TEXT, `versionOrdinal` INTEGER NOT NULL, `selectedVersion` INTEGER NOT NULL, `stage` TEXT, `completedResources` INTEGER NOT NULL, `requiredResources` INTEGER NOT NULL, `resourceBytes` INTEGER NOT NULL, `validatedAt` INTEGER, `expiresAt` INTEGER, `issue` TEXT, PRIMARY KEY(`id`))""")
++        db.execSQL("CREATE INDEX IF NOT EXISTS `index_offline_map_packs_authorityKey_createdAt` ON `offline_map_packs` (`authorityKey`, `createdAt`)")
++        db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_offline_map_packs_nativeRegionId` ON `offline_map_packs` (`nativeRegionId`)")
++    }
++}

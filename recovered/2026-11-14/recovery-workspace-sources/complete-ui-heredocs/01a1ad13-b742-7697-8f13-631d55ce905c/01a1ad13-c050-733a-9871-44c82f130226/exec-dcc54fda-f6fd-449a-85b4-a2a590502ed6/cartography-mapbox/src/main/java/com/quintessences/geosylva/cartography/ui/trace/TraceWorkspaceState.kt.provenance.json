@@ -1,0 +1,44 @@
+{
+  "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+  "version_file": "complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+  "sha256": "cbd0f7bb82f436bba3901a7e3c69dc052f8820e7d2f0f89e9bfdb6ed219b9d2d",
+  "classification": "full_literal_file_declaration_exact",
+  "bytes": 2415,
+  "line_count": 61,
+  "provenance": {
+    "history_file": "trace-ui-initial-next.json",
+    "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+    "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+    "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+    "item_index": 9,
+    "turn_started_at": 1793905115,
+    "turn_completed_at": 1793905568,
+    "shell_header_line": 2,
+    "shell_body_first_line": 3,
+    "shell_body_last_line": 63,
+    "quoted_delimiter": "EOF",
+    "command_truncated_after_complete_declaration": false,
+    "command_status": "completed",
+    "command_exit_code": 0
+  },
+  "observations": [
+    {
+      "history_file": "trace-ui-initial-next.json",
+      "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+      "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+      "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+      "item_index": 9,
+      "turn_started_at": 1793905115,
+      "turn_completed_at": 1793905568,
+      "shell_header_line": 2,
+      "shell_body_first_line": 3,
+      "shell_body_last_line": 63,
+      "quoted_delimiter": "EOF",
+      "command_truncated_after_complete_declaration": false,
+      "command_status": "completed",
+      "command_exit_code": 0
+    }
+  ],
+  "command_evidence": "complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/command-evidence.txt",
+  "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+}

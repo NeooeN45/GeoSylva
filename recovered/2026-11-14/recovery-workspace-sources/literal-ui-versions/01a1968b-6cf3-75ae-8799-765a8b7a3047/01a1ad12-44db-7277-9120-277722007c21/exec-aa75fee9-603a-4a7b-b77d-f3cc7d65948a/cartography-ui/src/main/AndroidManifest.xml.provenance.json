@@ -1,0 +1,34 @@
+{
+  "path": "cartography-ui/src/main/AndroidManifest.xml",
+  "version_file": "literal-ui-versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1ad12-44db-7277-9120-277722007c21/exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a/cartography-ui/src/main/AndroidManifest.xml",
+  "sha256": "571f2735faf5e857752ee057ac8ef63425576a721616c60b86ee5d4c0a2d682f",
+  "classification": "full_literal_python_declaration_exact",
+  "provenance": {
+    "history_file": "root0007-commands20k.json",
+    "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+    "turn": "01a1ad12-44db-7277-9120-277722007c21",
+    "item": "exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a",
+    "item_index": 48,
+    "turn_started_at": 1793905018,
+    "turn_completed_at": 1793911533
+  },
+  "chain": [
+    {
+      "kind": "complete_literal_python_file_declaration",
+      "provenance": {
+        "history_file": "root0007-commands20k.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1ad12-44db-7277-9120-277722007c21",
+        "item": "exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a",
+        "item_index": 48,
+        "turn_started_at": 1793905018,
+        "turn_completed_at": 1793911533
+      },
+      "literal": "<manifest />\n",
+      "script_line": 11,
+      "historical_script_executed": false
+    }
+  ],
+  "bytes": 13,
+  "line_count": 1
+}

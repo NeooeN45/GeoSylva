@@ -1,0 +1,165 @@
+diff --git a/app/src/main/java/com/forestry/counter/data/local/CartographicLayerMigrations.kt b/app/src/main/java/com/forestry/counter/data/local/CartographicLayerMigrations.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/local/CartographicLayerMigrations.kt
+@@ -0,0 +1,10 @@
++package com.forestry.counter.data.local
++
++import androidx.sqlite.db.SupportSQLiteDatabase
++
++object CartographicLayerMigrations {
++    fun migrate(db: SupportSQLiteDatabase) {
++        db.execSQL("CREATE TABLE IF NOT EXISTS `cartographic_layers` (`id` TEXT NOT NULL, `authorityKey` TEXT NOT NULL, `payloadJson` TEXT NOT NULL, `payloadSha256` TEXT NOT NULL, `version` INTEGER NOT NULL, `deletedAt` INTEGER, PRIMARY KEY(`id`))")
++        db.execSQL("CREATE TABLE IF NOT EXISTS `cartographic_layer_operations` (`id` TEXT NOT NULL, `layerId` TEXT NOT NULL, `authorityKey` TEXT NOT NULL, `commandSha256` TEXT NOT NULL, `resultJson` TEXT NOT NULL, PRIMARY KEY(`id`))")
++    }
++}
+diff --git a/app/src/main/java/com/forestry/counter/data/local/CartographicTraceMigrations.kt b/app/src/main/java/com/forestry/counter/data/local/CartographicTraceMigrations.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/local/CartographicTraceMigrations.kt
+@@ -0,0 +1,11 @@
++package com.forestry.counter.data.local
++
++import androidx.sqlite.db.SupportSQLiteDatabase
++
++object CartographicTraceMigrations {
++    fun create(db: SupportSQLiteDatabase) {
++        db.execSQL("CREATE TABLE IF NOT EXISTS cartographic_traces (id TEXT NOT NULL PRIMARY KEY, authorityKey TEXT NOT NULL, ownerKey TEXT NOT NULL, scopeKind TEXT NOT NULL, scopeId TEXT NOT NULL, saved INTEGER NOT NULL, payloadJson TEXT NOT NULL, payloadSha256 TEXT NOT NULL, revision INTEGER NOT NULL, updatedAt INTEGER NOT NULL, recordedAt INTEGER, sourceTraceId TEXT)")
++        db.execSQL("CREATE INDEX IF NOT EXISTS index_cartographic_traces_authorityKey_updatedAt ON cartographic_traces(authorityKey, updatedAt)")
++        db.execSQL("CREATE TABLE IF NOT EXISTS cartographic_trace_journal (traceId TEXT NOT NULL, kind TEXT NOT NULL, ordinal INTEGER NOT NULL, payloadJson TEXT NOT NULL, payloadSha256 TEXT NOT NULL, PRIMARY KEY(traceId, kind, ordinal))")
++    }
++}
+diff --git a/app/src/main/java/com/forestry/counter/data/local/CartographicWorkspaceMigrations.kt b/app/src/main/java/com/forestry/counter/data/local/CartographicWorkspaceMigrations.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/local/CartographicWorkspaceMigrations.kt
+@@ -0,0 +1,15 @@
++package com.forestry.counter.data.local
++
++import androidx.room.migration.Migration
++import androidx.sqlite.db.SupportSQLiteDatabase
++
++/** Additive storage for the common cartographic workspace; existing rows remain untouched. */
++object CartographicWorkspaceMigrations {
++    val MIGRATION_48_49 = object : Migration(48, 49) {
++        override fun migrate(db: SupportSQLiteDatabase) {
++            CartographicLayerMigrations.migrate(db)
++            com.forestry.counter.data.packs.offline.OfflineMapPackSchema.create(db)
++            CartographicTraceMigrations.create(db)
++        }
++    }
++}
+diff --git a/app/src/main/java/com/forestry/counter/data/local/dao/CartographicTraceDao.kt b/app/src/main/java/com/forestry/counter/data/local/dao/CartographicTraceDao.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/local/dao/CartographicTraceDao.kt
+@@ -0,0 +1,36 @@
++package com.forestry.counter.data.local.dao
++
++import androidx.room.Dao
++import androidx.room.Insert
++import androidx.room.OnConflictStrategy
++import androidx.room.Query
++import androidx.room.Update
++import androidx.room.Transaction
++import com.forestry.counter.data.local.entity.CartographicTraceEntity
++import com.forestry.counter.data.local.entity.CartographicTraceJournalEntity
++
++@Dao
++interface CartographicTraceDao {
++    @Insert(onConflict = OnConflictStrategy.ABORT)
++    suspend fun insert(row: CartographicTraceEntity)
++    @Update
++    suspend fun update(row: CartographicTraceEntity): Int
++    @Query("SELECT * FROM cartographic_traces WHERE id = :id")
++    suspend fun byId(id: String): CartographicTraceEntity?
++    @Query("SELECT * FROM cartographic_traces WHERE authorityKey = :authorityKey ORDER BY updatedAt DESC, id")
++    suspend fun inScope(authorityKey: String): List<CartographicTraceEntity>
++    @Insert(onConflict = OnConflictStrategy.ABORT)
++    suspend fun appendJournal(rows: List<CartographicTraceJournalEntity>)
++    @Insert(onConflict = OnConflictStrategy.REPLACE)
++    suspend fun updatePortion(row: CartographicTraceJournalEntity)
++    @Query("SELECT * FROM cartographic_trace_journal WHERE traceId = :id ORDER BY kind, ordinal")
++    suspend fun journal(id: String): List<CartographicTraceJournalEntity>
++    @Query("DELETE FROM cartographic_trace_journal WHERE traceId = :id")
++    suspend fun deleteJournal(id: String)
++    @Query("DELETE FROM cartographic_trace_journal")
++    suspend fun deleteAllJournal()
++    @Query("DELETE FROM cartographic_traces")
++    suspend fun deleteRecords()
++    @Transaction
++    suspend fun deleteAll() { deleteAllJournal(); deleteRecords() }
++}
+diff --git a/app/src/main/java/com/forestry/counter/data/local/entity/CartographicLayerEntity.kt b/app/src/main/java/com/forestry/counter/data/local/entity/CartographicLayerEntity.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/local/entity/CartographicLayerEntity.kt
+@@ -0,0 +1,24 @@
++package com.forestry.counter.data.local.entity
++
++import androidx.room.Entity
++import androidx.room.PrimaryKey
++
++@Entity(tableName = "cartographic_layers")
++data class CartographicLayerEntity(
++    @PrimaryKey val id: String,
++    val authorityKey: String,
++    val payloadJson: String,
++    val payloadSha256: String,
++    val version: Long,
++    val deletedAt: Long? = null,
++)
++
++/** Durable receipts make retries unambiguous, including after process recreation. */
++@Entity(tableName = "cartographic_layer_operations")
++data class CartographicLayerOperationEntity(
++    @PrimaryKey val id: String,
++    val layerId: String,
++    val authorityKey: String,
++    val commandSha256: String,
++    val resultJson: String,
++)
+diff --git a/app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceEntity.kt b/app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceEntity.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceEntity.kt
+@@ -0,0 +1,21 @@
++package com.forestry.counter.data.local.entity
++
++import androidx.room.Entity
++import androidx.room.Index
++import androidx.room.PrimaryKey
++
++@Entity(tableName = "cartographic_traces", indices = [Index(value = ["authorityKey", "updatedAt"])])
++data class CartographicTraceEntity(
++    @PrimaryKey val id: String,
++    val authorityKey: String,
++    val ownerKey: String,
++    val scopeKind: String,
++    val scopeId: String,
++    val saved: Boolean,
++    val payloadJson: String,
++    val payloadSha256: String,
++    val revision: Long,
++    val updatedAt: Long,
++    val recordedAt: Long?,
++    val sourceTraceId: String?,
++)
+diff --git a/app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceJournalEntity.kt b/app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceJournalEntity.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceJournalEntity.kt
+@@ -0,0 +1,13 @@
++package com.forestry.counter.data.local.entity
++
++import androidx.room.Entity
++
++/** Append-only observations/events; only the currently open portion summary can grow. */
++@Entity(tableName = "cartographic_trace_journal", primaryKeys = ["traceId", "kind", "ordinal"])
++data class CartographicTraceJournalEntity(
++    val traceId: String,
++    val kind: String,
++    val ordinal: Int,
++    val payloadJson: String,
++    val payloadSha256: String,
++)

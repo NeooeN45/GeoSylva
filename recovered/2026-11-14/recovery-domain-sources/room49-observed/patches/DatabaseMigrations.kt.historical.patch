@@ -1,0 +1,11 @@
+diff --git a/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt b/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt
+index 476edb4..1b1aefc 100644
+--- a/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt
++++ b/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt
+@@ -911,5 +911,6 @@ object DatabaseMigrations {
+         ReceiptMigrations.MIGRATION_45_46,
+         ControlBasisMigrations.MIGRATION_46_47,
+         CartographicMeasurementMigrations.MIGRATION_47_48,
++        CartographicWorkspaceMigrations.MIGRATION_48_49,
+     )
+ }

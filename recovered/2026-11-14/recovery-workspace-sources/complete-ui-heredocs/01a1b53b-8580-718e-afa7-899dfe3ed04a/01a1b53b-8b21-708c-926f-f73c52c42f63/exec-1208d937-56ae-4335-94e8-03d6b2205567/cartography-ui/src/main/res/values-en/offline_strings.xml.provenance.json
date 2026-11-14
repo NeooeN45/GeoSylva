@@ -1,0 +1,44 @@
+{
+  "path": "cartography-ui/src/main/res/values-en/offline_strings.xml",
+  "version_file": "complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/res/values-en/offline_strings.xml",
+  "sha256": "99191ac7c4e69f73b083fdb0de40b5161e1981655c086a3438384db51501c4de",
+  "classification": "full_literal_file_declaration_exact",
+  "bytes": 511,
+  "line_count": 10,
+  "provenance": {
+    "history_file": "packs-offline-batch6.json",
+    "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "item": "exec-1208d937-56ae-4335-94e8-03d6b2205567",
+    "item_index": 65,
+    "turn_started_at": 1794041941,
+    "turn_completed_at": 1794043733,
+    "shell_header_line": 106,
+    "shell_body_first_line": 107,
+    "shell_body_last_line": 116,
+    "quoted_delimiter": "EOF",
+    "command_truncated_after_complete_declaration": false,
+    "command_status": "completed",
+    "command_exit_code": 0
+  },
+  "observations": [
+    {
+      "history_file": "packs-offline-batch6.json",
+      "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+      "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+      "item": "exec-1208d937-56ae-4335-94e8-03d6b2205567",
+      "item_index": 65,
+      "turn_started_at": 1794041941,
+      "turn_completed_at": 1794043733,
+      "shell_header_line": 106,
+      "shell_body_first_line": 107,
+      "shell_body_last_line": 116,
+      "quoted_delimiter": "EOF",
+      "command_truncated_after_complete_declaration": false,
+      "command_status": "completed",
+      "command_exit_code": 0
+    }
+  ],
+  "command_evidence": "complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/command-evidence.txt",
+  "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+}

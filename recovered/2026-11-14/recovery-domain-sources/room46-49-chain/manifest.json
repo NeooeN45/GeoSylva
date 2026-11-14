@@ -1,0 +1,392 @@
+{
+  "baseline": {
+    "path": "/workspace/recovery-geosylva",
+    "commit": "36d1515",
+    "roomVersion": 46,
+    "verifiedFromActualAnnotation": true
+  },
+  "versions": [
+    {
+      "version": 46,
+      "path": "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "sha256": "5b18251f5541a9c895cdfac593a386d9f4f2a86e3f2102521b8573b03710e13f",
+      "gitBlobSha1": "a46a863b940be31b6c03ea99dc42a269a7dbfc82",
+      "artifact": "versions/46/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "provenance": [
+        {
+          "baseCommit": "36d1515",
+          "roomVersion": 46
+        }
+      ],
+      "checks": []
+    },
+    {
+      "version": 46,
+      "path": "app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "sha256": "9b8dd6f0f2560e3ffda8a2975885781958f708cf4deaa1eb755831f661aa1eb4",
+      "gitBlobSha1": "ece712c0656686b3b3f6e9c703c4b08501b56117",
+      "artifact": "versions/46/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "provenance": [
+        {
+          "baseCommit": "36d1515",
+          "roomVersion": 46
+        }
+      ],
+      "checks": []
+    },
+    {
+      "version": 46,
+      "path": "app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "sha256": "17088abdc27f011b2cc6df3f706bae2e45dcd7bd382e62095c4ca55227c5875b",
+      "gitBlobSha1": "209830755757add00bd0e4f3c5cf750b89a46f37",
+      "artifact": "versions/46/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "provenance": [
+        {
+          "baseCommit": "36d1515",
+          "roomVersion": 46
+        }
+      ],
+      "checks": []
+    },
+    {
+      "version": 47,
+      "path": "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "sha256": "e53b7b52e72e9f63143c37545a02e70b3f45a3468986fdba642497ff2def2246",
+      "gitBlobSha1": "b3f50a5601c8afa5901d41b56469c66211f03453",
+      "artifact": "versions/47/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "provenance": [
+        {
+          "source": "manual-repository-earlier.json",
+          "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+          "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+          "item": "exec-432c4022-d482-41c0-9d16-e512f4eb76cb",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-06T16:07:55+00:00"
+        },
+        {
+          "source": "trees-filters-batch10-single.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b570-0c92-73e4-b7b5-5689a3c2d102",
+          "item": "exec-c1e2cd99-bdeb-4cb1-8a75-e4fd5326b9e8",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-07T09:56:22+00:00"
+        },
+        {
+          "source": "../room49-observed/manifest.json"
+        }
+      ],
+      "checks": []
+    },
+    {
+      "version": 47,
+      "path": "app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "sha256": "b17ec003f728c7b394282baac289c481ed91d630742c010c49447a42429a7751",
+      "gitBlobSha1": "fce45617fc0027c36b4a9da915f30ef9c65e0f0d",
+      "artifact": "versions/47/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "provenance": [
+        {
+          "source": "manual-repository-earlier.json",
+          "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+          "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+          "item": "exec-432c4022-d482-41c0-9d16-e512f4eb76cb",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-06T16:07:55+00:00"
+        },
+        {
+          "source": "trees-filters-batch10-single.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b570-0c92-73e4-b7b5-5689a3c2d102",
+          "item": "exec-c1e2cd99-bdeb-4cb1-8a75-e4fd5326b9e8",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-07T09:56:22+00:00"
+        },
+        {
+          "source": "../room49-observed/manifest.json"
+        }
+      ],
+      "checks": []
+    },
+    {
+      "version": 47,
+      "path": "app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "sha256": "cef864ee2da4872fbebe238550748bb79b00ea37b13903e53047cb99a46f0695",
+      "gitBlobSha1": "39d42c5c46a66e33d0c0e30f4121b5b18702ec0c",
+      "artifact": "versions/47/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "provenance": [
+        {
+          "source": "manual-repository-earlier.json",
+          "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+          "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+          "item": "exec-432c4022-d482-41c0-9d16-e512f4eb76cb",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-06T16:07:55+00:00"
+        },
+        {
+          "source": "trees-filters-batch10-single.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b570-0c92-73e4-b7b5-5689a3c2d102",
+          "item": "exec-c1e2cd99-bdeb-4cb1-8a75-e4fd5326b9e8",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-07T09:56:22+00:00"
+        },
+        {
+          "source": "../room49-observed/manifest.json"
+        }
+      ],
+      "checks": []
+    },
+    {
+      "version": 48,
+      "path": "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "sha256": "cdd7ca5a86680ff2916cd90b14d39ad55bd2ed26f927a820c5ded6615191a5de",
+      "gitBlobSha1": "f2bb1f14fd18293335903f0d20dfb1a314a29319",
+      "artifact": "versions/48/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "provenance": [
+        {
+          "source": "manual-repository-earlier.json",
+          "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+          "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+          "item": "exec-432c4022-d482-41c0-9d16-e512f4eb76cb",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-06T16:07:55+00:00"
+        },
+        {
+          "source": "trees-filters-batch10-single.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b570-0c92-73e4-b7b5-5689a3c2d102",
+          "item": "exec-c1e2cd99-bdeb-4cb1-8a75-e4fd5326b9e8",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-07T09:56:22+00:00"
+        },
+        {
+          "source": "../room49-observed/manifest.json"
+        }
+      ],
+      "checks": []
+    },
+    {
+      "version": 48,
+      "path": "app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "sha256": "29f601dc7a28be68fd5a345a1ead18382ef8277c0dc44f102b8371438fa99a58",
+      "gitBlobSha1": "476edb4b979083bc82e06e6a124276bee0035fa6",
+      "artifact": "versions/48/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "provenance": [
+        {
+          "source": "manual-repository-earlier.json",
+          "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+          "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+          "item": "exec-432c4022-d482-41c0-9d16-e512f4eb76cb",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-06T16:07:55+00:00"
+        },
+        {
+          "source": "trees-filters-batch10-single.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b570-0c92-73e4-b7b5-5689a3c2d102",
+          "item": "exec-c1e2cd99-bdeb-4cb1-8a75-e4fd5326b9e8",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-07T09:56:22+00:00"
+        },
+        {
+          "source": "../room49-observed/manifest.json"
+        }
+      ],
+      "checks": []
+    },
+    {
+      "version": 48,
+      "path": "app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "sha256": "e864cbff27a86c92d43a464264c8d458d3c3c111ca13a99a3b07f06fed67c726",
+      "gitBlobSha1": "0fb26d15b7094bdfac2dfa81bc7053a1217458a4",
+      "artifact": "versions/48/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "provenance": [
+        {
+          "source": "manual-repository-earlier.json",
+          "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+          "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+          "item": "exec-432c4022-d482-41c0-9d16-e512f4eb76cb",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-06T16:07:55+00:00"
+        },
+        {
+          "source": "trees-filters-batch10-single.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b570-0c92-73e4-b7b5-5689a3c2d102",
+          "item": "exec-c1e2cd99-bdeb-4cb1-8a75-e4fd5326b9e8",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-07T09:56:22+00:00"
+        },
+        {
+          "source": "../room49-observed/manifest.json"
+        }
+      ],
+      "checks": []
+    },
+    {
+      "version": 49,
+      "path": "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "sha256": "994f2e6268dace7e09127fde1c4962f1a4a667c60e31048b75f74ab3d5489644",
+      "gitBlobSha1": "8f08fe6ab1d89831ebc90fa32c561152aa4c33b1",
+      "artifact": "versions/49/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "provenance": [
+        {
+          "source": "manual-repository-earlier.json",
+          "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+          "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+          "item": "exec-432c4022-d482-41c0-9d16-e512f4eb76cb",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-06T16:07:55+00:00"
+        },
+        {
+          "source": "trees-filters-batch10-single.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b570-0c92-73e4-b7b5-5689a3c2d102",
+          "item": "exec-c1e2cd99-bdeb-4cb1-8a75-e4fd5326b9e8",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-07T09:56:22+00:00"
+        },
+        {
+          "source": "../room49-observed/manifest.json"
+        }
+      ],
+      "checks": []
+    },
+    {
+      "version": 49,
+      "path": "app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "sha256": "23aa6042e0fa603523eeaa4b08c52aa10615f0a13b2a604664bee4fb7cca2800",
+      "gitBlobSha1": "1b1aefcc594f72154fc49554bb0b49258ea64fe4",
+      "artifact": "versions/49/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "provenance": [
+        {
+          "source": "manual-repository-earlier.json",
+          "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+          "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+          "item": "exec-432c4022-d482-41c0-9d16-e512f4eb76cb",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-06T16:07:55+00:00"
+        },
+        {
+          "source": "trees-filters-batch10-single.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b570-0c92-73e4-b7b5-5689a3c2d102",
+          "item": "exec-c1e2cd99-bdeb-4cb1-8a75-e4fd5326b9e8",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-07T09:56:22+00:00"
+        },
+        {
+          "source": "../room49-observed/manifest.json"
+        }
+      ],
+      "checks": []
+    },
+    {
+      "version": 49,
+      "path": "app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "sha256": "9125d0363595cd5b54da8128d158fdbdf9ace0f2bb05db40665bb55182db3740",
+      "gitBlobSha1": "aa00e73dd6850fa0429e69e0fbc54d9ba0cad72e",
+      "artifact": "versions/49/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "provenance": [
+        {
+          "source": "manual-repository-earlier.json",
+          "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+          "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+          "item": "exec-432c4022-d482-41c0-9d16-e512f4eb76cb",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-06T16:07:55+00:00"
+        },
+        {
+          "source": "trees-filters-batch10-single.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b570-0c92-73e4-b7b5-5689a3c2d102",
+          "item": "exec-c1e2cd99-bdeb-4cb1-8a75-e4fd5326b9e8",
+          "itemIndex": 3,
+          "turnStartedAt": "2026-11-07T09:56:22+00:00"
+        },
+        {
+          "source": "../room49-observed/manifest.json"
+        }
+      ],
+      "checks": []
+    },
+    {
+      "version": 47,
+      "path": "app/src/main/java/com/forestry/counter/data/local/ControlBasisMigrations.kt",
+      "sha256": "65f61ee858b8fee6f0939dedaedec07cbde92d32df279b37ae7b3b8c01e24434",
+      "gitBlobSha1": "7185a9eef30ca69521e15362d26361465c09bb37",
+      "artifact": "versions/47/app/src/main/java/com/forestry/counter/data/local/ControlBasisMigrations.kt",
+      "provenance": [
+        {
+          "source": "manual-repository-earlier.json",
+          "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+          "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+          "item": "exec-a7b1f074-3cf6-4c20-87db-d2ff466a28b9",
+          "itemIndex": 10,
+          "turnStartedAt": "2026-11-06T16:07:55+00:00"
+        }
+      ],
+      "checks": []
+    }
+  ],
+  "sequentialPatches": [
+    {
+      "fromRoom": 46,
+      "toRoom": 47,
+      "sha256": "c19342b48b67b177dd0e8f5cf315f565567832543c2b97d95231edb66c62f8d3",
+      "artifact": "patches/room-46-to-47-registration-and-purge.patch"
+    },
+    {
+      "fromRoom": 47,
+      "toRoom": 48,
+      "sha256": "01e2c8aeba7f8d81c0752f9dfa834e3735575123bce64dda8856f3b238abaad3",
+      "artifact": "patches/room-47-to-48-registration-and-purge.patch"
+    },
+    {
+      "fromRoom": 48,
+      "toRoom": 49,
+      "sha256": "1ce60c2d02e63ea48e55e8a2e4669475135196b7ecb2a3c6e6700d5031ce2d1d",
+      "artifact": "patches/room-48-to-49-registration-and-purge.patch"
+    }
+  ],
+  "historicalBlobChecks": {
+    "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt": {
+      "48": "f2bb1f14fd18293335903f0d20dfb1a314a29319",
+      "49": "8f08fe6ab1d89831ebc90fa32c561152aa4c33b1"
+    },
+    "app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt": {
+      "48": "476edb4b979083bc82e06e6a124276bee0035fa6",
+      "49": "1b1aefcc594f72154fc49554bb0b49258ea64fe4"
+    },
+    "app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt": {
+      "48": "0fb26d15b7094bdfac2dfa81bc7053a1217458a4",
+      "49": "aa00e73dd6850fa0429e69e0fbc54d9ba0cad72e"
+    }
+  },
+  "purge47ReadChecks": [
+    {
+      "source": "manual-repository-earlier.json",
+      "itemIndex": 25,
+      "startLine": 1,
+      "endLine": 105,
+      "passed": true
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "itemIndex": 27,
+      "startLine": 90,
+      "endLine": 136,
+      "passed": true
+    }
+  ],
+  "remainingDependencies": [
+    "Room47 FieldControlBasisEntity and FieldControlBasisDao source bodies are still missing.",
+    "Purge47 introduces clearHeightReferenceCaptures; its concrete application wiring and matching privacy test predecessor remain to recover.",
+    "Room48 source dependencies are in the manual-measure sub-lot.",
+    "Room49 source dependencies are in room49-observed, room49-offline-pack and GPS persistence sub-lots; CartographicLayerDao still pending."
+  ],
+  "limits": [
+    "Room49 here is the complete historically observed earlyNovember7 blob; later NonCancellable purge edits are distinct.",
+    "This is a compatible source chain, not a claim that every dependency is recovered."
+  ],
+  "execution": "No historical command executed. Source patches applied only to in-memory strings; no repository changes/build/test/ADB/push."
+}

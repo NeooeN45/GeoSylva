@@ -1,0 +1,141 @@
+{
+  "schema": "geosylva.incomplete-code-fragments.v2",
+  "createdUTC": "2026-11-14T14:35:15.715865+00:00",
+  "checkpoint": 5,
+  "completeSources": false,
+  "compilableAsSources": false,
+  "excludedFromCompleteSourceCounts": true,
+  "fragments": [
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-mapbox-sources/fragments/SharedMapboxCanvas-observed-source18.lines.json",
+      "sha256": "c2b8c8eee8a9d24d16d81ba6c1c7a978a331c57e6b131af68dc3bdf361f3051e",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "version": "source18-before-source20/21",
+      "completeSource": false,
+      "codeLinesObserved": 359,
+      "gaps": [
+        "Sparse exact lines only; absent source lines remain absent",
+        "Do not combine with later numbering without a proven edit chain"
+      ]
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-recent-patches/fragments/SharedMapboxCanvas-source21-original.lines.json",
+      "sha256": "f7312d5cfdaf1c0df9afe5969332618a70829bcba3b8506ad1925075367e83ce",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "version": "source21-original-before-CAM21-01",
+      "completeSource": false,
+      "codeLinesObserved": 438,
+      "gaps": [
+        "Sparse exact lines only; complete source and EOF are not established."
+      ]
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/initial-maprecherche-known-lines.json",
+      "sha256": "50767492ea6574fbbfba4283d5db7e4b9c0dc8417b9518190139fcd1701c8307",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "initial-workspace-thread-observed-lines",
+      "completeSource": false,
+      "codeLinesObserved": 732,
+      "gaps": [
+        [
+          595,
+          749
+        ]
+      ]
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-mapbox-sources/fragments/SharedMapboxCanvas-observed-source18.lines.checkpoint3-e5c8e26cbc74.json",
+      "sha256": "e5c8e26cbc7418082c63a44aa503d20a24f8dd9ad4b3b20d85391452732cf8ac",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "version": "camera-resume13 latest turn source18, before SOURCE20/21; line offsets differ later:expanded-checkpoint3",
+      "completeSource": false,
+      "codeLinesObserved": 574,
+      "gaps": [
+        "Sparse exact lines only; absent source lines remain absent",
+        "Do not combine with later numbering without a proven edit chain"
+      ]
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/root0003-initial-maprecherche-known-lines.json",
+      "sha256": "e2572636fb4ae03f1ea24842ad31595b0b9ff37d7fab83d7f068fd0a1611aca4",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "observed reads before manual integration command item114",
+      "completeSource": false,
+      "codeLinesObserved": 438,
+      "gaps": [
+        [
+          264,
+          314
+        ],
+        [
+          338,
+          509
+        ],
+        [
+          533,
+          649
+        ],
+        [
+          763,
+          844
+        ]
+      ]
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-domain-sources/fragments/root0002-item195-CartographicWorkspaceMigrations.kt.literal.fragment",
+      "sha256": "6c49ee50692359149c3296b083d53ec7b7aeefb4ae606b911f0fd9045ab232bc",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/CartographicWorkspaceMigrations.kt",
+      "version": "truncated-recorded-code-bytes-item195",
+      "completeSource": false,
+      "compilableAsSource": false,
+      "fragmentFormat": "text",
+      "codeLinesObserved": 7,
+      "lastLineMayBePartial": true,
+      "gaps": [
+        "Recorded source/diff truncated at 250 characters; absent bytes are not reconstructed."
+      ]
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-domain-sources/fragments/root0002-item195-ForestryDatabase.kt.patch.fragment",
+      "sha256": "44afb97c88655cdf4c9fc350326196b2eacbb317f7ba7a1c4aebbbd5b9e9ca94",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "version": "truncated-recorded-code-bytes-item195",
+      "completeSource": false,
+      "compilableAsSource": false,
+      "fragmentFormat": "text",
+      "codeLinesObserved": 4,
+      "lastLineMayBePartial": true,
+      "gaps": [
+        "Recorded source/diff truncated at 250 characters; absent bytes are not reconstructed."
+      ]
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-domain-sources/fragments/root0007-read-46-SegmentedTraceRecorder.kt.fragment",
+      "sha256": "7b1ad986930a0618e8a1c5efa2c231c31a7f713caf42743e752c7fe96f60ba81",
+      "sourcePath": "app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt",
+      "version": "incomplete-dated-observation",
+      "completeSource": false,
+      "compilableAsSource": false,
+      "fragmentFormat": "text",
+      "codeLinesObserved": 107,
+      "lastLineMayBePartial": true,
+      "gaps": [
+        "cut at the output limit inside accept(); never a complete source file"
+      ]
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/literal-ui-fragments/01a1ad13-c050-733a-9871-44c82f130226/exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt.lines-1-330.txt",
+      "sha256": "76f2589add8c0ec5b4d00d57283b0dbf372e20df91b6cc511e5b059cf9fc97bf",
+      "sourcePath": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt",
+      "version": "exact_literal_command_prefix_only",
+      "completeSource": false,
+      "compilableAsSource": false,
+      "fragmentFormat": "text",
+      "codeLinesObserved": 330,
+      "lastLineMayBePartial": false,
+      "gaps": [
+        "Command is cut at20000 characters before heredoc EOF. This is not a complete Kotlin source."
+      ]
+    }
+  ]
+}

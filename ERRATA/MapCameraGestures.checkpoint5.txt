@@ -1,0 +1,20 @@
+ERRATUM DE CLASSEMENT — MAPCAMERAGESTURES
+
+L'ancien artefact SHA256
+001ec6de9b7a19ce8c82476ee37a1b55b0f8f3e129508cca1ada0ebd7f72e348
+avait perdu deux lignes d'en-tête (@file:OptIn et la ligne vide suivante) lors
+d'une extraction composée. Ses octets et son entrée historique sont conservés.
+
+Le classement courant est « extrait incomplet supersédé ». Cet artefact est
+exclu des comptes complets et de la sélection courante. Le bloc explicite
+classificationOverrides de MANIFEST.json applique cet erratum sans réécrire
+les pièces ou preuves déjà archivées.
+
+La source complète indépendante SHA256
+a632e359826616d31509d34ec6e9c0eb2e88db6a7f41e77b0d3752fca941dfa7
+est archivée séparément dans module-expansion/versions avec sa provenance.
+Le reste du fichier, après les deux lignes rétablies, est exactement identique
+aux anciens octets. camera-artifact-errata.json décrit l'observation complète.
+
+Les quatre Canvas et les autres sources caméra à SHA historique concordant
+ne sont pas déclassés par cet erratum. Aucune compilation n'est revendiquée.

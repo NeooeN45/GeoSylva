@@ -1,0 +1,211 @@
+{
+  "events": [
+    {
+      "source": "packs-offline-batch6.json",
+      "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+      "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+      "turnStartedAt": "2026-11-07T08:59:01+00:00",
+      "item": "exec-7376d2e1-7564-4709-949c-2c5b3e8cf7b3",
+      "itemIndex": 40,
+      "historicalCommandSha256": "f9b2135580626323f9ec62fce808da196044d37a9d9020d80ee8e08b8c2ad8ee",
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "eventId": "initial-OfflineMapPackEntity.kt",
+      "operation": "literal_heredoc_add",
+      "sourceDelimiter": "EOF",
+      "sha256": "341debea50f69821b3441a6969a0e70b4c3c82d50bbe0815e432dcb3bbe29c71",
+      "artifact": "events/initial-OfflineMapPackEntity.kt.literal"
+    },
+    {
+      "source": "packs-offline-batch6.json",
+      "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+      "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+      "turnStartedAt": "2026-11-07T08:59:01+00:00",
+      "item": "exec-7376d2e1-7564-4709-949c-2c5b3e8cf7b3",
+      "itemIndex": 40,
+      "historicalCommandSha256": "f9b2135580626323f9ec62fce808da196044d37a9d9020d80ee8e08b8c2ad8ee",
+      "path": "app/src/main/java/com/forestry/counter/data/local/dao/OfflineMapPackDao.kt",
+      "eventId": "initial-OfflineMapPackDao.kt",
+      "operation": "literal_heredoc_add",
+      "sourceDelimiter": "EOF",
+      "sha256": "a8fc75590b5dac49dbb4f81609c3e1b8e51bc21c861e856d48132ffb6cf7980a",
+      "artifact": "events/initial-OfflineMapPackDao.kt.literal"
+    },
+    {
+      "source": "packs-offline-batch6.json",
+      "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+      "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+      "turnStartedAt": "2026-11-07T08:59:01+00:00",
+      "item": "exec-7376d2e1-7564-4709-949c-2c5b3e8cf7b3",
+      "itemIndex": 40,
+      "historicalCommandSha256": "f9b2135580626323f9ec62fce808da196044d37a9d9020d80ee8e08b8c2ad8ee",
+      "path": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "eventId": "initial-OfflineMapPackSchema.kt",
+      "operation": "literal_heredoc_add",
+      "sourceDelimiter": "EOF",
+      "sha256": "7f1a8d928701c9dbb1df5c0e7c74c0848e2ef090cf65388668077b5cb236247e",
+      "artifact": "events/initial-OfflineMapPackSchema.kt.literal"
+    },
+    {
+      "source": "packs-offline-batch6.json",
+      "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+      "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+      "turnStartedAt": "2026-11-07T08:59:01+00:00",
+      "item": "exec-a64c541c-1a35-4ee2-84e9-9f67c0284193",
+      "itemIndex": 119,
+      "historicalCommandSha256": "770dd0a92429e13cf25115b688588cee443432efde7c75dc004c6f52c191f58f",
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "eventId": "119-OfflineMapPackEntity.kt",
+      "operation": "restricted_ast_literal_replacements",
+      "predecessorSha256": "341debea50f69821b3441a6969a0e70b4c3c82d50bbe0815e432dcb3bbe29c71",
+      "sha256": "82f9317673c7efd051910457a5943271e981581f3868588826274caec21c7226",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "    val definitionHash: String,",
+          "new": "    val definitionHash: String,\n    val requestSha256: String,",
+          "matches": 1
+        }
+      ],
+      "artifact": "versions/119-OfflineMapPackEntity.kt/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt"
+    },
+    {
+      "source": "packs-offline-batch6.json",
+      "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+      "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+      "turnStartedAt": "2026-11-07T08:59:01+00:00",
+      "item": "exec-a64c541c-1a35-4ee2-84e9-9f67c0284193",
+      "itemIndex": 119,
+      "historicalCommandSha256": "770dd0a92429e13cf25115b688588cee443432efde7c75dc004c6f52c191f58f",
+      "path": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "eventId": "119-OfflineMapPackSchema.kt",
+      "operation": "restricted_ast_literal_replacements",
+      "predecessorSha256": "7f1a8d928701c9dbb1df5c0e7c74c0848e2ef090cf65388668077b5cb236247e",
+      "sha256": "b32d0c69801c5ccf0d63676cda505aadf5c7c302ed7b6fa70fe87e545a464b5d",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "`definitionHash` TEXT NOT NULL,",
+          "new": "`definitionHash` TEXT NOT NULL, `requestSha256` TEXT NOT NULL,",
+          "matches": 1
+        }
+      ],
+      "artifact": "versions/119-OfflineMapPackSchema.kt/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt"
+    },
+    {
+      "source": "packs-offline-batch6.json",
+      "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+      "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+      "turnStartedAt": "2026-11-07T09:29:42+00:00",
+      "item": "exec-1be82aaa-f6fb-4215-b0e1-215c6ae64592",
+      "itemIndex": 11,
+      "historicalCommandSha256": "2c862048478b573ef561d069d59a126b8af5ab335aac22a5ca7a1d0456addd4e",
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "eventId": "11-OfflineMapPackEntity.kt",
+      "operation": "restricted_ast_literal_replacements",
+      "predecessorSha256": "82f9317673c7efd051910457a5943271e981581f3868588826274caec21c7226",
+      "sha256": "f9bee14282d271df534fc01110f28c2171d12653a08506dc8dd8eb9f6627bf4b",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "    val status: String,\n",
+          "new": "    val status: String,\n    val familyId: String = id,\n    val replacesPackId: String? = null,\n    val versionOrdinal: Long = 1,\n    val selectedVersion: Boolean = true,\n",
+          "matches": 1
+        }
+      ],
+      "artifact": "versions/11-OfflineMapPackEntity.kt/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt"
+    },
+    {
+      "source": "packs-offline-batch6.json",
+      "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+      "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+      "turnStartedAt": "2026-11-07T09:29:42+00:00",
+      "item": "exec-1be82aaa-f6fb-4215-b0e1-215c6ae64592",
+      "itemIndex": 11,
+      "historicalCommandSha256": "2c862048478b573ef561d069d59a126b8af5ab335aac22a5ca7a1d0456addd4e",
+      "path": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "eventId": "11-OfflineMapPackSchema.kt",
+      "operation": "restricted_ast_literal_replacements",
+      "predecessorSha256": "b32d0c69801c5ccf0d63676cda505aadf5c7c302ed7b6fa70fe87e545a464b5d",
+      "sha256": "495d4503cc2174bda86eecb166291327355ddef5ac5eac6450ad349f17624cea",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "`status` TEXT NOT NULL, `stage`",
+          "new": "`status` TEXT NOT NULL, `familyId` TEXT NOT NULL, `replacesPackId` TEXT, `versionOrdinal` INTEGER NOT NULL, `selectedVersion` INTEGER NOT NULL, `stage`",
+          "matches": 1
+        }
+      ],
+      "artifact": "versions/11-OfflineMapPackSchema.kt/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt"
+    }
+  ],
+  "latestRecovered": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/dao/OfflineMapPackDao.kt",
+      "sha256": "a8fc75590b5dac49dbb4f81609c3e1b8e51bc21c861e856d48132ffb6cf7980a",
+      "lines": 20,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/local/dao/OfflineMapPackDao.kt",
+      "provenance": [
+        "initial-OfflineMapPackDao.kt"
+      ]
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "sha256": "f9bee14282d271df534fc01110f28c2171d12653a08506dc8dd8eb9f6627bf4b",
+      "lines": 41,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "provenance": [
+        "initial-OfflineMapPackEntity.kt",
+        "119-OfflineMapPackEntity.kt",
+        "11-OfflineMapPackEntity.kt"
+      ]
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "sha256": "495d4503cc2174bda86eecb166291327355ddef5ac5eac6450ad349f17624cea",
+      "lines": 12,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "provenance": [
+        "initial-OfflineMapPackSchema.kt",
+        "119-OfflineMapPackSchema.kt",
+        "11-OfflineMapPackSchema.kt"
+      ]
+    }
+  ],
+  "independentReadChecks": [
+    {
+      "source": "packs-offline-batch6.json",
+      "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+      "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+      "turnStartedAt": "2026-11-07T09:29:42+00:00",
+      "item": "exec-beb3a6e4-effb-4caf-b477-38b4f0ecee32",
+      "itemIndex": 3,
+      "historicalCommandSha256": "2d890def6377fe8084f15183fc953b93f3d08a9276529b09f45677461650f1b8",
+      "path": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "check": "complete_intermediate_source_matches_independent_read",
+      "sha256": "b32d0c69801c5ccf0d63676cda505aadf5c7c302ed7b6fa70fe87e545a464b5d",
+      "passed": true
+    },
+    {
+      "source": "packs-offline-batch6.json",
+      "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+      "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+      "turnStartedAt": "2026-11-07T09:29:42+00:00",
+      "item": "exec-beb3a6e4-effb-4caf-b477-38b4f0ecee32",
+      "itemIndex": 3,
+      "historicalCommandSha256": "2d890def6377fe8084f15183fc953b93f3d08a9276529b09f45677461650f1b8",
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "check": "complete_intermediate_source_matches_independent_read",
+      "sha256": "82f9317673c7efd051910457a5943271e981581f3868588826274caec21c7226",
+      "passed": true
+    }
+  ],
+  "patch": {
+    "artifact": "patches/offline-pack-room49-sources.patch",
+    "sha256": "f95be57dc35de909f7814ffd8d3b36a043c77a69561b9a7a98d15d1ea62c3097"
+  },
+  "limits": [
+    "Room49 registration/migration aggregator is a separate source.",
+    "Exact latest available source operations in November7 offline-pack thread; not asserted finalNovember13."
+  ],
+  "execution": "No historical shell or Python command executed; only literal heredoc extraction and AST replacements. No repository edits/build/test/ADB/push."
+}

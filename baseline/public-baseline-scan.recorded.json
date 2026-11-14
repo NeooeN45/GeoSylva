@@ -1,0 +1,15 @@
+{
+  "baseline": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+  "trackedFiles": 1389,
+  "findings": [
+    {
+      "path": "capsule-verifier/src/test/resources/contract-interop/other-public.pem",
+      "type": "private_filename"
+    },
+    {
+      "path": "capsule-verifier/src/test/resources/contract-interop/trusted-public.pem",
+      "type": "private_filename"
+    }
+  ],
+  "containsRawHistory": false
+}

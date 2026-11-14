@@ -1,0 +1,29 @@
+diff --git a/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt b/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt
+index f2bb1f1..8f08fe6 100644
+--- a/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt
++++ b/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt
+@@ -145,15 +145,23 @@ import com.forestry.counter.data.local.dao.ProjectDao
+         com.forestry.counter.data.local.entity.FieldReceiptCommandEntity::class,
+         com.forestry.counter.data.local.entity.CartographicMeasurementEntity::class,
+         com.forestry.counter.data.local.entity.CartographicStoreIdentityEntity::class,
++        com.forestry.counter.data.local.entity.CartographicLayerEntity::class,
++        com.forestry.counter.data.local.entity.CartographicLayerOperationEntity::class,
++        com.forestry.counter.data.local.entity.OfflineMapPackEntity::class,
++        com.forestry.counter.data.local.entity.CartographicTraceEntity::class,
++        com.forestry.counter.data.local.entity.CartographicTraceJournalEntity::class,
+ 
+         ProjectForestCrossRef::class
+     ],
+-    version = 48,
++    version = 49,
+     exportSchema = true
+ )
+ @TypeConverters(EnumConverters::class)
+ abstract class ForestryDatabase : RoomDatabase() {
+     abstract fun cartographicMeasurementDao(): com.forestry.counter.data.local.dao.CartographicMeasurementDao
++    abstract fun cartographicLayerDao(): com.forestry.counter.data.local.dao.CartographicLayerDao
++    abstract fun offlineMapPackDao(): com.forestry.counter.data.local.dao.OfflineMapPackDao
++    abstract fun cartographicTraceDao(): com.forestry.counter.data.local.dao.CartographicTraceDao
+     abstract fun receiptDao(): com.forestry.counter.data.local.dao.ReceiptDao
+     abstract fun fieldDao(): com.forestry.counter.data.local.dao.FieldDao
+     abstract fun fieldControlBasisDao(): com.forestry.counter.data.local.dao.FieldControlBasisDao

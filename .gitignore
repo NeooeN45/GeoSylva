@@ -12,4 +12,5 @@ token.json
 # Les archives et les essais de restauration restent hors de ce dépôt.
 *.bundle
 *.zip
+!baseline/GeoSylva-recovery-base-2026-10-19-36d1515.zip
 restore-check/

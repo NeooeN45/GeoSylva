@@ -4,13 +4,15 @@
   "sourceRoot": "/workspace/outputs/2026-11-14/recovery-recent-patches",
   "payloadRoot": "recovered/2026-11-14/recovery-recent-patches",
   "scope": "Partial recovery of work from 2026-11-13, pursued from a 2026-10-19 base; no full application snapshot is claimed.",
-  "copiedFileCount": 492,
-  "sourceFileCount": 246,
-  "patchFileCount": 19,
-  "proofFileCount": 140,
+  "copiedFileCount": 616,
+  "sourceFileCount": 337,
+  "patchFileCount": 27,
+  "proofFileCount": 161,
   "copyVerification": "Every destination byte string equals the source snapshot; source stability rechecked after copy.",
   "historicalHashVerification": "Only the explicit proof references assert a recorded or derived hash match. A newly observed SHA256 is not automatically a historical hash.",
   "limitations": [
+    "MapCameraGestures artifact SHA001ec6… retains its exact earlier bytes/entry but is effectively reclassified as superseded incomplete extraction, excluded from complete counts. Its two missing header lines are present in the independently observed full replacement SHAa632e359…. The explicit classification overlay is authoritative for current selection.",
+    "One complete source HEAD baseline archive is included separately: 19 October, Room 46, version 3.0.0/code 11, 1389 files, no .git and no historical base bundle. Its member files do not increase recovery source/variant counts.",
     "No complete final 13 November application/tree or qualified APK is claimed.",
     "Complete source artifacts, distinct technical paths and distinct source byte versions are separate counts; latest-recovered aliases do not add new byte versions.",
     "Standalone consultation sources can retain a historical artifact path without an established module target; no target source path is invented.",
@@ -19,11 +21,11 @@
     "SharedMapboxCanvas source18, source20, source21 and final P2v2 are complete with whole-source historical SHA256 matches. Earlier incomplete line maps remain historical incomplete evidence; the new complete JSON line-map proof is counted as proof, not as a Kotlin source.",
     "MapRechercheScreen files are complete bytes through the explicitly named base/observed chain only; missing later November events stop the chain and no final historical hash is asserted.",
     "Domain/data manual-measure states are dated 6 November, the shared-authority transition 7 November, and GPS states 5 November; all remain separate from an unavailable final application state.",
-    "Shared-authority dependencies and blocked Room/privacy prerequisites remain missing; complete recorded hunks without a base are not invented source files.",
+    "Room46->49 database/migration/purge source states and offline prerequisites are preserved as dated source variants. Remaining entity/DAO/wiring dependencies are listed in their manifests; the November13 application is not yet assembled.",
     "TraceWorkspace and other incomplete prefixes/diff fragments remain explicitly incomplete and outside complete source counts.",
     "The destination41c patch matches its historical SHA; whole base/candidate source bytes are not recovered by that patch proof.",
     "No raw transcripts, raw API/account metadata, credentials, local configurations, client/personal data or extraction scripts are included.",
-    "The 280 earlier payload entries and bytes are unchanged; changed source proofs have new names.",
+    "The 492 earlier payload entries and bytes are unchanged; changed source proofs have new names.",
     "Copy/provenance/XML/archive checks do not qualify a compilation, Android/JVM execution, visuals or APK.",
     "This local checkpoint preparation performs no remote upload/push; publication needs a separate remote SHA receipt."
   ],
@@ -9616,6 +9618,2422 @@
       "hashStatus": "copied-provenance-integrity-only",
       "proofReferences": [],
       "checkpoint": 4
+    },
+    {
+      "path": "baseline/BASELINE_VERIFICATION.checkpoint5.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/geosylva-backup-checkpoints",
+      "sourceRelativePath": "BASELINE_VERIFICATION.checkpoint5.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 9599,
+      "sha256": "3af759b13836d80cb8e1a9d59f103e2e752a0e1c65629deac0bace1e3ea56d52",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "baseline/GeoSylva-recovery-base-2026-10-19-36d1515.zip",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-local-inventory",
+      "sourceRelativePath": "GeoSylva-recovery-base-2026-10-19-36d1515.zip",
+      "sourcePath": null,
+      "kind": "baseline-source-archive",
+      "version": "2026-10-19:36d1515:Room46:3.0.0-code11",
+      "bytes": 25118389,
+      "sha256": "76e446c3ca6fdcc73656e7d82e06405089b1eaf0c0759ff3e08dc17e29b214a6",
+      "hashStatus": "complete-source-HEAD-archive-no-git-no-historical-bundle-excluded-from-recovery-variant-counts",
+      "proofReferences": [
+        {
+          "proofPath": "baseline/BASELINE_VERIFICATION.checkpoint5.json",
+          "pointer": "/archiveSha256",
+          "expectedSha256": "76e446c3ca6fdcc73656e7d82e06405089b1eaf0c0759ff3e08dc17e29b214a6",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "internalSourceFileCount": 1389,
+      "roomVersion": 46,
+      "versionName": "3.0.0",
+      "versionCode": 11,
+      "baseCommit": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+      "sourceFileManifest": "baseline/base-source-manifest.json"
+    },
+    {
+      "path": "baseline/base-source-manifest.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-local-inventory",
+      "sourceRelativePath": "base-source-manifest.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 282540,
+      "sha256": "a9727451121375bb6ac7cc5302eb86e7dbeafdf7727223d09df149024a10a71b",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "baseline/public-baseline-scan.recorded.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-local-inventory",
+      "sourceRelativePath": "public-baseline-scan.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 404,
+      "sha256": "33c6480b6d33bc79dbad0deb9bffadf192645c266abcc582686f0205f4ed5006",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/manifest.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 15717,
+      "sha256": "276a3a127c5dec07a4c78adcff37728db8c334d8acc3b3fce6587267b9d06b84",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/patches/room-46-to-47-registration-and-purge.patch",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/patches/room-46-to-47-registration-and-purge.patch",
+      "sourcePath": null,
+      "kind": "complete-recorded-patch",
+      "version": "Room46->Room47:registration-and-purge-source-only",
+      "bytes": 4812,
+      "sha256": "c19342b48b67b177dd0e8f5cf315f565567832543c2b97d95231edb66c62f8d3",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+          "pointer": "/sequentialPatches/0/sha256",
+          "expectedSha256": "c19342b48b67b177dd0e8f5cf315f565567832543c2b97d95231edb66c62f8d3",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/patches/room-47-to-48-registration-and-purge.patch",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/patches/room-47-to-48-registration-and-purge.patch",
+      "sourcePath": null,
+      "kind": "complete-recorded-patch",
+      "version": "Room47->Room48:registration-and-purge-source-only",
+      "bytes": 3413,
+      "sha256": "01e2c8aeba7f8d81c0752f9dfa834e3735575123bce64dda8856f3b238abaad3",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+          "pointer": "/sequentialPatches/1/sha256",
+          "expectedSha256": "01e2c8aeba7f8d81c0752f9dfa834e3735575123bce64dda8856f3b238abaad3",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/patches/room-48-to-49-registration-and-purge.patch",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/patches/room-48-to-49-registration-and-purge.patch",
+      "sourcePath": null,
+      "kind": "complete-recorded-patch",
+      "version": "Room48->Room49:registration-and-purge-source-only",
+      "bytes": 5213,
+      "sha256": "1ce60c2d02e63ea48e55e8a2e4669475135196b7ecb2a3c6e6700d5031ce2d1d",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+          "pointer": "/sequentialPatches/2/sha256",
+          "expectedSha256": "1ce60c2d02e63ea48e55e8a2e4669475135196b7ecb2a3c6e6700d5031ce2d1d",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/versions/46/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/versions/46/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "kind": "complete-source",
+      "version": "dated-room-source-state-46:versions/46/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "bytes": 58900,
+      "sha256": "9b8dd6f0f2560e3ffda8a2975885781958f708cf4deaa1eb755831f661aa1eb4",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+          "pointer": "/versions/1/sha256",
+          "expectedSha256": "9b8dd6f0f2560e3ffda8a2975885781958f708cf4deaa1eb755831f661aa1eb4",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room-source-state-46"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/versions/46/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/versions/46/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "kind": "complete-source",
+      "version": "dated-room-source-state-46:versions/46/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "bytes": 12041,
+      "sha256": "5b18251f5541a9c895cdfac593a386d9f4f2a86e3f2102521b8573b03710e13f",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+          "pointer": "/versions/0/sha256",
+          "expectedSha256": "5b18251f5541a9c895cdfac593a386d9f4f2a86e3f2102521b8573b03710e13f",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room-source-state-46"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/versions/46/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/versions/46/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "kind": "complete-source",
+      "version": "dated-room-source-state-46:versions/46/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "bytes": 6083,
+      "sha256": "17088abdc27f011b2cc6df3f706bae2e45dcd7bd382e62095c4ca55227c5875b",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+          "pointer": "/versions/2/sha256",
+          "expectedSha256": "17088abdc27f011b2cc6df3f706bae2e45dcd7bd382e62095c4ca55227c5875b",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room-source-state-46"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/versions/47/app/src/main/java/com/forestry/counter/data/local/ControlBasisMigrations.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/versions/47/app/src/main/java/com/forestry/counter/data/local/ControlBasisMigrations.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/ControlBasisMigrations.kt",
+      "kind": "complete-source",
+      "version": "dated-room-source-state-47:versions/47/app/src/main/java/com/forestry/counter/data/local/ControlBasisMigrations.kt",
+      "bytes": 825,
+      "sha256": "65f61ee858b8fee6f0939dedaedec07cbde92d32df279b37ae7b3b8c01e24434",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+          "pointer": "/versions/12/sha256",
+          "expectedSha256": "65f61ee858b8fee6f0939dedaedec07cbde92d32df279b37ae7b3b8c01e24434",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room-source-state-47"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/versions/47/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/versions/47/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "kind": "complete-source",
+      "version": "dated-room-source-state-47:versions/47/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "bytes": 58948,
+      "sha256": "b17ec003f728c7b394282baac289c481ed91d630742c010c49447a42429a7751",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+          "pointer": "/versions/4/sha256",
+          "expectedSha256": "b17ec003f728c7b394282baac289c481ed91d630742c010c49447a42429a7751",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room-source-state-47"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/versions/47/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/versions/47/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "kind": "complete-source",
+      "version": "dated-room-source-state-47:versions/47/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "bytes": 12218,
+      "sha256": "e53b7b52e72e9f63143c37545a02e70b3f45a3468986fdba642497ff2def2246",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+          "pointer": "/versions/3/sha256",
+          "expectedSha256": "e53b7b52e72e9f63143c37545a02e70b3f45a3468986fdba642497ff2def2246",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room-source-state-47"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/versions/47/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/versions/47/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "kind": "complete-source",
+      "version": "dated-room-source-state-47:versions/47/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "bytes": 6457,
+      "sha256": "cef864ee2da4872fbebe238550748bb79b00ea37b13903e53047cb99a46f0695",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+          "pointer": "/versions/5/sha256",
+          "expectedSha256": "cef864ee2da4872fbebe238550748bb79b00ea37b13903e53047cb99a46f0695",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room-source-state-47"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/versions/48/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/versions/48/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "kind": "complete-source",
+      "version": "dated-room-source-state-48:versions/48/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "bytes": 59007,
+      "sha256": "29f601dc7a28be68fd5a345a1ead18382ef8277c0dc44f102b8371438fa99a58",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+          "pointer": "/versions/7/sha256",
+          "expectedSha256": "29f601dc7a28be68fd5a345a1ead18382ef8277c0dc44f102b8371438fa99a58",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room-source-state-48"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/versions/48/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/versions/48/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "kind": "complete-source",
+      "version": "dated-room-source-state-48:versions/48/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "bytes": 12500,
+      "sha256": "cdd7ca5a86680ff2916cd90b14d39ad55bd2ed26f927a820c5ded6615191a5de",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+          "pointer": "/versions/6/sha256",
+          "expectedSha256": "cdd7ca5a86680ff2916cd90b14d39ad55bd2ed26f927a820c5ded6615191a5de",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room-source-state-48"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/versions/48/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/versions/48/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "kind": "complete-source",
+      "version": "dated-room-source-state-48:versions/48/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "bytes": 6677,
+      "sha256": "e864cbff27a86c92d43a464264c8d458d3c3c111ca13a99a3b07f06fed67c726",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+          "pointer": "/versions/8/sha256",
+          "expectedSha256": "e864cbff27a86c92d43a464264c8d458d3c3c111ca13a99a3b07f06fed67c726",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room-source-state-48"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/versions/49/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/versions/49/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "kind": "complete-source",
+      "version": "dated-room-source-state-49:versions/49/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "bytes": 59064,
+      "sha256": "23aa6042e0fa603523eeaa4b08c52aa10615f0a13b2a604664bee4fb7cca2800",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+          "pointer": "/versions/10/sha256",
+          "expectedSha256": "23aa6042e0fa603523eeaa4b08c52aa10615f0a13b2a604664bee4fb7cca2800",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room-source-state-49"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/versions/49/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/versions/49/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "kind": "complete-source",
+      "version": "dated-room-source-state-49:versions/49/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "bytes": 13196,
+      "sha256": "994f2e6268dace7e09127fde1c4962f1a4a667c60e31048b75f74ab3d5489644",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+          "pointer": "/versions/9/sha256",
+          "expectedSha256": "994f2e6268dace7e09127fde1c4962f1a4a667c60e31048b75f74ab3d5489644",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room-source-state-49"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/versions/49/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room46-49-chain/versions/49/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "kind": "complete-source",
+      "version": "dated-room-source-state-49:versions/49/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "bytes": 7745,
+      "sha256": "9125d0363595cd5b54da8128d158fdbdf9ace0f2bb05db40665bb55182db3740",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+          "pointer": "/versions/11/sha256",
+          "expectedSha256": "9125d0363595cd5b54da8128d158fdbdf9ace0f2bb05db40665bb55182db3740",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room-source-state-49"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-observed/manifest.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 10477,
+      "sha256": "746546a78e7506dd3fcdf758e630322a61bfef1ea24686ef2c16a3547f5d8e5a",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-observed/patches/DatabaseMigrations.kt.historical.patch",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-observed/patches/DatabaseMigrations.kt.historical.patch",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "kind": "complete-recorded-patch",
+      "version": "complete-observed-Room49-patch-exact-predecessor-required",
+      "bytes": 614,
+      "sha256": "ec4f0f26711296e507d8151fb2d5dd4e41339af5191a1512d33fb51150c5a1e2",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+          "pointer": "/historicalPatches/0/sha256",
+          "expectedSha256": "ec4f0f26711296e507d8151fb2d5dd4e41339af5191a1512d33fb51150c5a1e2",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-observed/patches/DeleteAllUserDataUseCase.kt.historical.patch",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-observed/patches/DeleteAllUserDataUseCase.kt.historical.patch",
+      "sourcePath": "app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "kind": "complete-recorded-patch",
+      "version": "complete-observed-Room49-patch-exact-predecessor-required",
+      "bytes": 2924,
+      "sha256": "cc025bb98c76258c0468e2fc979773f0b9e865b5556c07745e86d803d1e53b2c",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+          "pointer": "/historicalPatches/2/sha256",
+          "expectedSha256": "cc025bb98c76258c0468e2fc979773f0b9e865b5556c07745e86d803d1e53b2c",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-observed/patches/ForestryDatabase.kt.historical.patch",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-observed/patches/ForestryDatabase.kt.historical.patch",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "kind": "complete-recorded-patch",
+      "version": "complete-observed-Room49-patch-exact-predecessor-required",
+      "bytes": 1943,
+      "sha256": "73478660446751943b3d403f83521a7f5bd8750eadb5bdd7f2485ab1ccb47c92",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+          "pointer": "/historicalPatches/1/sha256",
+          "expectedSha256": "73478660446751943b3d403f83521a7f5bd8750eadb5bdd7f2485ab1ccb47c92",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-observed/patches/room49-seven-observed-sources.patch",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-observed/patches/room49-seven-observed-sources.patch",
+      "sourcePath": null,
+      "kind": "complete-recorded-patch",
+      "version": "room49-dated-observed-source-additions",
+      "bytes": 8008,
+      "sha256": "9a165a307847fbb20ef4f18d878fc27a2b5c691a2e8ee7736bdc933b07cb968c",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+          "pointer": "/additionPatch/sha256",
+          "expectedSha256": "9a165a307847fbb20ef4f18d878fc27a2b5c691a2e8ee7736bdc933b07cb968c",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/CartographicLayerMigrations.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/CartographicLayerMigrations.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/CartographicLayerMigrations.kt",
+      "kind": "complete-source",
+      "version": "complete-room49-dated-observation-not-final-nov13:recovered/app/src/main/java/com/forestry/counter/data/local/CartographicLayerMigrations.kt",
+      "bytes": 665,
+      "sha256": "57aeda6a1e89f9009a35fe990fc8ba0ae794cf7a303ab30842dd9848d683e626",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+          "pointer": "/observedSources/2/sha256",
+          "expectedSha256": "57aeda6a1e89f9009a35fe990fc8ba0ae794cf7a303ab30842dd9848d683e626",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "complete-room49-dated-observation-not-final-nov13"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/CartographicTraceMigrations.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/CartographicTraceMigrations.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/CartographicTraceMigrations.kt",
+      "kind": "complete-source",
+      "version": "complete-room49-dated-observation-not-final-nov13:recovered/app/src/main/java/com/forestry/counter/data/local/CartographicTraceMigrations.kt",
+      "bytes": 939,
+      "sha256": "0da5e401d79a7a09ba7e6a00a9efce0698e735128c215bb7c9fedecf84bb4d68",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+          "pointer": "/observedSources/1/sha256",
+          "expectedSha256": "0da5e401d79a7a09ba7e6a00a9efce0698e735128c215bb7c9fedecf84bb4d68",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "complete-room49-dated-observation-not-final-nov13"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/CartographicWorkspaceMigrations.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/CartographicWorkspaceMigrations.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/CartographicWorkspaceMigrations.kt",
+      "kind": "complete-source",
+      "version": "complete-room49-dated-observation-not-final-nov13:recovered/app/src/main/java/com/forestry/counter/data/local/CartographicWorkspaceMigrations.kt",
+      "bytes": 585,
+      "sha256": "a70c01443992439423d2683a461d032c1c8667efa867cb4b28d3e41c7e4c58b2",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+          "pointer": "/observedSources/0/sha256",
+          "expectedSha256": "a70c01443992439423d2683a461d032c1c8667efa867cb4b28d3e41c7e4c58b2",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "complete-room49-dated-observation-not-final-nov13"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/dao/CartographicTraceDao.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/dao/CartographicTraceDao.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/dao/CartographicTraceDao.kt",
+      "kind": "complete-source",
+      "version": "complete-room49-dated-observation-not-final-nov13:recovered/app/src/main/java/com/forestry/counter/data/local/dao/CartographicTraceDao.kt",
+      "bytes": 1681,
+      "sha256": "e61152e9c9a9ac1c05d0d1a72747d2b07771ce466322cf8cbdacb4fc4cf75084",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+          "pointer": "/observedSources/4/sha256",
+          "expectedSha256": "e61152e9c9a9ac1c05d0d1a72747d2b07771ce466322cf8cbdacb4fc4cf75084",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "complete-room49-dated-observation-not-final-nov13"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicLayerEntity.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicLayerEntity.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicLayerEntity.kt",
+      "kind": "complete-source",
+      "version": "complete-room49-dated-observation-not-final-nov13:recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicLayerEntity.kt",
+      "bytes": 701,
+      "sha256": "5e9e4f752253dc17363efa7d862fa22e14b9937efdb7a8802837eed973cf9f69",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+          "pointer": "/observedSources/7/sha256",
+          "expectedSha256": "5e9e4f752253dc17363efa7d862fa22e14b9937efdb7a8802837eed973cf9f69",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "complete-room49-dated-observation-not-final-nov13"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceEntity.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceEntity.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceEntity.kt",
+      "kind": "complete-source",
+      "version": "complete-room49-dated-observation-not-final-nov13:recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceEntity.kt",
+      "bytes": 607,
+      "sha256": "e793e3a4d535c2303e122d72eb6ba2c97ca80edf39ba62341d934a72edc93cd5",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+          "pointer": "/observedSources/6/sha256",
+          "expectedSha256": "e793e3a4d535c2303e122d72eb6ba2c97ca80edf39ba62341d934a72edc93cd5",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "complete-room49-dated-observation-not-final-nov13"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceJournalEntity.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceJournalEntity.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceJournalEntity.kt",
+      "kind": "complete-source",
+      "version": "complete-room49-dated-observation-not-final-nov13:recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceJournalEntity.kt",
+      "bytes": 437,
+      "sha256": "117409d027476b3ea18d12f6910c3f3ba3d1e54bc3623756aa1b956bc4c8663f",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+          "pointer": "/observedSources/8/sha256",
+          "expectedSha256": "117409d027476b3ea18d12f6910c3f3ba3d1e54bc3623756aa1b956bc4c8663f",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "complete-room49-dated-observation-not-final-nov13"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "kind": "complete-source",
+      "version": "complete-room49-dated-observation-not-final-nov13:recovered/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "bytes": 1355,
+      "sha256": "f9bee14282d271df534fc01110f28c2171d12653a08506dc8dd8eb9f6627bf4b",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+          "pointer": "/observedSources/3/sha256",
+          "expectedSha256": "f9bee14282d271df534fc01110f28c2171d12653a08506dc8dd8eb9f6627bf4b",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "complete-room49-dated-observation-not-final-nov13"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-observed/recovered/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-observed/recovered/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "kind": "complete-source",
+      "version": "complete-room49-dated-observation-not-final-nov13:recovered/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "bytes": 1526,
+      "sha256": "495d4503cc2174bda86eecb166291327355ddef5ac5eac6450ad349f17624cea",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+          "pointer": "/observedSources/5/sha256",
+          "expectedSha256": "495d4503cc2174bda86eecb166291327355ddef5ac5eac6450ad349f17624cea",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "complete-room49-dated-observation-not-final-nov13"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/complete-declarations/initial-OfflineMapPackDao.kt/app/src/main/java/com/forestry/counter/data/local/dao/OfflineMapPackDao.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-offline-pack/events/initial-OfflineMapPackDao.kt.literal",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/dao/OfflineMapPackDao.kt",
+      "kind": "complete-source",
+      "version": "complete-room49-offline-event:initial-OfflineMapPackDao.kt",
+      "bytes": 1080,
+      "sha256": "a8fc75590b5dac49dbb4f81609c3e1b8e51bc21c861e856d48132ffb6cf7980a",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/manifest.json",
+          "pointer": "/events/1/sha256",
+          "expectedSha256": "a8fc75590b5dac49dbb4f81609c3e1b8e51bc21c861e856d48132ffb6cf7980a",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room49-offline-source-state"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/complete-declarations/initial-OfflineMapPackEntity.kt/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-offline-pack/events/initial-OfflineMapPackEntity.kt.literal",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "kind": "complete-source",
+      "version": "complete-room49-offline-event:initial-OfflineMapPackEntity.kt",
+      "bytes": 1178,
+      "sha256": "341debea50f69821b3441a6969a0e70b4c3c82d50bbe0815e432dcb3bbe29c71",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/manifest.json",
+          "pointer": "/events/0/sha256",
+          "expectedSha256": "341debea50f69821b3441a6969a0e70b4c3c82d50bbe0815e432dcb3bbe29c71",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room49-offline-source-state"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/complete-declarations/initial-OfflineMapPackSchema.kt/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-offline-pack/events/initial-OfflineMapPackSchema.kt.literal",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "kind": "complete-source",
+      "version": "complete-room49-offline-event:initial-OfflineMapPackSchema.kt",
+      "bytes": 1375,
+      "sha256": "7f1a8d928701c9dbb1df5c0e7c74c0848e2ef090cf65388668077b5cb236247e",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/manifest.json",
+          "pointer": "/events/2/sha256",
+          "expectedSha256": "7f1a8d928701c9dbb1df5c0e7c74c0848e2ef090cf65388668077b5cb236247e",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room49-offline-source-state"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/manifest.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-offline-pack/manifest.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 10586,
+      "sha256": "020c3bd2ab747649b324d5651fe79236b195fc5132427e974490912dbd4522c7",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/patches/offline-pack-room49-sources.patch",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-offline-pack/patches/offline-pack-room49-sources.patch",
+      "sourcePath": null,
+      "kind": "complete-recorded-patch",
+      "version": "room49-offline-source-additions-not-qualified-application",
+      "bytes": 4967,
+      "sha256": "f95be57dc35de909f7814ffd8d3b36a043c77a69561b9a7a98d15d1ea62c3097",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/manifest.json",
+          "pointer": "/patch/sha256",
+          "expectedSha256": "f95be57dc35de909f7814ffd8d3b36a043c77a69561b9a7a98d15d1ea62c3097",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/recovered/app/src/main/java/com/forestry/counter/data/local/dao/OfflineMapPackDao.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-offline-pack/recovered/app/src/main/java/com/forestry/counter/data/local/dao/OfflineMapPackDao.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/dao/OfflineMapPackDao.kt",
+      "kind": "complete-source",
+      "version": "latest-recovered-room49-offline-alias:recovered/app/src/main/java/com/forestry/counter/data/local/dao/OfflineMapPackDao.kt",
+      "bytes": 1080,
+      "sha256": "a8fc75590b5dac49dbb4f81609c3e1b8e51bc21c861e856d48132ffb6cf7980a",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/manifest.json",
+          "pointer": "/latestRecovered/0/sha256",
+          "expectedSha256": "a8fc75590b5dac49dbb4f81609c3e1b8e51bc21c861e856d48132ffb6cf7980a",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "latest-recovered-room49-offline-alias",
+      "aliasesSourceVersionPath": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/complete-declarations/initial-OfflineMapPackDao.kt/app/src/main/java/com/forestry/counter/data/local/dao/OfflineMapPackDao.kt"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/recovered/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-offline-pack/recovered/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "kind": "complete-source",
+      "version": "latest-recovered-room49-offline-alias:recovered/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "bytes": 1355,
+      "sha256": "f9bee14282d271df534fc01110f28c2171d12653a08506dc8dd8eb9f6627bf4b",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/manifest.json",
+          "pointer": "/latestRecovered/1/sha256",
+          "expectedSha256": "f9bee14282d271df534fc01110f28c2171d12653a08506dc8dd8eb9f6627bf4b",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "latest-recovered-room49-offline-alias",
+      "aliasesSourceVersionPath": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/versions/11-OfflineMapPackEntity.kt/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/recovered/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-offline-pack/recovered/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "kind": "complete-source",
+      "version": "latest-recovered-room49-offline-alias:recovered/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "bytes": 1526,
+      "sha256": "495d4503cc2174bda86eecb166291327355ddef5ac5eac6450ad349f17624cea",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/manifest.json",
+          "pointer": "/latestRecovered/2/sha256",
+          "expectedSha256": "495d4503cc2174bda86eecb166291327355ddef5ac5eac6450ad349f17624cea",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "latest-recovered-room49-offline-alias",
+      "aliasesSourceVersionPath": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/versions/11-OfflineMapPackSchema.kt/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/versions/11-OfflineMapPackEntity.kt/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-offline-pack/versions/11-OfflineMapPackEntity.kt/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "kind": "complete-source",
+      "version": "complete-room49-offline-event:11-OfflineMapPackEntity.kt",
+      "bytes": 1355,
+      "sha256": "f9bee14282d271df534fc01110f28c2171d12653a08506dc8dd8eb9f6627bf4b",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/manifest.json",
+          "pointer": "/events/5/sha256",
+          "expectedSha256": "f9bee14282d271df534fc01110f28c2171d12653a08506dc8dd8eb9f6627bf4b",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room49-offline-source-state"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/versions/11-OfflineMapPackSchema.kt/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-offline-pack/versions/11-OfflineMapPackSchema.kt/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "kind": "complete-source",
+      "version": "complete-room49-offline-event:11-OfflineMapPackSchema.kt",
+      "bytes": 1526,
+      "sha256": "495d4503cc2174bda86eecb166291327355ddef5ac5eac6450ad349f17624cea",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/manifest.json",
+          "pointer": "/events/6/sha256",
+          "expectedSha256": "495d4503cc2174bda86eecb166291327355ddef5ac5eac6450ad349f17624cea",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room49-offline-source-state"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/versions/119-OfflineMapPackEntity.kt/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-offline-pack/versions/119-OfflineMapPackEntity.kt/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "kind": "complete-source",
+      "version": "complete-room49-offline-event:119-OfflineMapPackEntity.kt",
+      "bytes": 1209,
+      "sha256": "82f9317673c7efd051910457a5943271e981581f3868588826274caec21c7226",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/manifest.json",
+          "pointer": "/events/3/sha256",
+          "expectedSha256": "82f9317673c7efd051910457a5943271e981581f3868588826274caec21c7226",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room49-offline-source-state"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/versions/119-OfflineMapPackSchema.kt/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-domain-sources",
+      "sourceRelativePath": "room49-offline-pack/versions/119-OfflineMapPackSchema.kt/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "kind": "complete-source",
+      "version": "complete-room49-offline-event:119-OfflineMapPackSchema.kt",
+      "bytes": 1406,
+      "sha256": "b32d0c69801c5ccf0d63676cda505aadf5c7c302ed7b6fa70fe87e545a464b5d",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-domain-sources/room49-offline-pack/manifest.json",
+          "pointer": "/events/4/sha256",
+          "expectedSha256": "b32d0c69801c5ccf0d63676cda505aadf5c7c302ed7b6fa70fe87e545a464b5d",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5,
+      "sourceRole": "dated-room49-offline-source-state"
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/camera-artifact-errata.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/camera-artifact-errata.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 2381,
+      "sha256": "83920c698187526d1612081742067ca74c5820e204450c6fd37ee8323a13385f",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/camera-selection-for-assembly.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 18281,
+      "sha256": "05e41d1032b01e358a6f8c4516d7d244064f17cbfed0aaacc63ac088dd8b6a16",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/module-recovery-manifest.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 138758,
+      "sha256": "474f1c8a990158dab1078006f9e72bf8ff801b21e2e2b00807ed3516307342e8",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-03T17-32-28+00-00--01a1a278--item132/cartography-mapbox/README.md",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-03T17-32-28+00-00--01a1a278--item132/cartography-mapbox/README.md",
+      "sourcePath": "cartography-mapbox/README.md",
+      "kind": "recovered-project-document",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-03T17-32-28+00-00--01a1a278--item132/cartography-mapbox/README.md",
+      "bytes": 2423,
+      "sha256": "d5e51ed63c841d5c3c75be0fbc9254b67abd8fc2e18c7ca50d6c93fd30dffb8c",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/1/sha256",
+          "expectedSha256": "d5e51ed63c841d5c3c75be0fbc9254b67abd8fc2e18c7ca50d6c93fd30dffb8c",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-03T17-32-28+00-00--01a1a278--item39/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceState.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-03T17-32-28+00-00--01a1a278--item39/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceState.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceState.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-03T17-32-28+00-00--01a1a278--item39/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceState.kt",
+      "bytes": 2072,
+      "sha256": "036f3dbb74db067949bdfeb7b33294c127c4aaaa8b196fbdcf06beaeb61f2c6c",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/34/sha256",
+          "expectedSha256": "036f3dbb74db067949bdfeb7b33294c127c4aaaa8b196fbdcf06beaeb61f2c6c",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-03T17-32-28+00-00--01a1a278--item45/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxCanvasModels.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-03T17-32-28+00-00--01a1a278--item45/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxCanvasModels.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxCanvasModels.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-03T17-32-28+00-00--01a1a278--item45/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxCanvasModels.kt",
+      "bytes": 3343,
+      "sha256": "e1493ebe23e755bc9d64ff47e2fa2ebdcf9de4f64e5816ecfda11e815bb30de1",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/23/sha256",
+          "expectedSha256": "e1493ebe23e755bc9d64ff47e2fa2ebdcf9de4f64e5816ecfda11e815bb30de1",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-03T17-33-08+00-00--01a1a278--item34/cartography-mapbox/build.gradle.kts",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-03T17-33-08+00-00--01a1a278--item34/cartography-mapbox/build.gradle.kts",
+      "sourcePath": "cartography-mapbox/build.gradle.kts",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-03T17-33-08+00-00--01a1a278--item34/cartography-mapbox/build.gradle.kts",
+      "bytes": 810,
+      "sha256": "0e4705bce7936da0ba3c32b4e838d6aced6112db3f09e2d723337a547d8b6088",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/2/sha256",
+          "expectedSha256": "0e4705bce7936da0ba3c32b4e838d6aced6112db3f09e2d723337a547d8b6088",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-03T17-33-08+00-00--01a1a278--item34/cartography-mapbox/src/main/AndroidManifest.xml",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-03T17-33-08+00-00--01a1a278--item34/cartography-mapbox/src/main/AndroidManifest.xml",
+      "sourcePath": "cartography-mapbox/src/main/AndroidManifest.xml",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-03T17-33-08+00-00--01a1a278--item34/cartography-mapbox/src/main/AndroidManifest.xml",
+      "bytes": 149,
+      "sha256": "678647a824ef7ab16066708585790ab265135d32fdf84bcd918a4b050f8891b9",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/4/sha256",
+          "expectedSha256": "678647a824ef7ab16066708585790ab265135d32fdf84bcd918a4b050f8891b9",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-03T17-33-08+00-00--01a1a278--item40/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-03T17-33-08+00-00--01a1a278--item40/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-03T17-33-08+00-00--01a1a278--item40/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "bytes": 7229,
+      "sha256": "ab398582771f528a008d6ccd19429adf77726c918ad1a2e92c290375a618d252",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/28/sha256",
+          "expectedSha256": "ab398582771f528a008d6ccd19429adf77726c918ad1a2e92c290375a618d252",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-03T17-33-08+00-00--01a1a278--item40/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapboxConfigurationTest.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-03T17-33-08+00-00--01a1a278--item40/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapboxConfigurationTest.kt",
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapboxConfigurationTest.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-03T17-33-08+00-00--01a1a278--item40/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapboxConfigurationTest.kt",
+      "bytes": 2038,
+      "sha256": "2f3dde831c8e8f55736cb37996de5add5609ef3e54ab8942ebd0eb214d1c0f8a",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/47/sha256",
+          "expectedSha256": "2f3dde831c8e8f55736cb37996de5add5609ef3e54ab8942ebd0eb214d1c0f8a",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-05T18-56-58+00-00--01a1ad12--item328/cartography-mapbox/README.md",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-05T18-56-58+00-00--01a1ad12--item328/cartography-mapbox/README.md",
+      "sourcePath": "cartography-mapbox/README.md",
+      "kind": "recovered-project-document",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-05T18-56-58+00-00--01a1ad12--item328/cartography-mapbox/README.md",
+      "bytes": 2697,
+      "sha256": "1104776a7706ec0d6e2ddedf509320fb620eba6ffda866786a072a11883c8b4a",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/0/sha256",
+          "expectedSha256": "1104776a7706ec0d6e2ddedf509320fb620eba6ffda866786a072a11883c8b4a",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-05T18-58-35+00-00--01a1ad13--item9/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-05T18-58-35+00-00--01a1ad13--item9/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-05T18-58-35+00-00--01a1ad13--item9/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "bytes": 2415,
+      "sha256": "cbd0f7bb82f436bba3901a7e3c69dc052f8820e7d2f0f89e9bfdb6ed219b9d2d",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/35/sha256",
+          "expectedSha256": "cbd0f7bb82f436bba3901a7e3c69dc052f8820e7d2f0f89e9bfdb6ed219b9d2d",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-05T18-58-35+00-00--01a1ad13--item9/cartography-mapbox/src/main/res/values/trace_strings.xml",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-05T18-58-35+00-00--01a1ad13--item9/cartography-mapbox/src/main/res/values/trace_strings.xml",
+      "sourcePath": "cartography-mapbox/src/main/res/values/trace_strings.xml",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-05T18-58-35+00-00--01a1ad13--item9/cartography-mapbox/src/main/res/values/trace_strings.xml",
+      "bytes": 4190,
+      "sha256": "a2cb53496537eb82499c6d7e5185db27ca42586ae74064911eba31594ad90ed6",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/37/sha256",
+          "expectedSha256": "a2cb53496537eb82499c6d7e5185db27ca42586ae74064911eba31594ad90ed6",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-05T19-04-58+00-00--01a1ad19--item11/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-05T19-04-58+00-00--01a1ad19--item11/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-05T19-04-58+00-00--01a1ad19--item11/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "bytes": 6228,
+      "sha256": "cee4f84b3bad43595a0daf8b8273aafb9aec64288863a2eac6082d28632f5b04",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/13/sha256",
+          "expectedSha256": "cee4f84b3bad43595a0daf8b8273aafb9aec64288863a2eac6082d28632f5b04",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-06T11-02-36+00-00--01a1b086--item55/cartography-mapbox/build.gradle.kts",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-06T11-02-36+00-00--01a1b086--item55/cartography-mapbox/build.gradle.kts",
+      "sourcePath": "cartography-mapbox/build.gradle.kts",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-06T11-02-36+00-00--01a1b086--item55/cartography-mapbox/build.gradle.kts",
+      "bytes": 961,
+      "sha256": "df009bf4e6cb1bd4065204ae636e0f9725414be41fb111f0ee6c17847338f5d7",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/3/sha256",
+          "expectedSha256": "df009bf4e6cb1bd4065204ae636e0f9725414be41fb111f0ee6c17847338f5d7",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T08-58-46+00-00--01a1b53b--item91/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T08-58-46+00-00--01a1b53b--item91/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T08-58-46+00-00--01a1b53b--item91/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "bytes": 6173,
+      "sha256": "d156ce3ca3f4c89ccadf840178a39d938e8ba1b5b5e0bfce02a1243b86641299",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/14/sha256",
+          "expectedSha256": "d156ce3ca3f4c89ccadf840178a39d938e8ba1b5b5e0bfce02a1243b86641299",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T08-59-01+00-00--01a1b53b--item38/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T08-59-01+00-00--01a1b53b--item38/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T08-59-01+00-00--01a1b53b--item38/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "bytes": 8155,
+      "sha256": "b8e7de7e9ce70f885c457294dfb1e06694d7aa6304f689e47c8d3b04f5c300ff",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/30/sha256",
+          "expectedSha256": "b8e7de7e9ce70f885c457294dfb1e06694d7aa6304f689e47c8d3b04f5c300ff",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T08-59-01+00-00--01a1b53b--item81/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineMapContractTest.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T08-59-01+00-00--01a1b53b--item81/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineMapContractTest.kt",
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineMapContractTest.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T08-59-01+00-00--01a1b53b--item81/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineMapContractTest.kt",
+      "bytes": 2745,
+      "sha256": "c85409b9ec04efea207f6a29a1b0d9b319d23c23060360a68cd439c31c72f30b",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/52/sha256",
+          "expectedSha256": "c85409b9ec04efea207f6a29a1b0d9b319d23c23060360a68cd439c31c72f30b",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T09-24-10+00-00--01a1b552--item65/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineMapModels.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T09-24-10+00-00--01a1b552--item65/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineMapModels.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineMapModels.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T09-24-10+00-00--01a1b552--item65/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineMapModels.kt",
+      "bytes": 2896,
+      "sha256": "c968e1aeedcce56fd942c696c2413b7b61ebe6adcc5a09ba55cdbc7775567f99",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/32/sha256",
+          "expectedSha256": "c968e1aeedcce56fd942c696c2413b7b61ebe6adcc5a09ba55cdbc7775567f99",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T09-51-38+00-00--01a1b56b--item17/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprint.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T09-51-38+00-00--01a1b56b--item17/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprint.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprint.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T09-51-38+00-00--01a1b56b--item17/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprint.kt",
+      "bytes": 2515,
+      "sha256": "6dde66101d98c43d7966db80792c48a97bee5124f11c91ba4f0636eac15c9a8c",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/20/sha256",
+          "expectedSha256": "6dde66101d98c43d7966db80792c48a97bee5124f11c91ba4f0636eac15c9a8c",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T09-51-38+00-00--01a1b56b--item17/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprintTest.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T09-51-38+00-00--01a1b56b--item17/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprintTest.kt",
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprintTest.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T09-51-38+00-00--01a1b56b--item17/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprintTest.kt",
+      "bytes": 3312,
+      "sha256": "d929f92888fdcd603faac6e919552160eb7b34aab02363feddf61e696550f4e2",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/46/sha256",
+          "expectedSha256": "d929f92888fdcd603faac6e919552160eb7b34aab02363feddf61e696550f4e2",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T09-56-15+00-00--01a1b56f--item19/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapPinGeometryTest.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T09-56-15+00-00--01a1b56f--item19/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapPinGeometryTest.kt",
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapPinGeometryTest.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T09-56-15+00-00--01a1b56f--item19/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapPinGeometryTest.kt",
+      "bytes": 1758,
+      "sha256": "c4203e82ea5736a27303b149da8ecfff884937cc7e74827e2cad9722c75e7a9b",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/43/sha256",
+          "expectedSha256": "c4203e82ea5736a27303b149da8ecfff884937cc7e74827e2cad9722c75e7a9b",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T09-56-15+00-00--01a1b56f--item84/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayRasterBudget.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T09-56-15+00-00--01a1b56f--item84/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayRasterBudget.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayRasterBudget.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T09-56-15+00-00--01a1b56f--item84/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayRasterBudget.kt",
+      "bytes": 1431,
+      "sha256": "cb101f9d902d1fb7831281f4220e91805edbe6511f21c448713694865f78752a",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/26/sha256",
+          "expectedSha256": "cb101f9d902d1fb7831281f4220e91805edbe6511f21c448713694865f78752a",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T09-56-15+00-00--01a1b56f--item92/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/OverlayRasterBudgetTest.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T09-56-15+00-00--01a1b56f--item92/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/OverlayRasterBudgetTest.kt",
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/OverlayRasterBudgetTest.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T09-56-15+00-00--01a1b56f--item92/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/OverlayRasterBudgetTest.kt",
+      "bytes": 4329,
+      "sha256": "6fff562e095c3480d654986abde5efd3d6bd57fee8dcc558ed4f0ab631f49681",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/48/sha256",
+          "expectedSha256": "6fff562e095c3480d654986abde5efd3d6bd57fee8dcc558ed4f0ab631f49681",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item15/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxPublicConfiguration.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item15/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxPublicConfiguration.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxPublicConfiguration.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item15/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxPublicConfiguration.kt",
+      "bytes": 383,
+      "sha256": "b96da7bcfc04b40c7bb866dd4eea02959a54c4106ffd6eadab94c9ef9fcb3bb2",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/24/sha256",
+          "expectedSha256": "b96da7bcfc04b40c7bb866dd4eea02959a54c4106ffd6eadab94c9ef9fcb3bb2",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarChrome.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarChrome.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarChrome.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarChrome.kt",
+      "bytes": 4062,
+      "sha256": "6f738c2d6b37d7d79355a23109f34b179b5f70358096b4e7accc6b4e74caa3ba",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/16/sha256",
+          "expectedSha256": "6f738c2d6b37d7d79355a23109f34b179b5f70358096b4e7accc6b4e74caa3ba",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicy.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicy.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicy.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicy.kt",
+      "bytes": 980,
+      "sha256": "10011f6b52bfa541ffd4105588ae0b0b65f204e28ec9c8fdda7b40906a1bc1ed",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/18/sha256",
+          "expectedSha256": "10011f6b52bfa541ffd4105588ae0b0b65f204e28ec9c8fdda7b40906a1bc1ed",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayLabelBadgePixels.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayLabelBadgePixels.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayLabelBadgePixels.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayLabelBadgePixels.kt",
+      "bytes": 1017,
+      "sha256": "497368093758b03c33348e1c99f2cdf049bf148b53f3c91580eae1445ba7fa51",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/25/sha256",
+          "expectedSha256": "497368093758b03c33348e1c99f2cdf049bf148b53f3c91580eae1445ba7fa51",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/res/values/map_system_bar_ids.xml",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/res/values/map_system_bar_ids.xml",
+      "sourcePath": "cartography-mapbox/src/main/res/values/map_system_bar_ids.xml",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/res/values/map_system_bar_ids.xml",
+      "bytes": 86,
+      "sha256": "e114aa4e85f96fff7b27dd29a3c1d667ae4e3e77678b89d9eaddead76c8de6fb",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/36/sha256",
+          "expectedSha256": "e114aa4e85f96fff7b27dd29a3c1d667ae4e3e77678b89d9eaddead76c8de6fb",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapLabelBadgeTest.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapLabelBadgeTest.kt",
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapLabelBadgeTest.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapLabelBadgeTest.kt",
+      "bytes": 2982,
+      "sha256": "6162508060852a9a03b388ecda8a1cd2152c3145f7cbb63aa04ce62f431c676a",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/42/sha256",
+          "expectedSha256": "6162508060852a9a03b388ecda8a1cd2152c3145f7cbb63aa04ce62f431c676a",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicyTest.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicyTest.kt",
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicyTest.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicyTest.kt",
+      "bytes": 1612,
+      "sha256": "6a5977f818b7f8223cc5dd5439852117fcf73684d08678b3d19281386990ae88",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/45/sha256",
+          "expectedSha256": "6a5977f818b7f8223cc5dd5439852117fcf73684d08678b3d19281386990ae88",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-50-20+00-00--01a1b5d8--item124/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/PointLabelPlacementTest.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T11-50-20+00-00--01a1b5d8--item124/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/PointLabelPlacementTest.kt",
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/PointLabelPlacementTest.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T11-50-20+00-00--01a1b5d8--item124/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/PointLabelPlacementTest.kt",
+      "bytes": 2587,
+      "sha256": "997e9c94d3bb544c31b28ff4a8eff67b90878c1ed623044fd23868a1e2594718",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/50/sha256",
+          "expectedSha256": "997e9c94d3bb544c31b28ff4a8eff67b90878c1ed623044fd23868a1e2594718",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-50-20+00-00--01a1b5d8--item36/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlaySourceAckGate.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T11-50-20+00-00--01a1b5d8--item36/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlaySourceAckGate.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlaySourceAckGate.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T11-50-20+00-00--01a1b5d8--item36/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlaySourceAckGate.kt",
+      "bytes": 2411,
+      "sha256": "48d04439aa6a003f1bc20545e53550f0eefe68b234f5202625105db959afbc59",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/27/sha256",
+          "expectedSha256": "48d04439aa6a003f1bc20545e53550f0eefe68b234f5202625105db959afbc59",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-50-20+00-00--01a1b5d8--item36/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/OverlaySourceAckGateTest.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T11-50-20+00-00--01a1b5d8--item36/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/OverlaySourceAckGateTest.kt",
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/OverlaySourceAckGateTest.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T11-50-20+00-00--01a1b5d8--item36/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/OverlaySourceAckGateTest.kt",
+      "bytes": 4869,
+      "sha256": "61712be04c28645cba5733ae47550fdee04c20e596a84546e585568372744f24",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/49/sha256",
+          "expectedSha256": "61712be04c28645cba5733ae47550fdee04c20e596a84546e585568372744f24",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T13-00-15+00-00--01a1b618--item71/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T13-00-15+00-00--01a1b618--item71/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T13-00-15+00-00--01a1b618--item71/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "bytes": 10084,
+      "sha256": "075df5dd7f2ea07215159ba8c835d1c60b528b9c3ed2679cbef9926ace68eaa5",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/29/sha256",
+          "expectedSha256": "075df5dd7f2ea07215159ba8c835d1c60b528b9c3ed2679cbef9926ace68eaa5",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T13-00-15+00-00--01a1b618--item85/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineNativeDiagnostics.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T13-00-15+00-00--01a1b618--item85/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineNativeDiagnostics.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineNativeDiagnostics.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T13-00-15+00-00--01a1b618--item85/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineNativeDiagnostics.kt",
+      "bytes": 2930,
+      "sha256": "bcd5bce06c9e6dde7e7722a2b202e911a986b4104c156e4af96e9f258d87332a",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/33/sha256",
+          "expectedSha256": "bcd5bce06c9e6dde7e7722a2b202e911a986b4104c156e4af96e9f258d87332a",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T13-00-15+00-00--01a1b618--item85/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineNativeDiagnosticsTest.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T13-00-15+00-00--01a1b618--item85/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineNativeDiagnosticsTest.kt",
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineNativeDiagnosticsTest.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T13-00-15+00-00--01a1b618--item85/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineNativeDiagnosticsTest.kt",
+      "bytes": 3578,
+      "sha256": "b08a18431520eb759d81b25f658ab23510694fb622cd8c3904827a08609decac",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/53/sha256",
+          "expectedSha256": "b08a18431520eb759d81b25f658ab23510694fb622cd8c3904827a08609decac",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T15-20-18+00-00--01a1b698--item37/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/SelectedLabelPriorityTest.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T15-20-18+00-00--01a1b698--item37/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/SelectedLabelPriorityTest.kt",
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/SelectedLabelPriorityTest.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T15-20-18+00-00--01a1b698--item37/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/SelectedLabelPriorityTest.kt",
+      "bytes": 1703,
+      "sha256": "12609d66dfb85d1703680b592b99a0616196a1245b82789e4d9427e5db3057b0",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/51/sha256",
+          "expectedSha256": "12609d66dfb85d1703680b592b99a0616196a1245b82789e4d9427e5db3057b0",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T15-21-58+00-00--01a1b69a--item6/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarChrome.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T15-21-58+00-00--01a1b69a--item6/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarChrome.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarChrome.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T15-21-58+00-00--01a1b69a--item6/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarChrome.kt",
+      "bytes": 4247,
+      "sha256": "d73edfeecb05938d4b402703f2df8558a035003de08750059ed3df9286aeb4c9",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/17/sha256",
+          "expectedSha256": "d73edfeecb05938d4b402703f2df8558a035003de08750059ed3df9286aeb4c9",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T16-48-30+00-00--01a1b6e9--item29/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T16-48-30+00-00--01a1b6e9--item29/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T16-48-30+00-00--01a1b6e9--item29/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "bytes": 10295,
+      "sha256": "f80aea92b9d1791b701e2dea964a5032cb66b7a708c8f452dd09621211add43e",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/31/sha256",
+          "expectedSha256": "f80aea92b9d1791b701e2dea964a5032cb66b7a708c8f452dd09621211add43e",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T16-51-59+00-00--01a1b6ec--item123/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGate.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T16-51-59+00-00--01a1b6ec--item123/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGate.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGate.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T16-51-59+00-00--01a1b6ec--item123/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGate.kt",
+      "bytes": 2535,
+      "sha256": "3248c92b8c55855517b2052c48736c15b83db26746f4ff15fc7be6ea031d2e82",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/5/sha256",
+          "expectedSha256": "3248c92b8c55855517b2052c48736c15b83db26746f4ff15fc7be6ea031d2e82",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T16-51-59+00-00--01a1b6ec--item123/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGateTest.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T16-51-59+00-00--01a1b6ec--item123/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGateTest.kt",
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGateTest.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T16-51-59+00-00--01a1b6ec--item123/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGateTest.kt",
+      "bytes": 2448,
+      "sha256": "9c7201d31404d99c2da75af5b91f4cdae8ef011908657533eced0f9e8fcc82de",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/39/sha256",
+          "expectedSha256": "9c7201d31404d99c2da75af5b91f4cdae8ef011908657533eced0f9e8fcc82de",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T16-51-59+00-00--01a1b6ec--item128/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraGestures.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T16-51-59+00-00--01a1b6ec--item128/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraGestures.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraGestures.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T16-51-59+00-00--01a1b6ec--item128/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraGestures.kt",
+      "bytes": 3534,
+      "sha256": "f828239c1ca41636ed74e8bb3312241f47b1975440bdb1db79ab62452d17ff01",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/11/sha256",
+          "expectedSha256": "f828239c1ca41636ed74e8bb3312241f47b1975440bdb1db79ab62452d17ff01",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T17-59-10+00-00--01a1b72a--item87/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGate.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-07T17-59-10+00-00--01a1b72a--item87/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGate.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGate.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-07T17-59-10+00-00--01a1b72a--item87/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGate.kt",
+      "bytes": 2545,
+      "sha256": "bbfba94cbda52e385d14ffa30ccc57a118fdef344ca0a5238fa870851ad2711f",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/8/sha256",
+          "expectedSha256": "bbfba94cbda52e385d14ffa30ccc57a118fdef344ca0a5238fa870851ad2711f",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-13T10-12-38+00-00--01a1d465--item43/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxCanvasModels.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-13T10-12-38+00-00--01a1d465--item43/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxCanvasModels.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxCanvasModels.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-13T10-12-38+00-00--01a1d465--item43/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxCanvasModels.kt",
+      "bytes": 5509,
+      "sha256": "31c28f5dc3f6b2728efe509c7ebcda86f87cf29e02ee318117af261b280d6385",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/22/sha256",
+          "expectedSha256": "31c28f5dc3f6b2728efe509c7ebcda86f87cf29e02ee318117af261b280d6385",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-13T10-33-25+00-00--01a1d478--item2/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGate.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-13T10-33-25+00-00--01a1d478--item2/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGate.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGate.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-13T10-33-25+00-00--01a1d478--item2/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGate.kt",
+      "bytes": 6594,
+      "sha256": "5a5f965104f3eb4e2fad100613c69f1cde3391d57de209aed3f1a0a75ca93639",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/6/sha256",
+          "expectedSha256": "5a5f965104f3eb4e2fad100613c69f1cde3391d57de209aed3f1a0a75ca93639",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-13T10-33-25+00-00--01a1d478--item5/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGateTest.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-13T10-33-25+00-00--01a1d478--item5/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGateTest.kt",
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGateTest.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-13T10-33-25+00-00--01a1d478--item5/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGateTest.kt",
+      "bytes": 8245,
+      "sha256": "4be1b133aa4b593641a55c3b79a2cd1acb8fddeea2a1144bee3638800421f3a8",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/38/sha256",
+          "expectedSha256": "4be1b133aa4b593641a55c3b79a2cd1acb8fddeea2a1144bee3638800421f3a8",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-13T11-32-40+00-00--01a1d4ae--item4/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraGestures.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-13T11-32-40+00-00--01a1d4ae--item4/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraGestures.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraGestures.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-13T11-32-40+00-00--01a1d4ae--item4/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraGestures.kt",
+      "bytes": 3602,
+      "sha256": "a632e359826616d31509d34ec6e9c0eb2e88db6a7f41e77b0d3752fca941dfa7",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/10/sha256",
+          "expectedSha256": "a632e359826616d31509d34ec6e9c0eb2e88db6a7f41e77b0d3752fca941dfa7",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-13T12-45-19+00-00--01a1d4f0--item38/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinement.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-13T12-45-19+00-00--01a1d4f0--item38/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinement.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinement.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-13T12-45-19+00-00--01a1d4f0--item38/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinement.kt",
+      "bytes": 5059,
+      "sha256": "020b97ec5b513e6c5aea318c48231a2c47f966207977bedf507df67e5b402827",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/9/sha256",
+          "expectedSha256": "020b97ec5b513e6c5aea318c48231a2c47f966207977bedf507df67e5b402827",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-13T16-57-14+00-00--01a1d5d7--item18/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprint.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-mapbox-sources",
+      "sourceRelativePath": "module-expansion/versions/2026-11-13T16-57-14+00-00--01a1d5d7--item18/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprint.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprint.kt",
+      "kind": "complete-source",
+      "version": "complete-module-temporal-variant:module-expansion/versions/2026-11-13T16-57-14+00-00--01a1d5d7--item18/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprint.kt",
+      "bytes": 2388,
+      "sha256": "39bf8cc8d26385e05e6b73998dd2e88b443c09b9cfcb21f0813b6c81975d34d3",
+      "hashStatus": "complete-literal-or-direct-read-temporal-variant-not-a-final-application-tree",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/module-recovery-manifest.json",
+          "pointer": "/artifacts/19/sha256",
+          "expectedSha256": "39bf8cc8d26385e05e6b73998dd2e88b443c09b9cfcb21f0813b6c81975d34d3",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-recent-patches/business-source18-readonly-recovery-proof.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-recent-patches",
+      "sourceRelativePath": "business-source18-readonly-recovery-proof.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 7240,
+      "sha256": "8e3b8591e6446017b5bce813243b9fe454d6eb01bec6be69e03d451c4903b794",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-recent-patches/complete-recorded/source18-business-readonly/app/src/androidTest/java/com/forestry/counter/data/local/BusinessReadIdentityFixture.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-recent-patches",
+      "sourceRelativePath": "complete-recorded/source18-business-readonly/app/src/androidTest/java/com/forestry/counter/data/local/BusinessReadIdentityFixture.kt",
+      "sourcePath": "app/src/androidTest/java/com/forestry/counter/data/local/BusinessReadIdentityFixture.kt",
+      "kind": "complete-source",
+      "version": "source18-business-readonly:Full verbatim source read while reviewing source18; not asserted to be final source21.",
+      "bytes": 1818,
+      "sha256": "6dec5cdfbf094d7f7351b67836dba9c448f6b7154f6a6f3d471abec9118408ef",
+      "hashStatus": "complete-literal-dated-source-read-no-independent-historical-whole-file-hash",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-recent-patches/business-source18-readonly-recovery-proof.json",
+          "pointer": "/sources/1/extractedSha256",
+          "expectedSha256": "6dec5cdfbf094d7f7351b67836dba9c448f6b7154f6a6f3d471abec9118408ef",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-recent-patches/complete-recorded/source18-business-readonly/app/src/main/java/com/forestry/counter/data/local/dao/FieldDao.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-recent-patches",
+      "sourceRelativePath": "complete-recorded/source18-business-readonly/app/src/main/java/com/forestry/counter/data/local/dao/FieldDao.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/dao/FieldDao.kt",
+      "kind": "complete-source",
+      "version": "source18-business-readonly:Full verbatim source read while reviewing source18; not asserted to be final source21.",
+      "bytes": 3413,
+      "sha256": "748f68c44b18420057dc2a63a3f31e0d0b7c6b545b5edd802541a34c71f3af33",
+      "hashStatus": "complete-literal-dated-source-read-no-independent-historical-whole-file-hash",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-recent-patches/business-source18-readonly-recovery-proof.json",
+          "pointer": "/sources/3/extractedSha256",
+          "expectedSha256": "748f68c44b18420057dc2a63a3f31e0d0b7c6b545b5edd802541a34c71f3af33",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-recent-patches/complete-recorded/source18-business-readonly/app/src/main/java/com/forestry/counter/data/repository/WoodDataAccessGate.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-recent-patches",
+      "sourceRelativePath": "complete-recorded/source18-business-readonly/app/src/main/java/com/forestry/counter/data/repository/WoodDataAccessGate.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/repository/WoodDataAccessGate.kt",
+      "kind": "complete-source",
+      "version": "source18-business-readonly:Full verbatim source read while reviewing source18; not asserted to be final source21.",
+      "bytes": 1662,
+      "sha256": "49bc867ce7bfe0f962b216a2b37a634047a57478ffb97fbdfb7ae3bcf71944bd",
+      "hashStatus": "complete-literal-dated-source-read-no-independent-historical-whole-file-hash",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-recent-patches/business-source18-readonly-recovery-proof.json",
+          "pointer": "/sources/4/extractedSha256",
+          "expectedSha256": "49bc867ce7bfe0f962b216a2b37a634047a57478ffb97fbdfb7ae3bcf71944bd",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-recent-patches/complete-recorded/source18-business-readonly/app/src/main/java/com/forestry/counter/data/sync/hierarchy/BusinessReadAccess.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-recent-patches",
+      "sourceRelativePath": "complete-recorded/source18-business-readonly/app/src/main/java/com/forestry/counter/data/sync/hierarchy/BusinessReadAccess.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/sync/hierarchy/BusinessReadAccess.kt",
+      "kind": "complete-source",
+      "version": "source18-business-readonly:Full verbatim source read while reviewing source18; not asserted to be final source21.",
+      "bytes": 9958,
+      "sha256": "6a88af65b094ba59df787bc290ab380d7b2da769aee208bcf65f62c8d4e5789b",
+      "hashStatus": "complete-literal-dated-source-read-no-independent-historical-whole-file-hash",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-recent-patches/business-source18-readonly-recovery-proof.json",
+          "pointer": "/sources/2/extractedSha256",
+          "expectedSha256": "6a88af65b094ba59df787bc290ab380d7b2da769aee208bcf65f62c8d4e5789b",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-recent-patches/complete-recorded/source18-business-readonly/app/src/main/java/com/forestry/counter/presentation/screens/field/MapsAccessEntryEditor.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-recent-patches",
+      "sourceRelativePath": "complete-recorded/source18-business-readonly/app/src/main/java/com/forestry/counter/presentation/screens/field/MapsAccessEntryEditor.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/field/MapsAccessEntryEditor.kt",
+      "kind": "complete-source",
+      "version": "source18-business-readonly:Full verbatim source read while reviewing source18; not asserted to be final source21.",
+      "bytes": 15872,
+      "sha256": "fd34f3f6e7281e7b11a6cf756349336a89dbf25d421702f2c5395053f32c3b1f",
+      "hashStatus": "complete-literal-dated-source-read-no-independent-historical-whole-file-hash",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-recent-patches/business-source18-readonly-recovery-proof.json",
+          "pointer": "/sources/5/extractedSha256",
+          "expectedSha256": "fd34f3f6e7281e7b11a6cf756349336a89dbf25d421702f2c5395053f32c3b1f",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-recent-patches/complete-recorded/source18-business-readonly/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksitesViewModel.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-recent-patches",
+      "sourceRelativePath": "complete-recorded/source18-business-readonly/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksitesViewModel.kt",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/field/WorksitesViewModel.kt",
+      "kind": "complete-source",
+      "version": "source18-business-readonly:Full verbatim source read while reviewing source18; not asserted to be final source21.",
+      "bytes": 10055,
+      "sha256": "b31b9ea0f4c418ffa556edb9056770576d79e8b4e79fb90c1871c285046fc71e",
+      "hashStatus": "complete-literal-dated-source-read-no-independent-historical-whole-file-hash",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-recent-patches/business-source18-readonly-recovery-proof.json",
+          "pointer": "/sources/0/extractedSha256",
+          "expectedSha256": "b31b9ea0f4c418ffa556edb9056770576d79e8b4e79fb90c1871c285046fc71e",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-recent-patches/complete-recorded/source20-final-v3/app/src/main/res/values-en/strings_retained_workflows.xml",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-recent-patches",
+      "sourceRelativePath": "complete-recorded/source20-final-v3/app/src/main/res/values-en/strings_retained_workflows.xml",
+      "sourcePath": "app/src/main/res/values-en/strings_retained_workflows.xml",
+      "kind": "complete-source",
+      "version": "source20:complete-English-retained-workflows",
+      "bytes": 5846,
+      "sha256": "26326e04f354936a263b6036b0e4b7f50ffa72552c574dee65084c3aefac5ae3",
+      "hashStatus": "complete-English-XML-matches-independent-historical-whole-source-sha256",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-recent-patches/workflows-en-recovery-proof.json",
+          "pointer": "/source20/sha256",
+          "expectedSha256": "26326e04f354936a263b6036b0e4b7f50ffa72552c574dee65084c3aefac5ae3",
+          "historicalSnapshotHash": true
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-recent-patches/complete-recorded/source21/app/src/main/res/values-en/strings_retained_workflows.xml",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-recent-patches",
+      "sourceRelativePath": "complete-recorded/source21/app/src/main/res/values-en/strings_retained_workflows.xml",
+      "sourcePath": "app/src/main/res/values-en/strings_retained_workflows.xml",
+      "kind": "complete-source",
+      "version": "source21:complete-English-retained-workflows",
+      "bytes": 5839,
+      "sha256": "dbdd37c8e14af51e820d99eec76709672faf374311c0b553ebe7e12dcc69bf3e",
+      "hashStatus": "complete-English-XML-matches-independent-historical-whole-source-sha256",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-recent-patches/workflows-en-recovery-proof.json",
+          "pointer": "/source21/sha256",
+          "expectedSha256": "dbdd37c8e14af51e820d99eec76709672faf374311c0b553ebe7e12dcc69bf3e",
+          "historicalSnapshotHash": true
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-recent-patches/workflows-en-recovery-proof.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-recent-patches",
+      "sourceRelativePath": "workflows-en-recovery-proof.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 2120,
+      "sha256": "62dde18c11f236600aef9e35ac266b3794459cbe93b897bd8351a7e7d55b1ebb",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredoc-manifest.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "complete-ui-heredoc-manifest.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 13620,
+      "sha256": "1ea7a44e3f1d989511c06207d9d63e8eb7dd54fe611ab5bb031635baf2a38a60",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "kind": "complete-source",
+      "version": "full_literal_file_declaration_exact:complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "bytes": 2415,
+      "sha256": "cbd0f7bb82f436bba3901a7e3c69dc052f8820e7d2f0f89e9bfdb6ed219b9d2d",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredoc-manifest.json",
+          "pointer": "/entries/0/sha256",
+          "expectedSha256": "cbd0f7bb82f436bba3901a7e3c69dc052f8820e7d2f0f89e9bfdb6ed219b9d2d",
+          "historicalSnapshotHash": false
+        },
+        {
+          "proofPath": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt.provenance.json",
+          "pointer": "/sha256",
+          "expectedSha256": "cbd0f7bb82f436bba3901a7e3c69dc052f8820e7d2f0f89e9bfdb6ed219b9d2d",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt.provenance.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt.provenance.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 2123,
+      "sha256": "e6dc8bbf0708e89942c3217d3f867937cc4d8323454cecf75b792b243c7e3fc0",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-mapbox/src/main/res/values/trace_strings.xml",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-mapbox/src/main/res/values/trace_strings.xml",
+      "sourcePath": "cartography-mapbox/src/main/res/values/trace_strings.xml",
+      "kind": "complete-source",
+      "version": "full_literal_file_declaration_exact:complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-mapbox/src/main/res/values/trace_strings.xml",
+      "bytes": 4190,
+      "sha256": "a2cb53496537eb82499c6d7e5185db27ca42586ae74064911eba31594ad90ed6",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredoc-manifest.json",
+          "pointer": "/entries/1/sha256",
+          "expectedSha256": "a2cb53496537eb82499c6d7e5185db27ca42586ae74064911eba31594ad90ed6",
+          "historicalSnapshotHash": false
+        },
+        {
+          "proofPath": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-mapbox/src/main/res/values/trace_strings.xml.provenance.json",
+          "pointer": "/sha256",
+          "expectedSha256": "a2cb53496537eb82499c6d7e5185db27ca42586ae74064911eba31594ad90ed6",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-mapbox/src/main/res/values/trace_strings.xml.provenance.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-mapbox/src/main/res/values/trace_strings.xml.provenance.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 2035,
+      "sha256": "812db515d51d573423c25989dc9314ba2887ac018fdf38f92d6db4725fca8a54",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad23-3816-75fa-b888-2aa47ee05bc1/exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713/cartography-ui/src/main/res/values-en/trace_strings.xml",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad23-3816-75fa-b888-2aa47ee05bc1/exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713/cartography-ui/src/main/res/values-en/trace_strings.xml",
+      "sourcePath": "cartography-ui/src/main/res/values-en/trace_strings.xml",
+      "kind": "complete-source",
+      "version": "full_literal_file_declaration_exact:complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad23-3816-75fa-b888-2aa47ee05bc1/exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713/cartography-ui/src/main/res/values-en/trace_strings.xml",
+      "bytes": 4127,
+      "sha256": "371bac50f123e268c75a2d8f4c5775d62b756ca76843db60e611f37c04578495",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredoc-manifest.json",
+          "pointer": "/entries/2/sha256",
+          "expectedSha256": "371bac50f123e268c75a2d8f4c5775d62b756ca76843db60e611f37c04578495",
+          "historicalSnapshotHash": false
+        },
+        {
+          "proofPath": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad23-3816-75fa-b888-2aa47ee05bc1/exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713/cartography-ui/src/main/res/values-en/trace_strings.xml.provenance.json",
+          "pointer": "/sha256",
+          "expectedSha256": "371bac50f123e268c75a2d8f4c5775d62b756ca76843db60e611f37c04578495",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad23-3816-75fa-b888-2aa47ee05bc1/exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713/cartography-ui/src/main/res/values-en/trace_strings.xml.provenance.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad23-3816-75fa-b888-2aa47ee05bc1/exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713/cartography-ui/src/main/res/values-en/trace_strings.xml.provenance.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 2019,
+      "sha256": "744e556a61f57cc689f5b0b12ad420de96df7250b5e78dd2395b8f5a25ba8f22",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/offline/OfflinePackWorkspace.kt",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/offline/OfflinePackWorkspace.kt",
+      "sourcePath": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/offline/OfflinePackWorkspace.kt",
+      "kind": "complete-source",
+      "version": "full_literal_file_declaration_exact:complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/offline/OfflinePackWorkspace.kt",
+      "bytes": 4685,
+      "sha256": "7e22ba7d3bd5edfe97d7fa5331cb392572c2860431642ed8df74ecb2f7928caa",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredoc-manifest.json",
+          "pointer": "/entries/3/sha256",
+          "expectedSha256": "7e22ba7d3bd5edfe97d7fa5331cb392572c2860431642ed8df74ecb2f7928caa",
+          "historicalSnapshotHash": false
+        },
+        {
+          "proofPath": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/offline/OfflinePackWorkspace.kt.provenance.json",
+          "pointer": "/sha256",
+          "expectedSha256": "7e22ba7d3bd5edfe97d7fa5331cb392572c2860431642ed8df74ecb2f7928caa",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/offline/OfflinePackWorkspace.kt.provenance.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/offline/OfflinePackWorkspace.kt.provenance.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 2121,
+      "sha256": "d88b677a3bfdf814b64490d62cf3167282b9eb9a2d43c2a2760582aa72d75dac",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/res/values-en/offline_strings.xml",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/res/values-en/offline_strings.xml",
+      "sourcePath": "cartography-ui/src/main/res/values-en/offline_strings.xml",
+      "kind": "complete-source",
+      "version": "full_literal_file_declaration_exact:complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/res/values-en/offline_strings.xml",
+      "bytes": 511,
+      "sha256": "99191ac7c4e69f73b083fdb0de40b5161e1981655c086a3438384db51501c4de",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredoc-manifest.json",
+          "pointer": "/entries/4/sha256",
+          "expectedSha256": "99191ac7c4e69f73b083fdb0de40b5161e1981655c086a3438384db51501c4de",
+          "historicalSnapshotHash": false
+        },
+        {
+          "proofPath": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/res/values-en/offline_strings.xml.provenance.json",
+          "pointer": "/sha256",
+          "expectedSha256": "99191ac7c4e69f73b083fdb0de40b5161e1981655c086a3438384db51501c4de",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/res/values-en/offline_strings.xml.provenance.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/res/values-en/offline_strings.xml.provenance.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 2040,
+      "sha256": "29c027996998c09371ef50830c4e70d6f743c9e9247e1e3a2977c428a6cdbe2f",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/res/values/offline_strings.xml",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/res/values/offline_strings.xml",
+      "sourcePath": "cartography-ui/src/main/res/values/offline_strings.xml",
+      "kind": "complete-source",
+      "version": "full_literal_file_declaration_exact:complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/res/values/offline_strings.xml",
+      "bytes": 531,
+      "sha256": "6ce63bf27f5f917a0a28ba18d57e35baadaa65b55e4441314f19acd7d6ee7395",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredoc-manifest.json",
+          "pointer": "/entries/5/sha256",
+          "expectedSha256": "6ce63bf27f5f917a0a28ba18d57e35baadaa65b55e4441314f19acd7d6ee7395",
+          "historicalSnapshotHash": false
+        },
+        {
+          "proofPath": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/res/values/offline_strings.xml.provenance.json",
+          "pointer": "/sha256",
+          "expectedSha256": "6ce63bf27f5f917a0a28ba18d57e35baadaa65b55e4441314f19acd7d6ee7395",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/res/values/offline_strings.xml.provenance.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/res/values/offline_strings.xml.provenance.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 2030,
+      "sha256": "08d88fe2633adfaec8707fce85403fc96cfed6ade14ec0f104274f766a04e8c1",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/literal-ui-manifest.checkpoint5-e5342267c4c6.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "literal-ui-manifest.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 21266,
+      "sha256": "e5342267c4c6d3b989e5084fa310bbc2ed2a25f98fb16333452187baa5e6a40a",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/literal-ui-versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1ad12-44db-7277-9120-277722007c21/exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a/cartography-ui/src/main/AndroidManifest.xml",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "literal-ui-versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1ad12-44db-7277-9120-277722007c21/exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a/cartography-ui/src/main/AndroidManifest.xml",
+      "sourcePath": "cartography-ui/src/main/AndroidManifest.xml",
+      "kind": "complete-source",
+      "version": "full_literal_python_declaration_exact:literal-ui-versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1ad12-44db-7277-9120-277722007c21/exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a/cartography-ui/src/main/AndroidManifest.xml",
+      "bytes": 13,
+      "sha256": "571f2735faf5e857752ee057ac8ef63425576a721616c60b86ee5d4c0a2d682f",
+      "hashStatus": "matches-source-extraction-provenance-no-independent-historical-snapshot-claim",
+      "proofReferences": [
+        {
+          "proofPath": "recovered/2026-11-14/recovery-workspace-sources/literal-ui-manifest.checkpoint5-e5342267c4c6.json",
+          "pointer": "/entries/4/sha256",
+          "expectedSha256": "571f2735faf5e857752ee057ac8ef63425576a721616c60b86ee5d4c0a2d682f",
+          "historicalSnapshotHash": false
+        },
+        {
+          "proofPath": "recovered/2026-11-14/recovery-workspace-sources/literal-ui-versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1ad12-44db-7277-9120-277722007c21/exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a/cartography-ui/src/main/AndroidManifest.xml.provenance.json",
+          "pointer": "/sha256",
+          "expectedSha256": "571f2735faf5e857752ee057ac8ef63425576a721616c60b86ee5d4c0a2d682f",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/literal-ui-versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1ad12-44db-7277-9120-277722007c21/exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a/cartography-ui/src/main/AndroidManifest.xml.provenance.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "literal-ui-versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1ad12-44db-7277-9120-277722007c21/exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a/cartography-ui/src/main/AndroidManifest.xml.provenance.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 1318,
+      "sha256": "5d7e2f728c65b57f02000cd555c69764144ad7e524e5a7780aef84cb6061e85a",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
+    },
+    {
+      "path": "recovered/2026-11-14/recovery-workspace-sources/maprecherche-reconstruction-manifest.checkpoint5-7a88834fac94.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-workspace-sources",
+      "sourceRelativePath": "maprecherche-reconstruction-manifest.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": null,
+      "bytes": 2979391,
+      "sha256": "7a88834fac94ec02319bde8f81ec38807a7d4cbae5efe91e6c31572b4ce4cb89",
+      "hashStatus": "copied-provenance-integrity-only",
+      "proofReferences": [],
+      "checkpoint": 5
     }
   ],
   "remoteDestination": {
@@ -9629,9 +12047,9 @@
     "snapshotScope": "Verified partial recovery artifacts, not the restored application",
     "initialLocalCheckpoint": "9a91b0e13c6a1505e37c83b33ea18c70598eb16f"
   },
-  "updatedUTC": "2026-11-14T14:11:25.220166+00:00",
-  "checkpoint": 4,
-  "previousCheckpointCommit": "039f3e9411868d34665dcd31766af083bc1c8bf5",
+  "updatedUTC": "2026-11-14T14:35:15.715865+00:00",
+  "checkpoint": 5,
+  "previousCheckpointCommit": "6ff36b71129758af4b876dd6176d18c1e7e9a565",
   "initialLocalCheckpointCommit": "9a91b0e13c6a1505e37c83b33ea18c70598eb16f",
   "sourceRoots": [
     "/workspace/outputs/2026-11-14/recovery-recent-patches",
@@ -9659,10 +12077,10 @@
     "fragmentCodeLinesMatchedToExactReads": 732
   },
   "initial41PayloadEntriesPreserved": true,
-  "currentSecretScanReport": "SECRET_SCAN.checkpoint4.json",
+  "currentSecretScanReport": "SECRET_SCAN.checkpoint5.json",
   "incompleteFragmentPolicy": "Only schema-checked sparse code JSONs are preserved under FRAGMENTS_INCOMPLETE; all remain incomplete, noncompilable and outside complete source counts.",
-  "completeSourceVariantCount": 246,
-  "distinctCompleteSourcePathCount": 81,
+  "completeSourceVariantCount": 337,
+  "distinctCompleteSourcePathCount": 135,
   "checkpoint3Additions": {
     "incomplete-code-fragment": 2,
     "complete-source": 67,
@@ -9686,22 +12104,22 @@
     "additionalFragmentCodeLinesMatchedToExactReads": 438
   },
   "previous117PayloadEntriesPreserved": true,
-  "currentSourceCatalogue": "SOURCE_CATALOGUE.checkpoint4.json",
-  "currentIncompleteFragmentIndex": "FRAGMENTS_INCOMPLETE/INDEX.checkpoint4.json",
+  "currentSourceCatalogue": "SOURCE_CATALOGUE.checkpoint5.json",
+  "currentIncompleteFragmentIndex": "FRAGMENTS_INCOMPLETE/INDEX.checkpoint5.json",
   "workspaceCatalogue": {
     "backupInventoryPath": "recovered/2026-11-14/recovery-workspace-sources/source-inventory.checkpoint4-e3630b4ef0a2.json",
-    "completeSourceArtifactCount": 113,
-    "distinctSourcePathCount": 35,
-    "verifiedXmlArtifacts": 31,
+    "completeSourceArtifactCount": 120,
+    "distinctSourcePathCount": 41,
+    "verifiedXmlArtifacts": 36,
     "agentReportedHashReferencesChecked": 233
   },
   "engineCatalogue": {
     "backupManifestPath": "recovered/2026-11-14/recovery-mapbox-sources/source-recovery-manifest.checkpoint4-6f02853bf672.json",
-    "completeSourceArtifactCount": 25
+    "completeSourceArtifactCount": 24
   },
-  "completeSourceArtifactCount": 246,
+  "completeSourceArtifactCount": 337,
   "sourceVariantCountInterpretation": "Legacy field counts retained complete source artifacts; use distinctCompleteSourceVersionCount for different code bytes per technical source path.",
-  "distinctCompleteSourceVersionCount": 211,
+  "distinctCompleteSourceVersionCount": 293,
   "standaloneCompleteSourceArtifactCount": 1,
   "checkpoint4Additions": {
     "incomplete-code-fragment": 4,
@@ -9731,6 +12149,70 @@
   "domainCatalogue": {
     "backupManifestPath": "recovered/2026-11-14/recovery-domain-sources/manifest.json",
     "gpsManifestPath": "recovered/2026-11-14/recovery-domain-sources/gps-domain-2026-11-05/manifest.json",
-    "latestAliasesStoredSeparately": 21
+    "latestAliasesStoredSeparately": 24
+  },
+  "checkpoint5Additions": {
+    "recovery-proof": 21,
+    "baseline-source-archive": 1,
+    "complete-recorded-patch": 8,
+    "complete-source": 92,
+    "recovered-project-document": 2
+  },
+  "checkpoint5Checks": {
+    "previousPayloadReusedWithoutChange": 423,
+    "updatedArtifactKeptUnderNewName": 2,
+    "sidecarShaRelationsVerified": 113,
+    "sha256ReferencesVerified": 420,
+    "workspaceCompleteArtifactsVerified": 120,
+    "workspaceDistinctSourcePaths": 41,
+    "workspaceXmlArtifactsParsed": 36,
+    "unifiedDiffHunksVerified": 292,
+    "engineExplicitHistoricalShaMatches": 15,
+    "supersededGestureExcludedFromCurrentCompleteSelection": 1,
+    "completeLineMapWholeSourceShaMatches": 1,
+    "engineCompleteArtifactsVerified": 24,
+    "completeHistoricalCanvasStatesVerified": 4,
+    "protectedCameraHashesRevalidated": 40,
+    "correctedGestureHeaderAndWholeSourceShaVerified": 1,
+    "domainIndependentChecksPassed": 7,
+    "gpsIndependentChecksPassed": 3,
+    "roomSourceBlobSha1Checks": 13,
+    "roomCompleteSourceStatesVerified": 29,
+    "recentOriginalPatchHashesRevalidated": 8,
+    "englishWorkflowHistoricalShaMatches": 2,
+    "baselineInternalFileHashesVerified": 1389,
+    "baselinePublicPemFixturesVerified": 2,
+    "baselineExecutableMembersIdentified": 0
+  },
+  "previous492PayloadEntriesPreserved": true,
+  "baselineArchiveCount": 1,
+  "classificationOverrides": {
+    "recovered/2026-11-14/recovery-mapbox-sources/complete-files/observed-source18/MapCameraGestures.kt": {
+      "kind": "superseded-incomplete-source-excerpt",
+      "completeSource": false,
+      "originalSha256": "001ec6de9b7a19ce8c82476ee37a1b55b0f8f3e129508cca1ada0ebd7f72e348",
+      "reason": "The full cat source starts with @file:OptIn and a blank line; the earlier extraction began at package and omitted those two lines. Other camera sources retain their independent whole-file historical SHA proofs.",
+      "proofPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/camera-artifact-errata.json",
+      "replacementPath": "recovered/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-13T11-32-40+00-00--01a1d4ae--item4/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraGestures.kt",
+      "replacementSha256": "a632e359826616d31509d34ec6e9c0eb2e88db6a7f41e77b0d3752fca941dfa7",
+      "originalEntryAndBytesPreserved": true
+    }
+  },
+  "supersededIncompleteSourceExcerptCount": 1,
+  "recoveredProjectDocumentCount": 2,
+  "baseline": {
+    "archivePath": "baseline/GeoSylva-recovery-base-2026-10-19-36d1515.zip",
+    "sha256": "76e446c3ca6fdcc73656e7d82e06405089b1eaf0c0759ff3e08dc17e29b214a6",
+    "sourceFileManifest": "baseline/base-source-manifest.json",
+    "verificationReport": "baseline/BASELINE_VERIFICATION.checkpoint5.json",
+    "baseCommit": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+    "sourceDate": "2026-10-19",
+    "roomVersion": 46,
+    "versionName": "3.0.0",
+    "versionCode": 11,
+    "internalSourceFiles": 1389,
+    "containsGitDirectory": false,
+    "containsHistoricalBundle": false,
+    "excludedFromRecoverySourceCounts": true
   }
 }

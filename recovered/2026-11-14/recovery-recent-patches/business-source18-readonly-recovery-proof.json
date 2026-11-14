@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "scope": "Literal complete single-file cat outputs from business visual18. No commands replayed, no application repositories changed. Not a final source21 selection.",
+  "sources": [
+    {
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/field/WorksitesViewModel.kt",
+      "temporalStatus": "Full verbatim source read while reviewing source18; not asserted to be final source21.",
+      "bytes": 10055,
+      "lines": 181,
+      "extractedSha256": "b31b9ea0f4c418ffa556edb9056770576d79e8b4e79fb90c1871c285046fc71e",
+      "historicalWholeFileHashMatched": false,
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/business-visual18-latest.json",
+        "historyFileSha256": "c1832d202b3db08a882a04d59892c993af3b42bd445645c2cb0aa7a8e6530077",
+        "turn": "01a1d660-0343-7536-835e-447640a6638b",
+        "itemIndex": 2,
+        "itemId": "exec-27e7cf92-3572-4b37-9802-b25e93e33c2d",
+        "commandTruncated": false,
+        "outputTruncated": false,
+        "rawReadCommand": "cat app/src/main/java/com/forestry/counter/presentation/screens/field/WorksitesViewModel.kt"
+      },
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source18-business-readonly/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksitesViewModel.kt"
+    },
+    {
+      "sourcePath": "app/src/androidTest/java/com/forestry/counter/data/local/BusinessReadIdentityFixture.kt",
+      "temporalStatus": "Full verbatim source read while reviewing source18; not asserted to be final source21.",
+      "bytes": 1818,
+      "lines": 30,
+      "extractedSha256": "6dec5cdfbf094d7f7351b67836dba9c448f6b7154f6a6f3d471abec9118408ef",
+      "historicalWholeFileHashMatched": false,
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/business-visual18-latest.json",
+        "historyFileSha256": "c1832d202b3db08a882a04d59892c993af3b42bd445645c2cb0aa7a8e6530077",
+        "turn": "01a1d660-0343-7536-835e-447640a6638b",
+        "itemIndex": 5,
+        "itemId": "exec-3a6e7776-9c7a-4630-b5b5-dd494aaf4879",
+        "commandTruncated": false,
+        "outputTruncated": false,
+        "rawReadCommand": "cat app/src/androidTest/java/com/forestry/counter/data/local/BusinessReadIdentityFixture.kt"
+      },
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source18-business-readonly/app/src/androidTest/java/com/forestry/counter/data/local/BusinessReadIdentityFixture.kt"
+    },
+    {
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/sync/hierarchy/BusinessReadAccess.kt",
+      "temporalStatus": "Full verbatim source read while reviewing source18; not asserted to be final source21.",
+      "bytes": 9958,
+      "lines": 181,
+      "extractedSha256": "6a88af65b094ba59df787bc290ab380d7b2da769aee208bcf65f62c8d4e5789b",
+      "historicalWholeFileHashMatched": false,
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/business-visual18-latest.json",
+        "historyFileSha256": "c1832d202b3db08a882a04d59892c993af3b42bd445645c2cb0aa7a8e6530077",
+        "turn": "01a1d660-0343-7536-835e-447640a6638b",
+        "itemIndex": 8,
+        "itemId": "exec-32e2c0fc-2a9e-4c25-8db8-3f26e74af4f3",
+        "commandTruncated": false,
+        "outputTruncated": false,
+        "rawReadCommand": "cat app/src/main/java/com/forestry/counter/data/sync/hierarchy/BusinessReadAccess.kt"
+      },
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source18-business-readonly/app/src/main/java/com/forestry/counter/data/sync/hierarchy/BusinessReadAccess.kt"
+    },
+    {
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/dao/FieldDao.kt",
+      "temporalStatus": "Full verbatim source read while reviewing source18; not asserted to be final source21.",
+      "bytes": 3413,
+      "lines": 41,
+      "extractedSha256": "748f68c44b18420057dc2a63a3f31e0d0b7c6b545b5edd802541a34c71f3af33",
+      "historicalWholeFileHashMatched": false,
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/business-visual18-latest.json",
+        "historyFileSha256": "c1832d202b3db08a882a04d59892c993af3b42bd445645c2cb0aa7a8e6530077",
+        "turn": "01a1d660-0343-7536-835e-447640a6638b",
+        "itemIndex": 13,
+        "itemId": "exec-16a1daa7-026e-4b1d-aafe-1e50a491f9df",
+        "commandTruncated": false,
+        "outputTruncated": false,
+        "rawReadCommand": "cat app/src/main/java/com/forestry/counter/data/local/dao/FieldDao.kt"
+      },
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source18-business-readonly/app/src/main/java/com/forestry/counter/data/local/dao/FieldDao.kt"
+    },
+    {
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/repository/WoodDataAccessGate.kt",
+      "temporalStatus": "Full verbatim source read while reviewing source18; not asserted to be final source21.",
+      "bytes": 1662,
+      "lines": 43,
+      "extractedSha256": "49bc867ce7bfe0f962b216a2b37a634047a57478ffb97fbdfb7ae3bcf71944bd",
+      "historicalWholeFileHashMatched": false,
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/business-visual18-latest.json",
+        "historyFileSha256": "c1832d202b3db08a882a04d59892c993af3b42bd445645c2cb0aa7a8e6530077",
+        "turn": "01a1d660-0343-7536-835e-447640a6638b",
+        "itemIndex": 17,
+        "itemId": "exec-01e4a6e7-4339-4e9a-84b9-a6e2042e7648",
+        "commandTruncated": false,
+        "outputTruncated": false,
+        "rawReadCommand": "cat app/src/main/java/com/forestry/counter/data/repository/WoodDataAccessGate.kt"
+      },
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source18-business-readonly/app/src/main/java/com/forestry/counter/data/repository/WoodDataAccessGate.kt"
+    },
+    {
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/field/MapsAccessEntryEditor.kt",
+      "temporalStatus": "Full verbatim source read while reviewing source18; not asserted to be final source21.",
+      "bytes": 15872,
+      "lines": 267,
+      "extractedSha256": "fd34f3f6e7281e7b11a6cf756349336a89dbf25d421702f2c5395053f32c3b1f",
+      "historicalWholeFileHashMatched": false,
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/business-visual18-earlier.json",
+        "historyFileSha256": "9a17126c915d5219518d6326e8507573a663fb10119af795a83004d522b3d736",
+        "turn": "01a1d64a-8480-76ce-a2ac-39bc6048d7fb",
+        "itemIndex": 44,
+        "itemId": "exec-a1f7dd28-2c5e-4f1a-a059-bf2fa3c5ba68",
+        "commandTruncated": false,
+        "outputTruncated": false,
+        "rawReadCommand": "cat app/src/main/java/com/forestry/counter/presentation/screens/field/MapsAccessEntryEditor.kt"
+      },
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source18-business-readonly/app/src/main/java/com/forestry/counter/presentation/screens/field/MapsAccessEntryEditor.kt"
+    }
+  ]
+}

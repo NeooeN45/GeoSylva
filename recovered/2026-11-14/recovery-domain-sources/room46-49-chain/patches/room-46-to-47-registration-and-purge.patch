@@ -1,0 +1,84 @@
+diff --git a/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt b/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt
+--- a/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt
++++ b/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt
+@@ -135,6 +135,7 @@
+         com.forestry.counter.data.local.entity.FieldWorksiteEntity::class,
+         com.forestry.counter.data.local.entity.FieldSiteLinkEntity::class,
+         com.forestry.counter.data.local.entity.FieldEntryEntity::class,
++        com.forestry.counter.data.local.entity.FieldControlBasisEntity::class,
+         com.forestry.counter.data.local.entity.FieldDraftEntity::class,
+         com.forestry.counter.data.local.entity.FieldPhotoEntity::class,
+         com.forestry.counter.data.local.entity.FieldPhotoChunkEntity::class,
+@@ -145,13 +146,14 @@
+ 
+         ProjectForestCrossRef::class
+     ],
+-    version = 46,
++    version = 47,
+     exportSchema = true
+ )
+ @TypeConverters(EnumConverters::class)
+ abstract class ForestryDatabase : RoomDatabase() {
+     abstract fun receiptDao(): com.forestry.counter.data.local.dao.ReceiptDao
+     abstract fun fieldDao(): com.forestry.counter.data.local.dao.FieldDao
++    abstract fun fieldControlBasisDao(): com.forestry.counter.data.local.dao.FieldControlBasisDao
+     val woodDataGate = com.forestry.counter.data.repository.WoodDataAccessGate()
+     abstract fun woodObjectDao(): com.forestry.counter.data.local.dao.WoodObjectDao
+     abstract fun woodDepotDao(): com.forestry.counter.data.local.dao.WoodDepotDao
+diff --git a/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt b/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt
+--- a/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt
++++ b/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt
+@@ -909,5 +909,6 @@
+         WoodObjectMigrations.MIGRATION_43_44,
+         FieldMigrations.MIGRATION_44_45,
+         ReceiptMigrations.MIGRATION_45_46,
++        ControlBasisMigrations.MIGRATION_46_47,
+     )
+ }
+diff --git a/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt b/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt
+--- a/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt
++++ b/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt
+@@ -52,6 +52,7 @@
+     private val woodDataGate: com.forestry.counter.data.repository.WoodDataAccessGate,
+     private val woodDepotDao: com.forestry.counter.data.local.dao.WoodDepotDao,
+     private val fieldDao: com.forestry.counter.data.local.dao.FieldDao,
++    private val clearHeightReferenceCaptures: suspend () -> Unit = {},
+ ) {
+ 
+     /**
+@@ -104,11 +105,16 @@
+             alerteSanitaireDao.hardDeleteAll()
+             observationFloreDao.hardDeleteAll()
+         }
++        clearHeightReferenceCaptures()
+         deleteAllPhotos()
+         val captures = File(context.cacheDir, "field_capture")
+         check(!captures.exists() || captures.deleteRecursively()) { "LOCAL_CAPTURE_PURGE_FAILED" }
+         val reports = File(context.filesDir, "martelage_reports")
+         check(!reports.exists() || reports.deleteRecursively()) { "LOCAL_REPORT_PURGE_FAILED" }
++        val backups = listOfNotNull(File(context.filesDir, "backups"), context.getExternalFilesDir("backups"))
++        backups.forEach { directory ->
++            check(!directory.exists() || directory.deleteRecursively()) { "LOCAL_BACKUP_PURGE_FAILED" }
++        }
+         DAO_COUNT
+     } }
+ 
+diff --git a/app/src/main/java/com/forestry/counter/data/local/ControlBasisMigrations.kt b/app/src/main/java/com/forestry/counter/data/local/ControlBasisMigrations.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/local/ControlBasisMigrations.kt
+@@ -0,0 +1,14 @@
++package com.forestry.counter.data.local
++
++import androidx.room.migration.Migration
++import androidx.sqlite.db.SupportSQLiteDatabase
++
++object ControlBasisMigrations {
++    val MIGRATION_46_47 = object : Migration(46, 47) {
++        override fun migrate(db: SupportSQLiteDatabase) {
++            // Aucun contrôle ancien n'est promu en référence historique figée.
++            db.execSQL("CREATE TABLE IF NOT EXISTS field_control_bases (controlEntryId TEXT NOT NULL PRIMARY KEY, ownerKey TEXT NOT NULL, objectId TEXT NOT NULL, depotId TEXT NOT NULL, payload TEXT NOT NULL, sha256 TEXT NOT NULL, FOREIGN KEY(controlEntryId) REFERENCES field_entries(id) ON DELETE CASCADE)")
++            db.execSQL("CREATE INDEX IF NOT EXISTS index_field_control_bases_ownerKey_objectId ON field_control_bases(ownerKey,objectId)")
++        }
++    }
++}

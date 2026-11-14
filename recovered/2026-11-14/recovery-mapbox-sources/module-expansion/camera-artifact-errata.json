@@ -1,0 +1,42 @@
+{
+  "oldArtifactsRemainByteIdentical": true,
+  "effectiveClassifications": [
+    {
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/observed-source18/MapCameraGestures.kt",
+      "sha256": "001ec6de9b7a19ce8c82476ee37a1b55b0f8f3e129508cca1ada0ebd7f72e348",
+      "reason": "Earlier compound-read extraction omitted two @file annotation lines. Preserved as an immutable old archive artifact, superseded for assembly by the full contiguous cat source.",
+      "completeSourceSha256": "a632e359826616d31509d34ec6e9c0eb2e88db6a7f41e77b0d3752fca941dfa7"
+    }
+  ],
+  "replacement": {
+    "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraGestures.kt",
+    "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-13T11-32-40+00-00--01a1d4ae--item4/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraGestures.kt",
+    "sha256": "a632e359826616d31509d34ec6e9c0eb2e88db6a7f41e77b0d3752fca941dfa7",
+    "complete": true,
+    "provenance": [
+      {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier17.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d4ae-616a-7026-8687-08b3c90577e6",
+        "turnStartedUTC": "2026-11-13T11:32:40+00:00",
+        "itemId": "exec-1c814fc4-253b-4073-821f-7d19686a4679",
+        "itemIndex": 4,
+        "kind": "complete single-file cat output",
+        "commandExitCode": 0,
+        "outputTruncated": false
+      },
+      {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier2.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d639-5e05-7080-89fc-cb6adf11a023",
+        "turnStartedUTC": "2026-11-13T18:44:06+00:00",
+        "itemId": "exec-b86c74e9-c7c8-433c-b370-03a1bff2fb96",
+        "itemIndex": 10,
+        "kind": "complete compound cat including its @file annotation, before next host sed block",
+        "commandExitCode": 0,
+        "outputTruncated": false
+      }
+    ]
+  },
+  "reason": "The full cat source starts with @file:OptIn and a blank line; the earlier extraction began at package and omitted those two lines. Other camera sources retain their independent whole-file historical SHA proofs."
+}

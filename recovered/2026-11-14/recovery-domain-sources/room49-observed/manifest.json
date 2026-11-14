@@ -1,0 +1,206 @@
+{
+  "observedSources": [
+    {
+      "source": "maquettes-audit-batch8-single.json",
+      "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+      "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+      "turnStartedAt": "2026-11-07T09:34:35+00:00",
+      "item": "exec-2751c77c-ed17-4c2a-aae7-c03f13f359bf",
+      "itemIndex": 8,
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicWorkspaceMigrations.kt",
+      "complete": true,
+      "sha256": "a70c01443992439423d2683a461d032c1c8667efa867cb4b28d3e41c7e4c58b2",
+      "lines": 15,
+      "boundary": "ordered cat sources separated by package declarations; last file reaches end of untruncated output",
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/local/CartographicWorkspaceMigrations.kt"
+    },
+    {
+      "source": "maquettes-audit-batch8-single.json",
+      "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+      "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+      "turnStartedAt": "2026-11-07T09:34:35+00:00",
+      "item": "exec-2751c77c-ed17-4c2a-aae7-c03f13f359bf",
+      "itemIndex": 8,
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicTraceMigrations.kt",
+      "complete": true,
+      "sha256": "0da5e401d79a7a09ba7e6a00a9efce0698e735128c215bb7c9fedecf84bb4d68",
+      "lines": 11,
+      "boundary": "ordered cat sources separated by package declarations; last file reaches end of untruncated output",
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/local/CartographicTraceMigrations.kt"
+    },
+    {
+      "source": "maquettes-audit-batch8-single.json",
+      "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+      "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+      "turnStartedAt": "2026-11-07T09:34:35+00:00",
+      "item": "exec-2751c77c-ed17-4c2a-aae7-c03f13f359bf",
+      "itemIndex": 8,
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicLayerMigrations.kt",
+      "complete": true,
+      "sha256": "57aeda6a1e89f9009a35fe990fc8ba0ae794cf7a303ab30842dd9848d683e626",
+      "lines": 10,
+      "boundary": "ordered cat sources separated by package declarations; last file reaches end of untruncated output",
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/local/CartographicLayerMigrations.kt"
+    },
+    {
+      "source": "maquettes-audit-batch8-single.json",
+      "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+      "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+      "turnStartedAt": "2026-11-07T09:34:35+00:00",
+      "item": "exec-2751c77c-ed17-4c2a-aae7-c03f13f359bf",
+      "itemIndex": 8,
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "complete": true,
+      "sha256": "f9bee14282d271df534fc01110f28c2171d12653a08506dc8dd8eb9f6627bf4b",
+      "lines": 41,
+      "boundary": "ordered cat sources separated by package declarations; last file reaches end of untruncated output",
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt"
+    },
+    {
+      "source": "maquettes-audit-batch8-single.json",
+      "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+      "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+      "turnStartedAt": "2026-11-07T09:34:35+00:00",
+      "item": "exec-2751c77c-ed17-4c2a-aae7-c03f13f359bf",
+      "itemIndex": 8,
+      "path": "app/src/main/java/com/forestry/counter/data/local/dao/CartographicTraceDao.kt",
+      "complete": true,
+      "sha256": "e61152e9c9a9ac1c05d0d1a72747d2b07771ce466322cf8cbdacb4fc4cf75084",
+      "lines": 36,
+      "boundary": "ordered cat sources separated by package declarations; last file reaches end of untruncated output",
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/local/dao/CartographicTraceDao.kt"
+    },
+    {
+      "source": "maquettes-audit-batch8-single.json",
+      "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+      "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+      "turnStartedAt": "2026-11-07T09:34:35+00:00",
+      "item": "exec-0381bcfe-f167-4e10-87f0-43d893414d86",
+      "itemIndex": 11,
+      "path": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "complete": true,
+      "sha256": "495d4503cc2174bda86eecb166291327355ddef5ac5eac6450ad349f17624cea",
+      "lines": 12,
+      "boundary": "ordered cat sources; last source ends before path-prefixed rg results",
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt"
+    },
+    {
+      "source": "maquettes-audit-batch8-single.json",
+      "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+      "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+      "turnStartedAt": "2026-11-07T09:34:35+00:00",
+      "item": "exec-0381bcfe-f167-4e10-87f0-43d893414d86",
+      "itemIndex": 11,
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceEntity.kt",
+      "complete": true,
+      "sha256": "e793e3a4d535c2303e122d72eb6ba2c97ca80edf39ba62341d934a72edc93cd5",
+      "lines": 21,
+      "boundary": "ordered cat sources; last source ends before path-prefixed rg results",
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceEntity.kt"
+    },
+    {
+      "source": "maquettes-audit-batch8-single.json",
+      "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+      "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+      "turnStartedAt": "2026-11-07T09:34:35+00:00",
+      "item": "exec-0381bcfe-f167-4e10-87f0-43d893414d86",
+      "itemIndex": 11,
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicLayerEntity.kt",
+      "complete": true,
+      "sha256": "5e9e4f752253dc17363efa7d862fa22e14b9937efdb7a8802837eed973cf9f69",
+      "lines": 24,
+      "boundary": "ordered cat sources; last source ends before path-prefixed rg results",
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicLayerEntity.kt"
+    },
+    {
+      "source": "maquettes-audit-batch8-single.json",
+      "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+      "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+      "turnStartedAt": "2026-11-07T09:34:35+00:00",
+      "item": "exec-c8decc7e-8b8c-4db2-8719-a9290ab3267a",
+      "itemIndex": 33,
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceJournalEntity.kt",
+      "complete": true,
+      "sha256": "117409d027476b3ea18d12f6910c3f3ba3d1e54bc3623756aa1b956bc4c8663f",
+      "lines": 13,
+      "boundary": "cat source ends before the following SQLite diagnostic output",
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceJournalEntity.kt"
+    }
+  ],
+  "historicalPatches": [
+    {
+      "source": "maquettes-audit-batch8-single.json",
+      "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+      "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+      "turnStartedAt": "2026-11-07T09:34:35+00:00",
+      "item": "exec-4910d6cf-e81a-4981-b852-47672e9887da",
+      "itemIndex": 5,
+      "path": "app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "complete": true,
+      "sha256": "ec4f0f26711296e507d8151fb2d5dd4e41339af5191a1512d33fb51150c5a1e2",
+      "historicalOldBlobPrefix": "476edb4",
+      "historicalNewBlobPrefix": "1b1aefc",
+      "blobValidation": "pending full predecessor reconstruction; source patch preserved verbatim",
+      "artifact": "patches/DatabaseMigrations.kt.historical.patch"
+    },
+    {
+      "source": "maquettes-audit-batch8-single.json",
+      "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+      "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+      "turnStartedAt": "2026-11-07T09:34:35+00:00",
+      "item": "exec-4910d6cf-e81a-4981-b852-47672e9887da",
+      "itemIndex": 5,
+      "path": "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "complete": true,
+      "sha256": "73478660446751943b3d403f83521a7f5bd8750eadb5bdd7f2485ab1ccb47c92",
+      "historicalOldBlobPrefix": "f2bb1f1",
+      "historicalNewBlobPrefix": "8f08fe6",
+      "blobValidation": "pending full predecessor reconstruction; source patch preserved verbatim",
+      "artifact": "patches/ForestryDatabase.kt.historical.patch"
+    },
+    {
+      "source": "maquettes-audit-batch8-single.json",
+      "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+      "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+      "turnStartedAt": "2026-11-07T09:34:35+00:00",
+      "item": "exec-4910d6cf-e81a-4981-b852-47672e9887da",
+      "itemIndex": 5,
+      "path": "app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "complete": true,
+      "sha256": "cc025bb98c76258c0468e2fc979773f0b9e865b5556c07745e86d803d1e53b2c",
+      "historicalOldBlobPrefix": "0fb26d1",
+      "historicalNewBlobPrefix": "aa00e73",
+      "blobValidation": "pending full predecessor reconstruction; source patch preserved verbatim",
+      "artifact": "patches/DeleteAllUserDataUseCase.kt.historical.patch"
+    }
+  ],
+  "checks": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "check": "complete_latest_offline_pack_source_equals_independent_read",
+      "sha256": "f9bee14282d271df534fc01110f28c2171d12653a08506dc8dd8eb9f6627bf4b",
+      "passed": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "check": "complete_latest_offline_pack_source_equals_independent_read",
+      "sha256": "495d4503cc2174bda86eecb166291327355ddef5ac5eac6450ad349f17624cea",
+      "passed": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicWorkspaceMigrations.kt",
+      "check": "complete_read_starts_with_exact_original_Add_fragment",
+      "fragmentChars": 250,
+      "passed": true
+    }
+  ],
+  "additionPatch": {
+    "artifact": "patches/room49-seven-observed-sources.patch",
+    "sha256": "9a165a307847fbb20ef4f18d878fc27a2b5c691a2e8ee7736bdc933b07cb968c"
+  },
+  "limits": [
+    "Complete source observations from a November7 thread; not asserted finalNovember13.",
+    "Historical source patches require the exact Room48 predecessor."
+  ],
+  "execution": "Source extraction only; no historical command, build/test/ADB/push or repository mutation."
+}

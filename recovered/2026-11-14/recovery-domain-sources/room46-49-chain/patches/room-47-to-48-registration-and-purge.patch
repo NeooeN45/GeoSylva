@@ -1,0 +1,61 @@
+diff --git a/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt b/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt
+--- a/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt
++++ b/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt
+@@ -143,14 +143,17 @@
+         com.forestry.counter.data.local.entity.FieldReceiptVersionEntity::class,
+         com.forestry.counter.data.local.entity.FieldReceiptCreditEntity::class,
+         com.forestry.counter.data.local.entity.FieldReceiptCommandEntity::class,
++        com.forestry.counter.data.local.entity.CartographicMeasurementEntity::class,
++        com.forestry.counter.data.local.entity.CartographicStoreIdentityEntity::class,
+ 
+         ProjectForestCrossRef::class
+     ],
+-    version = 47,
++    version = 48,
+     exportSchema = true
+ )
+ @TypeConverters(EnumConverters::class)
+ abstract class ForestryDatabase : RoomDatabase() {
++    abstract fun cartographicMeasurementDao(): com.forestry.counter.data.local.dao.CartographicMeasurementDao
+     abstract fun receiptDao(): com.forestry.counter.data.local.dao.ReceiptDao
+     abstract fun fieldDao(): com.forestry.counter.data.local.dao.FieldDao
+     abstract fun fieldControlBasisDao(): com.forestry.counter.data.local.dao.FieldControlBasisDao
+diff --git a/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt b/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt
+--- a/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt
++++ b/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt
+@@ -910,5 +910,6 @@
+         FieldMigrations.MIGRATION_44_45,
+         ReceiptMigrations.MIGRATION_45_46,
+         ControlBasisMigrations.MIGRATION_46_47,
++        CartographicMeasurementMigrations.MIGRATION_47_48,
+     )
+ }
+diff --git a/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt b/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt
+--- a/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt
++++ b/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt
+@@ -52,6 +52,7 @@
+     private val woodDataGate: com.forestry.counter.data.repository.WoodDataAccessGate,
+     private val woodDepotDao: com.forestry.counter.data.local.dao.WoodDepotDao,
+     private val fieldDao: com.forestry.counter.data.local.dao.FieldDao,
++    private val cartographicMeasurementDao: com.forestry.counter.data.local.dao.CartographicMeasurementDao,
+     private val clearHeightReferenceCaptures: suspend () -> Unit = {},
+ ) {
+ 
+@@ -73,6 +74,8 @@
+         // The only authorized physical removal of retained operation snapshots.
+         // Pending deletes and retries survive ordinary business deletes and logout.
+         operationDao.runJournalTransaction {
++            cartographicMeasurementDao.deleteAll()
++            cartographicMeasurementDao.deleteStoreIdentity()
+             fieldDao.deleteChunks()
+             fieldDao.deletePhotos()
+             fieldDao.deleteDrafts()
+@@ -130,7 +133,7 @@
+ 
+     companion object {
+         /** Nombre de DAOs purgés par le use case (pour vérification en test). */
+-        const val DAO_COUNT = 18
++        const val DAO_COUNT = 19
+         private const val PHOTOS_DIR_NAME = "photos"
+     }
+ }

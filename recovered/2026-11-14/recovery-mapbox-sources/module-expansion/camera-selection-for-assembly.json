@@ -1,0 +1,349 @@
+{
+  "scope": "Exact recovered camera kernel selection for partial assembly; no prototype Canvas or older Gate variant selected.",
+  "cameraManifest": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/source-recovery-manifest.json",
+  "files": [
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/final-after-p2/SharedMapboxCanvas.kt",
+      "sha256": "98209439aafde4330257f71ee7755cc90fbd2e79d13e75dc41aaa2f07c569926",
+      "temporalScope": "final after P2v2; strict context-checked patch, whole historical digest matched",
+      "historicalSha256": "98209439aafde4330257f71ee7755cc90fbd2e79d13e75dc41aaa2f07c569926",
+      "conflicts": [],
+      "provenance": [
+        {
+          "externalExactPatch": "/workspace/outputs/2026-11-14/recovery-recent-patches/patches/CAM21-01-cancel-loading-v2.patch",
+          "patchSha256": "80e97885830710b5dde9cbb73d3cd774da9f1ff2fed24db72f50d78422417a57"
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinement.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source21/MapCameraFitRefinement.kt",
+      "sha256": "69efa569cbc5248f44df83a91e00a2e6f8eb2ad0117f246a1fb05e6cfaf60d93",
+      "temporalScope": "SOURCE21 exact historical literal transformations",
+      "historicalSha256": "69efa569cbc5248f44df83a91e00a2e6f8eb2ad0117f246a1fb05e6cfaf60d93",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-latest.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d647-bf14-75ac-94d5-d91cae69f7c6",
+          "turnStartedUTC": "2026-11-13T18:59:48+00:00",
+          "itemId": "exec-126ed208-3016-411f-9b0e-25f86d2b6c0c",
+          "itemIndex": 10,
+          "outputTruncated": false
+        },
+        {
+          "source": "retained root tool output before outage",
+          "historicalCommand": "sed -n '1,170p' MapCameraFitRefinement.kt",
+          "suppliedBy": "/root recovery task message, 2026-11-14",
+          "sourceLineRange": [
+            106,
+            110
+          ],
+          "promotionRule": "Strict whole-file historical SHA256 match; otherwise retain as unverified fragment only"
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
+          "threadId": "6af7a318-0430-8191-8c9d-1cee283ec043",
+          "turnId": "01a1d763-d071-7747-82e6-27b0e60c23af",
+          "turnStartedUTC": "2026-11-14T00:10:05+00:00",
+          "itemId": "exec-fe6b0a44-f642-41ae-9fa6-a81941d8f187",
+          "itemIndex": 71,
+          "outputTruncated": false
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapNativeCameraPose.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source21/MapNativeCameraPose.kt",
+      "sha256": "57dd55f4d42625dd7d3f4a86732c715c9a4f9986a16e532018b2848b540110b2",
+      "temporalScope": "SOURCE21 candidate; unchanged by camera status P2 patch",
+      "historicalSha256": "57dd55f4d42625dd7d3f4a86732c715c9a4f9986a16e532018b2848b540110b2",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
+          "threadId": "6af7a318-0430-8191-8c9d-1cee283ec043",
+          "turnId": "01a1d763-d071-7747-82e6-27b0e60c23af",
+          "turnStartedUTC": "2026-11-14T00:10:05+00:00",
+          "itemId": "exec-8a1d4005-95ce-487a-bdea-f053d4ff9de9",
+          "itemIndex": 43,
+          "outputTruncated": false
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
+          "threadId": "6af7a318-0430-8191-8c9d-1cee283ec043",
+          "turnId": "01a1d763-d071-7747-82e6-27b0e60c23af",
+          "turnStartedUTC": "2026-11-14T00:10:05+00:00",
+          "itemId": "exec-fe6b0a44-f642-41ae-9fa6-a81941d8f187",
+          "itemIndex": 71,
+          "outputTruncated": false
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraState.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source18-native-restoration/MapCameraState.kt",
+      "sha256": "56c2e564c0cefcf717850887bff066d54a3f77d1700abce36d0d982fd509e6a1",
+      "temporalScope": "native-restoration SOURCE18 candidate; source manifest SHA exact",
+      "historicalSha256": "56c2e564c0cefcf717850887bff066d54a3f77d1700abce36d0d982fd509e6a1",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+          "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+          "itemId": "exec-93bfabb4-44cc-457c-9a92-b43c0939dc4e",
+          "itemIndex": 42,
+          "outputTruncated": false
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+          "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+          "itemId": "exec-501c8424-75c5-4b86-830c-68aa6392ab24",
+          "itemIndex": 75,
+          "outputTruncated": false
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGate.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/observed-source18/MapCameraCommandGate.kt",
+      "sha256": "03c11fd5ae0fbda80280ef28195e112a99212075ef2b32336cd438c37cb61af6",
+      "temporalScope": "complete contiguous Fit19 source18 read; source20/21 candidate patches leave gate unchanged",
+      "historicalSha256": "03c11fd5ae0fbda80280ef28195e112a99212075ef2b32336cd438c37cb61af6",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit19-finalize-latest.json",
+          "threadId": "6af7723c-395c-8191-9c7a-fed4b08a9077",
+          "turnId": "01a1d696-4547-754c-b44d-e15466da8de8",
+          "turnStartedUTC": "2026-11-13T20:25:35+00:00",
+          "itemId": "exec-3229f33d-950b-46fd-a46e-98d6f62948f6",
+          "itemIndex": 6,
+          "outputTruncated": true
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+          "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+          "itemId": "exec-b8123f6b-5ae5-4719-b1e5-f7b7d39525bb",
+          "itemIndex": 14,
+          "outputTruncated": false
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-latest.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d647-bf14-75ac-94d5-d91cae69f7c6",
+          "turnStartedUTC": "2026-11-13T18:59:48+00:00",
+          "itemId": "exec-2d62b6d2-49f5-43a5-a4f6-5c968691d7ba",
+          "itemIndex": 6,
+          "outputTruncated": false
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-latest.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d647-bf14-75ac-94d5-d91cae69f7c6",
+          "turnStartedUTC": "2026-11-13T18:59:48+00:00",
+          "itemId": "exec-126ed208-3016-411f-9b0e-25f86d2b6c0c",
+          "itemIndex": 10,
+          "outputTruncated": false
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit19-finalize-latest.json",
+          "threadId": "6af7723c-395c-8191-9c7a-fed4b08a9077",
+          "turnId": "01a1d696-4547-754c-b44d-e15466da8de8",
+          "turnStartedUTC": "2026-11-13T20:25:35+00:00",
+          "itemId": "exec-42398f1c-e269-41a7-9c6e-f288888e3ea9",
+          "itemIndex": 2,
+          "outputTruncated": false
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxCanvasModels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source20-pre-source21/MapboxCanvasModels.kt",
+      "sha256": "2258ebf915975f869e28d1d5e027c56d0a18734c96862875dc1524813796ca87",
+      "temporalScope": "observed source20; cat exact first file before next package",
+      "historicalSha256": "2258ebf915975f869e28d1d5e027c56d0a18734c96862875dc1524813796ca87",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
+          "threadId": "6af7a318-0430-8191-8c9d-1cee283ec043",
+          "turnId": "01a1d763-d071-7747-82e6-27b0e60c23af",
+          "turnStartedUTC": "2026-11-14T00:10:05+00:00",
+          "itemId": "exec-e99b6fab-9822-4c0f-9b27-2384b837f25d",
+          "itemIndex": 22,
+          "outputTruncated": false
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+          "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+          "itemId": "exec-501c8424-75c5-4b86-830c-68aa6392ab24",
+          "itemIndex": 75,
+          "outputTruncated": false
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraGestures.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-13T11-32-40+00-00--01a1d4ae--item4/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraGestures.kt",
+      "sha256": "a632e359826616d31509d34ec6e9c0eb2e88db6a7f41e77b0d3752fca941dfa7",
+      "temporalScope": "Complete observed Nov13 source, including @file annotation; identical full cat before and after Native18 restoration",
+      "historicalSha256": null,
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier17.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d4ae-616a-7026-8687-08b3c90577e6",
+          "turnStartedUTC": "2026-11-13T11:32:40+00:00",
+          "itemId": "exec-1c814fc4-253b-4073-821f-7d19686a4679",
+          "itemIndex": 4,
+          "kind": "complete single-file cat output",
+          "commandExitCode": 0,
+          "outputTruncated": false
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier2.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d639-5e05-7080-89fc-cb6adf11a023",
+          "turnStartedUTC": "2026-11-13T18:44:06+00:00",
+          "itemId": "exec-b86c74e9-c7c8-433c-b370-03a1bff2fb96",
+          "itemIndex": 10,
+          "kind": "complete compound cat including its @file annotation, before next host sed block",
+          "commandExitCode": 0,
+          "outputTruncated": false
+        }
+      ],
+      "supersedesIncompleteArchive": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/observed-source18/MapCameraGestures.kt"
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapResourceCycle.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/initial-nov05/MapResourceCycle.kt",
+      "sha256": "96c01f76fd108b9340e3161bbf12e686e4103f7c5a2474d60077d93f066abb06",
+      "temporalScope": "initial November 5 observed add; later changes must be recovered separately",
+      "historicalSha256": null,
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/mapbox-audit-earliest-next.json",
+          "threadId": "01a1ad12-b15f-72b7-8c46-8aa6f18e8041",
+          "turnId": "01a1ad52-a009-7420-a728-0a5c5d531211",
+          "turnStartedUTC": "2026-11-05T20:07:16+00:00",
+          "itemId": "exec-4d82a321-7bda-480b-9f11-2c826d0e0097",
+          "itemIndex": 46,
+          "outputTruncated": null
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinementTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source21/MapCameraFitRefinementTest.kt",
+      "sha256": "26cb45edc859f9218e8a85868ebaa481b89cd11242204fc0c1bf85feb084784f",
+      "temporalScope": "SOURCE21 candidate",
+      "historicalSha256": "26cb45edc859f9218e8a85868ebaa481b89cd11242204fc0c1bf85feb084784f",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
+          "threadId": "6af7a318-0430-8191-8c9d-1cee283ec043",
+          "turnId": "01a1d763-d071-7747-82e6-27b0e60c23af",
+          "turnStartedUTC": "2026-11-14T00:10:05+00:00",
+          "itemId": "exec-100f7751-17b7-4011-a28d-537d60057fe7",
+          "itemIndex": 38,
+          "outputTruncated": false
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
+          "threadId": "6af7a318-0430-8191-8c9d-1cee283ec043",
+          "turnId": "01a1d763-d071-7747-82e6-27b0e60c23af",
+          "turnStartedUTC": "2026-11-14T00:10:05+00:00",
+          "itemId": "exec-fe6b0a44-f642-41ae-9fa6-a81941d8f187",
+          "itemIndex": 71,
+          "outputTruncated": false
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapFitResourceReadinessTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source21/MapFitResourceReadinessTest.kt",
+      "sha256": "73282b2e6f368baa950b64db24af4d2ac63bdb4c9a0e66849f0a4530a7d10af4",
+      "temporalScope": "SOURCE21 added test file",
+      "historicalSha256": "73282b2e6f368baa950b64db24af4d2ac63bdb4c9a0e66849f0a4530a7d10af4",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
+          "threadId": "6af7a318-0430-8191-8c9d-1cee283ec043",
+          "turnId": "01a1d763-d071-7747-82e6-27b0e60c23af",
+          "turnStartedUTC": "2026-11-14T00:10:05+00:00",
+          "itemId": "exec-fe6b0a44-f642-41ae-9fa6-a81941d8f187",
+          "itemIndex": 71,
+          "outputTruncated": false
+        }
+      ]
+    },
+    {
+      "sourcePath": "/workspace/outputs/2026-11-13/reprise-geosylva/camera-consult/native-restore18/MapNativeCameraPoseTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source18-native-restoration/MapNativeCameraPoseTest.kt",
+      "sha256": "a4b9d9d4094db1a43fbe1d1eb3b206935dd78b211aceb9404047df7e7e033990",
+      "temporalScope": "exact initial add; subsequent temporal amendments remain separate",
+      "historicalSha256": "a4b9d9d4094db1a43fbe1d1eb3b206935dd78b211aceb9404047df7e7e033990",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+          "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+          "itemId": "exec-c963ac53-86f4-4919-a1b4-a31937724f14",
+          "itemIndex": 57,
+          "outputTruncated": null
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapResourceCycleTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source20-pre-source21/MapResourceCycleTest.kt",
+      "sha256": "e58f773254fcf5c0e28182065f9bf2d17dda4fdaa9b4c044dcba6455d27859bb",
+      "temporalScope": "observed source20; second file in complete cat output",
+      "historicalSha256": null,
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
+          "threadId": "6af7a318-0430-8191-8c9d-1cee283ec043",
+          "turnId": "01a1d763-d071-7747-82e6-27b0e60c23af",
+          "turnStartedUTC": "2026-11-14T00:10:05+00:00",
+          "itemId": "exec-e99b6fab-9822-4c0f-9b27-2384b837f25d",
+          "itemIndex": 22,
+          "outputTruncated": false
+        }
+      ]
+    }
+  ],
+  "notSelected": [
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGateTest.kt",
+      "reason": "Only earlier complete variants currently recovered by module expansion; the inline-readback-era final test file is not yet fully verified. Do not substitute an older test as final."
+    }
+  ],
+  "moduleDependenciesStillIncomplete": true,
+  "supersededArtifacts": [
+    {
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/observed-source18/MapCameraGestures.kt",
+      "sha256": "001ec6de9b7a19ce8c82476ee37a1b55b0f8f3e129508cca1ada0ebd7f72e348",
+      "reason": "Earlier compound-read extraction omitted two @file annotation lines. Preserved as an immutable old archive artifact, superseded for assembly by the full contiguous cat source.",
+      "completeSourceSha256": "a632e359826616d31509d34ec6e9c0eb2e88db6a7f41e77b0d3752fca941dfa7"
+    }
+  ]
+}

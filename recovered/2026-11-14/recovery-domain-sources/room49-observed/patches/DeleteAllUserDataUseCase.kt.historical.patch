@@ -1,0 +1,49 @@
+diff --git a/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt b/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt
+index 0fb26d1..aa00e73 100644
+--- a/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt
++++ b/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt
+@@ -53,6 +53,11 @@ class DeleteAllUserDataUseCase(
+     private val woodDepotDao: com.forestry.counter.data.local.dao.WoodDepotDao,
+     private val fieldDao: com.forestry.counter.data.local.dao.FieldDao,
+     private val cartographicMeasurementDao: com.forestry.counter.data.local.dao.CartographicMeasurementDao,
++    private val cartographicLayerDao: com.forestry.counter.data.local.dao.CartographicLayerDao,
++    private val cartographicTraceDao: com.forestry.counter.data.local.dao.CartographicTraceDao,
++    private val offlineMapPackDao: com.forestry.counter.data.local.dao.OfflineMapPackDao,
++    private val stopCartographicWork: suspend () -> Unit = {},
++    private val purgeMapboxRegions: suspend (List<String>) -> Unit = {},
+     private val clearHeightReferenceCaptures: suspend () -> Unit = {},
+ ) {
+ 
+@@ -70,10 +75,22 @@ class DeleteAllUserDataUseCase(
+      * Vague C) : son `deleteAll` reste une suppression physique `DELETE FROM`,
+      * il n'y a donc pas de `hardDeleteAll` à appeler.
+      */
+-    suspend fun execute(): Int = withContext(Dispatchers.IO) { woodDataGate.purge {
++    suspend fun execute(): Int = withContext(Dispatchers.IO) {
++        // Join writers before taking the gate; a writer must never wait for a gate
++        // held by its own purge coordinator.
++        stopCartographicWork()
++        woodDataGate.purge {
++        val nativeRegions = offlineMapPackDao.allForPurge().map { it.nativeRegionId }
++        // Retain the registry on native failure so the explicit retry still knows
++        // which regions it must remove. Shared unrelated resources are untouched.
++        purgeMapboxRegions(nativeRegions)
+         // The only authorized physical removal of retained operation snapshots.
+         // Pending deletes and retries survive ordinary business deletes and logout.
+         operationDao.runJournalTransaction {
++            cartographicLayerDao.deleteAllOperations()
++            cartographicLayerDao.deleteAll()
++            cartographicTraceDao.deleteAll()
++            offlineMapPackDao.deleteAll()
+             cartographicMeasurementDao.deleteAll()
+             cartographicMeasurementDao.deleteStoreIdentity()
+             fieldDao.deleteChunks()
+@@ -133,7 +150,7 @@ class DeleteAllUserDataUseCase(
+ 
+     companion object {
+         /** Nombre de DAOs purgés par le use case (pour vérification en test). */
+-        const val DAO_COUNT = 19
++        const val DAO_COUNT = 22
+         private const val PHOTOS_DIR_NAME = "photos"
+     }
+ }

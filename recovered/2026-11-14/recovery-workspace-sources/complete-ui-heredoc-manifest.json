@@ -1,0 +1,270 @@
+{
+  "entries": [
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "version_file": "complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "sha256": "cbd0f7bb82f436bba3901a7e3c69dc052f8820e7d2f0f89e9bfdb6ed219b9d2d",
+      "classification": "full_literal_file_declaration_exact",
+      "bytes": 2415,
+      "line_count": 61,
+      "provenance": {
+        "history_file": "trace-ui-initial-next.json",
+        "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+        "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+        "item_index": 9,
+        "turn_started_at": 1793905115,
+        "turn_completed_at": 1793905568,
+        "shell_header_line": 2,
+        "shell_body_first_line": 3,
+        "shell_body_last_line": 63,
+        "quoted_delimiter": "EOF",
+        "command_truncated_after_complete_declaration": false,
+        "command_status": "completed",
+        "command_exit_code": 0
+      },
+      "observations": [
+        {
+          "history_file": "trace-ui-initial-next.json",
+          "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+          "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+          "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+          "item_index": 9,
+          "turn_started_at": 1793905115,
+          "turn_completed_at": 1793905568,
+          "shell_header_line": 2,
+          "shell_body_first_line": 3,
+          "shell_body_last_line": 63,
+          "quoted_delimiter": "EOF",
+          "command_truncated_after_complete_declaration": false,
+          "command_status": "completed",
+          "command_exit_code": 0
+        }
+      ],
+      "command_evidence": "complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/command-evidence.txt",
+      "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+    },
+    {
+      "path": "cartography-mapbox/src/main/res/values/trace_strings.xml",
+      "version_file": "complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-mapbox/src/main/res/values/trace_strings.xml",
+      "sha256": "a2cb53496537eb82499c6d7e5185db27ca42586ae74064911eba31594ad90ed6",
+      "classification": "full_literal_file_declaration_exact",
+      "bytes": 4190,
+      "line_count": 62,
+      "provenance": {
+        "history_file": "trace-ui-initial-next.json",
+        "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+        "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+        "item_index": 9,
+        "turn_started_at": 1793905115,
+        "turn_completed_at": 1793905568,
+        "shell_header_line": 65,
+        "shell_body_first_line": 66,
+        "shell_body_last_line": 127,
+        "quoted_delimiter": "EOF",
+        "command_truncated_after_complete_declaration": false,
+        "command_status": "completed",
+        "command_exit_code": 0
+      },
+      "observations": [
+        {
+          "history_file": "trace-ui-initial-next.json",
+          "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+          "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+          "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+          "item_index": 9,
+          "turn_started_at": 1793905115,
+          "turn_completed_at": 1793905568,
+          "shell_header_line": 65,
+          "shell_body_first_line": 66,
+          "shell_body_last_line": 127,
+          "quoted_delimiter": "EOF",
+          "command_truncated_after_complete_declaration": false,
+          "command_status": "completed",
+          "command_exit_code": 0
+        }
+      ],
+      "command_evidence": "complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/command-evidence.txt",
+      "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/trace_strings.xml",
+      "version_file": "complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad23-3816-75fa-b888-2aa47ee05bc1/exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713/cartography-ui/src/main/res/values-en/trace_strings.xml",
+      "sha256": "371bac50f123e268c75a2d8f4c5775d62b756ca76843db60e611f37c04578495",
+      "classification": "full_literal_file_declaration_exact",
+      "bytes": 4127,
+      "line_count": 63,
+      "provenance": {
+        "history_file": "trace-ui-earlier.json",
+        "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "turn": "01a1ad23-3816-75fa-b888-2aa47ee05bc1",
+        "item": "exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713",
+        "item_index": 41,
+        "turn_started_at": 1793906129,
+        "turn_completed_at": 1793906493,
+        "shell_header_line": 2,
+        "shell_body_first_line": 3,
+        "shell_body_last_line": 65,
+        "quoted_delimiter": "EOF",
+        "command_truncated_after_complete_declaration": false,
+        "command_status": "completed",
+        "command_exit_code": 0
+      },
+      "observations": [
+        {
+          "history_file": "trace-ui-earlier.json",
+          "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+          "turn": "01a1ad23-3816-75fa-b888-2aa47ee05bc1",
+          "item": "exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713",
+          "item_index": 41,
+          "turn_started_at": 1793906129,
+          "turn_completed_at": 1793906493,
+          "shell_header_line": 2,
+          "shell_body_first_line": 3,
+          "shell_body_last_line": 65,
+          "quoted_delimiter": "EOF",
+          "command_truncated_after_complete_declaration": false,
+          "command_status": "completed",
+          "command_exit_code": 0
+        }
+      ],
+      "command_evidence": "complete-ui-heredocs/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad23-3816-75fa-b888-2aa47ee05bc1/exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713/command-evidence.txt",
+      "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/offline/OfflinePackWorkspace.kt",
+      "version_file": "complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/offline/OfflinePackWorkspace.kt",
+      "sha256": "7e22ba7d3bd5edfe97d7fa5331cb392572c2860431642ed8df74ecb2f7928caa",
+      "classification": "full_literal_file_declaration_exact",
+      "bytes": 4685,
+      "line_count": 91,
+      "provenance": {
+        "history_file": "packs-offline-batch6.json",
+        "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": "exec-1208d937-56ae-4335-94e8-03d6b2205567",
+        "item_index": 65,
+        "turn_started_at": 1794041941,
+        "turn_completed_at": 1794043733,
+        "shell_header_line": 1,
+        "shell_body_first_line": 2,
+        "shell_body_last_line": 92,
+        "quoted_delimiter": "EOF",
+        "command_truncated_after_complete_declaration": false,
+        "command_status": "completed",
+        "command_exit_code": 0
+      },
+      "observations": [
+        {
+          "history_file": "packs-offline-batch6.json",
+          "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+          "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+          "item": "exec-1208d937-56ae-4335-94e8-03d6b2205567",
+          "item_index": 65,
+          "turn_started_at": 1794041941,
+          "turn_completed_at": 1794043733,
+          "shell_header_line": 1,
+          "shell_body_first_line": 2,
+          "shell_body_last_line": 92,
+          "quoted_delimiter": "EOF",
+          "command_truncated_after_complete_declaration": false,
+          "command_status": "completed",
+          "command_exit_code": 0
+        }
+      ],
+      "command_evidence": "complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/command-evidence.txt",
+      "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/offline_strings.xml",
+      "version_file": "complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/res/values-en/offline_strings.xml",
+      "sha256": "99191ac7c4e69f73b083fdb0de40b5161e1981655c086a3438384db51501c4de",
+      "classification": "full_literal_file_declaration_exact",
+      "bytes": 511,
+      "line_count": 10,
+      "provenance": {
+        "history_file": "packs-offline-batch6.json",
+        "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": "exec-1208d937-56ae-4335-94e8-03d6b2205567",
+        "item_index": 65,
+        "turn_started_at": 1794041941,
+        "turn_completed_at": 1794043733,
+        "shell_header_line": 106,
+        "shell_body_first_line": 107,
+        "shell_body_last_line": 116,
+        "quoted_delimiter": "EOF",
+        "command_truncated_after_complete_declaration": false,
+        "command_status": "completed",
+        "command_exit_code": 0
+      },
+      "observations": [
+        {
+          "history_file": "packs-offline-batch6.json",
+          "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+          "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+          "item": "exec-1208d937-56ae-4335-94e8-03d6b2205567",
+          "item_index": 65,
+          "turn_started_at": 1794041941,
+          "turn_completed_at": 1794043733,
+          "shell_header_line": 106,
+          "shell_body_first_line": 107,
+          "shell_body_last_line": 116,
+          "quoted_delimiter": "EOF",
+          "command_truncated_after_complete_declaration": false,
+          "command_status": "completed",
+          "command_exit_code": 0
+        }
+      ],
+      "command_evidence": "complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/command-evidence.txt",
+      "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+    },
+    {
+      "path": "cartography-ui/src/main/res/values/offline_strings.xml",
+      "version_file": "complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/cartography-ui/src/main/res/values/offline_strings.xml",
+      "sha256": "6ce63bf27f5f917a0a28ba18d57e35baadaa65b55e4441314f19acd7d6ee7395",
+      "classification": "full_literal_file_declaration_exact",
+      "bytes": 531,
+      "line_count": 10,
+      "provenance": {
+        "history_file": "packs-offline-batch6.json",
+        "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": "exec-1208d937-56ae-4335-94e8-03d6b2205567",
+        "item_index": 65,
+        "turn_started_at": 1794041941,
+        "turn_completed_at": 1794043733,
+        "shell_header_line": 94,
+        "shell_body_first_line": 95,
+        "shell_body_last_line": 104,
+        "quoted_delimiter": "EOF",
+        "command_truncated_after_complete_declaration": false,
+        "command_status": "completed",
+        "command_exit_code": 0
+      },
+      "observations": [
+        {
+          "history_file": "packs-offline-batch6.json",
+          "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+          "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+          "item": "exec-1208d937-56ae-4335-94e8-03d6b2205567",
+          "item_index": 65,
+          "turn_started_at": 1794041941,
+          "turn_completed_at": 1794043733,
+          "shell_header_line": 94,
+          "shell_body_first_line": 95,
+          "shell_body_last_line": 104,
+          "quoted_delimiter": "EOF",
+          "command_truncated_after_complete_declaration": false,
+          "command_status": "completed",
+          "command_exit_code": 0
+        }
+      ],
+      "command_evidence": "complete-ui-heredocs/01a1b53b-8580-718e-afa7-899dfe3ed04a/01a1b53b-8b21-708c-926f-f73c52c42f63/exec-1208d937-56ae-4335-94e8-03d6b2205567/command-evidence.txt",
+      "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+    }
+  ],
+  "decoded_heredoc_commands": 184,
+  "limitation": "Declarations remain separated by thread/turn/item. This inventory does not select a synthetic latest source tree."
+}

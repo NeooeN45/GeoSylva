@@ -1,18 +1,34 @@
-ÉTAT DU CHECKPOINT GÉOSYLVA — CHECKPOINT 4 DU 14 NOVEMBRE 2026
+ÉTAT DU CHECKPOINT GÉOSYLVA — CHECKPOINT 5 DU 14 NOVEMBRE 2026
+
+BASE INCLUSE SÉPARÉMENT : baseline/GeoSylva-recovery-base-2026-10-19-36d1515.zip, source HEAD du 19 octobre 2026
+au commit 36d1515, Room 46, version 3.0.0/code 11. SHA256 76e446c3ca6fdcc73656e7d82e06405089b1eaf0c0759ff3e08dc17e29b214a6.
+Elle contient 1389 fichiers suivis, sans .git ni bundle historique de base.
+Ces fichiers internes n'augmentent pas les compteurs de variantes récupérées.
+La récupération du 13 novembre reste à assembler et à qualifier. Le guide et
+tools/restore_baseline.py conservent les modes Unix lorsqu'ils sont fournis.
+Ce ZIP n'en fournit aucun : les défauts explicites sont 0644/0755 ; rendre
+gradlew exécutable demande l'option documentée ou chmod +x après extraction.
 
 Récupération partielle des travaux de novembre, entreprise depuis une ancienne
-base du 19 octobre. Ce dépôt conserve 246 artefacts de sources complètes,
-dont 81 chemins techniques distincts et 211 versions de code distinctes
+base du 19 octobre. Ce dépôt conserve 337 artefacts de sources complètes,
+dont 135 chemins techniques distincts et 293 versions de code distinctes
 par chemin et SHA256. 1 source complète de consultation reste séparée : son
 chemin de module n'est pas établi par la preuve. Les copies de synthèse latest
 recovered sont identifiées comme alias d'états déjà conservés ; elles ne créent
-pas de versions de code distinctes. SOURCE_CATALOGUE.checkpoint4.json détaille
+pas de versions de code distinctes. SOURCE_CATALOGUE.checkpoint5.json détaille
 ces comptes, les variantes, les alias et les références de source historiques.
 
-Les 280 pièces du checkpoint3 restent identiques octet pour octet. Ce lot ajoute
-212 pièces. Les preuves modifiées reçoivent un nom checkpoint4/SHA distinct.
-Le manifeste compte 19 patches complets, 78 changements par fichier en hunks,
-140 preuves/provenances et 9 fragments explicitement incomplets, hors compte complet.
+Les 492 pièces du checkpoint 4 restent identiques octet pour octet. Ce lot ajoute
+124 pièces. Les preuves modifiées reçoivent un nom checkpoint 5/SHA distinct.
+Le manifeste compte 27 patches complets, 78 changements par fichier en hunks,
+161 preuves/provenances et 9 fragments explicitement incomplets, hors compte complet.
+L'archive source de base et deux documents de projet complets sont comptés
+séparément des variantes de code. L'extrait supersédé est également séparé.
+ERRATUM : l'ancien MapCameraGestures SHA 001ec6… garde ses octets et son entrée
+historique, mais classificationOverrides le reclasse en extrait incomplet
+supersédé, exclu des totaux complets. Les deux lignes d'en-tête perdues sont
+présentes dans la source complète indépendante SHA a632e359…, archivée à part.
+Cette correction de classement ne réécrit aucune pièce des checkpoints précédents.
 
 MapCameraCommandGate et MapCameraState disposent de variantes complètes datées
 et de hashes historiques concordants. SharedMapboxCanvas source18, source20,
@@ -26,22 +42,25 @@ sans établir les octets complets de sa source de base ou candidate.
 
 Les états domain/data de mesures manuelles du 6 novembre, la transition
 d'autorité du 7 novembre et les sources GPS du 5 novembre restent distincts.
-Les dépendances d'autorité et prérequis Room/privacy absents sont signalés.
+La chaîne Room 46→49 et les variantes/prérequis offline datés sont conservés ;
+les dépendances encore absentes restent explicitement listées dans les preuves.
 Les changements enregistrés complets sans base disponible restent des hunks.
 Les fragments JSON/texte et préfixes de TraceWorkspace restent incomplets.
 
 Aucune restauration finale du 13 novembre, compilation, exécution Android/JVM,
 validation visuelle ou qualification d'APK n'est revendiquée. Aucun dépôt actif
 n'a été modifié par cette copie, aucune commande historique entière exécutée
-et aucune application recodée. Le scan courant est SECRET_SCAN.checkpoint4.json.
+et aucune application recodée. Le scan courant est SECRET_SCAN.checkpoint5.json.
 Transcriptions, réponses API, métadonnées brutes non publiques, scripts de
-récupération/extraction, clés, tokens, configurations locales, données clients
-et personnelles, .env et local.properties sont exclus.
+récupération/extraction, clés privées, tokens, configurations locales, données
+clients ou privées, .env et local.properties sont exclus. Les deux PEM publics
+de tests, contacts documentaires publics et fixtures synthétiques de la base
+source sont examinés séparément et décrits dans le rapport sans valeurs.
 
 PUBLICATION AUTORISÉE : branche backup/geosylva-recovery-2026-11-14 du dépôt
 PUBLIC NeooeN45/GeoSylva. Destination enregistrée et plan inchangés ; main du
-dépôt applicatif reste hors des pushes. Le checkpoint3 a été poussé et vérifié
-par l'opérateur. Ce checkpoint4 est strictement local jusqu'à son propre reçu
+dépôt applicatif reste hors des pushes. Le checkpoint 4 a été poussé et vérifié
+par l'opérateur. Ce checkpoint 5 est strictement local jusqu'à son propre reçu
 d'égalité du HEAD et du hash distant. Aucun push de ce nouveau lot n'est présumé.
 
 Zip, bundle et rapport de restauration sont générés hors dépôt dans

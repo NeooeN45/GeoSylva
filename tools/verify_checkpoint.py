@@ -6,7 +6,10 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
+import stat
 import subprocess
+import zipfile
 from collections import Counter
 from pathlib import Path
 
@@ -44,6 +47,9 @@ def main() -> None:
     proof_cache = {}
     reference_count = 0
     kinds = Counter()
+    overrides = manifest.get('classificationOverrides', {})
+    check(set(overrides) <= set(by_path), 'Classification override references absent payload.')
+    baseline_members_verified = 0
     for row in rows:
         relative = Path(row['path'])
         check(not relative.is_absolute() and '..' not in relative.parts,
@@ -55,8 +61,53 @@ def main() -> None:
         data = path.read_bytes()
         check(len(data) == row['bytes'], f'Byte count mismatch: {relative}')
         check(sha(data) == row['sha256'], f'SHA256 mismatch: {relative}')
-        kinds[row['kind']] += 1
-        if row['kind'] == 'incomplete-code-fragment':
+        effective_kind = overrides.get(row['path'], {}).get('kind', row['kind'])
+        kinds[effective_kind] += 1
+        if effective_kind == 'superseded-incomplete-source-excerpt':
+            correction = overrides[row['path']]
+            check(correction['completeSource'] is False and correction['originalSha256'] == row['sha256'],
+                  'Superseded source classification mismatch.')
+            replacement = by_path.get(correction['replacementPath'])
+            check(replacement is not None and replacement['kind'] == 'complete-source'
+                  and replacement['sha256'] == correction['replacementSha256'],
+                  'Superseded source replacement mismatch.')
+            replacement_data = (root / correction['replacementPath']).read_bytes()
+            check(replacement_data.splitlines()[0].startswith(b'@file:OptIn')
+                  and b''.join(replacement_data.splitlines(True)[2:]) == data,
+                  'Superseded Gestures header difference does not match its erratum.')
+            correction_proof = json.loads((root / correction['proofPath']).read_bytes())
+            check(correction_proof['replacement']['sha256'] == replacement['sha256']
+                  and correction_proof['replacement']['complete'] is True,
+                  'Gestures correction proof mismatch.')
+        if effective_kind == 'baseline-source-archive':
+            baseline = manifest['baseline']
+            check(baseline['archivePath'] == row['path'] and baseline['sha256'] == row['sha256']
+                  and baseline['excludedFromRecoverySourceCounts'] is True, 'Baseline classification mismatch.')
+            source_manifest = json.loads((root / baseline['sourceFileManifest']).read_bytes())
+            expected = {entry['path']: entry for entry in source_manifest['files']}
+            with zipfile.ZipFile(path) as z:
+                members = z.infolist()
+                check(len(members) == len({member.filename for member in members}), 'Duplicate baseline member.')
+                actual = set()
+                for member in members:
+                    member_path = Path(member.filename)
+                    check(not member_path.is_absolute() and '..' not in member_path.parts
+                          and '\\' not in member.filename and not re.match(r'^[A-Za-z]:', member.filename)
+                          and '.git' not in member_path.parts, 'Unsafe baseline archive path.')
+                    check(member.filename.startswith(source_manifest['prefix'])
+                          and not stat.S_ISLNK(member.external_attr >> 16), 'Unsafe baseline type or prefix.')
+                    if member.is_dir(): continue
+                    member_name = member.filename[len(source_manifest['prefix']):]
+                    check(member_name in expected, 'Baseline source missing from source manifest.')
+                    member_data = z.read(member)
+                    check(len(member_data) == expected[member_name]['bytes']
+                          and sha(member_data) == expected[member_name]['sha256'], 'Baseline member hash mismatch.')
+                    actual.add(member_name)
+                check(actual == set(expected) and len(actual) == baseline['internalSourceFiles'] == 1389,
+                      'Baseline internal file count mismatch.')
+                check(z.testzip() is None, 'Baseline ZIP CRC failure.')
+                baseline_members_verified = len(actual)
+        if effective_kind == 'incomplete-code-fragment':
             check(relative.parts[0] == 'FRAGMENTS_INCOMPLETE' and row['completeSource'] is False,
                   f'Incomplete fragment mislabeled: {relative}')
             if row.get('fragmentFormat') == 'text':
@@ -90,6 +141,9 @@ def main() -> None:
         ('complete-recorded-file-change', 'recordedHunkFileCount'),
         ('incomplete-code-fragment', 'incompleteCodeFragmentCount'),
         ('recovery-proof', 'proofFileCount'),
+        ('baseline-source-archive', 'baselineArchiveCount'),
+        ('recovered-project-document', 'recoveredProjectDocumentCount'),
+        ('superseded-incomplete-source-excerpt', 'supersededIncompleteSourceExcerptCount'),
     ]:
         check(kinds[kind] == manifest.get(key, 0), f'Kind count mismatch: {kind}')
     scan = json.loads((root / manifest['currentSecretScanReport']).read_bytes())
@@ -165,6 +219,7 @@ def main() -> None:
         'baselinePreservationChecked': bool(args.baseline_commit),
         'distinctTechnicalSourcePaths': distinct_paths,
         'distinctTechnicalSourceByteVersions': distinct_versions,
+        'baselineInternalSourceFilesVerified': baseline_members_verified,
         'manifestSha256': sha((root / 'MANIFEST.json').read_bytes()),
         'qualification': 'Backup integrity only; no application execution or network.',
     }, ensure_ascii=False, indent=2))
