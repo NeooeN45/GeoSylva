@@ -1,0 +1,84 @@
+{
+  "status": "Complete observed domain/data maps sources adopted; full app compilation and service tests pending",
+  "notClaimed": [
+    "Exact complete13Nov restoration",
+    "Routing rights, road passability or comprehensive live radar coverage",
+    "External API availability verified by this integration"
+  ],
+  "files": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/maps/MapsModels.kt",
+      "sha256": "394e8cd2fa7ce5f091179ff28fc9c2ed99c3770372784f69076baf4dc69dcd10",
+      "classification": "COMPLETE_OBSERVED_SOURCE_ADOPTED",
+      "source": {
+        "history": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": "exec-4213ee11-2b93-4072-8087-00ba89da44b0",
+        "command": "/bin/bash -lc \"rg -n -i 'radar|speed.?cam|safety.?cam|camera.?fixe' app/src/main/java app/src/main/res cartography-* --glob '*.kt' --glob '*.xml' | head -70; sed -n '1,220p' app/src/main/java/com/forestry/counter/domain/maps/MapsModels.kt; sed -n '1,180p' app/src/main/java/com/forestry/counter/data/maps/PublicMapsRepository.kt; sed -n '1,125p' app/src/main/java/com/forestry/counter/presentation/screens/maps/MapsViewModel.kt\""
+      },
+      "notes": [
+        "Retains existing MapsBasemap enum compatibility; this integration does not introduce a separate renderer."
+      ]
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/maps/MapsNavigation.kt",
+      "sha256": "a6295083b59413bba9789b8dbb513f56e8e9fcc05c6cb759dd124271459993e7",
+      "classification": "COMPLETE_OBSERVED_SOURCE_ADOPTED",
+      "source": {
+        "history": "maps-guidage-batch8.json",
+        "turn": "01a1b570-4863-77d7-9b27-90b5cdb2e68a",
+        "item": "exec-07f5380d-66dd-47b8-949e-1102c0734413",
+        "command": "/bin/bash -lc 'cat app/src/main/java/com/forestry/counter/presentation/screens/maps/MapsViewModel.kt\ncat app/src/main/java/com/forestry/counter/domain/maps/MapsNavigation.kt'"
+      },
+      "notes": []
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/maps/PublicMapsRepository.kt",
+      "sha256": "dd8d54f42e53cf3f656d30321ad4f13dacdbe59a9d12137a2b32ade0cfb855c1",
+      "classification": "COMPLETE_OBSERVED_SOURCE_ADOPTED",
+      "source": {
+        "history": "camera-resume13-earlier18.json",
+        "turn": "01a1d496-4ba4-708c-aed1-08f8beace6e9",
+        "item": "exec-5bdb58f6-88ff-467f-9c3d-9730d7f08bb3",
+        "command": "/bin/bash -lc 'cat app/src/main/java/com/forestry/counter/data/maps/PublicMapsRepository.kt'"
+      },
+      "notes": [
+        "Real IGN search/routing and optional Mapbox directions; no request executed by this integration.",
+        "HTTPS allowlist, no redirects, bounded response, cancellation and429 backoff retained."
+      ]
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/maps/FixedRadars.kt",
+      "sha256": "b3a2035e4e403fb453449acab33883815791c2b692ded84ec20092fe99ab2c5e",
+      "classification": "COMPLETE_OBSERVED_SOURCE_ADOPTED",
+      "source": {
+        "history": "maps-guidage-initial10k.json",
+        "turn": "01a1b53b-c18c-717c-854c-e520a1bda809",
+        "item": "exec-bb85bf10-ad62-4b89-8bfc-1e6c14ee56d0",
+        "command": "/bin/bash -lc \"cat app/src/main/java/com/forestry/counter/domain/maps/FixedRadars.kt\nsed -n '1,38p' app/src/main/java/com/forestry/counter/presentation/screens/maps/MapsViewModel.kt\nsed -n '1,45p' app/src/main/res/values-en/maps_journey.xml\""
+      },
+      "notes": [
+        "Complete observed earlier radar model retained; later metadata flags are not silently inferred.",
+        "No national radar service or fabricated empty-success implementation added."
+      ]
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/data/maps/PublicMapsRepositoryContractTest.kt",
+      "sha256": "b4113aed4bafd3d9eb5bfb6fb4e9442c11dd97ae41e748e657cf62faf4119490",
+      "classification": "NEW_CONTRACT_TESTS_NOT_EXECUTED",
+      "coverage": [
+        "Search keeps valid destinations, rejects projected coordinates and deduplicates",
+        "Provider quantities and source retained",
+        "IGN CRS, unit and profile mismatch explicitly unavailable",
+        "Mapbox instructions and geometry retained",
+        "NoRoute remains failure"
+      ],
+      "testCount": 5
+    }
+  ],
+  "validation": {
+    "staticSha256": "all files verified",
+    "jvmTests": "not executed by this agent; root coordinates build",
+    "networkRequests": "none"
+  }
+}
