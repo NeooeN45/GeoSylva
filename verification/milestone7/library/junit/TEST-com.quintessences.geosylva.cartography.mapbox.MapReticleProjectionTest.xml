@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.quintessences.geosylva.cartography.mapbox.MapReticleProjectionTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-14T16:24:09" hostname="09c53eb31496" time="0.004">
+  <properties/>
+  <testcase name="absent_unlaid_out_and_outside_viewport_have_no_coordinate" classname="com.quintessences.geosylva.cartography.mapbox.MapReticleProjectionTest" time="0.001"/>
+  <testcase name="viewport_pixel_is_preserved_even_when_not_at_camera_centre" classname="com.quintessences.geosylva.cartography.mapbox.MapReticleProjectionTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

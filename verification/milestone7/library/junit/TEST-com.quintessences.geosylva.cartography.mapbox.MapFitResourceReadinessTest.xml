@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.quintessences.geosylva.cartography.mapbox.MapFitResourceReadinessTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-14T16:24:09" hostname="09c53eb31496" time="0.001">
+  <properties/>
+  <testcase name="both a fresh full and a later idle are required without geometry acknowledgement" classname="com.quintessences.geosylva.cartography.mapbox.MapFitResourceReadinessTest" time="0.0"/>
+  <testcase name="a replacement intent cannot reuse the prior view resource witnesses" classname="com.quintessences.geosylva.cartography.mapbox.MapFitResourceReadinessTest" time="0.0"/>
+  <testcase name="events captured before the new setter cannot release its resource wait" classname="com.quintessences.geosylva.cartography.mapbox.MapFitResourceReadinessTest" time="0.0"/>
+  <testcase name="a later camera movement requires a new native image and idle" classname="com.quintessences.geosylva.cartography.mapbox.MapFitResourceReadinessTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

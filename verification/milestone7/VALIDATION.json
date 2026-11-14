@@ -1,0 +1,111 @@
+{
+  "schema": "geosylva.library-milestone-validation.v1",
+  "checkedUTC": "2026-11-14T16:50:09.408670+00:00",
+  "archiveSourceCommit": "f2c1b508ee4357fc0ff4f4123daea9a98dfe3845",
+  "testedLibrarySourceCommit": "2d2259f217a96f12a697ef45fbba85998c3931e9",
+  "onlyDocumentationChangedSinceTests": true,
+  "libraryTask": ":cartography-mapbox:testDebugUnitTest",
+  "libraryRunnerExitCode": 0,
+  "junitSuites": 9,
+  "junitTotals": {
+    "tests": 47,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "junitReports": [
+    {
+      "path": "verification/milestone7/library/junit/TEST-com.quintessences.geosylva.cartography.mapbox.MapReticleProjectionTest.xml",
+      "sha256": "d09632ffeb939d884b0adfb60c653acecdd6eb8d680ebae42431be98b56efe76",
+      "suite": "com.quintessences.geosylva.cartography.mapbox.MapReticleProjectionTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "verification/milestone7/library/junit/TEST-com.quintessences.geosylva.cartography.mapbox.MapStatusBarPolicyTest.xml",
+      "sha256": "26977c9887b2953077dafe704991d868b043d7fda89080ff63f256ef82a17797",
+      "suite": "com.quintessences.geosylva.cartography.mapbox.MapStatusBarPolicyTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "verification/milestone7/library/junit/TEST-com.quintessences.geosylva.cartography.mapbox.MapPinGeometryTest.xml",
+      "sha256": "42db88318e1d47b7e6c541d0477a985f62ddf9eb3946776fa6bc13c036f0d874",
+      "suite": "com.quintessences.geosylva.cartography.mapbox.MapPinGeometryTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "verification/milestone7/library/junit/TEST-com.quintessences.geosylva.cartography.mapbox.MapCheckedPinContractTest.xml",
+      "sha256": "db5f34d220f6f5b782cf4fcb135e96e77dada35e115c0dfe338feb5624596b96",
+      "suite": "com.quintessences.geosylva.cartography.mapbox.MapCheckedPinContractTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "verification/milestone7/library/junit/TEST-com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest.xml",
+      "sha256": "37a4aa24e54f0f6831902c081a99ecd81ae5a2c423de37605453931f5e255014",
+      "suite": "com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "verification/milestone7/library/junit/TEST-com.quintessences.geosylva.cartography.mapbox.MapFitResourceReadinessTest.xml",
+      "sha256": "7953ff85c5be734915fa77765806f3ad751b10caf11de8d283d12ae1088bfab6",
+      "suite": "com.quintessences.geosylva.cartography.mapbox.MapFitResourceReadinessTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "verification/milestone7/library/junit/TEST-com.quintessences.geosylva.cartography.mapbox.PointLabelPlacementTest.xml",
+      "sha256": "aeb8db392d6e36ce2dd63b6a49fde3b158380afc45f3de2b9cdb9618f1f7a8b1",
+      "suite": "com.quintessences.geosylva.cartography.mapbox.PointLabelPlacementTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "verification/milestone7/library/junit/TEST-com.quintessences.geosylva.cartography.mapbox.MapResourceCycleTest.xml",
+      "sha256": "2c275ff29622d772e11aa271602b18212fbe11573d102e541cf7d98893e4a450",
+      "suite": "com.quintessences.geosylva.cartography.mapbox.MapResourceCycleTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "verification/milestone7/library/junit/TEST-com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest.xml",
+      "sha256": "d184f798c5a2b65df24bfb448401081b96eba02d9767f2e9f77d0bc80b7b754a",
+      "suite": "com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "applicationCompile": {
+    "head": "f2c1b508ee4357fc0ff4f4123daea9a98dfe3845",
+    "exitCode": 1,
+    "blocker": "KSP MissingType: ForestryDatabase references a type that is not present",
+    "missingSources": [
+      "app/src/main/java/com/forestry/counter/data/local/entity/FieldControlBasisEntity.kt",
+      "app/src/main/java/com/forestry/counter/data/local/dao/FieldControlBasisDao.kt"
+    ]
+  },
+  "resourceRepairTextsHistoricalExact": false,
+  "appApkS25VisualProductionQualified": false,
+  "scope": "Actual library compilation and recovered JVM tests only. App KSP compilation is blocked. No device/visual/full-app qualification."
+}

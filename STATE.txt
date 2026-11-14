@@ -1,42 +1,32 @@
-ÉTAT GÉOSYLVA — CHECKPOINT 6 DU 14 NOVEMBRE 2026
+GÉOSYLVA — CHECKPOINT 7 / JALON DE BIBLIOTHÈQUES VÉRIFIÉES
 
-Source WIP immuable inclus : commit c4e107548913cf82e58e2b10d920a8bffc15d33a,
-arbre bfc4e8894a54422310ceeb4534d2d6847b0757b9. Le ZIP assembly-wip porte
-explicitement WIP / NON_COMPILE / NON_COMPLET_13NOV. Ses 1525 fichiers suivis
-protègent la base assemblée et les ajouts, sans historique Git ni sorties Android
-non suivies. Le reçu d'assemblage distingue 145 captures exactes et une réparation
-nominale par contrat. Aucune compilation ou récupération finale du 13 novembre
-n'est revendiquée. Le test Room masqué n'est pas dans cet arbre.
+Source immuable : f2c1b508ee4357fc0ff4f4123daea9a98dfe3845.
+Arbre : b76efa6837aa526777f617c45fbfbb90da1efbe3. ZIP assembly-milestone7 : 1579 fichiers,
+sans .git ni ancien historique. Les sources sont identiques au commit testé
+2d2259f217a96f12a697ef45fbba85998c3931e9 ; seules deux pièces de documentation
+de récupération ont changé après les tests.
 
-Le manifeste d'arbre indique chaque SHA256, blob Git et mode Git. Le ZIP émis
-ne contient pas de mode Unix ; ces modes se restaurent depuis le manifeste.
-L'export gradlew.bat LF→CRLF est enregistré et réversible ; la restauration
-exacte des blobs Git est vérifiée sans exécuter de script extrait.
+Compilation des bibliothèques UI et Mapbox validée ; 47 tests JVM récupérés,
+9 suites, zéro échec, erreur ou test ignoré. Les XML JUnit, reçu runner et log
+de ce seul build sont sous verification/milestone7/library/.
+L'application reste NON COMPILÉE : app:compileDebugKotlin échoue KSP MissingType
+sur ForestryDatabase, FieldControlBasisEntity.kt et FieldControlBasisDao.kt
+étant absents. Reçu et log du diagnostic sous verification/milestone7/application/.
+Aucune qualification d'APK complet, S25, appareil, pixels ou production.
 
-Les 616 pièces précédentes restent inchangées. Ce lot ajoute 517 pièces,
-pour 1133 au total. Les archives complètes de base/WIP ne gonflent pas les
-compteurs : 660 artefacts de sources complètes, 192 chemins techniques,
-559 versions de code distinctes ; 78 fragments hors comptes complets.
-La réparation nominale est un candidat séparé, sans statut de source historique
-exacte. L'ancien Gestures incomplet reste supersédé sans changer ses octets.
-Les corrections de destination sont des overlays explicites, pas des réécritures.
+ResourceRepair/ conserve les nouveaux textes FR/EN de source_panel_help comme
+réparation UI, sans identité historique de fichier affirmée. La réparation
+nominale de contrat et les anciens fragments masqués gardent leurs distinctions.
+Les 1133 pièces et classifications du checkpoint6 restent identiques. Ce lot
+minimal ajoute 21 pièces ; les membres internes du ZIP ne gonflent
+pas les compteurs de sources historiques. Les variantes forensiques optionnelles
+restent hors de ce gel et pourront faire l'objet d'un lot ultérieur.
 
-Les sources et preuves supplémentaires restent séparées par versions datées.
-Les 195 variantes workspace, 84 artefacts module, 23 sélections offline et 47
-sélections domain sont tous présents par chemin et SHA256. Les références
-auxiliaires sans artefact autorisé et les diffs vides ne sont pas promus.
-Le contexte ForestryMapLayout non résolu est signalé sans source inventée.
-Le reçu publication/checkpoint5-github-restore-verification.json prouve une
-restauration indépendante GitHub du checkpoint 5 et de ses 1389 fichiers de base.
-La base Room 46, version 3.0.0/code 11, reste disponible sous baseline/.
+Le manifeste d'arbre inclut SHA256, blobs et modes Git. Le ZIP ne porte pas de
+modes Unix ; le restaurateur utilise le manifeste. L'export CRLF de gradlew.bat
+est inversé pour reproduire les blobs exacts, sans le dépôt source original.
+Les snapshots précédents baseline/ et assembly-wip/ restent restaurables.
 
-Aucun dépôt applicatif n'est modifié par cette tâche. Aucun programme historique,
-build, ADB ou code applicatif extrait n'est exécuté. Les scans n'affichent aucune
-valeur de secret et excluent réponses API/transcriptions brutes, configurations
-privées et anciens bundles Git. Les fixtures publiques déjà examinées restent
-documentées ; les marqueurs masqués sont des limites de source, pas des valeurs
-à deviner.
-
-Publication autorisée inchangée : branche backup/geosylva-recovery-2026-11-14
-du dépôt PUBLIC NeooeN45/GeoSylva. Aucun push de ce checkpoint n'est présumé
-avant son reçu distant ; main applicative reste hors de ces pushes.
+Destination publique autorisée inchangée : NeooeN45/GeoSylva, branche
+backup/geosylva-recovery-2026-11-14 ; main applicative reste hors des pushes.
+Ce checkpoint est local jusqu'au reçu distant de l'opérateur. Aucun push agent.

@@ -14,4 +14,5 @@ token.json
 *.zip
 !baseline/GeoSylva-recovery-base-2026-10-19-36d1515.zip
 !assembly-wip/WIP_NON_COMPILE_NON_COMPLET_13NOV-c4e107548913.zip
+!assembly-milestone7/LIBRARIES_VERIFIED_NOT_APP_NOT_S25-f2c1b508ee43.zip
 restore-check/

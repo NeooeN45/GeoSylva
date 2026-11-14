@@ -1,0 +1,11 @@
+{
+  "head": "2d2259f217a96f12a697ef45fbba85998c3931e9",
+  "target": ":cartography-mapbox:testDebugUnitTest",
+  "client": "Gradle8.2/JDK17; Android CLI build unavailable, documented attempt1",
+  "status": "FINISHED",
+  "startEpoch": 1794673409.409838,
+  "log": "/workspace/outputs/2026-11-14/android-tooling/mapbox-module-test-attempt4.log",
+  "scope": "library compilation and recovered JVM tests; not whole app or phone qualification",
+  "exitCode": 0,
+  "elapsedSeconds": 40.7
+}

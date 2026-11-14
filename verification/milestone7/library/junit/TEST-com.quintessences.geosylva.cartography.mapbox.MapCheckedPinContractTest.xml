@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.quintessences.geosylva.cartography.mapbox.MapCheckedPinContractTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-14T16:24:09" hostname="09c53eb31496" time="0.019">
+  <properties/>
+  <testcase name="arrival decoration preserves coordinate identity source generation selection and nonselectable status" classname="com.quintessences.geosylva.cartography.mapbox.MapCheckedPinContractTest" time="0.019"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

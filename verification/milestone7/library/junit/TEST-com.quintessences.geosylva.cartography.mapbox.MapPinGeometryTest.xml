@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.quintessences.geosylva.cartography.mapbox.MapPinGeometryTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-14T16:24:09" hostname="09c53eb31496" time="0.005">
+  <properties/>
+  <testcase name="multipoints and point children remain eligible while line only collections do not" classname="com.quintessences.geosylva.cartography.mapbox.MapPinGeometryTest" time="0.003"/>
+  <testcase name="point preset does not add pin sprites to line and area objects in a mixed import" classname="com.quintessences.geosylva.cartography.mapbox.MapPinGeometryTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

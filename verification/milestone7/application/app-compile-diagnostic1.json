@@ -1,0 +1,11 @@
+{
+  "head": "f2c1b508ee4357fc0ff4f4123daea9a98dfe3845",
+  "target": ":app:compileDebugKotlin",
+  "client": "Gradle8.2/JDK17; Android CLI build unavailable, documented attempt1",
+  "status": "FINISHED",
+  "startEpoch": 1794674125.4068608,
+  "log": "/workspace/outputs/2026-11-14/android-tooling/app-compile-diagnostic1.log",
+  "scope": "application compile diagnosis only; no APK or phone qualification",
+  "exitCode": 1,
+  "elapsedSeconds": 39.92
+}

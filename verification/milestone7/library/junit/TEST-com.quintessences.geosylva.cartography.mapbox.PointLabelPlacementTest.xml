@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.quintessences.geosylva.cartography.mapbox.PointLabelPlacementTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-14T16:24:09" hostname="09c53eb31496" time="0.002">
+  <properties/>
+  <testcase name="a lower point pill preserves position identity and label while clearing the circle stroke" classname="com.quintessences.geosylva.cartography.mapbox.PointLabelPlacementTest" time="0.0"/>
+  <testcase name="point pills sit above the real circle stroke and selected radius without moving coordinates" classname="com.quintessences.geosylva.cartography.mapbox.PointLabelPlacementTest" time="0.0"/>
+  <testcase name="pin labels clear admitted sprite height and selection scale while fallback circles use their own height" classname="com.quintessences.geosylva.cartography.mapbox.PointLabelPlacementTest" time="0.0"/>
+  <testcase name="lower pin pills clear its anchored tip while centred badges and invisible anchors do not move" classname="com.quintessences.geosylva.cartography.mapbox.PointLabelPlacementTest" time="0.0"/>
+  <testcase name="measurement circles and invisible point label anchors remain centred" classname="com.quintessences.geosylva.cartography.mapbox.PointLabelPlacementTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

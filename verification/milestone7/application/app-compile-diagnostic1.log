@@ -1,0 +1,82 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.2/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :app
+WARNING: The option setting 'android.jetifier.ignorelist=bcprov.*' is experimental.
+Warning: SDK processing. This version only understands SDK XML versions up to 3 but an SDK XML file of version 4 was encountered. This can happen if you use versions of Android Studio and the command-line tools that were released at different times.
+
+> Task :capsule-verifier:checkKotlinGradlePluginConfigurationErrors
+> Task :capsule-verifier:processResources NO-SOURCE
+> Task :app:checkKotlinGradlePluginConfigurationErrors
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugBuildConfig
+> Task :cartography-mapbox:preBuild UP-TO-DATE
+> Task :cartography-mapbox:preDebugBuild UP-TO-DATE
+> Task :cartography-mapbox:writeDebugAarMetadata
+> Task :cartography-ui:preBuild UP-TO-DATE
+> Task :cartography-ui:preDebugBuild UP-TO-DATE
+> Task :cartography-ui:writeDebugAarMetadata
+> Task :app:checkDebugAarMetadata
+> Task :app:generateDebugResValues
+> Task :cartography-mapbox:generateDebugResValues UP-TO-DATE
+> Task :cartography-mapbox:generateDebugResources UP-TO-DATE
+> Task :cartography-mapbox:packageDebugResources UP-TO-DATE
+> Task :cartography-ui:generateDebugResValues UP-TO-DATE
+> Task :cartography-ui:generateDebugResources UP-TO-DATE
+> Task :cartography-ui:packageDebugResources UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources
+> Task :capsule-verifier:compileKotlin
+> Task :capsule-verifier:compileJava NO-SOURCE
+> Task :capsule-verifier:classes UP-TO-DATE
+> Task :capsule-verifier:jar
+> Task :app:packageDebugResources
+> Task :app:mergeDebugResources
+> Task :app:parseDebugLocalResources
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug
+> Task :cartography-mapbox:extractDeepLinksDebug
+> Task :cartography-mapbox:processDebugManifest UP-TO-DATE
+> Task :cartography-ui:extractDeepLinksDebug
+> Task :cartography-ui:processDebugManifest UP-TO-DATE
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :app:processDebugManifestForPackage
+> Task :cartography-mapbox:compileDebugLibraryResources
+> Task :cartography-mapbox:parseDebugLocalResources UP-TO-DATE
+> Task :cartography-mapbox:generateDebugRFile UP-TO-DATE
+> Task :cartography-ui:compileDebugLibraryResources
+> Task :cartography-ui:parseDebugLocalResources UP-TO-DATE
+> Task :cartography-ui:generateDebugRFile UP-TO-DATE
+> Task :cartography-mapbox:checkKotlinGradlePluginConfigurationErrors
+> Task :cartography-ui:checkKotlinGradlePluginConfigurationErrors
+> Task :cartography-ui:compileDebugKotlin UP-TO-DATE
+> Task :cartography-ui:javaPreCompileDebug UP-TO-DATE
+> Task :cartography-ui:compileDebugJavaWithJavac NO-SOURCE
+> Task :cartography-ui:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :cartography-mapbox:compileDebugKotlin UP-TO-DATE
+> Task :cartography-mapbox:javaPreCompileDebug UP-TO-DATE
+> Task :cartography-mapbox:compileDebugJavaWithJavac NO-SOURCE
+> Task :cartography-mapbox:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :app:processDebugResources
+
+> Task :app:kspDebugKotlin FAILED
+e: [ksp] [MissingType]: Element 'com.forestry.counter.data.local.ForestryDatabase' references a type that is not present
+e: Error occurred in KSP, check log for detail
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:kspDebugKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 39s
+42 actionable tasks: 26 executed, 16 up-to-date

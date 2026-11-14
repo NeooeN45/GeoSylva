@@ -1,0 +1,19 @@
+{
+  "head": "f2c1b508ee4357fc0ff4f4123daea9a98dfe3845",
+  "task": ":app:compileDebugKotlin",
+  "exitCode": 1,
+  "elapsedSeconds": 39.92,
+  "blocker": "KSP MissingType: ForestryDatabase references a type that is not present",
+  "knownAbsentRequiredSources": [
+    "app/src/main/java/com/forestry/counter/data/local/entity/FieldControlBasisEntity.kt",
+    "app/src/main/java/com/forestry/counter/data/local/dao/FieldControlBasisDao.kt"
+  ],
+  "libraryValidation": {
+    "tests": 47,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "sourceHead": "2d2259f217a96f12a697ef45fbba85998c3931e9"
+  },
+  "scope": "Full app remains uncompiled; no APK or physical device qualification."
+}

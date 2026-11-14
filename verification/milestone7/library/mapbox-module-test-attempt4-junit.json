@@ -1,0 +1,85 @@
+{
+  "head": "2d2259f217a96f12a697ef45fbba85998c3931e9",
+  "suiteCount": 9,
+  "totals": {
+    "tests": 47,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "suites": [
+    {
+      "file": "/workspace/recovery-geosylva/cartography-mapbox/build/test-results/testDebugUnitTest/TEST-com.quintessences.geosylva.cartography.mapbox.MapReticleProjectionTest.xml",
+      "name": "com.quintessences.geosylva.cartography.mapbox.MapReticleProjectionTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "file": "/workspace/recovery-geosylva/cartography-mapbox/build/test-results/testDebugUnitTest/TEST-com.quintessences.geosylva.cartography.mapbox.MapStatusBarPolicyTest.xml",
+      "name": "com.quintessences.geosylva.cartography.mapbox.MapStatusBarPolicyTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "file": "/workspace/recovery-geosylva/cartography-mapbox/build/test-results/testDebugUnitTest/TEST-com.quintessences.geosylva.cartography.mapbox.MapPinGeometryTest.xml",
+      "name": "com.quintessences.geosylva.cartography.mapbox.MapPinGeometryTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "file": "/workspace/recovery-geosylva/cartography-mapbox/build/test-results/testDebugUnitTest/TEST-com.quintessences.geosylva.cartography.mapbox.MapCheckedPinContractTest.xml",
+      "name": "com.quintessences.geosylva.cartography.mapbox.MapCheckedPinContractTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "file": "/workspace/recovery-geosylva/cartography-mapbox/build/test-results/testDebugUnitTest/TEST-com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest.xml",
+      "name": "com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "file": "/workspace/recovery-geosylva/cartography-mapbox/build/test-results/testDebugUnitTest/TEST-com.quintessences.geosylva.cartography.mapbox.MapFitResourceReadinessTest.xml",
+      "name": "com.quintessences.geosylva.cartography.mapbox.MapFitResourceReadinessTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "file": "/workspace/recovery-geosylva/cartography-mapbox/build/test-results/testDebugUnitTest/TEST-com.quintessences.geosylva.cartography.mapbox.PointLabelPlacementTest.xml",
+      "name": "com.quintessences.geosylva.cartography.mapbox.PointLabelPlacementTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "file": "/workspace/recovery-geosylva/cartography-mapbox/build/test-results/testDebugUnitTest/TEST-com.quintessences.geosylva.cartography.mapbox.MapResourceCycleTest.xml",
+      "name": "com.quintessences.geosylva.cartography.mapbox.MapResourceCycleTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "file": "/workspace/recovery-geosylva/cartography-mapbox/build/test-results/testDebugUnitTest/TEST-com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest.xml",
+      "name": "com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "scope": "Recovered cartography-mapbox JVM tests; UI library compiled as dependency. App, visual comparison, device and production unqualified."
+}

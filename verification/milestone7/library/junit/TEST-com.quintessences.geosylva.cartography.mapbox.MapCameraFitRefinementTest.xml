@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-11-14T16:24:09" hostname="09c53eb31496" time="0.035">
+  <properties/>
+  <testcase name="finite residuals accumulate without changing absolute padding or zoom policy" classname="com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest" time="0.029"/>
+  <testcase name="first target resources can wait without consuming refinement time" classname="com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest" time="0.001"/>
+  <testcase name="first ready arms exactly twelve seconds once and a later ready cannot reset them" classname="com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest" time="0.0"/>
+  <testcase name="all inside stops immediately without cosmetic maximization" classname="com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest" time="0.001"/>
+  <testcase name="censored projections bracket ground scale with a standard bounded max zoom" classname="com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest" time="0.0"/>
+  <testcase name="partial measurements nonfinite projections and an invalid pane cannot fake a fit" classname="com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest" time="0.0"/>
+  <testcase name="finite padding remains accumulated after a later censored result" classname="com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest" time="0.0"/>
+  <testcase name="repeated native camera and projections fail closed instead of spinning" classname="com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest" time="0.001"/>
+  <testcase name="no measurement is accepted before its own proposal was applied" classname="com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest" time="0.0"/>
+  <testcase name="cancellation revokes an old asynchronous proposal and later apparent success" classname="com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest" time="0.0"/>
+  <testcase name="an unapplied seed cannot start computation and cancellation prevents later readiness" classname="com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest" time="0.0"/>
+  <testcase name="application count and elapsed time each bound work without geometry acknowledgement" classname="com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest" time="0.0"/>
+  <testcase name="the initial application still counts toward the unchanged eight application limit" classname="com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest" time="0.001"/>
+  <testcase name="refinement reuses the same gate ticket but cannot acknowledge an intermediate or stale idle" classname="com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

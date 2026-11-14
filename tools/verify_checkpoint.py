@@ -51,6 +51,7 @@ def main() -> None:
     check(set(overrides) <= set(by_path), 'Classification override references absent payload.')
     baseline_members_verified = 0
     wip_members_verified = 0
+    milestone_members_verified = 0
     for row in rows:
         relative = Path(row['path'])
         check(not relative.is_absolute() and '..' not in relative.parts,
@@ -110,8 +111,8 @@ def main() -> None:
                       'Baseline internal file count mismatch.')
                 check(z.testzip() is None, 'Baseline ZIP CRC failure.')
                 baseline_members_verified = len(actual)
-        if effective_kind == 'wip-assembled-source-archive':
-            wip = manifest['assemblyWip']
+        if effective_kind in ('wip-assembled-source-archive', 'library-verified-assembled-source-archive'):
+            wip = manifest['assemblyMilestone' if effective_kind == 'library-verified-assembled-source-archive' else 'assemblyWip']
             check(wip['archivePath'] == row['path'] and wip['sha256'] == row['sha256']
                   and wip['excludedFromRecoverySourceCounts'] is True, 'WIP archive classification mismatch.')
             source_tree = json.loads((root / wip['sourceTreeManifest']).read_bytes())
@@ -147,7 +148,8 @@ def main() -> None:
                 check(actual == set(expected) and len(actual) == source_tree['sourceFileCount'] == wip['internalSourceFiles'],
                       'WIP source path set/count mismatch.')
                 check(z.testzip() is None, 'WIP ZIP CRC failure.')
-                wip_members_verified = len(actual)
+                if effective_kind == 'library-verified-assembled-source-archive': milestone_members_verified = len(actual)
+                else: wip_members_verified = len(actual)
         if effective_kind == 'incomplete-code-fragment':
             check(relative.parts[0] == 'FRAGMENTS_INCOMPLETE' and row['completeSource'] is False,
                   f'Incomplete fragment mislabeled: {relative}')
@@ -188,6 +190,9 @@ def main() -> None:
         ('wip-assembled-source-archive', 'wipAssembledSourceArchiveCount'),
         ('nominal-contract-repair-candidate', 'nominalContractRepairCandidateCount'),
         ('nominal-contract-repair-patch', 'nominalContractRepairPatchCount'),
+        ('library-verified-assembled-source-archive', 'libraryVerifiedSourceArchiveCount'),
+        ('new-resource-repair-text', 'newResourceRepairTextCount'),
+        ('build-verification-evidence', 'buildVerificationEvidenceCount'),
     ]:
         check(kinds[kind] == manifest.get(key, 0), f'Kind count mismatch: {kind}')
     scan = json.loads((root / manifest['currentSecretScanReport']).read_bytes())
@@ -272,6 +277,7 @@ def main() -> None:
         'distinctTechnicalSourceByteVersions': distinct_versions,
         'baselineInternalSourceFilesVerified': baseline_members_verified,
         'wipInternalSourceFilesVerified': wip_members_verified,
+        'milestoneInternalSourceFilesVerified': milestone_members_verified,
         'manifestSha256': sha((root / 'MANIFEST.json').read_bytes()),
         'qualification': 'Backup integrity only; no application execution or network.',
     }, ensure_ascii=False, indent=2))

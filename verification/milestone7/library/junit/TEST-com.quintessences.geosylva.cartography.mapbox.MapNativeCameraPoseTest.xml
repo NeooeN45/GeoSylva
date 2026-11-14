@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-11-14T16:24:09" hostname="09c53eb31496" time="0.018">
+  <properties/>
+  <testcase name="copied_command_coordinates_cannot_inherit_a_physical_witness" classname="com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest" time="0.007"/>
+  <testcase name="every_render_context_dimension_is_part_of_compatibility" classname="com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest" time="0.002"/>
+  <testcase name="loaded_evidence_must_follow_terrain_and_latest_camera_movement" classname="com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest" time="0.0"/>
+  <testcase name="full_native_witness_round_trips_without_decimal_conversion" classname="com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest" time="0.001"/>
+  <testcase name="unknown_or_invalid_native_extension_preserves_the_legacy_camera" classname="com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest" time="0.001"/>
+  <testcase name="old_nine_doubles_restore_the_same_logical_camera" classname="com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest" time="0.0"/>
+  <testcase name="canceled_intention_cannot_be_revived_by_a_late_callback_or_deadline" classname="com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest" time="0.001"/>
+  <testcase name="exact_native_no_op_completes_only_an_already_submitted_application" classname="com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest" time="0.002"/>
+  <testcase name="restore_uses_one_application_then_new_idle_and_full_not_older_callbacks" classname="com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest" time="0.0"/>
+  <testcase name="invalid_native_pose_is_rejected_before_it_can_be_saved" classname="com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest" time="0.001"/>
+  <testcase name="a_failed_restore_stays_failed_until_a_new_intention_cancels_it" classname="com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

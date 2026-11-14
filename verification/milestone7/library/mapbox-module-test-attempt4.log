@@ -1,0 +1,55 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.2/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :app
+WARNING: The option setting 'android.jetifier.ignorelist=bcprov.*' is experimental.
+Warning: SDK processing. This version only understands SDK XML versions up to 3 but an SDK XML file of version 4 was encountered. This can happen if you use versions of Android Studio and the command-line tools that were released at different times.
+
+> Task :cartography-mapbox:checkKotlinGradlePluginConfigurationErrors
+> Task :cartography-mapbox:preBuild UP-TO-DATE
+> Task :cartography-mapbox:preDebugBuild UP-TO-DATE
+> Task :cartography-mapbox:generateDebugResValues UP-TO-DATE
+> Task :cartography-mapbox:generateDebugResources UP-TO-DATE
+> Task :cartography-mapbox:packageDebugResources UP-TO-DATE
+> Task :cartography-mapbox:parseDebugLocalResources UP-TO-DATE
+> Task :cartography-mapbox:processDebugManifest UP-TO-DATE
+> Task :cartography-mapbox:generateDebugRFile UP-TO-DATE
+> Task :cartography-ui:checkKotlinGradlePluginConfigurationErrors
+> Task :cartography-ui:preBuild UP-TO-DATE
+> Task :cartography-ui:preDebugBuild UP-TO-DATE
+> Task :cartography-ui:generateDebugResValues UP-TO-DATE
+> Task :cartography-ui:generateDebugResources UP-TO-DATE
+> Task :cartography-ui:packageDebugResources UP-TO-DATE
+> Task :cartography-ui:parseDebugLocalResources UP-TO-DATE
+> Task :cartography-ui:processDebugManifest UP-TO-DATE
+> Task :cartography-ui:generateDebugRFile UP-TO-DATE
+> Task :cartography-ui:compileDebugKotlin UP-TO-DATE
+> Task :cartography-ui:javaPreCompileDebug UP-TO-DATE
+> Task :cartography-ui:compileDebugJavaWithJavac NO-SOURCE
+> Task :cartography-ui:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :cartography-mapbox:javaPreCompileDebug UP-TO-DATE
+> Task :cartography-mapbox:preDebugUnitTestBuild UP-TO-DATE
+> Task :cartography-mapbox:generateDebugUnitTestStubRFile UP-TO-DATE
+> Task :cartography-mapbox:javaPreCompileDebugUnitTest UP-TO-DATE
+> Task :cartography-ui:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :cartography-ui:processDebugJavaRes UP-TO-DATE
+
+> Task :cartography-mapbox:compileDebugKotlin
+w: file:///workspace/recovery-geosylva/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt:151:69 'coordinates(): (Mutable)List<Double!>' is deprecated. Deprecated in Java
+w: file:///workspace/recovery-geosylva/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt:160:40 'coordinates(): (Mutable)List<Point!>' is deprecated. Deprecated in Java
+w: file:///workspace/recovery-geosylva/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt:1045:81 This API is experimental. It may be changed in the future without notice.
+w: file:///workspace/recovery-geosylva/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt:1124:21 This API is experimental. It may be changed in the future without notice.
+w: file:///workspace/recovery-geosylva/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt:15:24 'TileStoreUsageMode' is deprecated. Deprecated in Java
+w: file:///workspace/recovery-geosylva/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt:41:48 'TileStoreUsageMode' is deprecated. Deprecated in Java
+
+> Task :cartography-mapbox:compileDebugJavaWithJavac NO-SOURCE
+> Task :cartography-mapbox:bundleLibRuntimeToJarDebug
+> Task :cartography-mapbox:bundleLibCompileToJarDebug
+> Task :cartography-mapbox:processDebugJavaRes
+> Task :cartography-mapbox:compileDebugUnitTestKotlin
+> Task :cartography-mapbox:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :cartography-mapbox:processDebugUnitTestJavaRes
+> Task :cartography-mapbox:testDebugUnitTest
+
+BUILD SUCCESSFUL in 40s
+27 actionable tasks: 9 executed, 18 up-to-date
