@@ -10,6 +10,7 @@ class PlotSamplingGeometryTest {
     @Test fun `one hectare cells have independent spacing and a 500 square metre sample footprint`() {
         val preview = PlotSamplingGeometry.grid(rectangle(1000.0, 500.0), 1.0, SampleFootprintShape.CIRCLE, 500.0)
         assertEquals(107.4569931823542, preview.neighborDistanceM, 1e-8)
+        assertEquals(preview.neighborDistanceM, PlotSamplingGeometry.neighborDistanceM(1.0), 0.0)
         assertEquals(93.06048591020996, preview.rowDistanceM, 1e-8)
         assertEquals(203, preview.footprints.size)
         assertEquals(preview.footprints.size, preview.cells.size)

@@ -91,6 +91,12 @@ object PlotSamplingGeometry {
     private const val EARTH_RADIUS_M = 6_371_008.8
     private const val MAX_EXTENT_M = 50_000.0
 
+    /** Same theoretical lattice spacing used by generation, independent of footprint area. */
+    fun neighborDistanceM(cellAreaHa: Double): Double {
+        require(cellAreaHa.isFinite() && cellAreaHa in 0.01..10_000.0)
+        return sqrt(2.0 * cellAreaHa * 10_000.0 / sqrt(3.0))
+    }
+
     fun grid(
         parcel: ParcelGeometry,
         cellAreaHa: Double,
@@ -112,7 +118,7 @@ object PlotSamplingGeometry {
             corners.maxOf { it.y } - corners.minOf { it.y } <= MAX_EXTENT_M) { "Parcel is too large for a local sampling grid" }
         val angle = rotationDeg * PI / 180.0
         val unrotated = corners.map { it.rotated(-angle) }
-        val spacing = sqrt(2.0 * cellAreaHa * 10_000.0 / sqrt(3.0))
+        val spacing = neighborDistanceM(cellAreaHa)
         val rowSpacing = spacing * sqrt(3.0) / 2.0
         val minRow = floor(unrotated.minOf { it.y } / rowSpacing).toLong()
         val maxRow = ceil(unrotated.maxOf { it.y } / rowSpacing).toLong()

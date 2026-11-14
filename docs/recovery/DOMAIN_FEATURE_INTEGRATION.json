@@ -1,0 +1,97 @@
+{
+  "status": "sources integrated; compilation pending",
+  "notClaimed": "Identity with complete November13 repository",
+  "files": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/PlotOutsidePreview.kt",
+      "sourceManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "sha256": "f9331fc1e4d89189d26d434eda821114547780aebcfa9eefb035137837b16ad9",
+      "beforeSha256": "f9331fc1e4d89189d26d434eda821114547780aebcfa9eefb035137837b16ad9",
+      "classification": "literal_observed_source_integrated_for_current_development"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/PlotSamplingGeometry.kt",
+      "sourceManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "sha256": "1f407371d0d2c341c7c3aada7b197fcaefef6bba751c14f66805cedccef86ce6",
+      "beforeSha256": "45b27edcf16e6ae20f752381cb15c800d86b71488bb1c74ea749b593971853f9",
+      "classification": "literal_observed_source_integrated_for_current_development"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/TreeGuidancePolicy.kt",
+      "sourceManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "sha256": "4b5ca73ccb411f1ffbf8ace5b1d62bbab2c91a7adb74d890edb8af2021fbf04e",
+      "beforeSha256": "4b5ca73ccb411f1ffbf8ace5b1d62bbab2c91a7adb74d890edb8af2021fbf04e",
+      "classification": "literal_observed_source_integrated_for_current_development"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/TreeNavigator.kt",
+      "sourceManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "sha256": "671319b3fb98bd855893a8eabd5cc9dcea5062cc4869239bcc8a4b678a6eac13",
+      "beforeSha256": "1918b77be044a7edfa7b3ab5e3a951e7ebe9ec074e52334553f235034657ecaf",
+      "classification": "literal_observed_source_integrated_for_current_development"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/usecase/maps/MapTreeDisplay.kt",
+      "sourceManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "sha256": "e5c4c71420688ba062d9038a2f9499409c7294a7f93d7f82f5daef9cf64b44b7",
+      "beforeSha256": "e5c4c71420688ba062d9038a2f9499409c7294a7f93d7f82f5daef9cf64b44b7",
+      "classification": "literal_observed_source_integrated_for_current_development"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/location/PlotBoundaryDifferenceTest.kt",
+      "sourceManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "sha256": "5e79f6ff89fd128c26ea0d899ce6b9453b48839b9799978a9da54e17b3166615",
+      "beforeSha256": "5e79f6ff89fd128c26ea0d899ce6b9453b48839b9799978a9da54e17b3166615",
+      "classification": "literal_observed_source_integrated_for_current_development"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/location/PlotSamplingGeometryTest.kt",
+      "sourceManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "sha256": "84e81479fa0c799e6a1f8d9318d2d12b24c81c011632fc030c58abf6b4d57c99",
+      "beforeSha256": "e9086d33d40215e644a94a3321997fb8d1a22baf046d19b01670c9b874d71029",
+      "classification": "literal_observed_source_integrated_for_current_development"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/location/TreeGuidancePolicyTest.kt",
+      "sourceManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "sha256": "a786559cf9d8dc8881b0fc91e1c3e3fe54584b2950c3431918efa9dd58ebab08",
+      "beforeSha256": null,
+      "classification": "literal_observed_source_integrated_for_current_development"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/usecase/maps/MapTreeDisplayTest.kt",
+      "sourceManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "sha256": "5cf76f8593ea3b6e570deed50f1a3e10f06bd48a8a6f00098a6fe0b86c79d0b4",
+      "beforeSha256": null,
+      "classification": "literal_observed_source_integrated_for_current_development"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/usecase/maps/ForestScopeChoices.kt",
+      "sourceManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/selection.json",
+      "sha256": "396c6f5e5ca35f0893ecb537d04ee24d85545645c7b4e45e6690a4dbc24f189d",
+      "beforeSha256": null,
+      "classification": "literal_observed_source_integrated_for_current_development"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/usecase/maps/ObserveMapTrees.kt",
+      "sourceManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/selection.json",
+      "sha256": "b59cd5b7d06241ebe079377cd06562c495d0371bcb6b6394abbeca67812d2a9d",
+      "beforeSha256": null,
+      "classification": "literal_observed_source_integrated_for_current_development"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/usecase/maps/ForestScopeChoicesTest.kt",
+      "sourceManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/selection.json",
+      "sha256": "aaf043b925af5c6511199027e47e0a057c374eb40c70c4396a24e58041a0a0db",
+      "beforeSha256": null,
+      "classification": "literal_observed_source_integrated_for_current_development"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/usecase/maps/ObserveMapTreesTest.kt",
+      "sourceManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/selection.json",
+      "sha256": "18365b1f35349bc57dfb0393bade80c2e43444eeac6847a5956d3e29d176e5be",
+      "beforeSha256": null,
+      "classification": "literal_observed_source_integrated_for_current_development"
+    }
+  ]
+}
