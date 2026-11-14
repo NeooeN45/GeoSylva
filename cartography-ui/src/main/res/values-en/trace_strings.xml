@@ -1,0 +1,65 @@
+<resources>
+    <string name="gs_trace_library">Traces in this context</string>
+    <string name="gs_trace_request_permission">Allow precise location</string>
+    <string name="gs_trace_title">GPS trace</string>
+    <string name="gs_trace_prepare">Prepare the trace</string>
+    <string name="gs_trace_recording">Trace in progress</string>
+    <string name="gs_trace_resumed">Trace resumed</string>
+    <string name="gs_trace_degraded">Poor reception</string>
+    <string name="gs_trace_paused">Trace paused</string>
+    <string name="gs_trace_review_title">Review the trace</string>
+    <string name="gs_trace_review">Trace preview</string>
+    <string name="gs_trace_save">Save the trace</string>
+    <string name="gs_trace_saved">Saved trace</string>
+    <string name="gs_trace_unnamed">Unnamed trace</string>
+    <string name="gs_trace_details">Calculation and reception</string>
+    <string name="gs_trace_position_available">Position available</string>
+    <string name="gs_trace_position_unavailable">Position unavailable</string>
+    <string name="gs_trace_recording_status">Recording</string>
+    <string name="gs_trace_waiting_status">Adding points suspended</string>
+    <string name="gs_trace_manual_pause">Manual pause</string>
+    <string name="gs_trace_draft">Draft</string>
+    <string name="gs_trace_accuracy">Reported accuracy</string>
+    <string name="gs_trace_received_accuracy">Received accuracy</string>
+    <string name="gs_trace_last_position">Last position</string>
+    <string name="gs_trace_age">%1$s s ago</string>
+    <string name="gs_trace_settings">Trace settings</string>
+    <string name="gs_trace_start">Start tracing</string>
+    <string name="gs_trace_length">Recorded length</string>
+    <string name="gs_trace_active_length">Trace length</string>
+    <string name="gs_trace_elapsed">Elapsed time</string>
+    <string name="gs_trace_session_duration">Session duration</string>
+    <string name="gs_trace_pause_duration">Paused for</string>
+    <string name="gs_trace_no_points_added">No points added</string>
+    <string name="gs_trace_new_portion">Resume in a new section</string>
+    <string name="gs_trace_pause">Pause</string>
+    <string name="gs_trace_resume">Resume</string>
+    <string name="gs_trace_finish">Finish</string>
+    <string name="gs_trace_continue">Continue</string>
+    <string name="gs_trace_name">Name (optional)</string>
+    <string name="gs_trace_destination">Destination</string>
+    <string name="gs_trace_local">On this phone</string>
+    <string name="gs_trace_destination_unknown">Destination unavailable</string>
+    <string name="gs_trace_cancel">Cancel</string>
+    <string name="gs_trace_save_button">Save</string>
+    <string name="gs_trace_saving">Saving…</string>
+    <string name="gs_trace_share">Share</string>
+    <string name="gs_trace_duplicate">Duplicate</string>
+    <string name="gs_trace_portions">Recorded sections</string>
+    <string name="gs_trace_portion">Section %1$d</string>
+    <string name="gs_trace_gaps_unknown">Unrecorded passages: not provided</string>
+    <string name="gs_trace_gap_excluded">Unrecorded passage excluded</string>
+    <string name="gs_trace_uncertainty">Trace accuracy</string>
+    <string name="gs_trace_not_determined">Not determined</string>
+    <string name="gs_trace_unknown">Not provided</string>
+    <string name="gs_trace_method_source">Method and source</string>
+    <string name="gs_trace_explain">Understand: %1$s</string>
+    <string name="gs_trace_context_help">Understand the context</string>
+    <string name="gs_trace_overflow">More trace actions</string>
+    <string name="gs_trace_frame">Frame the trace</string>
+    <string name="gs_trace_close_save">Return to the draft</string>
+    <plurals name="gs_trace_points"><item quantity="one">%d point</item><item quantity="other">%d points</item></plurals>
+    <plurals name="gs_trace_portion_count"><item quantity="one">%d section</item><item quantity="other">%d sections</item></plurals>
+    <plurals name="gs_trace_gaps"><item quantity="one">%d unrecorded passage</item><item quantity="other">%d unrecorded passages</item></plurals>
+    <plurals name="gs_trace_interruptions"><item quantity="one">%d interruption</item><item quantity="other">%d interruptions</item></plurals>
+</resources>

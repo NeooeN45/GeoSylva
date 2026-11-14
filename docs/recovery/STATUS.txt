@@ -1,0 +1,6 @@
+NON_COMPILE / NON_COMPLET_13NOV
+Branche isolee recovery/reassembled-2026-11-14, base Room46 commit36d1515.
+Provenance cumulative : ASSEMBLY.json, GRADLE_CHAIN.json, CONTRACT_REPAIRS.json et ASSEMBLY_SUPPLEMENT_2026-11-14.json.
+Sources retrouvees et reparation nominale par contrat restent distinctes.
+Les limites temporelles et les fichiers non retrouves restent explicites dans les manifestes.
+Aucune qualification de compilation, appareil physique, pixels ou production.

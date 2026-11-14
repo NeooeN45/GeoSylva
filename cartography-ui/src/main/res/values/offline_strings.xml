@@ -1,0 +1,10 @@
+<resources>
+    <string name="gs_offline_back">Retour</string>
+    <string name="gs_offline_search">Rechercher un territoire</string>
+    <string name="gs_offline_library">Mes packs</string>
+    <string name="gs_offline_name">Nom de la zone</string>
+    <string name="gs_offline_satellite">Carte satellite Mapbox</string>
+    <string name="gs_offline_relief">Relief 3D</string>
+    <string name="gs_offline_zooms">Niveaux de détail : zoom %1$d à %2$d</string>
+    <string name="gs_offline_estimate">Estimer</string>
+</resources>

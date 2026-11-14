@@ -361,6 +361,22 @@ class PackManager(private val context: Context, onStoredSessionUpdated: () -> Un
         context.assets.open(AdministrativeTerritoryCoverage.ASSET_PATH).use(AdministrativeTerritoryCoverage::read)
     }
 
+    /** A composite offline pack rechecks bytes and signed identity, not the in-memory installed flag. */
+    suspend fun verifyActiveArtifact(identity: PackArtifactIdentity): Boolean = withContext(Dispatchers.IO) {
+        operationLock(identity.id).withLock {
+            val descriptor = store.activePacks().singleOrNull {
+                it.id == identity.id && it.version == identity.version && it.checksum?.lowercase() == identity.sha256.lowercase()
+            } ?: return@withLock false
+            if (descriptor.contentKind !in setOf(AdministrativePackContract.CONTENT_KIND, OfflineForestryLayerStore.CONTENT_KIND)) return@withLock false
+            val verificationContext = coroutineContext
+            try {
+                contract.validateArtifact(store.fileFor(descriptor.id, descriptor.version), descriptor) { verificationContext.ensureActive() }
+                true
+            } catch (cancelled: CancellationException) { throw cancelled }
+            catch (_: Exception) { false }
+        }
+    }
+
     /** Les contours et les libellés viennent exclusivement du fichier installé vérifié. */
     suspend fun readActiveAdministrativePack(packId: String): AdministrativePackContent = withContext(Dispatchers.IO) {
         operationLock(packId).withLock {
