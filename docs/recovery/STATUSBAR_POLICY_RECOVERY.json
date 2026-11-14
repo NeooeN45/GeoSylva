@@ -1,0 +1,92 @@
+{
+  "classification": "COMPLETE_OBSERVED_HISTORY_POLICY_AND_COMPATIBLE_TEST",
+  "manifestSHA256": "7b0ca2aa0f4c717336ded6548f4a5d96293dfb4cffb845542a6e14ed848f2dd3",
+  "selection": {
+    "productionSources": [
+      {
+        "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicy.kt",
+        "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T15-21-58+00-00--01a1b69a--item6/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicy.kt",
+        "sha256": "79958f595a3863bf388db0a4b818e7f49c78014142b1066bc4dd9648cc3eb823",
+        "lineCount": 23,
+        "provenance": [
+          {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/maps-guidage-batch3.json",
+            "threadId": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+            "turnId": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+            "turnStartedUTC": "2026-11-07T15:21:58+00:00",
+            "itemId": "exec-9f2bb226-bca4-476e-a2ac-78256f81da5d",
+            "itemIndex": 6,
+            "kind": "complete second cat, bounded between same-item final Chrome and next app package",
+            "commandExitCode": 0,
+            "outputTruncated": false,
+            "sameItemChromeSha256": "d73edfeecb05938d4b402703f2df8558a035003de08750059ed3df9286aeb4c9",
+            "fullyObservedCompatibleAPIs": [
+              "MapboxStyleSpec.preferredStatusBarDarkIcons()",
+              "acquire(owner, preferDarkIcons)",
+              "mapCoversStatusBar(left, top, width, height, windowWidth, insetHeight)"
+            ]
+          }
+        ],
+        "complete": true,
+        "temporalScope": "Complete production cat November7 15:21, same output as assembled final Chrome; its three refined APIs match the later Chrome exactly.",
+        "conflicts": []
+      }
+    ],
+    "historicalTests": [
+      {
+        "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicyTest.kt",
+        "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item72/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicyTest.kt",
+        "sha256": "5f797625e2cefb77b2b0e29f7407e862ca35659b4905bb90ff4af3f358656c75",
+        "lineCount": 46,
+        "provenance": [
+          {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+            "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turnId": "01a1b5c2-5636-70e4-ab31-4fcbaa86754b",
+            "turnStartedUTC": "2026-11-07T11:26:14+00:00",
+            "itemId": "exec-a58181fa-e7e1-4e73-84ee-426782e4ff7c",
+            "itemIndex": 72,
+            "kind": "complete refined test cat before next app file's @file annotation",
+            "commandExitCode": 0,
+            "outputTruncated": false,
+            "nextFileAnnotationPreservedOutsideThisSource": true
+          }
+        ],
+        "complete": true,
+        "temporalScope": "Complete final map-visual9 test cat, after refine/finalize updates; compatible acquire2 and mapCoversStatusBar6 calls.",
+        "conflicts": []
+      }
+    ],
+    "sameHistoricalReadChrome": {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarChrome.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T15-21-58+00-00--01a1b69a--item6/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarChrome.kt",
+      "sha256": "d73edfeecb05938d4b402703f2df8558a035003de08750059ed3df9286aeb4c9",
+      "temporalScope": "Complete Nov7 status-bar bridge",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/maps-guidage-batch3.json",
+          "threadId": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+          "turnId": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+          "turnStartedUTC": "2026-11-07T15:21:58+00:00",
+          "itemId": "exec-9f2bb226-bca4-476e-a2ac-78256f81da5d",
+          "itemIndex": 6,
+          "kind": "complete leading cat before next file's package header",
+          "commandExitCode": 0,
+          "outputTruncated": false
+        }
+      ]
+    },
+    "previousPolicySha256": "10011f6b52bfa541ffd4105588ae0b0b65f204e28ec9c8fdda7b40906a1bc1ed",
+    "cause": "The initial map-visual9 producer value was selected before its complete refine/finalize updates. The final production source is available in a bounded later cat.",
+    "apiEvidence": [
+      "MapboxStyleSpec.preferredStatusBarDarkIcons(): Boolean?",
+      "MapStatusBarPolicy.acquire(owner: Any, preferDarkIcons: Boolean)",
+      "mapCoversStatusBar(left: Float, top: Float, width: Int, height: Int, windowWidth: Int, insetHeight: Int)"
+    ],
+    "applicationRepositoryModified": false,
+    "testsGradleAdbPushRun": false,
+    "noNewImplementation": true
+  },
+  "trigger": "Module compiler found incompatible older policy; Chrome context hash also independently confirmed."
+}
