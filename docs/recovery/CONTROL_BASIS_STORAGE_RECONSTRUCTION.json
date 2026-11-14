@@ -1,0 +1,58 @@
+{
+  "date": "2026-11-14",
+  "project": "Géosylva",
+  "branch": "recovery/reassembled-2026-11-14",
+  "initialHead": "f2c1b508ee4357fc0ff4f4123daea9a98dfe3845",
+  "result": "Reconstruction conforme au contrat existant ; code original perdu non retrouvé.",
+  "sources": [
+    "app/src/main/java/com/forestry/counter/data/local/ControlBasisMigrations.kt",
+    "app/schemas/com.forestry.counter.data.local.ForestryDatabase/46.json",
+    "app/src/main/java/com/forestry/counter/data/local/entity/FieldEntities.kt",
+    "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt"
+  ],
+  "decisions": [
+    "Six propriétés String non nulles ; controlEntryId clé primaire et FK field_entries(id) ON DELETE CASCADE.",
+    "Index non unique exact index_field_control_bases_ownerKey_objectId(ownerKey,objectId).",
+    "Aucun appelant métier présent : DAO minimal insert ABORT, byControlEntryId(ownerKey,id), forObject(ownerKey,objectId), deleteAllForPurge().",
+    "Aucun UPDATE/REPLACE, calcul forestier, codec, nouveau schéma, câblage DI ou modification de version.",
+    "Tri déterministe par controlEntryId ; aucune chronologie historique déduite."
+  ],
+  "literalMigrationSql": [
+    "CREATE TABLE IF NOT EXISTS field_control_bases (controlEntryId TEXT NOT NULL PRIMARY KEY, ownerKey TEXT NOT NULL, objectId TEXT NOT NULL, depotId TEXT NOT NULL, payload TEXT NOT NULL, sha256 TEXT NOT NULL, FOREIGN KEY(controlEntryId) REFERENCES field_entries(id) ON DELETE CASCADE)",
+    "CREATE INDEX IF NOT EXISTS index_field_control_bases_ownerKey_objectId ON field_control_bases(ownerKey,objectId)"
+  ],
+  "validation": {
+    "hostSQLite": {
+      "status": "passed",
+      "sqliteVersion": "3.53.1",
+      "mode": "Base mémoire créée depuis les CREATE TABLE/INDEX de 46.json ; SQL littéral de MIGRATION_46_47 et requêtes exactes du DAO.",
+      "checks": [
+        "préservation des octets historiques, zéro capture inférée",
+        "six TEXT NOT NULL, PK, index exact et FK cascade",
+        "six insertions NULL et orphelin refusés",
+        "lectures isolées A/B et objet, tri stable",
+        "doublon identique et remplacement inter-propriétaires refusés",
+        "cascade limitée au parent supprimé, purge explicite et parents conservés",
+        "PRAGMA foreign_key_check vide"
+      ]
+    },
+    "android": {
+      "status": "prepared_not_run",
+      "testFile": "app/src/androidTest/java/com/forestry/counter/data/local/Migration46To47Test.kt",
+      "mode": "Deux tests SQLCipher : MigrationTestHelper crée 46, migration 46→47 directe avec contrôles PRAGMA, puis ouverture et validation Room49 via migrations enregistrées ; DAO, réouverture, contraintes, cascade et purge."
+    },
+    "buildAndAdb": "Non exécutés, conformément au périmètre coordonné par l’agent principal."
+  },
+  "limits": [
+    "Aucun export historique 47 disponible : le test ne revendique pas runMigrationsAndValidate(47).",
+    "Validation SQLite hôte distincte d’une compilation KSP et d’une exécution Android/SQLCipher.",
+    "Immutabilité assurée par l’API DAO ; aucun trigger SQL ajouté au contrat existant.",
+    "Le schéma existant ne couple pas ownerKey du parent par une FK composite ; le DAO borne les lectures au ownerKey fourni, sans résoudre l’identité.",
+    "payload et sha256 restent des chaînes opaques ; aucun recalcul ou contenu métier inventé."
+  ],
+  "artifactsSha256": {
+    "app/src/main/java/com/forestry/counter/data/local/entity/FieldControlBasisEntity.kt": "e5357b7b677d4e050e6897472b22c53d79de547020cf5d115d2cb8778a63859e",
+    "app/src/main/java/com/forestry/counter/data/local/dao/FieldControlBasisDao.kt": "304ea62543f1835eb370062b0cd051e965599dba006e72a609e014fb4e03615f",
+    "app/src/androidTest/java/com/forestry/counter/data/local/Migration46To47Test.kt": "11d9966ab2beb8068d3def494738d404c179985b4bb6f4520940f85350168f81"
+  }
+}
