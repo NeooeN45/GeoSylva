@@ -25,12 +25,13 @@ Les dépôts actifs n'ont pas été modifiés par cette copie. Aucune commande
 historique reconstituée n'a été exécutée et l'application n'a pas été recodée.
 Les vérifications portent sur la copie, les hashes disponibles et les archives.
 
-PUBLICATION : aucun dépôt distant n'a été créé et aucun push n'a été effectué
-par l'opération locale qui prépare ce checkpoint. Un commit local ne constitue
-pas une sauvegarde hors de la machine. La publication doit rester PRIVÉE.
-La cible autorisée à préparer séparément est NeooeN45/GeoSylva-backups.
-Après chaque push, vérifier que le hash de main distant égale le HEAD local.
-Un éventuel échec doit être inscrit et ne doit pas être présenté comme réussi.
+PUBLICATION AUTORISÉE : l'utilisateur a choisi explicitement une branche de
+sauvegarde dans le dépôt PUBLIC NeooeN45/GeoSylva le 14 novembre 2026.
+La destination est backup/geosylva-recovery-2026-11-14 ; main reste intacte.
+Le premier envoi et l'égalité du hash distant seront consignés dans un reçu
+hors de ce dépôt après l'opération réelle. Aucun résultat de push n'est présumé
+par ce fichier préparatoire. Les archives du checkpoint local initial restent
+valides pour leur commit d'origine 9a91b0e13c6a1505e37c83b33ea18c70598eb16f.
 
 Les archives autonomes zip et bundle et leur rapport de restauration local
 sont générés hors du dépôt dans outputs/2026-11-14/geosylva-backup-checkpoints.

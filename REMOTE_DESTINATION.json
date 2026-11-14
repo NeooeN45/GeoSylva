@@ -1,0 +1,11 @@
+{
+  "repository": "NeooeN45/GeoSylva",
+  "branch": "backup/geosylva-recovery-2026-11-14",
+  "visibility": "public",
+  "userAuthorization": "Branche de sauvegarde dans Géosylva, qui est public",
+  "date": "2026-11-14",
+  "primaryBranch": "main",
+  "primaryBranchMustRemainUnchanged": true,
+  "snapshotScope": "Verified partial recovery artifacts, not the restored application",
+  "initialLocalCheckpoint": "9a91b0e13c6a1505e37c83b33ea18c70598eb16f"
+}

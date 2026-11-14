@@ -14,17 +14,20 @@ PLAN DE SAUVEGARDE ET RESTAURATION GÉOSYLVA
    Ajouter un manifeste SHA256 avec chemin, taille et provenance ; vérifier
    les copies octet pour octet ainsi que les hashes historiques disponibles.
 
-3. Après chaque checkpoint, pousser le commit sur un dépôt GitHub PRIVÉ, puis
-   lire le hash distant de refs/heads/main et le comparer à HEAD local. L'égalité
-   est obligatoire pour marquer le checkpoint « sauvegardé à distance ». Vérifier
-   la visibilité privée. Aucun push n'est réputé réalisé sans preuve de son
-   résultat. Si le réseau ou l'authentification manque, conserver le checkpoint
-   local, signaler l'absence de copie distante et reprendre la publication.
+3. Destination autorisée par l'utilisateur le 14 novembre 2026 : branche dédiée
+   backup/geosylva-recovery-2026-11-14 du dépôt PUBLIC NeooeN45/GeoSylva.
+   Après chaque checkpoint, pousser uniquement HEAD vers cette branche, puis
+   lire son hash distant et le comparer au HEAD local. L'égalité est obligatoire
+   pour marquer le checkpoint « sauvegardé à distance ». Ne jamais pousser ni
+   réécrire main du dépôt applicatif. Aucun push n'est réputé réalisé sans preuve.
+   Si le réseau ou l'authentification manque, conserver le checkpoint local et
+   signaler l'absence de copie distante. La création d'un dépôt privé séparé a
+   été refusée par l'autorisation GitHub ; le choix public est explicite.
 
 4. Produire hors du dépôt une archive zip autonome de tous les fichiers suivis
    et un bundle Git autonome incluant main, puis calculer leurs SHA256. Garder
    ces deux formes avec le commit concerné et leur manifeste sur un stockage
-   privé distinct de l'environnement cloud de travail. Une archive stockée
+   distinct de l'environnement cloud de travail, à la visibilité autorisée. Une archive stockée
    seulement sur la même machine ne protège pas contre sa disparition.
 
 5. Vérifier réellement la restauration : cloner le bundle dans un dossier
