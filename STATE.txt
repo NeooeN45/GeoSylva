@@ -1,32 +1,21 @@
-GÉOSYLVA — CHECKPOINT 7 / JALON DE BIBLIOTHÈQUES VÉRIFIÉES
+GÉOSYLVA — CHECKPOINT 8 / SOURCES RÉCUPÉRÉES NON QUALIFIÉES COMME APK
 
-Source immuable : f2c1b508ee4357fc0ff4f4123daea9a98dfe3845.
-Arbre : b76efa6837aa526777f617c45fbfbb90da1efbe3. ZIP assembly-milestone7 : 1579 fichiers,
-sans .git ni ancien historique. Les sources sont identiques au commit testé
-2d2259f217a96f12a697ef45fbba85998c3931e9 ; seules deux pièces de documentation
-de récupération ont changé après les tests.
+Source immuable : ff8be9bb9b5f4b0441ea1ea1c2ce52b7cde16971.
+Arbre : 6734a7ef384a4533dbb8bf3eb2cbca0180c7382c. 1 612 fichiers suivis archivés.
+Trois commits stockage/domaines/UI sont ajoutés depuis f2c1b508ee43.
+La sauvegarde conserve les 1 154 anciennes pièces et leurs classifications.
+Ce lot n'affirme pas une récupération complète du 13 novembre.
 
-Compilation des bibliothèques UI et Mapbox validée ; 47 tests JVM récupérés,
-9 suites, zéro échec, erreur ou test ignoré. Les XML JUnit, reçu runner et log
-de ce seul build sont sous verification/milestone7/library/.
-L'application reste NON COMPILÉE : app:compileDebugKotlin échoue KSP MissingType
-sur ForestryDatabase, FieldControlBasisEntity.kt et FieldControlBasisDao.kt
-étant absents. Reçu et log du diagnostic sous verification/milestone7/application/.
-Aucune qualification d'APK complet, S25, appareil, pixels ou production.
+Les contrats et sources restaurés restent à intégrer/qualifier par compilation.
+Aucun APK complet, S25, rendu visuel ou usage production n'est validé ici.
+La preuve historique de 47 JVM des bibliothèques reste celle du checkpoint7.
+Le reçu SQLite déjà suivi dans le commit source est inclus dans le ZIP ;
+aucun autre log, environnement, historique de conversation ou secret n'est ajouté.
 
-ResourceRepair/ conserve les nouveaux textes FR/EN de source_panel_help comme
-réparation UI, sans identité historique de fichier affirmée. La réparation
-nominale de contrat et les anciens fragments masqués gardent leurs distinctions.
-Les 1133 pièces et classifications du checkpoint6 restent identiques. Ce lot
-minimal ajoute 21 pièces ; les membres internes du ZIP ne gonflent
-pas les compteurs de sources historiques. Les variantes forensiques optionnelles
-restent hors de ce gel et pourront faire l'objet d'un lot ultérieur.
+Restaurateur : tools/restore_assembly_wip.py --snapshot checkpoint8.
+Octets, blobs, modes et arbre exact sont contrôlés dans un dossier neuf.
 
-Le manifeste d'arbre inclut SHA256, blobs et modes Git. Le ZIP ne porte pas de
-modes Unix ; le restaurateur utilise le manifeste. L'export CRLF de gradlew.bat
-est inversé pour reproduire les blobs exacts, sans le dépôt source original.
-Les snapshots précédents baseline/ et assembly-wip/ restent restaurables.
-
-Destination publique autorisée inchangée : NeooeN45/GeoSylva, branche
-backup/geosylva-recovery-2026-11-14 ; main applicative reste hors des pushes.
-Ce checkpoint est local jusqu'au reçu distant de l'opérateur. Aucun push agent.
+Destination publique autorisée : NeooeN45/GeoSylva,
+branche backup/geosylva-recovery-2026-11-14 uniquement.
+Main doit rester c59ba7cccd3b5a69ae81e5007bb7d5f263aeacb7.
+Le reçu distant de checkpoint8 sous outputs/recovery-backup fera foi du push.

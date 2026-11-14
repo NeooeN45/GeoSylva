@@ -45,11 +45,12 @@ def main():
     parser.add_argument('--destination', type=Path, required=True)
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument('--make-gradlew-executable', action='store_true')
-    parser.add_argument('--snapshot', choices=['wip', 'milestone'], default='wip')
+    parser.add_argument('--snapshot', choices=['wip', 'milestone', 'checkpoint8'], default='wip')
     args = parser.parse_args()
     root = args.root.resolve()
     manifest = json.loads((root / 'MANIFEST.json').read_bytes())
-    wip = manifest['assemblyMilestone' if args.snapshot == 'milestone' else 'assemblyWip']
+    snapshot_key = {'wip': 'assemblyWip', 'milestone': 'assemblyMilestone', 'checkpoint8': 'assemblyCheckpoint8'}[args.snapshot]
+    wip = manifest[snapshot_key]
     source_tree = json.loads((root / wip['sourceTreeManifest']).read_bytes())
     archive = root / wip['archivePath']
     check(sha(archive.read_bytes()) == wip['sha256'] == source_tree['archiveSha256'], 'WIP archive SHA256 mismatch.')
@@ -114,8 +115,11 @@ def main():
                       'reversedArchiveExportTransformations': list(transformations),
                       'gradlewModeBeforeExplicitFix': oct(before), 'explicitGradlewFixApplied': args.make_gradlew_executable,
                       'gradlewModeAfterFix': oct(stat.S_IMODE(gradlew.stat().st_mode)), 'applicationScriptsExecuted': False,
-                      'qualification': ('UI/Mapbox libraries verified; app/APK/S25 not qualified; source restoration only.'
-                                        if args.snapshot == 'milestone' else 'WIP / NON_COMPILE / NON_COMPLET_13NOV; source restoration only.')}, ensure_ascii=False, indent=2))
+                      'qualification': ({
+                          'milestone': 'UI/Mapbox libraries verified; app/APK/S25 not qualified; source restoration only.',
+                          'checkpoint8': 'Exact immutable recovered sources; compilation/app/APK/S25 not certified; NON_COMPLET_13NOV.',
+                          'wip': 'WIP / NON_COMPILE / NON_COMPLET_13NOV; source restoration only.',
+                      }[args.snapshot])}, ensure_ascii=False, indent=2))
 
 
 if __name__ == '__main__':

@@ -52,6 +52,7 @@ def main() -> None:
     baseline_members_verified = 0
     wip_members_verified = 0
     milestone_members_verified = 0
+    checkpoint8_members_verified = 0
     for row in rows:
         relative = Path(row['path'])
         check(not relative.is_absolute() and '..' not in relative.parts,
@@ -111,8 +112,13 @@ def main() -> None:
                       'Baseline internal file count mismatch.')
                 check(z.testzip() is None, 'Baseline ZIP CRC failure.')
                 baseline_members_verified = len(actual)
-        if effective_kind in ('wip-assembled-source-archive', 'library-verified-assembled-source-archive'):
-            wip = manifest['assemblyMilestone' if effective_kind == 'library-verified-assembled-source-archive' else 'assemblyWip']
+        if effective_kind in ('wip-assembled-source-archive', 'library-verified-assembled-source-archive', 'recovery-assembled-source-archive'):
+            snapshot_key = {
+                'wip-assembled-source-archive': 'assemblyWip',
+                'library-verified-assembled-source-archive': 'assemblyMilestone',
+                'recovery-assembled-source-archive': 'assemblyCheckpoint8',
+            }[effective_kind]
+            wip = manifest[snapshot_key]
             check(wip['archivePath'] == row['path'] and wip['sha256'] == row['sha256']
                   and wip['excludedFromRecoverySourceCounts'] is True, 'WIP archive classification mismatch.')
             source_tree = json.loads((root / wip['sourceTreeManifest']).read_bytes())
@@ -149,6 +155,7 @@ def main() -> None:
                       'WIP source path set/count mismatch.')
                 check(z.testzip() is None, 'WIP ZIP CRC failure.')
                 if effective_kind == 'library-verified-assembled-source-archive': milestone_members_verified = len(actual)
+                elif effective_kind == 'recovery-assembled-source-archive': checkpoint8_members_verified = len(actual)
                 else: wip_members_verified = len(actual)
         if effective_kind == 'incomplete-code-fragment':
             check(relative.parts[0] == 'FRAGMENTS_INCOMPLETE' and row['completeSource'] is False,
@@ -191,6 +198,7 @@ def main() -> None:
         ('nominal-contract-repair-candidate', 'nominalContractRepairCandidateCount'),
         ('nominal-contract-repair-patch', 'nominalContractRepairPatchCount'),
         ('library-verified-assembled-source-archive', 'libraryVerifiedSourceArchiveCount'),
+        ('recovery-assembled-source-archive', 'recoveryAssembledSourceArchiveCount'),
         ('new-resource-repair-text', 'newResourceRepairTextCount'),
         ('build-verification-evidence', 'buildVerificationEvidenceCount'),
     ]:
@@ -278,6 +286,7 @@ def main() -> None:
         'baselineInternalSourceFilesVerified': baseline_members_verified,
         'wipInternalSourceFilesVerified': wip_members_verified,
         'milestoneInternalSourceFilesVerified': milestone_members_verified,
+        'checkpoint8InternalSourceFilesVerified': checkpoint8_members_verified,
         'manifestSha256': sha((root / 'MANIFEST.json').read_bytes()),
         'qualification': 'Backup integrity only; no application execution or network.',
     }, ensure_ascii=False, indent=2))

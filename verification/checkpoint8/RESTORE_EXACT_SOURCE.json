@@ -1,0 +1,23 @@
+{
+  "result": "PASS",
+  "sourceCommit": "ff8be9bb9b5f4b0441ea1ea1c2ce52b7cde16971",
+  "sourceGitTree": "6734a7ef384a4533dbb8bf3eb2cbca0180c7382c",
+  "restoredGitTreeBeforeLauncherFix": "6734a7ef384a4533dbb8bf3eb2cbca0180c7382c",
+  "exactImmutableGitTreeRestored": true,
+  "sourceFilesRestored": 1612,
+  "gitBlobIdentitiesVerified": 1612,
+  "gitFileModesVerifiedBeforeLauncherFix": 1612,
+  "directoriesCreated0755": 316,
+  "reversedArchiveExportTransformations": [
+    "gradlew.bat"
+  ],
+  "gradlewModeBeforeExplicitFix": "0o755",
+  "explicitGradlewFixApplied": false,
+  "gradlewModeAfterFix": "0o755",
+  "applicationScriptsExecuted": false,
+  "qualification": "Exact immutable recovered sources; compilation/app/APK/S25 not certified; NON_COMPLET_13NOV.",
+  "checkpoint": 8,
+  "verifiedAtUTC": "2026-11-14T19:53:02.264212+00:00",
+  "originalApplicationRepositoryRequired": false,
+  "originalApplicationWorktreesModified": false
+}
