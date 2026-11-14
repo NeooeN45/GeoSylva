@@ -45,11 +45,11 @@ def main():
     parser.add_argument('--destination', type=Path, required=True)
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument('--make-gradlew-executable', action='store_true')
-    parser.add_argument('--snapshot', choices=['wip', 'milestone', 'checkpoint8'], default='wip')
+    parser.add_argument('--snapshot', choices=['wip', 'milestone', 'checkpoint8', 'checkpoint9'], default='wip')
     args = parser.parse_args()
     root = args.root.resolve()
     manifest = json.loads((root / 'MANIFEST.json').read_bytes())
-    snapshot_key = {'wip': 'assemblyWip', 'milestone': 'assemblyMilestone', 'checkpoint8': 'assemblyCheckpoint8'}[args.snapshot]
+    snapshot_key = {'wip': 'assemblyWip', 'milestone': 'assemblyMilestone', 'checkpoint8': 'assemblyCheckpoint8', 'checkpoint9': 'assemblyCheckpoint9'}[args.snapshot]
     wip = manifest[snapshot_key]
     source_tree = json.loads((root / wip['sourceTreeManifest']).read_bytes())
     archive = root / wip['archivePath']
@@ -118,6 +118,7 @@ def main():
                       'qualification': ({
                           'milestone': 'UI/Mapbox libraries verified; app/APK/S25 not qualified; source restoration only.',
                           'checkpoint8': 'Exact immutable recovered sources; compilation/app/APK/S25 not certified; NON_COMPLET_13NOV.',
+                          'checkpoint9': 'Exact immutable recovered sources including tracked Room49 schema; app build diagnostic pending, APK/S25 not certified; NON_COMPLET_13NOV.',
                           'wip': 'WIP / NON_COMPILE / NON_COMPLET_13NOV; source restoration only.',
                       }[args.snapshot])}, ensure_ascii=False, indent=2))
 

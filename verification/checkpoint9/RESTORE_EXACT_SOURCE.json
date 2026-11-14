@@ -1,0 +1,23 @@
+{
+  "result": "PASS",
+  "sourceCommit": "edbe6c2d1829ac1446bd1ab21643206c0016829c",
+  "sourceGitTree": "387491c133286c9772c7832fd130d7d537fadcde",
+  "restoredGitTreeBeforeLauncherFix": "387491c133286c9772c7832fd130d7d537fadcde",
+  "exactImmutableGitTreeRestored": true,
+  "sourceFilesRestored": 1655,
+  "gitBlobIdentitiesVerified": 1655,
+  "gitFileModesVerifiedBeforeLauncherFix": 1655,
+  "directoriesCreated0755": 337,
+  "reversedArchiveExportTransformations": [
+    "gradlew.bat"
+  ],
+  "gradlewModeBeforeExplicitFix": "0o755",
+  "explicitGradlewFixApplied": false,
+  "gradlewModeAfterFix": "0o755",
+  "applicationScriptsExecuted": false,
+  "qualification": "Exact immutable recovered sources including tracked Room49 schema; app build diagnostic pending, APK/S25 not certified; NON_COMPLET_13NOV.",
+  "checkpoint": 9,
+  "verifiedAtUTC": "2026-11-14T20:09:19.664767+00:00",
+  "originalApplicationRepositoryRequired": false,
+  "originalApplicationWorktreesModified": false
+}

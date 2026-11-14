@@ -53,6 +53,7 @@ def main() -> None:
     wip_members_verified = 0
     milestone_members_verified = 0
     checkpoint8_members_verified = 0
+    checkpoint9_members_verified = 0
     for row in rows:
         relative = Path(row['path'])
         check(not relative.is_absolute() and '..' not in relative.parts,
@@ -116,7 +117,7 @@ def main() -> None:
             snapshot_key = {
                 'wip-assembled-source-archive': 'assemblyWip',
                 'library-verified-assembled-source-archive': 'assemblyMilestone',
-                'recovery-assembled-source-archive': 'assemblyCheckpoint8',
+                'recovery-assembled-source-archive': 'assemblyCheckpoint' + str(row.get('checkpoint', 8)),
             }[effective_kind]
             wip = manifest[snapshot_key]
             check(wip['archivePath'] == row['path'] and wip['sha256'] == row['sha256']
@@ -155,7 +156,10 @@ def main() -> None:
                       'WIP source path set/count mismatch.')
                 check(z.testzip() is None, 'WIP ZIP CRC failure.')
                 if effective_kind == 'library-verified-assembled-source-archive': milestone_members_verified = len(actual)
-                elif effective_kind == 'recovery-assembled-source-archive': checkpoint8_members_verified = len(actual)
+                elif effective_kind == 'recovery-assembled-source-archive':
+                    if row['checkpoint'] == 8: checkpoint8_members_verified = len(actual)
+                    elif row['checkpoint'] == 9: checkpoint9_members_verified = len(actual)
+                    else: raise ValueError('Unsupported immutable recovery checkpoint.')
                 else: wip_members_verified = len(actual)
         if effective_kind == 'incomplete-code-fragment':
             check(relative.parts[0] == 'FRAGMENTS_INCOMPLETE' and row['completeSource'] is False,
@@ -287,6 +291,7 @@ def main() -> None:
         'wipInternalSourceFilesVerified': wip_members_verified,
         'milestoneInternalSourceFilesVerified': milestone_members_verified,
         'checkpoint8InternalSourceFilesVerified': checkpoint8_members_verified,
+        'checkpoint9InternalSourceFilesVerified': checkpoint9_members_verified,
         'manifestSha256': sha((root / 'MANIFEST.json').read_bytes()),
         'qualification': 'Backup integrity only; no application execution or network.',
     }, ensure_ascii=False, indent=2))

@@ -1,21 +1,21 @@
-GÉOSYLVA — CHECKPOINT 8 / SOURCES RÉCUPÉRÉES NON QUALIFIÉES COMME APK
+GÉOSYLVA — CHECKPOINT 9 / SOURCE IMMUABLE edbe6c2
 
-Source immuable : ff8be9bb9b5f4b0441ea1ea1c2ce52b7cde16971.
-Arbre : 6734a7ef384a4533dbb8bf3eb2cbca0180c7382c. 1 612 fichiers suivis archivés.
-Trois commits stockage/domaines/UI sont ajoutés depuis f2c1b508ee43.
-La sauvegarde conserve les 1 154 anciennes pièces et leurs classifications.
-Ce lot n'affirme pas une récupération complète du 13 novembre.
+Commit : edbe6c2d1829ac1446bd1ab21643206c0016829c
+Arbre : 387491c133286c9772c7832fd130d7d537fadcde
+1 655 fichiers suivis ; 1 157 anciennes pièces et classifications préservées.
+Les corrections applicatives postérieures restent hors de cet instantané.
+Ce gel n'affirme pas une récupération complète du 13 novembre.
 
-Les contrats et sources restaurés restent à intégrer/qualifier par compilation.
-Aucun APK complet, S25, rendu visuel ou usage production n'est validé ici.
-La preuve historique de 47 JVM des bibliothèques reste celle du checkpoint7.
-Le reçu SQLite déjà suivi dans le commit source est inclus dans le ZIP ;
-aucun autre log, environnement, historique de conversation ou secret n'est ajouté.
+Sources, documents et schéma Room49 suivis sont inclus. Les preuves SQLite
+et KSP gardent leur portée d'origine ; le diagnostic applicatif3 est en cours
+à la demande du checkpoint. Aucun APK, nouveau log de test/environnement,
+historique brut ou fichier privé n'est ajouté. La compilation applicative,
+le S25 Ultra, les visuels et la production ne sont pas certifiés ici.
 
-Restaurateur : tools/restore_assembly_wip.py --snapshot checkpoint8.
-Octets, blobs, modes et arbre exact sont contrôlés dans un dossier neuf.
+Restauration : tools/restore_assembly_wip.py --snapshot checkpoint9.
+Vérification des octets, blobs, modes Git et arbre exact dans un dossier neuf.
 
-Destination publique autorisée : NeooeN45/GeoSylva,
+Destination autorisée : NeooeN45/GeoSylva,
 branche backup/geosylva-recovery-2026-11-14 uniquement.
 Main doit rester c59ba7cccd3b5a69ae81e5007bb7d5f263aeacb7.
-Le reçu distant de checkpoint8 sous outputs/recovery-backup fera foi du push.
+Le reçu distant checkpoint9 sous outputs/recovery-backup fait foi du push.
