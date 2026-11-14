@@ -1,0 +1,13 @@
+{
+  "status": "ROOM_SCHEMA_GENERATED_BY_KSP",
+  "task": ":app:kspDebugKotlin",
+  "evidence": "/workspace/outputs/2026-11-14/android-tooling/app-compile-diagnostic2.log",
+  "schemaVersion": 49,
+  "identityHash": "20649a82ebc19f6c2decfaa25fd3043f",
+  "sha256": "e15059a315167e068eb0e50818e4f7029ce1124b7d857e013f00c1ffbd7850fb",
+  "notClaimed": [
+    "Full application compilation",
+    "Device migration test",
+    "Physical S25 qualification"
+  ]
+}
