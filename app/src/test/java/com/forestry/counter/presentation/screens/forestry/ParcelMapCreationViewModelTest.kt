@@ -378,6 +378,27 @@ class ParcelMapCreationViewModelTest {
         assertEquals(ParcelMapSource.CADASTRE, model.state.value.selected?.source)
     }
 
+    @Test fun `losing ONF profession clears its selected candidate and prevents creation`() = runTest(dispatcher) {
+        profession.value = "forestier_onf"
+        maps.available += ParcelMapSource.ONF
+        val cadastral = maps.result.parcels.first()
+        maps.onfResult = ParcelMapResult(listOf(cadastral.copy(id = "TESTONF:168", source = ParcelMapSource.ONF)), false, 0)
+        val model = loaded()
+        model.changeSource(ParcelMapSource.ONF)
+        advanceTimeBy(350)
+        runCurrent()
+        model.selectAt(POINT_A)
+        assertNotNull(model.state.value.selected)
+        profession.value = "technicien_forestier"
+        runCurrent()
+        assertEquals(ParcelMapSource.CADASTRE, model.state.value.source)
+        assertNull(model.state.value.selected)
+        assertFalse(model.sourceAvailable(ParcelMapSource.ONF))
+        model.save()
+        runCurrent()
+        assertTrue(parcels.attempts.isEmpty())
+    }
+
     @Test fun `saving actual ONF parcel uses Lambert93 source area without inventing cadastral or terrain data`() = runTest(dispatcher) {
         val bytes = requireNotNull(javaClass.getResourceAsStream("/geography/onf-parcels-chize-2026-10-03.json")).use { it.readBytes() }
         val onf = ParcelMapRepositoryImpl.parseOnf(bytes.toString(Charsets.UTF_8), 456L).parcels.single { it.id == "F09793Q:168" }

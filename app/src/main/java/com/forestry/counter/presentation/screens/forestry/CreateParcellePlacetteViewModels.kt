@@ -40,52 +40,64 @@ class CreateParcelleViewModel(
     private val _isSaved = MutableStateFlow(false)
     val isSaved: StateFlow<Boolean> = _isSaved.asStateFlow()
 
-    fun updateName(name: String) {
-        _formState.value = _formState.value.copy(name = name)
-    }
+    private val parcelDraftId = UUID.randomUUID().toString()
+
+    fun updateName(name: String) = update { copy(name = name) }
 
     fun updateSurfaceHa(surface: String) {
-        _formState.value = _formState.value.copy(surfaceHa = surface.toDoubleOrNull())
+        update { copy(surfaceHa = decimal(surface)) }
     }
 
     fun updateSlopePct(slope: String) {
-        _formState.value = _formState.value.copy(slopePct = slope.toDoubleOrNull())
+        update { copy(slopePct = decimal(slope)) }
     }
 
     fun updateAltitudeM(altitude: String) {
-        _formState.value = _formState.value.copy(altitudeM = altitude.toDoubleOrNull())
+        update { copy(altitudeM = decimal(altitude)) }
     }
 
     fun updateRemarks(remarks: String) {
-        _formState.value = _formState.value.copy(remarks = remarks.ifBlank { null })
+        update { copy(remarks = remarks.ifBlank { null }) }
+    }
+
+    private fun decimal(input: String) = input.trim().replace(',', '.').toDoubleOrNull()?.takeIf { it.isFinite() }
+
+    private fun update(change: CreateParcelleFormState.() -> CreateParcelleFormState) {
+        if (_formState.value.isSaving || _isSaved.value) return
+        _formState.value = _formState.value.change().copy(saveError = false)
     }
 
     fun save() {
         val form = _formState.value
-        if (!form.isValid) return
+        if (!form.isValid || form.isSaving || _isSaved.value) return
+        _formState.value = form.copy(isSaving = true, saveError = false)
         viewModelScope.launch {
-            val parcelle = Parcelle(
-                id = UUID.randomUUID().toString(),
-                forestId = foretId,
-                foretId = foretId,
-                name = form.name,
-                surfaceHa = form.surfaceHa,
-                shape = null,
-                slopePct = form.slopePct,
-                aspect = null,
-                access = null,
-                altitudeM = form.altitudeM,
-                objectifType = null,
-                objectifVal = null,
-                tolerancePct = null,
-                samplingMode = null,
-                sampleAreaM2 = null,
-                targetSpeciesCsv = null,
-                srid = null,
-                remarks = form.remarks,
-            )
-            parcelleRepository.insertParcelle(parcelle)
-            _isSaved.value = true
+            try {
+                val parcelle = Parcelle(
+                    id = parcelDraftId,
+                    forestId = foretId,
+                    foretId = foretId,
+                    name = form.name,
+                    surfaceHa = form.surfaceHa,
+                    shape = null,
+                    slopePct = form.slopePct,
+                    aspect = null,
+                    access = null,
+                    altitudeM = form.altitudeM,
+                    objectifType = null,
+                    objectifVal = null,
+                    tolerancePct = null,
+                    samplingMode = null,
+                    sampleAreaM2 = null,
+                    targetSpeciesCsv = null,
+                    srid = null,
+                    remarks = form.remarks,
+                )
+                parcelleRepository.insertParcelle(parcelle)
+                _isSaved.value = true
+            } catch (cancelled: CancellationException) { throw cancelled }
+            catch (_: Exception) { _formState.value = _formState.value.copy(saveError = true) }
+            finally { _formState.value = _formState.value.copy(isSaving = false) }
         }
     }
 }
@@ -96,8 +108,12 @@ data class CreateParcelleFormState(
     val slopePct: Double? = null,
     val altitudeM: Double? = null,
     val remarks: String? = null,
+    val isSaving: Boolean = false,
+    val saveError: Boolean = false,
 ) {
-    val isValid: Boolean get() = name.isNotBlank()
+    val isValid: Boolean get() = name.isNotBlank() && (surfaceHa == null || (surfaceHa.isFinite() && surfaceHa > 0.0)) &&
+        (slopePct == null || (slopePct.isFinite() && slopePct >= 0.0)) &&
+        (altitudeM == null || altitudeM.isFinite())
 }
 
 /**
@@ -114,6 +130,7 @@ class CreatePlacetteViewModel(
     private val _isSaved = MutableStateFlow(false)
     val isSaved: StateFlow<Boolean> = _isSaved.asStateFlow()
     private var generation = 0L
+    private val wholePlotId = UUID.randomUUID().toString()
 
     init {
         viewModelScope.launch {
@@ -126,8 +143,11 @@ class CreatePlacetteViewModel(
                     if (boundaryChanged) generation++
                     _formState.value = form.copy(
                         isLoading = false, parent = parent?.takeIf { it.deletedAt == null }, geometry = geometry,
-                        points = if (boundaryChanged && form.scope == PlotScope.AUTOMATIC_GRID) emptyList() else form.points,
+                        points = if (boundaryChanged && (form.scope == PlotScope.AUTOMATIC_GRID || geometry == null)) emptyList() else form.points,
                         gridCells = if (boundaryChanged) emptyList() else form.gridCells,
+                        pointIds = if (boundaryChanged && (form.scope == PlotScope.AUTOMATIC_GRID || geometry == null)) emptyList() else form.pointIds,
+                        selectedPointId = form.selectedPointId.takeUnless { boundaryChanged && (form.scope == PlotScope.AUTOMATIC_GRID || geometry == null) },
+                        boundaryReviewConfirmed = form.boundaryReviewConfirmed && !boundaryChanged,
                         gridPreviewReady = form.gridPreviewReady && !boundaryChanged,
                         isGenerating = form.isGenerating && !boundaryChanged,
                     )
@@ -146,7 +166,8 @@ class CreatePlacetteViewModel(
         if (_formState.value.scope == scope) return
         edit { form ->
             generation++
-            form.copy(scope = scope, points = emptyList(), gridCells = emptyList(), gridPreviewReady = false,
+            form.copy(scope = scope, points = emptyList(), pointIds = emptyList(), selectedPointId = null,
+                boundaryReviewConfirmed = false, gridCells = emptyList(), gridPreviewReady = false,
                 isGenerating = false, error = null,
                 sizeMeasure = if (scope == PlotScope.AUTOMATIC_GRID) FootprintSizeMeasure.AREA else form.sizeMeasure)
         }
@@ -154,10 +175,38 @@ class CreatePlacetteViewModel(
 
     fun updateRayonM(rayon: String) = invalidatePreview { it.copy(radiusInput = rayon, error = null) }
     fun updateFootprintArea(area: String) = invalidatePreview { it.copy(areaInput = area, error = null) }
-    fun updateFootprintShape(shape: SampleFootprintShape) = invalidatePreview {
-        it.copy(footprintShape = shape, sizeMeasure = if (shape == SampleFootprintShape.HEXAGON) FootprintSizeMeasure.AREA else it.sizeMeasure, error = null)
+    fun updateFootprintShape(shape: SampleFootprintShape) = invalidatePreview { form ->
+        form.copy(footprintShape = shape, areaInput = form.footprintAreaM2?.toString() ?: form.areaInput,
+            sizeMeasure = if (shape == SampleFootprintShape.HEXAGON) FootprintSizeMeasure.AREA else form.sizeMeasure, error = null)
     }
-    fun updateSizeMeasure(measure: FootprintSizeMeasure) = invalidatePreview { it.copy(sizeMeasure = measure, error = null) }
+    fun updateSizeMeasure(measure: FootprintSizeMeasure) = invalidatePreview { form ->
+        val area = form.footprintAreaM2
+        form.copy(sizeMeasure = measure,
+            radiusInput = area?.let { sqrt(it / PI).toString() } ?: form.radiusInput,
+            areaInput = area?.toString() ?: form.areaInput, error = null)
+    }
+
+    /** One explicit apply updates the draft; opening or cancelling a panel changes nothing. */
+    fun applyParameters(parameters: PlotParameterDraft) {
+        val form = _formState.value
+        if (parameters.copy(name = form.name) == PlotParameterDraft.from(form)) { updateName(parameters.name); return }
+        invalidatePreview { current ->
+            current.copy(name = parameters.name, radiusInput = parameters.radiusInput, areaInput = parameters.areaInput,
+                footprintShape = parameters.shape, sizeMeasure = parameters.measure, rotationInput = parameters.rotationInput, error = null)
+        }
+    }
+
+    fun applyDistribution(distribution: PlotDistributionDraft) = invalidatePreview { form ->
+        form.copy(cellAreaInput = distribution.cellAreaInput, rotationInput = distribution.rotationInput,
+            excludeBoundary = distribution.excludeBoundary, error = null)
+    }
+
+    fun selectPoint(id: String) = edit { form ->
+        if (id in form.pointIds) form.copy(selectedPointId = id) else form
+    }
+
+    fun confirmBoundaryReview() = edit { it.copy(boundaryReviewConfirmed = true) }
+
     fun updateCellAreaHa(area: String) = invalidatePreview { it.copy(cellAreaInput = area, error = null) }
     fun updateRotationDeg(rotation: String) = invalidatePreview { it.copy(rotationInput = rotation, error = null) }
     fun updateExcludeBoundary(exclude: Boolean) = invalidatePreview { it.copy(excludeBoundary = exclude, error = null) }
@@ -171,7 +220,7 @@ class CreatePlacetteViewModel(
         val footprintArea = form.footprintAreaM2 ?: return
         val rotation = form.rotationDeg ?: return
         val ticket = ++generation
-        _formState.value = form.copy(isGenerating = true, error = null, gridPreviewReady = false, points = emptyList(), gridCells = emptyList())
+        _formState.value = form.copy(isGenerating = true, error = null, gridPreviewReady = false, points = emptyList(), pointIds = emptyList(), selectedPointId = null, boundaryReviewConfirmed = false, gridCells = emptyList())
         viewModelScope.launch {
             try {
                 val preview = withContext(geometryDispatcher) {
@@ -180,6 +229,7 @@ class CreatePlacetteViewModel(
                 if (ticket != generation || _isSaved.value) return@launch
                 _formState.value = _formState.value.copy(
                     points = preview.footprints.filter { !form.excludeBoundary || !it.crossesBoundary }.map { it.center },
+                    pointIds = preview.footprints.filter { !form.excludeBoundary || !it.crossesBoundary }.map { UUID.randomUUID().toString() },
                     gridCells = preview.cells.filterIndexed { index, _ -> !form.excludeBoundary || !preview.footprints[index].crossesBoundary },
                     excludedBoundaryCount = if (form.excludeBoundary) preview.footprints.count { it.crossesBoundary } else 0,
                     gridPreviewReady = true, isGenerating = false,
@@ -208,14 +258,17 @@ class CreatePlacetteViewModel(
             return
         }
         if (point in form.points) return
-        _formState.value = form.copy(points = form.points + point, error = null)
+        _formState.value = form.copy(points = form.points + point, pointIds = form.pointIds + UUID.randomUUID().toString(),
+            boundaryReviewConfirmed = false, error = null)
     }
 
     fun removePoint(index: Int) {
         val form = _formState.value
         if (form.isSaving || form.isGenerating || _isSaved.value || index !in form.points.indices) return
         _formState.value = form.copy(points = form.points.filterIndexed { i, _ -> i != index },
-            gridCells = form.gridCells.filterIndexed { i, _ -> i != index }, error = null)
+            pointIds = form.pointIds.filterIndexed { i, _ -> i != index },
+            selectedPointId = form.selectedPointId?.takeUnless { it == form.pointIds.getOrNull(index) },
+            boundaryReviewConfirmed = false, gridCells = form.gridCells.filterIndexed { i, _ -> i != index }, error = null)
     }
 
     private fun edit(change: (CreatePlacetteFormState) -> CreatePlacetteFormState) {
@@ -228,6 +281,9 @@ class CreatePlacetteViewModel(
             generation++
             change(form).copy(
                 points = if (form.scope == PlotScope.AUTOMATIC_GRID) emptyList() else form.points,
+                pointIds = if (form.scope == PlotScope.AUTOMATIC_GRID) emptyList() else form.pointIds,
+                selectedPointId = if (form.scope == PlotScope.AUTOMATIC_GRID) null else form.selectedPointId,
+                boundaryReviewConfirmed = false,
                 gridCells = emptyList(), gridPreviewReady = false, isGenerating = false, excludedBoundaryCount = 0,
             )
         }
@@ -235,14 +291,14 @@ class CreatePlacetteViewModel(
 
     fun save(defaultNamePrefix: String = "Placette") {
         val form = _formState.value
-        if (!form.isValid || form.isSaving || _isSaved.value) return
+        if (!form.isValid || form.requiresBoundaryReview || form.isSaving || _isSaved.value) return
         _formState.value = form.copy(isSaving = true, error = null)
         viewModelScope.launch {
             try {
                 val prefix = form.name.trim().ifBlank { defaultNamePrefix }
                 val plots = if (form.scope == PlotScope.ENTIRE_PARCEL) {
                     listOf(Placette(
-                        id = UUID.randomUUID().toString(), parcelleId = parcelleId,
+                        id = wholePlotId, parcelleId = parcelleId,
                         name = prefix, type = "ENTIRE_PARCEL", rayonM = null,
                         surfaceM2 = form.wholeAreaM2, centerWkt = null,
                     ))
@@ -259,7 +315,7 @@ class CreatePlacetteViewModel(
                             boundaryWarning = footprint.crossesBoundary,
                         ).toJson()
                         Placette(
-                            id = UUID.randomUUID().toString(), parcelleId = parcelleId,
+                            id = form.pointIds[index], parcelleId = parcelleId,
                             name = "$prefix ${index + 1}",
                             type = if (form.footprintShape == SampleFootprintShape.CIRCLE) "CIRC" else "HEX",
                             rayonM = if (form.footprintShape == SampleFootprintShape.CIRCLE) sqrt(area / PI) else null,
@@ -298,6 +354,9 @@ data class CreatePlacetteFormState(
     val excludedBoundaryCount: Int = 0,
     val sizeMeasure: FootprintSizeMeasure = FootprintSizeMeasure.RADIUS,
     val points: List<ParcelCoordinate> = emptyList(),
+    val pointIds: List<String> = emptyList(),
+    val selectedPointId: String? = null,
+    val boundaryReviewConfirmed: Boolean = false,
     val gridCells: List<ParcelGeometry> = emptyList(),
     val gridPreviewReady: Boolean = false,
     val neighborDistanceM: Double? = null,
@@ -323,13 +382,39 @@ data class CreatePlacetteFormState(
         else runCatching { PlotSamplingGeometry.footprints(parcel, points, footprintShape, area, rotation) }.getOrDefault(emptyList())
     }
     val edgeWarningCount: Int get() = footprints.count { it.crossesBoundary }
+    val requiresBoundaryReview: Boolean get() = edgeWarningCount > 0 && !boundaryReviewConfirmed
     val canGenerate: Boolean get() = scope == PlotScope.AUTOMATIC_GRID && !isLoading && !isSaving &&
         parent != null && parent.deletedAt == null && geometry != null && cellAreaHa != null && footprintAreaM2 != null && rotationDeg != null
     val isValid: Boolean get() = !isLoading && !isGenerating && parent != null && parent.deletedAt == null && geometry != null &&
         when (scope) {
             PlotScope.ENTIRE_PARCEL -> wholeAreaM2 != null
-            PlotScope.MAP_POINTS -> footprintAreaM2 != null && rotationDeg != null && points.size in 1..PlotSamplingGeometry.MAX_PLOTS && footprints.size == points.size
-            PlotScope.AUTOMATIC_GRID -> gridPreviewReady && points.size in 1..PlotSamplingGeometry.MAX_PLOTS && footprints.size == points.size
+            PlotScope.MAP_POINTS -> footprintAreaM2 != null && rotationDeg != null && points.size in 1..PlotSamplingGeometry.MAX_PLOTS && footprints.size == points.size && pointIds.size == points.size && pointIds.distinct().size == points.size
+            PlotScope.AUTOMATIC_GRID -> gridPreviewReady && points.size in 1..PlotSamplingGeometry.MAX_PLOTS && footprints.size == points.size && pointIds.size == points.size && pointIds.distinct().size == points.size
         }
     private fun decimal(value: String): Double? = value.trim().replace(',', '.').toDoubleOrNull()?.takeIf { it.isFinite() }
+}
+
+/** Local editor state: apply is the only operation that changes the planned lot. */
+data class PlotParameterDraft(
+    val name: String, val radiusInput: String, val areaInput: String,
+    val shape: SampleFootprintShape, val measure: FootprintSizeMeasure, val rotationInput: String = "0",
+) {
+    fun asForm() = CreatePlacetteFormState(name = name, radiusInput = radiusInput,
+        areaInput = areaInput, footprintShape = shape, sizeMeasure = measure, rotationInput = rotationInput)
+    fun withMeasure(next: FootprintSizeMeasure): PlotParameterDraft {
+        val area = asForm().footprintAreaM2
+        return copy(measure = next, areaInput = area?.toString() ?: areaInput,
+            radiusInput = area?.let { sqrt(it / PI).toString() } ?: radiusInput)
+    }
+    companion object {
+        fun from(form: CreatePlacetteFormState) = PlotParameterDraft(form.name, form.radiusInput,
+            form.areaInput, form.footprintShape, form.sizeMeasure, form.rotationInput)
+    }
+}
+
+data class PlotDistributionDraft(val cellAreaInput: String, val rotationInput: String, val excludeBoundary: Boolean) {
+    fun asForm() = CreatePlacetteFormState(cellAreaInput = cellAreaInput, rotationInput = rotationInput)
+    companion object {
+        fun from(form: CreatePlacetteFormState) = PlotDistributionDraft(form.cellAreaInput, form.rotationInput, form.excludeBoundary)
+    }
 }

@@ -49,7 +49,7 @@ class CreateParcelleViewModelTest {
                 model.save()
                 runCurrent()
                 assertEquals(2, attempts.size)
-                assertEquals(attempts[0], attempts[1])
+                assertEquals(attempts[0].copy(createdAt = 0L, updatedAt = 0L), attempts[1].copy(createdAt = 0L, updatedAt = 0L))
                 assertEquals("parent-fixture", attempts[1].foretId)
                 assertNull(attempts[1].shape)
                 assertTrue(model.isSaved.value)

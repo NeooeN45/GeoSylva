@@ -1,0 +1,4 @@
+<resources>
+    <string name="recherche_scope_loading">Loading forests…</string>
+    <string name="recherche_scope_unavailable">This area is no longer available. Try again from the list.</string>
+</resources>

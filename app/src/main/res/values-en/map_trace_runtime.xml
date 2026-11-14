@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="map_trace_notification_channel">Map GPS trace</string>
+    <string name="map_trace_notification_title">GeoSylva · GPS trace</string>
+    <string name="map_trace_notification_body">Recording the trace. Pause or finish from this notification.</string>
+    <string name="map_trace_notification_pause">Pause</string>
+    <string name="map_trace_notification_finish">Finish</string>
+    <string name="map_trace_local_destination">On this phone</string>
+    <string name="map_trace_access_error">Context or access changed. Reopen the trace from the authorised map.</string>
+    <string name="map_trace_permission_error">Allow precise location to start or resume the trace.</string>
+    <string name="map_trace_interrupted">Capture interrupted. You can explicitly resume the retained draft.</string>
+    <string name="map_trace_recovered">Draft recovered, capture stopped. Resume creates a new portion.</string>
+    <string name="map_trace_store_error">Draft write not confirmed. Capture stopped; retry before leaving.</string>
+    <string name="map_trace_uncertain_save">Save needs confirmation. Retry the same save; its identity is retained.</string>
+    <string name="map_trace_invalid_input">Check name and trace: names are limited to 120 characters without control characters, and at least one portion needs two points.</string>
+    <string name="map_trace_no_points">At least one portion with two points is required to save a trace.</string>
+    <string name="map_trace_options">Trace actions</string>
+    <string name="map_trace_library">Traces in this context</string>
+    <string name="map_trace_library_empty">No other trace stored in this context.</string>
+    <string name="map_trace_new">New trace</string>
+    <string name="map_trace_unnamed">Unnamed trace</string>
+    <string name="map_trace_draft">Draft · %1$d points</string>
+    <string name="map_trace_saved">Saved · %1$d points</string>
+    <string name="map_trace_settings_title">Trace settings</string>
+    <string name="map_trace_max_accuracy">Maximum reported accuracy: %1$s m</string>
+    <string name="map_trace_min_distance">Minimum spacing: %1$s m</string>
+    <string name="map_trace_settings_help">Technical settings for this capture, retained with the trace. Old, imprecise or simulated fixes are excluded. They certify neither trace accuracy nor completeness.</string>
+    <string name="map_trace_apply">Apply</string>
+    <string name="map_trace_close">Close</string>
+    <string name="map_trace_share_preview">Share preview</string>
+    <string name="map_trace_share_contents">GeoJSON · %1$d portions · %2$d points\nIncludes recorded coordinates and accuracies. Unrecorded passages remain separate.</string>
+    <string name="map_trace_share_confirm">Choose an app</string>
+    <string name="map_trace_share_error">Sharing could not be prepared. The trace is retained.</string>
+    <string name="map_trace_method_title">Method and source</string>
+    <string name="map_trace_method_body">Source: phone positions. WGS84 coordinates, EPSG:4326. Horizontal length on the IUGG mean sphere of radius 6,371,008.8 m, computed within each portion; no links between portions, closing segment, slope or altitude added.\nMethod: %1$s, version 1.\nTrace accuracy: not determined. Fix accuracies are not overall uncertainty.\nReported threshold: %2$s m; maximum fix age %3$d s; minimum spacing %4$s m; observation gap after %5$d s. Duration excludes stopped review and process downtime.</string>
+    <string name="map_trace_help_capture">Manual pause: no points until Resume. Missing or insufficient quality suspends additions; a usable fix starts a new portion. Finish stops sensors and opens draft review. Process interruption never restarts capture automatically.</string>
+    <string name="map_trace_fix_waiting">Waiting for a usable position</string>
+    <string name="map_trace_fix_stale">Last position is out of date</string>
+    <string name="map_trace_fix_quality">Received fix not accepted</string>
+    <string name="map_trace_copy_source">Copy of a saved trace; the original is retained.</string>
+</resources>

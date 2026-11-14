@@ -53,7 +53,16 @@ class ParcelMapCreationViewModel(
     val createdParcelId: String get() = draftId
 
     init {
-        viewModelScope.launch { profession.collect { mutable.update { s -> s.copy(onfProfession = it == "forestier_onf") } } }
+        viewModelScope.launch { profession.collect { professionId ->
+            val onfAllowed = professionId == "forestier_onf"
+            if (!onfAllowed && mutable.value.source == ParcelMapSource.ONF) {
+                queryJob?.cancel()
+                nameEdited = false
+                mutable.update { it.copy(onfProfession = false, source = ParcelMapSource.CADASTRE,
+                    parcels = emptyList(), selected = null, name = "", loading = false) }
+                lastBounds?.let { viewportChanged(it, lastZoom) }
+            } else mutable.update { it.copy(onfProfession = onfAllowed) }
+        } }
         viewModelScope.launch { loadParent() }
     }
 
@@ -83,7 +92,7 @@ class ParcelMapCreationViewModel(
         catch (_: Exception) { mutable.update { it.copy(error = true) } }
     }
 
-    fun updateName(name: String) { if (!mutable.value.saving) { nameEdited = true; mutable.update { it.copy(name = name.take(120)) } } }
+    fun updateName(name: String) { if (!mutable.value.saving && !mutable.value.saved) { nameEdited = true; mutable.update { it.copy(name = name.take(120)) } } }
     fun sourceAvailable(source: ParcelMapSource) = maps.isAvailable(source) && (source != ParcelMapSource.ONF || mutable.value.onfProfession)
     fun changeSource(source: ParcelMapSource) {
         if (!sourceAvailable(source) || mutable.value.saving || mutable.value.source == source) return
@@ -122,7 +131,7 @@ class ParcelMapCreationViewModel(
     }
     fun selectAt(point: ParcelCoordinate) {
         val s = mutable.value
-        if (s.saving) return
+        if (s.saving || s.saved) return
         if (s.parentGeometry != null && !s.parentGeometry.contains(point)) {
             mutable.update { it.copy(outsideForest = true) }; return
         }
@@ -137,12 +146,13 @@ class ParcelMapCreationViewModel(
     fun save() {
         val s = mutable.value
         val selected = s.selected ?: return
-        if (s.saving || s.saved || s.name.isBlank() || s.forest == null) return
+        if (s.saving || s.saved || s.name.isBlank() || s.forest == null || selected.source != s.source || !sourceAvailable(selected.source)) return
         mutable.update { it.copy(saving = true, saveError = false) }
         viewModelScope.launch {
             try {
                 val freshParent = forests.getById(forestId)
                 require(freshParent != null && freshParent.deletedAt == null)
+                require(sourceAvailable(selected.source))
                 val shape = selected.geometry.toWkt()
                 parcels.insertParcelle(Parcelle(id = draftId, forestId = forestId, foretId = forestId,
                     name = s.name.trim(), surfaceHa = (selected.sourceAreaSquareMetres ?: selected.geometry.areaSquareMetres) / 10_000.0,

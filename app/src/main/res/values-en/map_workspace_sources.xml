@@ -1,0 +1,32 @@
+<resources>
+    <string name="gs_source_details">Source and details</string>
+    <string name="gs_source_provider">Provider</string>
+    <string name="gs_source_product">Product</string>
+    <string name="gs_source_location">Storage</string>
+    <string name="gs_source_on_device">On this phone</string>
+    <string name="gs_source_unavailable_title">Basemap</string>
+    <string name="gs_source_unavailable">No confirmed displayed source.</string>
+    <string name="gs_source_ortho_dates">The catalogue date is not the photography date. Capture dates vary by location.</string>
+    <string name="gs_source_mapbox_attribution">Basemap providers and attribution are shown directly on the map.</string>
+    <string name="gs_source_mapbox_dates">The local data date is not provided here. The product has no single edition date.</string>
+    <string name="gs_source_local_details">Data already retained on this device. Check coverage and zoom levels before leaving; this basemap is not a complete offline pack.</string>
+    <string name="gs_source_official">Open the official source</string>
+    <string name="gs_source_open_license">Open Licence 2.0</string>
+    <string name="gs_source_service_terms">Mapbox service terms</string>
+    <string name="gs_source_relief_title">Terrain data</string>
+    <string name="gs_source_dem_details">Digital elevation model used to represent terrain in 3D.</string>
+    <string name="gs_source_dem_unavailable">No confirmed terrain source for this view.</string>
+    <string name="gs_source_dem_accuracy">This view does not measure ground elevation or slope. Local accuracy is not determined here.</string>
+    <string name="gs_source_exaggeration_title">Vertical scale</string>
+    <string name="gs_source_scale_label">Terrain exaggeration</string>
+    <string name="gs_source_scale_value">1× to 3×</string>
+    <string name="gs_source_scale_details">1× preserves model heights; 2× or 3× exaggerates them only on screen.</string>
+    <string name="gs_source_camera_label">Camera pitch</string>
+    <string name="gs_source_camera_value">0°: overhead view</string>
+    <string name="gs_source_camera_details">Camera angle changes the viewpoint. It does not indicate ground slope or change your measurements.</string>
+    <string name="gs_source_relief_documentation">Terrain documentation</string>
+    <string name="gs_source_link_unavailable">Unable to open a browser on this device.</string>
+    <string name="gs_source_preview_title">Layer previews</string>
+    <string name="gs_source_preview_credit">© IGN · BD ORTHO® · Open Licence 2.0</string>
+    <string name="gs_source_preview_details">Illustrative Vercors photo with fictitious shapes. It represents neither your data nor a loaded layer. The capture date is not determined here; the IGN dataset page provides update information. Mapbox styles use schematic illustrations.</string>
+</resources>

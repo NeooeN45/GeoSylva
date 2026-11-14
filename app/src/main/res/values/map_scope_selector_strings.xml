@@ -1,0 +1,4 @@
+<resources>
+    <string name="recherche_scope_loading">Chargement des forêts…</string>
+    <string name="recherche_scope_unavailable">Cette zone n’est plus disponible. Réessayez depuis la liste.</string>
+</resources>

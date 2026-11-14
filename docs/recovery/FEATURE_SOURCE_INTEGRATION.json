@@ -1,0 +1,1779 @@
+{
+  "schema": "geosylva.feature-source-integration.v1",
+  "createdUTC": "2026-11-14T19:36:54.016111+00:00",
+  "repository": "/workspace/recovery-geosylva",
+  "sourceStatus": [
+    "PARTIAL_SOURCE_RECOVERY",
+    "NOT_FULL_SOURCE21",
+    "NOT_COMPILED_BY_THIS_INTEGRATION"
+  ],
+  "inputManifests": [
+    {
+      "path": "/workspace/outputs/2026-11-14/recovery-workspace-sources/assembly-selection-index-v2.json",
+      "sha256": "f411ee4ebe41517fbeb3212db5c90d09296aa6f596008816c4e194e411cac67a"
+    },
+    {
+      "path": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "sha256": "47680a8dba2217374ec0deeee72533b376ee7fa43be0b643e1367a37d4a0a1d0"
+    },
+    {
+      "path": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/selection.json",
+      "sha256": "dd831679bac792b42e2a719ebd0196ceeda82d571fad98d4d8224fe45bea933b"
+    },
+    {
+      "path": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-app-share-resources-2026-11-07/selection.json",
+      "sha256": "37ea3807ed9cee1ba6bb85b88f8380deadc60ad802a7a4458a754aac06fb95d5"
+    }
+  ],
+  "copied": [
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/ui/LayerWorkspaceUiTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/layer-ui-versions/01a1b698-9f92-74ef-ad30-f52784a13b53/exec-22695f21-8731-442c-a398-0faa68a512dd/app/src/androidTest/java/com/forestry/counter/ui/LayerWorkspaceUiTest.kt",
+      "sha256": "562abef82d5988ce64d7e21dd2e471dd8e77008354fa00d0a05842a793dbe141",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-workspace-sources/assembly-selection-layer-ui.json",
+      "selectionManifestSha256": "ce484b0bef92c2914179aee720edc7de47d4c064bacb34f7f0a42f3b311b6c85",
+      "provenance": {
+        "history_file": "layers-attributes-batch8.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b698-9f92-74ef-ad30-f52784a13b53",
+        "item": "exec-22695f21-8731-442c-a398-0faa68a512dd",
+        "item_index": 32,
+        "turn_started_at": 1794064818,
+        "turn_completed_at": 1794065189
+      },
+      "dependencyGaps": [],
+      "classification": "selected_exact_observed_source",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureAuxiliaryPanels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/aux-panel-versions/01a1b675-e1db-7682-9339-2958cb48ad8c/exec-8b374327-9bd8-4c82-9000-46669e155a4a/app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureAuxiliaryPanels.kt",
+      "sha256": "76731f955f89e5b5f3b8eafaa3810dece934987d6194c211ef05c718adde6ddd",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-workspace-sources/assembly-selection-aux-panels.json",
+      "selectionManifestSha256": "259ee2878da2f11bf943886739c08600a051b4473241ed293fa2b080436a8850",
+      "provenance": {
+        "history_file": "maquettes-audit-batch4.json",
+        "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+        "item": "exec-8b374327-9bd8-4c82-9000-46669e155a4a",
+        "item_index": 185,
+        "turn_started_at": 1794062541,
+        "turn_completed_at": 1794064511
+      },
+      "dependencyGaps": [
+        "app/src/main/res/values-en/map_measure_auxiliary.xml"
+      ],
+      "classification": "selected_exact_observed_source",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/layers/LayerMapFeatures.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b53b-518f-73ce-a8b0-2916b517b303/exec-5f711b92-6109-4cc3-b848-a2e0df34449e/app/src/main/java/com/forestry/counter/presentation/screens/forestry/layers/LayerMapFeatures.kt",
+      "sha256": "10c400258841ff15bfdaa4fc975a159efef019c6bc4607cf2cdb32340ff39e1b",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-workspace-sources/assembly-selection-layer-adapters.json",
+      "selectionManifestSha256": "8be347c2791b32e163da45004ab702a4792e55442abc4587c29833015a13a678",
+      "provenance": {
+        "history_file": "layers-attributes-batch14.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+        "item": "exec-5f711b92-6109-4cc3-b848-a2e0df34449e",
+        "item_index": 100,
+        "turn_started_at": 1794041926,
+        "turn_completed_at": 1794043836,
+        "shell_header_line": 22,
+        "shell_body_first_line": 23,
+        "shell_body_last_line": 88,
+        "quoted_delimiter": "EOF",
+        "command_truncated_after_complete_declaration": false,
+        "command_status": "completed",
+        "command_exit_code": 0
+      },
+      "dependencyGaps": [
+        "app/src/main/java/com/forestry/counter/presentation/screens/forestry/layers/MapLayerViewModel.kt",
+        "app/src/main/java/com/forestry/counter/data/repository/CartographicLayerRepositoryImpl.kt"
+      ],
+      "classification": "selected_exact_observed_source",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/layers/MapLayerHost.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/layer-adapter-read-versions/01a1b5b3-137f-720f-afe8-32bec9f81829/exec-1105ad60-0a21-419b-9b1b-6f805c4b2628/app/src/main/java/com/forestry/counter/presentation/screens/forestry/layers/MapLayerHost.kt",
+      "sha256": "66660e88749c6ad9c13a741403a74d7c9c25afea02077b18c8f21abcd63d7dc1",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-workspace-sources/assembly-selection-layer-adapters.json",
+      "selectionManifestSha256": "8be347c2791b32e163da45004ab702a4792e55442abc4587c29833015a13a678",
+      "provenance": {
+        "history_file": "layers-attributes-batch12.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b5b3-137f-720f-afe8-32bec9f81829",
+        "item": "exec-1105ad60-0a21-419b-9b1b-6f805c4b2628",
+        "item_index": 44,
+        "turn_started_at": 1794049774,
+        "turn_completed_at": 1794050382
+      },
+      "dependencyGaps": [
+        "app/src/main/java/com/forestry/counter/presentation/screens/forestry/layers/MapLayerViewModel.kt",
+        "app/src/main/java/com/forestry/counter/data/repository/CartographicLayerRepositoryImpl.kt"
+      ],
+      "classification": "selected_exact_observed_source",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values-en/map_workspace_host.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/command-derived-versions/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-f3a8c84d-be1f-4e73-bab1-df686fa043e6/app/src/main/res/values-en/map_workspace_host.xml",
+      "sha256": "e6fffbb55bed3c2bef1369d86f114373cdaaae67abda2e8b16f6bf0d663246e6",
+      "before_sha256": "52cf832262bb1e0ebdabe1a1ab817e06f7e9cea00bd2107e74d176ea07bde8e1",
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-workspace-sources/assembly-selection-core-host-resources.json",
+      "selectionManifestSha256": "85dbd2c9c9e74f5a5ecbf332c38c501f5f2254717afa66b0cbfdbad4bc3dc158",
+      "provenance": {
+        "history_file": "workspace-host-latest.json",
+        "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+        "turn": "01a1b027-9ccd-74c8-af2d-b32550033bef",
+        "item": "exec-f3a8c84d-be1f-4e73-bab1-df686fa043e6",
+        "item_index": 4,
+        "turn_started_at": 1793956748,
+        "turn_completed_at": 1793956954,
+        "classification": "exact_command_evidence",
+        "command_completeness": "syntactically_complete_command_text",
+        "command_sha256": "094d03d9abc815b802afc40e92c3a4526a07972d539436096373fc35e913807a",
+        "output_truncated": null,
+        "evidence": "evidence/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-f3a8c84d-be1f-4e73-bab1-df686fa043e6"
+      },
+      "dependencyGaps": [],
+      "classification": "selected_exact_observed_source",
+      "decision": "COPY_COMPLETE_SELECTED_SUCCESSOR_OF_VERIFIED_PREDECESSOR",
+      "predecessorEvidence": {
+        "path": "app/src/main/res/values-en/map_workspace_host.xml",
+        "version_file": "command-derived-versions/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-f3a8c84d-be1f-4e73-bab1-df686fa043e6/app/src/main/res/values-en/map_workspace_host.xml",
+        "sha256": "e6fffbb55bed3c2bef1369d86f114373cdaaae67abda2e8b16f6bf0d663246e6",
+        "classification": "full_reconstruction_from_observed_literal_replacement",
+        "base_version_file": "versions/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-7073f730-8322-42cf-9e5b-6df22c3aa684/app/src/main/res/values-en/map_workspace_host.xml",
+        "base_sha256": "52cf832262bb1e0ebdabe1a1ab817e06f7e9cea00bd2107e74d176ea07bde8e1",
+        "command_provenance": {
+          "history_file": "workspace-host-latest.json",
+          "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+          "turn": "01a1b027-9ccd-74c8-af2d-b32550033bef",
+          "item": "exec-f3a8c84d-be1f-4e73-bab1-df686fa043e6",
+          "item_index": 4,
+          "turn_started_at": 1793956748,
+          "turn_completed_at": 1793956954,
+          "classification": "exact_command_evidence",
+          "command_completeness": "syntactically_complete_command_text",
+          "command_sha256": "094d03d9abc815b802afc40e92c3a4526a07972d539436096373fc35e913807a",
+          "output_truncated": null,
+          "evidence": "evidence/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-f3a8c84d-be1f-4e73-bab1-df686fa043e6"
+        },
+        "script_line": 39,
+        "old_literal": "</resources>",
+        "new_literal": "    <string name=\"workspace_close_measure\">Leave the measuring tool</string>\n</resources>",
+        "matching_occurrences": 1,
+        "no_historical_code_executed": true,
+        "limitation": "Observed add plus this exact literal operation only; does not establish a complete current source tree."
+      },
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values-en/map_workspace_sources.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/observed-chain-versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f086c8b1-4fa1-49c4-9988-2e603253ea30/app/src/main/res/values-en/map_workspace_sources.xml",
+      "sha256": "7b0d2e504cd54b0331f126a3784203601164976426b63f5d99c10ebbdfc6dabc",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-workspace-sources/assembly-selection-core-host-resources.json",
+      "selectionManifestSha256": "85dbd2c9c9e74f5a5ecbf332c38c501f5f2254717afa66b0cbfdbad4bc3dc158",
+      "provenance": {
+        "history_file": "root0004-full.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b086-572e-70de-80f1-01c0c04a76e8",
+        "item": "exec-f086c8b1-4fa1-49c4-9988-2e603253ea30",
+        "item_index": 52,
+        "turn_started_at": 1793962956,
+        "turn_completed_at": 1793965038,
+        "path": "app/src/main/res/values-en/map_workspace_sources.xml",
+        "change_kind": "update",
+        "diff_truncated": false,
+        "evidence": "evidence/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f086c8b1-4fa1-49c4-9988-2e603253ea30",
+        "diff_file": "evidence/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f086c8b1-4fa1-49c4-9988-2e603253ea30/diffs/app/src/main/res/values-en/map_workspace_sources.xml.diff",
+        "diff_sha256": "08e40ccd7266c9543c4a856cbb81cb202028b2c26d0a0ccc476c8fd0750ddd4e",
+        "classification": "exact_diff_base_unresolved"
+      },
+      "dependencyGaps": [],
+      "classification": "selected_exact_observed_source",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values/map_measure_auxiliary.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/aux-panel-versions/01a1b675-e1db-7682-9339-2958cb48ad8c/exec-8b374327-9bd8-4c82-9000-46669e155a4a/app/src/main/res/values/map_measure_auxiliary.xml",
+      "sha256": "2afdae0877c1c1a8c4a3c54e7c9f8d6173365990f0e185f9733a21385d6c9714",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-workspace-sources/assembly-selection-aux-panels.json",
+      "selectionManifestSha256": "259ee2878da2f11bf943886739c08600a051b4473241ed293fa2b080436a8850",
+      "provenance": {
+        "history_file": "maquettes-audit-batch4.json",
+        "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+        "item": "exec-8b374327-9bd8-4c82-9000-46669e155a4a",
+        "item_index": 185,
+        "turn_started_at": 1794062541,
+        "turn_completed_at": 1794064511
+      },
+      "dependencyGaps": [
+        "app/src/main/res/values-en/map_measure_auxiliary.xml"
+      ],
+      "classification": "selected_exact_observed_source",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values/map_workspace_host.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/command-derived-versions/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-f3a8c84d-be1f-4e73-bab1-df686fa043e6/app/src/main/res/values/map_workspace_host.xml",
+      "sha256": "360b74559644eae0a61b0e31b514fa1960e785092f654867acf7f4bcc712ca87",
+      "before_sha256": "b32f9e9beee8b8b79caa0ce3d09b12c5bba153008c3712a20e638337dad7a97b",
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-workspace-sources/assembly-selection-core-host-resources.json",
+      "selectionManifestSha256": "85dbd2c9c9e74f5a5ecbf332c38c501f5f2254717afa66b0cbfdbad4bc3dc158",
+      "provenance": {
+        "history_file": "workspace-host-latest.json",
+        "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+        "turn": "01a1b027-9ccd-74c8-af2d-b32550033bef",
+        "item": "exec-f3a8c84d-be1f-4e73-bab1-df686fa043e6",
+        "item_index": 4,
+        "turn_started_at": 1793956748,
+        "turn_completed_at": 1793956954,
+        "classification": "exact_command_evidence",
+        "command_completeness": "syntactically_complete_command_text",
+        "command_sha256": "094d03d9abc815b802afc40e92c3a4526a07972d539436096373fc35e913807a",
+        "output_truncated": null,
+        "evidence": "evidence/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-f3a8c84d-be1f-4e73-bab1-df686fa043e6"
+      },
+      "dependencyGaps": [],
+      "classification": "selected_exact_observed_source",
+      "decision": "COPY_COMPLETE_SELECTED_SUCCESSOR_OF_VERIFIED_PREDECESSOR",
+      "predecessorEvidence": {
+        "path": "app/src/main/res/values/map_workspace_host.xml",
+        "version_file": "command-derived-versions/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-f3a8c84d-be1f-4e73-bab1-df686fa043e6/app/src/main/res/values/map_workspace_host.xml",
+        "sha256": "360b74559644eae0a61b0e31b514fa1960e785092f654867acf7f4bcc712ca87",
+        "classification": "full_reconstruction_from_observed_literal_replacement",
+        "base_version_file": "versions/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-7073f730-8322-42cf-9e5b-6df22c3aa684/app/src/main/res/values/map_workspace_host.xml",
+        "base_sha256": "b32f9e9beee8b8b79caa0ce3d09b12c5bba153008c3712a20e638337dad7a97b",
+        "command_provenance": {
+          "history_file": "workspace-host-latest.json",
+          "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+          "turn": "01a1b027-9ccd-74c8-af2d-b32550033bef",
+          "item": "exec-f3a8c84d-be1f-4e73-bab1-df686fa043e6",
+          "item_index": 4,
+          "turn_started_at": 1793956748,
+          "turn_completed_at": 1793956954,
+          "classification": "exact_command_evidence",
+          "command_completeness": "syntactically_complete_command_text",
+          "command_sha256": "094d03d9abc815b802afc40e92c3a4526a07972d539436096373fc35e913807a",
+          "output_truncated": null,
+          "evidence": "evidence/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-f3a8c84d-be1f-4e73-bab1-df686fa043e6"
+        },
+        "script_line": 39,
+        "old_literal": "</resources>",
+        "new_literal": "    <string name=\"workspace_close_measure\">Quitter l’outil de mesure</string>\n</resources>",
+        "matching_occurrences": 1,
+        "no_historical_code_executed": true,
+        "limitation": "Observed add plus this exact literal operation only; does not establish a complete current source tree."
+      },
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values/map_workspace_sources.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/observed-chain-versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f086c8b1-4fa1-49c4-9988-2e603253ea30/app/src/main/res/values/map_workspace_sources.xml",
+      "sha256": "b82d84116dd48277ef21ccaf7a3709c2a2b9f81d3c67be9665c0e3deed2eddef",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-workspace-sources/assembly-selection-core-host-resources.json",
+      "selectionManifestSha256": "85dbd2c9c9e74f5a5ecbf332c38c501f5f2254717afa66b0cbfdbad4bc3dc158",
+      "provenance": {
+        "history_file": "root0004-full.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b086-572e-70de-80f1-01c0c04a76e8",
+        "item": "exec-f086c8b1-4fa1-49c4-9988-2e603253ea30",
+        "item_index": 52,
+        "turn_started_at": 1793962956,
+        "turn_completed_at": 1793965038,
+        "path": "app/src/main/res/values/map_workspace_sources.xml",
+        "change_kind": "update",
+        "diff_truncated": false,
+        "evidence": "evidence/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f086c8b1-4fa1-49c4-9988-2e603253ea30",
+        "diff_file": "evidence/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f086c8b1-4fa1-49c4-9988-2e603253ea30/diffs/app/src/main/res/values/map_workspace_sources.xml.diff",
+        "diff_sha256": "57aef0d6b7c5ab87321559064c56461d8f721f86153ea96402d900da8cb80483",
+        "classification": "exact_diff_base_unresolved"
+      },
+      "dependencyGaps": [],
+      "classification": "selected_exact_observed_source",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/CustomLayerColorPanel.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/layer-ui-current-versions/01a1b698-9f92-74ef-ad30-f52784a13b53/exec-b8d75906-b4a5-4832-a7c5-685ed600518a/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/CustomLayerColorPanel.kt",
+      "sha256": "725de151ebc748dc413ff26ca23c491226230b9298f23f3a36ea8f566c1a77e5",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-workspace-sources/assembly-selection-layer-ui-current.json",
+      "selectionManifestSha256": "1e436b97fa323465ffe622d3ff3aac33089d4d938d1ea1ecfa8054d96313b273",
+      "provenance": {
+        "history_file": "layers-attributes-batch8.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b698-9f92-74ef-ad30-f52784a13b53",
+        "item": "exec-b8d75906-b4a5-4832-a7c5-685ed600518a",
+        "item_index": 9,
+        "turn_started_at": 1794064818,
+        "turn_completed_at": 1794065189
+      },
+      "dependencyGaps": [],
+      "classification": "selected_exact_observed_source",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/layer-ui-versions/01a1b698-9f92-74ef-ad30-f52784a13b53/exec-22695f21-8731-442c-a398-0faa68a512dd/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt",
+      "sha256": "2e049684f2db84cd0dd85e7b1e689f4135089993e4517c7c5b7d781a5e7edced",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-workspace-sources/assembly-selection-layer-ui.json",
+      "selectionManifestSha256": "ce484b0bef92c2914179aee720edc7de47d4c064bacb34f7f0a42f3b311b6c85",
+      "provenance": {
+        "history_file": "layers-attributes-batch8.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b698-9f92-74ef-ad30-f52784a13b53",
+        "item": "exec-22695f21-8731-442c-a398-0faa68a512dd",
+        "item_index": 32,
+        "turn_started_at": 1794064818,
+        "turn_completed_at": 1794065189
+      },
+      "dependencyGaps": [],
+      "classification": "selected_exact_observed_source",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspaceState.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/layer-ui-current-versions/01a1b698-9f92-74ef-ad30-f52784a13b53/exec-3e117579-5a75-4f4c-afcf-27c388dd5a4d/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspaceState.kt",
+      "sha256": "f979157bd2e77e5a52e5b12d93b370ca5fa0344cd408f8da10a7c922dfbdf756",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-workspace-sources/assembly-selection-layer-ui-current.json",
+      "selectionManifestSha256": "1e436b97fa323465ffe622d3ff3aac33089d4d938d1ea1ecfa8054d96313b273",
+      "provenance": {
+        "history_file": "layers-attributes-batch8.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b698-9f92-74ef-ad30-f52784a13b53",
+        "item": "exec-3e117579-5a75-4f4c-afcf-27c388dd5a4d",
+        "item_index": 6,
+        "turn_started_at": 1794064818,
+        "turn_completed_at": 1794065189
+      },
+      "dependencyGaps": [],
+      "classification": "selected_exact_observed_source",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/layer_strings.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/layer-ui-current-versions/01a1b53b-518f-73ce-a8b0-2916b517b303/exec-c66b91d7-5c08-4357-8f2a-c8381386c8b9/cartography-ui/src/main/res/values-en/layer_strings.xml",
+      "sha256": "47c3a1b766c93565dcb4fb528fa15561d1305cda16d44b70c3ff1dc101e338ef",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-workspace-sources/assembly-selection-layer-ui-current.json",
+      "selectionManifestSha256": "1e436b97fa323465ffe622d3ff3aac33089d4d938d1ea1ecfa8054d96313b273",
+      "provenance": {
+        "history_file": "layers-attributes-batch14.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+        "item": "exec-c66b91d7-5c08-4357-8f2a-c8381386c8b9",
+        "item_index": 193,
+        "turn_started_at": 1794041926,
+        "turn_completed_at": 1794043836
+      },
+      "dependencyGaps": [],
+      "classification": "selected_exact_observed_source",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-ui/src/main/res/values/layer_strings.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/layer-ui-current-versions/01a1b53b-518f-73ce-a8b0-2916b517b303/exec-c66b91d7-5c08-4357-8f2a-c8381386c8b9/cartography-ui/src/main/res/values/layer_strings.xml",
+      "sha256": "0efdf0cec0f1167a5804dce7de8febe321ab451a3f43fd01cc908da5450664f2",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-workspace-sources/assembly-selection-layer-ui-current.json",
+      "selectionManifestSha256": "1e436b97fa323465ffe622d3ff3aac33089d4d938d1ea1ecfa8054d96313b273",
+      "provenance": {
+        "history_file": "layers-attributes-batch14.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+        "item": "exec-c66b91d7-5c08-4357-8f2a-c8381386c8b9",
+        "item_index": 193,
+        "turn_started_at": 1794041926,
+        "turn_completed_at": 1794043836
+      },
+      "dependencyGaps": [],
+      "classification": "selected_exact_observed_source",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/CreateParcellePlacetteViewModels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/files/app/src/main/java/com/forestry/counter/presentation/screens/forestry/CreateParcellePlacetteViewModels.kt",
+      "sha256": "9e5301c65d6aa5184f966fb460242fab803c87e11bc36f6a890b27f07a2c8d7f",
+      "before_sha256": "35bbadca6f6530a66a10b6d0539f80c8f066f62451acf2c3ccac1a1b98804f7e",
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "selectionManifestSha256": "47680a8dba2217374ec0deeee72533b376ee7fa43be0b643e1367a37d4a0a1d0",
+      "provenance": {
+        "history_file": "forets-placettes-batch7.json",
+        "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+        "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+        "item": "exec-d0706f64-dc9b-4f55-842e-19675cf74dc4",
+        "item_index": 80,
+        "turn_started_at": 1794041902
+      },
+      "classification": "complete_literal_observed_candidate",
+      "decision": "COPY_COMPLETE_SELECTED_SUCCESSOR_OF_VERIFIED_PREDECESSOR",
+      "chainEvidence": [
+        {
+          "kind": "immutable_git_base",
+          "commit": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+          "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/CreateParcellePlacetteViewModels.kt",
+          "sha256": "35bbadca6f6530a66a10b6d0539f80c8f066f62451acf2c3ccac1a1b98804f7e"
+        },
+        {
+          "kind": "pure_observed_string_mutation",
+          "provenance": {
+            "history_file": "forets-placettes-batch7.json",
+            "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+            "item": "exec-4466884c-1681-4358-99e2-4d3b6384d90e",
+            "item_index": 43,
+            "turn_started_at": 1794041902
+          },
+          "sha256": "222db5a6b77c2db07ea74244d3be24853cc1fe3a3cbc0a1e40380e2d4d798e43",
+          "before_sha256": "35bbadca6f6530a66a10b6d0539f80c8f066f62451acf2c3ccac1a1b98804f7e"
+        },
+        {
+          "kind": "pure_observed_string_mutation",
+          "provenance": {
+            "history_file": "forets-placettes-batch7.json",
+            "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+            "item": "exec-401d9c05-b622-4f6c-8b7d-089f23030554",
+            "item_index": 65,
+            "turn_started_at": 1794041902
+          },
+          "sha256": "4cdf3262e05226d872dc5a0f3e549aea27855ba66a2729846aad528ee90f7f9f",
+          "before_sha256": "222db5a6b77c2db07ea74244d3be24853cc1fe3a3cbc0a1e40380e2d4d798e43"
+        },
+        {
+          "kind": "pure_observed_string_mutation",
+          "provenance": {
+            "history_file": "forets-placettes-batch7.json",
+            "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+            "item": "exec-d0706f64-dc9b-4f55-842e-19675cf74dc4",
+            "item_index": 80,
+            "turn_started_at": 1794041902
+          },
+          "sha256": "9e5301c65d6aa5184f966fb460242fab803c87e11bc36f6a890b27f07a2c8d7f",
+          "before_sha256": "4cdf3262e05226d872dc5a0f3e549aea27855ba66a2729846aad528ee90f7f9f"
+        }
+      ],
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/CreateParcellePlacetteWizards.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/files/app/src/main/java/com/forestry/counter/presentation/screens/forestry/CreateParcellePlacetteWizards.kt",
+      "sha256": "74771af7e6dedce37355d0c2adc273e5c0847294caf1b9899a6f4b0b33bfc748",
+      "before_sha256": "d4c5f9e3e1e08e6f2e6f8bf0d993f0b09b72c111c662a3db2464f0f9196d1afc",
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "selectionManifestSha256": "47680a8dba2217374ec0deeee72533b376ee7fa43be0b643e1367a37d4a0a1d0",
+      "provenance": {
+        "history_file": "forets-placettes-batch7.json",
+        "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+        "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+        "item": "exec-d0706f64-dc9b-4f55-842e-19675cf74dc4",
+        "item_index": 80,
+        "turn_started_at": 1794041902
+      },
+      "classification": "complete_literal_observed_candidate",
+      "decision": "COPY_COMPLETE_SELECTED_SUCCESSOR_OF_VERIFIED_PREDECESSOR",
+      "chainEvidence": [
+        {
+          "kind": "immutable_git_base",
+          "commit": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+          "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/CreateParcellePlacetteWizards.kt",
+          "sha256": "d4c5f9e3e1e08e6f2e6f8bf0d993f0b09b72c111c662a3db2464f0f9196d1afc"
+        },
+        {
+          "kind": "pure_observed_string_mutation",
+          "provenance": {
+            "history_file": "forets-placettes-batch7.json",
+            "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+            "item": "exec-da3b3dd6-bdce-467f-b7e5-a97cad9a279f",
+            "item_index": 58,
+            "turn_started_at": 1794041902
+          },
+          "sha256": "086e9fa997a5d9312df9a454beb57af2efbb7203cc76fce48eb609fc45277801",
+          "before_sha256": "d4c5f9e3e1e08e6f2e6f8bf0d993f0b09b72c111c662a3db2464f0f9196d1afc"
+        },
+        {
+          "kind": "pure_observed_string_mutation",
+          "provenance": {
+            "history_file": "forets-placettes-batch7.json",
+            "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+            "item": "exec-401d9c05-b622-4f6c-8b7d-089f23030554",
+            "item_index": 65,
+            "turn_started_at": 1794041902
+          },
+          "sha256": "29edb4c14a8f6847aaf19615e3f7c672c9e8bf1c335e467a5f4c9b37fda7f16f",
+          "before_sha256": "086e9fa997a5d9312df9a454beb57af2efbb7203cc76fce48eb609fc45277801"
+        },
+        {
+          "kind": "pure_observed_string_mutation",
+          "provenance": {
+            "history_file": "forets-placettes-batch7.json",
+            "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+            "item": "exec-d0706f64-dc9b-4f55-842e-19675cf74dc4",
+            "item_index": 80,
+            "turn_started_at": 1794041902
+          },
+          "sha256": "74771af7e6dedce37355d0c2adc273e5c0847294caf1b9899a6f4b0b33bfc748",
+          "before_sha256": "29edb4c14a8f6847aaf19615e3f7c672c9e8bf1c335e467a5f4c9b37fda7f16f"
+        }
+      ],
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapTreeWorkspace.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/files/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapTreeWorkspace.kt",
+      "sha256": "56213482796adb3a064cb438423bf4e98d873d026cf177eb34c07237cf5a2ed0",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "selectionManifestSha256": "47680a8dba2217374ec0deeee72533b376ee7fa43be0b643e1367a37d4a0a1d0",
+      "provenance": {
+        "history_file": "trees-filters-batch11.json",
+        "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+        "item": "exec-b46a92da-3726-4dbd-9770-48c2642969e4",
+        "item_index": 58,
+        "turn_started_at": 1794041913
+      },
+      "classification": "complete_literal_observed_candidate",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ParcelMapCreationViewModel.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/files/app/src/main/java/com/forestry/counter/presentation/screens/forestry/ParcelMapCreationViewModel.kt",
+      "sha256": "136fe6e472887608eec00376190b8076e2a136f5de54209e820e985a057e91b7",
+      "before_sha256": "cc071c4d2f506eec17540064f67e2fea79397d8c4fe04ad56406f5a33927bcf3",
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "selectionManifestSha256": "47680a8dba2217374ec0deeee72533b376ee7fa43be0b643e1367a37d4a0a1d0",
+      "provenance": {
+        "history_file": "forets-placettes-batch7.json",
+        "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+        "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+        "item": "exec-1ef78a2b-e5a6-4722-bb21-d245a35307af",
+        "item_index": 76,
+        "turn_started_at": 1794041902
+      },
+      "classification": "complete_literal_observed_candidate",
+      "decision": "COPY_COMPLETE_SELECTED_SUCCESSOR_OF_VERIFIED_PREDECESSOR",
+      "chainEvidence": [
+        {
+          "kind": "immutable_git_base",
+          "commit": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+          "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ParcelMapCreationViewModel.kt",
+          "sha256": "cc071c4d2f506eec17540064f67e2fea79397d8c4fe04ad56406f5a33927bcf3"
+        },
+        {
+          "kind": "pure_observed_string_mutation",
+          "provenance": {
+            "history_file": "forets-placettes-batch7.json",
+            "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+            "item": "exec-d73718d2-9855-4559-9dac-0e1ffe661cfb",
+            "item_index": 56,
+            "turn_started_at": 1794041902
+          },
+          "sha256": "2ad0e8c2315dfbaed002c6f210fabceb15cbe7097687a18da040eaa01505aeab",
+          "before_sha256": "cc071c4d2f506eec17540064f67e2fea79397d8c4fe04ad56406f5a33927bcf3"
+        },
+        {
+          "kind": "strict_observed_diff",
+          "provenance": {
+            "history_file": "forets-placettes-batch7.json",
+            "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+            "item": "exec-1ef78a2b-e5a6-4722-bb21-d245a35307af",
+            "item_index": 76,
+            "turn_started_at": 1794041902
+          },
+          "sha256": "136fe6e472887608eec00376190b8076e2a136f5de54209e820e985a057e91b7",
+          "before_sha256": "2ad0e8c2315dfbaed002c6f210fabceb15cbe7097687a18da040eaa01505aeab"
+        }
+      ],
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/CreateParcelleViewModelTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/files/app/src/test/java/com/forestry/counter/presentation/screens/forestry/CreateParcelleViewModelTest.kt",
+      "sha256": "29f84bcbf96e6d067642dce0e3f5c87369c6d5e7e661ab5cd3749131ae84065f",
+      "before_sha256": "e9a1d6c9429057d2eeebd9a06819f69d0cbe519471e93e6a5f8ffad428f1c67a",
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "selectionManifestSha256": "47680a8dba2217374ec0deeee72533b376ee7fa43be0b643e1367a37d4a0a1d0",
+      "provenance": {
+        "history_file": "forets-placettes-batch7.json",
+        "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+        "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+        "item": "exec-f417742e-dd53-49ab-b03f-219302672a1b",
+        "item_index": 99,
+        "turn_started_at": 1794041902
+      },
+      "classification": "complete_literal_observed_candidate",
+      "decision": "COPY_COMPLETE_SELECTED_SUCCESSOR_OF_VERIFIED_PREDECESSOR",
+      "chainEvidence": [
+        {
+          "kind": "complete_literal_add",
+          "provenance": {
+            "history_file": "forets-placettes-batch7.json",
+            "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+            "item": "exec-1ef78a2b-e5a6-4722-bb21-d245a35307af",
+            "item_index": 76,
+            "turn_started_at": 1794041902
+          },
+          "sha256": "e9a1d6c9429057d2eeebd9a06819f69d0cbe519471e93e6a5f8ffad428f1c67a"
+        },
+        {
+          "kind": "pure_observed_string_mutation",
+          "provenance": {
+            "history_file": "forets-placettes-batch7.json",
+            "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+            "item": "exec-f417742e-dd53-49ab-b03f-219302672a1b",
+            "item_index": 99,
+            "turn_started_at": 1794041902
+          },
+          "sha256": "29f84bcbf96e6d067642dce0e3f5c87369c6d5e7e661ab5cd3749131ae84065f",
+          "before_sha256": "e9a1d6c9429057d2eeebd9a06819f69d0cbe519471e93e6a5f8ffad428f1c67a"
+        }
+      ],
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/CreatePlacetteViewModelTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/files/app/src/test/java/com/forestry/counter/presentation/screens/forestry/CreatePlacetteViewModelTest.kt",
+      "sha256": "10494e3ffa4932c9f7de5d3fb0305a57a51542f6e5eeaadf8cec8c75c1593e95",
+      "before_sha256": "378b5b3d4624da6d2667d6c828d69d0375696b2a5d0468f7816847c2939287d5",
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "selectionManifestSha256": "47680a8dba2217374ec0deeee72533b376ee7fa43be0b643e1367a37d4a0a1d0",
+      "provenance": {
+        "history_file": "forets-placettes-batch7.json",
+        "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+        "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+        "item": "exec-f417742e-dd53-49ab-b03f-219302672a1b",
+        "item_index": 99,
+        "turn_started_at": 1794041902
+      },
+      "classification": "complete_literal_observed_candidate",
+      "decision": "COPY_COMPLETE_SELECTED_SUCCESSOR_OF_VERIFIED_PREDECESSOR",
+      "chainEvidence": [
+        {
+          "kind": "immutable_git_base",
+          "commit": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+          "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/CreatePlacetteViewModelTest.kt",
+          "sha256": "378b5b3d4624da6d2667d6c828d69d0375696b2a5d0468f7816847c2939287d5"
+        },
+        {
+          "kind": "strict_observed_diff",
+          "provenance": {
+            "history_file": "forets-placettes-batch7.json",
+            "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+            "item": "exec-b30042de-0c86-489c-9616-14fb744b3b4d",
+            "item_index": 74,
+            "turn_started_at": 1794041902
+          },
+          "sha256": "acdecc697b5532e3b298bc8974f6fb72d0fc687c9d0f4cd81d8f4c8d49b0eb0b",
+          "before_sha256": "378b5b3d4624da6d2667d6c828d69d0375696b2a5d0468f7816847c2939287d5"
+        },
+        {
+          "kind": "pure_observed_string_mutation",
+          "provenance": {
+            "history_file": "forets-placettes-batch7.json",
+            "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+            "item": "exec-f417742e-dd53-49ab-b03f-219302672a1b",
+            "item_index": 99,
+            "turn_started_at": 1794041902
+          },
+          "sha256": "10494e3ffa4932c9f7de5d3fb0305a57a51542f6e5eeaadf8cec8c75c1593e95",
+          "before_sha256": "acdecc697b5532e3b298bc8974f6fb72d0fc687c9d0f4cd81d8f4c8d49b0eb0b"
+        }
+      ],
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/ParcelMapCreationViewModelTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/files/app/src/test/java/com/forestry/counter/presentation/screens/forestry/ParcelMapCreationViewModelTest.kt",
+      "sha256": "a4da31f152317fe6c0aa73e70b2896120f39f675d2454acbbb6f50cb765ceb38",
+      "before_sha256": "f981caedf42d7432c4562b4d4a9ff5c7e2b2d6a0970bd217cc20e412d4391ef0",
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "selectionManifestSha256": "47680a8dba2217374ec0deeee72533b376ee7fa43be0b643e1367a37d4a0a1d0",
+      "provenance": {
+        "history_file": "forets-placettes-batch7.json",
+        "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+        "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+        "item": "exec-b30042de-0c86-489c-9616-14fb744b3b4d",
+        "item_index": 74,
+        "turn_started_at": 1794041902
+      },
+      "classification": "complete_literal_observed_candidate",
+      "decision": "COPY_COMPLETE_SELECTED_SUCCESSOR_OF_VERIFIED_PREDECESSOR",
+      "chainEvidence": [
+        {
+          "kind": "immutable_git_base",
+          "commit": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+          "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/ParcelMapCreationViewModelTest.kt",
+          "sha256": "f981caedf42d7432c4562b4d4a9ff5c7e2b2d6a0970bd217cc20e412d4391ef0"
+        },
+        {
+          "kind": "strict_observed_diff",
+          "provenance": {
+            "history_file": "forets-placettes-batch7.json",
+            "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+            "item": "exec-b30042de-0c86-489c-9616-14fb744b3b4d",
+            "item_index": 74,
+            "turn_started_at": 1794041902
+          },
+          "sha256": "a4da31f152317fe6c0aa73e70b2896120f39f675d2454acbbb6f50cb765ceb38",
+          "before_sha256": "f981caedf42d7432c4562b4d4a9ff5c7e2b2d6a0970bd217cc20e412d4391ef0"
+        }
+      ],
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/tree_strings.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/files/cartography-ui/src/main/res/values-en/tree_strings.xml",
+      "sha256": "a11dcb4e1207cd400261dfb3763104ee75872869f20f75779239d0e5b02ca817",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "selectionManifestSha256": "47680a8dba2217374ec0deeee72533b376ee7fa43be0b643e1367a37d4a0a1d0",
+      "provenance": {
+        "history_file": "trees-filters-batch11.json",
+        "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+        "item": "exec-741e9fbc-df95-4bba-ac96-a8e0d542ad18",
+        "item_index": 48,
+        "turn_started_at": 1794041913
+      },
+      "classification": "complete_literal_observed_candidate",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-ui/src/main/res/values/tree_strings.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/files/cartography-ui/src/main/res/values/tree_strings.xml",
+      "sha256": "f11b09ac06222637d127010df0f8a7d7b66c26f2facfce2da9c0f02bac9f0bf7",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/frozen-core19/selection.json",
+      "selectionManifestSha256": "47680a8dba2217374ec0deeee72533b376ee7fa43be0b643e1367a37d4a0a1d0",
+      "provenance": {
+        "history_file": "trees-filters-batch11.json",
+        "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+        "item": "exec-741e9fbc-df95-4bba-ac96-a8e0d542ad18",
+        "item_index": 48,
+        "turn_started_at": 1794041913
+      },
+      "classification": "complete_literal_observed_candidate",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/RechercheScopeCatalog.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/versions/exec-532890ea-ae98-4fae-8834-1a06062697b7/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RechercheScopeCatalog.kt",
+      "sha256": "69eee04a829aa1a2b1dc11473dec8e9129680de6fb24087dbf42ff8e732c2539",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/selection.json",
+      "selectionManifestSha256": "dd831679bac792b42e2a719ebd0196ceeda82d571fad98d4d8224fe45bea933b",
+      "provenance": [
+        {
+          "kind": "complete_literal_staged_heredoc",
+          "provenance": {
+            "history_file": "layers-attributes-batch7.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b6ae-49bb-7216-ad32-5159ec566b69",
+            "item": "exec-ebb31c5c-0c47-4cc1-9a8e-dc8a2e04390e",
+            "item_index": 65,
+            "turn_started_at": 1794066238
+          },
+          "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/versions/exec-ebb31c5c-0c47-4cc1-9a8e-dc8a2e04390e/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RechercheScopeCatalog.kt",
+          "sha256": "d511bc1b1c6b8ec2bd38d413d01193291c91dc7fa88e10c3ea8ae98805baf545"
+        },
+        {
+          "kind": "complete_bounded_current_catalogue_read",
+          "provenance": {
+            "history_file": "layers-attributes-batch7.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b6ae-49bb-7216-ad32-5159ec566b69",
+            "item": "exec-fa863ee1-e563-441c-b8cf-09f8be19eb9a",
+            "item_index": 85,
+            "turn_started_at": 1794066238
+          },
+          "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/versions/exec-fa863ee1-e563-441c-b8cf-09f8be19eb9a/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RechercheScopeCatalog.kt",
+          "sha256": "071db666e7bcb16952c8b36d3d9ddd55d5b913cb52c95f1e6c522c844ee3f0a0"
+        },
+        {
+          "kind": "pure_literal_final_staged_update",
+          "provenance": {
+            "history_file": "layers-attributes-batch7.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b6ae-49bb-7216-ad32-5159ec566b69",
+            "item": "exec-532890ea-ae98-4fae-8834-1a06062697b7",
+            "item_index": 93,
+            "turn_started_at": 1794066238
+          },
+          "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/versions/exec-532890ea-ae98-4fae-8834-1a06062697b7/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RechercheScopeCatalog.kt",
+          "sha256": "69eee04a829aa1a2b1dc11473dec8e9129680de6fb24087dbf42ff8e732c2539",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "        } ?: return null\n        try {",
+              "new": "        } ?: return null\n        // Existing String navigation keys must round-trip to the exact typed object, never a reserved-key alias.\n        if (MapDataScope.fromLegacyKey(route) != target.scope) return null\n        try {",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 7,
+              "old": "            if (parcel != null) {\n                val expectedKind",
+              "new": "            if (token.scope != target.scope) return null\n            if (parcel != null) {\n                val expectedKind",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ]
+        }
+      ],
+      "classification": "COMPLETE_OBSERVED_HISTORICAL_BRANCH",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "temporalScope": "Complete final observed terrain-scope11 branch, Nov7. Main-tree adoption and whole13Nov source identity are not asserted by this sub-lot.",
+      "adoptionAsserted": false,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/RechercheScopeSelectorScreen.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/versions/exec-f6bf9015-8369-42c9-9924-a53927dab746/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RechercheScopeSelectorScreen.kt",
+      "sha256": "3de3856d3a8ba85a62522f03f9e99801ef4ca5cec338d4b49201c620721851f3",
+      "before_sha256": "26f394f11038c1fa095ec3c8b6129466c9005bd10228a7fcad3db145da7ca238",
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/selection.json",
+      "selectionManifestSha256": "dd831679bac792b42e2a719ebd0196ceeda82d571fad98d4d8224fe45bea933b",
+      "provenance": [
+        {
+          "kind": "immutable_git_base_with_complete_historical_read_match",
+          "commit": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+          "sha256": "26f394f11038c1fa095ec3c8b6129466c9005bd10228a7fcad3db145da7ca238",
+          "provenance": {
+            "history_file": "layers-attributes-batch7.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b6ae-49bb-7216-ad32-5159ec566b69",
+            "item": "exec-709374a3-03b1-450a-a79d-494dde5b37b4",
+            "item_index": 3,
+            "turn_started_at": 1794066238
+          }
+        },
+        {
+          "kind": "pure_literal_branch_reconstruction",
+          "provenance": {
+            "history_file": "layers-attributes-batch7.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b6ae-49bb-7216-ad32-5159ec566b69",
+            "item": "exec-f6bf9015-8369-42c9-9924-a53927dab746",
+            "item_index": 89,
+            "turn_started_at": 1794066238
+          },
+          "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/versions/exec-f6bf9015-8369-42c9-9924-a53927dab746/app/src/main/java/com/forestry/counter/presentation/screens/forestry/RechercheScopeSelectorScreen.kt",
+          "sha256": "3de3856d3a8ba85a62522f03f9e99801ef4ca5cec338d4b49201c620721851f3",
+          "before_sha256": "26f394f11038c1fa095ec3c8b6129466c9005bd10228a7fcad3db145da7ca238",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 5,
+              "old": "import com.forestry.counter.domain.model.Group\n",
+              "new": "",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 5,
+              "old": "import com.forestry.counter.domain.model.Placette\n",
+              "new": "",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 5,
+              "old": "import androidx.compose.foundation.background\n",
+              "new": "",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_append",
+              "script_line": 6,
+              "text": "import androidx.compose.runtime.key\nimport androidx.compose.runtime.rememberCoroutineScope\nimport androidx.compose.runtime.rememberUpdatedState\nimport com.forestry.counter.data.cartography.CartographicScopeAuthority\nimport com.forestry.counter.data.sync.hierarchy.BusinessReadAccess\nimport com.forestry.counter.domain.repository.ForetRepository\nimport com.forestry.counter.domain.usecase.maps.ForestScopeChoice\nimport com.forestry.counter.domain.usecase.maps.MapDataScope\nimport com.forestry.counter.domain.usecase.maps.belongsToForestScope\nimport kotlinx.coroutines.ensureActive\nimport kotlinx.coroutines.launch\n\n"
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 20,
+              "old": "    onClick: () -> Unit,",
+              "new": "    onClick: () -> Unit,\n    enabled: Boolean = true,",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 21,
+              "old": ".clickable(onClick = onClick)",
+              "new": ".clickable(enabled = enabled,onClick = onClick)",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 22,
+              "old": ".clickable(onClick = onTrailingClick)",
+              "new": ".clickable(enabled = enabled,onClick = onTrailingClick)",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ]
+        }
+      ],
+      "classification": "COMPLETE_OBSERVED_HISTORICAL_BRANCH",
+      "decision": "COPY_COMPLETE_SELECTED_HISTORICAL_BRANCH_SUCCESSOR_OF_VERIFIED_BASE",
+      "predecessorEvidence": [
+        {
+          "kind": "complete_actual_Nov7_source_matches_immutable_git_base",
+          "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/RechercheScopeSelectorScreen.kt",
+          "commit": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+          "sha256": "26f394f11038c1fa095ec3c8b6129466c9005bd10228a7fcad3db145da7ca238",
+          "provenance": {
+            "history_file": "layers-attributes-batch7.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b6ae-49bb-7216-ad32-5159ec566b69",
+            "item": "exec-709374a3-03b1-450a-a79d-494dde5b37b4",
+            "item_index": 3,
+            "turn_started_at": 1794066238
+          }
+        }
+      ],
+      "temporalScope": "Complete final observed terrain-scope11 branch, Nov7. Main-tree adoption and whole13Nov source identity are not asserted by this sub-lot.",
+      "adoptionAsserted": false,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values-en/map_scope_selector_strings.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/versions/exec-f6bf9015-8369-42c9-9924-a53927dab746/app/src/main/res/values-en/map_scope_selector_strings.xml",
+      "sha256": "82196ea17934180996ab5e7f994b4f2f81da864cffc2f0b4c58d50aec6e8570e",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/selection.json",
+      "selectionManifestSha256": "dd831679bac792b42e2a719ebd0196ceeda82d571fad98d4d8224fe45bea933b",
+      "provenance": [
+        {
+          "kind": "pure_literal_branch_reconstruction",
+          "provenance": {
+            "history_file": "layers-attributes-batch7.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b6ae-49bb-7216-ad32-5159ec566b69",
+            "item": "exec-f6bf9015-8369-42c9-9924-a53927dab746",
+            "item_index": 89,
+            "turn_started_at": 1794066238
+          },
+          "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/versions/exec-f6bf9015-8369-42c9-9924-a53927dab746/app/src/main/res/values-en/map_scope_selector_strings.xml",
+          "sha256": "82196ea17934180996ab5e7f994b4f2f81da864cffc2f0b4c58d50aec6e8570e",
+          "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "operations": []
+        }
+      ],
+      "classification": "COMPLETE_OBSERVED_HISTORICAL_BRANCH",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "temporalScope": "Complete final observed terrain-scope11 branch, Nov7. Main-tree adoption and whole13Nov source identity are not asserted by this sub-lot.",
+      "adoptionAsserted": false,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values/map_scope_selector_strings.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/versions/exec-f6bf9015-8369-42c9-9924-a53927dab746/app/src/main/res/values/map_scope_selector_strings.xml",
+      "sha256": "3103ebec535e0582df8e74847f80e24912b4d144f50da543858c9cb8f4b05695",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/selection.json",
+      "selectionManifestSha256": "dd831679bac792b42e2a719ebd0196ceeda82d571fad98d4d8224fe45bea933b",
+      "provenance": [
+        {
+          "kind": "pure_literal_branch_reconstruction",
+          "provenance": {
+            "history_file": "layers-attributes-batch7.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b6ae-49bb-7216-ad32-5159ec566b69",
+            "item": "exec-f6bf9015-8369-42c9-9924-a53927dab746",
+            "item_index": 89,
+            "turn_started_at": 1794066238
+          },
+          "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/versions/exec-f6bf9015-8369-42c9-9924-a53927dab746/app/src/main/res/values/map_scope_selector_strings.xml",
+          "sha256": "3103ebec535e0582df8e74847f80e24912b4d144f50da543858c9cb8f4b05695",
+          "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "operations": []
+        }
+      ],
+      "classification": "COMPLETE_OBSERVED_HISTORICAL_BRANCH",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "temporalScope": "Complete final observed terrain-scope11 branch, Nov7. Main-tree adoption and whole13Nov source identity are not asserted by this sub-lot.",
+      "adoptionAsserted": false,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/trace/TraceShareExportTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-app-share-resources-2026-11-07/recovered/app/src/test/java/com/forestry/counter/presentation/screens/forestry/trace/TraceShareExportTest.kt",
+      "sha256": "d73a4ed515551fdedcf5c36d0bc68711fb111611a885c9acca6b86d2e73e8e6e",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-app-share-resources-2026-11-07/selection.json",
+      "selectionManifestSha256": "37ea3807ed9cee1ba6bb85b88f8380deadc60ad802a7a4458a754aac06fb95d5",
+      "provenance": [
+        {
+          "source": "trees-filters-batch11.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b567-d93b-7506-ad88-c209c8a43ac3",
+          "item": "exec-9d0a1419-a999-409f-bfba-6ab02ae5fdce",
+          "itemIndex": 16
+        },
+        {
+          "source": "trees-filters-batch11.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b567-d93b-7506-ad88-c209c8a43ac3",
+          "item": "exec-0ef38e53-90ef-4743-833e-d47496b02dc5",
+          "itemIndex": 30
+        }
+      ],
+      "classification": "selected",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values/map_trace_runtime.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-app-share-resources-2026-11-07/recovered/app/src/main/res/values/map_trace_runtime.xml",
+      "sha256": "f5d0a330815e6adc1bb9078a0e9506c909df66b099a0cd73a2608f51ed49e340",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-app-share-resources-2026-11-07/selection.json",
+      "selectionManifestSha256": "37ea3807ed9cee1ba6bb85b88f8380deadc60ad802a7a4458a754aac06fb95d5",
+      "provenance": [
+        {
+          "source": "trees-filters-batch11.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "item": "exec-92caf97e-835f-4c15-abc1-e33c5e14c98e",
+          "itemIndex": 115
+        }
+      ],
+      "classification": "selected",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values-en/map_trace_runtime.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-app-share-resources-2026-11-07/recovered/app/src/main/res/values-en/map_trace_runtime.xml",
+      "sha256": "c0b448005c34e75a70083ba49bd30580d8ec6832eed1548addbf9c430366f5f8",
+      "before_sha256": null,
+      "selectionManifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-app-share-resources-2026-11-07/selection.json",
+      "selectionManifestSha256": "37ea3807ed9cee1ba6bb85b88f8380deadc60ad802a7a4458a754aac06fb95d5",
+      "provenance": [
+        {
+          "source": "trees-filters-batch11.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "item": "exec-92caf97e-835f-4c15-abc1-e33c5e14c98e",
+          "itemIndex": 115
+        }
+      ],
+      "classification": "selected",
+      "decision": "COPY_COMPLETE_SELECTED_FILE_ABSENT_FROM_CHECKOUT",
+      "copied_sha256_verified": true
+    }
+  ],
+  "alreadyIdentical": [
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/ui/MapModalStatusBarTest.kt",
+      "sha256": "df75eee8667723a03dab77738f55e8a6b40cb9062a5d070bdc29478ecd41d4b6"
+    },
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/ui/MapSourcePanelUiTest.kt",
+      "sha256": "9ab886c1109c08f705404a63b09ffd7ef56a86d45760caa12511f28631caab4b"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/components/maps/MapCatalogThumbnail.kt",
+      "sha256": "24e68c9d5c7e881aef7431750f17382cd9735a703e9b82498514b3456d6a55c1"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/components/maps/MapModalStatusBar.kt",
+      "sha256": "84f897bfbacae3bc649c705df7e43906a7cc15fcbab36b693db7547a5ee38b7b"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt",
+      "sha256": "023f7906609c64dc633499dbc2c202721208dbaa3e7af7a60a4772d645a1f208"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureViewModel.kt",
+      "sha256": "746cd1b322aa8d34c21edada0b7d306e5278405c8494affdb2528353fec7e3a1"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "sha256": "44b5d83e4196d05a4af3d4e70032703d625e79cf9f2427e75c3a7af37d9a7e7b"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+      "sha256": "f082a68b7c448c4ea26839dc78d66692143120e1c4d3eff72d6df002870f208f"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostPolicy.kt",
+      "sha256": "b7686b9eb3d907148ed452e2a53c47d82ffa2bea8082ab41f3c6a94503de8904"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+      "sha256": "39b3d84c0bbade7e11ff9645c38f58aa12822b4b8848979e40dbd43ca83e80d7"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/MapTraceController.kt",
+      "sha256": "5e2701b53c69811369519cd2977759558fc53719bfa5dfc67873850945e742f4"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/MapTraceHost.kt",
+      "sha256": "a3a66427150dcef68320a503ca81ff90c095e86b49b8369e1de38baaaf0f0c5f"
+    },
+    {
+      "path": "app/src/main/res/values-en/map_catalog_preview.xml",
+      "sha256": "c75ea474955e2ae8babb6bc9b05581ce8cd8509269962296d579b74244480aed"
+    },
+    {
+      "path": "app/src/main/res/values-en/map_manual_measure.xml",
+      "sha256": "091d87b165a2728fc05025d2231b703df58804aa32592e645e80993c0bf28ce5"
+    },
+    {
+      "path": "app/src/main/res/values-en/map_workspace_host_dialogs.xml",
+      "sha256": "2f165cb30ffb38bb79c70c21c1f5b867e46166fbe82b94f5a674b439d7dd985c"
+    },
+    {
+      "path": "app/src/main/res/values/map_catalog_preview.xml",
+      "sha256": "caa381047cddf871ca6602cca7c54825e01a91091eccbd3709035fae4a1efbc8"
+    },
+    {
+      "path": "app/src/main/res/values/map_manual_measure.xml",
+      "sha256": "621e43c50ee4bb3c889b5c258d56cd09eadbdba3dc0415931f1ac7f08954f607"
+    },
+    {
+      "path": "app/src/main/res/values/map_workspace_host_dialogs.xml",
+      "sha256": "e7ce1371bd4b4ae57c02b9aa1668b965223bdf5f0912396f139ea86e6caa60f8"
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapCompactSlider.kt",
+      "sha256": "e754c1e8d1e748a92e78689cfa249fa45a93cc22c945f9d85f3658faa2abe43c"
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt",
+      "sha256": "18f1f097e249068a3ba4e8ee7784b0ad2d50676c0daddc0291b5beccb9f80eb0"
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceLayout.kt",
+      "sha256": "f93ce1426139cbdd8392d16551d480d30a1de9209197bb2478b7250dde1d35ed"
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceState.kt",
+      "sha256": "efa4d2007ce0db180fe8221e01777b8a0559e2096525ed81f4346c595ea26365"
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasurePanels.kt",
+      "sha256": "b13aaf96f7f8bbf6d5160a9799dbc56c2b921216a5c4cd6b0d6dce702f5b6b9a"
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasureUi.kt",
+      "sha256": "680701223935a700fb40d8237e1d72d73e841a1294a4956179596a1a7e012599"
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasureWorkspace.kt",
+      "sha256": "f11f7b656f5124622a31070fb1281b36d8fe0569a9bf6d8928ccfc135333f03d"
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasureWorkspaceState.kt",
+      "sha256": "6684e4913428bc4d599ade21704d99b98a772a7b3befed983e4da2511b61a81c"
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+      "sha256": "30b86f7ec2f4ba759f612ed5fe29be22e638c70d442fd87a9b7548d0f89002e0"
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "sha256": "71ffaa3c8d439b27bfb0f6b7673a5aa2ebc5d01128a5d3a2c940878978e31a08"
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/catalog_visuals.xml",
+      "sha256": "39f3627d11bc7e3bfe9a87b1e5ba7cbf1c6a3e0c11096fbbee1b34906139b5ff"
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/measure_strings.xml",
+      "sha256": "98d34cbf2e76983e92dfb5120af645a7cc4d385ade5a6081c46e41cc1890bc99"
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/source_panel_strings.xml",
+      "sha256": "7ed5ba6a20678d0c28a76428becf5684199fa106f548bcf9d9d43cb86f635da3"
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/strings.xml",
+      "sha256": "942b443ad56dc67c5bc2454c10663136cae6083129d70301049509d90cb127dc"
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/trace_strings.xml",
+      "sha256": "4f062ed5868da09d9f0595d36facbde6a0cddbff7598f04ce36bd56d3d86343a"
+    },
+    {
+      "path": "cartography-ui/src/main/res/values/catalog_visuals.xml",
+      "sha256": "b978a9da7495dcb368bc12b656962feb110d3efa202574a01d0ecbdc9c7eab92"
+    },
+    {
+      "path": "cartography-ui/src/main/res/values/measure_strings.xml",
+      "sha256": "c0e2032347ea2240dfb36bc74e61b827a1ca36b885a83ed324e307e2bf4b7ed7"
+    },
+    {
+      "path": "cartography-ui/src/main/res/values/source_panel_strings.xml",
+      "sha256": "0fa6a1b989ec1f2698d8a7b0f98a71ac66e465c1278ba0dbdeee7c404471a7ce"
+    },
+    {
+      "path": "cartography-ui/src/main/res/values/strings.xml",
+      "sha256": "0a56a82443100424ddbe3f2136f8e1df751032227dd22a05071caa49874bb4ed"
+    },
+    {
+      "path": "cartography-ui/src/main/res/values/trace_strings.xml",
+      "sha256": "d1ba2df161c307476d81c9313178c3ddcd83e755cad5ec9b194e13cbff89533b"
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trees/TreeWorkspaceState.kt",
+      "sha256": "617abb325ba9ac91dc4d5a2a426ef87675eb86007a2c02ffa3a0634b7c9b5e06"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/TraceShareExport.kt",
+      "sha256": "e5d3091c8408109ca16c9357468b0631a043a1c59f9bbd5ce91c8af2d1ec30a1"
+    }
+  ],
+  "outsideScope": [
+    {
+      "path": "cartography-ui/build.gradle.kts",
+      "reason": "No Gradle or Manifest edit permitted",
+      "checkout_sha256": "e34a67e92f3ec4e7a689909e5abfdc65c1e58c96efb4b267d1032f58c5945654"
+    },
+    {
+      "path": "cartography-ui/src/main/AndroidManifest.xml",
+      "reason": "No Gradle or Manifest edit permitted",
+      "checkout_sha256": "571f2735faf5e857752ee057ac8ef63425576a721616c60b86ee5d4c0a2d682f"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/PlotOutsidePreview.kt",
+      "reason": "Pure domain source/test delegated to parent",
+      "checkout_sha256": "f9331fc1e4d89189d26d434eda821114547780aebcfa9eefb035137837b16ad9",
+      "selected_sha256": "f9331fc1e4d89189d26d434eda821114547780aebcfa9eefb035137837b16ad9"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/PlotSamplingGeometry.kt",
+      "reason": "Pure domain source/test delegated to parent",
+      "checkout_sha256": "45b27edcf16e6ae20f752381cb15c800d86b71488bb1c74ea749b593971853f9",
+      "selected_sha256": "1f407371d0d2c341c7c3aada7b197fcaefef6bba751c14f66805cedccef86ce6"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/TreeGuidancePolicy.kt",
+      "reason": "Pure domain source/test delegated to parent",
+      "checkout_sha256": "4b5ca73ccb411f1ffbf8ace5b1d62bbab2c91a7adb74d890edb8af2021fbf04e",
+      "selected_sha256": "4b5ca73ccb411f1ffbf8ace5b1d62bbab2c91a7adb74d890edb8af2021fbf04e"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/TreeNavigator.kt",
+      "reason": "Pure domain source/test delegated to parent",
+      "checkout_sha256": "1918b77be044a7edfa7b3ab5e3a951e7ebe9ec074e52334553f235034657ecaf",
+      "selected_sha256": "671319b3fb98bd855893a8eabd5cc9dcea5062cc4869239bcc8a4b678a6eac13"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/usecase/maps/MapTreeDisplay.kt",
+      "reason": "Pure domain source/test delegated to parent",
+      "checkout_sha256": "e5c4c71420688ba062d9038a2f9499409c7294a7f93d7f82f5daef9cf64b44b7",
+      "selected_sha256": "e5c4c71420688ba062d9038a2f9499409c7294a7f93d7f82f5daef9cf64b44b7"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/location/PlotBoundaryDifferenceTest.kt",
+      "reason": "Pure domain source/test delegated to parent",
+      "checkout_sha256": "5e79f6ff89fd128c26ea0d899ce6b9453b48839b9799978a9da54e17b3166615",
+      "selected_sha256": "5e79f6ff89fd128c26ea0d899ce6b9453b48839b9799978a9da54e17b3166615"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/location/PlotSamplingGeometryTest.kt",
+      "reason": "Pure domain source/test delegated to parent",
+      "checkout_sha256": "e9086d33d40215e644a94a3321997fb8d1a22baf046d19b01670c9b874d71029",
+      "selected_sha256": "84e81479fa0c799e6a1f8d9318d2d12b24c81c011632fc030c58abf6b4d57c99"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/location/TreeGuidancePolicyTest.kt",
+      "reason": "Pure domain source/test delegated to parent",
+      "checkout_sha256": null,
+      "selected_sha256": "a786559cf9d8dc8881b0fc91e1c3e3fe54584b2950c3431918efa9dd58ebab08"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/usecase/maps/MapTreeDisplayTest.kt",
+      "reason": "Pure domain source/test delegated to parent",
+      "checkout_sha256": null,
+      "selected_sha256": "5cf76f8593ea3b6e570deed50f1a3e10f06bd48a8a6f00098a6fe0b86c79d0b4"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/usecase/maps/ForestScopeChoices.kt",
+      "reason": "Pure domain source/test delegated to parent",
+      "checkout_sha256": null,
+      "selected_sha256": "396c6f5e5ca35f0893ecb537d04ee24d85545645c7b4e45e6690a4dbc24f189d"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/usecase/maps/ObserveMapTrees.kt",
+      "reason": "Pure domain source/test delegated to parent",
+      "checkout_sha256": null,
+      "selected_sha256": "b59cd5b7d06241ebe079377cd06562c495d0371bcb6b6394abbeca67812d2a9d"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/usecase/maps/ForestScopeChoicesTest.kt",
+      "reason": "Pure domain source/test delegated to parent",
+      "checkout_sha256": null,
+      "selected_sha256": "aaf043b925af5c6511199027e47e0a057c374eb40c70c4396a24e58041a0a0db"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/usecase/maps/ObserveMapTreesTest.kt",
+      "reason": "Pure domain source/test delegated to parent",
+      "checkout_sha256": null,
+      "selected_sha256": "18365b1f35349bc57dfb0393bade80c2e43444eeac6847a5956d3e29d176e5be"
+    }
+  ],
+  "held": [],
+  "limitations": [
+    "Index does not alter earlier frozen selections and never chooses conflicting variants by date.",
+    "54distinct complete selected source paths; this is not a complete project or build result.",
+    "GPS ShareExport/resources additions are delivered separately by recovery_domain_sources. Tree/Forestry and offline families are owned by the other recovery agents.",
+    "No active repository file edited, Gradle, ADB or push run by this source recovery task.",
+    "scope11 contains complete final observed Nov7 historical branch bytes; main-tree adoption and full13Nov source identity are not asserted.",
+    "Create/Parcel ViewModels and UI tests replaced exact verified predecessors from their explicit chains. GeographicSelectionMap, ForestMapCreationScreen, ForestryCreationSourcePanel and ParcelMapCreationScreen remain outside selection because complete13Nov chain is not proved.",
+    "Pure domain sources and tests are delegated to parent; their status is captured before parent integration, not asserted final."
+  ],
+  "unrecovered": [
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt",
+      "reason": "Two exact partial states now known:477/520baseline lines or505/548UI9lines. The43missing functions are not inferred."
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/gs_preview_ortho_vercors.jpg",
+      "reason": "Binary image bytes unavailable; source references it. No replacement illustration generated."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/layers/MapLayerViewModel.kt",
+      "reason": "Initial337line command prefix and later non-EOF reads; full final source not recovered."
+    },
+    {
+      "path": "app/src/main/res/values-en/map_measure_auxiliary.xml",
+      "reason": "No complete initial English XML source observed."
+    },
+    {
+      "path": "app/src/main/res/values/map_workspace_integration.xml",
+      "reason": "Initial Add truncated; exact complete bytes missing."
+    },
+    {
+      "path": "app/src/main/res/values-en/map_workspace_integration.xml",
+      "reason": "Initial Add truncated; exact complete bytes missing."
+    },
+    {
+      "path": "cartography-ui/src/main/res/values/source_panel_help.xml",
+      "reason": "Only description fully observed; opacity/legend and full French visibility not observed."
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/source_panel_help.xml",
+      "reason": "Only description and visibility fully observed; opacity/legend not observed."
+    }
+  ],
+  "execution": {
+    "historicalCommandsExecuted": false,
+    "buildRun": false,
+    "adbRun": false,
+    "commitRun": false,
+    "pushRun": false,
+    "sourceMutationScope": "30literal copies from selected artifacts plus this evidence report only",
+    "trackedStorageOrPreferencesOrDIOrGradleOrManifestEditedByThisIntegrator": false
+  },
+  "protectedUnchanged": [
+    {
+      "path": "cartography-mapbox/src/main/AndroidManifest.xml",
+      "sha256": "678647a824ef7ab16066708585790ab265135d32fdf84bcd918a4b050f8891b9"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGate.kt",
+      "sha256": "03c11fd5ae0fbda80280ef28195e112a99212075ef2b32336cd438c37cb61af6"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinement.kt",
+      "sha256": "69efa569cbc5248f44df83a91e00a2e6f8eb2ad0117f246a1fb05e6cfaf60d93"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraGestures.kt",
+      "sha256": "a632e359826616d31509d34ec6e9c0eb2e88db6a7f41e77b0d3752fca941dfa7"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraState.kt",
+      "sha256": "56c2e564c0cefcf717850887bff066d54a3f77d1700abce36d0d982fd509e6a1"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapNativeCameraPose.kt",
+      "sha256": "57dd55f4d42625dd7d3f4a86732c715c9a4f9986a16e532018b2848b540110b2"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "sha256": "d3eef72d60be5b358ecc9676c3e33219cea04a35e770a2c3815b5dcb51732fa5"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapResourceCycle.kt",
+      "sha256": "96c01f76fd108b9340e3161bbf12e686e4103f7c5a2474d60077d93f066abb06"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapReticleProjection.kt",
+      "sha256": "18a84b6a86f959b085f3d19f033db93369775464d9f24e904a6af0f85fa5ade9"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarChrome.kt",
+      "sha256": "d73edfeecb05938d4b402703f2df8558a035003de08750059ed3df9286aeb4c9"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicy.kt",
+      "sha256": "79958f595a3863bf388db0a4b818e7f49c78014142b1066bc4dd9648cc3eb823"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprint.kt",
+      "sha256": "39bf8cc8d26385e05e6b73998dd2e88b443c09b9cfcb21f0813b6c81975d34d3"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxCanvasModels.kt",
+      "sha256": "2258ebf915975f869e28d1d5e027c56d0a18734c96862875dc1524813796ca87"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxPublicConfiguration.kt",
+      "sha256": "b96da7bcfc04b40c7bb866dd4eea02959a54c4106ffd6eadab94c9ef9fcb3bb2"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "sha256": "71de8da22a23d7c288a72565682ad032d89764c4f5d658924f211123ccee66ba"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayLabelBadgePixels.kt",
+      "sha256": "497368093758b03c33348e1c99f2cdf049bf148b53f3c91580eae1445ba7fa51"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayRasterBudget.kt",
+      "sha256": "cb101f9d902d1fb7831281f4220e91805edbe6511f21c448713694865f78752a"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlaySourceAckGate.kt",
+      "sha256": "48d04439aa6a003f1bc20545e53550f0eefe68b234f5202625105db959afbc59"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "sha256": "98209439aafde4330257f71ee7755cc90fbd2e79d13e75dc41aaa2f07c569926"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "sha256": "f80aea92b9d1791b701e2dea964a5032cb66b7a708c8f452dd09621211add43e"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineMapModels.kt",
+      "sha256": "c968e1aeedcce56fd942c696c2413b7b61ebe6adcc5a09ba55cdbc7775567f99"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineNativeDiagnostics.kt",
+      "sha256": "45c416f2645d9af080092a10c7ac02d2ef6ff751b48a9ec95b61ea48ad6a9bb7"
+    },
+    {
+      "path": "cartography-mapbox/src/main/res/values/map_system_bar_ids.xml",
+      "sha256": "e114aa4e85f96fff7b27dd29a3c1d667ae4e3e77678b89d9eaddead76c8de6fb"
+    },
+    {
+      "path": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinementTest.kt",
+      "sha256": "26cb45edc859f9218e8a85868ebaa481b89cd11242204fc0c1bf85feb084784f"
+    },
+    {
+      "path": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCheckedPinContractTest.kt",
+      "sha256": "c91c0011eaa7db59dbfcab55ccc2f6adaed1f6d6062236b10350d2a3ca738911"
+    },
+    {
+      "path": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapFitResourceReadinessTest.kt",
+      "sha256": "73282b2e6f368baa950b64db24af4d2ac63bdb4c9a0e66849f0a4530a7d10af4"
+    },
+    {
+      "path": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapNativeCameraPoseTest.kt",
+      "sha256": "a4b9d9d4094db1a43fbe1d1eb3b206935dd78b211aceb9404047df7e7e033990"
+    },
+    {
+      "path": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapPinGeometryTest.kt",
+      "sha256": "1f8f0eb3e5c7a978d00783711549224dd5eccdc6b1aaf67d07689105326b7657"
+    },
+    {
+      "path": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapResourceCycleTest.kt",
+      "sha256": "e58f773254fcf5c0e28182065f9bf2d17dda4fdaa9b4c044dcba6455d27859bb"
+    },
+    {
+      "path": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapReticleProjectionTest.kt",
+      "sha256": "28549a870727417015900ec178a4ed28a05a3fa7a45b115135500cdb9101a264"
+    },
+    {
+      "path": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicyTest.kt",
+      "sha256": "5f797625e2cefb77b2b0e29f7407e862ca35659b4905bb90ff4af3f358656c75"
+    },
+    {
+      "path": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/PointLabelPlacementTest.kt",
+      "sha256": "4a2ab064b96c2730bd16c7b04c432863ffba7a9c3a32d768b537cf8ab93071c8"
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/source_panel_help.xml",
+      "sha256": "bb6e87008e157c991f59e9b7180216928deab4151e469c70e483c696d62d1416"
+    },
+    {
+      "path": "cartography-ui/src/main/res/values/source_panel_help.xml",
+      "sha256": "063304a570bb5992cd766229cc8fc575f47dacfd3e62e3be3dc50848d62d4d5a"
+    }
+  ],
+  "updatedUTC": "2026-11-14T19:39:50.568878+00:00",
+  "scope11Remaining": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/navigation/MainScaffold.kt",
+      "reason": "The same historical assemble.py changes selector arguments; not reconstructed here because other later changes in this global navigation file need their own complete chain."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/repository/ParcelleRepositoryImpl.kt",
+      "reason": "Canonical parent filter from the same historical patch is owned by domain recovery."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/DiagnosticScopeViewModel.kt",
+      "reason": "The same patch changes a parent predicate; this dependency is reported, not silently overwritten from an earlier base."
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/RechercheScopeCatalogTest.kt",
+      "reason": "Automatic masking remains in a historical test declaration; never selected as a complete source.",
+      "sourceLines": [
+        133,
+        137
+      ],
+      "fragmentArtifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/scope11/versions/exec-532890ea-ae98-4fae-8834-1a06062697b7/app/src/test/java/com/forestry/counter/presentation/screens/forestry/RechercheScopeCatalogTest.kt"
+    }
+  ],
+  "explicitLayerSupersessions": [
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspaceState.kt",
+      "previous_selection_manifest": "assembly-selection-layer-ui.json",
+      "previous_sha256": "e57c59f425631b2af4b4d49f08f772c26b11b258a76edf822c5caf673d46638a",
+      "current_sha256": "f979157bd2e77e5a52e5b12d93b370ca5fa0344cd408f8da10a7c922dfbdf756",
+      "reason": "Later complete read or later literal mutations were not included in the first layer selection."
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/CustomLayerColorPanel.kt",
+      "previous_selection_manifest": "assembly-selection-layer-ui.json",
+      "previous_sha256": "7baad04aeca75d9dbf8eb31eb509953ec89df029ccc441df0003effa43e89010",
+      "current_sha256": "725de151ebc748dc413ff26ca23c491226230b9298f23f3a36ea8f566c1a77e5",
+      "reason": "Later complete read or later literal mutations were not included in the first layer selection."
+    },
+    {
+      "path": "cartography-ui/src/main/res/values/layer_strings.xml",
+      "previous_selection_manifest": "assembly-selection-layer-ui.json",
+      "previous_sha256": "ac4ddc917fd94b99fd3370e90e584db8d06cc46131b5743ede450465b06c5aa3",
+      "current_sha256": "0efdf0cec0f1167a5804dce7de8febe321ab451a3f43fd01cc908da5450664f2",
+      "reason": "Later complete read or later literal mutations were not included in the first layer selection."
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/layer_strings.xml",
+      "previous_selection_manifest": "assembly-selection-layer-ui.json",
+      "previous_sha256": "d8ff7b8fd0407e448f408ee0cca315b2c868ee6a52c59a82fc6d106202060b75",
+      "current_sha256": "47c3a1b766c93565dcb4fb528fa15561d1305cda16d44b70c3ff1dc101e338ef",
+      "reason": "Later complete read or later literal mutations were not included in the first layer selection."
+    }
+  ],
+  "verification": {
+    "copiedFileSha256Verified": 30,
+    "protectedMapboxAndResourceRepairSha256Verified": 34,
+    "selectionManifestHashesVerified": 4,
+    "historicalSourceCommandsExecuted": false,
+    "copiedSourceFragments": 0,
+    "newSourceLinesInvented": 0,
+    "compilationRun": false,
+    "testRun": false,
+    "xml": [
+      {
+        "module": "app",
+        "parsedValuesXmlFiles": 115,
+        "parseErrors": 0,
+        "duplicateResourceIds": 0
+      },
+      {
+        "module": "cartography-ui",
+        "parsedValuesXmlFiles": 18,
+        "parseErrors": 0,
+        "duplicateResourceIds": 0
+      }
+    ],
+    "verifiedUTC": "2026-11-14T19:40:58.603830+00:00"
+  },
+  "apiIntegrationNeeds": [
+    {
+      "api": "RechercheScopeSelectorScreen",
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/RechercheScopeSelectorScreen.kt",
+      "addedRequiredArguments": [
+        "foretRepository: ForetRepository",
+        "businessReadAccess: BusinessReadAccess",
+        "scopeAuthority: CartographicScopeAuthority"
+      ],
+      "existingArguments": [
+        "groupRepository: GroupRepository",
+        "parcelleRepository: ParcelleRepository",
+        "placetteRepository: PlacetteRepository",
+        "onSelectScope: (String) -> Unit",
+        "onBack: () -> Unit"
+      ],
+      "integrationOwner": "parent",
+      "temporalScope": "Complete observed historical terrain-scope11 branch, adoption not asserted"
+    },
+    {
+      "api": "rememberMapTreeWorkspace",
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapTreeWorkspace.kt",
+      "requiredArguments": [
+        "scope: MapDataScope",
+        "content: MapTreeContent",
+        "essences: List<Essence>",
+        "navigator: TreeNavigator",
+        "accuracyFilterEnabled: Boolean",
+        "accuracyThresholdM: Float",
+        "hasLocationPermission: Boolean",
+        "onAccuracyFilterChanged: (Boolean) -> Unit",
+        "onAccuracyThresholdChanged: (Float) -> Unit",
+        "onRequestLocation: () -> Unit"
+      ],
+      "requiredDomainSuccessors": [
+        "ObserveMapTrees.kt",
+        "ForestScopeChoices.kt",
+        "TreeNavigator.kt"
+      ],
+      "existingCaller": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt:219"
+    },
+    {
+      "api": "CreatePlacetteWizard",
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/CreateParcellePlacetteWizards.kt",
+      "delegatesTo": "PlacetteMapCreationScreen",
+      "missingCompleteDependency": true
+    },
+    {
+      "api": "MapLayerHost",
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/layers/MapLayerHost.kt",
+      "requiredArguments": [
+        "viewModel: MapLayerViewModel"
+      ],
+      "optionalArguments": [
+        "modifier: Modifier",
+        "onPanelHeightChanged: (Dp) -> Unit"
+      ],
+      "existingCaller": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt:641",
+      "missingCompleteDependency": "MapLayerViewModel.kt"
+    }
+  ],
+  "confirmedSourceGaps": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/layers/MapLayerViewModel.kt",
+      "symbols": [
+        "MapLayerViewModel",
+        "LayerRenderSnapshot"
+      ],
+      "observedReason": "Only initial337line prefix and later non-EOF reads are known; selected complete adapters now reference these unavailable definitions."
+    },
+    {
+      "symbol": "ForestrySourceDetails",
+      "callers": [
+        "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt:283",
+        "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ForestryCreationSourcePanel.kt:37"
+      ],
+      "observedReason": "No declaration present in checkout; not selected by supplied frozen manifests.",
+      "package": "com.quintessences.geosylva.cartography.ui.forestry",
+      "declarationPathVerified": true,
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/forestry/ForestryMapLayout.kt",
+      "unselectedAntecedent": {
+        "sha256": "e98ca703ef5feb343d703a4722fa156aaf654b1749e1d0aee3787b317b16f0d9",
+        "selection": "HISTORICAL_COMPLETE_ONLY_NOT_SELECTED",
+        "reason": "A later recorded candidate or source mutation exists for this path; not copied."
+      }
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt",
+      "symbol": "PlacetteMapCreationScreen",
+      "callers": [
+        "app/src/main/java/com/forestry/counter/presentation/screens/forestry/CreateParcellePlacetteWizards.kt:137"
+      ],
+      "observedReason": "No declaration present in checkout; complete selected Wizard delegates to this missing screen.",
+      "unselectedAntecedent": {
+        "sha256": "99f496a549bfef0f7c0352f9ed49b6f96a4627fbaf9765d39c32b5caf4669f90",
+        "selection": "HISTORICAL_COMPLETE_ONLY_NOT_SELECTED",
+        "reason": "A later recorded candidate or source mutation exists for this path; not copied."
+      }
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trees/TreeWorkspacePanel.kt",
+      "symbol": "TreeWorkspacePanel",
+      "callers": [
+        "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt:638"
+      ],
+      "observedReason": "No composable declaration present in checkout; source provider reports interrupted reconstruction, not selected."
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt",
+      "observedReason": "43source lines unavailable in both known partial states; no fragment was copied."
+    },
+    {
+      "symbol": "useFrenchMapTestWindow",
+      "sourceSet": "app/src/androidTest",
+      "callers": [
+        "app/src/androidTest/java/com/forestry/counter/ui/LayerWorkspaceUiTest.kt:64",
+        "app/src/androidTest/java/com/forestry/counter/ui/ForestryAndMeasureInsetsTest.kt:91",
+        "app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt:135"
+      ],
+      "observedReason": "No helper declaration present in checkout; not selected by supplied manifests."
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/gs_preview_ortho_vercors.jpg",
+      "observedReason": "Binary bytes unavailable; no substitute generated."
+    },
+    {
+      "path": "app/src/main/res/values-en/map_measure_auxiliary.xml",
+      "observedReason": "No complete English XML source observed; no new translation invented."
+    }
+  ],
+  "notOverwrittenWithout13NovIdentityProof": [
+    "app/src/main/java/com/forestry/counter/presentation/screens/forestry/GeographicSelectionMap.kt",
+    "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ForestMapCreationScreen.kt",
+    "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ForestryCreationSourcePanel.kt",
+    "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ParcelMapCreationScreen.kt"
+  ],
+  "summary": {
+    "copiedCompleteSources": 30,
+    "alreadyIdentical": 40,
+    "heldAmbiguousSelectedSources": 0,
+    "outsideScopeDelegatedOrProtected": 15,
+    "scope": "UI, hosts, presentation controllers/DTO and selected related UI tests/resources only"
+  }
+}

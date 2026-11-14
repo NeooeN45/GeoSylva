@@ -19,4 +19,5 @@
     <string name="workspace_information">Informations</string>
     <string name="workspace_recorded_precision">Positions enregistrées</string>
     <string name="workspace_precision_limit">Ce filtre utilise la précision enregistrée avec chaque arbre, indépendamment de la réception actuelle du téléphone. Les positions sans précision exploitable sont exclues lorsque le filtre est actif.</string>
+    <string name="workspace_close_measure">Quitter l’outil de mesure</string>
 </resources>

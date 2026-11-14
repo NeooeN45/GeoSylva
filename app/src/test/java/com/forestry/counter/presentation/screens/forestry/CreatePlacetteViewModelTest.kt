@@ -197,6 +197,7 @@ class CreatePlacetteViewModelTest {
         assertTrue(preview.gridPreviewReady)
         assertTrue(preview.points.size > 1)
         assertTrue(batches.isEmpty())
+        viewModel.confirmBoundaryReview()
         viewModel.save("Plan")
         runCurrent()
         val created = batches.single()
@@ -294,9 +295,77 @@ class CreatePlacetteViewModelTest {
         assertTrue(viewModel.formState.value.isValid)
         viewModel.save()
         runCurrent()
+        assertTrue(batches.isEmpty())
+        assertTrue(viewModel.formState.value.requiresBoundaryReview)
+        viewModel.confirmBoundaryReview()
+        viewModel.save()
+        runCurrent()
         val plan = PlotSamplingPlan.fromJson(requireNotNull(batches.single().single().samplingPlanJson))
         assertTrue(plan.boundaryWarning)
         assertEquals("CENTER_INSIDE", plan.boundaryPolicy)
+    }
+
+    @Test fun `selection removal and retry preserve candidate identity and original centres`() = runTest(dispatcher) {
+        runCurrent()
+        viewModel.updateScope(PlotScope.MAP_POINTS)
+        viewModel.updateRayonM("10")
+        viewModel.addPoint(ParcelCoordinate(2.2, 46.2))
+        val retained = ParcelCoordinate(2.8, 46.8)
+        viewModel.addPoint(retained)
+        val id = viewModel.formState.value.pointIds[1]
+        viewModel.selectPoint(id)
+        viewModel.removePoint(0)
+        assertEquals(listOf(id), viewModel.formState.value.pointIds)
+        assertEquals(id, viewModel.formState.value.selectedPointId)
+        assertEquals(listOf(retained), viewModel.formState.value.points)
+        val attempts = mutableListOf<List<Placette>>()
+        coEvery { plots.insertPlacettesForParcelle(any()) } coAnswers {
+            attempts += firstArg<List<Placette>>()
+            if (attempts.size == 1) throw IllegalStateException("fixture failure")
+        }
+        viewModel.save()
+        runCurrent()
+        assertEquals(PlotCreationError.SAVE_FAILED, viewModel.formState.value.error)
+        viewModel.save()
+        runCurrent()
+        assertEquals(2, attempts.size)
+        assertEquals(listOf(id), attempts[0].map { it.id })
+        assertEquals(attempts[0].map { it.copy(createdAt = 0L, updatedAt = 0L) },
+            attempts[1].map { it.copy(createdAt = 0L, updatedAt = 0L) })
+        assertTrue(viewModel.isSaved.value)
+    }
+
+    @Test fun `radius area conversion and shape switch preserve target area without rounding`() = runTest(dispatcher) {
+        runCurrent()
+        viewModel.updateScope(PlotScope.MAP_POINTS)
+        viewModel.updateRayonM("10,5")
+        val expected = PI * 10.5 * 10.5
+        viewModel.updateSizeMeasure(FootprintSizeMeasure.AREA)
+        assertEquals(expected, requireNotNull(viewModel.formState.value.footprintAreaM2), 1e-10)
+        viewModel.updateSizeMeasure(FootprintSizeMeasure.RADIUS)
+        assertEquals(10.5, requireNotNull(viewModel.formState.value.rayonM), 1e-10)
+        viewModel.updateFootprintShape(SampleFootprintShape.HEXAGON)
+        assertEquals(expected, requireNotNull(viewModel.formState.value.footprintAreaM2), 1e-10)
+    }
+
+    @Test fun `name apply keeps automatic preview while geometry edits invalidate boundary review`() = runTest(dispatcher) {
+        parent.value = smallParcelFixture()
+        runCurrent()
+        viewModel.updateScope(PlotScope.AUTOMATIC_GRID)
+        viewModel.updateFootprintArea("10000")
+        viewModel.generateGrid()
+        runCurrent()
+        val initial = viewModel.formState.value
+        assertTrue(initial.edgeWarningCount > 0)
+        viewModel.confirmBoundaryReview()
+        viewModel.applyParameters(PlotParameterDraft.from(viewModel.formState.value).copy(name = "Nom revu"))
+        assertEquals(initial.pointIds, viewModel.formState.value.pointIds)
+        assertTrue(viewModel.formState.value.gridPreviewReady)
+        assertFalse(viewModel.formState.value.requiresBoundaryReview)
+        viewModel.updateFootprintArea("10001")
+        assertFalse(viewModel.formState.value.gridPreviewReady)
+        assertFalse(viewModel.formState.value.boundaryReviewConfirmed)
+        assertTrue(batches.isEmpty())
     }
 
     private companion object {

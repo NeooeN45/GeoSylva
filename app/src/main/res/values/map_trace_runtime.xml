@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="map_trace_notification_channel">Tracé GPS cartographique</string>
+    <string name="map_trace_notification_title">GeoSylva · Tracé GPS</string>
+    <string name="map_trace_notification_body">Capture du tracé en cours. Pause ou terminer depuis cette notification.</string>
+    <string name="map_trace_notification_pause">Pause</string>
+    <string name="map_trace_notification_finish">Terminer</string>
+    <string name="map_trace_local_destination">Sur ce téléphone</string>
+    <string name="map_trace_access_error">Le contexte ou l’accès a changé. Rouvrez le tracé depuis la carte autorisée.</string>
+    <string name="map_trace_permission_error">Autorisez la localisation précise pour démarrer ou reprendre le tracé.</string>
+    <string name="map_trace_interrupted">Capture interrompue. Le brouillon conservé peut être repris explicitement.</string>
+    <string name="map_trace_recovered">Brouillon retrouvé, capture arrêtée. Reprendre crée une nouvelle portion.</string>
+    <string name="map_trace_store_error">Écriture du brouillon non confirmée. La capture est arrêtée ; réessayez avant de quitter.</string>
+    <string name="map_trace_uncertain_save">Enregistrement à confirmer. Réessayez ce même enregistrement ; son identité est conservée.</string>
+    <string name="map_trace_invalid_input">Vérifiez le nom et le tracé : nom de 120 caractères maximum, sans caractère de contrôle, et une portion d’au moins deux points.</string>
+    <string name="map_trace_no_points">Il faut une portion d’au moins deux points pour enregistrer un tracé.</string>
+    <string name="map_trace_options">Actions du tracé</string>
+    <string name="map_trace_library">Tracés de ce contexte</string>
+    <string name="map_trace_library_empty">Aucun autre tracé enregistré dans ce contexte.</string>
+    <string name="map_trace_new">Nouveau tracé</string>
+    <string name="map_trace_unnamed">Tracé sans nom</string>
+    <string name="map_trace_draft">Brouillon · %1$d points</string>
+    <string name="map_trace_saved">Enregistré · %1$d points</string>
+    <string name="map_trace_settings_title">Réglages du tracé</string>
+    <string name="map_trace_max_accuracy">Précision annoncée maximale : %1$s m</string>
+    <string name="map_trace_min_distance">Espacement minimal : %1$s m</string>
+    <string name="map_trace_settings_help">Réglages techniques de cette capture, conservés avec le tracé. Les points anciens, imprécis ou simulés sont exclus. Ils ne certifient ni la précision du tracé ni son exhaustivité.</string>
+    <string name="map_trace_apply">Appliquer</string>
+    <string name="map_trace_close">Fermer</string>
+    <string name="map_trace_share_preview">Aperçu du partage</string>
+    <string name="map_trace_share_contents">GeoJSON · %1$d portions · %2$d points\nPositions et précisions enregistrées incluses. Les passages non relevés restent séparés.</string>
+    <string name="map_trace_share_confirm">Choisir une application</string>
+    <string name="map_trace_share_error">Le partage n’a pas pu être préparé. Le tracé reste conservé.</string>
+    <string name="map_trace_method_title">Méthode et source</string>
+    <string name="map_trace_method_body">Source : positions du téléphone. Coordonnées WGS84, EPSG:4326. Longueur horizontale sur sphère moyenne IUGG de rayon 6 371 008,8 m, calculée dans chaque portion ; aucune liaison entre portions, fermeture, pente ou altitude ajoutée.\nMéthode : %1$s, version 1.\nPrécision du tracé : non déterminée. Les précisions des fixes ne sont pas une incertitude globale.\nSeuil annoncé : %2$s m ; âge maximal %3$d s ; espacement minimal %4$s m ; rupture sans observation après %5$d s. La durée exclut la revue arrêtée et le temps d’interruption du processus.</string>
+    <string name="map_trace_help_capture">Pause manuelle : aucun point ajouté jusqu’à Reprendre. Perte ou qualité insuffisante : ajout suspendu, puis nouvelle portion au retour d’un fix exploitable. Terminer arrête les capteurs et ouvre la revue du brouillon. Aucune reprise automatique après interruption du processus.</string>
+    <string name="map_trace_fix_waiting">Recherche d’une position exploitable</string>
+    <string name="map_trace_fix_stale">Dernière position trop ancienne</string>
+    <string name="map_trace_fix_quality">Position reçue non retenue</string>
+    <string name="map_trace_copy_source">Copie d’un tracé enregistré ; l’original est conservé.</string>
+</resources>

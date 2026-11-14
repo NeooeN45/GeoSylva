@@ -1,7 +1,6 @@
 package com.forestry.counter.presentation.screens.forestry
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,9 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.forestry.counter.R
-import com.forestry.counter.domain.model.Group
 import com.forestry.counter.domain.model.Parcelle
-import com.forestry.counter.domain.model.Placette
 import com.forestry.counter.domain.repository.GroupRepository
 import com.forestry.counter.domain.repository.ParcelleRepository
 import com.forestry.counter.domain.repository.PlacetteRepository
@@ -50,76 +47,77 @@ import com.forestry.counter.presentation.theme.GsShape
 import com.forestry.counter.presentation.theme.Space
 import com.forestry.counter.presentation.theme.Touch
 
-/**
- * Choix de la zone à afficher avant l'ouverture de la carte en mode
- * Recherche : toutes les forêts, une forêt, une parcelle ou une placette
- * précise. La carte s'ouvre ensuite déjà zoomée sur les tiges de la zone
- * choisie (comportement déjà en place dans `MapRenderEffects`).
- */
+import androidx.compose.runtime.key
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
+import com.forestry.counter.data.cartography.CartographicScopeAuthority
+import com.forestry.counter.data.sync.hierarchy.BusinessReadAccess
+import com.forestry.counter.domain.repository.ForetRepository
+import com.forestry.counter.domain.usecase.maps.ForestScopeChoice
+import com.forestry.counter.domain.usecase.maps.MapDataScope
+import com.forestry.counter.domain.usecase.maps.belongsToForestScope
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.launch
+
+/** Authorised canonical forests and historical groups share one display projection, never one stored entity. */
 @Composable
 fun RechercheScopeSelectorScreen(
     groupRepository: GroupRepository,
+    foretRepository: ForetRepository,
     parcelleRepository: ParcelleRepository,
     placetteRepository: PlacetteRepository,
+    businessReadAccess: BusinessReadAccess,
+    scopeAuthority: CartographicScopeAuthority,
     onSelectScope: (String) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val groupsFlow = remember(groupRepository) { groupRepository.getAllGroups() }
-    val groups by groupsFlow.collectAsStateWithLifecycle(initialValue = emptyList())
-
-    // Un seul choix évident (une seule forêt enregistrée) : on saute l'écran
-    // de sélection et on ouvre directement la carte dessus.
-    androidx.compose.runtime.LaunchedEffect(groups) {
-        if (groups.size == 1) onSelectScope("forest_${groups[0].id}")
+    val catalog=remember(foretRepository,groupRepository,businessReadAccess,scopeAuthority) {
+        RechercheScopeCatalog(foretRepository,groupRepository,businessReadAccess,scopeAuthority)
     }
-    if (groups.size == 1) return
-
-    Box(modifier = modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.forest_background),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop,
-        )
-        Column(modifier = Modifier.fillMaxSize()) {
-            CompactPageHeader(title = stringResource(R.string.recherche_scope_title), onBack = onBack)
-
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(Space.md),
-                verticalArrangement = Arrangement.spacedBy(Space.sm),
-            ) {
-                item {
-                    ScopeRow(
-                        icon = Icons.Default.Map,
-                        label = stringResource(R.string.recherche_scope_all),
-                        indent = 0,
-                        onClick = { onSelectScope("all") },
-                    )
-                }
-                items(groups, key = { it.id }) { group ->
-                    ForestScopeItem(
-                        group = group,
-                        parcelleRepository = parcelleRepository,
-                        placetteRepository = placetteRepository,
-                        onSelectScope = onSelectScope,
-                    )
-                }
-                if (groups.isEmpty()) {
-                    item {
-                        Surface(
-                            color = MaterialTheme.colorScheme.background.copy(alpha = 0.55f),
-                            shape = GsShape.md,
-                        ) {
-                            Text(
-                                stringResource(R.string.recherche_scope_empty),
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.padding(Space.md),
-                            )
+    val captured by catalog.states.collectAsStateWithLifecycle(initialValue=RechercheScopeCatalogState())
+    val ready=captured.takeIf { it.loaded && it.access?.let(businessReadAccess::isCurrent) == true }
+    val work=rememberCoroutineScope()
+    val selectedCallback by rememberUpdatedState(onSelectScope)
+    var pending by remember { mutableStateOf(false) }
+    var failed by remember { mutableStateOf(false) }
+    fun select(target: RechercheScopeTarget) {
+        val displayed=ready ?: return
+        if (pending) return
+        pending=true;failed=false
+        work.launch {
+            try {
+                val route=catalog.resolve(displayed,target)
+                ensureActive()
+                if (route != null) selectedCallback(route) else failed=true
+            } finally { pending=false }
+        }
+    }
+    // Even one forest requires an explicit choice, so Back returns to this selector without reopening the map.
+    Box(modifier=modifier.fillMaxSize()) {
+        Image(painter=painterResource(id=R.drawable.forest_background),contentDescription=null,
+            modifier=Modifier.fillMaxSize(),contentScale=ContentScale.Crop)
+        Column(Modifier.fillMaxSize()) {
+            CompactPageHeader(title=stringResource(R.string.recherche_scope_title),onBack=onBack)
+            LazyColumn(Modifier.fillMaxSize(),contentPadding=androidx.compose.foundation.layout.PaddingValues(Space.md),
+                verticalArrangement=Arrangement.spacedBy(Space.sm)) {
+                if (ready == null) item {
+                    Text(stringResource(if (captured.failed) R.string.recherche_scope_unavailable else R.string.recherche_scope_loading),
+                        Modifier.padding(Space.md),color=MaterialTheme.colorScheme.onSurface)
+                } else {
+                    item { ScopeRow(icon=Icons.Default.Map,label=stringResource(R.string.recherche_scope_all),indent=0,
+                        enabled=!pending,onClick={select(RechercheScopeTarget(MapDataScope.AllForests))}) }
+                    items(ready.forests,key={it.id}) { forest ->
+                        ForestScopeItem(forest,requireNotNull(ready.access),businessReadAccess,parcelleRepository,placetteRepository,
+                            !pending,::select)
+                    }
+                    if (ready.forests.isEmpty()) item {
+                        Surface(color=MaterialTheme.colorScheme.background.copy(alpha=0.55f),shape=GsShape.md) {
+                            Text(stringResource(R.string.recherche_scope_empty),style=MaterialTheme.typography.bodyMedium,
+                                color=MaterialTheme.colorScheme.onSurfaceVariant,modifier=Modifier.padding(Space.md))
                         }
                     }
+                    if (failed) item { Text(stringResource(R.string.recherche_scope_unavailable),Modifier.padding(Space.md)) }
                 }
             }
         }
@@ -128,30 +126,24 @@ fun RechercheScopeSelectorScreen(
 
 @Composable
 private fun ForestScopeItem(
-    group: Group,
+    forest: ForestScopeChoice,
+    access: BusinessReadAccess.AccessSnapshot,
+    reads: BusinessReadAccess,
     parcelleRepository: ParcelleRepository,
     placetteRepository: PlacetteRepository,
-    onSelectScope: (String) -> Unit,
+    enabled: Boolean,
+    onSelect: (RechercheScopeTarget) -> Unit,
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by remember(forest.id,forest.kind,access) { mutableStateOf(false) }
     Column {
-        ScopeRow(
-            icon = Icons.Default.Forest,
-            label = group.name,
-            indent = 0,
-            onClick = { onSelectScope("forest_${group.id}") },
-            trailingIcon = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-            onTrailingClick = { expanded = !expanded },
-        )
-        if (expanded) {
-            val parcellesFlow = remember(parcelleRepository, group.id) { parcelleRepository.getParcellesByForest(group.id) }
-            val parcelles by parcellesFlow.collectAsStateWithLifecycle(initialValue = emptyList())
-            parcelles.forEach { parcelle ->
-                ParcelleScopeItem(
-                    parcelle = parcelle,
-                    placetteRepository = placetteRepository,
-                    onSelectScope = onSelectScope,
-                )
+        ScopeRow(icon=Icons.Default.Forest,label=forest.name,indent=0,enabled=enabled && reads.isCurrent(access),
+            onClick={onSelect(RechercheScopeTarget(MapDataScope.Forest(forest.id),forest=forest))},
+            trailingIcon=if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,onTrailingClick={expanded=!expanded})
+        if (expanded) key(access) {
+            val parcelsFlow=remember(parcelleRepository,forest.id) { parcelleRepository.getParcellesByForest(forest.id) }
+            val parcels by parcelsFlow.collectAsStateWithLifecycle(initialValue=emptyList())
+            if (reads.isCurrent(access)) parcels.filter { it.deletedAt == null && it.belongsToForestScope(forest.id) }.forEach { parcel ->
+                ParcelleScopeItem(forest,parcel,access,reads,placetteRepository,enabled,onSelect)
             }
         }
     }
@@ -159,30 +151,25 @@ private fun ForestScopeItem(
 
 @Composable
 private fun ParcelleScopeItem(
+    forest: ForestScopeChoice,
     parcelle: Parcelle,
+    access: BusinessReadAccess.AccessSnapshot,
+    reads: BusinessReadAccess,
     placetteRepository: PlacetteRepository,
-    onSelectScope: (String) -> Unit,
+    enabled: Boolean,
+    onSelect: (RechercheScopeTarget) -> Unit,
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by remember(parcelle.id,access) { mutableStateOf(false) }
     Column {
-        ScopeRow(
-            icon = Icons.Default.GridOn,
-            label = parcelle.name,
-            indent = 1,
-            onClick = { onSelectScope(parcelle.id) },
-            trailingIcon = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-            onTrailingClick = { expanded = !expanded },
-        )
-        if (expanded) {
-            val placettesFlow = remember(placetteRepository, parcelle.id) { placetteRepository.getPlacettesByParcelle(parcelle.id) }
-            val placettes by placettesFlow.collectAsStateWithLifecycle(initialValue = emptyList())
-            placettes.forEach { placette ->
-                ScopeRow(
-                    icon = Icons.Default.MyLocation,
-                    label = placette.name ?: stringResource(R.string.recherche_scope_placette_unnamed),
-                    indent = 2,
-                    onClick = { onSelectScope("placette_${placette.id}") },
-                )
+        ScopeRow(icon=Icons.Default.GridOn,label=parcelle.name,indent=1,enabled=enabled && reads.isCurrent(access),
+            onClick={onSelect(RechercheScopeTarget(MapDataScope.Parcel(parcelle.id),forest,parcelle))},
+            trailingIcon=if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,onTrailingClick={expanded=!expanded})
+        if (expanded) key(access) {
+            val plotsFlow=remember(placetteRepository,parcelle.id) { placetteRepository.getPlacettesByParcelle(parcelle.id) }
+            val plots by plotsFlow.collectAsStateWithLifecycle(initialValue=emptyList())
+            if (reads.isCurrent(access)) plots.filter { it.deletedAt == null && it.parcelleId == parcelle.id }.forEach { plot ->
+                ScopeRow(icon=Icons.Default.MyLocation,label=plot.name ?: stringResource(R.string.recherche_scope_placette_unnamed),indent=2,
+                    enabled=enabled,onClick={onSelect(RechercheScopeTarget(MapDataScope.Plot(plot.id),forest,parcelle,plot))})
             }
         }
     }
@@ -194,6 +181,7 @@ private fun ScopeRow(
     label: String,
     indent: Int,
     onClick: () -> Unit,
+    enabled: Boolean = true,
     trailingIcon: androidx.compose.ui.graphics.vector.ImageVector? = null,
     onTrailingClick: (() -> Unit)? = null,
 ) {
@@ -201,7 +189,7 @@ private fun ScopeRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = (Space.lg * indent))
-            .clickable(onClick = onClick),
+            .clickable(enabled = enabled,onClick = onClick),
         color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.92f),
         shape = GsShape.md,
         shadowElevation = Elevation.card,
@@ -225,7 +213,7 @@ private fun ScopeRow(
                 Box(
                     modifier = Modifier
                         .size(Touch.min)
-                        .clickable(onClick = onTrailingClick),
+                        .clickable(enabled = enabled,onClick = onTrailingClick),
                     contentAlignment = Alignment.Center,
                 ) {
                     Icon(trailingIcon, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
