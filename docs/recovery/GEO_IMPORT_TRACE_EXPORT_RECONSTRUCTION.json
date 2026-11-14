@@ -1,0 +1,133 @@
+{
+  "date": "2026-11-14",
+  "classification": "complete_observed_source_restoration_with_package_adaptation_and_new_localized_errors",
+  "result": "Contrat LayerImportStager rétabli, export GeoJSON réel restauré, politique de coordonnées inchangée.",
+  "parser": {
+    "path": "app/src/main/java/com/forestry/counter/domain/geo/GeoImportParser.kt",
+    "lines": 557,
+    "classification": "complete_source_from_non_truncated_reads",
+    "sources": [
+      {
+        "history": "layers-attributes-batch14.json",
+        "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+        "item": "exec-928af254-4f74-44ad-bd4f-428800d777d0",
+        "lines": [
+          1,
+          230
+        ]
+      },
+      {
+        "history": "layers-attributes-batch14.json",
+        "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+        "item": "exec-92bf94aa-8690-44c7-afa2-0c827b310eb2",
+        "lines": [
+          225,
+          385
+        ]
+      },
+      {
+        "history": "layers-attributes-batch14.json",
+        "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+        "item": "exec-86996578-3a9b-459c-9a28-476a5cc93889",
+        "lines": [
+          385,
+          557
+        ]
+      }
+    ],
+    "overlapValidation": "Lignes 225–230 et 385 identiques ; préfixe 1–205 confirmé indépendamment dans root0025-full/exec-fecd7ae3-4d66-4051-b034-3fd253095390.",
+    "contract": [
+      "ParseResult.rejectionReason nullable et compatible avec LayerImportStager.",
+      "GeoJSON soumis à GeoImportCoordinatePolicy sans projection inférée.",
+      "GeoPackage : correspondance SRS contenu/couche, registre gpkg_spatial_ref_sys, EPSG validé et décodeur 2D existant.",
+      "Rejet explicite UNSUPPORTED_CRS/INVALID_GEOMETRY, sans capture partielle renvoyée comme succès."
+    ],
+    "unchangedParserBlocks": {
+      "detect": true,
+      "KML_GPX_CSV": true,
+      "ZIP_BOM": true
+    },
+    "helperFiles": "Aucun GpkgImporter.kt ni GpxKml séparé trouvé dans les sources ou archives : les helpers KML/GPX/CSV/GeoPackage sont internes à GeoImportParser.",
+    "observedDiff": "Aucun diff historique indépendant de GeoImportParser trouvé ; le fichier complet observé contient déjà le contrat final. Le diff local depuis l’ancien fichier ajoute ce contrat et retire le vieux décodeur WKB permissif."
+  },
+  "coordinatePolicy": {
+    "path": "app/src/main/java/com/forestry/counter/domain/geo/GeoImportCoordinatePolicy.kt",
+    "modified": false,
+    "sha256": "adf66289ae6efb2e89205e4b39e74bbb1a35d0268179c0eac658dff3a150045d"
+  },
+  "traceExport": {
+    "path": "app/src/main/java/com/forestry/counter/domain/location/trace/TraceGeoJsonExport.kt",
+    "classification": "exact_observed_body_package_adapted",
+    "sources": [
+      {
+        "history": "trees-filters-batch11.json",
+        "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+        "item": "exec-fe802950-1039-451a-ae2f-59d6fad54504",
+        "kind": "complete_literal_heredoc_not_executed"
+      },
+      {
+        "history": "trees-filters-batch11.json",
+        "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+        "item": "exec-328157d5-9a7d-497c-a11b-4a4e47e39a79",
+        "kind": "complete_non_truncated_read_identical_to_heredoc"
+      }
+    ],
+    "adaptation": "Seule la déclaration de package passe de presentation.screens.forestry.trace à domain.location.trace ; import obsolète du test existant retiré. MapTraceController utilise déjà domain.location.trace.* ; aucun contrôleur/UI modifié.",
+    "behavior": "Une feature par portion ; Point si singleton sinon LineString ; longitude/latitude, longueurs reçues, observations, horloges, source et précision reçues conservées. Aucun segment entre portions, aucune précision globale inventée."
+  },
+  "resources": {
+    "paths": [
+      "app/src/main/res/values/cartography_import_errors.xml",
+      "app/src/main/res/values-en/cartography_import_errors.xml"
+    ],
+    "keys": [
+      "cartography_import_invalid_geometry",
+      "cartography_import_unsupported_crs"
+    ],
+    "classification": "new_reconstruction",
+    "reason": "Textes historiques non retrouvés ; messages FR/EN écrits uniquement pour les deux clés cartography_import_* requises."
+  },
+  "tests": {
+    "restoredPolicyFixture": {
+      "path": "app/src/test/java/com/forestry/counter/domain/geo/GeoImportCoordinatePolicyTest.kt",
+      "history": "layers-attributes-batch14.json",
+      "item": "exec-79460ffb-39aa-4008-854e-37714093dc08",
+      "cases": 7
+    },
+    "adaptedExistingTraceFixture": {
+      "path": "app/src/test/java/com/forestry/counter/domain/location/trace/TraceRecoveryAndExportTest.kt",
+      "cases": 2,
+      "change": "Import retiré uniquement, corps conservé."
+    },
+    "newTraceFixture": {
+      "path": "app/src/test/java/com/forestry/counter/domain/location/trace/TraceGeoJsonExportTest.kt",
+      "cases": 1,
+      "purpose": "Portion singleton en Point, ordre longitude/latitude, métadonnées absentes non fabriquées et longueur sans liaison au passage manquant."
+    },
+    "status": "prepared_not_run",
+    "totalCases": 10
+  },
+  "validation": {
+    "static": "passed: chevauchements, deuxième preuve indépendante, corps export exact, policy inchangée, blocs de formats conservés, ressources FR/EN uniques, imports du contrôleur compatibles, whitespace.",
+    "build": "Non exécuté, coordination par l’agent principal. Aucune commande historique exécutée.",
+    "limits": [
+      "Aucun essai Android réel des imports SQLite/XML ni exécution JVM effectués par cette sous-tâche.",
+      "Aucune validation exhaustive de 20 formats revendiquée : détecteur et parseurs KML/GPX/CSV/ZIP/BOM conservés à l’identique ; autres pipelines non modifiés.",
+      "Le fichier trace-domain-initial-next consulté concerne le portage de projection Terrain et ne contient pas TraceGeoJsonExport ; source exacte trouvée dans trees-filters-batch11."
+    ]
+  },
+  "baselineSha256": {
+    "app/src/main/java/com/forestry/counter/domain/geo/GeoImportParser.kt": "edb0c4c16c5ac4c0f6d200829592fd54f6b399f6ec253c02cf6855297c5cbd91",
+    "app/src/main/java/com/forestry/counter/domain/geo/GeoImportCoordinatePolicy.kt": "adf66289ae6efb2e89205e4b39e74bbb1a35d0268179c0eac658dff3a150045d",
+    "app/src/test/java/com/forestry/counter/domain/location/trace/TraceRecoveryAndExportTest.kt": "7124c8921ea48988966504010de965610f7becc5edcb14041e9839838e2790fb"
+  },
+  "artifactSha256": {
+    "app/src/main/java/com/forestry/counter/domain/geo/GeoImportParser.kt": "456374ed23df27d558cde400bc99b91e61a250ed8c95533729cb69bac81929e0",
+    "app/src/main/java/com/forestry/counter/domain/location/trace/TraceGeoJsonExport.kt": "08084bfcca383b7b0981637c834241d34edd2a5d07e1191120a413df68fff577",
+    "app/src/test/java/com/forestry/counter/domain/geo/GeoImportCoordinatePolicyTest.kt": "ce3c8b6bb237d22ddb40fed9c3c3d16f691eb453f25490b99219380493497c0e",
+    "app/src/test/java/com/forestry/counter/domain/location/trace/TraceRecoveryAndExportTest.kt": "2df0127c0c9f027176aa8660c9c0dc85a04fac8f2025abc2a7eb612827ef7225",
+    "app/src/test/java/com/forestry/counter/domain/location/trace/TraceGeoJsonExportTest.kt": "051a7817d9e52d6a4feee6b87985fe4a0fa9eac9c15dc1f389f11b13139b5c4b",
+    "app/src/main/res/values/cartography_import_errors.xml": "86134ecf659bc09ccad8be39d9cae5c0e15fc68e0433148d39bf0a5c12bbd1cd",
+    "app/src/main/res/values-en/cartography_import_errors.xml": "cb6b069eaef7cae16e09650bff1b43096422e4f45d5a4bf631486105d43dd09c"
+  }
+}

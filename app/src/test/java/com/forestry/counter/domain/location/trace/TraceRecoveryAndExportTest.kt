@@ -1,7 +1,6 @@
 package com.forestry.counter.domain.location.trace
 
 import com.forestry.counter.domain.repository.CartographicTraceDocument
-import com.forestry.counter.presentation.screens.forestry.trace.TraceGeoJsonExport
 import kotlinx.serialization.json.*
 import org.junit.Assert.*
 import org.junit.Test

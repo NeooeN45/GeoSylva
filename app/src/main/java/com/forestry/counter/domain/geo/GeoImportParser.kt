@@ -5,13 +5,14 @@ import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
 import android.util.Log
 import android.util.Xml
+import com.forestry.counter.R
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
 import org.json.JSONArray
 import org.json.JSONObject
 import org.xmlpull.v1.XmlPullParser
 import java.io.File
 import java.io.StringReader
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
 import java.util.zip.ZipInputStream
 
 /**
@@ -23,7 +24,7 @@ import java.util.zip.ZipInputStream
  *   • KMZ             — KML compressé ZIP
  *   • GPX             — waypoints, traces, routes
  *   • CSV coords      — colonnes lat/lon auto-détectées
- *   • GeoPackage      — SQLite, décodage WKB ISO/EWKB
+ *   • GeoPackage      — SQLite, WKB 2D, EPSG:4326 ou Lambert-93 vers longitude/latitude
  */
 object GeoImportParser {
 
@@ -35,7 +36,8 @@ object GeoImportParser {
         val featureCount: Int,
         val displayName: String,
         val format: String,
-        val warnings: List<String> = emptyList()
+        val warnings: List<String> = emptyList(),
+        val rejectionReason: String? = null,
     )
 
     // ─── Détection de format ───────────────────────────────────────────────
@@ -97,7 +99,7 @@ object GeoImportParser {
                     context.contentResolver.openInputStream(uri)?.use { i ->
                         tmp.outputStream().use { o -> i.copyTo(o) }
                     } ?: return null
-                    try { parseGeoPackage(tmp, baseName) } finally { tmp.delete() }
+                    try { parseGeoPackage(context, tmp, baseName) } finally { tmp.delete() }
                 }
                 "zip" -> {
                     val bytes = context.contentResolver.openInputStream(uri)?.use { it.readBytes() } ?: return null
@@ -106,6 +108,8 @@ object GeoImportParser {
                 }
                 else -> null
             }
+        } catch (e: GeoImportCoordinateException) {
+            rejectedResult(context, baseName, format, e.reason)
         } catch (e: Exception) {
             Log.e(TAG, "parse($format) failed", e)
             null
@@ -116,6 +120,7 @@ object GeoImportParser {
 
     private fun parseGeoJson(text: String, name: String): ParseResult {
         val stripped = text.trimStart('\uFEFF')
+        GeoImportCoordinatePolicy.validateGeoJson(Json.parseToJsonElement(stripped).jsonObject)
         val json = JSONObject(stripped)
         val type = json.optString("type")
         val fc: JSONObject
@@ -422,7 +427,7 @@ object GeoImportParser {
 
     // ─── GeoPackage ───────────────────────────────────────────────────────
 
-    private fun parseGeoPackage(file: File, name: String): ParseResult {
+    internal fun parseGeoPackage(context: Context, file: File, name: String): ParseResult {
         val features = JSONArray()
         val warnings = mutableListOf<String>()
         var resultName = name
@@ -452,10 +457,21 @@ object GeoImportParser {
                     "System table name rejected: $tableName"
                 }
 
-                // Colonne géométrie
-                var geomCol = "geom"
-                db.rawQuery("SELECT column_name FROM gpkg_geometry_columns WHERE table_name=?", arrayOf(safeTableName)).use { c ->
-                    if (c.moveToFirst()) geomCol = c.getString(0)
+                // srs_id is a package-local identifier, not necessarily an EPSG code.
+                val (geomCol, layerSrsId, epsg) = db.rawQuery(
+                    "SELECT g.column_name, g.srs_id, s.organization, s.organization_coordsys_id, c.srs_id " +
+                        "FROM gpkg_geometry_columns g JOIN gpkg_spatial_ref_sys s ON s.srs_id=g.srs_id " +
+                        "JOIN gpkg_contents c ON c.table_name=g.table_name " +
+                        "WHERE g.table_name=?", arrayOf(safeTableName)
+                ).use { c ->
+                    if (!c.moveToFirst()) throw GeoImportCoordinateException(GeoImportRejection.UNSUPPORTED_CRS)
+                    if (c.isNull(4) || c.getInt(4) != c.getInt(1)) {
+                        throw GeoImportCoordinateException(GeoImportRejection.UNSUPPORTED_CRS)
+                    }
+                    val result = Triple(c.getString(0), c.getInt(1),
+                        GeoImportCoordinatePolicy.requireSupportedEpsg(c.getString(2).orEmpty(), c.getInt(3)))
+                    if (c.moveToNext()) throw GeoImportCoordinateException(GeoImportRejection.INVALID_GEOMETRY)
+                    result
                 }
 
                 // Use parameterized LIMIT via supportSQLiteQuery to avoid any injection vector
@@ -465,10 +481,13 @@ object GeoImportParser {
                 ).use { row ->
                     val cols    = row.columnNames
                     val geomIdx = cols.indexOfFirst { it.equals(geomCol, ignoreCase = true) }
+                    if (geomIdx < 0) throw GeoImportCoordinateException(GeoImportRejection.INVALID_GEOMETRY)
                     var n = 0
                     while (row.moveToNext()) {
                         val geomBytes = if (geomIdx >= 0 && !row.isNull(geomIdx)) row.getBlob(geomIdx) else null
-                        val geomJson  = geomBytes?.let { safeDecodeGpkgGeometry(it) }
+                        val geomJson = geomBytes?.let {
+                            JSONObject(GeoPackageGeometryDecoder.decode(it, layerSrsId, epsg).toString())
+                        }
 
                         val props = JSONObject()
                         cols.forEachIndexed { idx, col ->
@@ -487,96 +506,17 @@ object GeoImportParser {
                     if (n >= MAX_GPKG_ROWS) warnings.add("Couche '$tableLabel' : limite $MAX_GPKG_ROWS entités atteinte.")
                 }
             }
+        } catch (e: GeoImportCoordinateException) {
+            return rejectedResult(context, name, "gpkg", e.reason)
         } catch (e: Exception) {
             Log.e(TAG, "GeoPackage parse error", e)
-            warnings.add("Erreur lecture GeoPackage : ${e.message?.take(120)}")
+            return rejectedResult(context, name, "gpkg", GeoImportRejection.INVALID_GEOMETRY)
         } finally {
             db.close()
         }
 
         val fc = JSONObject().apply { put("type","FeatureCollection"); put("features",features) }
         return ParseResult(fc.toString(), features.length(), resultName, "gpkg", warnings)
-    }
-
-    // ─── Décodeur WKB GeoPackage ──────────────────────────────────────────
-
-    private fun safeDecodeGpkgGeometry(bytes: ByteArray): JSONObject? = runCatching {
-        if (bytes.size < 8) return null
-        // GeoPackage binary header : GP(2) + version(1) + flags(1) + srs_id(4) = 8 bytes
-        val flags   = bytes[3].toInt() and 0xFF
-        val envType = (flags ushr 1) and 0x07
-        val envSkip = when (envType) { 1 -> 32; 2, 3 -> 48; 4 -> 64; else -> 0 }
-        val wkbStart = 8 + envSkip
-        if (wkbStart >= bytes.size) return null
-
-        val buf = ByteBuffer.wrap(bytes, wkbStart, bytes.size - wkbStart)
-        decodeWkb(buf)
-    }.getOrNull()
-
-    private fun decodeWkb(buf: ByteBuffer): JSONObject? {
-        if (buf.remaining() < 5) return null
-        val byteOrder = buf.get().toInt() and 0xFF
-        buf.order(if (byteOrder == 1) ByteOrder.LITTLE_ENDIAN else ByteOrder.BIG_ENDIAN)
-        val typeRaw   = buf.getInt()
-        val hasZ      = (typeRaw and 0x80000000.toInt()) != 0 || ((typeRaw and 0xFFFF) in 1001..1007)
-        val hasM      = (typeRaw and 0x40000000.toInt()) != 0
-        val baseType  = typeRaw and 0x0000FFFF
-        val geomType  = if (baseType > 1000) baseType - 1000 else baseType
-
-        return when (geomType) {
-            1 -> wkbPoint(buf, hasZ, hasM)
-            2 -> wkbLine(buf, hasZ, hasM)
-            3 -> wkbPolygon(buf, hasZ, hasM)
-            4 -> wkbMulti(buf, "MultiPoint")
-            5 -> wkbMulti(buf, "MultiLineString")
-            6 -> wkbMulti(buf, "MultiPolygon")
-            7 -> wkbGeomCollection(buf)
-            else -> null
-        }
-    }
-
-    private fun readPos(buf: ByteBuffer, hasZ: Boolean, hasM: Boolean): JSONArray {
-        val x = buf.getDouble(); val y = buf.getDouble()
-        if (hasZ) buf.getDouble()
-        if (hasM) buf.getDouble()
-        return JSONArray().apply { put(x); put(y) }
-    }
-
-    private fun readRing(buf: ByteBuffer, hasZ: Boolean, hasM: Boolean): JSONArray {
-        val n = buf.getInt()
-        return JSONArray().apply { repeat(n) { put(readPos(buf, hasZ, hasM)) } }
-    }
-
-    private fun wkbPoint(buf: ByteBuffer, hasZ: Boolean, hasM: Boolean): JSONObject =
-        JSONObject().apply { put("type","Point"); put("coordinates", readPos(buf, hasZ, hasM)) }
-
-    private fun wkbLine(buf: ByteBuffer, hasZ: Boolean, hasM: Boolean): JSONObject =
-        JSONObject().apply { put("type","LineString"); put("coordinates", readRing(buf, hasZ, hasM)) }
-
-    private fun wkbPolygon(buf: ByteBuffer, hasZ: Boolean, hasM: Boolean): JSONObject {
-        val nRings = buf.getInt()
-        val rings  = JSONArray().apply { repeat(nRings) { put(readRing(buf, hasZ, hasM)) } }
-        return JSONObject().apply { put("type","Polygon"); put("coordinates", rings) }
-    }
-
-    private fun wkbMulti(buf: ByteBuffer, typeName: String): JSONObject {
-        val n     = buf.getInt()
-        val parts = JSONArray()
-        repeat(n) {
-            val sub = decodeWkb(buf)
-            sub?.optJSONArray("coordinates")?.let { parts.put(it) }
-                ?: sub?.optJSONArray("geometries")?.let { parts.put(it) }
-        }
-        return JSONObject().apply {
-            put("type", typeName)
-            put("coordinates", parts)
-        }
-    }
-
-    private fun wkbGeomCollection(buf: ByteBuffer): JSONObject {
-        val n    = buf.getInt()
-        val geoms = JSONArray().apply { repeat(n) { decodeWkb(buf)?.let { put(it) } } }
-        return JSONObject().apply { put("type","GeometryCollection"); put("geometries", geoms) }
     }
 
     // ─── Utilitaires ──────────────────────────────────────────────────────
@@ -606,4 +546,12 @@ object GeoImportParser {
 
     private fun emptyResult(name: String, format: String, warnings: List<String> = emptyList()) =
         ParseResult("""{"type":"FeatureCollection","features":[]}""", 0, name, format, warnings)
+
+    private fun rejectedResult(context: Context, name: String, format: String, reason: GeoImportRejection): ParseResult {
+        val message = context.getString(when (reason) {
+            GeoImportRejection.UNSUPPORTED_CRS -> R.string.cartography_import_unsupported_crs
+            GeoImportRejection.INVALID_GEOMETRY -> R.string.cartography_import_invalid_geometry
+        })
+        return emptyResult(name, format).copy(rejectionReason = message)
+    }
 }

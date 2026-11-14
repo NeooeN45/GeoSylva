@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- New reconstruction: historical translations were not recovered. -->
+    <string name="cartography_import_unsupported_crs">Unsupported coordinate reference system for this import.</string>
+    <string name="cartography_import_invalid_geometry">Invalid geometry: import rejected.</string>
+</resources>
