@@ -1,0 +1,25 @@
+{
+  "classification": "UI_RESOURCE_REPAIR_FROM_PARTIAL_EVIDENCE_AND_CURRENT_CONTROL_BEHAVIOUR",
+  "historicalWholeFileIdentityConfirmed": false,
+  "paths": [
+    "cartography-ui/src/main/res/values/source_panel_help.xml",
+    "cartography-ui/src/main/res/values-en/source_panel_help.xml"
+  ],
+  "evidence": "recovery-workspace-sources/source-help-observed-entries.json; root0002-full250 item1437",
+  "literalEntries": [
+    "FR gs_source_help_description",
+    "EN gs_source_help_description",
+    "EN gs_source_help_visibility"
+  ],
+  "partialEvidenceCompleted": {
+    "FR gs_source_help_visibility": "Recorded full sentence prefix completed with punctuation and closing XML tag; original whole resource file is not claimed."
+  },
+  "newConciseCopy": [
+    "FR gs_source_help_opacity",
+    "FR gs_source_help_legend",
+    "EN gs_source_help_opacity",
+    "EN gs_source_help_legend"
+  ],
+  "purpose": "Supply the four resource identifiers required by the fully recovered layer-source controls. New text describes existing visibility, opacity and legend behaviour.",
+  "scope": "Resource repair distinct from literal source recovery; no original source13November equivalence asserted."
+}

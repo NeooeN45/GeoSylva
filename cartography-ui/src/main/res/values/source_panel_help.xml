@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gs_source_help_description">Comprendre : %1$s</string>
+    <string name="gs_source_help_visibility">Masquer une couche retire son affichage sur la carte. Ses données sont conservées.</string>
+    <string name="gs_source_help_opacity">Règle la transparence de la couche sur la carte.</string>
+    <string name="gs_source_help_legend">Explique les couleurs et les symboles de la couche.</string>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gs_source_help_description">Understand: %1$s</string>
+    <string name="gs_source_help_visibility">Hiding a layer removes it from the map. Its data is retained.</string>
+    <string name="gs_source_help_opacity">Adjusts the layer transparency on the map.</string>
+    <string name="gs_source_help_legend">Explains the layer colours and symbols.</string>
+</resources>
