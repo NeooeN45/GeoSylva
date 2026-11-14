@@ -145,7 +145,7 @@ internal fun activeStyleJsonFor(layer: MapLayerDef): String {
     val base = layer.tileUrls.getOrNull(0) ?: return offlineLocalStyle(layer.key)
     val overlays = layer.tileUrls.drop(1)
     return if (overlays.isEmpty()) {
-        rasterStyle(ACTIVE_BASE_ID, layer.key, base, maxZoom = layer.rasterMaxZoom, attribution = layer.attribution)
+        rasterStyle("active_base", layer.key, base, maxZoom = layer.rasterMaxZoom, attribution = layer.attribution)
     } else {
         rasterStyleMulti(
             "active",

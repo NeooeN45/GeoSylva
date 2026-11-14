@@ -61,6 +61,12 @@ fun buildLayerMapFeatures(renders: List<LayerRenderSnapshot>): List<MapOverlayFe
     return output
 }
 
-fun selectedLayerMapKey(renders: List<LayerRenderSnapshot>): MapFeatureKey? = renders.firstNotNullOfOrNull { layer ->
-    layer.selectedFeatureId?.takeIf { layer.style.visible }?.let { MapFeatureKey(IMPORTED_LAYER_PREFIX + layer.id, it) }
+/** Selection must belong to the current drawn scene, including its filters and geometry checks. */
+fun selectedLayerMapKey(renders: List<LayerRenderSnapshot>, renderedFeatures: List<MapOverlayFeature>): MapFeatureKey? {
+    val drawnKeys = renderedFeatures.mapTo(hashSetOf()) { it.key }
+    return renders.firstNotNullOfOrNull { layer ->
+        layer.selectedFeatureId?.takeIf { layer.style.visible }
+            ?.let { MapFeatureKey(IMPORTED_LAYER_PREFIX + layer.id, it) }
+            ?.takeIf { it in drawnKeys }
+    }
 }
