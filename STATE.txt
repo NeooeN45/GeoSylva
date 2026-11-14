@@ -1,0 +1,37 @@
+ÉTAT DU CHECKPOINT LOCAL GÉOSYLVA — 14 NOVEMBRE 2026
+
+Ce dépôt indépendant conserve un lot partiel de récupération des travaux du
+13 novembre 2026, entrepris depuis une base du 19 octobre 2026. Il contient
+28 fichiers sources complets enregistrés, 8 patches complets et 5 preuves JSON.
+Les chemins source20, étapes intermédiaires, candidats source21 et test composé
+restent distincts. Ce dépôt n'est pas une restauration complète de l'application,
+ni un APK qualifié, ni une preuve de compilation ou d'exécution Android.
+
+Le manifeste SHA256 contrôle les octets copiés. Ses références identifient
+séparément les hashes historiques présents dans les preuves et les hashes
+calculés pendant la récupération. Le test ergonomique composé journal + bois
+n'a pas de hash de snapshot historique complet confirmé. Le test Polish source20
+est une extraction complète enregistrée ; aucun hash historique indépendant
+de ce fichier n'est exposé dans les preuves JSON incluses.
+
+Les fragments Mapbox et préfixes de FieldJournalScreen sont exclus ; leurs
+sources complètes ne sont pas déclarées récupérées. Les transcriptions brutes,
+réponses API, scripts de récupération, clés, tokens, configurations locales,
+.env, local.properties et données personnelles ne sont pas sauvegardés ici.
+Les preuves sont conservées telles que trouvées ; certaines décrivent une étape
+antérieure et leurs limites doivent se lire avec les preuves ultérieures.
+
+Les dépôts actifs n'ont pas été modifiés par cette copie. Aucune commande
+historique reconstituée n'a été exécutée et l'application n'a pas été recodée.
+Les vérifications portent sur la copie, les hashes disponibles et les archives.
+
+PUBLICATION : aucun dépôt distant n'a été créé et aucun push n'a été effectué
+par l'opération locale qui prépare ce checkpoint. Un commit local ne constitue
+pas une sauvegarde hors de la machine. La publication doit rester PRIVÉE.
+La cible autorisée à préparer séparément est NeooeN45/GeoSylva-backups.
+Après chaque push, vérifier que le hash de main distant égale le HEAD local.
+Un éventuel échec doit être inscrit et ne doit pas être présenté comme réussi.
+
+Les archives autonomes zip et bundle et leur rapport de restauration local
+sont générés hors du dépôt dans outputs/2026-11-14/geosylva-backup-checkpoints.
+Le rapport doit indiquer les hashes réellement vérifiés et le commit contenu.

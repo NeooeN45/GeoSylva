@@ -1,0 +1,48 @@
+{
+  "schema": "geosylva.exact-recorded-patch-recovery.v1",
+  "historicalCommandsExecuted": false,
+  "sourceRepositoriesModified": false,
+  "fullSourceRecovered": false,
+  "androidExecuted": false,
+  "expectedBaseSourceSha256": "9674c133d7f0dd18194897055ca89dab9890edbad144c0233c33aedaf14d0e30",
+  "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+  "knownOriginalLines": 438,
+  "patches": [
+    {
+      "file": "patches/CAM21-01-initial-recorded.patch",
+      "sha256": "6c8d607bf83901d2395a013ee53ecec4dce4b2a8b5f5c54801397785bc45a08e",
+      "complete": true
+    },
+    {
+      "file": "patches/CAM21-01-cancel-loading-v1.patch",
+      "sha256": "419dc7bf1ba92c51b66730e7a1eb5cbbf992811e97b608a2093231a9a92e2660",
+      "complete": true
+    },
+    {
+      "file": "patches/CAM21-01-cancel-loading-v2.patch",
+      "sha256": "80e97885830710b5dde9cbb73d3cd774da9f1ff2fed24db72f50d78422417a57",
+      "complete": true,
+      "expectedFullCandidateSourceSha256": "98209439aafde4330257f71ee7755cc90fbd2e79d13e75dc41aaa2f07c569926"
+    }
+  ],
+  "provenance": [
+    {
+      "historyFile": "camera-fit20-before-v2.json",
+      "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+      "items": [
+        2,
+        4,
+        36,
+        43
+      ]
+    },
+    {
+      "historyFile": "camera-fit20-latest.json",
+      "turn": "01a1d7cb-d64f-74d6-8924-8c36159f3383",
+      "items": [
+        7
+      ]
+    }
+  ],
+  "verification": "All three complete patch SHA256 values match the recorded originals. No placeholder entered any delivered patch. Full Kotlin source is not reconstructed or certified."
+}

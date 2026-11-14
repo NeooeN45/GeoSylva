@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="retained_entry_type">Entry type</string>
+    <string name="retained_new_entry">New entry</string>
+    <string name="retained_corrected_notes">Corrected observations</string>
+    <string name="retained_correction_reason_label">Reason for correction</string>
+    <string name="retained_remove_compact">Remove</string>
+    <string name="retained_control_compact">Check</string>
+    <string name="retained_apparent_volume">Calculated apparent volume</string>
+    <string name="retained_calculation_reserve_short">Does not determine a payable quantity.</string>
+    <string name="retained_draft_local">Draft saved on this phone</string>
+    <string name="retained_required_title">Title · required</string>
+    <string name="retained_activity_performed">Activity performed · required</string>
+    <string name="retained_changes_kept">Preserved changes</string>
+    <string name="retained_correction_recorded">Correction saved</string>
+    <string name="retained_consult_original">View original</string>
+</resources>

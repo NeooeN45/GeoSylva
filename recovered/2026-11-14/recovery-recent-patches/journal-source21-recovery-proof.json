@@ -1,0 +1,83 @@
+{
+  "schema": "geosylva.exact-journal21-recovery.v1",
+  "patchComplete": true,
+  "patchFile": "patches/candidate21-journal-recorded.patch",
+  "patchSha256": "7e6eb898a90f8ac7c0c52b1b85dcb01537bc671d1c1ec458028c18d0b8790ac4",
+  "patchBytes": 30931,
+  "historicalCommandsExecuted": false,
+  "sourceRepositoriesModified": false,
+  "compiledOrNativeQualified": false,
+  "provenance": {
+    "historyFile": "journal-finish21-latest.json",
+    "turn": "01a1d751-e872-75ef-bf73-393ba0e230ad",
+    "items": [
+      66,
+      71,
+      74,
+      78,
+      94,
+      97,
+      103,
+      109,
+      113,
+      117,
+      124
+    ]
+  },
+  "completeBaseHashesMatched": {
+    "app/src/main/java/com/forestry/counter/presentation/screens/field/RetainedJournalContent.kt": "aa2702901a3a42f8d22f90472626b12526b23b6f388f2cbfce591f8bdaf739f4",
+    "app/src/main/res/values/strings_business_polish12.xml": "c3d347c8c464dc3a2d917995751a9192c93bdab0d0ac0acb23f099d2ca185fe8",
+    "app/src/main/res/values-en/strings_business_polish12.xml": "244fa79422ba5cb98659b1992337f552489c2da780006273fa2dbc391bf6351e",
+    "app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt": "a7fb44a3cd910e0a256109308ef9766f1943de140e24643c56203c5e4d866efc"
+  },
+  "completeCandidateFiles": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/field/RetainedJournalContent.kt",
+      "sha256": "92ec917fc20b9da997dfe2b359e7b86bed843edda9c806db3baaa31d5c0c100e",
+      "bytes": 21171,
+      "file": "complete-recorded/source21-journal-candidate/app/src/main/java/com/forestry/counter/presentation/screens/field/RetainedJournalContent.kt",
+      "finalMergedSource21": true
+    },
+    {
+      "path": "app/src/main/res/values/strings_business_polish12.xml",
+      "sha256": "979ed1ce9e0176cc9595e38717afabd623c951839e5dbab844979f8d99eaf0d7",
+      "bytes": 1146,
+      "file": "complete-recorded/source21-journal-candidate/app/src/main/res/values/strings_business_polish12.xml",
+      "finalMergedSource21": true
+    },
+    {
+      "path": "app/src/main/res/values-en/strings_business_polish12.xml",
+      "sha256": "e855e5a8f39b7351ede3793aa84ff105be2b17d5c5571cfe8e1cad84ed3f1ddf",
+      "bytes": 1081,
+      "file": "complete-recorded/source21-journal-candidate/app/src/main/res/values-en/strings_business_polish12.xml",
+      "finalMergedSource21": true
+    },
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt",
+      "sha256": "76768ed404d40a0202d0ddb3368c4ea0a58b28c9d5fc706139b18fec17d0d989",
+      "bytes": 8584,
+      "file": "complete-recorded/source21-journal-candidate/app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt",
+      "finalMergedSource21": false
+    }
+  ],
+  "screenPrefix": {
+    "path": "app/src/main/java/com/forestry/counter/presentation/screens/field/FieldJournalScreen.kt",
+    "completeSource": false,
+    "baseKnownLines": 250,
+    "fullBaseExpectedSha256": "ca7a448258f582bd055e9d994b2d1a489d00c7c6fc3f217130c46dcf831db8da",
+    "candidateFile": "partial-prefix/source21-journal-candidate/app/src/main/java/com/forestry/counter/presentation/screens/field/FieldJournalScreen.kt",
+    "rootLoadingGuardPatchStillRequired": true
+  },
+  "frenchRetainedWorkflows": {
+    "path": "app/src/main/res/values/strings_retained_workflows.xml",
+    "fullSourceRecovered": true,
+    "baseSha256": "e19ddd84c6dbbea2b465e457d0ef25b24e0a161f6f3274622b10cd825345805f",
+    "source21Sha256": "7a48407db93a13989f97c7dc8152bf3b429175ffa5ce70ea03beb9e8b3ae38d2",
+    "source21File": "complete-recorded/source21/app/src/main/res/values/strings_retained_workflows.xml"
+  },
+  "limitations": [
+    "FieldJournalScreen full tail is not recovered; its exact 250-line prefix suffices for this complete historical patch.",
+    "The ergonomics TEST file is the journal-only candidate; the independent wood candidate changes a different method and must be merged.",
+    "No missing line was invented. Captures and Android/JVM execution are not reconstructed by this script."
+  ]
+}

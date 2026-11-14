@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="retained_entry_type">Type d’entrée</string>
+    <string name="retained_new_entry">Nouvelle entrée</string>
+    <string name="retained_corrected_notes">Observations corrigées</string>
+    <string name="retained_correction_reason_label">Motif de la correction</string>
+    <string name="retained_remove_compact">Enlever</string>
+    <string name="retained_control_compact">Contrôler</string>
+    <string name="retained_apparent_volume">Volume apparent calculé</string>
+    <string name="retained_calculation_reserve_short">Ne détermine pas une quantité payable.</string>
+    <string name="retained_draft_local">Brouillon enregistré sur ce téléphone</string>
+    <string name="retained_required_title">Titre · obligatoire</string>
+    <string name="retained_activity_performed">Activité réalisée · obligatoire</string>
+    <string name="retained_changes_kept">Changements conservés</string>
+    <string name="retained_correction_recorded">Correction enregistrée</string>
+    <string name="retained_consult_original">Consulter l’original</string>
+</resources>

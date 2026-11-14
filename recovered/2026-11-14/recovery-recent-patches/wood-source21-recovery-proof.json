@@ -1,0 +1,104 @@
+{
+  "schema": "geosylva.exact-wood21-v2-recovery.v1",
+  "historicalCommandsExecuted": false,
+  "sourceRepositoriesModified": false,
+  "compiledOrNativeQualified": false,
+  "fullCandidateFilesRecovered": true,
+  "woodObjectsScreenAndCalculationExcluded": true,
+  "patches": [
+    {
+      "file": "patches/candidate-wood-presentation21-v2.patch",
+      "sha256": "9cac632e8bc0effb465646b5e0081b51a927340278bb0f0503016d61382fba1d",
+      "bytes": 27254,
+      "complete": true
+    },
+    {
+      "file": "patches/candidate-wood-presentation21-v2-production.patch",
+      "sha256": "42882e7fc5418ac6ea8ef58f51d4a2d1ef0e24c377f7e145c368a30ecd2eb6f3",
+      "bytes": 25580,
+      "complete": true
+    },
+    {
+      "file": "patches/candidate-wood-presentation21-v2-ergonomics-method.patch",
+      "sha256": "74ff440eb4820bce2cdeaa6374390f2fcd4f76b035f80a0b029cce506fd1197b",
+      "bytes": 1674,
+      "complete": true
+    }
+  ],
+  "files": [
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt",
+      "baseSha256": "a7fb44a3cd910e0a256109308ef9766f1943de140e24643c56203c5e4d866efc",
+      "candidateSha256": "e20b856f13e9c62382a23a05a6f0c212ed035d81be2e66ad791c50e763e4fc44",
+      "bytes": 8961,
+      "file": "complete-recorded/source21-wood-candidate/app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt",
+      "finalMergedSource21": false
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/wood/PileMeasurementForm.kt",
+      "baseSha256": "d8d7401046bffdce64d5c9361d9211357fa2e7edd58404fbc65d29699ef4789f",
+      "candidateSha256": "66bf14230bd6fc75e5adc21296e5ac84f6e1aa42d3f29b4dd1110518003d831b",
+      "bytes": 9598,
+      "file": "complete-recorded/source21-wood-candidate/app/src/main/java/com/forestry/counter/presentation/screens/wood/PileMeasurementForm.kt",
+      "finalMergedSource21": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/wood/WoodFileCard.kt",
+      "baseSha256": "5cdedc71528758a7e6b3cb1128432c82766a25671aebf9c9916fe697e483d435",
+      "candidateSha256": "c8a260d0fa492238b0a4c3615984b5811de8c8ae01fdfbe3cf49c888b7a0400f",
+      "bytes": 14079,
+      "file": "complete-recorded/source21-wood-candidate/app/src/main/java/com/forestry/counter/presentation/screens/wood/WoodFileCard.kt",
+      "finalMergedSource21": true
+    },
+    {
+      "path": "app/src/main/res/values-en/strings_wood_presentation.xml",
+      "baseSha256": null,
+      "candidateSha256": "f909d20db3cbc31f63c320432323b448714c2e83417a4bc8012fbac4c63ce698",
+      "bytes": 424,
+      "file": "complete-recorded/source21-wood-candidate/app/src/main/res/values-en/strings_wood_presentation.xml",
+      "finalMergedSource21": true
+    },
+    {
+      "path": "app/src/main/res/values/strings_wood_presentation.xml",
+      "baseSha256": null,
+      "candidateSha256": "f13d8d8255c8aa710c34e15ef37c9254e05c89ca96ccc43b5c1e32b94155dfd4",
+      "bytes": 432,
+      "file": "complete-recorded/source21-wood-candidate/app/src/main/res/values/strings_wood_presentation.xml",
+      "finalMergedSource21": true
+    }
+  ],
+  "composedTest": {
+    "file": "complete-recorded/source21-composed-journal-wood/app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt",
+    "sha256": "2e1d0513f528dfafb7fd0caee73d42e836731d83ae7ab931ed92736f5257ba76",
+    "historicalFullSnapshotHashMatched": false,
+    "composition": "journal method selector patch first, independent wood method patch second; all hunk source contexts matched",
+    "warning": "Do not overwrite the composed file with either single-method candidate."
+  },
+  "provenance": [
+    {
+      "historyFile": "wood-ui21-initial.json",
+      "turn": "01a1d75a-3251-7217-a8e3-7d72762db72f",
+      "items": [
+        14,
+        17,
+        68,
+        70,
+        73,
+        76,
+        86
+      ]
+    },
+    {
+      "historyFile": "wood-ui21-latest.json",
+      "turn": "01a1d76e-cc4f-7375-a9ee-c985ea557ed9",
+      "items": [
+        6,
+        14
+      ]
+    },
+    {
+      "journalProof": "journal-source21-recovery-proof.json"
+    }
+  ],
+  "verification": "All original source20 base SHA values and all three complete V2 patch SHA values match recorded originals. No line was invented."
+}

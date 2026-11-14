@@ -1,0 +1,54 @@
+diff --git a/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt b/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt
+--- a/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt
++++ b/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt
+@@ -82,7 +82,7 @@
+     onMap: (() -> Unit)?, onExport: (() -> Unit)?) {
+     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+         Row(verticalAlignment = Alignment.CenterVertically) {
+-            Text(site.form.name, Modifier.weight(1f), style = MaterialTheme.typography.headlineLarge,
++            Text(site.form.name, Modifier.weight(1f, fill = false), style = MaterialTheme.typography.headlineLarge,
+                 fontWeight = FontWeight.Bold)
+             RetainedHelp(site.form.name, stringResource(R.string.retained_dossier_help))
+         }
+@@ -204,8 +204,8 @@
+             horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+             DossierMedallion(icon, if (vertical) 44.dp else 52.dp)
+             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+-                if (vertical) Row(verticalAlignment = Alignment.CenterVertically) {
+-                    Text(title, Modifier.weight(1f), style = MaterialTheme.typography.titleMedium)
++                if (vertical || metric == null) Row(verticalAlignment = Alignment.CenterVertically) {
++                    Text(title, Modifier.weight(1f, fill = false), style = MaterialTheme.typography.titleMedium)
+                     RetainedHelp(title, help)
+                 } else Text(title, style = MaterialTheme.typography.titleMedium)
+                 subtitle?.takeIf { it.isNotBlank() }?.let {
+@@ -213,8 +213,8 @@
+                 }
+                 if (vertical && metric != null) DossierMetric(metric)
+             }
+-            if (!vertical) {
+-                metric?.let { DossierMetric(it) }
++            if (!vertical && metric != null) {
++                DossierMetric(metric)
+                 RetainedHelp(title, help)
+             }
+             if (chevron) Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null, Modifier.size(20.dp),
+diff --git a/app/src/main/res/values/strings_retained_workflows.xml b/app/src/main/res/values/strings_retained_workflows.xml
+--- a/app/src/main/res/values/strings_retained_workflows.xml
++++ b/app/src/main/res/values/strings_retained_workflows.xml
+@@ -75,5 +75,5 @@
+     <string name="retained_dossier_help">Dossier des parcelles et bois directement associés, avec accès au carnet. Il ne constitue pas une autorisation de passage ou d’intervention.</string>
+     <string name="retained_no_parcels">Aucune parcelle liée.</string>
+     <string name="retained_wood_receipts">Réceptions de bois</string>
+-    <string name="retained_woods_preview">Choisir un bois pour le consulter.</string>
++    <string name="retained_woods_preview">Choisir un bois à consulter.</string>
+ </resources>
+diff --git a/app/src/main/res/values-en/strings_retained_workflows.xml b/app/src/main/res/values-en/strings_retained_workflows.xml
+--- a/app/src/main/res/values-en/strings_retained_workflows.xml
++++ b/app/src/main/res/values-en/strings_retained_workflows.xml
+@@ -75,5 +75,5 @@
+     <string name="retained_dossier_help">File for the directly linked parcels and timber, with access to the field journal. It does not grant access or permission to carry out work.</string>
+     <string name="retained_no_parcels">No linked parcel.</string>
+     <string name="retained_wood_receipts">Timber receipts</string>
+-    <string name="retained_woods_preview">Choose a timber item to view.</string>
++    <string name="retained_woods_preview">Choose timber to view.</string>
+ </resources>

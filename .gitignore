@@ -1,0 +1,15 @@
+# Données et secrets exclus des sauvegardes.
+.env
+.env.*
+local.properties
+*.keystore
+*.jks
+*.p12
+*.pfx
+*.pem
+credentials.json
+token.json
+# Les archives et les essais de restauration restent hors de ce dépôt.
+*.bundle
+*.zip
+restore-check/

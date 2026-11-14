@@ -1,0 +1,346 @@
+diff --git a/app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt b/app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt
+--- a/app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt
++++ b/app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt
+@@ -80,7 +80,12 @@
+         compose.onNodeWithText("30 m³").assertIsDisplayed()
+         assertTrue("The complete preview must be in the first viewport", preview.positionInRoot.y + preview.size.height <= viewport.bottom + 1f)
+         assertTrue("The complete essential scientific reserve must be visible", reserve.positionInRoot.y + reserve.size.height <= viewport.bottom + 1f)
+-        assertTrue(preview.boundsInRoot.top < compose.onNodeWithTag("wood_method_panel").fetchSemanticsNode().boundsInRoot.top)
++        val method = compose.onNodeWithTag("wood_method_panel").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
++        val date = compose.onNodeWithTag("wood_date_panel").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
++        val details = compose.onNodeWithTag("wood_details_panel").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
++        assertTrue(method.bottom <= date.top)
++        assertTrue(date.bottom <= details.top)
++        assertTrue(details.bottom <= preview.boundsInRoot.top)
+         val reserveHelp = compose.onNodeWithTag("wood_calculation_reserve_help").fetchSemanticsNode().boundsInRoot
+         val density = compose.activity.resources.displayMetrics.density
+         assertTrue(reserveHelp.width >= 48f * density && reserveHelp.height >= 48f * density)
+diff --git a/app/src/main/java/com/forestry/counter/presentation/screens/wood/PileMeasurementForm.kt b/app/src/main/java/com/forestry/counter/presentation/screens/wood/PileMeasurementForm.kt
+--- a/app/src/main/java/com/forestry/counter/presentation/screens/wood/PileMeasurementForm.kt
++++ b/app/src/main/java/com/forestry/counter/presentation/screens/wood/PileMeasurementForm.kt
+@@ -10,8 +10,11 @@
+ import androidx.compose.runtime.*
+ import androidx.compose.ui.Alignment
+ import androidx.compose.ui.Modifier
++import androidx.compose.ui.platform.LocalDensity
+ import androidx.compose.ui.platform.testTag
+ import androidx.compose.ui.res.stringResource
++import androidx.compose.ui.semantics.contentDescription
++import androidx.compose.ui.semantics.semantics
+ import androidx.compose.ui.text.input.KeyboardType
+ import androidx.compose.ui.unit.dp
+ import com.forestry.counter.R
+@@ -34,31 +37,35 @@
+ @Composable internal fun PileMeasurementForm(form: WoodManualForm, enabled: Boolean, change: (WoodManualForm.() -> WoodManualForm) -> Unit) {
+     var panel by remember { mutableStateOf<String?>(null) }
+     val preview = remember(form.length, form.depth, form.height, form.shape, form.protocol, form.pieceLength) { pilePreview(form) }
+-    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
++    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+             Text(form.name, Modifier.weight(1f), style = MaterialTheme.typography.titleMedium)
+             RetainedHelp(stringResource(R.string.retained_pile_survey), stringResource(R.string.wo_measure_intro),
+                 Modifier.testTag("wood_pile_intro_help"))
+         }
+         RetainedHeading(stringResource(R.string.retained_dimensions))
+-        WoodPileInput(form.length, R.string.wo_length, "wood_length", enabled, numeric = true) { change { copy(length = it) } }
+-        WoodPileInput(form.depth, R.string.wo_depth, "wood_depth", enabled, numeric = true) { change { copy(depth = it) } }
+-        WoodPileInput(form.height, R.string.wo_height, "wood_height", enabled, numeric = true) { change { copy(height = it) } }
+-        Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow), modifier = Modifier.fillMaxWidth().testTag("wood_pile_preview")) {
+-            Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
++        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
++            WoodPileDimension(form.length, R.string.wood_presentation_length, R.string.wo_length, "wood_length", enabled) { change { copy(length = it) } }
++            WoodPileDimension(form.depth, R.string.wood_presentation_depth, R.string.wo_depth, "wood_depth", enabled) { change { copy(depth = it) } }
++            WoodPileDimension(form.height, R.string.wood_presentation_mean_height, R.string.wo_height, "wood_height", enabled) { change { copy(height = it) } }
++        }
++        HorizontalDivider()
++        Column {
++            RetainedActionRow(Icons.Default.Straighten, stringResource(R.string.retained_method),
++                stringResource(if (form.shape && form.protocol.isNotBlank()) R.string.retained_method_confirmed else R.string.retained_method_missing),
++                enabled, Modifier.testTag("wood_method_panel"), compact = true) { panel = "method" }
++            RetainedActionRow(Icons.Default.Event, stringResource(R.string.retained_date_part),
++                form.observedDate.ifBlank { stringResource(R.string.retained_no_date) }, enabled,
++                Modifier.testTag("wood_date_panel"), compact = true) { panel = "date" }
++            RetainedActionRow(Icons.Default.Description, stringResource(R.string.retained_details), stringResource(R.string.retained_optional),
++                enabled, Modifier.testTag("wood_details_panel"), compact = true) { panel = "details" }
++        }
++        Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = .3f)), modifier = Modifier.fillMaxWidth().testTag("wood_pile_preview")) {
++            Column(Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                 Text(stringResource(R.string.retained_preview), style = MaterialTheme.typography.labelMedium)
+                 Calculation(preview, compactPresentation = true)
+             }
+         }
+-        HorizontalDivider()
+-        RetainedActionRow(Icons.Default.Straighten, stringResource(R.string.retained_method),
+-            stringResource(if (form.shape && form.protocol.isNotBlank()) R.string.retained_method_confirmed else R.string.retained_method_missing),
+-            enabled, Modifier.testTag("wood_method_panel"), compact = true) { panel = "method" }
+-        RetainedActionRow(Icons.Default.Event, stringResource(R.string.retained_date_part),
+-            form.observedDate.ifBlank { stringResource(R.string.retained_no_date) }, enabled,
+-            Modifier.testTag("wood_date_panel"), compact = true) { panel = "date" }
+-        RetainedActionRow(Icons.Default.Description, stringResource(R.string.retained_details), stringResource(R.string.retained_optional),
+-            enabled, Modifier.testTag("wood_details_panel"), compact = true) { panel = "details" }
+         if (form.correction != null) {
+             Text(stringResource(R.string.wo_correction_hint))
+             WoodPileInput(form.reason, R.string.wo_reason, "wood_reason", enabled, limit = 5000) { change { copy(reason = it) } }
+@@ -92,6 +99,35 @@
+         } }, confirmButton = { TextButton({ panel = null }, modifier = Modifier.testTag("wood_panel_close")) { Text(stringResource(R.string.retained_close)) } })
+ }
+ 
++@Composable private fun WoodPileDimension(value: String, label: Int, accessibleLabel: Int, tag: String,
++    enabled: Boolean, change: (String) -> Unit,
++) {
++    val title = stringResource(label)
++    val fieldDescription = stringResource(accessibleLabel)
++    val fontScale = LocalDensity.current.fontScale
++    BoxWithConstraints(Modifier.fillMaxWidth()) {
++        // Keep every entered character readable; neither the viewport nor a large font clips a fixed row.
++        val stacked = maxWidth < 340.dp || fontScale > 1.2f
++        val input: @Composable (Modifier) -> Unit = { modifier ->
++            OutlinedTextField(value, { if (it.length <= 128) change(it) }, enabled = enabled,
++                modifier = modifier.heightIn(min = 56.dp).testTag(tag).semantics { contentDescription = fieldDescription },
++                textStyle = MaterialTheme.typography.titleLarge, shape = MaterialTheme.shapes.medium,
++                colors = OutlinedTextFieldDefaults.colors(
++                    unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = .25f),
++                    focusedContainerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = .25f),
++                    unfocusedBorderColor = MaterialTheme.colorScheme.primary.copy(alpha = .2f)),
++                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), suffix = { Text("m") })
++        }
++        if (stacked) Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
++            Text(title, style = MaterialTheme.typography.bodyLarge)
++            input(Modifier.fillMaxWidth())
++        } else Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
++            Text(title, Modifier.weight(.44f), style = MaterialTheme.typography.bodyLarge)
++            input(Modifier.weight(.56f))
++        }
++    }
++}
++
+ @Composable private fun WoodPileInput(value: String, label: Int, tag: String, enabled: Boolean, limit: Int = 128,
+     numeric: Boolean = false, change: (String) -> Unit,
+ ) {
+diff --git a/app/src/main/java/com/forestry/counter/presentation/screens/wood/WoodFileCard.kt b/app/src/main/java/com/forestry/counter/presentation/screens/wood/WoodFileCard.kt
+--- a/app/src/main/java/com/forestry/counter/presentation/screens/wood/WoodFileCard.kt
++++ b/app/src/main/java/com/forestry/counter/presentation/screens/wood/WoodFileCard.kt
+@@ -1,22 +1,32 @@
+ package com.forestry.counter.presentation.screens.wood
+ 
++import androidx.compose.foundation.BorderStroke
+ import androidx.compose.foundation.layout.*
+ import androidx.compose.foundation.rememberScrollState
+ import androidx.compose.foundation.verticalScroll
+ import androidx.compose.material.icons.Icons
++import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+ import androidx.compose.material.icons.filled.*
+ import androidx.compose.material3.*
+ import androidx.compose.runtime.*
++import androidx.compose.ui.Alignment
+ import androidx.compose.ui.Modifier
++import androidx.compose.ui.graphics.vector.ImageVector
++import androidx.compose.ui.platform.LocalConfiguration
+ import androidx.compose.ui.platform.testTag
+ import androidx.compose.ui.res.stringResource
+ import androidx.compose.ui.unit.dp
+ import com.forestry.counter.R
+ import com.forestry.counter.domain.field.*
++import com.forestry.counter.domain.wood.RawWoodObservation
+ import com.forestry.counter.domain.wood.WoodEffectiveSelection
+ import com.forestry.counter.domain.wood.WoodObjectKind
+ import com.forestry.counter.presentation.screens.field.*
++import java.text.DateFormat
++import java.time.ZoneId
++import java.util.Date
+ 
++@OptIn(ExperimentalLayoutApi::class)
+ @Composable internal fun WoodFileCard(
+     state: WoodObjectsState, onIdentity: () -> Unit,
+     onJournal: (() -> Unit)?, onStockEntry: ((FieldEntryKind) -> Unit)?,
+@@ -30,53 +40,84 @@
+     val known = state.stock as? FieldStockResult.Known
+     val missingBase = (state.stock as? FieldStockResult.Unavailable)?.reason == "BASE_REQUIRED"
+     val missingPalette = fieldQuantityPalette(FieldEntryKind.REMAINING)
++    val removalPalette = fieldQuantityPalette(FieldEntryKind.REMOVAL)
+     val writable = !state.busy && !state.pendingRetry && item.archivedAt == null
+-    Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+-        Text(item.header.name, style = MaterialTheme.typography.headlineSmall)
+-        Text(listOfNotNull(stringResource(if (item.kind == WoodObjectKind.PILE) R.string.wo_pile else R.string.wo_log), item.header.tag).joinToString(" · "),
+-            style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+-        if (known == null) {
+-            item.header.declaredSpecies?.let { Text(stringResource(R.string.retained_declared_species, it)) }
+-            Text(stringResource(R.string.retained_local), style = MaterialTheme.typography.labelMedium)
++    Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
++        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
++            Text(item.header.name, style = MaterialTheme.typography.headlineSmall)
++            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
++                Surface(shape = MaterialTheme.shapes.medium, color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = .35f)) {
++                    Text(listOfNotNull(stringResource(if (item.kind == WoodObjectKind.PILE) R.string.wo_pile else R.string.wo_log), item.header.tag).joinToString(" · "),
++                        Modifier.padding(horizontal = 10.dp, vertical = 4.dp), style = MaterialTheme.typography.labelLarge,
++                        color = MaterialTheme.colorScheme.primary)
++                }
++                Surface(shape = MaterialTheme.shapes.medium, color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = .35f)) {
++                    Row(Modifier.padding(horizontal = 8.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically,
++                        horizontalArrangement = Arrangement.spacedBy(4.dp)) {
++                        Icon(Icons.Default.Smartphone, if (known != null) stringResource(R.string.retained_local) else null, Modifier.size(18.dp),
++                            tint = MaterialTheme.colorScheme.primary)
++                        if (known == null) Text(stringResource(R.string.retained_local), style = MaterialTheme.typography.labelMedium,
++                            color = MaterialTheme.colorScheme.primary)
++                    }
++                }
++            }
++            if (known == null) item.header.declaredSpecies?.let {
++                Text(stringResource(R.string.retained_declared_species, it), style = MaterialTheme.typography.bodySmall)
++            }
+         }
+-        RetainedActionRow(Icons.Default.Label, stringResource(R.string.retained_identification), compact = true) { identity = true }
++        OutlinedCard {
++            WoodFileAction(Icons.Default.Label, stringResource(R.string.retained_identification), color = MaterialTheme.colorScheme.onSurface) { identity = true }
++        }
+         if (known == null) WoodFileLinks(onHistory, onJournal)
+-        Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)) {
+-            Column(Modifier.fillMaxWidth().padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+-                RetainedHeading(stringResource(R.string.retained_reference), stringResource(R.string.retained_reference_help))
++        OutlinedCard(colors = CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = .2f)),
++            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = .15f))) {
++            Column(Modifier.fillMaxWidth().padding(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
++                WoodFileHeading(stringResource(R.string.retained_reference), stringResource(R.string.retained_reference_help))
+                 when (val selection = detail.history.effectiveSelection) {
+                     WoodEffectiveSelection.None -> Text(stringResource(R.string.wo_no_reference))
+                     is WoodEffectiveSelection.Superseded -> Text(stringResource(R.string.wo_reference_corrected))
+-                    is WoodEffectiveSelection.Current -> Calculation(selection.record.observation, compactPresentation = true)
++                    is WoodEffectiveSelection.Current -> {
++                        Calculation(selection.record.observation, compactPresentation = true)
++                        selection.record.observation.observedTime?.let { date ->
++                            Text(stringResource(R.string.wo_observed, WoodManualForm.DATE_FORMAT.format(date.instant.atZone(ZoneId.of(date.zoneId)))) + " · " + date.zoneId,
++                                style = MaterialTheme.typography.bodySmall)
++                        }
++                    }
+                 }
+-                RetainedActionRow(Icons.Default.Straighten, stringResource(R.string.retained_measurements_method), compact = true) { reference = true }
++                HorizontalDivider(color = MaterialTheme.colorScheme.primary.copy(alpha = .15f))
++                WoodFileAction(Icons.Default.Straighten, stringResource(R.string.retained_measurements_method)) { reference = true }
+             }
+         }
+         Card(modifier = Modifier.testTag("wood_stock_card"), colors = CardDefaults.cardColors(
+             containerColor = if (missingBase) missingPalette.surface else missingPalette.stockSurface,
+             contentColor = if (missingBase) missingPalette.ink else missingPalette.stockInk)) {
+-            Column(Modifier.fillMaxWidth().padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+-                RetainedHeading(stringResource(R.string.field_form_stock_reference))
++            Column(Modifier.fillMaxWidth().padding(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
++                WoodFileHeading(stringResource(R.string.field_form_stock_reference), if (missingBase) stringResource(R.string.retained_stock_missing_help) else null)
+                 when {
+                     state.stockError != null -> FieldErrorCard(state.stockError)
+                     known != null -> {
+                         Text("${stockNumber(known.reading.expectedNow)} ${unitLabel(known.reading.key.unit)}", style = MaterialTheme.typography.headlineSmall,
+                             modifier = Modifier.testTag("wood_stock_expected"))
+-                        Text(stringResource(R.string.field_stock_theoretical_at, stockDate(known.reading.asOfMillis)), style = MaterialTheme.typography.bodySmall)
+-                        if (known.reading.control == null) Text(stringResource(R.string.field_stock_no_control), style = MaterialTheme.typography.bodySmall)
++                        Text(stringResource(R.string.field_form_stock_at, stockDate(known.reading.asOfMillis)), style = MaterialTheme.typography.bodySmall)
++                        if (known.reading.control == null) Text(stringResource(R.string.wood_presentation_no_control), style = MaterialTheme.typography.bodySmall)
+                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                             OutlinedButton({ onStockEntry?.invoke(FieldEntryKind.REMOVAL) }, enabled = writable && state.stockWritable && onStockEntry != null,
+-                                modifier = Modifier.weight(1f).heightIn(min = 48.dp).testTag("wood_stock_remove")) { Text(stringResource(R.string.retained_remove_compact)) }
++                                modifier = Modifier.weight(1f).heightIn(min = 48.dp).testTag("wood_stock_remove"), shape = MaterialTheme.shapes.medium,
++                                colors = ButtonDefaults.outlinedButtonColors(containerColor = removalPalette.surface, contentColor = removalPalette.ink),
++                                border = BorderStroke(1.dp, removalPalette.ink)) { Text(stringResource(R.string.retained_remove_compact)) }
+                             OutlinedButton({ onStockEntry?.invoke(FieldEntryKind.REMAINING) }, enabled = writable && state.stockWritable && onStockEntry != null,
+-                                modifier = Modifier.weight(1f).heightIn(min = 48.dp).testTag("wood_stock_control")) { Text(stringResource(R.string.retained_control_compact)) }
++                                modifier = Modifier.weight(1f).heightIn(min = 48.dp).testTag("wood_stock_control"), shape = MaterialTheme.shapes.medium,
++                                colors = ButtonDefaults.outlinedButtonColors(containerColor = missingPalette.surface, contentColor = missingPalette.ink),
++                                border = BorderStroke(1.dp, missingPalette.ink)) { Text(stringResource(R.string.retained_control_compact)) }
+                         }
+-                        RetainedActionRow(Icons.Default.Layers, stringResource(R.string.retained_stock_followup), compact = true) { followup = true }
++                        HorizontalDivider(color = missingPalette.stockOutline)
++                        WoodFileAction(Icons.Default.Layers, stringResource(R.string.retained_stock_followup), color = missingPalette.stockInk) { followup = true }
+                     }
+                     missingBase -> {
+                         Text(stringResource(R.string.retained_stock_missing), style = MaterialTheme.typography.titleLarge)
+-                        Text(stringResource(R.string.retained_stock_missing_help), style = MaterialTheme.typography.bodySmall)
++                        Text(stringResource(R.string.wood_presentation_no_initial_stock), style = MaterialTheme.typography.bodySmall)
+                         TextButton({ onStockEntry?.invoke(FieldEntryKind.INITIAL_STOCK) }, enabled = writable && state.stockWritable && onStockEntry != null,
+-                            modifier = Modifier.testTag("wood_initial_stock")) { Text(stringResource(R.string.retained_initial_stock)) }
++                            modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp).testTag("wood_initial_stock")) { Text(stringResource(R.string.retained_initial_stock)) }
+                     }
+                     state.stock != null -> FieldStockSummary(state.stock, { onSelectLedger(it) }, { onSelectLedger(null) }, !state.busy)
+                     else -> Text(stringResource(R.string.field_balance_unavailable))
+@@ -87,7 +128,7 @@
+         if (item.archivedAt != null) Text(stringResource(R.string.wo_read_only))
+     }
+     if (identity) AlertDialog(onDismissRequest = { identity = false }, title = { Text(stringResource(R.string.retained_identification)) },
+-        text = { Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
++        text = { Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+             Text(item.header.name)
+             listOfNotNull(item.header.tag, item.header.declaredSpecies, item.header.declaredQuality, item.header.declaredOrigin, item.header.description).forEach { Text(it) }
+         } }, confirmButton = { TextButton({ identity = false }) { Text(stringResource(R.string.retained_close)) } },
+@@ -96,6 +137,7 @@
+         text = { Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) { when (val selection = detail.history.effectiveSelection) {
+             is WoodEffectiveSelection.Current -> {
+                 Calculation(selection.record.observation)
++                WoodReferenceDates(selection.record.observation)
+                 for ((label, value) in rawValues(selection.record.observation.measurement)) {
+                     Text(stringResource(label) + " : " + (value ?: stringResource(R.string.wo_no_value)))
+                 }
+@@ -104,8 +146,39 @@
+         } } }, confirmButton = { TextButton({ reference = false; onHistory() }) { Text(stringResource(R.string.retained_surveys)) } },
+         dismissButton = { TextButton({ reference = false }) { Text(stringResource(R.string.retained_close)) } })
+     if (followup && state.stock != null) AlertDialog(onDismissRequest = { followup = false }, title = { Text(stringResource(R.string.retained_stock_followup)) },
+-        text = { FieldStockSummary(state.stock, { onSelectLedger(it) }, { onSelectLedger(null) }, !state.busy) },
++        text = { Column(Modifier.verticalScroll(rememberScrollState())) {
++            FieldStockSummary(state.stock, { onSelectLedger(it) }, { onSelectLedger(null) }, !state.busy)
++        } },
+         confirmButton = { TextButton({ followup = false }) { Text(stringResource(R.string.retained_close)) } })
++}
++
++@Composable private fun WoodFileHeading(title: String, help: String? = null) {
++    Row(verticalAlignment = Alignment.CenterVertically) {
++        Text(title, Modifier.weight(1f), style = MaterialTheme.typography.titleMedium)
++        help?.let { RetainedHelp(title, it) }
++    }
++}
++
++@Composable private fun WoodFileAction(icon: ImageVector, title: String,
++    color: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.primary, action: () -> Unit,
++) {
++    TextButton(action, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp), contentPadding = PaddingValues(vertical = 8.dp),
++        colors = ButtonDefaults.textButtonColors(contentColor = color), shape = MaterialTheme.shapes.small) {
++        Icon(icon, null)
++        Spacer(Modifier.width(12.dp))
++        Text(title, Modifier.weight(1f), style = MaterialTheme.typography.titleSmall)
++        Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null, Modifier.size(20.dp))
++    }
++}
++
++@Composable private fun WoodReferenceDates(raw: RawWoodObservation) {
++    val locale = LocalConfiguration.current.locales[0]
++    val date = raw.observedTime
++    Text(if (date == null) stringResource(R.string.wo_date_unknown)
++        else stringResource(R.string.wo_observed, WoodManualForm.DATE_FORMAT.format(date.instant.atZone(ZoneId.of(date.zoneId)))) + " · " + date.zoneId,
++        style = MaterialTheme.typography.bodySmall)
++    Text(stringResource(R.string.wo_recorded, DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale).format(Date.from(raw.recordedAt))),
++        style = MaterialTheme.typography.bodySmall)
+ }
+ 
+ @Composable private fun WoodFileLinks(onHistory: () -> Unit, onJournal: (() -> Unit)?) {
+diff --git a/app/src/main/res/values-en/strings_wood_presentation.xml b/app/src/main/res/values-en/strings_wood_presentation.xml
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/res/values-en/strings_wood_presentation.xml
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++    <string name="wood_presentation_length">Length</string>
++    <string name="wood_presentation_depth">Depth</string>
++    <string name="wood_presentation_mean_height">Mean height</string>
++    <string name="wood_presentation_no_control">No remaining stock check</string>
++    <string name="wood_presentation_no_initial_stock">No initial stock recorded.</string>
++</resources>
+diff --git a/app/src/main/res/values/strings_wood_presentation.xml b/app/src/main/res/values/strings_wood_presentation.xml
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/res/values/strings_wood_presentation.xml
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++    <string name="wood_presentation_length">Longueur</string>
++    <string name="wood_presentation_depth">Profondeur</string>
++    <string name="wood_presentation_mean_height">Hauteur moyenne</string>
++    <string name="wood_presentation_no_control">Aucun contrôle</string>
++    <string name="wood_presentation_no_initial_stock">Aucun stock initial enregistré.</string>
++</resources>

@@ -1,0 +1,17 @@
+diff --git a/app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt b/app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt
+--- a/app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt
++++ b/app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt
+@@ -80,7 +80,12 @@
+         compose.onNodeWithText("30 m³").assertIsDisplayed()
+         assertTrue("The complete preview must be in the first viewport", preview.positionInRoot.y + preview.size.height <= viewport.bottom + 1f)
+         assertTrue("The complete essential scientific reserve must be visible", reserve.positionInRoot.y + reserve.size.height <= viewport.bottom + 1f)
+-        assertTrue(preview.boundsInRoot.top < compose.onNodeWithTag("wood_method_panel").fetchSemanticsNode().boundsInRoot.top)
++        val method = compose.onNodeWithTag("wood_method_panel").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
++        val date = compose.onNodeWithTag("wood_date_panel").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
++        val details = compose.onNodeWithTag("wood_details_panel").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
++        assertTrue(method.bottom <= date.top)
++        assertTrue(date.bottom <= details.top)
++        assertTrue(details.bottom <= preview.boundsInRoot.top)
+         val reserveHelp = compose.onNodeWithTag("wood_calculation_reserve_help").fetchSemanticsNode().boundsInRoot
+         val density = compose.activity.resources.displayMetrics.density
+         assertTrue(reserveHelp.width >= 48f * density && reserveHelp.height >= 48f * density)

@@ -1,0 +1,91 @@
+--- a/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt
++++ b/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt
+@@ -282,6 +282,8 @@
+     var issuedPointCommandId by remember { mutableStateOf<String?>(null) }
+     val cameraGate = remember { MapCameraCommandGate() }
+     var issuedFrameFitWindow by remember { mutableStateOf<IssuedFrameFitWindow?>(null) }
++    var frameStatusReconciliationPending by remember { mutableStateOf(false) }
++    var frameStatusReconciliationFence by remember { mutableStateOf<NativeRestoreFence?>(null) }
+     var frameFitFailure by remember { mutableStateOf<MapFitFailure?>(null) }
+     var nativeLayoutRevision by remember { mutableStateOf(0L) }
+     DisposableEffect(Unit) {
+@@ -533,6 +535,11 @@
+ 
+     fun cameraUserGesture() {
+         if (!alive) return
++        val canceledLoadingFit = issuedFrameFitWindow != null && !readyPublished
++        if (canceledLoadingFit) {
++            frameStatusReconciliationPending = true
++            issuedFrameFitWindow?.firstFrameFence?.let { frameStatusReconciliationFence = it }
++        }
+         cancelNativeRestoration()
+         // A command may already be in props while its LaunchedEffect is still queued.
+         issuedPointCommandId = currentCameraCommand?.id ?: issuedPointCommandId
+@@ -542,6 +549,7 @@
+         frameFitFailure = null
+         cameraGate.invalidate()?.let { cameraEvent(it, MapCameraCommandStage.CANCELED_BY_GESTURE) }
+         cameraGestureCallback()
++        if (canceledLoadingFit) sdkMap?.triggerRepaint()
+     }
+ 
+     fun applyPointCommand() {
+@@ -551,6 +559,10 @@
+         val map = sdkMap ?: return
+         if (!boundsAccepted || map.style?.isStyleLoaded() != true) return
+         issuedPointCommandId = command.id
++        if (issuedFrameFitWindow != null && !readyPublished) {
++            frameStatusReconciliationPending = true
++            issuedFrameFitWindow?.firstFrameFence?.let { frameStatusReconciliationFence = it }
++        }
+         issuedFrameFitWindow?.close()
+         issuedFrameFitWindow = null
+         frameFitFailure = null
+@@ -561,6 +573,7 @@
+         sdkMapView?.viewport?.idle()
+         map.setCamera(command.position.toCameraOptions())
+         observeCameraCommand()
++        if (frameStatusReconciliationPending) map.triggerRepaint()
+     }
+ 
+     fun applyFrameCommand() {
+@@ -849,8 +862,14 @@
+             !resourceCycle.isComplete(resourceGeneration) -> diagnosticCallback(MapRenderDiagnostic.AWAITING_RESOURCES)
+             !boundsAccepted -> diagnosticCallback(MapRenderDiagnostic.AWAITING_CAMERA_BOUNDS)
+             resourceFailure != null -> diagnosticCallback(MapRenderDiagnostic.RESOURCE_FAILURE)
++            frameStatusReconciliationPending &&
++                (newerCameraIntention() || !nativeRestoreEvents.readyForPose() ||
++                    frameStatusReconciliationFence?.let(nativeRestoreEvents::readyAfter) == false) ->
++                diagnosticCallback(MapRenderDiagnostic.AWAITING_RESOURCES)
+             else -> {
+                 if (!restoreNativePose()) return
++                frameStatusReconciliationPending = false
++                frameStatusReconciliationFence = null
+                 diagnosticCallback(MapRenderDiagnostic.READY)
+                 if (!readyPublished) {
+                     readyPublished = true
+@@ -877,10 +896,22 @@
+         pendingQuery?.cancel()
+         applyOverlays()
+     }
+-    LaunchedEffect(sdkMap, frameCommand) {
+-        if (issuedFrameFitWindow?.stillCurrent?.invoke() == false)
+-            closeFrameFit(rearmForContext = frameCommand != null)
++    LaunchedEffect(sdkMap, frameCommand, frameStatusReconciliationPending) {
++        val canceledLoadingFit = currentFrameCommand == null && issuedFrameFitWindow != null && !readyPublished
++        if (issuedFrameFitWindow?.stillCurrent?.invoke() == false) {
++            if (canceledLoadingFit) {
++                frameStatusReconciliationPending = true
++                issuedFrameFitWindow?.firstFrameFence?.let { frameStatusReconciliationFence = it }
++            }
++            closeFrameFit(rearmForContext = currentFrameCommand != null)
++        }
+         applyFrameCommand()
++        // Reconcile only a canceled Loading; a replacement or a real failure keeps its own status.
++        if (alive && frameStatusReconciliationPending && issuedFrameFitWindow == null &&
++            frameFitFailure == null && !terrainControlFailed && resourceFailure == null && !newerCameraIntention()) {
++            acknowledgeRelief()
++            if (canceledLoadingFit && frameStatusReconciliationPending) sdkMap?.triggerRepaint()
++        }
+     }
+     LaunchedEffect(sdkMap, reticlePositionPx) { publishReticle() }
+     LaunchedEffect(sdkMap, sdkMapView, visibleInsets, density, layoutDirection, readyPublished) { publishViewport() }

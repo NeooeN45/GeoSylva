@@ -1,0 +1,51 @@
+PLAN DE SAUVEGARDE ET RESTAURATION GÉOSYLVA
+
+1. Préserver des lots cohérents, avec un commit après chaque lot de récupération
+   ou de modification et avant toute opération risquée (rebase, changement de
+   base, nettoyage, migration ou reconstruction). Garder les versions dans des
+   chemins distincts et une provenance précise. Ne jamais nommer « application
+   restaurée » une copie partielle. Ne pas confondre une base source20, un
+   candidat source21 et une composition récente de fichiers de test.
+
+2. Avant chaque checkpoint, inventorier les fichiers autorisés et exclure clés,
+   tokens, données personnelles, configurations locales, .env, local.properties,
+   fragments et transcriptions/API brutes. Scanner les secrets sans afficher
+   leurs valeurs. Copier uniquement les sources complètes et preuves pertinentes.
+   Ajouter un manifeste SHA256 avec chemin, taille et provenance ; vérifier
+   les copies octet pour octet ainsi que les hashes historiques disponibles.
+
+3. Après chaque checkpoint, pousser le commit sur un dépôt GitHub PRIVÉ, puis
+   lire le hash distant de refs/heads/main et le comparer à HEAD local. L'égalité
+   est obligatoire pour marquer le checkpoint « sauvegardé à distance ». Vérifier
+   la visibilité privée. Aucun push n'est réputé réalisé sans preuve de son
+   résultat. Si le réseau ou l'authentification manque, conserver le checkpoint
+   local, signaler l'absence de copie distante et reprendre la publication.
+
+4. Produire hors du dépôt une archive zip autonome de tous les fichiers suivis
+   et un bundle Git autonome incluant main, puis calculer leurs SHA256. Garder
+   ces deux formes avec le commit concerné et leur manifeste sur un stockage
+   privé distinct de l'environnement cloud de travail. Une archive stockée
+   seulement sur la même machine ne protège pas contre sa disparition.
+
+5. Vérifier réellement la restauration : cloner le bundle dans un dossier
+   temporaire neuf et confirmer le commit obtenu ; extraire le zip séparément ;
+   recalculer tous les hashes du manifeste et comparer tous les fichiers suivis
+   aux fichiers originaux du checkpoint. Inscrire la date, le résultat et les
+   SHA256 des archives dans un rapport hors du dépôt. Supprimer seulement le
+   dossier d'essai temporaire une fois la preuve obtenue.
+
+6. Refaire ces étapes à chaque lot et avant interruption ou redémarrage cloud.
+   En cas de nouvelle preuve, créer un nouveau commit et des archives associées,
+   puis vérifier le nouveau hash distant ; ne pas réécrire les anciennes preuves.
+   Aucune sauvegarde de ce dépôt ne qualifie une compilation ou un APK.
+
+Procédure locale de contrôle du lot (depuis la racine restaurée) :
+    sha256sum --check MANIFEST.sha256
+
+Exemples à adapter par l'opérateur autorisé, sans secrets dans les commandes :
+    git bundle create /chemin/prive/checkpoint.bundle main
+    git bundle verify /chemin/prive/checkpoint.bundle
+    git clone /chemin/prive/checkpoint.bundle /dossier/temporaire/neuf
+
+Le présent checkpoint a été préparé localement. Les opérations réseau et push
+relèvent de l'étape de publication séparée et ne sont pas revendiquées ici.

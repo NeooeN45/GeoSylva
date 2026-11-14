@@ -1,0 +1,63 @@
+{
+  "schema": "geosylva.exact-dossier21-recovery.v1",
+  "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
+  "historicalCommandsExecuted": false,
+  "sourceRepositoriesModified": false,
+  "fullKotlinSourceRecovered": true,
+  "resourceXmlFullSourcesRecovered": false,
+  "candidateFile": "complete-recorded/source21/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
+  "baseSha256": "63c43c41ba4956517849baba11ad82c89c7227a285cb8a5411dd02d9d0dbf25e",
+  "candidateSha256": "6b4a90b1b8e56e2bcfa8372360254729e7ca9ab50bb3ea6797adf5c5617f4b5c",
+  "candidateBytes": 17354,
+  "patchFile": "patches/dossier21-candidate-recorded.patch",
+  "patchSha256": "668769e1efc169c186bfbbeb22f54bffa1d07d9a90e320879df0eba98a25ac14",
+  "patchCompleteAllThreeFiles": true,
+  "historicalManifest": {
+    "schema": "GEOSYLVA_DOSSIER_CANDIDATE21_CONSULT_V1",
+    "createdUTC": "2026-11-13T23:52:33.813545+00:00",
+    "status": "CANDIDATE_ONLY_NOT_INTEGRATED_NOT_COMPILED",
+    "sourceBuild": 20,
+    "sourceFrozen113Sha256": "d2b22eeda0e4f3c5fe76bacea90e38055a347f52b0ee6f5be51e235569ec7499",
+    "files": [
+      {
+        "path": "app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
+        "baseSha256": "63c43c41ba4956517849baba11ad82c89c7227a285cb8a5411dd02d9d0dbf25e",
+        "candidateSha256": "6b4a90b1b8e56e2bcfa8372360254729e7ca9ab50bb3ea6797adf5c5617f4b5c"
+      },
+      {
+        "path": "app/src/main/res/values/strings_retained_workflows.xml",
+        "baseSha256": "e19ddd84c6dbbea2b465e457d0ef25b24e0a161f6f3274622b10cd825345805f",
+        "candidateSha256": "7a48407db93a13989f97c7dc8152bf3b429175ffa5ce70ea03beb9e8b3ae38d2"
+      },
+      {
+        "path": "app/src/main/res/values-en/strings_retained_workflows.xml",
+        "baseSha256": "26326e04f354936a263b6036b0e4b7f50ffa72552c574dee65084c3aefac5ae3",
+        "candidateSha256": "dbdd37c8e14af51e820d99eec76709672faf374311c0b553ebe7e12dcc69bf3e"
+      }
+    ],
+    "executed": {
+      "repositoryMutation": false,
+      "adb": false,
+      "gradle": false,
+      "avd": false,
+      "nativeRender": false
+    },
+    "patch": {
+      "path": "/workspace/outputs/2026-11-13/reprise-geosylva/dossier21-consult/candidate21.patch",
+      "sha256": "668769e1efc169c186bfbbeb22f54bffa1d07d9a90e320879df0eba98a25ac14"
+    },
+    "gitApplyCheck": {
+      "cwd": "/workspace/outputs/2026-11-13/reprise-geosylva/dossier21-consult/stage",
+      "exitCode": 0,
+      "passed": true
+    }
+  },
+  "provenance": {
+    "historyFile": "finish-dossier21-latest.json",
+    "turn": "01a1d751-ba26-74f3-8e39-9ea3679133eb",
+    "item": 20,
+    "outputTruncated": false,
+    "source20RecoveryProof": "dossier-source20-recovery-proof.json"
+  },
+  "verification": "Complete candidate Kotlin SHA and complete three-file patch SHA match recorded historical values. No compiled/native qualification is claimed."
+}

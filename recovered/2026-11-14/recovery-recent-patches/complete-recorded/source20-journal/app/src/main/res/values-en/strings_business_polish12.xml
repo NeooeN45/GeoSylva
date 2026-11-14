@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="retained_entry_type">Entry type</string>
+    <string name="retained_new_entry">New entry</string>
+    <string name="retained_corrected_notes">Corrected observations</string>
+    <string name="retained_correction_reason_label">Reason for correction</string>
+    <string name="retained_remove_compact">Remove</string>
+    <string name="retained_control_compact">Check</string>
+    <string name="retained_apparent_volume">Calculated apparent volume</string>
+    <string name="retained_calculation_reserve_short">Does not determine a payable quantity.</string>
+</resources>

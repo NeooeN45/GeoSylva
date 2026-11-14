@@ -1,0 +1,158 @@
+{
+  "schema": "geosylva.recorded-complete-source-recovery.v1",
+  "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
+  "historicalStage": "source20 final-v3 (Dossier source unchanged from final-v2)",
+  "fullSourceRecovered": true,
+  "finalSource21Recovered": false,
+  "sha256": "63c43c41ba4956517849baba11ad82c89c7227a285cb8a5411dd02d9d0dbf25e",
+  "bytes": 17302,
+  "file": "complete-recorded/source20-final-v3/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
+  "sourceRepositoriesModified": false,
+  "historicalCommandsExecuted": false,
+  "allowedInterpreter": [
+    "constant",
+    "name",
+    "string/integer addition",
+    "string slice",
+    "virtual read_text",
+    "string replace",
+    "string index",
+    "string rstrip"
+  ],
+  "initialAdd": {
+    "historyFile": "business-style20-earlier.json",
+    "turn": "01a1d6a3-1840-7399-857d-95953a2bf78f",
+    "item": 39,
+    "sourcePath": "/workspace/outputs/2026-11-13/reprise-geosylva/visual-business20-consult/modified/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
+    "sha256": "8bfe79d28e3cb2d92a783a3fb04c73b0c40a6befae90541eac088e970c88ee41",
+    "truncated": false
+  },
+  "stages": [
+    {
+      "turn": "01a1d6a3-1840-7399-857d-95953a2bf78f",
+      "item": 48,
+      "beforeSha256": "8bfe79d28e3cb2d92a783a3fb04c73b0c40a6befae90541eac088e970c88ee41",
+      "afterSha256": "8d1c619761c1cd9824599027465e1278f46867f490d15753fc0019f88bbb1520",
+      "file": "complete-recorded/stage20-item-048/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
+      "operations": [
+        {
+          "old": "import androidx.compose.ui.platform.testTag\n",
+          "new": "import androidx.compose.ui.platform.testTag\nimport androidx.compose.ui.platform.LocalDensity\n",
+          "occurrencesBefore": 1
+        },
+        {
+          "old": "@Composable private fun DossierMedallion(icon: ImageVector) {\n    Surface(Modifier.size(52.dp)",
+          "new": "@Composable private fun DossierMedallion(icon: ImageVector, size: androidx.compose.ui.unit.Dp) {\n    Surface(Modifier.size(size)",
+          "occurrencesBefore": 1
+        },
+        {
+          "old": "private fun outlined(name: String, draw:",
+          "new": "private fun outlined(name: String, viewportWidth: Float = 24f, draw:",
+          "occurrencesBefore": 1
+        },
+        {
+          "old": "ImageVector.Builder(name, 24.dp, 24.dp, 26f, 24f)",
+          "new": "ImageVector.Builder(name, 24.dp, 24.dp, viewportWidth, 24f)",
+          "occurrencesBefore": 1
+        }
+      ],
+      "fullIndependentReadMatches": true
+    },
+    {
+      "turn": "01a1d6a3-1840-7399-857d-95953a2bf78f",
+      "item": 56,
+      "beforeSha256": "8d1c619761c1cd9824599027465e1278f46867f490d15753fc0019f88bbb1520",
+      "afterSha256": "400f5212af036e1c6c30994505fdd1a55f01e8eacd3c9737c9ea3fbe215832bb",
+      "file": "complete-recorded/stage20-item-056/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
+      "operations": [
+        {
+          "old": "DossierIcons.",
+          "new": "RetainedFieldIcons.",
+          "occurrencesBefore": 3
+        },
+        {
+          "old": "private object DossierIcons {",
+          "new": "internal object RetainedFieldIcons {",
+          "occurrencesBefore": 1
+        },
+        {
+          "old": "/** Small outlined symbols with deterministic vector paths, shared by all worksite-file instances. */",
+          "new": "/** Shared field symbols with deterministic vector paths; reuse these from other retained field screens. */",
+          "occurrencesBefore": 1
+        },
+        {
+          "old": "import androidx.compose.ui.platform.testTag\nimport androidx.compose.ui.platform.LocalDensity\n",
+          "new": "import androidx.compose.ui.platform.LocalDensity\nimport androidx.compose.ui.platform.testTag\n",
+          "occurrencesBefore": 1
+        }
+      ],
+      "fullIndependentReadMatches": false
+    },
+    {
+      "turn": "01a1d6a3-1840-7399-857d-95953a2bf78f",
+      "item": 62,
+      "beforeSha256": "400f5212af036e1c6c30994505fdd1a55f01e8eacd3c9737c9ea3fbe215832bb",
+      "afterSha256": "079c7335510761507502fbf342dc2c6a190671da9acc001362ae827125855298",
+      "file": "complete-recorded/stage20-item-062/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
+      "operations": [
+        {
+          "old": "strokeLineCap = StrokeCap.Round, strokeLineJoin = StrokeJoin.Round, pathBuilder = draw)",
+          "new": "strokeLineCap = StrokeCap.Round, strokeLineJoin = StrokeJoin.Round) { draw() }",
+          "occurrencesBefore": 1
+        }
+      ],
+      "fullIndependentReadMatches": false
+    },
+    {
+      "turn": "01a1d6a3-1840-7399-857d-95953a2bf78f",
+      "item": 76,
+      "beforeSha256": "079c7335510761507502fbf342dc2c6a190671da9acc001362ae827125855298",
+      "afterSha256": "96b7124bf045f76ced4bcc759f9384630bb33232d1080eddf703c1da86193f24",
+      "file": "complete-recorded/stage20-item-076/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
+      "operations": [
+        {
+          "old": "import androidx.compose.material.icons.outlined.AssignmentTurnedIn\n",
+          "new": "import androidx.compose.material.icons.filled.MoreVert\n",
+          "occurrencesBefore": 1
+        },
+        {
+          "old": "import androidx.compose.runtime.Composable\nimport androidx.compose.runtime.remember\n",
+          "new": "import androidx.compose.runtime.*\n",
+          "occurrencesBefore": 1
+        },
+        {
+          "old": "import androidx.compose.ui.graphics.vector.path\n",
+          "new": "import androidx.compose.ui.graphics.vector.path\nimport androidx.compose.ui.graphics.vector.group\n",
+          "occurrencesBefore": 1
+        },
+        {
+          "old": "DossierSummaryRow(Icons.Outlined.AssignmentTurnedIn, title, null, null,",
+          "new": "DossierSummaryRow(RetainedFieldIcons.Receipts, title, null, null,",
+          "occurrencesBefore": 1
+        },
+        {
+          "old": "    val Wood = outlined(\"DossierWood\", viewportWidth = 26f) {\n        log(9f, 9f, 3.1f)\n        log(5f, 18f, 3.3f)\n        log(14f, 18f, 3.3f)\n    }\n",
+          "new": "    val Wood = outlined(\"DossierWood\", viewportWidth = 26f) { woodStack() }\n    val Receipts = ImageVector.Builder(\"DossierReceipts\", 24.dp, 24.dp, 30f, 30f).apply {\n        path(fill = null, stroke = SolidColor(Color.Black), strokeLineWidth = 1.6f,\n            strokeLineCap = StrokeCap.Round, strokeLineJoin = StrokeJoin.Round) {\n            moveTo(8f, 5.5f); lineTo(4.5f, 5.5f); lineTo(4.5f, 27.5f); lineTo(13f, 27.5f)\n            moveTo(18f, 5.5f); lineTo(22f, 5.5f); lineTo(22f, 14f)\n            moveTo(10f, 3f); lineTo(16f, 3f); curveTo(18f, 3f, 18f, 8f, 16f, 8f)\n            lineTo(10f, 8f); curveTo(8f, 8f, 8f, 3f, 10f, 3f); close()\n            moveTo(9f, 16f); lineTo(12f, 19f); lineTo(17f, 12f)\n        }\n        group(scaleX = .48f, scaleY = .48f, translationX = 14.5f, translationY = 15f) {\n            path(fill = null, stroke = SolidColor(Color.Black), strokeLineWidth = 2.5f,\n                strokeLineCap = StrokeCap.Round, strokeLineJoin = StrokeJoin.Round) { woodStack() }\n        }\n    }.build()\n\n    private fun androidx.compose.ui.graphics.vector.PathBuilder.woodStack() {\n        log(9f, 9f, 3.1f)\n        log(5f, 18f, 3.3f)\n        log(14f, 18f, 3.3f)\n    }\n",
+          "occurrencesBefore": 1
+        }
+      ],
+      "fullIndependentReadMatches": false
+    },
+    {
+      "turn": "01a1d6a3-1840-7399-857d-95953a2bf78f",
+      "item": 86,
+      "beforeSha256": "96b7124bf045f76ced4bcc759f9384630bb33232d1080eddf703c1da86193f24",
+      "afterSha256": "63c43c41ba4956517849baba11ad82c89c7227a285cb8a5411dd02d9d0dbf25e",
+      "file": "complete-recorded/stage20-item-086/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
+      "operations": [
+        {
+          "old": "var expanded by remember(siteId, archived) { mutableStateOf(false) }\n    LaunchedEffect(enabled) { if (!enabled) expanded = false }",
+          "new": "var expanded by remember(siteId, archived, enabled) { mutableStateOf(false) }",
+          "occurrencesBefore": 1
+        }
+      ],
+      "fullIndependentReadMatches": false
+    }
+  ],
+  "scope": "The later source21 help-alignment patch still must be recovered and applied. No compilation, Android execution or current production qualification is asserted."
+}
