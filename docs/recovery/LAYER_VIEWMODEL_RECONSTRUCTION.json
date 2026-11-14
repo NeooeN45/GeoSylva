@@ -1,0 +1,133 @@
+{
+  "schema": "geosylva.layer-viewmodel-contract-reconstruction.v1",
+  "createdUTC": "2026-11-14T19:59:04.333176+00:00",
+  "classification": "CONTRACT_AND_PARTIAL_HISTORICAL_RECONSTRUCTION_NOT_EXACT_RECOVERED_ORIGINAL",
+  "historicalWholeFileIdentityConfirmed": false,
+  "authorization": "Parent explicitly authorized a compilable behavioral reconstruction limited to this VM, model, targeted JVM tests and evidence; no build requested from this agent.",
+  "completeSourceSearch": {
+    "completeVmArtifactFound": false,
+    "knownFrozenProvider": "recovery-workspace-sources/layer-adapter-manifest.json",
+    "initialPrefix": {
+      "path": "/workspace/outputs/2026-11-14/recovery-workspace-sources/layer-adapter-fragments/app/src/main/java/com/forestry/counter/presentation/screens/forestry/layers/MapLayerViewModel.kt.initial-lines-1-337.txt",
+      "sha256": "215bbb3ff290d830b0804d6f69b3c33a829542bf43dc5180cc9f11af24153757",
+      "lines": 337
+    },
+    "additionalEvidence": "Later partial VM reads and literal mutation records in local layers-attributes batches12/13/8/14/earlier5; no archived command executed.",
+    "completeHistoricalTestBody": {
+      "path": "/workspace/outputs/2026-11-14/recovery-workspace-sources/evidence/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b5bf-bf91-70f7-8c5e-fbe2a7ec0d68/exec-6b26ced1-b385-4367-ac90-84660bf7aff8/output.txt",
+      "sha256": "868fcb121f728f0d0e7ea5bda81c9ff3384db4d78a2d7c4879bba4afacfba407",
+      "extraction": "Exact complete package/class body preceding the separately printed VM onResetFilter source; 138lines,7tests."
+    }
+  },
+  "contractInputs": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "sha256": "682ad81eee440ea350dc1cba8e07f953e557237a49a10a2a0a230eb0684c63c3"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/repository/CartographicLayerRepository.kt",
+      "sha256": "84cd095bc097bce83e5df872a64710bebf026bc90320ac2f28604bd827805d46"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "sha256": "c5406f0ac718a708669f061fd2c68216db0c46c43c1901f4ce82b1cbbe79628e"
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspaceState.kt",
+      "sha256": "f979157bd2e77e5a52e5b12d93b370ca5fa0344cd408f8da10a7c922dfbdf756"
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt",
+      "sha256": "2e049684f2db84cd0dd85e7b1e689f4135089993e4517c7c5b7d781a5e7edced"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/layers/MapLayerHost.kt",
+      "sha256": "66660e88749c6ad9c13a741403a74d7c9c25afea02077b18c8f21abcd63d7dc1"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/layers/LayerMapFeatures.kt",
+      "sha256": "10c400258841ff15bfdaa4fc975a159efef019c6bc4607cf2cdb32340ff39e1b"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "sha256": "44b5d83e4196d05a4af3d4e70032703d625e79cf9f2427e75c3a7af37d9a7e7b"
+    }
+  ],
+  "files": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/layers/MapLayerViewModel.kt",
+      "sha256": "185ba25c618a2d47031cc0d0807ff06ca2e7c0a4ef6bcaa98de37c72ee322c7d",
+      "lines": 820,
+      "tests": 0,
+      "classification": "RECONSTRUCTED_IMPLEMENTATION_OR_TARGETED_TESTS"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/layers/LayerRenderSnapshot.kt",
+      "sha256": "5b5df724a441d1936b22fb8a6003378cce2129deeb351ed8d5466699883e7732",
+      "lines": 23,
+      "tests": 0,
+      "classification": "RECONSTRUCTED_IMPLEMENTATION_OR_TARGETED_TESTS"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/layers/MapLayerViewModelTest.kt",
+      "sha256": "370a53d646ef49356683022a6bfefe1f8707b6ab19bb3c1421069df42125a895",
+      "lines": 138,
+      "tests": 7,
+      "classification": "COMPLETE_HISTORICAL_TEST_BODY"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/layers/MapLayerViewModelReconstructionTest.kt",
+      "sha256": "c9e274998da7c9f035c13305cb4604729d76e74c7b2c0cfe3d34157eb23e1511",
+      "lines": 423,
+      "tests": 13,
+      "classification": "RECONSTRUCTED_IMPLEMENTATION_OR_TARGETED_TESTS"
+    }
+  ],
+  "implementedBehavior": [
+    "Scope capture and identity-bound chooser tickets; stale results are ignored and late staged tokens discarded.",
+    "Bind loads saved layers while the panel is closed. Authority changes clear private snapshots, staged data, drafts and browser state.",
+    "Preview import remains memory-only until explicit repository commit; discard and ViewModel cleanup release the staged token.",
+    "All persistent writes use repository authority tokens, compare-and-set versions and UUID operation receipts.",
+    "Successful mutations re-read the live list before publishing a refreshed view; late callbacks cannot replace another scope.",
+    "Uncertain mutations retain a frozen command and operationId; the same action retries the same command while other navigation/draft mutations are blocked.",
+    "Local attribute drafts validate scalar type, finite numbers, field eligibility,4000character limits and CSV coordinate restrictions using LayerAttributePolicy.",
+    "Attribute edits never alter sourceFeature or source metadata; sourceFields expose original values separately.",
+    "LayerBrowser drives map GeoJSON, visible count, row list and selection with identical query/filter predicates; excluded selections never resurrect.",
+    "Typed null, absence, empty text, numeric zero and false remain distinct; contains/empty options require an observed text field.",
+    "Appearance/color previews remain local until updateStyle; cancel restores the baseline and style edits preserve their captured version.",
+    "Common layer visibility updates only its requested layer and preserves another editor/filter/selection.",
+    "Deletion is confirmed through repository delete and a live-list read before its overlay is removed as a successful action."
+  ],
+  "deliberateReconstructionChoices": [
+    "An uncertain write blocks navigation/draft replacement until its original action is retried. Historical partial Back behavior allowed more navigation; this stronger rule keeps the retry reachable and prevents lost operation identity.",
+    "Appearance writes for a staged source return INVALID_INPUT until commit; the recovered Preview UI exposes no appearance-save action and the repository has no staged-style mutation API.",
+    "Row titles prefer observed name/nom/label/title attributes and otherwise use the stable internal feature ID; the exact historical helper tail was unavailable."
+  ],
+  "verification": {
+    "workspaceActionsRequired": 24,
+    "workspaceActionsImplemented": 24,
+    "missingWorkspaceActions": [],
+    "targetedJvmTests": 20,
+    "testsExecutedByThisAgent": false,
+    "compilationExecutedByThisAgent": false,
+    "staticChecks": [
+      "All four new Kotlin files have balanced delimiters and no implementation placeholders.",
+      "All LayerWorkspaceActions methods are implemented.",
+      "JUnit and kotlinx-coroutines-test are already in the existing testing bundle.",
+      "No Gradle, DI, Manifest, resource, host or workspace UI file changed by this task."
+    ]
+  },
+  "remainingRisks": [
+    "Compilation and JVM execution are delegated to parent and are not claimed here.",
+    "Pending operation identity lives in the ViewModel, matching the existing constructor contract; process-death persistence would require an additional reviewed state-storage contract.",
+    "An unexpected termination of the repository accessChanges flow clears the private snapshots with IO; automatic resubscription after such a terminal flow failure is not implemented.",
+    "Real Room, document-provider and Mapbox integration are not exercised by these JVM test sources."
+  ],
+  "execution": {
+    "historicalCommandsExecuted": false,
+    "buildRun": false,
+    "testsRun": false,
+    "commitRun": false,
+    "pushRun": false
+  }
+}
