@@ -1,0 +1,30 @@
+{
+  "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasurePanels.kt",
+  "sha256": "1bc659b495d1f621773806a21bd685c491ffacd3c9a6c9131b08b69c63039bf3",
+  "classification": "full_reconstruction_from_observed_diffs",
+  "chain": [
+    {
+      "history_file": "workspace-ui-earlier.json",
+      "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+      "turn": "01a1b19c-a437-7792-962b-86ad02a981a9",
+      "item": "exec-7a605852-8707-4628-a2b2-b0461e55a916",
+      "item_index": 27,
+      "turn_started_at": 1793981195,
+      "turn_completed_at": 1793982251,
+      "kind": "add",
+      "diff_sha256": "d87f3af8a26ca54d70ff4c61995926e0c2849af43bff578fe233002d34495c4c"
+    },
+    {
+      "history_file": "workspace-ui-earlier.json",
+      "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+      "turn": "01a1b19c-a437-7792-962b-86ad02a981a9",
+      "item": "exec-39bacf8d-1aec-4f6c-9950-175355a65ecd",
+      "item_index": 33,
+      "turn_started_at": 1793981195,
+      "turn_completed_at": 1793982251,
+      "kind": "update",
+      "diff_sha256": "2ed57935edb9444c51d7144006319675dbfcb5d2470d14e1b613cbd439207bbe"
+    }
+  ],
+  "limitation": "Observed exact add and listed diffs only. This does not establish absence of intervening changes or a complete November source tree."
+}

@@ -9,8 +9,10 @@ PLAN DE SAUVEGARDE ET RESTAURATION GÉOSYLVA
 
 2. Avant chaque checkpoint, inventorier les fichiers autorisés et exclure clés,
    tokens, données personnelles, configurations locales, .env, local.properties,
-   fragments et transcriptions/API brutes. Scanner les secrets sans afficher
-   leurs valeurs. Copier uniquement les sources complètes et preuves pertinentes.
+   transcriptions/API brutes. Scanner les secrets sans afficher leurs valeurs.
+   Copier les sources complètes et preuves pertinentes. Les seuls fragments
+   autorisés sont des JSON de code validés sous FRAGMENTS_INCOMPLETE, explicitement
+   incomplets et exclus du décompte des sources complètes.
    Ajouter un manifeste SHA256 avec chemin, taille et provenance ; vérifier
    les copies octet pour octet ainsi que les hashes historiques disponibles.
 

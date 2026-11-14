@@ -1,0 +1,17 @@
+@@ -75,3 +75,3 @@
+             Column(Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState())
+-                .padding(bottom = 14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
++                .padding(bottom = 14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                 when (state.panel) {
+@@ -275,9 +275,6 @@
+     HorizontalDivider(color = MeasureUi.border)
+-    Row(verticalAlignment = Alignment.CenterVertically) {
+-        Text(stringResource(R.string.gs_measure_name_optional), Modifier.weight(1f), fontSize = 14.sp)
+-        MeasureInfo(stringResource(R.string.gs_measure_name_help)) { actions.onExplain(MeasureHelp.NAME) }
+-    }
+     OutlinedTextField(value = state.saveName, onValueChange = actions::onSaveNameChange,
+-        enabled = !state.saving, singleLine = true, modifier = Modifier.fillMaxWidth(),
++        enabled = !state.saving && state.saveNameEditable, singleLine = true, modifier = Modifier.fillMaxWidth(),
+         label = { Text(stringResource(R.string.gs_measure_name_optional)) }, shape = RoundedCornerShape(14.dp),
++        trailingIcon = { MeasureInfo(stringResource(R.string.gs_measure_name_help)) { actions.onExplain(MeasureHelp.NAME) } },
+         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),

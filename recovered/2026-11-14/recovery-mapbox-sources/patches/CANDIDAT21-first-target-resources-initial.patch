@@ -1,0 +1,316 @@
+--- a/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinement.kt
++++ b/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinement.kt
+@@ -25,7 +25,8 @@
+ /**
+  * Pure proposal policy, never a camera authority. The caller must apply each SDK result and
+  * supply all projections only after that setter's causal Idle and matching native read-back.
+- * Eight applications / twelve seconds bound work, not geometric acceptance or user data.
++ * Eight applications / twelve seconds bound refinement after the first causal FULL and Idle.
++ * Initial viewport resources do not consume this computation budget or acknowledge geometry.
+  */
+ internal class MapCameraFitRefinement(
+     private val widthPx: Int,
+@@ -33,7 +34,7 @@
+     private val absolutePadding: MapCameraPadding,
+     private val coordinateCount: Int,
+     private val minZoom: Double,
+-    private val startedAtMs: Long,
++    private var startedAtMs: Long? = null,
+     private val maxApplications: Int = 8,
+     val maxDurationMs: Long = 12_000L,
+ ) {
+@@ -49,6 +50,16 @@
+     private var previousCamera: MapCameraPosition? = null
+     private var previousPixels: List<MapFitPixel>? = null
+ 
++    val awaitingResources: Boolean get() = !closed && startedAtMs == null
++
++    /** The caller supplies native FULL/Idle evidence once; later tiles and retries cannot reset time. */
++    fun startAfterResources(nowMs: Long): Boolean {
++        require(nowMs >= 0)
++        if (!awaitingResources || appliedNonce != current.nonce) return false
++        startedAtMs = nowMs
++        return true
++    }
++
+     fun isCurrent(attempt: MapFitAttempt): Boolean = !closed && attempt == current && appliedNonce == null
+ 
+     fun applied(attempt: MapFitAttempt): Boolean {
+@@ -61,7 +72,8 @@
+ 
+     fun observe(actual: MapCameraPosition, pixels: List<MapFitPixel>, nowMs: Long): MapFitDecision {
+         if (closed || appliedNonce != current.nonce) return MapFitDecision.Waiting
+-        if (nowMs - startedAtMs >= maxDurationMs) return fail(MapFitFailure.BUDGET_EXHAUSTED)
++        val started = startedAtMs ?: return MapFitDecision.Waiting
++        if (nowMs - started >= maxDurationMs) return fail(MapFitFailure.BUDGET_EXHAUSTED)
+         val paneWidth = widthPx - absolutePadding.left - absolutePadding.right
+         val paneHeight = heightPx - absolutePadding.top - absolutePadding.bottom
+         if (paneWidth <= 0 || paneHeight <= 0) return fail(MapFitFailure.INVALID_PANE)
+--- a/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapNativeCameraPose.kt
++++ b/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapNativeCameraPose.kt
+@@ -108,5 +108,10 @@
+     var resourcesAfterMs=Long.MAX_VALUE
+     fun readyForPose(): Boolean = idleAtMs > resourcesAfterMs && fullAtMs > resourcesAfterMs &&
+         idleAtMs >= cameraAtMs && fullAtMs >= cameraAtMs
++    /** A first image of this setter's view, including a fresh Idle after that FULL began. */
++    fun readyAfter(at: NativeRestoreFence): Boolean =
++        idleSequence > at.idleSequence && fullSequence > at.fullSequence &&
++            fullAtMs >= at.submittedAtMs && idleAtMs >= fullAtMs &&
++            fullAtMs >= cameraAtMs && idleAtMs >= cameraAtMs
+     fun fence(nowMs: Long)=NativeRestoreFence(idleSequence,fullSequence,nowMs)
+ }
+--- a/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt
++++ b/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt
+@@ -486,7 +486,22 @@
+         var fitProjectionVerified = false
+         val window = issuedFrameFitWindow
+         if (fit != null && frame?.id == fit.id && view != null && window != null && window.ticket === fit &&
+-            window.stillCurrent() && fit.target?.let { cameraMatches(it, actual) } == true) {
++            window.stillCurrent()) {
++            if (window.refinement.awaitingResources &&
++                window.firstFrameFence?.let(nativeRestoreEvents::readyAfter) == true &&
++                resourceCycle.isComplete(resourceGeneration) &&
++                acknowledgedRelief?.let { reliefMatches(it, requestedRelief) } == true &&
++                window.refinement.startAfterResources(SystemClock.uptimeMillis())) {
++                window.deadline = callbackScope.launch {
++                    delay(window.refinement.maxDurationMs)
++                    if (window.stillCurrent()) window.reject(MapFitFailure.BUDGET_EXHAUSTED)
++                    else if (issuedFrameFitWindow === window) {
++                        val failedResources = resourceFailure != null || terrainControlFailed
++                        closeFrameFit(rearmForContext = !failedResources, resourceFailed = failedResources)
++                    }
++                }
++            }
++            if (!window.refinement.awaitingResources && fit.target?.let { cameraMatches(it, actual) } == true) {
+             // Collect every point, including censored projections; never short-circuit on the first failure.
+             val pixels = frame.coordinates.map { coordinate ->
+                 val pixel = map.pixelForCoordinate(Point.fromLngLat(coordinate.longitude, coordinate.latitude))
+@@ -500,6 +515,7 @@
+                     is MapFitDecision.Failed -> window.reject(decision.reason)
+                     MapFitDecision.Waiting -> Unit
+                 }
++            }
+             }
+         }
+         val ticket = cameraGate.observe(actual, fitProjectionVerified) ?: return
+@@ -575,8 +591,7 @@
+         val layoutRevision = nativeLayoutRevision
+         val fitRelief = requestedRelief
+         val fitDensity = currentRenderDensity
+-        val refinement = MapCameraFitRefinement(width,height,padding,points.size,map.getBounds().minZoom,
+-            SystemClock.uptimeMillis())
++        val refinement = MapCameraFitRefinement(width,height,padding,points.size,map.getBounds().minZoom)
+         lateinit var window: IssuedFrameFitWindow
+         fun contextCurrent(): Boolean = alive && sdkMap === map && sdkMapView === commandView &&
+             map.style === nativeStyle && nativeStyle.isStyleLoaded() && currentFrameCommand == command &&
+@@ -620,6 +635,8 @@
+                     nativeOptions,command.coordinates,fitRelief)
+                 if (!cameraGate.beginNativeFitApplication(ticket,map.cameraState.toMapCameraPosition(),key,
+                         System.currentTimeMillis(),::stillCurrent)) return@applyOnMain
++                if (window.firstFrameFence == null)
++                    window.firstFrameFence = nativeRestoreEvents.fence(ticket.submittedAtMs)
+                 var returnedNormally = false
+                 var readbackAfterSetter: MapCameraPosition? = null
+                 try {
+@@ -633,7 +650,10 @@
+                     // Only a fixed failure code escapes; an SDK exception may include credentials.
+                 } finally { cameraGate.endNativeFitApplication(ticket,returnedNormally,readbackAfterSetter) }
+                 if (!returnedNormally) { reject(MapFitFailure.INVALID_MEASUREMENT); return@applyOnMain }
+-                if (stillCurrent()) refinement.applied(attempt)
++                if (stillCurrent() && refinement.applied(attempt) && refinement.awaitingResources) {
++                    // A constrained native no-op still needs a real first frame and Idle.
++                    map.triggerRepaint()
++                }
+                 observeCameraCommand()
+             }
+         }
+@@ -658,14 +678,11 @@
+         }
+         window = IssuedFrameFitWindow(ticket,refinement,::stillCurrent,::propose,::reject)
+         issuedFrameFitWindow = window
+-        window.deadline = callbackScope.launch {
+-            delay(refinement.maxDurationMs)
+-            if (stillCurrent()) reject(MapFitFailure.BUDGET_EXHAUSTED)
+-            else if (issuedFrameFitWindow === window) {
+-                val failedResources = resourceFailure != null || terrainControlFailed
+-                closeFrameFit(rearmForContext = !failedResources,resourceFailed = failedResources)
+-            }
+-        }
++        // Loading remains interactive and cancellable; only native events open refinement.
++        readyPublished = false
++        publishReticle()
++        diagnosticCallback(MapRenderDiagnostic.AWAITING_RESOURCES)
++        statusCallback(MapRenderStatus.Loading(currentStyle.id))
+         propose(refinement.initialAttempt)
+     }
+ 
+@@ -827,6 +844,8 @@
+             reliefCallback(actual)
+         }
+         when {
++            issuedFrameFitWindow?.refinement?.awaitingResources == true ->
++                diagnosticCallback(MapRenderDiagnostic.AWAITING_RESOURCES)
+             !resourceCycle.isComplete(resourceGeneration) -> diagnosticCallback(MapRenderDiagnostic.AWAITING_RESOURCES)
+             !boundsAccepted -> diagnosticCallback(MapRenderDiagnostic.AWAITING_CAMERA_BOUNDS)
+             resourceFailure != null -> diagnosticCallback(MapRenderDiagnostic.RESOURCE_FAILURE)
+@@ -858,7 +877,11 @@
+         pendingQuery?.cancel()
+         applyOverlays()
+     }
+-    LaunchedEffect(sdkMap, frameCommand?.id) { applyFrameCommand() }
++    LaunchedEffect(sdkMap, frameCommand) {
++        if (issuedFrameFitWindow?.stillCurrent?.invoke() == false)
++            closeFrameFit(rearmForContext = frameCommand != null)
++        applyFrameCommand()
++    }
+     LaunchedEffect(sdkMap, reticlePositionPx) { publishReticle() }
+     LaunchedEffect(sdkMap, sdkMapView, visibleInsets, density, layoutDirection, readyPublished) { publishViewport() }
+     LaunchedEffect(sdkMap, cameraCommand?.id) { applyPointCommand() }
+@@ -891,7 +914,10 @@
+         applyFrameCommand()
+         applyPointCommand()
+         cameraGate.acceptNativeIdle(idleSequence, event.timestamp.time)
++        val wasAwaitingResources = issuedFrameFitWindow?.refinement?.awaitingResources == true
+         observeCameraCommand()
++        if (wasAwaitingResources && issuedFrameFitWindow?.refinement?.awaitingResources != true)
++            acknowledgeRelief()
+         publishViewport()
+     }
+ 
+@@ -1055,6 +1081,7 @@
+                         nativeRestoreEvents.fullAtMs=event.timeInterval.begin.time
+                     }
+                     dispatch {
++                    observeCameraCommand()
+                     acknowledgeRelief()
+                     val nativeStyle = map.style
+                     if (nativeStyle != null && currentStyle.matchesNativeStyleUri(nativeStyle.styleURI)) {
+@@ -1114,5 +1141,6 @@
+     val reject: (MapFitFailure) -> Unit,
+ ) {
+     var deadline: Job? = null
++    var firstFrameFence: NativeRestoreFence? = null
+     fun close() { refinement.cancel(); deadline?.cancel() }
+ }
+--- a/app/src/main/java/com/forestry/counter/presentation/screens/forestry/GeographicSelectionMap.kt
++++ b/app/src/main/java/com/forestry/counter/presentation/screens/forestry/GeographicSelectionMap.kt
+@@ -284,7 +284,8 @@
+                 relief = MapRelief(enabled = style.demSourceUrl != null),
+                 modifier = Modifier.fillMaxSize(),
+                 cameraCommand = cameraCommand,
+-                frameCommand = frameCommand.takeIf { renderStatus == MapRenderStatus.Ready(style.id) },
++                // Keep this explicit pending intention while its target viewport resources load.
++                frameCommand = frameCommand,
+                 overlays = scene,
+                 contentPadding = PaddingValues(start = 12.dp, top = controlsTopPadding, end = 72.dp, bottom = 12.dp),
+                 scaleBarVisible = scaleBarVisible,
+--- a/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinementTest.kt
++++ b/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinementTest.kt
+@@ -134,4 +134,51 @@
+         assertEquals(MapFitDecision.Verified,fit.observe(corrected,inside,102L))
+         assertSame(ticket,gate.observe(corrected,true))
+     }
++
++    @Test fun `first target resources can wait without consuming refinement time`() {
++        val fit=MapCameraFitRefinement(720,1000,padding,2,0.0)
++        fit.applied(fit.initialAttempt)
++        assertTrue(fit.awaitingResources)
++        assertEquals(MapFitDecision.Waiting,fit.observe(camera,inside,90_000L))
++        assertTrue(fit.startAfterResources(90_000L))
++        assertFalse(fit.awaitingResources)
++        val second=retry(fit.observe(camera,listOf(MapFitPixel(42.0,110.0),inside[1]),90_001L))
++        fit.applied(second)
++        assertEquals(MapFitDecision.Verified,fit.observe(camera.copy(zoom=16.5),inside,101_999L))
++    }
++
++    @Test fun `first ready arms exactly twelve seconds once and a later ready cannot reset them`() {
++        val fit=MapCameraFitRefinement(720,1000,padding,2,0.0)
++        assertEquals(12_000L,fit.maxDurationMs)
++        fit.applied(fit.initialAttempt)
++        assertTrue(fit.startAfterResources(40_000L))
++        assertFalse(fit.startAfterResources(50_000L))
++        assertEquals(MapFitDecision.Failed(MapFitFailure.BUDGET_EXHAUSTED),
++            fit.observe(camera,inside,52_000L))
++    }
++
++    @Test fun `an unapplied seed cannot start computation and cancellation prevents later readiness`() {
++        val fit=MapCameraFitRefinement(720,1000,padding,2,0.0)
++        assertFalse(fit.startAfterResources(10L))
++        fit.applied(fit.initialAttempt)
++        fit.cancel()
++        assertFalse(fit.awaitingResources)
++        assertFalse(fit.startAfterResources(90_000L))
++        assertFalse(fit.applied(fit.initialAttempt))
++        assertEquals(MapFitDecision.Waiting,fit.observe(camera,inside,90_001L))
++    }
++
++    @Test fun `the initial application still counts toward the unchanged eight application limit`() {
++        val fit=MapCameraFitRefinement(720,1000,padding,2,0.0)
++        fit.applied(fit.initialAttempt)
++        fit.startAfterResources(90_000L)
++        for(nonce in 1 until 8) {
++            val attempt=retry(fit.observe(camera.copy(zoom=16.0-nonce*0.01),
++                listOf(MapFitPixel(49.0,110.0),inside[1]),90_000L+nonce))
++            assertEquals(nonce+1,attempt.nonce)
++            assertTrue(fit.applied(attempt))
++        }
++        assertEquals(MapFitDecision.Failed(MapFitFailure.BUDGET_EXHAUSTED),
++            fit.observe(camera.copy(zoom=15.9),listOf(MapFitPixel(49.0,110.0),inside[1]),90_008L))
++    }
+ }
+--- /dev/null
++++ b/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapFitResourceReadinessTest.kt
+@@ -0,0 +1,53 @@
++package com.quintessences.geosylva.cartography.mapbox
++
++import org.junit.Assert.*
++import org.junit.Test
++
++class MapFitResourceReadinessTest {
++    @Test fun `events captured before the new setter cannot release its resource wait`() {
++        val events=NativeRestoreEvents()
++        events.fullSequence=1;events.idleSequence=1
++        events.fullAtMs=900L;events.idleAtMs=950L
++        val fence=events.fence(1_000L)
++        assertFalse(events.readyAfter(fence))
++        events.fullSequence++;events.idleSequence++
++        assertFalse(events.readyAfter(fence)) // Old native timestamps delivered later.
++    }
++
++    @Test fun `both a fresh full and a later idle are required without geometry acknowledgement`() {
++        val events=NativeRestoreEvents()
++        val fence=events.fence(1_000L)
++        events.cameraAtMs=1_001L
++        events.fullSequence=1;events.fullAtMs=1_010L
++        assertFalse(events.readyAfter(fence))
++        events.idleSequence=1;events.idleAtMs=1_005L
++        assertFalse(events.readyAfter(fence))
++        events.idleAtMs=1_011L
++        assertTrue(events.readyAfter(fence))
++    }
++
++    @Test fun `a later camera movement requires a new native image and idle`() {
++        val events=NativeRestoreEvents()
++        val fence=events.fence(1_000L)
++        events.fullSequence=1;events.fullAtMs=1_010L
++        events.idleSequence=1;events.idleAtMs=1_011L
++        assertTrue(events.readyAfter(fence))
++        events.cameraAtMs=1_015L
++        assertFalse(events.readyAfter(fence))
++        events.fullSequence++;events.fullAtMs=1_016L
++        assertFalse(events.readyAfter(fence))
++        events.idleSequence++;events.idleAtMs=1_017L
++        assertTrue(events.readyAfter(fence))
++    }
++
++    @Test fun `a replacement intent cannot reuse the prior view resource witnesses`() {
++        val events=NativeRestoreEvents()
++        events.fullSequence=2;events.fullAtMs=1_010L
++        events.idleSequence=2;events.idleAtMs=1_011L
++        val replacement=events.fence(2_000L)
++        assertFalse(events.readyAfter(replacement))
++        events.fullSequence++;events.fullAtMs=2_010L
++        events.idleSequence++;events.idleAtMs=2_011L
++        assertTrue(events.readyAfter(replacement))
++    }
++}

@@ -1,0 +1,5037 @@
+{
+  "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+  "completeSource": false,
+  "knownLinesThrough": 950,
+  "actualSourceTotalLineCount": null,
+  "unknownRangesMustNotBeInvented": true,
+  "lines": [
+    {
+      "number": 282,
+      "text": "    var issuedPointCommandId by remember { mutableStateOf<String?>(null) }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        }
+      ]
+    },
+    {
+      "number": 283,
+      "text": "    val cameraGate = remember { MapCameraCommandGate() }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        }
+      ]
+    },
+    {
+      "number": 284,
+      "text": "    var issuedFrameFitWindow by remember { mutableStateOf<IssuedFrameFitWindow?>(null) }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        }
+      ]
+    },
+    {
+      "number": 285,
+      "text": "    var frameFitFailure by remember { mutableStateOf<MapFitFailure?>(null) }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        }
+      ]
+    },
+    {
+      "number": 286,
+      "text": "    var nativeLayoutRevision by remember { mutableStateOf(0L) }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        }
+      ]
+    },
+    {
+      "number": 287,
+      "text": "    DisposableEffect(Unit) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        }
+      ]
+    },
+    {
+      "number": 450,
+      "text": "        // Failed native registration is retried by a new host snapshot/style, never every rendered frame.",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 451,
+      "text": "        if (overlayRenderer.hasAttempted(nativeStyle, currentScene, currentRenderDensity, currentRenderFontScale)) return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 452,
+      "text": "        overlayCallback(overlayRenderer.apply(nativeStyle, currentScene, currentRenderDensity, currentRenderFontScale))",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 453,
+      "text": "    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 454,
+      "text": "",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 455,
+      "text": "    fun cameraEvent(ticket: MapCameraCommandGate.Ticket, stage: MapCameraCommandStage,",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 456,
+      "text": "        camera: MapCameraPosition? = null) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 457,
+      "text": "        cameraCommandEventCallback(MapCameraCommandEvent(ticket.id, ticket.kind, stage, ticket.padding, camera))",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 458,
+      "text": "    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 459,
+      "text": "",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 460,
+      "text": "    fun closeFrameFit(rearmForContext: Boolean = false, resourceFailed: Boolean = false) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 461,
+      "text": "        val window = issuedFrameFitWindow",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 462,
+      "text": "        val unfinished = window != null || frameFitFailure != null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 463,
+      "text": "        window?.close()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 464,
+      "text": "        issuedFrameFitWindow = null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 465,
+      "text": "        // Closing a stale context must not depend on that context still being valid.",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 466,
+      "text": "        if (window != null && cameraGate.isCurrent(window.ticket)) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 467,
+      "text": "            cameraGate.invalidate()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 468,
+      "text": "            cameraEvent(window.ticket,MapCameraCommandStage.REJECTED_OPTIONS)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 469,
+      "text": "        }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 470,
+      "text": "        if (rearmForContext && unfinished) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 471,
+      "text": "            issuedFrameCommandId = null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 472,
+      "text": "            frameFitFailure = null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 473,
+      "text": "        } else if (resourceFailed && window != null) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 474,
+      "text": "            // Keep the source/terrain Failed status; a later MapLoaded cannot silently erase it.",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 475,
+      "text": "            frameFitFailure = MapFitFailure.RESOURCE_FAILURE",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 476,
+      "text": "        }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 477,
+      "text": "    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 478,
+      "text": "",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 479,
+      "text": "    fun observeCameraCommand() {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 480,
+      "text": "        val map = sdkMap ?: return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 481,
+      "text": "        if (!alive) return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 482,
+      "text": "        val actual = map.cameraState.toMapCameraPosition()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 483,
+      "text": "        val fit = cameraGate.fitObservationCandidate()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 484,
+      "text": "        val frame = currentFrameCommand",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 485,
+      "text": "        val view = sdkMapView",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 486,
+      "text": "        var fitProjectionVerified = false",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 487,
+      "text": "        val window = issuedFrameFitWindow",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 488,
+      "text": "        if (fit != null && frame?.id == fit.id && view != null && window != null && window.ticket === fit &&",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 489,
+      "text": "            window.stillCurrent()) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 490,
+      "text": "            if (window.refinement.awaitingResources &&",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 491,
+      "text": "                window.firstFrameFence?.let(nativeRestoreEvents::readyAfter) == true &&",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 492,
+      "text": "                resourceCycle.isComplete(resourceGeneration) &&",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 493,
+      "text": "                acknowledgedRelief?.let { reliefMatches(it, requestedRelief) } == true &&",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 494,
+      "text": "                window.refinement.startAfterResources(SystemClock.uptimeMillis())) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 495,
+      "text": "                window.deadline = callbackScope.launch {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 496,
+      "text": "                    delay(window.refinement.maxDurationMs)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 497,
+      "text": "                    if (window.stillCurrent()) window.reject(MapFitFailure.BUDGET_EXHAUSTED)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 498,
+      "text": "                    else if (issuedFrameFitWindow === window) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 499,
+      "text": "                        val failedResources = resourceFailure != null || terrainControlFailed",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 500,
+      "text": "                        closeFrameFit(rearmForContext = !failedResources, resourceFailed = failedResources)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 501,
+      "text": "                    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 502,
+      "text": "                }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 503,
+      "text": "            }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 504,
+      "text": "            if (!window.refinement.awaitingResources && fit.target?.let { cameraMatches(it, actual) } == true) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 505,
+      "text": "                // Collect every point, including censored projections; never short-circuit on the first failure.",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 506,
+      "text": "                val pixels = frame.coordinates.map { coordinate ->",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 507,
+      "text": "                    val pixel = map.pixelForCoordinate(Point.fromLngLat(coordinate.longitude, coordinate.latitude))",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 508,
+      "text": "                    MapFitPixel(pixel.x, pixel.y)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 509,
+      "text": "                }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 510,
+      "text": "                if (cameraMatches(actual, map.cameraState.toMapCameraPosition()) &&",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 511,
+      "text": "                    cameraGate.fitObservationCandidate() === fit && window.stillCurrent()) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 512,
+      "text": "                    when (val decision = window.refinement.observe(actual, pixels, SystemClock.uptimeMillis())) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 513,
+      "text": "                        MapFitDecision.Verified -> fitProjectionVerified = true",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 514,
+      "text": "                        is MapFitDecision.Retry -> window.propose(decision.attempt)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 515,
+      "text": "                        is MapFitDecision.Failed -> window.reject(decision.reason)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 516,
+      "text": "                        MapFitDecision.Waiting -> Unit",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 517,
+      "text": "                    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 518,
+      "text": "                }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 519,
+      "text": "            }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 520,
+      "text": "        }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 521,
+      "text": "        val ticket = cameraGate.observe(actual, fitProjectionVerified) ?: return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 522,
+      "text": "        if (ticket.kind == MapCameraCommandKind.FIT) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 523,
+      "text": "            issuedFrameFitWindow?.close()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 524,
+      "text": "            issuedFrameFitWindow = null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 525,
+      "text": "        }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 526,
+      "text": "        cameraEvent(ticket, MapCameraCommandStage.OBSERVED, actual)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 527,
+      "text": "        publishObservedCamera()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 528,
+      "text": "        when (ticket.kind) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 529,
+      "text": "            MapCameraCommandKind.POINT -> consumedCallback(ticket.id)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 530,
+      "text": "            MapCameraCommandKind.FIT -> frameConsumedCallback(ticket.id)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 531,
+      "text": "        }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 532,
+      "text": "    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 533,
+      "text": "",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 534,
+      "text": "    fun cameraUserGesture() {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 535,
+      "text": "        if (!alive) return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 536,
+      "text": "        cancelNativeRestoration()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 537,
+      "text": "        // A command may already be in props while its LaunchedEffect is still queued.",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 538,
+      "text": "        issuedPointCommandId = currentCameraCommand?.id ?: issuedPointCommandId",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 539,
+      "text": "        issuedFrameCommandId = currentFrameCommand?.id ?: issuedFrameCommandId",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 540,
+      "text": "        issuedFrameFitWindow?.close()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 541,
+      "text": "        issuedFrameFitWindow = null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 542,
+      "text": "        frameFitFailure = null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 543,
+      "text": "        cameraGate.invalidate()?.let { cameraEvent(it, MapCameraCommandStage.CANCELED_BY_GESTURE) }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 544,
+      "text": "        cameraGestureCallback()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 545,
+      "text": "    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 546,
+      "text": "",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 547,
+      "text": "    fun applyPointCommand() {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 548,
+      "text": "        val command = currentCameraCommand ?: return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 549,
+      "text": "        if (command.id == consumedPointId || command.id == issuedPointCommandId) return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 550,
+      "text": "        cancelNativeRestoration()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 551,
+      "text": "        val map = sdkMap ?: return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 552,
+      "text": "        if (!boundsAccepted || map.style?.isStyleLoaded() != true) return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 553,
+      "text": "        issuedPointCommandId = command.id",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 554,
+      "text": "        issuedFrameFitWindow?.close()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 555,
+      "text": "        issuedFrameFitWindow = null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 556,
+      "text": "        frameFitFailure = null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 557,
+      "text": "        val ticket = cameraGate.submit(command.id, MapCameraCommandKind.POINT, command.position.padding)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 558,
+      "text": "        cameraEvent(ticket, MapCameraCommandStage.REQUESTED, map.cameraState.toMapCameraPosition())",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 559,
+      "text": "        cameraGate.resolve(ticket, command.position)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 560,
+      "text": "        cameraEvent(ticket, MapCameraCommandStage.OPTIONS_CALCULATED, command.position)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 561,
+      "text": "        sdkMapView?.viewport?.idle()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 562,
+      "text": "        map.setCamera(command.position.toCameraOptions())",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 563,
+      "text": "        observeCameraCommand()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 564,
+      "text": "    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 565,
+      "text": "",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 566,
+      "text": "    fun applyFrameCommand() {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 567,
+      "text": "        val command = currentFrameCommand ?: return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 568,
+      "text": "        if (command.id == consumedFrameId || command.id == issuedFrameCommandId) return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 569,
+      "text": "        cancelNativeRestoration()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 570,
+      "text": "        val map = sdkMap ?: return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 571,
+      "text": "        val commandView = sdkMapView ?: return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 572,
+      "text": "        val nativeStyle = map.style ?: return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 573,
+      "text": "        if (!boundsAccepted || terrainControlFailed || resourceFailure != null || !nativeStyle.isStyleLoaded() ||",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 574,
+      "text": "            commandView.width <= 0 || commandView.height <= 0) return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 575,
+      "text": "        issuedFrameCommandId = command.id",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 576,
+      "text": "        issuedFrameFitWindow?.close()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 577,
+      "text": "        issuedFrameFitWindow = null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 578,
+      "text": "        if (frameFitFailure != null) statusCallback(MapRenderStatus.Loading(currentStyle.id))",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 579,
+      "text": "        frameFitFailure = null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 580,
+      "text": "        val padding = MapCameraPadding(command.paddingTopPx, command.paddingLeftPx,",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 581,
+      "text": "            command.paddingBottomPx, command.paddingRightPx)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 582,
+      "text": "        val ticket = cameraGate.submit(command.id, MapCameraCommandKind.FIT, padding)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 583,
+      "text": "        cameraEvent(ticket, MapCameraCommandStage.REQUESTED, map.cameraState.toMapCameraPosition())",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 584,
+      "text": "        val points = command.coordinates.map { Point.fromLngLat(it.longitude, it.latitude) }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 585,
+      "text": "        val state = map.cameraState",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 586,
+      "text": "        val absolutePadding = EdgeInsets(padding.top,padding.left,padding.bottom,padding.right)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 587,
+      "text": "        val camera = CameraOptions.Builder().padding(absolutePadding)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 588,
+      "text": "            .bearing(state.bearing).pitch(state.pitch).build()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 589,
+      "text": "        val width = commandView.width",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 590,
+      "text": "        val height = commandView.height",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 591,
+      "text": "        val layoutRevision = nativeLayoutRevision",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 592,
+      "text": "        val fitRelief = requestedRelief",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 593,
+      "text": "        val fitDensity = currentRenderDensity",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 594,
+      "text": "        val refinement = MapCameraFitRefinement(width,height,padding,points.size,map.getBounds().minZoom)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 595,
+      "text": "        lateinit var window: IssuedFrameFitWindow",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 596,
+      "text": "        fun contextCurrent(): Boolean = alive && sdkMap === map && sdkMapView === commandView &&",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 597,
+      "text": "            map.style === nativeStyle && nativeStyle.isStyleLoaded() && currentFrameCommand == command &&",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 598,
+      "text": "            issuedFrameFitWindow === window &&",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 599,
+      "text": "            commandView.width == width && commandView.height == height && nativeLayoutRevision == layoutRevision &&",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 600,
+      "text": "            requestedRelief == fitRelief && currentRenderDensity == fitDensity &&",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 601,
+      "text": "            !terrainControlFailed && resourceFailure == null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 602,
+      "text": "        fun stillCurrent(): Boolean = contextCurrent() && cameraGate.isCurrent(ticket)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 603,
+      "text": "        fun reject(reason: MapFitFailure) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 604,
+      "text": "            if (!contextCurrent()) return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 605,
+      "text": "            window.close()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 606,
+      "text": "            issuedFrameFitWindow = null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 607,
+      "text": "            cameraGate.invalidate()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 608,
+      "text": "            cameraEvent(ticket,MapCameraCommandStage.REJECTED_OPTIONS)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 609,
+      "text": "            frameFitFailure = reason",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 610,
+      "text": "            readyPublished = false",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 611,
+      "text": "            publishReticle()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 612,
+      "text": "            diagnosticCallback(MapRenderDiagnostic.CAMERA_FIT_FAILED)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 613,
+      "text": "            statusCallback(MapRenderStatus.Failed(MapFailureReason.CAMERA_FIT))",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 614,
+      "text": "        }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 615,
+      "text": "        fun applyCalculated(attempt: MapFitAttempt, options: CameraOptions) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 616,
+      "text": "            // A result is applicable only to this intent, layout and exact proposal nonce.",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 617,
+      "text": "            commandView.post applyOnMain@{",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 618,
+      "text": "                if (!stillCurrent() || !refinement.isCurrent(attempt)) return@applyOnMain",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 619,
+      "text": "                // Preserve all SDK fields, including the original Point, anchor and vertical field of view.",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 620,
+      "text": "                val nativeOptions = options.toBuilder().padding(absolutePadding)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 621,
+      "text": "                    .bearing(options.bearing ?: state.bearing).pitch(options.pitch ?: state.pitch).build()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 622,
+      "text": "                val center = nativeOptions.center",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 623,
+      "text": "                val zoom = nativeOptions.zoom",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 624,
+      "text": "                val target = runCatching {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 625,
+      "text": "                    if (center == null || zoom == null) null else MapCameraPosition(",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 626,
+      "text": "                        canonicalLongitude(center.longitude()),center.latitude(),zoom,",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 627,
+      "text": "                        nativeOptions.bearing ?: state.bearing,nativeOptions.pitch ?: state.pitch,padding)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 628,
+      "text": "                }.getOrNull()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 629,
+      "text": "                if (target == null) { reject(MapFitFailure.INVALID_MEASUREMENT); return@applyOnMain }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 630,
+      "text": "                if (!cameraGate.resolve(ticket,target)) return@applyOnMain",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 631,
+      "text": "                cameraEvent(ticket,MapCameraCommandStage.OPTIONS_CALCULATED,target)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 632,
+      "text": "                commandView.viewport.idle()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 633,
+      "text": "                if (!stillCurrent() || !refinement.isCurrent(attempt)) return@applyOnMain",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 634,
+      "text": "                val key = listOf(map,nativeStyle,commandView,width,height,layoutRevision,",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 635,
+      "text": "                    nativeOptions,command.coordinates,fitRelief)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 636,
+      "text": "                if (!cameraGate.beginNativeFitApplication(ticket,map.cameraState.toMapCameraPosition(),key,",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 637,
+      "text": "                        System.currentTimeMillis(),::stillCurrent)) return@applyOnMain",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 638,
+      "text": "                if (window.firstFrameFence == null)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 639,
+      "text": "                    window.firstFrameFence = nativeRestoreEvents.fence(ticket.submittedAtMs)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 640,
+      "text": "                var returnedNormally = false",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 641,
+      "text": "                var readbackAfterSetter: MapCameraPosition? = null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 642,
+      "text": "                try {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 643,
+      "text": "                    map.setCamera(nativeOptions)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 644,
+      "text": "                    // setCamera is synchronous. Read the same map immediately: a constrained",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 645,
+      "text": "                    // repeat can be a native no-op and need not produce CameraChanged.",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 646,
+      "text": "                    if (stillCurrent() && refinement.isCurrent(attempt))",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 647,
+      "text": "                        readbackAfterSetter = map.cameraState.toMapCameraPosition()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 648,
+      "text": "                    returnedNormally = true",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 649,
+      "text": "                } catch (_: RuntimeException) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 650,
+      "text": "                    // Only a fixed failure code escapes; an SDK exception may include credentials.",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 651,
+      "text": "                } finally { cameraGate.endNativeFitApplication(ticket,returnedNormally,readbackAfterSetter) }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 652,
+      "text": "                if (!returnedNormally) { reject(MapFitFailure.INVALID_MEASUREMENT); return@applyOnMain }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 653,
+      "text": "                if (stillCurrent() && refinement.applied(attempt) && refinement.awaitingResources) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 654,
+      "text": "                    // A constrained native no-op still needs a real first frame and Idle.",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 655,
+      "text": "                    map.triggerRepaint()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 656,
+      "text": "                }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 657,
+      "text": "                observeCameraCommand()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 658,
+      "text": "            }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 659,
+      "text": "        }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 660,
+      "text": "        fun propose(attempt: MapFitAttempt) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 661,
+      "text": "            if (!stillCurrent() || !refinement.isCurrent(attempt)) return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 662,
+      "text": "            if (command.coordinates.distinct().size == 1) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 663,
+      "text": "                // Keep the existing single-point FIT policy; POINT commands are independent.",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 664,
+      "text": "                applyCalculated(attempt,CameraOptions.Builder().center(points.first())",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 665,
+      "text": "                    .zoom(minOf(17.0,attempt.maxZoom ?: 17.0)).bearing(state.bearing).pitch(state.pitch)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 666,
+      "text": "                    .padding(absolutePadding).build())",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 667,
+      "text": "            } else {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 668,
+      "text": "                val extra = attempt.coordinatesPadding",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 669,
+      "text": "                val coordinatesPadding = if (extra == MapCameraPadding()) null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 670,
+      "text": "                    else EdgeInsets(extra.top,extra.left,extra.bottom,extra.right)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 671,
+      "text": "                // Only measured coordinate padding is added. UI padding stays absolute and unchanged.",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 672,
+      "text": "                try {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 673,
+      "text": "                    map.cameraForCoordinates(points,camera,coordinatesPadding,attempt.maxZoom,null) { options ->",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 674,
+      "text": "                        applyCalculated(attempt,options)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 675,
+      "text": "                    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 676,
+      "text": "                } catch (_: RuntimeException) { reject(MapFitFailure.INVALID_MEASUREMENT) }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 677,
+      "text": "            }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 678,
+      "text": "        }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 679,
+      "text": "        window = IssuedFrameFitWindow(ticket,refinement,::stillCurrent,::propose,::reject)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 680,
+      "text": "        issuedFrameFitWindow = window",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 681,
+      "text": "        // Loading remains interactive and cancellable; only native events open refinement.",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 682,
+      "text": "        readyPublished = false",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 683,
+      "text": "        publishReticle()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 684,
+      "text": "        diagnosticCallback(MapRenderDiagnostic.AWAITING_RESOURCES)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 685,
+      "text": "        statusCallback(MapRenderStatus.Loading(currentStyle.id))",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 686,
+      "text": "        propose(refinement.initialAttempt)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 687,
+      "text": "    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 688,
+      "text": "",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 689,
+      "text": "    fun publishViewport() {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 690,
+      "text": "        val map = sdkMap ?: return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 691,
+      "text": "        val view = sdkMapView",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 692,
+      "text": "        val publication = runCatching {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 693,
+      "text": "            val state = map.cameraState",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 694,
+      "text": "            val options = CameraOptions.Builder().center(state.center).zoom(state.zoom)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 695,
+      "text": "                .bearing(state.bearing).pitch(state.pitch).padding(state.padding).build()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 696,
+      "text": "            val bounds = map.coordinateBoundsForCamera(options)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 697,
+      "text": "            fun longitude(value: Double) = if (value in -180.0..180.0) value else canonicalLongitude(value)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 698,
+      "text": "            val corners = visibleViewportCorners(view?.width ?: 0, view?.height ?: 0, currentVisibleInsets)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 699,
+      "text": "            val footprint = if (!readyPublished) null else projectVisibleFootprint(corners) { pixel ->",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 700,
+      "text": "                val hit = map.coordinateInfoForPixel(pixel)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 701,
+      "text": "                if (hit.isOnSurface) MapCoordinate(canonicalLongitude(hit.coordinate.longitude()), hit.coordinate.latitude()) else null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 702,
+      "text": "            }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 703,
+      "text": "            MapViewport(MapBounds(longitude(bounds.southwest.longitude()), bounds.southwest.latitude(),",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 704,
+      "text": "                longitude(bounds.northeast.longitude()), bounds.northeast.latitude()),",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 705,
+      "text": "                MapCameraPosition(canonicalLongitude(state.center.longitude()), state.center.latitude(),",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 706,
+      "text": "                    state.zoom, state.bearing, state.pitch, state.padding.toMapCameraPadding()), footprint)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 707,
+      "text": "        }.getOrNull() ?: return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 708,
+      "text": "        if (publication != lastPublishedViewport) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 709,
+      "text": "            lastPublishedViewport = publication",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 710,
+      "text": "            viewportCallback(publication)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 711,
+      "text": "        }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 712,
+      "text": "    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 713,
+      "text": "",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 714,
+      "text": "    fun rejectTerrainControl(diagnostic: MapRenderDiagnostic) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 715,
+      "text": "        closeFrameFit(resourceFailed = true)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 716,
+      "text": "        nativeRestoration.cancel();nativeRestoreDeadline?.cancel();nativeRestoreDeadline=null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 717,
+      "text": "        terrainControlFailed = true",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 718,
+      "text": "        readyPublished = false",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 719,
+      "text": "        diagnosticCallback(diagnostic)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 720,
+      "text": "        statusCallback(MapRenderStatus.Failed(MapFailureReason.TERRAIN_CONTROL))",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 2,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 790,
+      "text": "        val prior = acknowledgedRelief",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 791,
+      "text": "        if (prior == null || !reliefMatches(prior, requestedRelief)) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 792,
+      "text": "            val map = sdkMap",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 793,
+      "text": "            if (map == null) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 794,
+      "text": "                diagnosticCallback(MapRenderDiagnostic.SDK_MAP_ABSENT)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 795,
+      "text": "                return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 796,
+      "text": "            }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 797,
+      "text": "            val nativeStyle = map.style",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 798,
+      "text": "            if (nativeStyle == null) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 799,
+      "text": "                diagnosticCallback(MapRenderDiagnostic.STYLE_ABSENT)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 800,
+      "text": "                return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 801,
+      "text": "            }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 802,
+      "text": "            if (!currentStyle.matchesNativeStyleUri(nativeStyle.styleURI)) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 803,
+      "text": "                diagnosticCallback(MapRenderDiagnostic.STYLE_URI_MISMATCH)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 804,
+      "text": "                return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 805,
+      "text": "            }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 806,
+      "text": "            if (!nativeStyle.isStyleLoaded()) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 807,
+      "text": "                diagnosticCallback(MapRenderDiagnostic.STYLE_NOT_READY)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 808,
+      "text": "                return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 809,
+      "text": "            }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 810,
+      "text": "            val sourceId = nativeStyle.getStyleTerrainProperty(\"source\").value.contents as? String",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 811,
+      "text": "            val actual = if (sourceId.isNullOrBlank() && !requestedRelief.enabled) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 812,
+      "text": "                MapRelief(enabled = false) // no elevation multiplication when terrain is disabled",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 813,
+      "text": "            } else {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 814,
+      "text": "                if (sourceId != DEM_SOURCE_ID) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 815,
+      "text": "                    diagnosticCallback(MapRenderDiagnostic.TERRAIN_SOURCE_MISMATCH)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 816,
+      "text": "                    return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 817,
+      "text": "                }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 818,
+      "text": "                if (!nativeStyle.styleSourceExists(DEM_SOURCE_ID)) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 819,
+      "text": "                    diagnosticCallback(MapRenderDiagnostic.DEM_NOT_REGISTERED)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 820,
+      "text": "                    return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 821,
+      "text": "                }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 822,
+      "text": "                val actualUrl = nativeStyle.getStyleSourceProperty(DEM_SOURCE_ID, \"url\").value.contents as? String",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 823,
+      "text": "                if (actualUrl.isNullOrBlank()) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 824,
+      "text": "                    diagnosticCallback(MapRenderDiagnostic.DEM_URL_UNAVAILABLE)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 825,
+      "text": "                    return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 826,
+      "text": "                }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 827,
+      "text": "                if (actualUrl != currentStyle.demSourceUrl) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 828,
+      "text": "                    diagnosticCallback(MapRenderDiagnostic.DEM_URL_MISMATCH)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 829,
+      "text": "                    return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 830,
+      "text": "                }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 831,
+      "text": "                val actualExaggeration = (nativeStyle.getStyleTerrainProperty(\"exaggeration\")",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 832,
+      "text": "                    .value.contents as? Number)?.toDouble()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 833,
+      "text": "                if (actualExaggeration == null || !actualExaggeration.isFinite() || actualExaggeration !in 1.0..3.0) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 834,
+      "text": "                    diagnosticCallback(MapRenderDiagnostic.EXAGGERATION_UNREADABLE)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 835,
+      "text": "                    return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 836,
+      "text": "                }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 837,
+      "text": "                MapRelief(enabled = true, exaggeration = actualExaggeration)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 838,
+      "text": "            }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 839,
+      "text": "            if (!reliefMatches(actual, requestedRelief)) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 840,
+      "text": "                diagnosticCallback(MapRenderDiagnostic.EXAGGERATION_PENDING)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 841,
+      "text": "                return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 842,
+      "text": "            }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 843,
+      "text": "            acknowledgedRelief = actual",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 844,
+      "text": "            reliefCallback(actual)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 845,
+      "text": "        }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 846,
+      "text": "        when {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 847,
+      "text": "            issuedFrameFitWindow?.refinement?.awaitingResources == true ->",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 848,
+      "text": "                diagnosticCallback(MapRenderDiagnostic.AWAITING_RESOURCES)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 849,
+      "text": "            !resourceCycle.isComplete(resourceGeneration) -> diagnosticCallback(MapRenderDiagnostic.AWAITING_RESOURCES)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 850,
+      "text": "            !boundsAccepted -> diagnosticCallback(MapRenderDiagnostic.AWAITING_CAMERA_BOUNDS)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 851,
+      "text": "            resourceFailure != null -> diagnosticCallback(MapRenderDiagnostic.RESOURCE_FAILURE)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 852,
+      "text": "            else -> {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 853,
+      "text": "                if (!restoreNativePose()) return",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 854,
+      "text": "                diagnosticCallback(MapRenderDiagnostic.READY)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 855,
+      "text": "                if (!readyPublished) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 856,
+      "text": "                    readyPublished = true",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 857,
+      "text": "                    statusCallback(MapRenderStatus.Ready(currentStyle.id))",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 858,
+      "text": "                }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 859,
+      "text": "                publishReticle()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 860,
+      "text": "                publishObservedCamera()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 861,
+      "text": "            }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 862,
+      "text": "        }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 863,
+      "text": "    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 864,
+      "text": "",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 865,
+      "text": "    LaunchedEffect(sdkMap, relief) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 866,
+      "text": "        if (issuedFrameFitWindow?.stillCurrent?.invoke() == false ||",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 867,
+      "text": "            (frameFitFailure != null && lastTerrainRequest != requestedRelief))",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 868,
+      "text": "            closeFrameFit(rearmForContext = true)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 869,
+      "text": "        acknowledgedRelief = null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 870,
+      "text": "        readyPublished = false",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 871,
+      "text": "        applyRequestedRelief()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 872,
+      "text": "        acknowledgeRelief()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 873,
+      "text": "        applyFrameCommand()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 874,
+      "text": "    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 875,
+      "text": "    LaunchedEffect(sdkMap, overlays, density, fontScale) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 876,
+      "text": "        querySerial++",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 877,
+      "text": "        pendingQuery?.cancel()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 878,
+      "text": "        applyOverlays()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 879,
+      "text": "    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 880,
+      "text": "    LaunchedEffect(sdkMap, frameCommand) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 881,
+      "text": "        if (issuedFrameFitWindow?.stillCurrent?.invoke() == false)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 882,
+      "text": "            closeFrameFit(rearmForContext = frameCommand != null)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 883,
+      "text": "        applyFrameCommand()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 884,
+      "text": "    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 885,
+      "text": "    LaunchedEffect(sdkMap, reticlePositionPx) { publishReticle() }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 886,
+      "text": "    LaunchedEffect(sdkMap, sdkMapView, visibleInsets, density, layoutDirection, readyPublished) { publishViewport() }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 36,
+          "kind": "complete-patch-old-context"
+        },
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 887,
+      "text": "    LaunchedEffect(sdkMap, cameraCommand?.id) { applyPointCommand() }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 888,
+      "text": "    LaunchedEffect(sdkMap, visibleInsets, density, relief) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 889,
+      "text": "        val context=poseContext()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 890,
+      "text": "        if (context != null && nativeRestoration.pending && !nativeRestoration.compatible(context))",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 891,
+      "text": "            cancelNativeRestoration()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 892,
+      "text": "        acknowledgeRelief()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 893,
+      "text": "    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 894,
+      "text": "    fun onNativeMapLoaded(event: com.mapbox.maps.MapLoaded) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 895,
+      "text": "        if (sdkMap?.style?.styleURI?.let(currentStyle::matchesNativeStyleUri) == true) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 896,
+      "text": "            applyOverlays()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 897,
+      "text": "            val startedDemLoad = applyRequestedRelief()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 898,
+      "text": "            if (!startedDemLoad && resourceCycle.acceptNativeResourceEvent(resourceGeneration, event.timeInterval.end.time))",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 899,
+      "text": "                resourceFailure = null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 900,
+      "text": "            applyFrameCommand()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 901,
+      "text": "            acknowledgeRelief()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 902,
+      "text": "        }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 903,
+      "text": "    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 904,
+      "text": "",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 905,
+      "text": "    fun onNativeMapIdle(event: com.mapbox.maps.MapIdle, idleSequence: Long) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 906,
+      "text": "        val nativeStyle = sdkMap?.style",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 907,
+      "text": "        if (!terrainControlFailed && resourceFailure == null && nativeStyle != null &&",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 908,
+      "text": "            currentStyle.matchesNativeStyleUri(nativeStyle.styleURI) && nativeStyle.isStyleLoaded() &&",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 909,
+      "text": "            lastTerrainStyle === nativeStyle && lastTerrainRequest == requestedRelief) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 910,
+      "text": "            resourceCycle.acceptNativeResourceEvent(resourceGeneration, event.timestamp.time)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 911,
+      "text": "        }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 912,
+      "text": "        acknowledgeRelief()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 913,
+      "text": "        applyOverlays()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 914,
+      "text": "        applyFrameCommand()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 915,
+      "text": "        applyPointCommand()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 916,
+      "text": "        cameraGate.acceptNativeIdle(idleSequence, event.timestamp.time)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 917,
+      "text": "        val wasAwaitingResources = issuedFrameFitWindow?.refinement?.awaitingResources == true",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 918,
+      "text": "        observeCameraCommand()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 919,
+      "text": "        if (wasAwaitingResources && issuedFrameFitWindow?.refinement?.awaitingResources != true)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 920,
+      "text": "            acknowledgeRelief()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 921,
+      "text": "        publishViewport()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 922,
+      "text": "    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 923,
+      "text": "",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 924,
+      "text": "    fun onNativeResourceError(error: com.mapbox.maps.MapLoadingError) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 925,
+      "text": "        closeFrameFit(resourceFailed = true)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 926,
+      "text": "        nativeRestoration.cancel()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 927,
+      "text": "        nativeRestoreDeadline?.cancel();nativeRestoreDeadline=null",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 928,
+      "text": "        if (error.type == MapLoadingErrorType.SOURCE && error.sourceId == MAP_OVERLAY_SOURCE_ID) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 929,
+      "text": "            sdkMap?.style?.let { overlayRenderer.onSourceError(it,currentScene) }?.let(overlayCallback)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 930,
+      "text": "        }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 931,
+      "text": "        val reason = when (error.type) {",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 932,
+      "text": "            MapLoadingErrorType.STYLE -> MapFailureReason.STYLE",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 933,
+      "text": "            MapLoadingErrorType.SOURCE -> MapFailureReason.SOURCE",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 934,
+      "text": "            MapLoadingErrorType.TILE -> MapFailureReason.TILE",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 935,
+      "text": "            MapLoadingErrorType.GLYPHS -> MapFailureReason.GLYPHS",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 936,
+      "text": "            MapLoadingErrorType.SPRITE -> MapFailureReason.SPRITE",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 937,
+      "text": "        }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 938,
+      "text": "        resourceFailure = reason",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 939,
+      "text": "        readyPublished = false",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 940,
+      "text": "        publishReticle()",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 941,
+      "text": "        diagnosticCallback(MapRenderDiagnostic.RESOURCE_FAILURE)",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 942,
+      "text": "        // SDK URLs and error strings may contain credentials; only expose fixed codes.",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 943,
+      "text": "        statusCallback(MapRenderStatus.Failed(reason))",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 944,
+      "text": "    }",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 945,
+      "text": "",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 946,
+      "text": "    MapboxMap(",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 947,
+      "text": "        modifier = modifier,",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 948,
+      "text": "        composeMapInitOptions = mapInitOptions,",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 949,
+      "text": "        mapViewportState = viewport,",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    },
+    {
+      "number": 950,
+      "text": "        mapState = mapState,",
+      "provenance": [
+        {
+          "turn": "01a1d7ba-095f-7449-8df2-ed365884ac18",
+          "item": 4,
+          "kind": "numbered-original-source-read"
+        }
+      ]
+    }
+  ]
+}

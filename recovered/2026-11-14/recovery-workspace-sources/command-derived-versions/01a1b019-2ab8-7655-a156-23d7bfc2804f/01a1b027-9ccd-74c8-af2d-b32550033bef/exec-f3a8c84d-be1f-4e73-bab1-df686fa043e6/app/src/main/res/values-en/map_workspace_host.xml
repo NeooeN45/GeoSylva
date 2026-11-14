@@ -1,0 +1,23 @@
+<resources>
+    <string name="workspace_explore">Explore a place</string>
+    <string name="workspace_parcel">Parcel</string>
+    <string name="workspace_forest">Selected forest</string>
+    <string name="workspace_plot">Selected plot</string>
+    <string name="workspace_tree_count">%1$d trees shown</string>
+    <string name="workspace_on_device">On this device</string>
+    <string name="workspace_tree_layer">Tree records</string>
+    <string name="workspace_measure_layer">Map measurement</string>
+    <string name="workspace_layer_details">Source and details</string>
+    <string name="workspace_relief_unavailable">Relief requires terrain elevation data, which are unavailable in this local basemap.</string>
+    <string name="workspace_wait_for_map">Controls become available when the basemap and terrain have loaded.</string>
+    <string name="workspace_no_releves">No geolocated records are available in this context. Accuracy filters are available in Tools.</string>
+    <string name="workspace_configuration_required">This application’s Mapbox configuration must be completed before loading this basemap.</string>
+    <string name="workspace_local_data_required">No local basemap saved. Mapbox offline packs are under development.</string>
+    <string name="workspace_basemap_failed">This basemap could not load. The previous basemap is retained. You can retry from Basemaps.</string>
+    <string name="workspace_trees_source">Positions saved in your authorised records for the selected context. Species and recorded accuracy filters apply to the display. A saved position does not guarantee a tree’s current position.</string>
+    <string name="workspace_measure_source">Geometry drawn on the map. Points are retained when the layer is hidden. Map distance and area are not boundary surveys or slope-corrected measurements. Saved measurements remain available in Tools.</string>
+    <string name="workspace_information">Information</string>
+    <string name="workspace_recorded_precision">Recorded positions</string>
+    <string name="workspace_precision_limit">This filter uses each tree’s recorded accuracy, independently of the phone’s current reception. Positions without usable accuracy are excluded when the filter is active.</string>
+    <string name="workspace_close_measure">Leave the measuring tool</string>
+</resources>

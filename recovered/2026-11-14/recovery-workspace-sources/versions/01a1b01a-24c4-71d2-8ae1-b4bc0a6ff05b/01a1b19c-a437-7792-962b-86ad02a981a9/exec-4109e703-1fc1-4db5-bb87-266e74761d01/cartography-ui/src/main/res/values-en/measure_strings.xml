@@ -1,0 +1,47 @@
+<resources>
+    <string name="gs_measure_on_map">Measure on the map</string>
+    <string name="gs_measure_title">Measure</string>
+    <string name="gs_measure_distance">Distance</string>
+    <string name="gs_measure_area">Area</string>
+    <string name="gs_measure_distance_on_map">Distance on the map</string>
+    <string name="gs_measure_area_on_map">Area on the map</string>
+    <string name="gs_measure_touch_to_add">Tap the map to add a point</string>
+    <string name="gs_measure_undo">Remove the last point</string>
+    <string name="gs_measure_save">Save</string>
+    <string name="gs_measure_save_title">Save the measurement</string>
+    <string name="gs_measure_cancel">Cancel</string>
+    <string name="gs_measure_close">Close</string>
+    <string name="gs_measure_fold">Collapse the measurement</string>
+    <string name="gs_measure_back">Back</string>
+    <string name="gs_measure_resume">Resume measurement</string>
+    <string name="gs_measure_menu">Measurement options</string>
+    <string name="gs_measure_units">Measurement units</string>
+    <string name="gs_measure_segments">Segments</string>
+    <string name="gs_measure_color">Drawing color</string>
+    <string name="gs_measure_clear">Clear the drawing…</string>
+    <string name="gs_measure_share">Share the measurement</string>
+    <string name="gs_measure_saved">Saved measurements</string>
+    <string name="gs_measure_layers">Layers</string>
+    <string name="gs_measure_location">My location</string>
+    <string name="gs_measure_context_help">About the measurement context</string>
+    <string name="gs_measure_method_help">Measurement method and limits</string>
+    <string name="gs_measure_result_help">About this result</string>
+    <string name="gs_measure_points_help">About the point count</string>
+    <string name="gs_measure_units_help">About measurement units</string>
+    <string name="gs_measure_distance_unit_help">About distance units</string>
+    <string name="gs_measure_area_unit_help">About area units</string>
+    <string name="gs_measure_save_help">About saving</string>
+    <string name="gs_measure_name_help">About the measurement name</string>
+    <string name="gs_measure_local_help">About local storage</string>
+    <string name="gs_measure_no_result">Unavailable</string>
+    <string name="gs_measure_displayed_distance">Displayed distance</string>
+    <string name="gs_measure_displayed_area">Displayed area</string>
+    <string name="gs_measure_ares">ares</string>
+    <string name="gs_measure_name_optional">Name (optional)</string>
+    <string name="gs_measure_local_save">Local storage</string>
+    <string name="gs_measure_saving">Saving…</string>
+    <plurals name="gs_measure_point_count">
+        <item quantity="one">%d point</item>
+        <item quantity="other">%d points</item>
+    </plurals>
+</resources>

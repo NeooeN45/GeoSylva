@@ -1,0 +1,195 @@
+diff --git a/base/app/src/main/java/com/forestry/counter/presentation/screens/field/FieldMapContextScreen.kt b/modified/app/src/main/java/com/forestry/counter/presentation/screens/field/FieldMapContextScreen.kt
+index 6769865..6bbf32b 100644
+--- a/base/app/src/main/java/com/forestry/counter/presentation/screens/field/FieldMapContextScreen.kt
++++ b/modified/app/src/main/java/com/forestry/counter/presentation/screens/field/FieldMapContextScreen.kt
+@@ -23,36 +23,75 @@ import com.forestry.counter.domain.field.*
+ import com.forestry.counter.domain.maps.MapsPlace
+ import com.forestry.counter.domain.repository.*
+ import kotlinx.coroutines.CancellationException
++import kotlinx.coroutines.Job
++import kotlinx.coroutines.currentCoroutineContext
++import kotlinx.coroutines.ensureActive
+ import kotlinx.coroutines.flow.MutableStateFlow
+ import kotlinx.coroutines.flow.asStateFlow
+ import kotlinx.coroutines.flow.collect
+ import kotlinx.coroutines.launch
+ 
++internal data class FieldMapContextConstraints(val allowWorksites: Boolean, val allowParcels: Boolean) {
++    fun allows(target: FieldTarget): Boolean = when (target.kind) {
++        FieldTargetKind.WORKSITE -> allowWorksites
++        FieldTargetKind.PARCEL -> allowParcels
++        else -> false
++    }
++}
++
+ internal data class FieldMapContextState(
+     val site: SavedWorksite? = null, val choices: List<FieldTargetChoice> = emptyList(),
+     val unavailableReferences: Int = 0, val busy: Boolean = true,
+     val error: FieldError? = null, val accessLost: Boolean = false,
++    val constraints: FieldMapContextConstraints = FieldMapContextConstraints(true, true),
+ )
+ 
+ /** Coordinates existing authorized reads; selecting a context never writes an entry. */
+ internal class FieldMapContextViewModel(
+     private val repository: FieldRepository, private val siteId: String?,
+-    private val allowWorksites: Boolean = true, private val allowParcels: Boolean = true,
++    allowWorksites: Boolean = true, allowParcels: Boolean = true,
+ ) : ViewModel() {
+-    private val mutable = MutableStateFlow(FieldMapContextState())
++    private var constraints = FieldMapContextConstraints(allowWorksites, allowParcels)
++    private val mutable = MutableStateFlow(FieldMapContextState(constraints = constraints))
+     val state = mutable.asStateFlow()
+     private var access: FieldAccess? = null
++    private var requestToken = Any()
++    private var requestJob: Job? = null
++    private var needsReload = false
+     init {
+         reload()
+         viewModelScope.launch { repository.accessChanges().collect {
+             access?.let { if (!repository.isCurrent(it)) revoke() }
+         } }
+     }
+-    private fun revoke() { mutable.value = FieldMapContextState(busy = false, accessLost = true, error = FieldError.ACCESS_CHANGED) }
+-    private suspend fun load() {
+-        val permit = access ?: repository.captureAccess().also { access = it }
++    private fun invalidateRequest() {
++        requestToken = Any()
++        requestJob?.cancel()
++        requestJob = null
++    }
++    private fun current(token: Any) = requestToken === token && !mutable.value.accessLost
++    private fun revoke() {
++        invalidateRequest()
++        mutable.value = FieldMapContextState(busy = false, accessLost = true,
++            error = FieldError.ACCESS_CHANGED, constraints = constraints)
++    }
++    fun updateConstraints(updated: FieldMapContextConstraints) {
++        if (updated == constraints && !needsReload) return
++        constraints = updated
++        needsReload = false
++        if (mutable.value.accessLost) {
++            mutable.value = mutable.value.copy(constraints = updated)
++            return
++        }
++        request(clearChoices = true)
++    }
++    private suspend fun load(token: Any, requested: FieldMapContextConstraints): FieldMapContextState? {
++        val permit = access ?: repository.captureAccess().also { if (current(token)) access = it }
++        if (!current(token)) return null
+         val sites = repository.sites(permit)
++        if (!current(token)) return null
+         val parcels = repository.parcelChoices(permit)
++        if (!current(token)) return null
+         val site = siteId?.let { id -> sites.firstOrNull { it.id == id } ?: throw FieldException(FieldError.UNAVAILABLE) }
+         val choices = if (site != null) {
+             val readable = parcels.mapNotNull { parcel -> parcel.localParcelId?.let { it to parcel } }.toMap()
+@@ -61,45 +100,64 @@ internal class FieldMapContextViewModel(
+             }.distinctBy { it.target }
+         } else {
+             val result = mutableListOf<FieldTargetChoice>()
+-            if (allowWorksites) for (candidate in sites) {
++            if (requested.allowWorksites) for (candidate in sites) {
++                if (!current(token)) return null
+                 val target = FieldTarget(FieldTargetKind.WORKSITE, candidate.id)
+                 if (!candidate.archived && repository.writable(target, permit)) result += FieldTargetChoice(target, candidate.form.name)
+             }
+-            if (allowParcels) for (parcel in parcels) {
++            if (requested.allowParcels) for (parcel in parcels) {
++                if (!current(token)) return null
+                 val id = parcel.localParcelId ?: continue
+                 val target = FieldTarget(FieldTargetKind.PARCEL, id)
+                 if (repository.writable(target, permit)) result += FieldTargetChoice(target, parcel.label)
+             }
+             result.distinctBy { it.target }
+         }
+-        if (!repository.isCurrent(permit)) { revoke(); return }
+-        mutable.value = FieldMapContextState(site = site, choices = choices,
++        if (!current(token)) return null
++        if (!repository.isCurrent(permit)) { revoke(); return null }
++        return FieldMapContextState(site = site, choices = choices, constraints = requested,
+             unavailableReferences = site?.form?.parcels?.count { linked -> choices.none { it.target.id == linked.localParcelId } } ?: 0)
+     }
+     fun reload() {
+-        if (mutable.value.accessLost) return
+-        action { load() }
++        if (!mutable.value.accessLost) { needsReload = false; request() }
+     }
+-    fun select(target: FieldTarget, onSelected: (FieldTarget) -> Unit) {
+-        if (mutable.value.busy || mutable.value.accessLost) return
+-        action {
+-            load() // Recheck current links and access immediately before navigation.
+-            if (mutable.value.accessLost) return@action
+-            if (mutable.value.choices.none { it.target == target }) throw FieldException(FieldError.UNAVAILABLE)
+-            onSelected(target)
+-        }
++    fun deactivate() {
++        invalidateRequest()
++        needsReload = true
++        if (!mutable.value.accessLost) mutable.value = FieldMapContextState(constraints = constraints)
++    }
++    fun select(target: FieldTarget, expected: FieldMapContextConstraints = constraints, onSelected: (FieldTarget) -> Unit) {
++        if (mutable.value.busy || mutable.value.accessLost || expected != constraints || !constraints.allows(target)) return
++        request(target, onSelected)
+     }
+-    private fun action(block: suspend () -> Unit) {
+-        mutable.value = mutable.value.copy(busy = true, error = null)
+-        viewModelScope.launch {
+-            try { block() }
+-            catch (e: CancellationException) { throw e }
++    private fun request(target: FieldTarget? = null, onSelected: ((FieldTarget) -> Unit)? = null, clearChoices: Boolean = false) {
++        invalidateRequest()
++        val token = requestToken
++        val requested = constraints
++        mutable.value = if (clearChoices) FieldMapContextState(constraints = requested)
++            else mutable.value.copy(busy = true, error = null)
++        requestJob = viewModelScope.launch {
++            try {
++                val loaded = load(token, requested) ?: return@launch
++                currentCoroutineContext().ensureActive()
++                if (!current(token)) return@launch
++                mutable.value = loaded
++                if (target != null) {
++                    if (!requested.allows(target) || loaded.choices.none { it.target == target }) throw FieldException(FieldError.UNAVAILABLE)
++                    onSelected?.invoke(target)
++                }
++            } catch (e: CancellationException) { throw e }
+             catch (e: Exception) {
++                if (!current(token)) return@launch
+                 if (access?.let { !repository.isCurrent(it) } == true) revoke()
+-                else mutable.value = FieldMapContextState(busy = false, error = (e as? FieldException)?.code ?: FieldError.IO)
+-            } finally { if (!mutable.value.accessLost) mutable.value = mutable.value.copy(busy = false) }
++                else mutable.value = FieldMapContextState(busy = false, constraints = requested,
++                    error = (e as? FieldException)?.code ?: FieldError.IO)
++            } finally {
++                if (current(token)) mutable.value = mutable.value.copy(busy = false)
++            }
+         }
+     }
++    override fun onCleared() { invalidateRequest(); super.onCleared() }
+ }
+ 
+ @OptIn(ExperimentalMaterial3Api::class)
+@@ -122,7 +180,13 @@ internal class FieldMapContextViewModel(
+             FieldMapContextViewModel(repository, siteId, allowWorksites, allowParcels) as T
+     } }
+     val vm: FieldMapContextViewModel = viewModel(key = "map-field-context-${siteId ?: place.toString()}", factory = factory)
+-    val state by vm.state.collectAsStateWithLifecycle()
++    val requested = FieldMapContextConstraints(allowWorksites, allowParcels)
++    val observed by vm.state.collectAsStateWithLifecycle()
++    // Hide old choices in this composition, before SideEffect updates/cancels the shared VM.
++    val state = if (observed.constraints == requested) observed else FieldMapContextState(constraints = requested)
++    val selectedCallback = rememberUpdatedState(onSelected)
++    SideEffect { vm.updateConstraints(requested) }
++    DisposableEffect(vm) { onDispose { vm.deactivate() } }
+     BackHandler(onBack = onBack)
+     Scaffold(topBar = { TopAppBar(title = { Text(stringResource(if (siteId != null) R.string.retained_worksite_map else R.string.retained_access_observation)) },
+         navigationIcon = { IconButton(onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.field_leave)) } }) }) { padding ->
+@@ -148,7 +212,7 @@ internal class FieldMapContextViewModel(
+                     RetainedActionRow(Icons.Default.Map, choice.label,
+                         if (siteId == null) stringResource(if (choice.target.kind == FieldTargetKind.WORKSITE) R.string.retained_dossier else R.string.retained_parcel_context) else null,
+                         enabled = !state.busy, modifier = Modifier.testTag("field_map_target_${choice.target.id}")) {
+-                        vm.select(choice.target, onSelected)
++                        vm.select(choice.target, requested) { selected -> selectedCallback.value(selected) }
+                     }
+                 }
+                 if (state.error != null) item { TextButton(vm::reload, enabled = !state.busy) { Text(stringResource(R.string.field_retry)) } }

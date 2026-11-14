@@ -1,0 +1,61 @@
+@@ -3,7 +3,9 @@
+ import androidx.compose.foundation.background
++import androidx.compose.foundation.horizontalScroll
+ import androidx.compose.foundation.layout.Arrangement
+ import androidx.compose.foundation.layout.Box
+-import androidx.compose.foundation.layout.BoxWithConstraints
+ import androidx.compose.foundation.layout.Column
+ import androidx.compose.foundation.layout.ColumnScope
++import androidx.compose.foundation.layout.ExperimentalLayoutApi
++import androidx.compose.foundation.layout.FlowRow
+ import androidx.compose.foundation.layout.Row
+@@ -189,17 +191,10 @@
+ @Composable
++@OptIn(ExperimentalLayoutApi::class)
+ private fun ResultSummary(state: MeasureWorkspaceState, actions: MeasureWorkspaceActions, includeMode: Boolean) {
+-    val largeText = LocalDensity.current.fontScale > 1.25f
+-    BoxWithConstraints(Modifier.fillMaxWidth()) {
+-        if (largeText || maxWidth < 320.dp) {
+-            Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+-                ValueLine(state, actions)
+-                PointCount(state, actions, includeMode, Modifier.align(Alignment.End))
+-            }
+-        } else {
+-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
+-                horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+-                ValueLine(state, actions, Modifier.weight(1f))
+-                PointCount(state, actions, includeMode)
+-            }
+-        }
++    // Let the actual formatted value and badge decide whether they share a row.
++    // A weighted numeric field would squeeze and split significant digits.
++    FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween,
++        verticalArrangement = Arrangement.spacedBy(4.dp)) {
++        ValueLine(state, actions)
++        PointCount(state, actions, includeMode)
+     }
+@@ -208,11 +203,18 @@
+ @Composable
++@OptIn(ExperimentalLayoutApi::class)
+ private fun ValueLine(state: MeasureWorkspaceState, actions: MeasureWorkspaceActions, modifier: Modifier = Modifier) {
+     val missing = stringResource(R.string.gs_measure_no_result)
+-    Row(modifier, verticalAlignment = Alignment.CenterVertically) {
+-        Text(state.valueText ?: "—", Modifier.weight(1f, fill = false)
++    FlowRow(modifier, horizontalArrangement = Arrangement.spacedBy(4.dp),
++        verticalArrangement = Arrangement.spacedBy(2.dp)) {
++        // An unusually long number remains one complete, horizontally scrollable
++        // value even on a small window; its precision and typography are preserved.
++        Text(state.valueText ?: "—", Modifier.align(Alignment.CenterVertically)
++            .horizontalScroll(rememberScrollState())
+             .then(if (state.valueText == null) Modifier.semantics { contentDescription = missing } else Modifier),
+-            fontSize = 40.sp, lineHeight = 44.sp, fontWeight = FontWeight.Bold)
+-        if (state.valueText != null && state.unitText.isNotBlank()) Text(state.unitText,
+-            modifier = Modifier.padding(start = 4.dp), fontSize = 30.sp, fontWeight = FontWeight.Bold)
+-        MeasureInfo(stringResource(R.string.gs_measure_result_help)) { actions.onExplain(MeasureHelp.RESULT) }
++            fontSize = 40.sp, lineHeight = 44.sp, fontWeight = FontWeight.Bold, softWrap = false)
++        Row(Modifier.align(Alignment.CenterVertically), verticalAlignment = Alignment.CenterVertically) {
++            if (state.valueText != null && state.unitText.isNotBlank()) Text(state.unitText,
++                fontSize = 30.sp, fontWeight = FontWeight.Bold, softWrap = false)
++            MeasureInfo(stringResource(R.string.gs_measure_result_help)) { actions.onExplain(MeasureHelp.RESULT) }
++        }
+     }

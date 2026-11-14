@@ -1,0 +1,28 @@
+{
+  "path": "app/src/main/res/values/map_workspace_host.xml",
+  "version_file": "command-derived-versions/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-f3a8c84d-be1f-4e73-bab1-df686fa043e6/app/src/main/res/values/map_workspace_host.xml",
+  "sha256": "360b74559644eae0a61b0e31b514fa1960e785092f654867acf7f4bcc712ca87",
+  "classification": "full_reconstruction_from_observed_literal_replacement",
+  "base_version_file": "versions/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-7073f730-8322-42cf-9e5b-6df22c3aa684/app/src/main/res/values/map_workspace_host.xml",
+  "base_sha256": "b32f9e9beee8b8b79caa0ce3d09b12c5bba153008c3712a20e638337dad7a97b",
+  "command_provenance": {
+    "history_file": "workspace-host-latest.json",
+    "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+    "turn": "01a1b027-9ccd-74c8-af2d-b32550033bef",
+    "item": "exec-f3a8c84d-be1f-4e73-bab1-df686fa043e6",
+    "item_index": 4,
+    "turn_started_at": 1793956748,
+    "turn_completed_at": 1793956954,
+    "classification": "exact_command_evidence",
+    "command_completeness": "syntactically_complete_command_text",
+    "command_sha256": "094d03d9abc815b802afc40e92c3a4526a07972d539436096373fc35e913807a",
+    "output_truncated": null,
+    "evidence": "evidence/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-f3a8c84d-be1f-4e73-bab1-df686fa043e6"
+  },
+  "script_line": 39,
+  "old_literal": "</resources>",
+  "new_literal": "    <string name=\"workspace_close_measure\">Quitter l’outil de mesure</string>\n</resources>",
+  "matching_occurrences": 1,
+  "no_historical_code_executed": true,
+  "limitation": "Observed add plus this exact literal operation only; does not establish a complete current source tree."
+}

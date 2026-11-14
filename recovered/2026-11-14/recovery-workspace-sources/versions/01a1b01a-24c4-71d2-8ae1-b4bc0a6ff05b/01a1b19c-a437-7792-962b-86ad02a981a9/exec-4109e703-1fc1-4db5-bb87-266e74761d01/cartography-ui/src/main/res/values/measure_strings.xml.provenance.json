@@ -1,0 +1,19 @@
+{
+  "path": "cartography-ui/src/main/res/values/measure_strings.xml",
+  "sha256": "c0e2032347ea2240dfb36bc74e61b827a1ca36b885a83ed324e307e2bf4b7ed7",
+  "classification": "full_add_exact",
+  "chain": [
+    {
+      "history_file": "workspace-ui-earlier.json",
+      "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+      "turn": "01a1b19c-a437-7792-962b-86ad02a981a9",
+      "item": "exec-4109e703-1fc1-4db5-bb87-266e74761d01",
+      "item_index": 29,
+      "turn_started_at": 1793981195,
+      "turn_completed_at": 1793982251,
+      "kind": "add",
+      "diff_sha256": "c0e2032347ea2240dfb36bc74e61b827a1ca36b885a83ed324e307e2bf4b7ed7"
+    }
+  ],
+  "limitation": "Observed exact add and listed diffs only. This does not establish absence of intervening changes or a complete November source tree."
+}

@@ -1,0 +1,16 @@
+{
+  "expectedHistoricalSha256": "a9bc1ecd86b50ec209aff79185da5d4bc56f55fa02da1a4972ad63f217ca28c4",
+  "actualSha256": "a9bc1ecd86b50ec209aff79185da5d4bc56f55fa02da1a4972ad63f217ca28c4",
+  "wholePatchDigestMatched": true,
+  "sourceValues": "Only exact initial patch text and observed old/new observeCameraCommand function bodies",
+  "oldObservedSourceRange": "camera-resume13 source lines 471..508; body maps to SOURCE20 479..516 by initial patch contexts",
+  "newObservedSourceRange": "SOURCE21 source lines 479..532",
+  "formattingEdit": "camera-fit20-initial item77 adds four spaces to nonblank projection-block lines",
+  "diffContextAlignment": {
+    "markedPopularRepeatedLines": [
+      "            }\n"
+    ]
+  },
+  "inventedOrPlaceholderSourceLines": false,
+  "historicalCommandsExecuted": false
+}

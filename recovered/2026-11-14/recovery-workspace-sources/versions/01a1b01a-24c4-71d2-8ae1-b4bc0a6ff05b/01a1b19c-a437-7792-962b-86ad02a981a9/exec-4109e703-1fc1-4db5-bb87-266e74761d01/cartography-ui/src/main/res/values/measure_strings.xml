@@ -1,0 +1,47 @@
+<resources>
+    <string name="gs_measure_on_map">Mesurer sur la carte</string>
+    <string name="gs_measure_title">Mesurer</string>
+    <string name="gs_measure_distance">Distance</string>
+    <string name="gs_measure_area">Surface</string>
+    <string name="gs_measure_distance_on_map">Distance sur la carte</string>
+    <string name="gs_measure_area_on_map">Surface sur la carte</string>
+    <string name="gs_measure_touch_to_add">Touchez la carte pour ajouter un point</string>
+    <string name="gs_measure_undo">Retirer le dernier point</string>
+    <string name="gs_measure_save">Enregistrer</string>
+    <string name="gs_measure_save_title">Enregistrer la mesure</string>
+    <string name="gs_measure_cancel">Annuler</string>
+    <string name="gs_measure_close">Fermer</string>
+    <string name="gs_measure_fold">Replier la mesure</string>
+    <string name="gs_measure_back">Retour</string>
+    <string name="gs_measure_resume">Reprendre la mesure</string>
+    <string name="gs_measure_menu">Options de la mesure</string>
+    <string name="gs_measure_units">Unités de mesure</string>
+    <string name="gs_measure_segments">Segments</string>
+    <string name="gs_measure_color">Couleur du tracé</string>
+    <string name="gs_measure_clear">Effacer le tracé…</string>
+    <string name="gs_measure_share">Partager la mesure</string>
+    <string name="gs_measure_saved">Mesures enregistrées</string>
+    <string name="gs_measure_layers">Couches</string>
+    <string name="gs_measure_location">Ma position</string>
+    <string name="gs_measure_context_help">Comprendre le contexte de la mesure</string>
+    <string name="gs_measure_method_help">Méthode et limites de la mesure</string>
+    <string name="gs_measure_result_help">Comprendre le résultat</string>
+    <string name="gs_measure_points_help">Comprendre le nombre de points</string>
+    <string name="gs_measure_units_help">Comprendre les unités de mesure</string>
+    <string name="gs_measure_distance_unit_help">Comprendre les unités de distance</string>
+    <string name="gs_measure_area_unit_help">Comprendre les unités de surface</string>
+    <string name="gs_measure_save_help">Comprendre l’enregistrement</string>
+    <string name="gs_measure_name_help">Comprendre le nom de la mesure</string>
+    <string name="gs_measure_local_help">Comprendre la sauvegarde locale</string>
+    <string name="gs_measure_no_result">Indisponible</string>
+    <string name="gs_measure_displayed_distance">Distance affichée</string>
+    <string name="gs_measure_displayed_area">Surface affichée</string>
+    <string name="gs_measure_ares">ares</string>
+    <string name="gs_measure_name_optional">Nom (facultatif)</string>
+    <string name="gs_measure_local_save">Sauvegarde locale</string>
+    <string name="gs_measure_saving">Enregistrement en cours…</string>
+    <plurals name="gs_measure_point_count">
+        <item quantity="one">%d point</item>
+        <item quantity="other">%d points</item>
+    </plurals>
+</resources>

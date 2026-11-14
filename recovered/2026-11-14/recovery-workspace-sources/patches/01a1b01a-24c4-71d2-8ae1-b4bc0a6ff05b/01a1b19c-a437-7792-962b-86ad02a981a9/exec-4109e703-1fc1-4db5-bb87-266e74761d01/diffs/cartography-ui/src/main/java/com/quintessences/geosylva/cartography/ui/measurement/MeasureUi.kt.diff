@@ -1,0 +1,13 @@
+@@ -32,3 +32,2 @@
+ import androidx.compose.ui.graphics.vector.ImageVector
+-import androidx.compose.ui.input.pointer.PointerEventPass
+ import androidx.compose.ui.input.pointer.pointerInput
+@@ -40,6 +39,6 @@
+ 
+-/** Controls and blank sheet space must not turn into a vertex on the canvas below. */
++/** Establish a hit target above the map without cancelling child buttons or text-field gestures. */
+ internal fun Modifier.blockMapTouches(): Modifier = pointerInput(Unit) {
+     awaitPointerEventScope {
+-        while (true) awaitPointerEvent(PointerEventPass.Final).changes.forEach { it.consume() }
++        while (true) awaitPointerEvent()
+     }

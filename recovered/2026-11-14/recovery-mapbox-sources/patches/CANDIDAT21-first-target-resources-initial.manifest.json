@@ -1,0 +1,38 @@
+{
+  "status": "CANDIDAT_NON_APPLIQUE_NON_COMPILE_ANDROID",
+  "repositoryModified": false,
+  "patch": "/workspace/outputs/2026-11-13/reprise-geosylva/camera-fit20-consult/CANDIDAT21-first-target-resources.patch",
+  "sha256": "07c5675cd5017df9e45ed9702df89ecf891d8fccd0a3659e3526a6f0155f8e52",
+  "files": [
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinement.kt",
+      "beforeSha256": "b31d8241b657d6810265c4e3e6da497d9d99bb0a004ad79ea97e8d174e16857c",
+      "candidateSha256": "69efa569cbc5248f44df83a91e00a2e6f8eb2ad0117f246a1fb05e6cfaf60d93"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapNativeCameraPose.kt",
+      "beforeSha256": "3ea22495592831532a48111429b8d84c13330fe9d41935fc7127589a51ed4d25",
+      "candidateSha256": "57dd55f4d42625dd7d3f4a86732c715c9a4f9986a16e532018b2848b540110b2"
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "beforeSha256": "fc95c9399ecdc80f0149fa4542c4273edec767794c9bb9bee3d79eb939c76c88",
+      "candidateSha256": "958b08de5bd5c3cb155c24dceb9b790a63fac52ac9fb2f59b312873bebec8932"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/GeographicSelectionMap.kt",
+      "beforeSha256": "29add10e6760d965b25d02278d2d49dfa9d96caf24a5678ba05c289ae66074df",
+      "candidateSha256": "5c936158c5c4c70949c448447d764510f8d840d4412d0289d5acda31c6079f27"
+    },
+    {
+      "path": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinementTest.kt",
+      "beforeSha256": "a80b8500b7cfc5dcd531ef798c95c3eaf5cebe4aebda40952e7321fa15f5a94f",
+      "candidateSha256": "26cb45edc859f9218e8a85868ebaa481b89cd11242204fc0c1bf85feb084784f"
+    },
+    {
+      "path": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapFitResourceReadinessTest.kt",
+      "beforeSha256": null,
+      "candidateSha256": "73282b2e6f368baa950b64db24af4d2ac63bdb4c9a0e66849f0a4530a7d10af4"
+    }
+  ]
+}

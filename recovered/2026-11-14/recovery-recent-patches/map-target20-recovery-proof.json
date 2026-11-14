@@ -1,0 +1,65 @@
+{
+  "schema": "geosylva.recorded-map-target20-recovery.v1",
+  "historicalCommandsExecuted": false,
+  "sourceRepositoriesModified": false,
+  "androidOrJvmExecuted": false,
+  "files": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/navigation/MapAccessObservationRoute.kt",
+      "file": "complete-recorded/source20-map-target-candidate/app/src/main/java/com/forestry/counter/presentation/navigation/MapAccessObservationRoute.kt",
+      "sha256": "879cd2303e13056be681b15670e830af0f58b53c434a20ba54151009da7a57f7",
+      "bytes": 3499,
+      "completeRecordedSource": true,
+      "provenanceItems": [
+        7
+      ],
+      "verification": "Complete cat output before the following git-diff header;75 lines.",
+      "fullTargetSnapshotHashMatched": false
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/field/FieldMapContextScreen.kt",
+      "file": "complete-recorded/source20-map-target-candidate/app/src/main/java/com/forestry/counter/presentation/screens/field/FieldMapContextScreen.kt",
+      "sha256": "9441ed747fa6c2eb3f769183f568656f7b92621f19f69bdd639c06926cc19c60",
+      "bytes": 12453,
+      "completeRecordedSource": true,
+      "provenanceItems": [
+        7,
+        12
+      ],
+      "verification": "Full cat prefix matches recorded Git blob prefix; reverse diff exactly recovers the independently recorded base SHA256.",
+      "fullTargetSnapshotHashMatched": false
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/field/FieldMapContextViewModelTest.kt",
+      "file": "complete-recorded/source20-map-target-candidate/app/src/test/java/com/forestry/counter/presentation/screens/field/FieldMapContextViewModelTest.kt",
+      "sha256": "8efdf263d7e773520b9ae272ad96fe7f5094e2ec0cd286b36cea261a4e2bb93d",
+      "bytes": 13683,
+      "completeRecordedSource": true,
+      "provenanceItems": [
+        15,
+        29
+      ],
+      "verification": "Complete233-line source read followed by the complete recorded final refinement patch; every old hunk context matched.",
+      "fullTargetSnapshotHashMatched": false
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/navigation/JourneyNavigation.kt",
+      "file": "complete-recorded/source20-map-target-candidate/app/src/main/java/com/forestry/counter/presentation/navigation/JourneyNavigation.kt",
+      "sha256": "2bad5fbbd28b99ef4621282194d74e69c978ff3b97bd39ac6bb03d53ad126e3c",
+      "bytes": 2407,
+      "completeRecordedSource": true,
+      "provenanceItems": [
+        13
+      ],
+      "verification": "Complete final cat output after the unique package marker.",
+      "fullTargetSnapshotHashMatched": false
+    }
+  ],
+  "baseContextSourceSha256Matched": "97dc1de3af228fa7cb47112049d7cd00cedee7616b90d40f8db6513aa854ff10",
+  "contextCandidateGitBlobSha1": "6bbf32b3faebeccc4b07c4cfd2cf3fb0f03e67e8",
+  "provenance": {
+    "historyFile": "finish-map-target20-latest.json",
+    "turn": "01a1d6be-ecdf-72cc-8abf-72912f7b3af7"
+  },
+  "qualification": "Recorded source recovery only; no current build/native result. Original and normalized nav/context diffs are staged independently, never applied to the active repository."
+}

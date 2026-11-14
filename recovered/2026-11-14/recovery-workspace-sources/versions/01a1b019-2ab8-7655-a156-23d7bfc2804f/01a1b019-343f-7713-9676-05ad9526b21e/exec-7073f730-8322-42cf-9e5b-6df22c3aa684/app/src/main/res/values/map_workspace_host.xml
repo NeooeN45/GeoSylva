@@ -1,0 +1,22 @@
+<resources>
+    <string name="workspace_explore">Explorer un lieu</string>
+    <string name="workspace_parcel">Parcelle</string>
+    <string name="workspace_forest">Forêt sélectionnée</string>
+    <string name="workspace_plot">Placette sélectionnée</string>
+    <string name="workspace_tree_count">%1$d tiges affichées</string>
+    <string name="workspace_on_device">Sur cet appareil</string>
+    <string name="workspace_tree_layer">Relevés des arbres</string>
+    <string name="workspace_measure_layer">Mesure sur la carte</string>
+    <string name="workspace_layer_details">Source et détails</string>
+    <string name="workspace_relief_unavailable">Le relief nécessite les données du terrain. Elles ne sont pas disponibles dans ce fond local.</string>
+    <string name="workspace_wait_for_map">Les réglages seront disponibles après le chargement du fond et du relief.</string>
+    <string name="workspace_no_releves">Aucun relevé géolocalisé disponible dans ce contexte. Les filtres de précision restent accessibles dans Outils.</string>
+    <string name="workspace_configuration_required">La configuration Mapbox de cette application doit être complétée avant de charger ce fond.</string>
+    <string name="workspace_local_data_required">Aucun fond local enregistré. La préparation des packs Mapbox est en cours de développement.</string>
+    <string name="workspace_basemap_failed">Ce fond n’a pas pu être chargé. Le fond précédent est conservé. Vous pouvez réessayer dans Fonds de carte.</string>
+    <string name="workspace_trees_source">Positions enregistrées dans vos relevés autorisés pour le contexte sélectionné. Le filtre d’essences et le seuil de précision s’appliquent à l’affichage. Une position enregistrée ne garantit pas la position actuelle de l’arbre.</string>
+    <string name="workspace_measure_source">Géométrie dessinée sur la carte. Les points sont conservés lorsque la couche est masquée. Distance et surface cartographiques ne constituent pas un bornage ni une mesure corrigée de la pente. Les mesures enregistrées restent accessibles dans Outils.</string>
+    <string name="workspace_information">Informations</string>
+    <string name="workspace_recorded_precision">Positions enregistrées</string>
+    <string name="workspace_precision_limit">Ce filtre utilise la précision enregistrée avec chaque arbre, indépendamment de la réception actuelle du téléphone. Les positions sans précision exploitable sont exclues lorsque le filtre est actif.</string>
+</resources>

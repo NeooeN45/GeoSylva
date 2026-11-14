@@ -1,0 +1,78 @@
+{
+  "MapCameraFitRefinement.kt": [
+    [
+      " * Eight applications / twelve seconds bound work, not geometric acceptance or user data.",
+      " * Eight applications / twelve seconds bound refinement after the first causal FULL and Idle.\n * Initial viewport resources do not consume this computation budget or acknowledge geometry."
+    ],
+    [
+      "    private val startedAtMs: Long,",
+      "    private var startedAtMs: Long? = null,"
+    ],
+    [
+      "    fun isCurrent(attempt: MapFitAttempt): Boolean = !closed && attempt == current && appliedNonce == null",
+      "    val awaitingResources: Boolean get() = !closed && startedAtMs == null\n\n    /** The caller supplies native FULL/Idle evidence once; later tiles and retries cannot reset time. */\n    fun startAfterResources(nowMs: Long): Boolean {\n        require(nowMs >= 0)\n        if (!awaitingResources || appliedNonce != current.nonce) return false\n        startedAtMs = nowMs\n        return true\n    }\n\n    fun isCurrent(attempt: MapFitAttempt): Boolean = !closed && attempt == current && appliedNonce == null"
+    ],
+    [
+      "        if (nowMs - startedAtMs >= maxDurationMs) return fail(MapFitFailure.BUDGET_EXHAUSTED)",
+      "        val started = startedAtMs ?: return MapFitDecision.Waiting\n        if (nowMs - started >= maxDurationMs) return fail(MapFitFailure.BUDGET_EXHAUSTED)"
+    ]
+  ],
+  "MapNativeCameraPose.kt": [
+    [
+      "    fun fence(nowMs: Long)=NativeRestoreFence(idleSequence,fullSequence,nowMs)",
+      "    /** A first image of this setter's view, including a fresh Idle after that FULL began. */\n    fun readyAfter(at: NativeRestoreFence): Boolean =\n        idleSequence > at.idleSequence && fullSequence > at.fullSequence &&\n            fullAtMs >= at.submittedAtMs && idleAtMs >= fullAtMs &&\n            fullAtMs >= cameraAtMs && idleAtMs >= cameraAtMs\n    fun fence(nowMs: Long)=NativeRestoreFence(idleSequence,fullSequence,nowMs)"
+    ]
+  ],
+  "SharedMapboxCanvas.kt": [
+    [
+      "            window.stillCurrent() && fit.target?.let { cameraMatches(it, actual) } == true) {\n            // Collect every point, including censored projections; never short-circuit on the first failure.",
+      "            window.stillCurrent()) {\n            if (window.refinement.awaitingResources &&\n                window.firstFrameFence?.let(nativeRestoreEvents::readyAfter) == true &&\n                resourceCycle.isComplete(resourceGeneration) &&\n                acknowledgedRelief?.let { reliefMatches(it, requestedRelief) } == true &&\n                window.refinement.startAfterResources(SystemClock.uptimeMillis())) {\n                window.deadline = callbackScope.launch {\n                    delay(window.refinement.maxDurationMs)\n                    if (window.stillCurrent()) window.reject(MapFitFailure.BUDGET_EXHAUSTED)\n                    else if (issuedFrameFitWindow === window) {\n                        val failedResources = resourceFailure != null || terrainControlFailed\n                        closeFrameFit(rearmForContext = !failedResources, resourceFailed = failedResources)\n                    }\n                }\n            }\n            if (!window.refinement.awaitingResources && fit.target?.let { cameraMatches(it, actual) } == true) {\n            // Collect every point, including censored projections; never short-circuit on the first failure."
+    ],
+    [
+      "            }\n        }\n        val ticket = cameraGate.observe(actual, fitProjectionVerified) ?: return",
+      "            }\n            }\n        }\n        val ticket = cameraGate.observe(actual, fitProjectionVerified) ?: return"
+    ],
+    [
+      "        val refinement = MapCameraFitRefinement(width,height,padding,points.size,map.getBounds().minZoom,\n            SystemClock.uptimeMillis())",
+      "        val refinement = MapCameraFitRefinement(width,height,padding,points.size,map.getBounds().minZoom)"
+    ],
+    [
+      "                        System.currentTimeMillis(),::stillCurrent)) return@applyOnMain\n                var returnedNormally",
+      "                        System.currentTimeMillis(),::stillCurrent)) return@applyOnMain\n                if (window.firstFrameFence == null)\n                    window.firstFrameFence = nativeRestoreEvents.fence(ticket.submittedAtMs)\n                var returnedNormally"
+    ],
+    [
+      "                if (stillCurrent()) refinement.applied(attempt)\n                observeCameraCommand()",
+      "                if (stillCurrent() && refinement.applied(attempt) && refinement.awaitingResources) {\n                    // A constrained native no-op still needs a real first frame and Idle.\n                    map.triggerRepaint()\n                }\n                observeCameraCommand()"
+    ],
+    [
+      "        window.deadline = callbackScope.launch {\n            delay(refinement.maxDurationMs)\n            if (stillCurrent()) reject(MapFitFailure.BUDGET_EXHAUSTED)\n            else if (issuedFrameFitWindow === window) {\n                val failedResources = resourceFailure != null || terrainControlFailed\n                closeFrameFit(rearmForContext = !failedResources,resourceFailed = failedResources)\n            }\n        }\n        propose(refinement.initialAttempt)",
+      "        // Loading remains interactive and cancellable; only native events open refinement.\n        readyPublished = false\n        publishReticle()\n        diagnosticCallback(MapRenderDiagnostic.AWAITING_RESOURCES)\n        statusCallback(MapRenderStatus.Loading(currentStyle.id))\n        propose(refinement.initialAttempt)"
+    ],
+    [
+      "        when {\n            !resourceCycle.isComplete(resourceGeneration) -> diagnosticCallback(MapRenderDiagnostic.AWAITING_RESOURCES)",
+      "        when {\n            issuedFrameFitWindow?.refinement?.awaitingResources == true ->\n                diagnosticCallback(MapRenderDiagnostic.AWAITING_RESOURCES)\n            !resourceCycle.isComplete(resourceGeneration) -> diagnosticCallback(MapRenderDiagnostic.AWAITING_RESOURCES)"
+    ],
+    [
+      "    LaunchedEffect(sdkMap, frameCommand?.id) { applyFrameCommand() }",
+      "    LaunchedEffect(sdkMap, frameCommand) {\n        if (issuedFrameFitWindow?.stillCurrent?.invoke() == false)\n            closeFrameFit(rearmForContext = frameCommand != null)\n        applyFrameCommand()\n    }"
+    ],
+    [
+      "        cameraGate.acceptNativeIdle(idleSequence, event.timestamp.time)\n        observeCameraCommand()\n        publishViewport()",
+      "        cameraGate.acceptNativeIdle(idleSequence, event.timestamp.time)\n        val wasAwaitingResources = issuedFrameFitWindow?.refinement?.awaitingResources == true\n        observeCameraCommand()\n        if (wasAwaitingResources && issuedFrameFitWindow?.refinement?.awaitingResources != true)\n            acknowledgeRelief()\n        publishViewport()"
+    ],
+    [
+      "                    dispatch {\n                    acknowledgeRelief()\n                    val nativeStyle = map.style",
+      "                    dispatch {\n                    observeCameraCommand()\n                    acknowledgeRelief()\n                    val nativeStyle = map.style"
+    ],
+    [
+      "    var deadline: Job? = null\n    fun close()",
+      "    var deadline: Job? = null\n    var firstFrameFence: NativeRestoreFence? = null\n    fun close()"
+    ]
+  ],
+  "app/src/main/java/com/forestry/counter/presentation/screens/forestry/GeographicSelectionMap.kt": [
+    [
+      "                frameCommand = frameCommand.takeIf { renderStatus == MapRenderStatus.Ready(style.id) },",
+      "                // Keep this explicit pending intention while its target viewport resources load.\n                frameCommand = frameCommand,"
+    ]
+  ]
+}

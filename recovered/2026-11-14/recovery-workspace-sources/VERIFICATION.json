@@ -1,0 +1,24 @@
+{
+  "verified_utc": "2026-11-14T12:31:37.230602+00:00",
+  "hash_references_checked": 54,
+  "complete_source_artifacts": 21,
+  "distinct_complete_source_paths": 11,
+  "xml_artifacts_parsed": 6,
+  "strict_patch_failures": 0,
+  "initial_maprecherche_known_lines": {
+    "known_line_count": 732,
+    "gaps": [
+      [
+        595,
+        749
+      ]
+    ],
+    "conflict_count": 0
+  },
+  "errors": [],
+  "limitations": [
+    "No Gradle, Android, ADB, compilation, app test, network or git push run.",
+    "Generated source hashes establish extracted byte identity, not agreement with an unavailable November source snapshot.",
+    "Fragmented MapRechercheScreen remains incomplete and is never written as a complete source file."
+  ]
+}

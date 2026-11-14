@@ -1,0 +1,11 @@
+@@ -4,2 +4,3 @@
+ import androidx.compose.foundation.background
++import androidx.compose.foundation.gestures.detectTapGestures
+ import androidx.compose.foundation.layout.Arrangement
+@@ -41,5 +42,3 @@
+ internal fun Modifier.blockMapTouches(): Modifier = pointerInput(Unit) {
+-    awaitPointerEventScope {
+-        while (true) awaitPointerEvent()
+-    }
++    detectTapGestures(onTap = {})
+ }

@@ -1,0 +1,25 @@
+diff --git a/app/src/main/java/com/forestry/counter/presentation/navigation/ForestryFlowNavGraph.kt b/app/src/main/java/com/forestry/counter/presentation/navigation/ForestryFlowNavGraph.kt
+index a953c30..48dc836 100644
+--- a/app/src/main/java/com/forestry/counter/presentation/navigation/ForestryFlowNavGraph.kt
++++ b/app/src/main/java/com/forestry/counter/presentation/navigation/ForestryFlowNavGraph.kt
+@@ -72,14 +72,13 @@ fun NavGraphBuilder.forestryFlowNavGraph(
+     composable(Screen.MapAccessObservation.route, arguments = listOf(
+         navArgument("label") { type = NavType.StringType }, navArgument("longitude") { type = NavType.StringType },
+         navArgument("latitude") { type = NavType.StringType })) { entry ->
+-        val profession = app.userPreferences.userProfession.collectAsStateWithLifecycle(initialValue = null)
+-        val access = JourneyNavigation.access(profession.value)
+         val place = parsedMapsObservationPlace(entry.arguments?.getString("label"), entry.arguments?.getString("longitude"), entry.arguments?.getString("latitude"))
+-        if (place != null) com.forestry.counter.presentation.screens.field.MapAccessObservationScreen(app.fieldRepository, place,
+-            allowWorksites = access.allows(com.forestry.counter.domain.journey.JourneyFeature.WORKSITES),
+-            allowParcels = access.allows(com.forestry.counter.domain.journey.JourneyFeature.FORESTS),
+-            onSelected = { target -> navController.navigate(Screen.FieldJournal.createAccessIntentRoute(target, place)) },
+-            onBack = { navController.popBackStack() })
++        if (place != null) MapAccessObservationRoute(app.fieldRepository, app.userPreferences.userProfession, place,
++            onSelected = { target ->
++                if (navController.currentBackStackEntry == entry) {
++                    navController.navigate(Screen.FieldJournal.createAccessIntentRoute(target, place))
++                }
++            }, onBack = { navController.popBackStack() })
+         else com.forestry.counter.presentation.screens.home.JourneyUnavailableScreen({ navController.popBackStack() })
+     }
+     composable(Screen.FieldJournal.route, arguments = listOf(navArgument("kind") { type = NavType.StringType }, navArgument("targetId") { type = NavType.StringType },

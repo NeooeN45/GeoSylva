@@ -1,0 +1,19 @@
+{
+  "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasureUi.kt",
+  "sha256": "967ade28c534b0e3d32508e2d17e896e39b289168a0e5b1fd1d244d3cf47a391",
+  "classification": "full_add_exact",
+  "chain": [
+    {
+      "history_file": "workspace-ui-earlier.json",
+      "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+      "turn": "01a1b19c-a437-7792-962b-86ad02a981a9",
+      "item": "exec-7a605852-8707-4628-a2b2-b0461e55a916",
+      "item_index": 27,
+      "turn_started_at": 1793981195,
+      "turn_completed_at": 1793982251,
+      "kind": "add",
+      "diff_sha256": "967ade28c534b0e3d32508e2d17e896e39b289168a0e5b1fd1d244d3cf47a391"
+    }
+  ],
+  "limitation": "Observed exact add and listed diffs only. This does not establish absence of intervening changes or a complete November source tree."
+}

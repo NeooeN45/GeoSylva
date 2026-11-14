@@ -1,0 +1,6 @@
+@@ -88,3 +88,4 @@
+     Surface(onClick = onClick, enabled = enabled, shape = CircleShape, color = MeasureUi.paper,
+-        contentColor = MeasureUi.ink, shadowElevation = 2.dp, modifier = modifier.size(MeasureUi.touch)) {
++        contentColor = MeasureUi.ink.copy(alpha = if (enabled) 1f else 0.45f),
++        shadowElevation = 2.dp, modifier = modifier.size(MeasureUi.touch)) {
+         Box(contentAlignment = Alignment.Center) { Icon(icon, description, Modifier.size(24.dp)) }

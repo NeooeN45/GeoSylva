@@ -1,0 +1,9 @@
+@@ -11,3 +11,2 @@
+ import androidx.compose.foundation.layout.fillMaxWidth
+-import androidx.compose.foundation.layout.height
+ import androidx.compose.foundation.layout.heightIn
+@@ -178,3 +177,3 @@
+         Surface(onClick = actions::onUndo, enabled = state.canUndo, shape = MeasureUi.command,
+-            color = MeasureUi.paleGreen, contentColor = MeasureUi.green,
++            color = MeasureUi.paleGreen, contentColor = MeasureUi.green.copy(alpha = if (state.canUndo) 1f else 0.45f),
+             modifier = Modifier.size(width = 56.dp, height = MeasureUi.touch)) {
