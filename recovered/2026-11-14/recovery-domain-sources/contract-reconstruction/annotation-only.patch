@@ -1,0 +1,11 @@
+--- a/app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt
++++ b/app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt
+@@ -206,7 +206,7 @@
+         if (resultId != layerId || version == null || version < 1 || source?.matches(Regex("[0-9a-f]{64}")) != true ||
+             integrity != layerHash("$resultId:$version:$source")) layerFail(LayerStoreError.CORRUPT)
+     }
+-    private fun requireOwned(row: CartographicLayerEntity, token: [REDACTED_SECRET] active: Boolean) {
++    private fun requireOwned(row: CartographicLayerEntity, token: CartographicScopeAuthority.Token, active: Boolean) {
+         if (row.authorityKey != token.authorityKey || (active && row.deletedAt != null)) layerFail(LayerStoreError.UNAVAILABLE)
+     }
+     private fun decode(row: CartographicLayerEntity): CartographicLayer {

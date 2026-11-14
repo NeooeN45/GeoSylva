@@ -1,0 +1,102 @@
+@@ -10,3 +10,5 @@
+ import kotlinx.coroutines.CompletableDeferred
++import kotlinx.coroutines.CoroutineStart
+ import kotlinx.coroutines.ExperimentalCoroutinesApi
++import kotlinx.coroutines.cancelAndJoin
+ import kotlinx.coroutines.flow.Flow
+@@ -21,2 +23,78 @@
+ class MapTraceControllerTest {
++    @Test fun `purge closes admission before joining a slow draft and reopening cannot adopt its source`() = runTest {
++        val fixture = Fixture(this)
++        fixture.controller.open(MapDataScope.Parcel("p")); runCurrent()
++        val captures = fixture.repository.captures
++        fixture.repository.draftGate = CompletableDeferred()
++        fixture.controller.start(); runCurrent()
++        assertTrue(fixture.controller.sourceActive.value)
++        fixture.controller.open(MapDataScope.Parcel("queued-before-purge"))
++        fixture.controller.start()
++        val stopping = launch(start = CoroutineStart.UNDISPATCHED) { fixture.controller.stopForPurge() }
++        assertFalse(stopping.isCompleted)
++        assertFalse(fixture.controller.authorityIsCurrent())
++        fixture.controller.open(MapDataScope.Parcel("during-purge"))
++        fixture.controller.start(); fixture.controller.resume()
++        assertEquals(CartographicStoreResult.Failure(CartographicStoreError.ACCESS_CHANGED), fixture.controller.exportPreview("ignored", 1))
++        fixture.repository.draftGate?.complete(Unit); runCurrent()
++        assertTrue(stopping.isCompleted)
++        assertTrue(fixture.source.starts.isEmpty())
++        assertEquals(captures, fixture.repository.captures)
++        val writes = fixture.repository.writes
++        fixture.controller.open(MapDataScope.Parcel("still-purging")); fixture.controller.start(); runCurrent()
++        assertEquals(captures, fixture.repository.captures)
++        assertEquals(writes, fixture.repository.writes)
++
++        fixture.controller.resumeAfterPurge(); runCurrent()
++        assertFalse(fixture.controller.sourceActive.value)
++        assertFalse(fixture.controller.state.value.authorised)
++        assertNull(fixture.controller.state.value.snapshot)
++        fixture.controller.start(); fixture.controller.resume(); runCurrent()
++        assertTrue(fixture.source.starts.isEmpty())
++        assertEquals(captures, fixture.repository.captures)
++        fixture.controller.open(MapDataScope.Parcel("p")); runCurrent()
++        assertEquals(captures + 1, fixture.repository.captures)
++        assertTrue(fixture.source.starts.isEmpty())
++        fixture.controller.start(); runCurrent()
++        assertEquals(1, fixture.source.starts.size)
++    }
++
++    @Test fun `cancelling the purge join leaves admission closed until explicit coordinator resume`() = runTest {
++        val fixture = Fixture(this)
++        fixture.openAndStart()
++        val oldToken = requireNotNull(fixture.controller.currentSourceToken())
++        fixture.repository.draftGate = CompletableDeferred()
++        fixture.controller.acceptFix(oldToken, fixture.fix(45.0)); runCurrent()
++        val stopping = launch(start = CoroutineStart.UNDISPATCHED) { fixture.controller.stopForPurge() }
++        stopping.cancelAndJoin()
++        assertFalse(fixture.controller.sourceIsCurrent(oldToken))
++        val captures = fixture.repository.captures
++        fixture.controller.open(MapDataScope.Parcel("not-admitted"))
++        fixture.controller.acceptFix(oldToken, fixture.fix(45.001))
++        fixture.repository.draftGate?.complete(Unit); runCurrent()
++        assertEquals(captures, fixture.repository.captures)
++        fixture.controller.open(MapDataScope.Parcel("still-not-admitted")); runCurrent()
++        assertEquals(captures, fixture.repository.captures)
++        fixture.controller.resumeAfterPurge(); runCurrent()
++        assertNull(fixture.controller.state.value.snapshot)
++        assertNull(fixture.controller.currentSourceToken())
++        assertFalse(fixture.controller.sourceActive.value)
++        fixture.controller.acceptFix(oldToken, fixture.fix(45.002)); fixture.controller.resume(); runCurrent()
++        assertNull(fixture.controller.state.value.snapshot)
++        assertEquals(1, fixture.source.starts.size)
++    }
++
++    @Test fun `overlapping purge coordinators must both resume before commands are admitted`() = runTest {
++        val fixture = Fixture(this)
++        fixture.controller.stopForPurge()
++        fixture.controller.stopForPurge()
++        fixture.controller.resumeAfterPurge()
++        fixture.controller.open(MapDataScope.Parcel("p")); runCurrent()
++        assertEquals(0, fixture.repository.captures)
++        fixture.controller.resumeAfterPurge()
++        fixture.controller.open(MapDataScope.Parcel("p")); runCurrent()
++        assertEquals(1, fixture.repository.captures)
++        assertTrue(fixture.source.starts.isEmpty())
++    }
++
+     @Test fun `source flow excludes map GPS throughout suspended start and resume persistence`() = runTest {
+@@ -176,2 +254,4 @@
+         var current = true
++        var captures = 0
++        var writes = 0
+         var readGate: CompletableDeferred<Unit>? = null
+@@ -184,3 +264,6 @@
+         }
+-        override suspend fun captureAccess(scope: MapDataScope) = CartographicStoreResult.Success(access)
++        override suspend fun captureAccess(scope: MapDataScope): CartographicStoreResult<CartographicMeasurementAccess> {
++            captures++
++            return CartographicStoreResult.Success(access)
++        }
+         override fun isCurrent(access: CartographicMeasurementAccess) = current
+@@ -195,2 +278,3 @@
+             if (!current) return CartographicStoreResult.Failure(CartographicStoreError.ACCESS_CHANGED)
++            writes++
+             val doc = CartographicTraceDocument(id, name?.trim()?.takeIf { it.isNotEmpty() }, snapshot, saved, (rows[id]?.revision ?: 0) + 1, 1, if (saved) 1 else null, source)

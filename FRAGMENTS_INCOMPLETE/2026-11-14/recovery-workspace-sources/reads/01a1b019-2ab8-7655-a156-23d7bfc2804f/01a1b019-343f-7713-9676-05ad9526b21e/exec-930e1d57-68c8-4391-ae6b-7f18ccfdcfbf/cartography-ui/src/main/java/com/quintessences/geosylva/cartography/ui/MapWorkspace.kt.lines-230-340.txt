@@ -1,0 +1,111 @@
+
+@Composable
+private fun ToolbarDivider() {
+    Spacer(Modifier.width(MapUiTokens.dividerWidth).height(MapUiTokens.toolbarDividerHeight)
+        .background(MapUiTokens.outline))
+}
+
+@Composable
+private fun PanelTabs(panel: MapPanel, actions: MapWorkspaceActions) {
+    val panels = MapPanel.entries
+    TabRow(selectedTabIndex = panels.indexOf(panel), containerColor = Color.Transparent,
+        contentColor = MapUiTokens.ink, modifier = Modifier.padding(horizontal = MapUiTokens.panelInset)) {
+        panels.forEach { item ->
+            Tab(selected = item == panel, onClick = { actions.onPanelChanged(item) },
+                text = { Text(stringResource(when(item) {
+                    MapPanel.BASEMAPS -> R.string.gs_map_basemap
+                    MapPanel.LAYERS -> R.string.gs_map_layers
+                    MapPanel.RELIEF -> R.string.gs_map_relief
+                }), fontWeight = if (item == panel) FontWeight.Bold else FontWeight.Normal,
+                    color = if (item == panel) MapUiTokens.ink else MapUiTokens.muted) })
+        }
+    }
+}
+
+@Composable
+private fun BasemapPanel(state: MapWorkspaceState, actions: MapWorkspaceActions,
+    thumbnail: @Composable (MapPreviewKey, Modifier) -> Unit) {
+    var query by rememberSaveable { mutableStateOf("") }
+    Column(Modifier.fillMaxSize().padding(horizontal = MapUiTokens.panelInset)) {
+        SearchBox(query, { query = it }, stringResource(R.string.gs_map_search_basemap))
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(MapUiTokens.rowGap)) {
+            val filtered = state.basemaps.filter { matchesQuery(query, it.title, it.provider) }
+            if (filtered.isEmpty()) Text(stringResource(R.string.gs_map_no_results),
+                Modifier.padding(vertical = MapUiTokens.sectionGap), color = MapUiTokens.muted)
+            filtered.forEach { item ->
+                val selected = state.selectedBasemapId == item.id
+                Surface(onClick = { actions.onSelectBasemap(item.id) },
+                    shape = MapUiTokens.rowShape,
+                    color = if (selected) MapUiTokens.selected.copy(alpha = 0.5f) else Color.Transparent,
+                    border = BorderStroke(MapUiTokens.border, if (selected) MapUiTokens.ink else MapUiTokens.outline),
+                    modifier = Modifier.fillMaxWidth()) {
+                    Row(Modifier.heightIn(min = MapUiTokens.basemapHeight).padding(MapUiTokens.rowInset),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(MapUiTokens.rowTextGap)) {
+                        thumbnail(item.previewKey, Modifier.size(MapUiTokens.previewWidth, MapUiTokens.previewHeight)
+                            .clip(MapUiTokens.previewShape))
+                        Column(Modifier.weight(1f)) {
+                            Text(item.title, color = MapUiTokens.ink, fontWeight = FontWeight.SemiBold,
+                                style = MaterialTheme.typography.titleMedium)
+                            Text(item.provider, color = MapUiTokens.muted, style = MaterialTheme.typography.bodyMedium)
+                            AvailabilityLabel(item.availability)
+                        }
+                        Icon(if (selected) Icons.Outlined.CheckCircle else Icons.Outlined.RadioButtonUnchecked,
+                            if (selected) stringResource(R.string.gs_map_selected) else null,
+                            tint = MapUiTokens.ink, modifier = Modifier.size(MapUiTokens.choiceIcon))
+                    }
+                }
+            }
+            Spacer(Modifier.height(MapUiTokens.rowGap))
+        }
+        DetailLink(stringResource(R.string.gs_map_sources), { actions.onExplain(MapHelp.BASEMAP_SOURCE) })
+    }
+}
+
+@Composable
+private fun LayerPanel(state: MapWorkspaceState, actions: MapWorkspaceActions,
+    thumbnail: @Composable (MapPreviewKey, Modifier) -> Unit) {
+    var query by rememberSaveable { mutableStateOf("") }
+    Column(Modifier.fillMaxSize().padding(horizontal = MapUiTokens.panelInset)) {
+        SearchBox(query, { query = it }, stringResource(R.string.gs_map_search_layer))
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState())) {
+            val filtered = state.layers.filter { matchesQuery(query, it.title) }
+            val onMap = filtered.filter { it.onMap }
+            val catalog = filtered.filterNot { it.onMap }
+            if (onMap.isNotEmpty()) {
+                SectionLabel(stringResource(R.string.gs_map_on_map))
+                onMap.forEach { LayerRow(it, actions, thumbnail) }
+            }
+            if (catalog.isNotEmpty()) {
+                SectionLabel(stringResource(R.string.gs_map_catalog))
+                catalog.forEach { LayerRow(it, actions, thumbnail) }
+            }
+            if (filtered.isEmpty()) Text(stringResource(R.string.gs_map_no_results),
+                Modifier.padding(vertical = MapUiTokens.sectionGap), color = MapUiTokens.muted)
+            Spacer(Modifier.height(MapUiTokens.sectionGap))
+        }
+    }
+}
+
+@Composable
+private fun LayerRow(item: MapLayerChoice, actions: MapWorkspaceActions,
+    thumbnail: @Composable (MapPreviewKey, Modifier) -> Unit) {
+    Row(Modifier.fillMaxWidth().heightIn(min = MapUiTokens.layerHeight),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(MapUiTokens.rowTextGap)) {
+        thumbnail(item.previewKey, Modifier.size(MapUiTokens.layerPreviewWidth, MapUiTokens.layerPreviewHeight)
+            .clip(MapUiTokens.previewShape))
+        Column(Modifier.weight(1f)) {
+            Text(item.title, color = MapUiTokens.ink, style = MaterialTheme.typography.bodyLarge)
+            AvailabilityLabel(item.availability)
+        }
+        if (item.onMap) Switch(checked = item.visible,
+            onCheckedChange = { actions.onToggleLayer(item.id, it) },
+            enabled = item.availability == MapChoiceAvailability.AVAILABLE,
+            colors = SwitchDefaults.colors(checkedThumbColor = MapUiTokens.paper,
+                checkedTrackColor = MapUiTokens.ink))
+        else IconButton(onClick = { actions.onAddLayer(item.id) }, modifier = Modifier.size(MapUiTokens.touch)) {
+            Icon(Icons.Outlined.AddCircleOutline, stringResource(R.string.gs_map_add_layer, item.title),
+                tint = MapUiTokens.ink, modifier = Modifier.size(MapUiTokens.choiceIcon))
+        }

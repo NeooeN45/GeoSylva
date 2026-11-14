@@ -1,0 +1,19 @@
+@@ -10,4 +10,2 @@
+ import androidx.activity.enableEdgeToEdge
+-import androidx.compose.foundation.background
+-import androidx.compose.foundation.layout.Box
+ import androidx.compose.foundation.layout.BoxWithConstraints
+@@ -18,3 +16,2 @@
+ import androidx.compose.foundation.layout.navigationBars
+-import androidx.compose.material3.Text
+ import androidx.compose.runtime.CompositionLocalProvider
+@@ -23,5 +20,3 @@
+ import androidx.compose.runtime.setValue
+-import androidx.compose.ui.Alignment
+ import androidx.compose.ui.Modifier
+-import androidx.compose.ui.graphics.Color
+ import androidx.compose.ui.platform.LocalConfiguration
+@@ -33,3 +28,2 @@
+ import androidx.compose.ui.unit.dp
+-import androidx.compose.ui.unit.sp
+ import androidx.test.ext.junit.runners.AndroidJUnit4

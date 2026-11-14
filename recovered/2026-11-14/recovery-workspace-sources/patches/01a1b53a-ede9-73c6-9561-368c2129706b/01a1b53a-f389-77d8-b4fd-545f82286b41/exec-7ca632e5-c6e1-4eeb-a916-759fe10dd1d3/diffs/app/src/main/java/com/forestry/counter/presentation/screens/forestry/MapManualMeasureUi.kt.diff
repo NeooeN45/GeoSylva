@@ -1,0 +1,38 @@
+@@ -23,2 +23,4 @@
+ import com.quintessences.geosylva.cartography.ui.measurement.MeasureHelp
++import com.quintessences.geosylva.cartography.ui.measurement.MeasureAreaUnit
++import com.quintessences.geosylva.cartography.ui.measurement.MeasureDistanceUnit
+ import com.quintessences.geosylva.cartography.ui.measurement.MeasureMenuAction
+@@ -57,2 +59,4 @@
+     val result = state.result as? CartographicMeasureResult.Available
++    val auxiliaryVisible = state.auxiliary !in setOf(ManualMeasureAuxiliary.NONE,
++        ManualMeasureAuxiliary.CLEAR, ManualMeasureAuxiliary.COLOR)
+     val formatted = result?.let { formatManualMeasure(it.valueSi, it.kind, state.distanceUnit, state.areaUnit, locale) }
+@@ -109,2 +113,3 @@
+             availableMenuActions = if (state.ready) menu else setOf(MeasureMenuAction.SAVED_MEASURES),
++            panelVisible = !auxiliaryVisible,
+         ), actions = actions, onPanelHeightChanged = onPanelHeightChanged, onCompassTopChanged = onCompassTopChanged,
+@@ -142,2 +147,6 @@
+         pointCountText = context.getString(R.string.manual_host_share_points, record.points.size),
++        conversionText = formatManualMeasure(record.valueSi, record.kind,
++            if (state.distanceUnit == MeasureDistanceUnit.METRES) MeasureDistanceUnit.KILOMETRES else MeasureDistanceUnit.METRES,
++            if (state.areaUnit == MeasureAreaUnit.SQUARE_METRES) MeasureAreaUnit.HECTARES else MeasureAreaUnit.SQUARE_METRES,
++            locale)?.let { "${it.number} ${it.unit}" },
+         methodText = buildString {
+@@ -174,3 +183,10 @@
+         ),
+-        onClose = { model.auxiliary(ManualMeasureAuxiliary.NONE) },
++        onClose = {
++            when {
++                state.auxiliary == ManualMeasureAuxiliary.DETAIL -> model.openSaved()
++                selected != null && state.auxiliary in setOf(ManualMeasureAuxiliary.HELP, ManualMeasureAuxiliary.SHARE) ->
++                    model.auxiliary(ManualMeasureAuxiliary.DETAIL)
++                else -> model.auxiliary(ManualMeasureAuxiliary.NONE)
++            }
++        },
+         onClear = model::clear,
+@@ -192,2 +208,4 @@
+         onRetrySaved = { if (state.ready) { if (selected != null) model.selectSaved(selected.id) else model.openSaved() } else model.retryAccess() },
++        onNewMeasure = model::requestNewMeasure,
++        onPanelHeightChanged = onPanelHeightChanged,
+     )

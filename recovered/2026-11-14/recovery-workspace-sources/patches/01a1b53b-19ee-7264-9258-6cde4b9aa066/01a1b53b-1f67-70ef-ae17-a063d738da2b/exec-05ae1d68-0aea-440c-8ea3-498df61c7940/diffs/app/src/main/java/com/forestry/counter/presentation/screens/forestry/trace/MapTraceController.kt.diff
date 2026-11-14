@@ -1,0 +1,23 @@
+@@ -153,2 +153,3 @@
+             stopSource()
++            if (access == null) return@launchLocked
+             val stopped = r.stop(nanoTime())
+@@ -186,2 +187,3 @@
+         if (!persist(r.snapshot(nanoTime()))) {
++            if (access == null) return@launchLocked
+             val stopped = r.stop(nanoTime())
+@@ -261,3 +263,4 @@
+         if (!ready() || sourceToken != null || pendingSave != null) return@launchLocked
+-        recorder?.let { persist(it.stop(nanoTime())) }
++        val stopped = recorder?.stop(nanoTime())
++        if (stopped != null && !persist(stopped)) return@launchLocked
+         recorder = null
+@@ -296,2 +299,3 @@
+             stopSource()
++            if (access == null) return@launchLocked
+             val stopped = r.stop(nanoTime())
+@@ -316,2 +320,4 @@
+     fun authorityIsCurrent(): Boolean = access?.let(repository::isCurrent) == true
++    fun needsLocationPermission(): Boolean = !source.permitted()
++    fun dismissIssue() = launchLocked { mutable.update { it.copy(issue = null) } }
+ 

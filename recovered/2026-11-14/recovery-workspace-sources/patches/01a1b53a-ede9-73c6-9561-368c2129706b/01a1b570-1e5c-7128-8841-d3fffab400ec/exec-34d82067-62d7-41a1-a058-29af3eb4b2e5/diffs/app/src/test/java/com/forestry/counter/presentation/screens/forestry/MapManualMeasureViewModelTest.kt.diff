@@ -1,0 +1,105 @@
+@@ -362,2 +362,104 @@
+ 
++    @Test fun newMeasureWithANonemptyDraftRequiresClearAndPreservesBothModesUntilConfirmation() = runTest {
++        val repository = FakeRepository()
++        val model = model(repository)
++        runCurrent(); drawLine(model); runCurrent()
++        model.mode(CartographicMeasureKind.AREA)
++        AREA.forEach { model.addPoint(it.latitude, it.longitude) }
++        runCurrent()
++        val originalArea = available(model).valueSi
++        model.open(saved = true); runCurrent()
++
++        model.requestNewMeasure()
++        assertTrue(model.state.value.active)
++        assertEquals(MeasurePanel.EDITOR, model.state.value.panel)
++        assertEquals(ManualMeasureAuxiliary.CLEAR, model.state.value.auxiliary)
++        assertEquals(AREA, model.state.value.areaPoints)
++        assertEquals(LINE, model.state.value.distancePoints)
++        assertEquals(originalArea, available(model).valueSi, 0.0)
++
++        model.auxiliary(ManualMeasureAuxiliary.NONE)
++        assertEquals(AREA, model.state.value.areaPoints)
++        assertEquals(LINE, model.state.value.distancePoints)
++        model.requestNewMeasure()
++        model.clear(); runCurrent()
++        assertEquals(ManualMeasureAuxiliary.NONE, model.state.value.auxiliary)
++        assertTrue(model.state.value.areaPoints.isEmpty())
++        assertEquals(LINE, model.state.value.distancePoints)
++        assertTrue(repository.inputs.isEmpty())
++        assertEquals(0, repository.recordCount())
++    }
++
++    @Test fun newMeasureWithAnEmptyCurrentModeOpensItsEditorWithoutClearingTheOtherModeOrCopyingTheSelectedRecord() = runTest {
++        val repository = FakeRepository()
++        repository.seed(RECORD_A, "TEST · Original", LINE)
++        val model = model(repository)
++        runCurrent(); drawLine(model); runCurrent()
++        model.mode(CartographicMeasureKind.AREA); runCurrent()
++        model.open(saved = true); runCurrent()
++        model.selectSaved(RECORD_A); runCurrent()
++        assertNotNull(model.state.value.selected)
++
++        model.requestNewMeasure()
++        assertTrue(model.state.value.active)
++        assertEquals(MeasurePanel.EDITOR, model.state.value.panel)
++        assertEquals(ManualMeasureAuxiliary.NONE, model.state.value.auxiliary)
++        assertEquals(CartographicMeasureKind.AREA, model.state.value.mode)
++        assertNull(model.state.value.selected)
++        assertFalse(model.state.value.loadingSaved)
++        assertTrue(model.state.value.areaPoints.isEmpty())
++        assertEquals(LINE, model.state.value.distancePoints)
++        assertTrue(repository.inputs.isEmpty())
++        assertEquals(1, repository.recordCount())
++    }
++
++    @Test fun newMeasureRefusesPendingAuthorityAndAContextThatBecameStaleBeforeItsRefreshWasObserved() = runTest {
++        val repository = FakeRepository()
++        val model = model(repository)
++        val pending = model.state.value
++        assertFalse(pending.ready)
++        model.requestNewMeasure()
++        assertEquals(pending, model.state.value)
++        runCurrent(); drawLine(model); runCurrent()
++        model.open(saved = true); runCurrent()
++        repository.changeOwner("account-B")
++        val stale = model.state.value
++        // The repository already invalidated the access token, while the old
++        // state still has ready=true until the collector gets another turn.
++        assertTrue(stale.ready)
++        model.requestNewMeasure()
++        assertEquals(stale, model.state.value)
++        assertEquals(LINE, model.state.value.distancePoints)
++        runCurrent()
++        assertFalse(model.state.value.active)
++        assertTrue(model.state.value.points.isEmpty())
++        assertTrue(repository.inputs.isEmpty())
++    }
++
++    @Test fun newMeasureCannotInterruptAnInFlightSaveOrAnUncertainSaveAwaitingRetry() = runTest {
++        val repository = FakeRepository()
++        val finish = CompletableDeferred<Unit>()
++        repository.saveAction = { _, _ ->
++            finish.await()
++            CartographicStoreResult.Failure(CartographicStoreError.UNKNOWN_RESULT)
++        }
++        val model = model(repository)
++        runCurrent(); drawLine(model); runCurrent()
++        model.requestSave(); model.name("TEST · Payload to preserve"); model.confirmSave(); runCurrent()
++        val inFlight = model.state.value
++        assertTrue(inFlight.saving)
++        model.requestNewMeasure()
++        assertEquals(inFlight, model.state.value)
++        finish.complete(Unit); runCurrent()
++        val uncertain = model.state.value
++        assertFalse(uncertain.saving)
++        assertTrue(uncertain.saveLocked)
++        model.requestNewMeasure()
++        assertEquals(uncertain, model.state.value)
++        assertEquals(LINE, model.state.value.distancePoints)
++        assertEquals("TEST · Payload to preserve", model.state.value.saveName)
++        assertEquals(1, repository.inputs.size)
++        assertEquals(0, repository.recordCount())
++    }
++
+     private fun model(repository: FakeRepository, handle: SavedStateHandle = SavedStateHandle()) =

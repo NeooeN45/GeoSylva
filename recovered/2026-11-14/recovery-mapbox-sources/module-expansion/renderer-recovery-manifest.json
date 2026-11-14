@@ -1,0 +1,1428 @@
+{
+  "method": "Strict adjacent read concatenation and only the observed pure string delta expressions; no historical Python or shell program executed.",
+  "versions": [
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov07-after-hatch-budget-before-amendments/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "complete": true,
+      "temporalScope": "nov07-after-hatch-budget-before-amendments",
+      "lineCount": 350,
+      "sha256": "f9880867fddc865bfaf7b87863bf8d1e253f3b435aac9c73afa9cef789535a67",
+      "beforeSha256": null,
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch13.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b56f-f136-744b-9ec5-1aa29f5c4393",
+          "turnStartedAt": 1794045375,
+          "itemIndex": 86,
+          "itemId": "exec-39ff90f7-b9bf-400a-9ffa-1faf52f2a4f7",
+          "outputTruncated": false
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch13.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b56f-f136-744b-9ec5-1aa29f5c4393",
+          "turnStartedAt": 1794045375,
+          "itemIndex": 88,
+          "itemId": "exec-b29392f8-551a-4e66-90f7-ce9adb990d65",
+          "outputTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov07-hatch-amendment-92/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "complete": true,
+      "temporalScope": "nov07-hatch-amendment-92",
+      "lineCount": 350,
+      "sha256": "107d9315952f06c38a8649046dc347b2cc655f03280024eaec7b1d20cda6cd50",
+      "beforeSha256": "f9880867fddc865bfaf7b87863bf8d1e253f3b435aac9c73afa9cef789535a67",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch13.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b56f-f136-744b-9ec5-1aa29f5c4393",
+          "turnStartedAt": 1794045375,
+          "itemIndex": 92,
+          "itemId": "exec-eba01c94-0b54-4ae5-b59a-d67ac42c2a58",
+          "outputTruncated": null
+        }
+      ],
+      "recordedCommandsExecuted": false,
+      "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov07-hatch-amendment-92--NativeMapOverlays.json"
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov07-hatch-amendment-104/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "complete": true,
+      "temporalScope": "nov07-hatch-amendment-104",
+      "lineCount": 352,
+      "sha256": "cf53f9d2d30dba62a1d9021b051d130f7d749c32d8e2ab940388c9f6e01cd582",
+      "beforeSha256": "107d9315952f06c38a8649046dc347b2cc655f03280024eaec7b1d20cda6cd50",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch13.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b56f-f136-744b-9ec5-1aa29f5c4393",
+          "turnStartedAt": 1794045375,
+          "itemIndex": 104,
+          "itemId": "exec-606fde64-9b24-450b-ae56-4d772e4fe561",
+          "outputTruncated": null
+        }
+      ],
+      "recordedCommandsExecuted": false,
+      "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov07-hatch-amendment-104--NativeMapOverlays.json",
+      "independentPrefixCheck": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+        "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turnId": "01a1b5c2-5636-70e4-ab31-4fcbaa86754b",
+        "turnStartedAt": 1794050774,
+        "itemIndex": 15,
+        "itemId": "exec-4786f643-e27f-4682-8129-b3427da395dc",
+        "outputTruncated": false
+      }
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov07-visual-badge9/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "complete": true,
+      "temporalScope": "nov07-visual-badge9",
+      "lineCount": 368,
+      "sha256": "7b1a831c2766c4454d41303c65465339c6c5b9d623fef80c3050b15abe530b5d",
+      "beforeSha256": "cf53f9d2d30dba62a1d9021b051d130f7d749c32d8e2ab940388c9f6e01cd582",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b5c2-5636-70e4-ab31-4fcbaa86754b",
+          "turnStartedAt": 1794050774,
+          "itemIndex": 35,
+          "itemId": "exec-e363a162-4b03-4179-9eff-9ce40f584f01",
+          "outputTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false,
+      "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov07-visual-badge9--NativeMapOverlays.json"
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov07-source-ack9-amended/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "complete": true,
+      "temporalScope": "nov07-source-ack9-amended",
+      "lineCount": 411,
+      "sha256": "a05b38ff1a37f678e7c22e671c8f7b80537d3816b3b3a79e392caf982139bfa2",
+      "beforeSha256": "7b1a831c2766c4454d41303c65465339c6c5b9d623fef80c3050b15abe530b5d",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b5d8-638e-7177-b665-d9570af1eb7d",
+          "turnStartedAt": 1794052220,
+          "itemIndex": 36,
+          "itemId": "exec-fc640502-0a29-416a-a8d8-3c559b350500",
+          "outputTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false,
+      "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov07-source-ack9-amended--NativeMapOverlays.json"
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov07-point-label-placement9-type-corrected/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "complete": true,
+      "temporalScope": "nov07-point-label-placement9-type-corrected",
+      "lineCount": 434,
+      "sha256": "c2180068a1cca0799d0b14d798e1014444e75242ba139f5ecc0f209191a2be79",
+      "beforeSha256": "a05b38ff1a37f678e7c22e671c8f7b80537d3816b3b3a79e392caf982139bfa2",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b5d8-638e-7177-b665-d9570af1eb7d",
+          "turnStartedAt": 1794052220,
+          "itemIndex": 124,
+          "itemId": "exec-1d9774b7-8f83-4ce9-826e-a277a826f273",
+          "outputTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false,
+      "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov07-point-label-placement9-type-corrected--NativeMapOverlays.json"
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov07-selected-label11-type-corrected/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "complete": true,
+      "temporalScope": "nov07-selected-label11-type-corrected",
+      "lineCount": 436,
+      "sha256": "e9b93b2c923cb60737c1391a36d5b9f77d4c34df1392d2fb169b3d0031dd7b32",
+      "beforeSha256": "c2180068a1cca0799d0b14d798e1014444e75242ba139f5ecc0f209191a2be79",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch8.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b698-9f92-74ef-ad30-f52784a13b53",
+          "turnStartedAt": 1794064818,
+          "itemIndex": 37,
+          "itemId": "exec-1543ff5e-1a22-4119-8786-092bc2d6803a",
+          "outputTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false,
+      "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov07-selected-label11-type-corrected--NativeMapOverlays.json",
+      "independentLaterReadChecks": [
+        {
+          "sourceRange": [
+            116,
+            150
+          ],
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch2.json",
+            "threadId": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turnId": "01a1b6f1-7bb3-7667-8db9-d551be34ce56",
+            "turnStartedAt": 1794070641,
+            "itemIndex": 54,
+            "itemId": "exec-b942e622-acfa-4d8c-b858-67a45a9ec2af",
+            "outputTruncated": false
+          }
+        },
+        {
+          "sourceRange": [
+            205,
+            242
+          ],
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch2.json",
+            "threadId": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turnId": "01a1b6f1-7bb3-7667-8db9-d551be34ce56",
+            "turnStartedAt": 1794070641,
+            "itemIndex": 55,
+            "itemId": "exec-f789b201-e591-41fb-8cde-571fdfb5326a",
+            "outputTruncated": false
+          }
+        },
+        {
+          "sourceRange": [
+            29,
+            51
+          ],
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch2.json",
+            "threadId": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turnId": "01a1b6f1-7bb3-7667-8db9-d551be34ce56",
+            "turnStartedAt": 1794070641,
+            "itemIndex": 55,
+            "itemId": "exec-f789b201-e591-41fb-8cde-571fdfb5326a",
+            "outputTruncated": false
+          }
+        }
+      ],
+      "independentNovember13PrefixCheck": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-3.json",
+        "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+        "turnId": "01a1d509-40f4-720a-a75c-db6dba27e211",
+        "turnStartedAt": 1794575517,
+        "itemIndex": 7,
+        "itemId": "exec-05f6fcdf-ba9c-44b7-8da3-46cab564a11d",
+        "outputTruncated": false
+      }
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-checked-arrival16/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "complete": true,
+      "temporalScope": "nov13-checked-arrival16",
+      "lineCount": 461,
+      "sha256": "03d283b8b81390a86a9cb32bbda09d0b4561b365f9bfc703d923dd955a4db9eb",
+      "beforeSha256": "e9b93b2c923cb60737c1391a36d5b9f77d4c34df1392d2fb169b3d0031dd7b32",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-3.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d509-40f4-720a-a75c-db6dba27e211",
+          "turnStartedAt": 1794575517,
+          "itemIndex": 23,
+          "itemId": "exec-11550263-275f-4376-9cdf-aa517b869b59",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-symbol16-consult/build_candidate.py",
+          "producerTextSha256": "f3d4bfc006196f656f26e53378010b52bd9a5c41edbad602d0305ce39dbc293d",
+          "producerDiffTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false,
+      "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov13-checked-arrival16--NativeMapOverlays.json",
+      "independentLaterReadChecks": [
+        {
+          "sourceRange": [
+            130,
+            260
+          ],
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-2.json",
+            "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+            "turnId": "01a1d560-17ac-7608-bd41-6a41d07257a7",
+            "turnStartedAt": 1794581207,
+            "itemIndex": 5,
+            "itemId": "exec-9ba111bb-d142-4352-9725-2fd842517030",
+            "outputTruncated": false
+          }
+        },
+        {
+          "sourceRange": [
+            260,
+            300
+          ],
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-2.json",
+            "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+            "turnId": "01a1d560-17ac-7608-bd41-6a41d07257a7",
+            "turnStartedAt": 1794581207,
+            "itemIndex": 10,
+            "itemId": "exec-b508110b-b3f9-4417-8996-4c76bdb1a30d",
+            "outputTruncated": false
+          }
+        }
+      ],
+      "historicalWholeFileSha256Verified": true,
+      "independentFrozenSnapshotProof": {
+        "snapshotPath": "/workspace/outputs/2026-11-13/reprise-geosylva/source-build15-snapshot.json",
+        "sourceBuild": 15,
+        "frozenUTC": "2026-11-13T13:42:06.652018+00:00",
+        "historicalSourceRecord": {
+          "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+          "bytes": 28104,
+          "sha256": "03d283b8b81390a86a9cb32bbda09d0b4561b365f9bfc703d923dd955a4db9eb"
+        },
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-2.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d560-17ac-7608-bd41-6a41d07257a7",
+          "turnStartedAt": 1794581207,
+          "itemIndex": 3,
+          "itemId": "exec-46a53ea0-b8b4-4099-855f-4f06b2da7b38",
+          "outputTruncated": false
+        }
+      }
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-label-below17/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "complete": true,
+      "temporalScope": "nov13-label-below17",
+      "lineCount": 467,
+      "sha256": "71de8da22a23d7c288a72565682ad032d89764c4f5d658924f211123ccee66ba",
+      "beforeSha256": "03d283b8b81390a86a9cb32bbda09d0b4561b365f9bfc703d923dd955a4db9eb",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-1.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d5b1-d2fc-73ee-b297-672c6fa46929",
+          "turnStartedAt": 1794586563,
+          "itemIndex": 52,
+          "itemId": "exec-c73639ea-ec64-4d44-ade4-50b91a44ea4d",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-label17-consult/build_candidate.py",
+          "producerTextSha256": "1eb696740978504dde96b1d1dfd51599cd18e01ef8339d609fbde5a78943f479",
+          "producerDiffTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false,
+      "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov13-label-below17--NativeMapOverlays.json",
+      "independentNumberedNovember13LineChecks": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-nov13-known-lines-and-gaps.json",
+      "temporalNumberedLineCheckResults": [
+        {
+          "number": 1,
+          "matchedTemporalVariant": "nov07-selected-label11-type-corrected",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier18.json",
+            "turnId": "01a1d496-4ba4-708c-aed1-08f8beace6e9",
+            "itemIndex": 69,
+            "itemId": "exec-91a10246-4ed7-404b-b749-56316f2a2d11",
+            "kind": "numbered rg source line"
+          }
+        },
+        {
+          "number": 137,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "single-file rg numbered line explicitly from NativeMapOverlays"
+          }
+        },
+        {
+          "number": 211,
+          "matchedTemporalVariant": "nov07-selected-label11-type-corrected",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier21.json",
+            "turnId": "01a1d465-1957-77bd-8f90-a0e67b538951",
+            "itemIndex": 111,
+            "itemId": "exec-f99d8fa4-2199-42bd-bcfb-ecd3ce203f3e",
+            "kind": "numbered rg source line"
+          }
+        },
+        {
+          "number": 225,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 226,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 227,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 228,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 229,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 230,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 231,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 232,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 233,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 234,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 235,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 236,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 237,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 238,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 239,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 240,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 241,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 242,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 243,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 244,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 245,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 246,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 247,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 248,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 249,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "exact sed225..249"
+          }
+        },
+        {
+          "number": 295,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "single-file rg numbered line explicitly from NativeMapOverlays"
+          }
+        },
+        {
+          "number": 299,
+          "matchedTemporalVariant": "nov13-checked-arrival16",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+            "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+            "itemIndex": 19,
+            "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+            "kind": "single-file rg numbered line explicitly from NativeMapOverlays"
+          }
+        },
+        {
+          "number": 430,
+          "matchedTemporalVariant": "nov07-selected-label11-type-corrected",
+          "provenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier21.json",
+            "turnId": "01a1d465-1957-77bd-8f90-a0e67b538951",
+            "itemIndex": 111,
+            "itemId": "exec-f99d8fa4-2199-42bd-bcfb-ecd3ce203f3e",
+            "kind": "numbered rg source line"
+          }
+        }
+      ]
+    }
+  ],
+  "latestCompleteObservedVariant": {
+    "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+    "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-label-below17/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+    "complete": true,
+    "temporalScope": "nov13-label-below17",
+    "lineCount": 467,
+    "sha256": "71de8da22a23d7c288a72565682ad032d89764c4f5d658924f211123ccee66ba",
+    "beforeSha256": "03d283b8b81390a86a9cb32bbda09d0b4561b365f9bfc703d923dd955a4db9eb",
+    "provenance": [
+      {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-1.json",
+        "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+        "turnId": "01a1d5b1-d2fc-73ee-b297-672c6fa46929",
+        "turnStartedAt": 1794586563,
+        "itemIndex": 52,
+        "itemId": "exec-c73639ea-ec64-4d44-ade4-50b91a44ea4d",
+        "outputTruncated": null,
+        "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-label17-consult/build_candidate.py",
+        "producerTextSha256": "1eb696740978504dde96b1d1dfd51599cd18e01ef8339d609fbde5a78943f479",
+        "producerDiffTruncated": false
+      }
+    ],
+    "recordedCommandsExecuted": false,
+    "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov13-label-below17--NativeMapOverlays.json",
+    "independentNumberedNovember13LineChecks": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-nov13-known-lines-and-gaps.json",
+    "temporalNumberedLineCheckResults": [
+      {
+        "number": 1,
+        "matchedTemporalVariant": "nov07-selected-label11-type-corrected",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier18.json",
+          "turnId": "01a1d496-4ba4-708c-aed1-08f8beace6e9",
+          "itemIndex": 69,
+          "itemId": "exec-91a10246-4ed7-404b-b749-56316f2a2d11",
+          "kind": "numbered rg source line"
+        }
+      },
+      {
+        "number": 137,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "single-file rg numbered line explicitly from NativeMapOverlays"
+        }
+      },
+      {
+        "number": 211,
+        "matchedTemporalVariant": "nov07-selected-label11-type-corrected",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier21.json",
+          "turnId": "01a1d465-1957-77bd-8f90-a0e67b538951",
+          "itemIndex": 111,
+          "itemId": "exec-f99d8fa4-2199-42bd-bcfb-ecd3ce203f3e",
+          "kind": "numbered rg source line"
+        }
+      },
+      {
+        "number": 225,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 226,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 227,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 228,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 229,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 230,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 231,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 232,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 233,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 234,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 235,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 236,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 237,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 238,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 239,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 240,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 241,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 242,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 243,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 244,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 245,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 246,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 247,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 248,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 249,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "exact sed225..249"
+        }
+      },
+      {
+        "number": 295,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "single-file rg numbered line explicitly from NativeMapOverlays"
+        }
+      },
+      {
+        "number": 299,
+        "matchedTemporalVariant": "nov13-checked-arrival16",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+          "turnId": "01a1d575-85a5-7362-bb6e-2cd3d39cdcb5",
+          "itemIndex": 19,
+          "itemId": "exec-970f7754-b2ca-4ad5-a785-2a9474363fec",
+          "kind": "single-file rg numbered line explicitly from NativeMapOverlays"
+        }
+      },
+      {
+        "number": 430,
+        "matchedTemporalVariant": "nov07-selected-label11-type-corrected",
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier21.json",
+          "turnId": "01a1d465-1957-77bd-8f90-a0e67b538951",
+          "itemIndex": 111,
+          "itemId": "exec-f99d8fa4-2199-42bd-bcfb-ecd3ce203f3e",
+          "kind": "numbered rg source line"
+        }
+      }
+    ]
+  },
+  "modelVersions": [
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov07-before-visual-badge9/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "complete": true,
+      "temporalScope": "nov07-before-visual-badge9",
+      "lineCount": 155,
+      "sha256": "8fff0349c6a616d53c1febcdd58a9d910cfdcd986d3dd296195c338cf407b9ea",
+      "beforeSha256": null,
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b5c2-5636-70e4-ab31-4fcbaa86754b",
+          "turnStartedAt": 1794050774,
+          "itemIndex": 4,
+          "itemId": "exec-de278033-ad60-4e6c-b961-92d0aecc5484",
+          "outputTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov07-visual-badge9/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "complete": true,
+      "temporalScope": "nov07-visual-badge9",
+      "lineCount": 159,
+      "sha256": "9183bbc586f2d304f024e444feb036093c41b067b718e8d94640bb7f61c7d6d8",
+      "beforeSha256": "8fff0349c6a616d53c1febcdd58a9d910cfdcd986d3dd296195c338cf407b9ea",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b5c2-5636-70e4-ab31-4fcbaa86754b",
+          "turnStartedAt": 1794050774,
+          "itemIndex": 35,
+          "itemId": "exec-e363a162-4b03-4179-9eff-9ce40f584f01",
+          "outputTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false,
+      "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov07-visual-badge9--MapOverlayModels.json"
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov07-source-ack9/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "complete": true,
+      "temporalScope": "nov07-source-ack9",
+      "lineCount": 163,
+      "sha256": "fb10863ebcf0149bf77887ff8be3dbdbc14f7122886df39ab9850c282071f8df",
+      "beforeSha256": "9183bbc586f2d304f024e444feb036093c41b067b718e8d94640bb7f61c7d6d8",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b5d8-638e-7177-b665-d9570af1eb7d",
+          "turnStartedAt": 1794052220,
+          "itemIndex": 36,
+          "itemId": "exec-fc640502-0a29-416a-a8d8-3c559b350500",
+          "outputTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false,
+      "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov07-source-ack9--MapOverlayModels.json"
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-checked-arrival16/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "complete": true,
+      "temporalScope": "nov13-checked-arrival16",
+      "lineCount": 163,
+      "sha256": "652bdd59939f1bd39842f9bdcccd7ec3e85aa8ebd654adb7cd5e032c38c8d99a",
+      "beforeSha256": "fb10863ebcf0149bf77887ff8be3dbdbc14f7122886df39ab9850c282071f8df",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-3.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d509-40f4-720a-a75c-db6dba27e211",
+          "turnStartedAt": 1794575517,
+          "itemIndex": 23,
+          "itemId": "exec-11550263-275f-4376-9cdf-aa517b869b59",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-symbol16-consult/build_candidate.py",
+          "producerTextSha256": "f3d4bfc006196f656f26e53378010b52bd9a5c41edbad602d0305ce39dbc293d",
+          "producerDiffTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false,
+      "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov13-checked-arrival16--MapOverlayModels.json",
+      "independentLaterPrefixReadCheck": {
+        "sourceRange": [
+          1,
+          148
+        ],
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-1.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d5c5-14f8-766b-bca9-16c8ce99a540",
+          "turnStartedAt": 1794587825,
+          "itemIndex": 77,
+          "itemId": "exec-47326370-8269-4ece-8fb3-cd76cf543a26",
+          "outputTruncated": false
+        }
+      },
+      "independentLaterTailReadCheck": {
+        "sourceRange": [
+          123,
+          149
+        ],
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-1.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d5c5-14f8-766b-bca9-16c8ce99a540",
+          "turnStartedAt": 1794587825,
+          "itemIndex": 136,
+          "itemId": "exec-3cc8d9d1-de9d-4e3b-919a-80a0dd760c5e",
+          "outputTruncated": false
+        }
+      },
+      "historicalWholeFileSha256Verified": true,
+      "independentFrozenSnapshotProof": {
+        "snapshotPath": "/workspace/outputs/2026-11-13/reprise-geosylva/source-build15-snapshot.json",
+        "sourceBuild": 15,
+        "frozenUTC": "2026-11-13T13:42:06.652018+00:00",
+        "historicalSourceRecord": {
+          "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+          "bytes": 7305,
+          "sha256": "652bdd59939f1bd39842f9bdcccd7ec3e85aa8ebd654adb7cd5e032c38c8d99a"
+        },
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-2.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d560-17ac-7608-bd41-6a41d07257a7",
+          "turnStartedAt": 1794581207,
+          "itemIndex": 3,
+          "itemId": "exec-46a53ea0-b8b4-4099-855f-4f06b2da7b38",
+          "outputTruncated": false
+        }
+      }
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-label-below17/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "complete": true,
+      "temporalScope": "nov13-label-below17",
+      "lineCount": 167,
+      "sha256": "d3eef72d60be5b358ecc9676c3e33219cea04a35e770a2c3815b5dcb51732fa5",
+      "beforeSha256": "652bdd59939f1bd39842f9bdcccd7ec3e85aa8ebd654adb7cd5e032c38c8d99a",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-1.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d5b1-d2fc-73ee-b297-672c6fa46929",
+          "turnStartedAt": 1794586563,
+          "itemIndex": 52,
+          "itemId": "exec-c73639ea-ec64-4d44-ade4-50b91a44ea4d",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-label17-consult/build_candidate.py",
+          "producerTextSha256": "1eb696740978504dde96b1d1dfd51599cd18e01ef8339d609fbde5a78943f479",
+          "producerDiffTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false,
+      "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov13-label-below17--MapOverlayModels.json",
+      "independentIntegratedPrefixReadCheck": {
+        "sourceRange": [
+          1,
+          50
+        ],
+        "provenance": {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-latest.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d647-bf14-75ac-94d5-d91cae69f7c6",
+          "turnStartedAt": 1794596388,
+          "itemIndex": 105,
+          "itemId": "exec-d0c7e9f6-89e9-436f-9342-78bf845a9f4b",
+          "outputTruncated": false
+        }
+      }
+    }
+  ],
+  "latestCompleteObservedModelsVariant": {
+    "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+    "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-label-below17/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+    "complete": true,
+    "temporalScope": "nov13-label-below17",
+    "lineCount": 167,
+    "sha256": "d3eef72d60be5b358ecc9676c3e33219cea04a35e770a2c3815b5dcb51732fa5",
+    "beforeSha256": "652bdd59939f1bd39842f9bdcccd7ec3e85aa8ebd654adb7cd5e032c38c8d99a",
+    "provenance": [
+      {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-1.json",
+        "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+        "turnId": "01a1d5b1-d2fc-73ee-b297-672c6fa46929",
+        "turnStartedAt": 1794586563,
+        "itemIndex": 52,
+        "itemId": "exec-c73639ea-ec64-4d44-ade4-50b91a44ea4d",
+        "outputTruncated": null,
+        "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-label17-consult/build_candidate.py",
+        "producerTextSha256": "1eb696740978504dde96b1d1dfd51599cd18e01ef8339d609fbde5a78943f479",
+        "producerDiffTruncated": false
+      }
+    ],
+    "recordedCommandsExecuted": false,
+    "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov13-label-below17--MapOverlayModels.json",
+    "independentIntegratedPrefixReadCheck": {
+      "sourceRange": [
+        1,
+        50
+      ],
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-latest.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d647-bf14-75ac-94d5-d91cae69f7c6",
+        "turnStartedAt": 1794596388,
+        "itemIndex": 105,
+        "itemId": "exec-d0c7e9f6-89e9-436f-9342-78bf845a9f4b",
+        "outputTruncated": false
+      }
+    }
+  },
+  "testVersions": [
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapPinGeometryTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-before-checked-arrival16/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapPinGeometryTest.kt",
+      "complete": true,
+      "temporalScope": "nov13-before-checked-arrival16",
+      "lineCount": 32,
+      "sha256": "2f95e0bd9be4072f2159cd47df5d257dd49079734b07692d7989ad48c849bae1",
+      "beforeSha256": null,
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-3.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d509-40f4-720a-a75c-db6dba27e211",
+          "turnStartedAt": 1794575517,
+          "itemIndex": 8,
+          "itemId": "exec-e2479d5b-4e0b-4c28-a984-6f41facda1a1",
+          "outputTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapPinGeometryTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-checked-arrival16/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapPinGeometryTest.kt",
+      "complete": true,
+      "temporalScope": "nov13-checked-arrival16",
+      "lineCount": 39,
+      "sha256": "1f8f0eb3e5c7a978d00783711549224dd5eccdc6b1aaf67d07689105326b7657",
+      "beforeSha256": "2f95e0bd9be4072f2159cd47df5d257dd49079734b07692d7989ad48c849bae1",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-3.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d509-40f4-720a-a75c-db6dba27e211",
+          "turnStartedAt": 1794575517,
+          "itemIndex": 23,
+          "itemId": "exec-11550263-275f-4376-9cdf-aa517b869b59",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-symbol16-consult/build_candidate.py",
+          "producerTextSha256": "f3d4bfc006196f656f26e53378010b52bd9a5c41edbad602d0305ce39dbc293d",
+          "producerDiffTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false,
+      "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov13-checked-arrival16--MapPinGeometryTest.json"
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/PointLabelPlacementTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-before-checked-arrival16/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/PointLabelPlacementTest.kt",
+      "complete": true,
+      "temporalScope": "nov13-before-checked-arrival16",
+      "lineCount": 37,
+      "sha256": "997e9c94d3bb544c31b28ff4a8eff67b90878c1ed623044fd23868a1e2594718",
+      "beforeSha256": null,
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-3.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d509-40f4-720a-a75c-db6dba27e211",
+          "turnStartedAt": 1794575517,
+          "itemIndex": 8,
+          "itemId": "exec-e2479d5b-4e0b-4c28-a984-6f41facda1a1",
+          "outputTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/PointLabelPlacementTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-checked-arrival16/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/PointLabelPlacementTest.kt",
+      "complete": true,
+      "temporalScope": "nov13-checked-arrival16",
+      "lineCount": 39,
+      "sha256": "5b047043d63062b7a8541be15202c7552604d20a384321ef7745dcf9c93de827",
+      "beforeSha256": "997e9c94d3bb544c31b28ff4a8eff67b90878c1ed623044fd23868a1e2594718",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-3.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d509-40f4-720a-a75c-db6dba27e211",
+          "turnStartedAt": 1794575517,
+          "itemIndex": 23,
+          "itemId": "exec-11550263-275f-4376-9cdf-aa517b869b59",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-symbol16-consult/build_candidate.py",
+          "producerTextSha256": "f3d4bfc006196f656f26e53378010b52bd9a5c41edbad602d0305ce39dbc293d",
+          "producerDiffTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false,
+      "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov13-checked-arrival16--PointLabelPlacementTest.json",
+      "independentLaterCompleteReadCheck": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-1.json",
+        "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+        "turnId": "01a1d5b1-d2fc-73ee-b297-672c6fa46929",
+        "turnStartedAt": 1794586563,
+        "itemIndex": 47,
+        "itemId": "exec-c2956c9b-4bc4-4928-84b2-6c5037a3cb9f",
+        "outputTruncated": false
+      }
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/PointLabelPlacementTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-label-below17/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/PointLabelPlacementTest.kt",
+      "complete": true,
+      "temporalScope": "nov13-label-below17",
+      "lineCount": 69,
+      "sha256": "4a2ab064b96c2730bd16c7b04c432863ffba7a9c3a32d768b537cf8ab93071c8",
+      "beforeSha256": "5b047043d63062b7a8541be15202c7552604d20a384321ef7745dcf9c93de827",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-1.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d5b1-d2fc-73ee-b297-672c6fa46929",
+          "turnStartedAt": 1794586563,
+          "itemIndex": 52,
+          "itemId": "exec-c73639ea-ec64-4d44-ade4-50b91a44ea4d",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-label17-consult/build_candidate.py",
+          "producerTextSha256": "1eb696740978504dde96b1d1dfd51599cd18e01ef8339d609fbde5a78943f479",
+          "producerDiffTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false,
+      "proof": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-proofs/nov13-label-below17--PointLabelPlacementTest.json"
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCheckedPinContractTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-checked-arrival16/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCheckedPinContractTest.kt",
+      "complete": true,
+      "temporalScope": "nov13-checked-arrival16",
+      "lineCount": 34,
+      "sha256": "c91c0011eaa7db59dbfcab55ccc2f6adaed1f6d6062236b10350d2a3ca738911",
+      "beforeSha256": null,
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-3.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d509-40f4-720a-a75c-db6dba27e211",
+          "turnStartedAt": 1794575517,
+          "itemIndex": 23,
+          "itemId": "exec-11550263-275f-4376-9cdf-aa517b869b59",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-symbol16-consult/build_candidate.py",
+          "producerTextSha256": "f3d4bfc006196f656f26e53378010b52bd9a5c41edbad602d0305ce39dbc293d",
+          "producerDiffTruncated": false
+        }
+      ],
+      "recordedCommandsExecuted": false
+    }
+  ],
+  "finalNovember13StateProven": false,
+  "latestDeltaCompletelyObserved": true,
+  "latestModelChangesIndependentlyObservedAfterIntegration": true,
+  "finalNativeQualification": "Complete exact candidate17 source reconstructed from the complete observed producer on a checked-pin SOURCE15 baseline whose whole-file SHA and28104-byte count match the independent frozen November13 13:42 snapshot exactly. The matching model additions and MapsCanvas usage are observed later in camera20/21, but a full final Native source read or whole-file historical SHA after candidate17 is not available in these JSONs.",
+  "remainingLaterMutationSourcesToInspect": [],
+  "applicationRepositoryModified": false,
+  "testsGradleAdbPushRun": false
+}

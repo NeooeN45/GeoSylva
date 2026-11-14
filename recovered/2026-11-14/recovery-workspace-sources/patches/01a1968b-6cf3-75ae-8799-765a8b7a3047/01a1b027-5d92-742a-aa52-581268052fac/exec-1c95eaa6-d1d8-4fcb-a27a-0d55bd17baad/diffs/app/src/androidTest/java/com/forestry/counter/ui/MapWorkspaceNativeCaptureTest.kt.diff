@@ -1,0 +1,14 @@
+@@ -67,2 +67,3 @@
+     private var camera by mutableStateOf(INITIAL_CAMERA)
++    private var compassTop by mutableStateOf(156.dp)
+     private var observedRelief by mutableStateOf<MapRelief?>(null)
+@@ -115,3 +116,3 @@
+                         )
+-                        MapWorkspace(ui, actions, thumbnail = { key, modifier ->
++                        MapWorkspace(ui, actions, onCompassTopChanged = { compassTop = it }, thumbnail = { key, modifier ->
+                             if (key.value.startsWith("NO_PREVIEW_")) {
+@@ -129,3 +130,3 @@
+                                 modifier = Modifier.fillMaxSize(),
+-                                contentPadding = PaddingValues(start = 12.dp, top = 156.dp, end = 12.dp, bottom = bottom),
++                                contentPadding = PaddingValues(start = 12.dp, top = compassTop, end = 12.dp, bottom = bottom),
+                                 onCameraChanged = { camera = it },

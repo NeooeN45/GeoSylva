@@ -1,0 +1,11 @@
+--- a/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt
++++ b/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt
+@@ -78,7 +78,7 @@
+         TilesetDescriptorOptions.Builder().styleURI(definition.styleUri)
+             .minZoom(definition.minZoom.toByte()).maxZoom(definition.maxZoom.toByte())
+             .pixelRatio(definition.pixelRatio).tilesets(definition.extraTilesets)
+-            .stylePackOptions(styleOptions()).build()
++            .build()
+     ))
+     private fun styleOptions() = StylePackLoadOptions.Builder().acceptExpired(false)
+         .glyphsRasterizationMode(GlyphsRasterizationMode.NO_GLYPHS_RASTERIZED_LOCALLY).build()

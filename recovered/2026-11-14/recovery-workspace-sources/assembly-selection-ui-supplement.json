@@ -1,0 +1,147 @@
+{
+  "created_utc": "2026-11-14T14:46:57.850866+00:00",
+  "selection_status": "EXACT_UI_SUPPLEMENT_TO_FROZEN_FIRST_SELECTION",
+  "selected": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/components/maps/MapModalStatusBar.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/workspace-dialog-versions/01a1b69a-288f-73ce-9c2b-accb752e2089/exec-6b6d8f93-9271-41bf-8334-46cdafc26d74/app/src/main/java/com/forestry/counter/presentation/components/maps/MapModalStatusBar.kt",
+      "sha256": "84f897bfbacae3bc649c705df7e43906a7cc15fcbab36b693db7547a5ee38b7b",
+      "selection": "selected_exact_observed_source",
+      "provenance": {
+        "history_file": "maps-guidage-batch3.json",
+        "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+        "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+        "item_index": 34,
+        "turn_started_at": 1794064918,
+        "turn_completed_at": 1794065580
+      },
+      "evidence": {
+        "manifest": "workspace-dialog-manifest.json",
+        "patch_sha256": "782d19bfa0e78e6a4426beb082790cc3ae1b269d521ce019878fecf431953fe8",
+        "historical_patch_sha_matches": true,
+        "production_application_witness": {
+          "snapshot": {
+            "history_file": "maquettes-audit-earlier.json",
+            "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+            "turn": "01a1b6f1-9033-7581-8fb0-44be73651959",
+            "item": "exec-e83fc9d2-417f-4afb-91dd-748f2daa4dea",
+            "item_index": 8,
+            "turn_started_at": 1794070647,
+            "turn_completed_at": 1794071884
+          },
+          "snapshot_names_same_patch_sha": true,
+          "adoption": {
+            "history_file": "integration-validation-full500.json",
+            "thread": "01a1b639-64d0-7090-b99a-0ee0fe0b0074",
+            "turn": "01a1b639-6a9d-74b1-95f5-0812d8decf81",
+            "item": "exec-f43c9c08-f466-48ce-b86f-243a5d962ff9",
+            "item_index": 1326,
+            "turn_started_at": 1794058578,
+            "turn_completed_at": 1794075445
+          },
+          "adoption_exit_code": 0,
+          "adoption_output": "Reviewed 27 drafts / 65 paths; all20 native families ended.\nReviewed batch11 adopted and source snapshot frozen. No Gradle or Android action performed.\n"
+        }
+      },
+      "dependency_gaps": []
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/workspace-dialog-versions/01a1b69a-288f-73ce-9c2b-accb752e2089/exec-6b6d8f93-9271-41bf-8334-46cdafc26d74/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+      "sha256": "f082a68b7c448c4ea26839dc78d66692143120e1c4d3eff72d6df002870f208f",
+      "selection": "selected_exact_observed_source",
+      "provenance": {
+        "history_file": "maps-guidage-batch3.json",
+        "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+        "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+        "item_index": 34,
+        "turn_started_at": 1794064918,
+        "turn_completed_at": 1794065580
+      },
+      "evidence": {
+        "manifest": "workspace-dialog-manifest.json",
+        "patch_sha256": "782d19bfa0e78e6a4426beb082790cc3ae1b269d521ce019878fecf431953fe8",
+        "historical_patch_sha_matches": true,
+        "production_application_witness": {
+          "snapshot": {
+            "history_file": "maquettes-audit-earlier.json",
+            "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+            "turn": "01a1b6f1-9033-7581-8fb0-44be73651959",
+            "item": "exec-e83fc9d2-417f-4afb-91dd-748f2daa4dea",
+            "item_index": 8,
+            "turn_started_at": 1794070647,
+            "turn_completed_at": 1794071884
+          },
+          "snapshot_names_same_patch_sha": true,
+          "adoption": {
+            "history_file": "integration-validation-full500.json",
+            "thread": "01a1b639-64d0-7090-b99a-0ee0fe0b0074",
+            "turn": "01a1b639-6a9d-74b1-95f5-0812d8decf81",
+            "item": "exec-f43c9c08-f466-48ce-b86f-243a5d962ff9",
+            "item_index": 1326,
+            "turn_started_at": 1794058578,
+            "turn_completed_at": 1794075445
+          },
+          "adoption_exit_code": 0,
+          "adoption_output": "Reviewed 27 drafts / 65 paths; all20 native families ended.\nReviewed batch11 adopted and source snapshot frozen. No Gradle or Android action performed.\n"
+        }
+      },
+      "dependency_gaps": [
+        "MapWorkspaceHostDialogs references map_workspace_integration.xml whose exact complete resource bytes are still under recovery."
+      ]
+    },
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/ui/MapModalStatusBarTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/workspace-dialog-versions/01a1b69a-288f-73ce-9c2b-accb752e2089/exec-6b6d8f93-9271-41bf-8334-46cdafc26d74/app/src/androidTest/java/com/forestry/counter/ui/MapModalStatusBarTest.kt",
+      "sha256": "df75eee8667723a03dab77738f55e8a6b40cb9062a5d070bdc29478ecd41d4b6",
+      "selection": "selected_exact_observed_source",
+      "provenance": {
+        "history_file": "maps-guidage-batch3.json",
+        "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+        "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+        "item_index": 34,
+        "turn_started_at": 1794064918,
+        "turn_completed_at": 1794065580
+      },
+      "evidence": {
+        "manifest": "workspace-dialog-manifest.json",
+        "patch_sha256": "782d19bfa0e78e6a4426beb082790cc3ae1b269d521ce019878fecf431953fe8",
+        "historical_patch_sha_matches": true,
+        "production_application_witness": {
+          "snapshot": {
+            "history_file": "maquettes-audit-earlier.json",
+            "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+            "turn": "01a1b6f1-9033-7581-8fb0-44be73651959",
+            "item": "exec-e83fc9d2-417f-4afb-91dd-748f2daa4dea",
+            "item_index": 8,
+            "turn_started_at": 1794070647,
+            "turn_completed_at": 1794071884
+          },
+          "snapshot_names_same_patch_sha": true,
+          "adoption": {
+            "history_file": "integration-validation-full500.json",
+            "thread": "01a1b639-64d0-7090-b99a-0ee0fe0b0074",
+            "turn": "01a1b639-6a9d-74b1-95f5-0812d8decf81",
+            "item": "exec-f43c9c08-f466-48ce-b86f-243a5d962ff9",
+            "item_index": 1326,
+            "turn_started_at": 1794058578,
+            "turn_completed_at": 1794075445
+          },
+          "adoption_exit_code": 0,
+          "adoption_output": "Reviewed 27 drafts / 65 paths; all20 native families ended.\nReviewed batch11 adopted and source snapshot frozen. No Gradle or Android action performed.\n"
+        }
+      },
+      "dependency_gaps": []
+    }
+  ],
+  "supersedes_blocked_paths": [
+    "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt"
+  ],
+  "limitations": [
+    "Supplement selects recovered source files, not a complete project/build claim.",
+    "No prepared code was executed; sources and patch bytes match the named historical SHA and adoption record."
+  ]
+}

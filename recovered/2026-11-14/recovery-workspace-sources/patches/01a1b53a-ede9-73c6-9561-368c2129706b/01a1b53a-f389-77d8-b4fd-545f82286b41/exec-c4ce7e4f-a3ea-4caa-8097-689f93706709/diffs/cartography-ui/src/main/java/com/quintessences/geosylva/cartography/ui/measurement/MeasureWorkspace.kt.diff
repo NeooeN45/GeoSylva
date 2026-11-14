@@ -1,0 +1,10 @@
+@@ -78,3 +78,3 @@
+     }
+-    BackHandler {
++    BackHandler(enabled = state.panelVisible) {
+         when (state.panel) {
+@@ -105,3 +105,3 @@
+         val maximumHeight = maxHeight * if (density.fontScale > 1.1f || maxHeight < 600.dp) 0.82f else 0.56f
+-        Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth().navigationBarsPadding().imePadding()
++        if (state.panelVisible) Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth().navigationBarsPadding().imePadding()
+             .padding(horizontal = MeasureUi.edge, vertical = MeasureUi.edge)) {

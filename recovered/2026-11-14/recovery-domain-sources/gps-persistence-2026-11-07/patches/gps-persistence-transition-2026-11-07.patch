@@ -1,0 +1,883 @@
+diff --git a/app/src/main/java/com/forestry/counter/data/location/trace/MapTraceForegroundService.kt b/app/src/main/java/com/forestry/counter/data/location/trace/MapTraceForegroundService.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/location/trace/MapTraceForegroundService.kt
+@@ -0,0 +1,115 @@
++package com.forestry.counter.data.location.trace
++
++import android.Manifest
++import android.app.NotificationChannel
++import android.app.NotificationManager
++import android.app.PendingIntent
++import android.app.Service
++import android.content.Context
++import android.content.Intent
++import android.content.pm.PackageManager
++import android.content.pm.ServiceInfo
++import android.os.Build
++import android.os.IBinder
++import android.os.Looper
++import androidx.core.app.NotificationCompat
++import androidx.core.app.ServiceCompat
++import androidx.core.content.ContextCompat
++import com.forestry.counter.R
++import com.forestry.counter.domain.location.trace.TraceCaptureToken
++import com.forestry.counter.presentation.MainActivity
++import com.forestry.counter.presentation.screens.forestry.trace.MapTraceController
++import com.google.android.gms.location.*
++
++/** Application owns the sole controller; a Service restart cannot create an authority. */
++interface MapTraceOwner { val mapTraceController: MapTraceController }
++
++class MapTraceForegroundService : Service() {
++    private val controller get() = (application as? MapTraceOwner)?.mapTraceController
++    private val client by lazy { LocationServices.getFusedLocationProviderClient(this) }
++    private var token: TraceCaptureToken? = null
++    private var callback: LocationCallback? = null
++
++    override fun onBind(intent: Intent?): IBinder? = null
++    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
++        val requested = intent?.getStringExtra(SESSION)?.let { id -> TraceCaptureToken(id, intent.getLongExtra(GENERATION, -1)) }
++        val owner = controller
++        if (requested == null || owner == null || !owner.sourceIsCurrent(requested)) {
++            if (token == null) stopSelf()
++            return START_NOT_STICKY
++        }
++        when (intent.action) {
++            PAUSE -> { owner.pause(requested); return START_NOT_STICKY }
++            FINISH -> { owner.finish(requested); return START_NOT_STICKY }
++        }
++        if (!hasPermission(this)) { owner.sourceStopped(requested); stopSelf(); return START_NOT_STICKY }
++        if (token == requested && callback != null) return START_NOT_STICKY
++        removeCallback()
++        token = requested
++        try { showNotification(requested) }
++        catch (_: RuntimeException) { owner.sourceStopped(requested); stopSelf(); return START_NOT_STICKY }
++        val bound = requested
++        val listener = object : LocationCallback() {
++            override fun onLocationResult(result: LocationResult) {
++                if (token != bound || !hasPermission(this@MapTraceForegroundService) || owner.sourceIsCurrent(bound).not()) return
++                result.locations.forEach { owner.acceptLocation(bound, it) }
++            }
++            override fun onLocationAvailability(availability: LocationAvailability) {
++                if (token == bound && !availability.isLocationAvailable) owner.sourceUnavailable(bound)
++            }
++        }
++        callback = listener
++        try {
++            client.requestLocationUpdates(LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 3_000L)
++                .setMinUpdateIntervalMillis(1_000L).build(), listener, Looper.getMainLooper())
++                .addOnFailureListener { if (token == bound) { owner.sourceStopped(bound); stopSelf() } }
++        } catch (_: SecurityException) { owner.sourceStopped(bound); stopSelf() }
++        return START_NOT_STICKY
++    }
++    private fun removeCallback() {
++        callback?.let { client.removeLocationUpdates(it) }
++        callback = null
++    }
++    override fun onDestroy() {
++        val previous = token
++        token = null
++        removeCallback()
++        if (previous != null) controller?.sourceStopped(previous)
++        super.onDestroy()
++    }
++    private fun showNotification(bound: TraceCaptureToken) {
++        val manager = getSystemService(NotificationManager::class.java)
++        manager.createNotificationChannel(NotificationChannel(CHANNEL, getString(R.string.map_trace_notification_channel), NotificationManager.IMPORTANCE_LOW))
++        val open = PendingIntent.getActivity(this, 0, Intent(this, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
++        fun action(name: String, requestCode: Int) = PendingIntent.getService(this, requestCode,
++            intent(this, bound).setAction(name).setData(android.net.Uri.parse("geosylva-trace://${bound.sessionId}/${bound.generation}/$requestCode")),
++            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
++        val notification = NotificationCompat.Builder(this, CHANNEL).setSmallIcon(android.R.drawable.ic_menu_mylocation)
++            .setContentTitle(getString(R.string.map_trace_notification_title))
++            .setContentText(getString(R.string.map_trace_notification_body)).setContentIntent(open).setOngoing(true).setSilent(true)
++            .addAction(android.R.drawable.ic_media_pause, getString(R.string.map_trace_notification_pause), action(PAUSE, 1))
++            .addAction(android.R.drawable.ic_menu_close_clear_cancel, getString(R.string.map_trace_notification_finish), action(FINISH, 2)).build()
++        ServiceCompat.startForeground(this, NOTIFICATION, notification,
++            if (Build.VERSION.SDK_INT >= 29) ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION else 0)
++    }
++    companion object {
++        private const val SESSION = "trace_session"
++        private const val GENERATION = "trace_generation"
++        private const val PAUSE = "com.forestry.counter.MAP_TRACE_PAUSE"
++        private const val FINISH = "com.forestry.counter.MAP_TRACE_FINISH"
++        private const val CHANNEL = "cartographic_trace"
++        private const val NOTIFICATION = 7401
++        fun hasPermission(context: Context): Boolean = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
++        private fun intent(context: Context, token: TraceCaptureToken) = Intent(context, MapTraceForegroundService::class.java)
++            .putExtra(SESSION, token.sessionId).putExtra(GENERATION, token.generation)
++        fun start(context: Context, token: TraceCaptureToken): Boolean = try {
++            ContextCompat.startForegroundService(context, intent(context, token)); true
++        } catch (_: RuntimeException) { false }
++        fun stop(context: Context, token: TraceCaptureToken) {
++            val owner = (context.applicationContext as? MapTraceOwner)?.mapTraceController
++            // An old callback/notification can never stop a replacement session's Service.
++            if (owner?.currentSourceToken()?.let { it != token } == true) return
++            context.stopService(intent(context, token))
++        }
++    }
++}
+diff --git a/app/src/main/java/com/forestry/counter/data/repository/CartographicTraceRepositoryImpl.kt b/app/src/main/java/com/forestry/counter/data/repository/CartographicTraceRepositoryImpl.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/repository/CartographicTraceRepositoryImpl.kt
+@@ -0,0 +1,208 @@
++package com.forestry.counter.data.repository
++
++import com.forestry.counter.data.cartography.CartographicAuthorityFailure
++import com.forestry.counter.data.cartography.CartographicScopeAuthority
++import com.forestry.counter.data.local.dao.CartographicTraceDao
++import com.forestry.counter.data.local.entity.CartographicTraceEntity
++import com.forestry.counter.domain.location.trace.*
++import com.forestry.counter.domain.repository.*
++import com.forestry.counter.domain.usecase.maps.MapDataScope
++import kotlinx.serialization.Serializable
++import kotlinx.serialization.decodeFromString
++import kotlinx.serialization.encodeToString
++import kotlinx.serialization.json.Json
++import java.security.MessageDigest
++import java.util.UUID
++import kotlinx.coroutines.CancellationException
++
++/** Encrypted Room records behind the shared account/purge/parent authority. */
++class CartographicTraceRepositoryImpl(
++    private val dao: CartographicTraceDao,
++    private val authority: CartographicScopeAuthority,
++    private val clock: () -> Long = System::currentTimeMillis,
++) : CartographicTraceRepository {
++    override suspend fun captureAccess(scope: MapDataScope): CartographicStoreResult<CartographicMeasurementAccess> = authority.capture(scope)
++    override fun isCurrent(access: CartographicMeasurementAccess): Boolean = (access as? CartographicScopeAuthority.Token)?.let(authority::isCurrent) == true
++    override fun accessChanges() = authority.accessChanges()
++
++    override suspend fun writeDraft(id: String, name: String?, snapshot: TraceCaptureSnapshot, expectedRevision: Long,
++        sourceTraceId: String?, access: CartographicMeasurementAccess) = write(id, name, snapshot, expectedRevision, sourceTraceId, access, saved = false)
++    override suspend fun save(id: String, name: String?, snapshot: TraceCaptureSnapshot, expectedRevision: Long,
++        sourceTraceId: String?, access: CartographicMeasurementAccess) = write(id, name, snapshot, expectedRevision, sourceTraceId, access, saved = true)
++
++    private suspend fun write(id: String, name: String?, snapshot: TraceCaptureSnapshot, expectedRevision: Long,
++        sourceTraceId: String?, access: CartographicMeasurementAccess, saved: Boolean): CartographicStoreResult<CartographicTraceDocument> = authority.result {
++        val token = token(access)
++        canonicalId(id)
++        if (snapshot.sessionId != id || expectedRevision < 0 || sourceTraceId == id) fail(CartographicStoreError.INVALID_INPUT)
++        sourceTraceId?.let(::canonicalId)
++        val prepared = try { TracePayloadCodec.prepare(name, snapshot, saved) }
++            catch (_: IllegalArgumentException) { fail(CartographicStoreError.INVALID_INPUT) }
++        authority.transaction(token, mutation = true) { current ->
++            sourceTraceId?.let { source ->
++                val original = dao.byId(source) ?: fail(CartographicStoreError.UNAVAILABLE)
++                owned(original, current)
++                document(original)
++                if (!original.saved) fail(CartographicStoreError.INVALID_INPUT)
++            }
++            val previous = dao.byId(id)
++            if (previous != null) {
++                owned(previous, current)
++                validateRow(previous)
++                if (previous.sourceTraceId != sourceTraceId) fail(CartographicStoreError.CONFLICT)
++            } else if (expectedRevision != 0L) fail(CartographicStoreError.CONFLICT)
++            if (previous?.saved == true) {
++                if (!saved || previous.payloadJson != TracePayloadCodec.encodePrepared(prepared)) fail(CartographicStoreError.CONFLICT)
++                return@transaction document(previous)
++            }
++            val checkpoint = previous?.let { try { TraceDraftJournal.decode(it.payloadJson) }
++                catch (_: Exception) { fail(CartographicStoreError.CORRUPT) } }
++            val plan = try { TraceDraftJournal.prepare(prepared.name, prepared.snapshot, checkpoint) }
++                catch (_: IllegalArgumentException) { fail(CartographicStoreError.CONFLICT) }
++            val encoded = if (saved) TracePayloadCodec.encodePrepared(prepared) else TraceDraftJournal.encode(plan.checkpoint)
++            if (previous != null && !saved && previous.payloadJson == encoded) return@transaction document(previous)
++            if (previous != null && previous.revision != expectedRevision) fail(CartographicStoreError.CONFLICT)
++            // A final commit verifies every durable prefix row, then encodes the immutable full snapshot once.
++            if (saved && previous != null) document(previous)
++            val now = clock().takeIf { it > 0 } ?: fail(CartographicStoreError.IO)
++            val row = CartographicTraceEntity(id, current.authorityKey, current.ownerKey,
++                current.binding.kind, current.binding.id, saved, encoded, "", (previous?.revision ?: 0) + 1,
++                now, if (saved) now else null, sourceTraceId)
++            val complete = row.copy(payloadSha256 = TracePayloadCodec.rowHash(row))
++            if (!saved) {
++                if (plan.append.isNotEmpty()) dao.appendJournal(plan.append)
++                plan.changedPortion?.let { dao.updatePortion(it) }
++            }
++            if (previous == null) dao.insert(complete) else if (dao.update(complete) != 1) fail(CartographicStoreError.CONFLICT)
++            if (saved) dao.deleteJournal(id)
++            val readBack = dao.byId(id) ?: fail(CartographicStoreError.IO)
++            owned(readBack, current)
++            if (readBack != complete) fail(CartographicStoreError.IO)
++            // The same transaction acknowledged the new delta and checkpoint; avoid rereading the growing prefix.
++            fromPayload(readBack, prepared)
++        }
++    }
++
++    override suspend fun read(id: String, access: CartographicMeasurementAccess): CartographicStoreResult<CartographicTraceDocument> = authority.result {
++        canonicalId(id)
++        authority.transaction(token(access)) { current ->
++            val row = dao.byId(id) ?: fail(CartographicStoreError.UNAVAILABLE)
++            owned(row, current)
++            document(row)
++        }
++    }
++    override suspend fun list(access: CartographicMeasurementAccess): CartographicStoreResult<List<CartographicTraceDocument>> = authority.result {
++        authority.transaction(token(access)) { current -> dao.inScope(current.authorityKey).map { owned(it, current); document(it) } }
++    }
++
++    private fun token(access: CartographicMeasurementAccess): CartographicScopeAuthority.Token {
++        val token = access as? CartographicScopeAuthority.Token ?: fail(CartographicStoreError.ACCESS_CHANGED)
++        authority.requireCurrent(token)
++        return token
++    }
++    private fun owned(row: CartographicTraceEntity, token: CartographicScopeAuthority.Token) {
++        if (row.authorityKey != token.authorityKey || row.ownerKey != token.ownerKey ||
++            row.scopeKind != token.binding.kind || row.scopeId != token.binding.id) fail(CartographicStoreError.UNAVAILABLE)
++    }
++    private fun validateRow(row: CartographicTraceEntity) {
++        if (row.payloadSha256 != TracePayloadCodec.rowHash(row) || row.revision <= 0 || row.updatedAt <= 0 ||
++            row.saved != (row.recordedAt != null) || row.recordedAt?.let { it <= 0 } == true) fail(CartographicStoreError.CORRUPT)
++    }
++    private suspend fun document(row: CartographicTraceEntity): CartographicTraceDocument {
++        validateRow(row)
++        val payload = try {
++            if (row.saved) TracePayloadCodec.decode(row.payloadJson, true)
++            else {
++                val checkpoint = TraceDraftJournal.decode(row.payloadJson)
++                TracePayloadCodec.prepare(checkpoint.name, TraceDraftJournal.restore(checkpoint, dao.journal(row.id)), false)
++            }
++        } catch (cancelled: CancellationException) { throw cancelled }
++        catch (_: Exception) { fail(CartographicStoreError.CORRUPT) }
++        return fromPayload(row, payload)
++    }
++    private fun fromPayload(row: CartographicTraceEntity, payload: TracePayloadCodec.Payload): CartographicTraceDocument {
++        if (payload.snapshot.sessionId != row.id) fail(CartographicStoreError.CORRUPT)
++        return CartographicTraceDocument(row.id, payload.name, payload.snapshot, row.saved, row.revision,
++            row.updatedAt, row.recordedAt, row.sourceTraceId, payload.crs, payload.source, payload.methodId, payload.methodVersion)
++    }
++
++    private fun canonicalId(id: String) {
++        if (runCatching { UUID.fromString(id).toString() }.getOrNull() != id) fail(CartographicStoreError.INVALID_INPUT)
++    }
++    private fun fail(reason: CartographicStoreError): Nothing = throw CartographicAuthorityFailure(reason)
++}
++
++/** Strict, bounded durable snapshot; SI length is rechecked within each portion only. */
++internal object TracePayloadCodec {
++    const val MAX_NAME_LENGTH = 120
++    const val MAX_PAYLOAD_CHARACTERS = 20_000_000
++    private val json = Json { encodeDefaults = true }
++    @Serializable
++    data class Payload(val schema: Int = 1, val name: String?, val snapshot: TraceCaptureSnapshot,
++        val crs: String = "EPSG:4326", val source: String = "phone_location",
++        val methodId: String = SphericalTraceDistance.METHOD_ID, val methodVersion: Int = 1)
++
++    fun prepare(name: String?, snapshot: TraceCaptureSnapshot, saved: Boolean): Payload {
++        val cleanName = name?.trim()?.takeIf { it.isNotEmpty() }
++        require(cleanName == null || cleanName.length <= MAX_NAME_LENGTH && cleanName.none { it.isISOControl() })
++        val safe = snapshot.copy(lastReceivedFix = snapshot.lastReceivedFix?.takeIf(::serialisableFix))
++        validate(safe, saved)
++        return Payload(name = cleanName, snapshot = safe)
++    }
++    fun encode(name: String?, snapshot: TraceCaptureSnapshot, saved: Boolean): String = encodePrepared(prepare(name, snapshot, saved))
++    fun encodePrepared(payload: Payload): String = json.encodeToString(payload).also { require(it.length <= MAX_PAYLOAD_CHARACTERS) }
++    fun decode(payload: String, saved: Boolean): Payload {
++        require(payload.length <= MAX_PAYLOAD_CHARACTERS)
++        val decoded = json.decodeFromString<Payload>(payload)
++        require(decoded.schema == 1 && decoded.crs == "EPSG:4326" && decoded.source == "phone_location" &&
++            decoded.methodId == SphericalTraceDistance.METHOD_ID && decoded.methodVersion == 1)
++        require(decoded.name == null || decoded.name.isNotBlank() && decoded.name == decoded.name.trim() &&
++            decoded.name.length <= MAX_NAME_LENGTH && decoded.name.none { it.isISOControl() })
++        validate(decoded.snapshot, saved)
++        return decoded
++    }
++    fun rowHash(row: CartographicTraceEntity): String = hash(json.encodeToString(listOf(row.id, row.authorityKey,
++        row.ownerKey, row.scopeKind, row.scopeId, row.saved.toString(), row.payloadJson, row.revision.toString(),
++        row.updatedAt.toString(), row.recordedAt?.toString(), row.sourceTraceId)))
++    private fun hash(text: String): String = MessageDigest.getInstance("SHA-256").digest(text.toByteArray(Charsets.UTF_8))
++        .let(::hex)
++    private fun serialisableFix(fix: TraceFix): Boolean = (fix.provider?.length ?: 0) <= 64 && (fix.clockDomainId?.length ?: 0) <= 128 && fix.latitude.isFinite() && fix.longitude.isFinite() &&
++        fix.horizontalAccuracyM?.isFinite() != false && fix.altitudeM?.isFinite() != false
++
++    private fun validate(snapshot: TraceCaptureSnapshot, saved: Boolean) {
++        require(snapshot.sessionId.isNotBlank() && snapshot.sessionElapsedNanos >= 0 && snapshot.generation >= 0)
++        require(snapshot.calculationMethod == SphericalTraceDistance.METHOD_ID)
++        require(snapshot.currentManualPauseElapsedNanos == null || snapshot.currentManualPauseElapsedNanos >= 0)
++        require(snapshot.capturePolicy.maximumAcceptedPoints <= 50_000)
++        require(snapshot.portions.size <= 50_000 && snapshot.acceptedPointCount <= snapshot.capturePolicy.maximumAcceptedPoints && snapshot.acceptedPointCount <= 50_000)
++        require(snapshot.events.size <= 100_000)
++        require(snapshot.portions.map { it.id }.distinct().size == snapshot.portions.size)
++        snapshot.portions.forEach { portion ->
++            require(portion.id.length <= 128)
++            require(portion.points.isNotEmpty() && portion.lengthM.isFinite() && portion.lengthM >= 0)
++            var length = 0.0
++            portion.points.forEachIndexed { index, fix ->
++                require(serialisableFix(fix) && SphericalTraceDistance.isValidCoordinate(fix.latitude, fix.longitude))
++                require(!fix.isMock && fix.horizontalAccuracyM?.let { it > 0 && it <= snapshot.capturePolicy.maximumHorizontalAccuracyM } == true)
++                require(fix.fixElapsedRealtimeNanos > 0 && fix.source == TracePositionSource.PHONE_LOCATION)
++                if (index > 0) {
++                    val previous = portion.points[index - 1]
++                    require(previous.clockDomainId == fix.clockDomainId && previous.fixElapsedRealtimeNanos < fix.fixElapsedRealtimeNanos)
++                    length += requireNotNull(SphericalTraceDistance.betweenM(previous, fix))
++                }
++            }
++            require(length == portion.lengthM)
++        }
++        require(snapshot.lengthM.isFinite())
++        if (saved) require(snapshot.phase == TraceCapturePhase.STOPPED_DRAFT && snapshot.portions.any { it.points.size >= 2 })
++    }
++    private fun hex(bytes: ByteArray): String {
++        val digits = "0123456789abcdef"
++        return CharArray(bytes.size * 2).also { out -> bytes.forEachIndexed { i, value ->
++            val byte = value.toInt() and 255
++            out[i * 2] = digits[byte ushr 4]
++            out[i * 2 + 1] = digits[byte and 15]
++        } }.concatToString()
++    }
++
++}
+diff --git a/app/src/main/java/com/forestry/counter/data/repository/TraceDraftJournal.kt b/app/src/main/java/com/forestry/counter/data/repository/TraceDraftJournal.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/repository/TraceDraftJournal.kt
+@@ -0,0 +1,136 @@
++package com.forestry.counter.data.repository
++
++import com.forestry.counter.data.local.entity.CartographicTraceJournalEntity
++import com.forestry.counter.domain.location.trace.*
++import kotlinx.serialization.Serializable
++import kotlinx.serialization.decodeFromString
++import kotlinx.serialization.encodeToString
++import kotlinx.serialization.json.Json
++import java.security.MessageDigest
++
++/** Bounded checkpoint plus append deltas. No draft write serialises its accepted prefix again. */
++internal object TraceDraftJournal {
++    const val MAX_CHECKPOINT_CHARACTERS = 4_096
++    private const val EMPTY_CHAIN = "geosylva-trace-journal-v1"
++    private val json = Json { encodeDefaults = true }
++    @Serializable data class Checkpoint(
++        val schema: Int = 1,
++        val name: String?,
++        /** Always empty geometry/events; constant-size policy, phase, times and last observation. */
++        val frame: TraceCaptureSnapshot,
++        val pointCount: Int,
++        val portionCount: Int,
++        val eventCount: Int,
++        val lastPortionPointCount: Int,
++        val lastPortionLengthM: Double,
++        val pointChain: String,
++        val portionIdentityChain: String,
++        val eventChain: String,
++    )
++    @Serializable data class PointEntry(val portionOrdinal: Int, val pointOrdinal: Int, val fix: TraceFix)
++    @Serializable data class PortionEntry(val id: String, val startReason: TraceBreakReason, val pointCount: Int, val lengthM: Double)
++    data class Plan(val checkpoint: Checkpoint, val append: List<CartographicTraceJournalEntity>, val changedPortion: CartographicTraceJournalEntity?)
++
++    fun prepare(name: String?, snapshot: TraceCaptureSnapshot, previous: Checkpoint?): Plan {
++        val payload = TracePayloadCodec.prepare(name, snapshot, false)
++        val safe = payload.snapshot
++        if (previous != null) {
++            require(previous.frame.sessionId == safe.sessionId && previous.frame.capturePolicy == safe.capturePolicy)
++            require(safe.sessionElapsedNanos >= previous.frame.sessionElapsedNanos && safe.generation >= previous.frame.generation)
++            require(safe.acceptedPointCount >= previous.pointCount && safe.portions.size >= previous.portionCount && safe.events.size >= previous.eventCount)
++        }
++        val append = mutableListOf<CartographicTraceJournalEntity>()
++        var pointChain = EMPTY_CHAIN
++        var pointOrdinal = 0
++        var prefixPointChain: String? = if (previous?.pointCount == 0) EMPTY_CHAIN else null
++        var portionChain = EMPTY_CHAIN
++        var prefixPortionChain: String? = if (previous?.portionCount == 0) EMPTY_CHAIN else null
++        safe.portions.forEachIndexed { portionIndex, portion ->
++            portionChain = chain(portionChain, json.encodeToString(listOf(portion.id, portion.startReason.name)))
++            if (portionIndex + 1 == previous?.portionCount) prefixPortionChain = portionChain
++            portion.points.forEachIndexed { index, point ->
++                val encoded = json.encodeToString(PointEntry(portionIndex, index, point))
++                pointChain = chain(pointChain, encoded)
++                if (pointOrdinal >= (previous?.pointCount ?: 0)) append += row(safe.sessionId, "POINT", pointOrdinal, encoded)
++                pointOrdinal++
++                if (pointOrdinal == previous?.pointCount) prefixPointChain = pointChain
++            }
++        }
++        var eventChain = EMPTY_CHAIN
++        var prefixEventChain: String? = if (previous?.eventCount == 0) EMPTY_CHAIN else null
++        safe.events.forEachIndexed { index, event ->
++            val encoded = json.encodeToString(event)
++            eventChain = chain(eventChain, encoded)
++            if (index >= (previous?.eventCount ?: 0)) append += row(safe.sessionId, "EVENT", index, encoded)
++            if (index + 1 == previous?.eventCount) prefixEventChain = eventChain
++        }
++        if (previous != null) {
++            require(prefixPointChain == previous.pointChain && prefixEventChain == previous.eventChain && prefixPortionChain == previous.portionIdentityChain) {
++                "An existing trace prefix is immutable"
++            }
++        }
++        var changed: CartographicTraceJournalEntity? = null
++        safe.portions.forEachIndexed { index, portion ->
++            val encoded = json.encodeToString(PortionEntry(portion.id, portion.startReason, portion.points.size, portion.lengthM))
++            if (index >= (previous?.portionCount ?: 0)) append += row(safe.sessionId, "PORTION", index, encoded)
++            else if (previous != null && index == previousPortionIndex(previous) &&
++                (portion.points.size != previous.lastPortionPointCount || portion.lengthM != previous.lastPortionLengthM)) {
++                require(portion.points.size >= previous.lastPortionPointCount)
++                changed = row(safe.sessionId, "PORTION", index, encoded)
++            }
++        }
++        val last = safe.portions.lastOrNull()
++        val checkpoint = Checkpoint(name = payload.name, frame = safe.copy(portions = emptyList(), events = emptyList()),
++            pointCount = safe.acceptedPointCount, portionCount = safe.portions.size, eventCount = safe.events.size,
++            lastPortionPointCount = last?.points?.size ?: 0, lastPortionLengthM = last?.lengthM ?: 0.0,
++            pointChain = pointChain, portionIdentityChain = portionChain, eventChain = eventChain)
++        encode(checkpoint) // Asserts the metadata bound before any journal mutation.
++        return Plan(checkpoint, append, changed)
++    }
++    private fun previousPortionIndex(previous: Checkpoint?) = (previous?.portionCount ?: 0) - 1
++    fun encode(value: Checkpoint): String = json.encodeToString(value).also { require(it.length <= MAX_CHECKPOINT_CHARACTERS) }
++    fun decode(value: String): Checkpoint {
++        require(value.length <= MAX_CHECKPOINT_CHARACTERS)
++        return json.decodeFromString<Checkpoint>(value).also {
++            require(it.schema == 1 && it.frame.portions.isEmpty() && it.frame.events.isEmpty())
++            require(it.pointCount in 0..50_000 && it.portionCount in 0..50_000 && it.eventCount in 0..100_000)
++            require(it.pointCount >= it.portionCount && it.lastPortionPointCount in 0..it.pointCount)
++            require(it.lastPortionLengthM.isFinite() && it.lastPortionLengthM >= 0)
++        }
++    }
++    fun restore(checkpoint: Checkpoint, rows: List<CartographicTraceJournalEntity>): TraceCaptureSnapshot {
++        require(rows.size == checkpoint.pointCount + checkpoint.portionCount + checkpoint.eventCount)
++        require(rows.all { it.traceId == checkpoint.frame.sessionId && it.payloadSha256 == rowHash(it) })
++        fun group(kind: String, count: Int): List<CartographicTraceJournalEntity> = rows.filter { it.kind == kind }.sortedBy { it.ordinal }.also { selected ->
++            require(selected.size == count && selected.map { it.ordinal } == (0 until count).toList())
++        }
++        val pointRows = group("POINT", checkpoint.pointCount)
++        val portionRows = group("PORTION", checkpoint.portionCount)
++        val eventRows = group("EVENT", checkpoint.eventCount)
++        var pointChain = EMPTY_CHAIN
++        val points = pointRows.map { pointChain = chain(pointChain, it.payloadJson); json.decodeFromString<PointEntry>(it.payloadJson) }
++        var eventChain = EMPTY_CHAIN
++        val events = eventRows.map { eventChain = chain(eventChain, it.payloadJson); json.decodeFromString<TraceCaptureEvent>(it.payloadJson) }
++        var portionChain = EMPTY_CHAIN
++        val grouped = points.groupBy { it.portionOrdinal }
++        val portions = portionRows.mapIndexed { index, row ->
++            val meta = json.decodeFromString<PortionEntry>(row.payloadJson)
++            portionChain = chain(portionChain, json.encodeToString(listOf(meta.id, meta.startReason.name)))
++            val entries = grouped[index].orEmpty()
++            require(entries.size == meta.pointCount && entries.map { it.pointOrdinal } == (0 until meta.pointCount).toList())
++            TracePortion(meta.id, meta.startReason, entries.map { it.fix }, meta.lengthM)
++        }
++        require(pointChain == checkpoint.pointChain && eventChain == checkpoint.eventChain && portionChain == checkpoint.portionIdentityChain)
++        require(portions.sumOf { it.points.size } == checkpoint.pointCount)
++        val snapshot = checkpoint.frame.copy(portions = portions, events = events)
++        TracePayloadCodec.prepare(checkpoint.name, snapshot, false)
++        require((snapshot.portions.lastOrNull()?.points?.size ?: 0) == checkpoint.lastPortionPointCount)
++        require((snapshot.portions.lastOrNull()?.lengthM ?: 0.0) == checkpoint.lastPortionLengthM)
++        return snapshot
++    }
++    fun row(traceId: String, kind: String, ordinal: Int, payload: String): CartographicTraceJournalEntity =
++        CartographicTraceJournalEntity(traceId, kind, ordinal, payload, "").let { it.copy(payloadSha256 = rowHash(it)) }
++    private fun rowHash(row: CartographicTraceJournalEntity) = sha256(json.encodeToString(listOf(row.traceId, row.kind, row.ordinal.toString(), row.payloadJson)))
++    private fun chain(previous: String, payload: String) = sha256(previous + "\n" + payload)
++    private fun sha256(value: String) = MessageDigest.getInstance("SHA-256").digest(value.toByteArray(Charsets.UTF_8)).joinToString("") { "%02x".format(it) }
++}
+diff --git a/app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt b/app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt
+--- a/app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt
++++ b/app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt
+@@ -30,6 +30,26 @@
+     private var lastReceivedFix: TraceFix? = null
+     private var waitingReason: TraceRejectionReason? = null
+ 
++    companion object {
++        /**
++         * Recovery is a stopped draft, never a recovered GPS subscription or authority.
++         * The caller must authorise/read the snapshot and explicitly request resume.
++         * Process downtime contributes neither length nor elapsed session duration.
++         */
++        fun restoreStopped(snapshot: TraceCaptureSnapshot, newSessionId: String = snapshot.sessionId): SegmentedTraceRecorder =
++            SegmentedTraceRecorder(newSessionId, snapshot.capturePolicy).also { recorder ->
++                recorder.phase = TraceCapturePhase.STOPPED_DRAFT
++                recorder.generation = snapshot.generation + 1
++                recorder.accumulatedElapsedNanos = snapshot.sessionElapsedNanos
++                recorder.portions = snapshot.portions.mapIndexed { i, portion ->
++                    portion.copy(id = "$newSessionId:portion:${i + 1}", points = portion.points.toList())
++                }
++                recorder.events = snapshot.events.toList()
++                recorder.pendingStart = TraceBreakReason.REVIEW_RESUME
++                recorder.startsNewPortion = true
++            }
++    }
++
+     /** Repeated start is idempotent; a stopped session must be resumed explicitly. */
+     @Synchronized
+     fun start(nowNanos: Long): TraceCaptureToken? {
+diff --git a/app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt b/app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt
+--- a/app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt
++++ b/app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt
+@@ -1,6 +1,9 @@
+ package com.forestry.counter.domain.location.trace
+ 
++import kotlinx.serialization.Serializable
++
+ /** All elapsed times use the same Android elapsedRealtimeNanos clock domain. */
++@Serializable
+ data class TraceFix(
+     val latitude: Double,
+     val longitude: Double,
+@@ -11,11 +14,15 @@
+     val fixTimestampMillis: Long? = null,
+     val altitudeM: Double? = null,
+     val isMock: Boolean = false,
++    /** Android boot clock identifier, retained independently for each observation. */
++    val clockDomainId: String? = null,
+ )
+ 
++@Serializable
+ enum class TracePositionSource { PHONE_LOCATION, EXTERNAL_GNSS }
+ 
+ /** Configuration supplied by the host, not a certified forestry protocol. */
++@Serializable
+ data class TraceCapturePolicy(
+     val maximumHorizontalAccuracyM: Double,
+     val maximumFixAgeNanos: Long,
+@@ -34,30 +41,37 @@
+ 
+ data class TraceCaptureToken(val sessionId: String, val generation: Long)
+ 
++@Serializable
+ enum class TraceCapturePhase {
+     PREPARING, RECORDING, WAITING_FOR_QUALITY, MANUALLY_PAUSED, STOPPED_DRAFT,
+ }
+ 
++@Serializable
+ enum class TraceBreakReason {
+     INITIAL, QUALITY_RECOVERY, MANUAL_RESUME, REVIEW_RESUME, OBSERVATION_GAP,
+ }
+ 
++@Serializable
+ enum class TraceRejectionReason {
+     INVALID_COORDINATES, INVALID_ALTITUDE, MISSING_ACCURACY, INVALID_ACCURACY, INSUFFICIENT_ACCURACY,
+     MISSING_FIX_TIME, FUTURE_FIX, STALE_FIX, CACHED_BEFORE_REQUEST, MOCK_POSITION,
+     SOURCE_UNAVAILABLE, CAPACITY_REACHED,
+ }
+ 
++@Serializable
+ enum class TraceIgnoredReason { OBSOLETE_CALLBACK, OUT_OF_ORDER_FIX, BELOW_MINIMUM_DISTANCE }
+ 
++@Serializable
+ enum class TraceEventType { STARTED, QUALITY_WAIT, OBSERVATION_GAP, PAUSED, RESUMED, STOPPED }
+ 
++@Serializable
+ data class TraceCaptureEvent(
+     val type: TraceEventType,
+     val elapsedRealtimeNanos: Long,
+     val rejectionReason: TraceRejectionReason? = null,
+ )
+ 
++@Serializable
+ data class TracePortion(
+     val id: String,
+     val startReason: TraceBreakReason,
+@@ -66,6 +80,7 @@
+     val lengthM: Double,
+ )
+ 
++@Serializable
+ data class TraceCaptureSnapshot(
+     val sessionId: String,
+     val phase: TraceCapturePhase,
+diff --git a/app/src/main/java/com/forestry/counter/domain/repository/CartographicTraceRepository.kt b/app/src/main/java/com/forestry/counter/domain/repository/CartographicTraceRepository.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/domain/repository/CartographicTraceRepository.kt
+@@ -0,0 +1,33 @@
++package com.forestry.counter.domain.repository
++
++import com.forestry.counter.domain.location.trace.TraceCaptureSnapshot
++import com.forestry.counter.domain.usecase.maps.MapDataScope
++import kotlinx.coroutines.flow.Flow
++
++data class CartographicTraceDocument(
++    val id: String,
++    val name: String?,
++    val snapshot: TraceCaptureSnapshot,
++    val saved: Boolean,
++    val revision: Long,
++    val updatedAt: Long,
++    val recordedAt: Long?,
++    val sourceTraceId: String?,
++    val coordinateReferenceSystem: String = "EPSG:4326",
++    val source: String = "phone_location",
++    val methodId: String = com.forestry.counter.domain.location.trace.SphericalTraceDistance.METHOD_ID,
++    val methodVersion: Int = 1,
++)
++
++interface CartographicTraceRepository {
++    suspend fun captureAccess(scope: MapDataScope): CartographicStoreResult<CartographicMeasurementAccess>
++    fun isCurrent(access: CartographicMeasurementAccess): Boolean
++    fun accessChanges(): Flow<Unit>
++    /** Enforces account, original parent binding and expected revision inside the commit. */
++    suspend fun writeDraft(id: String, name: String?, snapshot: TraceCaptureSnapshot,
++        expectedRevision: Long, sourceTraceId: String?, access: CartographicMeasurementAccess): CartographicStoreResult<CartographicTraceDocument>
++    suspend fun save(id: String, name: String?, snapshot: TraceCaptureSnapshot,
++        expectedRevision: Long, sourceTraceId: String?, access: CartographicMeasurementAccess): CartographicStoreResult<CartographicTraceDocument>
++    suspend fun read(id: String, access: CartographicMeasurementAccess): CartographicStoreResult<CartographicTraceDocument>
++    suspend fun list(access: CartographicMeasurementAccess): CartographicStoreResult<List<CartographicTraceDocument>>
++}
+diff --git a/app/src/test/java/com/forestry/counter/data/repository/CartographicTraceRepositoryTest.kt b/app/src/test/java/com/forestry/counter/data/repository/CartographicTraceRepositoryTest.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/test/java/com/forestry/counter/data/repository/CartographicTraceRepositoryTest.kt
+@@ -0,0 +1,200 @@
++package com.forestry.counter.data.repository
++
++import com.forestry.counter.data.cartography.CartographicAuthorityFailure
++import com.forestry.counter.data.cartography.CartographicScopeAuthority
++import com.forestry.counter.data.local.dao.CartographicTraceDao
++import com.forestry.counter.data.local.entity.CartographicTraceEntity
++import com.forestry.counter.data.local.entity.CartographicTraceJournalEntity
++import com.forestry.counter.data.sync.hierarchy.BusinessReadAccess
++import com.forestry.counter.domain.location.trace.*
++import com.forestry.counter.domain.repository.*
++import com.forestry.counter.domain.usecase.maps.MapDataScope
++import io.mockk.*
++import kotlinx.coroutines.test.runTest
++import org.junit.Assert.*
++import org.junit.Test
++
++class CartographicTraceRepositoryTest {
++    private val rows = linkedMapOf<String, CartographicTraceEntity>()
++    private val journal = linkedMapOf<Triple<String, String, Int>, CartographicTraceJournalEntity>()
++    private var writtenBytes = 0L
++    private var maximumCheckpoint = 0
++    private val dao = object : CartographicTraceDao {
++        override suspend fun insert(row: CartographicTraceEntity) { check(row.id !in rows); rows[row.id] = row; countWrite(row) }
++        override suspend fun update(row: CartographicTraceEntity): Int { if (row.id !in rows) return 0; rows[row.id] = row; countWrite(row); return 1 }
++        override suspend fun byId(id: String) = rows[id]
++        override suspend fun inScope(authorityKey: String) = rows.values.filter { it.authorityKey == authorityKey }
++        override suspend fun appendJournal(rows: List<CartographicTraceJournalEntity>) {
++            rows.forEach { row ->
++                val key = Triple(row.traceId, row.kind, row.ordinal)
++                check(key !in journal)
++                journal[key] = row
++                writtenBytes += row.payloadJson.toByteArray().size + row.payloadSha256.length
++            }
++        }
++        override suspend fun updatePortion(row: CartographicTraceJournalEntity) {
++            journal[Triple(row.traceId, row.kind, row.ordinal)] = row
++            writtenBytes += row.payloadJson.toByteArray().size + row.payloadSha256.length
++        }
++        override suspend fun journal(id: String) = journal.values.filter { it.traceId == id }
++        override suspend fun deleteJournal(id: String) { journal.keys.filter { it.first == id }.forEach(journal::remove) }
++        override suspend fun deleteAllJournal() { journal.clear() }
++        override suspend fun deleteRecords() { rows.clear() }
++        private fun countWrite(row: CartographicTraceEntity) {
++            writtenBytes += row.payloadJson.toByteArray().size + row.payloadSha256.length
++            if (!row.saved) maximumCheckpoint = maxOf(maximumCheckpoint, row.payloadJson.length)
++        }
++    }
++    private val authority = mockk<CartographicScopeAuthority>()
++    private val scope = MapDataScope.Parcel("parcel")
++    private var permitted = true
++    private val access = token("a", "account-a")
++    private val repository = CartographicTraceRepositoryImpl(dao, authority) { 123_000L }
++    init {
++        every { authority.requireCurrent(any()) } answers {
++            if (!permitted) throw CartographicAuthorityFailure(CartographicStoreError.ACCESS_CHANGED)
++        }
++        every { authority.isCurrent(any()) } answers { permitted }
++        coEvery { authority.result<Any?>(any()) } coAnswers {
++            try { CartographicStoreResult.Success(firstArg<suspend () -> Any?>().invoke()) }
++            catch (failure: CartographicAuthorityFailure) { CartographicStoreResult.Failure(failure.reason) }
++        }
++        coEvery { authority.transaction<Any?>(any(), any(), any()) } coAnswers {
++            if (!permitted) throw CartographicAuthorityFailure(CartographicStoreError.ACCESS_CHANGED)
++            thirdArg<suspend (CartographicScopeAuthority.Token) -> Any?>().invoke(firstArg())
++        }
++    }
++
++    @Test fun `blank optional name commits once and identical retry rereads the same saved identity`() = runTest {
++        val snapshot = snapshot(ID)
++        val first = repository.save(ID, "   ", snapshot, 0, null, access) as CartographicStoreResult.Success
++        assertNull(first.value.name)
++        val again = repository.save(ID, null, snapshot, 0, null, access) as CartographicStoreResult.Success
++        assertEquals(first.value, again.value)
++        assertEquals(1, rows.size)
++        assertEquals(1L, rows.getValue(ID).revision)
++        assertTrue((repository.read(ID, access) as CartographicStoreResult.Success).value.saved)
++        assertEquals(CartographicStoreResult.Failure(CartographicStoreError.CONFLICT), repository.save(ID, "changed", snapshot, 1, null, access))
++    }
++
++    @Test fun `draft revision mismatch cannot overwrite another snapshot`() = runTest {
++        val initial = snapshot(ID)
++        val draft = repository.writeDraft(ID, "a", initial, 0, null, access) as CartographicStoreResult.Success
++        assertFalse(draft.value.saved)
++        assertEquals(CartographicStoreResult.Failure(CartographicStoreError.CONFLICT), repository.writeDraft(ID, "b", initial, 0, null, access))
++        assertEquals("a", (repository.read(ID, access) as CartographicStoreResult.Success).value.name)
++    }
++
++    @Test fun `owner and original parent fingerprint are mandatory on every read or commit`() = runTest {
++        repository.save(ID, null, snapshot(ID), 0, null, access)
++        assertEquals(CartographicStoreResult.Failure(CartographicStoreError.UNAVAILABLE), repository.read(ID, token("b", "account-b")))
++        assertEquals(CartographicStoreResult.Failure(CartographicStoreError.UNAVAILABLE), repository.read(ID, token("moved-parent", "account-a")))
++        permitted = false
++        assertEquals(CartographicStoreResult.Failure(CartographicStoreError.ACCESS_CHANGED), repository.read(ID, access))
++        assertEquals(CartographicStoreResult.Failure(CartographicStoreError.ACCESS_CHANGED), repository.save(OTHER, null, snapshot(OTHER), 0, null, access))
++        assertEquals(1, rows.size)
++    }
++
++    @Test fun `copy has its own identity and source while the original stays byte for byte immutable`() = runTest {
++        val original = repository.save(ID, "original", snapshot(ID), 0, null, access) as CartographicStoreResult.Success
++        val originalRow = rows.getValue(ID)
++        val copiedSnapshot = SegmentedTraceRecorder.restoreStopped(original.value.snapshot, OTHER).snapshot(1)
++        val copy = repository.save(OTHER, "copy", copiedSnapshot, 0, ID, access) as CartographicStoreResult.Success
++        assertEquals(ID, copy.value.sourceTraceId)
++        assertEquals(originalRow, rows.getValue(ID))
++        assertEquals(original.value.snapshot.portions.flatMap { it.points }, copy.value.snapshot.portions.flatMap { it.points })
++    }
++
++    @Test fun `invalid name and forged SI length are rejected and corrupt saved rows cannot be laundered`() = runTest {
++        val snapshot = snapshot(ID)
++        assertEquals(CartographicStoreResult.Failure(CartographicStoreError.INVALID_INPUT), repository.save(ID, "x\ny", snapshot, 0, null, access))
++        val forged = snapshot.copy(portions = snapshot.portions.map { it.copy(lengthM = it.lengthM + 20) })
++        assertEquals(CartographicStoreResult.Failure(CartographicStoreError.INVALID_INPUT), repository.save(ID, null, forged, 0, null, access))
++        repository.save(ID, null, snapshot, 0, null, access)
++        rows[ID] = rows.getValue(ID).copy(payloadJson = "{}")
++        assertEquals(CartographicStoreResult.Failure(CartographicStoreError.CORRUPT), repository.read(ID, access))
++        assertEquals(CartographicStoreResult.Failure(CartographicStoreError.CORRUPT), repository.save(ID, null, snapshot, 1, null, access))
++    }
++
++    @Test fun `long draft writes append deltas with bounded checkpoints and linear byte growth`() = runTest {
++        val recorder = SegmentedTraceRecorder(ID, TraceCapturePolicy(10.0, 15_000_000_000, 0.0, 20_000_000_000))
++        val token = requireNotNull(recorder.start(1_000))
++        var revision = 0L
++        var halfBytes = 0L
++        repeat(1_000) { index ->
++            val now = 1_001L + index
++            val accepted = recorder.accept(token, fix(45.0 + index * 0.00001, now), now)
++            val result = repository.writeDraft(ID, null, accepted.snapshot, revision, null, access) as CartographicStoreResult.Success
++            revision = result.value.revision
++            if (index == 499) halfBytes = writtenBytes
++        }
++        val draftBytes = writtenBytes
++        assertTrue("Doubling points must approximately double storage writes, not quadruple them", draftBytes < halfBytes * 2.1)
++        assertTrue(maximumCheckpoint <= TraceDraftJournal.MAX_CHECKPOINT_CHARACTERS)
++        assertEquals(1_000, journal.values.count { it.kind == "POINT" })
++        assertEquals(1_000, (repository.read(ID, access) as CartographicStoreResult.Success).value.snapshot.acceptedPointCount)
++        val stopped = recorder.stop(3_000)
++        val saved = repository.save(ID, null, stopped, revision, null, access) as CartographicStoreResult.Success
++        assertEquals(1_000, saved.value.snapshot.acceptedPointCount)
++        assertTrue(journal.isEmpty())
++        assertTrue(writtenBytes - draftBytes <= rows.getValue(ID).payloadJson.toByteArray().size + 128)
++    }
++
++    @Test fun `mutating an accepted prefix or truncating the journal is refused without laundering it`() = runTest {
++        val snapshot = snapshot(ID)
++        val draft = repository.writeDraft(ID, null, snapshot, 0, null, access) as CartographicStoreResult.Success
++        val modifiedRecorder = SegmentedTraceRecorder(ID, snapshot.capturePolicy)
++        val token = requireNotNull(modifiedRecorder.start(1_000))
++        modifiedRecorder.accept(token, fix(46.0, 1_001), 1_001)
++        modifiedRecorder.accept(token, fix(46.001, 1_002), 1_002)
++        val modified = modifiedRecorder.stop(1_003)
++        assertEquals(CartographicStoreResult.Failure(CartographicStoreError.CONFLICT), repository.writeDraft(ID, null, modified, draft.value.revision, null, access))
++        journal.remove(journal.keys.first { it.second == "POINT" })
++        assertEquals(CartographicStoreResult.Failure(CartographicStoreError.CORRUPT), repository.read(ID, access))
++        assertEquals(CartographicStoreResult.Failure(CartographicStoreError.CORRUPT), repository.save(ID, null, snapshot, draft.value.revision, null, access))
++        assertFalse(rows.getValue(ID).saved)
++    }
++
++    @Test fun `capacity sized draft restores every point and commits its immutable snapshot once`() = runTest {
++        val points = List(50_000) { index -> fix(45.0 + index * 0.000001, 1_001L + index) }
++        val lengths = DoubleArray(points.size)
++        for (index in 1 until points.size) lengths[index] = lengths[index - 1] + requireNotNull(SphericalTraceDistance.betweenM(points[index - 1], points[index]))
++        val policy = TraceCapturePolicy(10.0, 15_000_000_000, 0.0, 20_000_000_000)
++        fun capture(count: Int) = TraceCaptureSnapshot(ID, TraceCapturePhase.RECORDING, 1,
++            listOf(TracePortion("$ID:portion:1", TraceBreakReason.INITIAL, points.take(count), lengths[count - 1])),
++            listOf(TraceCaptureEvent(TraceEventType.STARTED, 1_000)), points[count - 1], null,
++            count.toLong(), null, policy)
++        val first = repository.writeDraft(ID, null, capture(25_000), 0, null, access) as CartographicStoreResult.Success
++        val firstBytes = writtenBytes
++        val second = repository.writeDraft(ID, null, capture(50_000), first.value.revision, null, access) as CartographicStoreResult.Success
++        assertTrue("50 000 points retain linear journal writes: first=$firstBytes total=$writtenBytes", writtenBytes < firstBytes * 2.1)
++        assertTrue(maximumCheckpoint <= TraceDraftJournal.MAX_CHECKPOINT_CHARACTERS)
++        val restored = (repository.read(ID, access) as CartographicStoreResult.Success).value.snapshot
++        assertEquals(points, restored.portions.single().points)
++        val stopped = restored.copy(phase = TraceCapturePhase.STOPPED_DRAFT,
++            events = restored.events + TraceCaptureEvent(TraceEventType.STOPPED, 51_002))
++        val beforeSave = writtenBytes
++        val saved = repository.save(ID, null, stopped, second.value.revision, null, access) as CartographicStoreResult.Success
++        assertEquals(50_000, saved.value.snapshot.acceptedPointCount)
++        assertEquals(stopped, (repository.read(ID, access) as CartographicStoreResult.Success).value.snapshot)
++        assertTrue(journal.isEmpty())
++        assertTrue(writtenBytes - beforeSave <= rows.getValue(ID).payloadJson.toByteArray().size + 128)
++    }
++
++    private fun token(fingerprint: String, account: String): CartographicScopeAuthority.Token = CartographicScopeAuthority.Token(
++        Any(), BusinessReadAccess.AccessSnapshot(account, null, emptyList(), emptyList(), 0, 0), 1,
++        scope, CartographicScopeAuthority.Binding("PARCEL", "parcel"), fingerprint)
++    private fun snapshot(id: String): TraceCaptureSnapshot {
++        val recorder = SegmentedTraceRecorder(id, TraceCapturePolicy(10.0, 15_000_000_000, 0.0, 20_000_000_000))
++        val token = requireNotNull(recorder.start(1_000))
++        recorder.accept(token, fix(45.0, 1_001), 1_001)
++        recorder.accept(token, fix(45.001, 1_002), 1_002)
++        return recorder.stop(1_003)
++    }
++    private fun fix(lat: Double, nanos: Long) = TraceFix(lat, 5.0, 4.0, nanos,
++        TracePositionSource.PHONE_LOCATION, "fused", 123L, clockDomainId = "boot-a")
++    companion object {
++        private const val ID = "4c162c21-4241-43b5-a2e2-2f23a552e412"
++        private const val OTHER = "d87d1132-d4f7-4881-b50c-fc4884191a50"
++    }
++}
+diff --git a/app/src/test/java/com/forestry/counter/domain/location/trace/TraceRecoveryAndExportTest.kt b/app/src/test/java/com/forestry/counter/domain/location/trace/TraceRecoveryAndExportTest.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/test/java/com/forestry/counter/domain/location/trace/TraceRecoveryAndExportTest.kt
+@@ -0,0 +1,56 @@
++package com.forestry.counter.domain.location.trace
++
++import com.forestry.counter.domain.repository.CartographicTraceDocument
++import com.forestry.counter.presentation.screens.forestry.trace.TraceGeoJsonExport
++import kotlinx.serialization.json.*
++import org.junit.Assert.*
++import org.junit.Test
++
++class TraceRecoveryAndExportTest {
++    @Test fun `process recovery is stopped and preserves only known duration until explicit resume in a new portion`() {
++        val recorder = SegmentedTraceRecorder("session", policy)
++        val oldToken = requireNotNull(recorder.start(100))
++        recorder.accept(oldToken, fix(45.0, 101, "boot-a"), 101)
++        recorder.accept(oldToken, fix(45.001, 201, "boot-a"), 201)
++        val beforeCrash = recorder.snapshot(300)
++        val recovered = SegmentedTraceRecorder.restoreStopped(beforeCrash)
++        val review = recovered.snapshot(50) // A reboot may reset the Android monotonic clock.
++        assertEquals(TraceCapturePhase.STOPPED_DRAFT, review.phase)
++        assertEquals(200L, review.sessionElapsedNanos)
++        assertEquals(beforeCrash.portions, review.portions)
++        assertTrue(recovered.accept(oldToken, fix(46.0, 60, "boot-b"), 60) is TraceFixResult.Ignored)
++        val newToken = requireNotNull(recovered.resume(70))
++        recovered.accept(newToken, fix(46.0, 71, "boot-b"), 71)
++        val after = recovered.snapshot(80)
++        assertEquals(2, after.portions.size)
++        assertEquals(TraceBreakReason.REVIEW_RESUME, after.portions.last().startReason)
++        assertEquals(beforeCrash.lengthM, after.lengthM, 0.0)
++        assertEquals(210L, after.sessionElapsedNanos)
++    }
++
++    @Test fun `export keeps portions separate with original source quality clocks and no overall uncertainty`() {
++        val recorder = SegmentedTraceRecorder("session", policy)
++        val first = requireNotNull(recorder.start(100))
++        recorder.accept(first, fix(45.0, 101, "boot"), 101)
++        recorder.accept(first, fix(45.001, 102, "boot"), 102)
++        recorder.pause(103)
++        val second = requireNotNull(recorder.resume(104))
++        recorder.accept(second, fix(46.0, 105, "boot"), 105)
++        recorder.accept(second, fix(46.001, 106, "boot"), 106)
++        val snapshot = recorder.stop(107)
++        val doc = CartographicTraceDocument("session", null, snapshot, true, 1, 1, 1, null)
++        val exported = Json.parseToJsonElement(TraceGeoJsonExport.encode(doc)).jsonObject
++        val features = exported.getValue("features").jsonArray
++        assertEquals(2, features.size)
++        assertEquals(2, features[0].jsonObject.getValue("geometry").jsonObject.getValue("coordinates").jsonArray.size)
++        assertEquals(2, features[1].jsonObject.getValue("geometry").jsonObject.getValue("coordinates").jsonArray.size)
++        assertEquals(JsonNull, exported.getValue("properties").jsonObject["overallUncertaintyM"])
++        val observation = features[1].jsonObject.getValue("properties").jsonObject.getValue("observations").jsonArray.first().jsonObject
++        assertEquals(4.0, observation.getValue("reportedAccuracyM").jsonPrimitive.double, 0.0)
++        assertEquals("boot", observation.getValue("clockDomain").jsonPrimitive.content)
++        assertTrue(snapshot.lengthM < 230) // The >100km passage between portions is absent.
++    }
++    private val policy = TraceCapturePolicy(10.0, 15_000_000_000, 0.0, 20_000_000_000)
++    private fun fix(lat: Double, nanos: Long, boot: String) = TraceFix(lat, 5.0, 4.0, nanos,
++        TracePositionSource.PHONE_LOCATION, "fused", 123, clockDomainId = boot)
++}

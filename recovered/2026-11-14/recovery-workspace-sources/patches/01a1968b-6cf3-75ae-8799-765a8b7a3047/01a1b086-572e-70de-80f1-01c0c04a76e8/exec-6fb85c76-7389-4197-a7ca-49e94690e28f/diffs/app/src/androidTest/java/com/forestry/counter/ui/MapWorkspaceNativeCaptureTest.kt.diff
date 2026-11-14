@@ -1,0 +1,51 @@
+@@ -8,2 +8,3 @@
+ import android.view.ViewGroup
++import android.view.ViewTreeObserver
+ import androidx.activity.ComponentActivity
+@@ -175,2 +176,3 @@
+             compose.onNodeWithText("Fond").performClick()
++            compose.onNodeWithText("Fond").assertIsSelected()
+             compose.onNodeWithText("Satellite").assertIsSelected()
+@@ -196,14 +198,35 @@
+         assertEquals(MapRenderStatus.Ready("satellite"), status)
+-        // A full GL frame does not prove that Android's separate UI surface has
+-        // presented the updated tab/sheet. Await real vsync opportunities and
+-        // accessibility idle before asking SurfaceFlinger for the screenshot.
++        // A full GL frame and semantic selection do not prove that Android's
++        // separate UI surface has drawn the new tab. Force an actual traversal,
++        // observe its draw, then allow RenderThread/compositor presentation.
+         val presented = CountDownLatch(1)
++        val decor = compose.activity.window.decorView
++        lateinit var drawn: ViewTreeObserver.OnDrawListener
+         compose.runOnUiThread {
+-            compose.activity.window.decorView.postOnAnimation {
+-                compose.activity.window.decorView.postOnAnimation { presented.countDown() }
++            drawn = object : ViewTreeObserver.OnDrawListener {
++                private var handled = false
++                override fun onDraw() {
++                    if (handled) return
++                    handled = true
++                    // Android forbids removing a listener inside onDraw itself.
++                    decor.post {
++                        if (decor.viewTreeObserver.isAlive) decor.viewTreeObserver.removeOnDrawListener(this)
++                        decor.postOnAnimation {
++                            decor.postOnAnimation { presented.countDown() }
++                        }
++                    }
++                }
++            }
++            decor.viewTreeObserver.addOnDrawListener(drawn)
++            decor.postInvalidateOnAnimation()
++        }
++        try {
++            assertTrue("Android UI draw did not settle", presented.await(10, TimeUnit.SECONDS))
++        } finally {
++            compose.runOnUiThread {
++                if (decor.viewTreeObserver.isAlive) decor.viewTreeObserver.removeOnDrawListener(drawn)
+             }
+         }
+-        assertTrue("Android UI frames did not settle", presented.await(5, TimeUnit.SECONDS))
+         val automation = InstrumentationRegistry.getInstrumentation().uiAutomation
+-        automation.waitForIdle(250, 5_000)
++        automation.waitForIdle(1_000, 10_000)
+         compose.runOnUiThread {

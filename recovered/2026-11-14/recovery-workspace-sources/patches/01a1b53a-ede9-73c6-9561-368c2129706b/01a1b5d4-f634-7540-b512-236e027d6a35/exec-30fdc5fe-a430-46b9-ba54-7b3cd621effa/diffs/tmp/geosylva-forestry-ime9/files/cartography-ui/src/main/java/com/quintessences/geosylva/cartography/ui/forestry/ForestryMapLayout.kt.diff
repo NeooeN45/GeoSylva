@@ -1,0 +1,13 @@
+@@ -37,3 +37,6 @@
+ ) {
+-    BoxWithConstraints(modifier.fillMaxSize()) {
++    // Measure both the map and the sheet within the actual space above the IME.
++    // Consuming it once here keeps the action row out of the keyboard without
++    // subtracting a second keyboard inset from an already capped panel budget.
++    BoxWithConstraints(modifier.fillMaxSize().imePadding()) {
+         val density = LocalDensity.current
+@@ -71,3 +74,3 @@
+                 shadowElevation = 6.dp) {
+-                Column(Modifier.fillMaxWidth().heightIn(max = panelLimit).navigationBarsPadding().imePadding()) {
++                Column(Modifier.fillMaxWidth().heightIn(max = panelLimit).navigationBarsPadding()) {
+                     Column(Modifier.fillMaxWidth().weight(1f, fill = false).verticalScroll(rememberScrollState())

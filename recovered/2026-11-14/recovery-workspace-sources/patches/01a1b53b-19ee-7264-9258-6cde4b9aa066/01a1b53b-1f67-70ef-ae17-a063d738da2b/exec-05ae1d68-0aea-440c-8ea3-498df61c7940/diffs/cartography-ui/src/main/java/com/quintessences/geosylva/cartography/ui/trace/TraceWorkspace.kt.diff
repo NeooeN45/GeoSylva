@@ -1,0 +1,8 @@
+@@ -166,2 +166,7 @@
+     }
++    if (TraceAction.REQUEST_PERMISSION in state.allowedActions) Command(
++        stringResource(R.string.gs_trace_request_permission), Icons.Outlined.MyLocation, primary = true,
++        enabled = state.enabled(TraceAction.REQUEST_PERMISSION), modifier = Modifier.fillMaxWidth()) {
++        actions.onAction(TraceAction.REQUEST_PERMISSION)
++    }
+     Command(stringResource(R.string.gs_trace_start), Icons.Outlined.RadioButtonChecked, primary = true,

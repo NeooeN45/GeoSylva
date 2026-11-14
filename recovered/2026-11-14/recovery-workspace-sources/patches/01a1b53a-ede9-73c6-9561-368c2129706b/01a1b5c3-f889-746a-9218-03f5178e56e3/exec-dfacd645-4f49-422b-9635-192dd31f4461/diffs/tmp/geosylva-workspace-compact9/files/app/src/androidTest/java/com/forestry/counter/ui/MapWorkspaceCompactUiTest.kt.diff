@@ -1,0 +1,8 @@
+@@ -109,2 +109,3 @@
+         assertFullyVisible(search)
++        compose.onNodeWithText("Sources et détails").assertIsDisplayed()
+         search.performTextInput("Satellite")
+@@ -115,3 +116,2 @@
+         compose.onNodeWithText("Plan TEST").performScrollTo().assertIsDisplayed()
+-        compose.onNodeWithText("Sources et détails").assertIsDisplayed()
+     }

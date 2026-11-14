@@ -1,0 +1,35 @@
+@@ -58,2 +58,8 @@
+                     if (captured != null && !repository.isCurrent(captured)) { invalidate(); return@withLock }
++                    val activeSource = sourceToken
++                    if (activeSource != null && !source.permitted()) {
++                        sourceFailureLocked(activeSource)
++                        mutable.update { it.copy(issue = TraceRuntimeIssue.PERMISSION) }
++                        return@withLock
++                    }
+                     val now = nanoTime()
+@@ -293,9 +299,16 @@
+     fun acceptLocation(token: TraceCaptureToken, location: Location) = launchLocked {
+-        if (token != sourceToken || !ready()) return@launchLocked
+-        val r = recorder ?: return@launchLocked
++        acceptFixLocked(token, toFix(location), location)
++    }
++    /** Internal deterministic boundary for source-contract tests; production uses Android Location. */
++    internal fun acceptFix(token: TraceCaptureToken, fix: TraceFix) = launchLocked {
++        acceptFixLocked(token, fix, null)
++    }
++    private suspend fun acceptFixLocked(token: TraceCaptureToken, fix: TraceFix, location: Location?) {
++        if (token != sourceToken || !ready()) return
++        val r = recorder ?: return
+         val now = nanoTime()
+-        val result = r.accept(token, toFix(location), now)
++        val result = r.accept(token, fix, now)
+         if (result !is TraceFixResult.Ignored && !persist(result.snapshot)) {
+             stopSource()
+-            if (access == null) return@launchLocked
++            if (access == null) return
+             val stopped = r.stop(nanoTime())
+@@ -303,3 +316,3 @@
+         } else {
+-            phone.value = if (result is TraceFixResult.Accepted || result is TraceFixResult.Ignored && result.reason == TraceIgnoredReason.BELOW_MINIMUM_DISTANCE) Location(location) else null
++            phone.value = if (location != null && (result is TraceFixResult.Accepted || result is TraceFixResult.Ignored && result.reason == TraceIgnoredReason.BELOW_MINIMUM_DISTANCE)) Location(location) else null
+             mutable.update { it.copy(snapshot = result.snapshot, nowNanos = now, issue = null) }

@@ -1,0 +1,962 @@
+[
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 48,
+    "itemId": "exec-753d8d1f-46fa-4d70-a3a3-c0cecd92b6d5",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    fun isCurrent(token: [REDACTED_SECRET] = authority.isCurrent(token)",
+    "observedLine": "    fun isCurrent(token: CartographicScopeAuthority.Token) = authority.isCurrent(token)",
+    "sourceProvenance": [
+      {
+        "historyFile": "layers-attributes-batch12.json",
+        "turn": "01a1b5b3-137f-720f-afe8-32bec9f81829",
+        "item": 2,
+        "outputLineZeroBased": 183
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 48,
+        "outputLineZeroBased": 245
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 54,
+        "outputLineZeroBased": 111
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 116,
+        "outputLineZeroBased": 186
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 100
+      },
+      {
+        "historyFile": "maquettes-audit-batch8-single.json",
+        "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+        "item": 15,
+        "outputLineZeroBased": 172
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 48,
+    "itemId": "exec-753d8d1f-46fa-4d70-a3a3-c0cecd92b6d5",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun list(token: [REDACTED_SECRET] List<OfflineMapPackEntity> = withContext(Dispatchers.IO) {",
+    "observedLine": "    suspend fun list(token: CartographicScopeAuthority.Token): List<OfflineMapPackEntity> = withContext(Dispatchers.IO) {",
+    "sourceProvenance": [
+      {
+        "historyFile": "layers-attributes-batch12.json",
+        "turn": "01a1b5b3-137f-720f-afe8-32bec9f81829",
+        "item": 2,
+        "outputLineZeroBased": 189
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 48,
+        "outputLineZeroBased": 250
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 54,
+        "outputLineZeroBased": 116
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 116,
+        "outputLineZeroBased": 191
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 105
+      },
+      {
+        "historyFile": "maquettes-audit-batch8-single.json",
+        "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+        "item": 15,
+        "outputLineZeroBased": 178
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 48,
+    "itemId": "exec-753d8d1f-46fa-4d70-a3a3-c0cecd92b6d5",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun prepare(input: OfflinePackInput, token: [REDACTED_SECRET] OfflinePackPlan = withContext(Dispatchers.IO) {",
+    "observedLine": "    suspend fun prepare(input: OfflinePackInput, token: CartographicScopeAuthority.Token): OfflinePackPlan = withContext(Dispatchers.IO) {",
+    "sourceProvenance": [
+      {
+        "historyFile": "layers-attributes-batch12.json",
+        "turn": "01a1b5b3-137f-720f-afe8-32bec9f81829",
+        "item": 2,
+        "outputLineZeroBased": 205
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 48,
+        "outputLineZeroBased": 265
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 54,
+        "outputLineZeroBased": 131
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 60,
+        "outputLineZeroBased": 16
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 120
+      },
+      {
+        "historyFile": "maquettes-audit-batch8-single.json",
+        "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+        "item": 15,
+        "outputLineZeroBased": 194
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 48,
+    "itemId": "exec-753d8d1f-46fa-4d70-a3a3-c0cecd92b6d5",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun confirm(plan: OfflinePackPlan, token: [REDACTED_SECRET] OfflineMapPackEntity = withContext(Dispatchers.IO) {",
+    "observedLine": "    suspend fun confirm(plan: OfflinePackPlan, token: CartographicScopeAuthority.Token): OfflineMapPackEntity = withContext(Dispatchers.IO) {",
+    "sourceProvenance": [
+      {
+        "historyFile": "layers-attributes-batch12.json",
+        "turn": "01a1b5b3-137f-720f-afe8-32bec9f81829",
+        "item": 2,
+        "outputLineZeroBased": 219
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 48,
+        "outputLineZeroBased": 277
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 54,
+        "outputLineZeroBased": 143
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 60,
+        "outputLineZeroBased": 28
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 88,
+        "outputLineZeroBased": 41
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 10
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 132
+      },
+      {
+        "historyFile": "maquettes-audit-batch8-single.json",
+        "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+        "item": 15,
+        "outputLineZeroBased": 208
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 48,
+    "itemId": "exec-753d8d1f-46fa-4d70-a3a3-c0cecd92b6d5",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun transfer(id: String, token: [REDACTED_SECRET]",
+    "observedLine": "    suspend fun transfer(id: String, token: CartographicScopeAuthority.Token, wifiOnly: Boolean,",
+    "sourceProvenance": [
+      {
+        "historyFile": "layers-attributes-batch12.json",
+        "turn": "01a1b5b3-137f-720f-afe8-32bec9f81829",
+        "item": 2,
+        "outputLineZeroBased": 249
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 48,
+        "outputLineZeroBased": 302
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 88,
+        "outputLineZeroBased": 71
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 40
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 157
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 48,
+    "itemId": "exec-753d8d1f-46fa-4d70-a3a3-c0cecd92b6d5",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun mark(id: String, status: OfflinePackStatus, token: [REDACTED_SECRET] = update(id, token) {",
+    "observedLine": "    suspend fun mark(id: String, status: OfflinePackStatus, token: CartographicScopeAuthority.Token) = update(id, token) {",
+    "sourceProvenance": [
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 207,
+        "outputLineZeroBased": 202
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 208,
+        "outputLineZeroBased": 21
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 48,
+    "itemId": "exec-753d8d1f-46fa-4d70-a3a3-c0cecd92b6d5",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun saveProgress(id: String, stage: OfflineTransferStage, progress: OfflineResourceProgress, token: [REDACTED_SECRET] = update(id, token) {",
+    "observedLine": "    suspend fun saveProgress(id: String, stage: OfflineTransferStage, progress: OfflineResourceProgress, token: CartographicScopeAuthority.Token) = update(id, token) {",
+    "sourceProvenance": [
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 48,
+        "outputLineZeroBased": 340
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 91,
+        "outputLineZeroBased": 86
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 79
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 208,
+        "outputLineZeroBased": 24
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 195
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 48,
+    "itemId": "exec-753d8d1f-46fa-4d70-a3a3-c0cecd92b6d5",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun prepareRemoval(id: String, token: [REDACTED_SECRET] OfflinePackRemoval {",
+    "observedLine": "    suspend fun prepareRemoval(id: String, token: CartographicScopeAuthority.Token): OfflinePackRemoval {",
+    "sourceProvenance": [
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 88,
+        "outputLineZeroBased": 114
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 134
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 213
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 48,
+    "itemId": "exec-753d8d1f-46fa-4d70-a3a3-c0cecd92b6d5",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun remove(plan: OfflinePackRemoval, token: [REDACTED_SECRET] {",
+    "observedLine": "    suspend fun remove(plan: OfflinePackRemoval, token: CartographicScopeAuthority.Token) = lock(plan.id).withLock {",
+    "sourceProvenance": [
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 88,
+        "outputLineZeroBased": 120
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 140
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 219
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 48,
+    "itemId": "exec-753d8d1f-46fa-4d70-a3a3-c0cecd92b6d5",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    private suspend fun read(id: String, token: [REDACTED_SECRET] = authority.transaction(token) {",
+    "observedLine": "    private suspend fun read(id: String, token: CartographicScopeAuthority.Token) = authority.transaction(token) {",
+    "sourceProvenance": [
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 88,
+        "outputLineZeroBased": 141
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 240
+      },
+      {
+        "historyFile": "maquettes-audit-batch8-single.json",
+        "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+        "item": 15,
+        "outputLineZeroBased": 236
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 48,
+    "itemId": "exec-753d8d1f-46fa-4d70-a3a3-c0cecd92b6d5",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    private suspend fun update(id: String, token: [REDACTED_SECRET] transform: (OfflineMapPackEntity) -> OfflineMapPackEntity) =",
+    "observedLine": "    private suspend fun update(id: String, token: CartographicScopeAuthority.Token, transform: (OfflineMapPackEntity) -> OfflineMapPackEntity) =",
+    "sourceProvenance": [
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 88,
+        "outputLineZeroBased": 147
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 246
+      },
+      {
+        "historyFile": "maquettes-audit-batch8-single.json",
+        "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+        "item": 15,
+        "outputLineZeroBased": 242
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 48,
+    "itemId": "exec-753d8d1f-46fa-4d70-a3a3-c0cecd92b6d5",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    private fun owned(row: OfflineMapPackEntity, token: [REDACTED_SECRET] {",
+    "observedLine": "    private fun owned(row: OfflineMapPackEntity, token: CartographicScopeAuthority.Token) {",
+    "sourceProvenance": [
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 67,
+        "outputLineZeroBased": 0
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 254
+      },
+      {
+        "historyFile": "maquettes-audit-batch8-single.json",
+        "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+        "item": 15,
+        "outputLineZeroBased": 250
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 102,
+    "itemId": "exec-fe2ee52b-1d00-4294-ab85-c02b709e936f",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun transfer(id: String, token: [REDACTED_SECRET] wifiOnly: Boolean,",
+    "observedLine": "    suspend fun transfer(id: String, token: CartographicScopeAuthority.Token, wifiOnly: Boolean,",
+    "sourceProvenance": [
+      {
+        "historyFile": "layers-attributes-batch12.json",
+        "turn": "01a1b5b3-137f-720f-afe8-32bec9f81829",
+        "item": 2,
+        "outputLineZeroBased": 249
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 48,
+        "outputLineZeroBased": 302
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 88,
+        "outputLineZeroBased": 71
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 40
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 157
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 102,
+    "itemId": "exec-fe2ee52b-1d00-4294-ab85-c02b709e936f",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun transfer(id: String, token: [REDACTED_SECRET] wifiOnly: Boolean,",
+    "observedLine": "    suspend fun transfer(id: String, token: CartographicScopeAuthority.Token, wifiOnly: Boolean,",
+    "sourceProvenance": [
+      {
+        "historyFile": "layers-attributes-batch12.json",
+        "turn": "01a1b5b3-137f-720f-afe8-32bec9f81829",
+        "item": 2,
+        "outputLineZeroBased": 249
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 48,
+        "outputLineZeroBased": 302
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 88,
+        "outputLineZeroBased": 71
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 40
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 157
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 102,
+    "itemId": "exec-fe2ee52b-1d00-4294-ab85-c02b709e936f",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    private suspend fun transferLocked(id: String, token: [REDACTED_SECRET] wifiOnly: Boolean,",
+    "observedLine": "    private suspend fun transferLocked(id: String, token: CartographicScopeAuthority.Token, wifiOnly: Boolean,",
+    "sourceProvenance": [
+      {
+        "historyFile": "layers-attributes-batch12.json",
+        "turn": "01a1b5b3-137f-720f-afe8-32bec9f81829",
+        "item": 2,
+        "outputLineZeroBased": 254
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 48,
+        "outputLineZeroBased": 306
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 88,
+        "outputLineZeroBased": 75
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 44
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 161
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 102,
+    "itemId": "exec-fe2ee52b-1d00-4294-ab85-c02b709e936f",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun verify(id: String, token: [REDACTED_SECRET] OfflineMapPackEntity = lock(id).withLock { verifyLocked(id, token) }",
+    "observedLine": "    suspend fun verify(id: String, token: CartographicScopeAuthority.Token): OfflineMapPackEntity = lock(id).withLock { verifyLocked(id, token) }",
+    "sourceProvenance": [
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 48,
+        "outputLineZeroBased": 345
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 91,
+        "outputLineZeroBased": 91
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 84
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 208,
+        "outputLineZeroBased": 29
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 200
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 102,
+    "itemId": "exec-fe2ee52b-1d00-4294-ab85-c02b709e936f",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    private suspend fun verifyLocked(id: String, token: [REDACTED_SECRET] OfflineMapPackEntity {",
+    "observedLine": "    private suspend fun verifyLocked(id: String, token: CartographicScopeAuthority.Token): OfflineMapPackEntity {",
+    "sourceProvenance": [
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 48,
+        "outputLineZeroBased": 346
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 91,
+        "outputLineZeroBased": 92
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 85
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 208,
+        "outputLineZeroBased": 30
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 201
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 102,
+    "itemId": "exec-fe2ee52b-1d00-4294-ab85-c02b709e936f",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun remove(plan: OfflinePackRemoval, token: [REDACTED_SECRET] {",
+    "observedLine": "    suspend fun remove(plan: OfflinePackRemoval, token: CartographicScopeAuthority.Token) = lock(plan.id).withLock {",
+    "sourceProvenance": [
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 88,
+        "outputLineZeroBased": 120
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 140
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 219
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 102,
+    "itemId": "exec-fe2ee52b-1d00-4294-ab85-c02b709e936f",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun remove(plan: OfflinePackRemoval, token: [REDACTED_SECRET] = lock(plan.id).withLock {",
+    "observedLine": "    suspend fun remove(plan: OfflinePackRemoval, token: CartographicScopeAuthority.Token) = lock(plan.id).withLock {",
+    "sourceProvenance": [
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 88,
+        "outputLineZeroBased": 120
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 140
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 219
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 102,
+    "itemId": "exec-fe2ee52b-1d00-4294-ab85-c02b709e936f",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    private suspend fun removeLocked(plan: OfflinePackRemoval, token: [REDACTED_SECRET] {",
+    "observedLine": "    private suspend fun removeLocked(plan: OfflinePackRemoval, token: CartographicScopeAuthority.Token) {",
+    "sourceProvenance": [
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 88,
+        "outputLineZeroBased": 123
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 143
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 222
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 156,
+    "itemId": "exec-43c671b1-ba76-4716-8dfa-ea36b4a349b5",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    private val token = [REDACTED_SECRET] { every { authorityKey } returns \"TEST-authority\" }",
+    "observedLine": "    private val token = mockk<CartographicScopeAuthority.Token> { every { authorityKey } returns \"TEST-authority\" }",
+    "sourceProvenance": [
+      {
+        "historyFile": "packs-offline-batch5.json",
+        "turn": "01a1b575-1ef4-7487-9480-08dedda4f5fb",
+        "item": 8,
+        "outputLineZeroBased": 319
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 220,
+        "outputLineZeroBased": 55
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 211,
+    "itemId": "exec-7b0010da-3759-4fe0-91cb-9a7ba19fb966",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun mark(id: String, status: OfflinePackStatus, token: [REDACTED_SECRET] = update(id, token) {",
+    "observedLine": "    suspend fun mark(id: String, status: OfflinePackStatus, token: CartographicScopeAuthority.Token) = update(id, token) {",
+    "sourceProvenance": [
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 207,
+        "outputLineZeroBased": 202
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 208,
+        "outputLineZeroBased": 21
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+    "startedAt": 1794041941,
+    "item": 211,
+    "itemId": "exec-7b0010da-3759-4fe0-91cb-9a7ba19fb966",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun mark(id: String, status: OfflinePackStatus, token: [REDACTED_SECRET] OfflineMapPackEntity {",
+    "observedLine": "    suspend fun mark(id: String, status: OfflinePackStatus, token: CartographicScopeAuthority.Token): OfflineMapPackEntity {",
+    "sourceProvenance": [
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 48,
+        "outputLineZeroBased": 336
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 74
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 191
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+    "startedAt": 1794043782,
+    "item": 14,
+    "itemId": "exec-8f9211dc-6577-43e3-b441-f4f367d2626b",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun requireAccess(token: [REDACTED_SECRET] = authority.transaction(token) { Unit }",
+    "observedLine": "    suspend fun requireAccess(token: CartographicScopeAuthority.Token) = authority.transaction(token) { Unit }",
+    "sourceProvenance": [
+      {
+        "historyFile": "layers-attributes-batch12.json",
+        "turn": "01a1b5b3-137f-720f-afe8-32bec9f81829",
+        "item": 2,
+        "outputLineZeroBased": 185
+      },
+      {
+        "historyFile": "maquettes-audit-batch8-single.json",
+        "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+        "item": 15,
+        "outputLineZeroBased": 174
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+    "startedAt": 1794043782,
+    "item": 14,
+    "itemId": "exec-8f9211dc-6577-43e3-b441-f4f367d2626b",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun prepareRemoval(id: String, token: [REDACTED_SECRET]",
+    "observedLine": "    suspend fun prepareRemoval(id: String, token: CartographicScopeAuthority.Token): OfflinePackRemoval {",
+    "sourceProvenance": [
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 88,
+        "outputLineZeroBased": 114
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 134
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b53b-8b21-708c-926f-f73c52c42f63",
+        "item": 218,
+        "outputLineZeroBased": 213
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+    "startedAt": 1794043782,
+    "item": 14,
+    "itemId": "exec-8f9211dc-6577-43e3-b441-f4f367d2626b",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun prepareVersionChoice(id: String, token: [REDACTED_SECRET] OfflineVersionChoice {",
+    "observedLine": "    suspend fun prepareVersionChoice(id: String, token: CartographicScopeAuthority.Token): OfflineVersionChoice {",
+    "sourceProvenance": [
+      {
+        "historyFile": "layers-attributes-batch7.json",
+        "turn": "01a1b6ae-49bb-7216-ad32-5159ec566b69",
+        "item": 5,
+        "outputLineZeroBased": 29
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 88,
+        "outputLineZeroBased": 14
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 91,
+        "outputLineZeroBased": 106
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 99
+      }
+    ]
+  },
+  {
+    "historyFile": "packs-offline-batch6.json",
+    "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+    "startedAt": 1794043782,
+    "item": 14,
+    "itemId": "exec-8f9211dc-6577-43e3-b441-f4f367d2626b",
+    "cwd": "/workspace/GeoSylva-user-tests",
+    "redactedLiteralLine": "    suspend fun selectVersion(plan: OfflineVersionChoice, token: [REDACTED_SECRET] List<OfflineMapPackEntity> =",
+    "observedLine": "    suspend fun selectVersion(plan: OfflineVersionChoice, token: CartographicScopeAuthority.Token): List<OfflineMapPackEntity> =",
+    "sourceProvenance": [
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 88,
+        "outputLineZeroBased": 18
+      },
+      {
+        "historyFile": "forets-placettes-batch6-single.json",
+        "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+        "item": 88,
+        "outputLineZeroBased": 95
+      },
+      {
+        "historyFile": "packs-offline-batch6.json",
+        "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+        "item": 32,
+        "outputLineZeroBased": 115
+      }
+    ]
+  }
+]

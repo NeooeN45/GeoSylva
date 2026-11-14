@@ -1,0 +1,8 @@
+@@ -254,4 +254,5 @@
+         val maximum = maxHeight * if (density.fontScale > 1.1f || maxHeight < 600.dp) 0.82f else 0.56f
+-        Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth().navigationBarsPadding().padding(12.dp)
+-            .onSizeChanged { measuredHeight = it.height.toFloat() }) {
++        Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth()
++            .onSizeChanged { measuredHeight = it.height.toFloat() }
++            .navigationBarsPadding().padding(12.dp)) {
+             Surface(shape = RoundedCornerShape(28.dp), color = AuxiliaryStyle.paper, shadowElevation = 5.dp,

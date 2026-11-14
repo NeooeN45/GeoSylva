@@ -1,0 +1,7 @@
+@@ -48,3 +48,5 @@
+     val handleBack: () -> Unit = {
+-        if (!runtime.busy && !runtime.saveUncertain) when (runtime.screen) {
++        // Read synchronously: a save may have started before Compose renders its busy state.
++        val current = controller.state.value
++        if (current.visible && current.scope == scope && !current.busy && !current.saveUncertain) when (current.screen) {
+             TraceScreen.DETAILS -> controller.backDetails()

@@ -1,0 +1,16 @@
+{
+  "commit": "c4e107548913cf82e58e2b10d920a8bffc15d33a",
+  "previousCommit": "ad49bd8ae261e6bc86044cd30adbba3d5ea4a185",
+  "exactObservedCaptureCount": 145,
+  "contractReconstructedFiles": 1,
+  "contractReconstructedSourceLines": 1,
+  "candidateSha256": "c5406f0ac718a708669f061fd2c68216db0c46c43c1901f4ce82b1cbbe79628e",
+  "status": [
+    "NON_COMPILÉ",
+    "NON_COMPLET_13NOV"
+  ],
+  "cleanAfterCommit": true,
+  "buildRun": false,
+  "adbRun": false,
+  "pushRun": false
+}

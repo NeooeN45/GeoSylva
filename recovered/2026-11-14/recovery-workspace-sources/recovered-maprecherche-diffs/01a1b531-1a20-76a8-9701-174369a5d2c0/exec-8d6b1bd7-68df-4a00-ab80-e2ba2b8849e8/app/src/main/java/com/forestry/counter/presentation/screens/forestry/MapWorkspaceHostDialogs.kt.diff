@@ -1,0 +1,10 @@
+@@ -234,2 +234,4 @@
+     onMeasure: (() -> Unit)? = null,
++    onImportLayer: (() -> Unit)? = null,
++    onTrace: (() -> Unit)? = null,
+ ) {
+@@ -247,2 +249,4 @@
+             WorkspaceSheetHeading(stringResource(R.string.gs_workspace_tools_title), onDismiss)
++            onImportLayer?.let { action -> WorkspaceTool(Icons.Default.Add, stringResource(R.string.root_workspace_import_layer)) { open(action) } }
++            onTrace?.let { action -> WorkspaceTool(Icons.Default.GpsFixed, stringResource(R.string.root_workspace_trace)) { open(action) } }
+             WorkspaceTool(Icons.Default.GpsFixed, stringResource(R.string.gs_workspace_tools_gps)) { open(onGpsPrecision) }

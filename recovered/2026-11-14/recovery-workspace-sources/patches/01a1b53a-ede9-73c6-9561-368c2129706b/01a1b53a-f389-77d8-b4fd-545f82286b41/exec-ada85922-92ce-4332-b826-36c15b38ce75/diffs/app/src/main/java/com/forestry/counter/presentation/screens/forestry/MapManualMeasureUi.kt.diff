@@ -1,0 +1,5 @@
+@@ -177,3 +177,3 @@
+             saved = if (state.ready) state.saved.map { record -> ManualSavedMeasureRowUi(record.id, title(record), value(record),
+-                context.getString(R.string.manual_host_share_points, record.points.size)) } else emptyList(),
++                context.getString(R.string.manual_host_share_points, record.points.size), record.kind == CartographicMeasureKind.AREA) } else emptyList(),
+             loading = state.loadingSaved || !state.ready && state.error == null,

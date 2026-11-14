@@ -1,0 +1,23 @@
+        applyLayerDecision(layerLoadState.retry())
+    }
+    val sceneRevision = remember { AtomicLong(0) }
+    val projection = remember(mapScope, filteredGeoTiges, essenceMap, essenceColors, camera.zoom.toInt(),
+        measurePoints, measurementVisible, measureMode, measureColor, visibleTappedTree?.tigeId, visibleTappedTree?.parcelleId) {
+        buildTerrainMapProjection(mapScope.toString(), sceneRevision.incrementAndGet(), filteredGeoTiges,
+            essenceMap, essenceColors, camera.zoom, if (measurementVisible) measurePoints else emptyList(), measureMode, measureColor.toArgb(),
+            visibleTappedTree?.let { MapTreeIdentity(it.tigeId, it.parcelleId) })
+    }
+    val scene = remember(projection, phonePosition, measureActive, showMeasureSaveDialog) {
+        val locationFeature = phonePosition?.let {
+            MapOverlayFeature(MapFeatureKey("device-position", "current"), Point.fromLngLat(it.longitude, it.latitude),
+                MapOverlayStyle(colorHex = "#176BDF", pointRadius = 7.0), selectable = false)
+        }
+        MapOverlayScene(projection.scene.scopeId, sceneRevision.incrementAndGet(),
+            projection.scene.features + listOfNotNull(locationFeature), projection.scene.selectedKey)
+    }
+    val currentProjection by rememberUpdatedState(projection)
+    var framedContext by rememberSaveable(mapScope.toString()) { mutableStateOf(false) }
+    var initialFrameRequested by remember(mapScope) { mutableStateOf(false) }
+    LaunchedEffect(mapContent, displayedGeoTiges, phonePosition) {
+        if (!framedContext && !initialFrameRequested && mapContent is MapTreeContent.Ready && !measureActive && displayedGeoTiges.isNotEmpty()) {
+            frameCommand = MapCameraFitCommand(UUID.randomUUID().toString(),

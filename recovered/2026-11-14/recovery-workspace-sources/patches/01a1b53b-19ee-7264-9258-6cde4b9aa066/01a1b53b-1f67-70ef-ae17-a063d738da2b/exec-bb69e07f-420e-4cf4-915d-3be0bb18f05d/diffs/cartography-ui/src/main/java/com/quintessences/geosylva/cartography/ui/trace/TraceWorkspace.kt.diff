@@ -1,0 +1,5 @@
+@@ -166,2 +166,4 @@
+     }
++    if (TraceAction.LIBRARY in state.allowedActions) ActionRow(stringResource(R.string.gs_trace_library),
++        Icons.Outlined.FolderOpen, state.enabled(TraceAction.LIBRARY)) { actions.onAction(TraceAction.LIBRARY) }
+     if (TraceAction.REQUEST_PERMISSION in state.allowedActions) Command(

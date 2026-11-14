@@ -1,0 +1,85 @@
+        if (token != null) source.stop(token)
+    }
+    private suspend fun ready(): Boolean {
+        val captured = access ?: return false
+        if (!repository.isCurrent(captured)) { invalidate(); return false }
+        return state.value.authorised
+    }
+    private suspend fun persist(snapshot: TraceCaptureSnapshot): Boolean {
+        val captured = access ?: return false
+        val previousPending = pendingDraft
+        if (previousPending != null) {
+            when (val confirmed = repository.writeDraft(previousPending.second.sessionId, previousPending.first, previousPending.second, revision, originId, captured)) {
+                is CartographicStoreResult.Success -> { revision = confirmed.value.revision; pendingDraft = null }
+                is CartographicStoreResult.Failure -> {
+                    if (confirmed.reason in setOf(CartographicStoreError.ACCESS_CHANGED, CartographicStoreError.UNAVAILABLE)) invalidate()
+                    else mutable.update { it.copy(issue = TraceRuntimeIssue.STORE) }
+                    return false
+                }
+            }
+        }
+        val pending = state.value.name to snapshot
+        pendingDraft = pending
+        when (val stored = repository.writeDraft(snapshot.sessionId, pending.first, snapshot, revision, originId, captured)) {
+            is CartographicStoreResult.Success -> { revision = stored.value.revision; pendingDraft = null; return true }
+            is CartographicStoreResult.Failure -> {
+                if (stored.reason in setOf(CartographicStoreError.ACCESS_CHANGED, CartographicStoreError.UNAVAILABLE)) invalidate()
+                else mutable.update { it.copy(issue = TraceRuntimeIssue.STORE) }
+                return false
+            }
+        }
+    }
+    private suspend fun refreshLibrary(captured: CartographicMeasurementAccess) {
+        val result = repository.list(captured)
+        if (result is CartographicStoreResult.Success) mutable.update { it.copy(library = result.value) }
+    }
+    private fun invalidate() {
+        stopSource()
+        access = null
+        recorder = null
+        pendingSave = null
+        pendingDraft = null
+        revision = 0
+        originId = null
+        ++authorityGeneration
+        mutable.value = MapTraceState(scope = state.value.scope, visible = state.value.visible, issue = TraceRuntimeIssue.ACCESS)
+    }
+    private fun launchLocked(block: suspend () -> Unit) { work.launch { mutex.withLock { block() } } }
+    private fun toFix(location: Location): TraceFix {
+        @Suppress("DEPRECATION")
+        val mock = if (Build.VERSION.SDK_INT >= 31) location.isMock else location.isFromMockProvider
+        return TraceFix(location.latitude, location.longitude,
+            location.accuracy.toDouble().takeIf { location.hasAccuracy() }, location.elapsedRealtimeNanos,
+            TracePositionSource.PHONE_LOCATION, location.provider, location.time.takeIf { it > 0 },
+            location.altitude.takeIf { location.hasAltitude() }, mock, bootId)
+    }
+}
+
+data class MapTraceState(
+    val scope: MapDataScope? = null,
+    val visible: Boolean = false,
+    val authorised: Boolean = false,
+    val screen: TraceScreen = TraceScreen.PREPARATION,
+    val snapshot: TraceCaptureSnapshot? = null,
+    val selected: CartographicTraceDocument? = null,
+    val library: List<CartographicTraceDocument> = emptyList(),
+    val name: String = "",
+    val policy: TraceCapturePolicy = TraceCapturePolicy(10.0, 15_000_000_000L, 2.0, 20_000_000_000L),
+    val previewFix: TraceFix? = null,
+    val nowNanos: Long = 0,
+    val selectedPortionId: String? = null,
+    val busy: Boolean = false,
+    val saveUncertain: Boolean = false,
+    val issue: TraceRuntimeIssue? = null,
+)
+enum class TraceRuntimeIssue { ACCESS, PERMISSION, INTERRUPTED, RECOVERED, STORE, SAVE_UNCERTAIN, INVALID_INPUT, NO_POINTS }
+interface TraceSourceControl {
+    fun permitted(): Boolean
+    fun start(token: TraceCaptureToken): Boolean
+    fun stop(token: TraceCaptureToken)
+}
+private class AndroidTraceSourceControl(private val context: Context) : TraceSourceControl {
+    override fun permitted() = MapTraceForegroundService.hasPermission(context)
+    override fun start(token: TraceCaptureToken) = MapTraceForegroundService.start(context, token)
+    override fun stop(token: TraceCaptureToken) = MapTraceForegroundService.stop(context, token)
+}

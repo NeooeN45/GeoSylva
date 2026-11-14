@@ -1,0 +1,131 @@
+                        if (mapContent.reason == MapTreeContent.Reason.DATA_READ) {
+                            androidx.compose.material3.TextButton(onClick = { dataRetry++ }) {
+                                Text(stringResource(R.string.retry))
+                            }
+                        }
+                    }
+                }
+            }
+            if (mapContent is MapTreeContent.Ready && !dismissedGpsBanner && workspacePanel == null) MapNoGpsMessage(
+                total = total, withGps = withGps, geoTigesSize = geoTiges.size,
+                mapOnlyReliableGps = mapOnlyReliableGps, mapReliableGpsThresholdM = mapReliableGpsThresholdM,
+                onDismiss = { dismissedGpsBanner = true },
+                modifier = Modifier.align(Alignment.Center).padding(Space.xl),
+            )
+            // ── Tiroir de mesure (visibilité pilotée par showMeasureSheet, pas
+            // par measureActive — voir MapMeasurePanel) ──
+            MapMeasurePanel(
+                state = MapMeasurePanelState(
+                    isActive = measureActive, points = measurePoints, mode = measureMode,
+                    distUnit = measureDistUnit, areaUnit = measureAreaUnit, color = measureColor,
+                    showSavedPanel = showSavedMeasuresPanel,
+                ),
+                sheetVisible = showMeasureSheet,
+                context = context,
+                onEvent = { event ->
+                    when (event) {
+                        is MapMeasurePanelEvent.SetActive -> { measureActive = event.active; if (event.active) measurementVisible = true }
+                        is MapMeasurePanelEvent.SetPoints -> measurePoints = event.points
+                        is MapMeasurePanelEvent.SetMode -> measureMode = event.mode
+                        is MapMeasurePanelEvent.SetDistUnit -> measureDistUnit = event.unit
+                        is MapMeasurePanelEvent.SetAreaUnit -> measureAreaUnit = event.unit
+                        is MapMeasurePanelEvent.SetColor -> measureColor = event.color
+                        MapMeasurePanelEvent.ToggleSavedPanel -> showSavedMeasuresPanel = !showSavedMeasuresPanel
+                        MapMeasurePanelEvent.SaveRequest -> { measureSaveName = ""; showMeasureSaveDialog = true }
+                        is MapMeasurePanelEvent.LoadSavedMeasure -> {
+                            measureMode = event.mode; measurePoints = event.points; measurementVisible = true; showSavedMeasuresPanel = false
+                        }
+                    }
+                },
+                onRequestHideSheet = { showMeasureSheet = false },
+            )
+
+            // ── Contrôles flottants pendant une mesure en cours, tiroir fermé :
+            // rouvrir (avec résultat en direct) + enregistrer directement ──
+            if (measureActive && !showMeasureSheet) {
+                Row(
+                    modifier = Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(horizontal = Space.md, vertical = Space.lg),
+                    horizontalArrangement = Arrangement.spacedBy(Space.sm),
+                ) {
+                    val liveResult = remember(measurePoints, measureMode, measureDistUnit, measureAreaUnit) {
+                        when {
+                            measureMode == MeasureMode.DISTANCE && measurePoints.size >= 2 -> {
+                                val d = measurePolylineM(measurePoints)
+                                if (d >= 1000.0) String.format(java.util.Locale.getDefault(), "%.2f km", d / 1000.0)
+                                else String.format(java.util.Locale.getDefault(), "%.0f m", d)
+                            }
+                            measureMode == MeasureMode.AREA && measurePoints.size >= 3 -> {
+                                String.format(java.util.Locale.getDefault(), "%.4f ha", measureAreaM2(measurePoints) / 10_000.0)
+                            }
+                            else -> null
+                        }
+                    }
+                    Surface(
+                        onClick = { showMeasureSheet = true },
+                        color = measureColor,
+                        shape = GsShape.pill,
+                        shadowElevation = Elevation.overlay,
+                        modifier = Modifier.weight(1f).height(Touch.fieldPrimary),
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = Space.md),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(Space.xs),
+                        ) {
+                            Icon(Icons.Default.Straighten, contentDescription = stringResource(R.string.measure_reopen_panel), tint = Color.White)
+                            Text(
+                                liveResult ?: stringResource(R.string.measure_tap_hint),
+                                style = MaterialTheme.typography.labelLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                            )
+                        }
+                    }
+                    Surface(
+                        onClick = { measureActive = false },
+                        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        shape = GsShape.pill,
+                        shadowElevation = Elevation.overlay,
+                        modifier = Modifier.size(Touch.fieldPrimary),
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(Icons.Default.Close, contentDescription = stringResource(R.string.workspace_close_measure))
+                        }
+                    }
+                    if (liveResult != null) {
+                        Surface(
+                            onClick = { measureSaveName = ""; showMeasureSaveDialog = true },
+                            color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            shape = GsShape.pill,
+                            shadowElevation = Elevation.overlay,
+                            modifier = Modifier.size(Touch.fieldPrimary),
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Icon(Icons.Default.LocationOn, contentDescription = stringResource(R.string.measure_save_floating))
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    if (showLegend) AlertDialog(
+        onDismissRequest = { showLegend = false },
+        title = { Text(stringResource(R.string.workspace_tree_layer)) },
+        text = {
+            Column(Modifier.verticalScroll(rememberScrollState())) {
+                MapLegendPanel(visible = true, essenceColors = essenceColors, essenceCounts = essenceCounts,
+                    hiddenEssences = hiddenEssences, essenceMap = essenceMap,
+                    onToggleEssence = { code, hide -> hiddenEssences = if (hide) hiddenEssences + code else hiddenEssences - code })
+            }
+        },
+        confirmButton = { TextButton(onClick = { showLegend = false }) { Text(stringResource(R.string.cd_close)) } },
+    )
+    if (showTools) MapWorkspaceTools(
+        onDismiss = { showTools = false },
+        onGpsPrecision = { showGpsPrecisionDialog = true },
+        onOffline = { offlineRegions = offlineTileManager.listRegions(); showOfflineSheet = true },
+        onEssences = { treesVisible = true; showLegend = true },
+        onSavedMeasures = { openMeasurements(saved = true) },

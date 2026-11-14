@@ -1,0 +1,32 @@
+{
+  "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicScopeAuthority.kt",
+  "artifact": "temporal/2026-11-07-observed-shared-authority/app/src/main/java/com/forestry/counter/data/cartography/CartographicScopeAuthority.kt",
+  "sha256": "b5386895e197bc6df44093fdd7be7f0590aa7d39f71e79d965f8bc2d24346bf3",
+  "chars": 8144,
+  "lines": 153,
+  "observations": [
+    {
+      "source": "layers-attributes-batch7.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b6ae-49bb-7216-ad32-5159ec566b69",
+      "turnStartedAt": "2026-11-07T15:43:58+00:00",
+      "item": "exec-522ae936-428d-40e2-9135-e6bdc48c911a",
+      "itemIndex": 8,
+      "observation": "full source identical",
+      "passed": true
+    },
+    {
+      "source": "packs-offline-batch6.json",
+      "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+      "turn": "01a1b557-a333-74d6-a38d-28be64b0c119",
+      "turnStartedAt": "2026-11-07T09:29:42+00:00",
+      "item": "exec-beb3a6e4-effb-4caf-b477-38b4f0ecee32",
+      "itemIndex": 3,
+      "observation": "full source identical",
+      "passed": true
+    }
+  ],
+  "patch": "patches/2026-11-07-observed-shared-authority.patch",
+  "scope": "complete source observed twice in November7threads, not asserted finalNovember13; no invented source",
+  "execution": "Only local source extraction; no historical command executed."
+}

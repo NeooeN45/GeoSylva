@@ -1,0 +1,135 @@
+package com.forestry.counter.presentation.screens.forestry
+
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Straighten
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Slider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.forestry.counter.R
+import com.forestry.counter.data.preferences.UserPreferencesManager
+import com.forestry.counter.domain.location.OfflineTileManager
+import com.forestry.counter.domain.location.OfflineTilePolicy
+import com.forestry.counter.domain.location.MapSourcePolicy
+import com.forestry.counter.domain.location.TreeNavigator
+import com.forestry.counter.domain.location.WktUtils
+import com.forestry.counter.domain.model.Essence
+import com.forestry.counter.domain.usecase.maps.MapDataScope
+import com.forestry.counter.domain.usecase.maps.MapTreeContent
+import com.forestry.counter.domain.usecase.maps.ObserveMapTrees
+import com.forestry.counter.domain.repository.EssenceRepository
+import com.forestry.counter.domain.repository.ParcelleRepository
+import com.forestry.counter.domain.repository.TigeRepository
+import com.forestry.counter.presentation.theme.Elevation
+import com.forestry.counter.presentation.theme.GsShape
+import com.forestry.counter.presentation.theme.Space
+import com.forestry.counter.presentation.theme.Touch
+import androidx.compose.ui.graphics.toArgb
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import com.forestry.counter.BuildConfig
+import com.forestry.counter.presentation.components.maps.MapboxRenderStatusOverlay
+import com.forestry.counter.presentation.components.maps.rememberMapPhoneLocation
+import com.forestry.counter.presentation.components.maps.rememberMapNetworkAvailable
+import com.forestry.counter.presentation.components.maps.MapboxLocalVectorStyle
+import com.forestry.counter.presentation.components.maps.MapLocalModeBadge
+import com.forestry.counter.presentation.components.maps.MapCatalogThumbnail
+import com.quintessences.geosylva.cartography.ui.*
+import com.quintessences.geosylva.cartography.mapbox.*
+import com.mapbox.geojson.Point
+import java.util.UUID
+import java.util.concurrent.atomic.AtomicLong
+
+/**
+ * Mode Recherche de l'onglet Carte — nouvelle base (esprit QField).
+ *
+ * Utilise le moteur Mapbox commun aux cartes et des données déjà autorisées.
+ * Conserve les outils et les routes existants pendant l’intégration : une
+ * seule barre d'outils flottante en bas, cibles tactiles 64dp, plus de
+ * panneaux qui se chevauchent. V1 volontairement resserrée sur l'essentiel
+ * (calques, mesure, légende, position, tiges géolocalisées, navigation
+ * vers une tige) — tracé GPS de parcelle et shapefile reviendront sur
+ * cette même base dans une passe dédiée plutôt que d'être portés tels
+ * quels depuis l'ancien écran.
+ */
+@Composable
+fun MapRechercheScreen(
+    parcelleId: String,
+    tigeRepository: TigeRepository,
+    essenceRepository: EssenceRepository? = null,
+    parcelleRepository: ParcelleRepository? = null,
+    preferencesManager: UserPreferencesManager,
+    offlineTileManager: OfflineTileManager? = null,
+    onNavigateBack: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
+    val mapScope = remember(parcelleId) { MapDataScope.fromLegacyKey(parcelleId) }
+    var dataRetry by remember(mapScope) { mutableStateOf(0) }
+    val observeMapTrees = remember(tigeRepository, parcelleRepository) {
+        ObserveMapTrees(tigeRepository, parcelleRepository)
+    }
+    val mapContentFlow = remember(observeMapTrees, mapScope, dataRetry) { observeMapTrees(mapScope) }
+    val collectedContent by key(mapContentFlow) {
+        mapContentFlow.collectAsStateWithLifecycle<MapTreeContent>(initialValue = MapTreeContent.Loading(mapScope))
+    }

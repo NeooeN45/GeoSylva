@@ -1,0 +1,18 @@
+@@ -86,2 +86,3 @@
+                 actionsAllowed += TraceAction.SETTINGS
++                if (controller.needsLocationPermission()) actionsAllowed += TraceAction.REQUEST_PERMISSION
+                 // Permission may be requested by pressing Start; source capture still waits for a fresh fix.
+@@ -131,2 +132,3 @@
+                 TraceAction.SETTINGS -> dialog = TraceHostDialog.SETTINGS
++                TraceAction.REQUEST_PERMISSION -> onRequestPermissions()
+                 TraceAction.START -> controller.start()
+@@ -159,6 +161,6 @@
+     TraceWorkspace(ui, handlers, modifier, canvas)
+-    if (runtime.issue == TraceRuntimeIssue.PERMISSION) AlertDialog(onDismissRequest = { dialog = null },
++    if (runtime.issue == TraceRuntimeIssue.PERMISSION) AlertDialog(onDismissRequest = { controller.dismissIssue() },
+         title = { Text(stringResource(R.string.map_trace_permission_error)) },
+-        confirmButton = { TextButton(onClick = onRequestPermissions) { Text(stringResource(R.string.map_trace_apply)) } },
+-        dismissButton = { TextButton(onClick = { controller.finish() }) { Text(stringResource(R.string.map_trace_close)) } })
++        confirmButton = { TextButton(onClick = { controller.dismissIssue(); onRequestPermissions() }) { Text(stringResource(R.string.map_trace_apply)) } },
++        dismissButton = { TextButton(onClick = { controller.dismissIssue() }) { Text(stringResource(R.string.map_trace_close)) } })
+     when (dialog) {

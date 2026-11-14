@@ -1,0 +1,310 @@
+    var layerChoiceMade by remember(mapScope) { mutableStateOf(false) }
+    LaunchedEffect(mapScope) {
+        val stored = MapSourcePolicy.resolveLayerKey(preferencesManager.mapLastLayerKey.first())
+        if (!layerChoiceMade) {
+            val index = MAP_LAYERS.indexOfFirst { it.key == stored }.takeIf { it >= 0 } ?: initialLayerIdx
+            layerLoadState = MapLayerLoadState(index)
+            selectedStyle = layerStyle(index)
+        }
+    }
+    fun switchLayer(index: Int) {
+        layerChoiceMade = true
+        if (!networkAvailable) {
+            // Remember the requested background without pretending its remote resources loaded.
+            layerLoadState = MapLayerLoadState(index)
+            selectedStyle = layerStyle(index)
+            showLayerPicker = false
+        } else applyLayerDecision(layerLoadState.request(index))
+    }
+    val localVectorMode = !networkAvailable && selectedStyle.id != MapSourcePolicy.LOCAL_LAYER_KEY
+    val renderedStyle = if (localVectorMode) MapboxLocalVectorStyle else selectedStyle
+    LaunchedEffect(networkAvailable) {
+        if (!networkAvailable && layerLoadState.isLoading) {
+            val index = layerLoadState.displayedIndex
+            layerLoadState = MapLayerLoadState(index)
+            selectedStyle = layerStyle(index)
+        }
+    }
+    fun retryLayer() {
+        retryGeneration++
+        applyLayerDecision(layerLoadState.retry())
+    }
+    val sceneRevision = remember { AtomicLong(0) }
+    val projection = remember(mapScope, filteredGeoTiges, essenceMap, essenceColors, camera.zoom.toInt(),
+        measurePoints, measureMode, measureColor, visibleTappedTree?.tigeId, visibleTappedTree?.parcelleId) {
+        buildTerrainMapProjection(mapScope.toString(), sceneRevision.incrementAndGet(), filteredGeoTiges,
+            essenceMap, essenceColors, camera.zoom, measurePoints, measureMode, measureColor.toArgb(),
+            visibleTappedTree?.let { MapTreeIdentity(it.tigeId, it.parcelleId) })
+    }
+    val scene = remember(projection, phonePosition, measureActive, showMeasureSaveDialog) {
+        val locationFeature = phonePosition?.let {
+            MapOverlayFeature(MapFeatureKey("device-position", "current"), Point.fromLngLat(it.longitude, it.latitude),
+                MapOverlayStyle(colorHex = "#176BDF", pointRadius = 7.0), selectable = false)
+        }
+        MapOverlayScene(projection.scene.scopeId, sceneRevision.incrementAndGet(),
+            projection.scene.features + listOfNotNull(locationFeature), projection.scene.selectedKey)
+    }
+    val currentProjection by rememberUpdatedState(projection)
+    var framedContext by rememberSaveable(mapScope.toString()) { mutableStateOf(false) }
+    var initialFrameRequested by remember(mapScope) { mutableStateOf(false) }
+    LaunchedEffect(mapContent, displayedGeoTiges, phonePosition) {
+        if (!framedContext && !initialFrameRequested && mapContent is MapTreeContent.Ready && !measureActive && displayedGeoTiges.isNotEmpty()) {
+            frameCommand = MapCameraFitCommand(UUID.randomUUID().toString(),
+                displayedGeoTiges.map { MapCoordinate(it.second, it.third) },
+                paddingTopPx = 100.0 * density, paddingBottomPx = 130.0 * density,
+                paddingLeftPx = 55.0 * density, paddingRightPx = 55.0 * density)
+            initialFrameRequested = true
+        } else if (!framedContext && !initialFrameRequested && mapContent is MapTreeContent.Ready && !measureActive && phonePosition != null) {
+            requestCamera(camera.copy(longitude = phonePosition.longitude, latitude = phonePosition.latitude, zoom = 13.0))
+            initialFrameRequested = true
+        }
+    }
+    LaunchedEffect(layerLoadState.loadingRequest?.id) {
+        val request = layerLoadState.loadingRequest ?: return@LaunchedEffect
+        delay(25_000)
+        if (layerLoadState.loadingRequest?.id == request.id) applyLayerDecision(layerLoadState.fail(request.id))
+    }
+
+    Box(modifier = modifier.fillMaxSize()) {
+        key(mapScope, retryGeneration) {
+            SharedMapboxCanvas(
+                accessToken = BuildConfig.MAPBOX_PUBLIC_ACCESS_TOKEN,
+                style = renderedStyle, initialCamera = camera, cameraCommand = cameraCommand,
+                frameCommand = frameCommand, overlays = scene,
+                relief = MapRelief(enabled = renderedStyle.demSourceUrl != null),
+                contentPadding = PaddingValues(start = 12.dp, top = 68.dp, end = 12.dp,
+                    bottom = if (showMeasureSheet) 330.dp else 80.dp),
+                modifier = Modifier.fillMaxSize().pointerInput(mapScope) {
+                    awaitPointerEventScope {
+                        while (true) {
+                            val event = awaitPointerEvent(PointerEventPass.Final)
+                            if (event.changes.any { it.pressed && it.position != it.previousPosition }) {
+                                framedContext = true
+                                frameCommand = null
+                                cameraCommand = null
+                            }
+                        }
+                    }
+                },
+                onOverlayStatusChanged = { overlayFailed = it is MapOverlayStatus.Failed },
+                onCameraChanged = { camera = it },
+                onViewportChanged = { viewport = it },
+                onCommandConsumed = {
+                    if (cameraCommand?.id == it) { cameraCommand = null; framedContext = true }
+                },
+                onFrameCommandConsumed = {
+                    if (frameCommand?.id == it) { frameCommand = null; framedContext = true }
+                },
+                onCoordinateTap = { coordinate ->
+                    if (measureActive) {
+                        if (!showMeasureSaveDialog) measurePoints = measurePoints + MeasurePoint(coordinate.latitude, coordinate.longitude)
+                        true
+                    } else false
+                },
+                onMapTap = { tap ->
+                    if (!measureActive && !showMeasureSaveDialog) tap.featureKey?.let { key ->
+                        currentProjection.treesByKey[key]?.let { handleCurrentTreeTap(it) }
+                        currentProjection.clustersByKey[key]?.let { members ->
+                            frameCommand = MapCameraFitCommand(UUID.randomUUID().toString(), members,
+                                paddingTopPx = 100.0 * density, paddingBottomPx = 130.0 * density,
+                                paddingLeftPx = 55.0 * density, paddingRightPx = 55.0 * density)
+                        }
+                    }
+                },
+                onStatusChanged = { status ->
+                    renderStatus = status
+                    layerLoadState.loadingRequest?.let { request ->
+                        if (status is MapRenderStatus.Ready && status.styleId == renderedStyle.id) {
+                            val loadedStyleId = status.styleId
+                            applyLayerDecision(layerLoadState.succeed(request.id))
+                            if (!localVectorMode) scope.launch { preferencesManager.setMapLastLayerKey(loadedStyleId) }
+                        } else if (status is MapRenderStatus.Failed) applyLayerDecision(layerLoadState.fail(request.id))
+                    }
+                },
+            )
+        }
+        MapboxRenderStatusOverlay(if (overlayFailed) MapRenderStatus.Failed(MapFailureReason.SOURCE) else renderStatus, ::retryLayer,
+            Modifier.align(Alignment.Center).padding(Space.md))
+
+        if (localVectorMode) MapLocalModeBadge(
+            Modifier.align(Alignment.TopCenter).padding(top = 60.dp, start = 60.dp, end = 60.dp))
+
+        // ── Bouton retour minimal ──
+        Surface(
+            onClick = onNavigateBack,
+            shape = androidx.compose.foundation.shape.CircleShape,
+            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
+            shadowElevation = Elevation.overlay,
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(Space.sm)
+                .size(Touch.min),
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Icon(
+                    Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = stringResource(R.string.back),
+                    modifier = Modifier.size(Space.md),
+                )
+            }
+        }
+
+        if (offlineProgress != null && offlineProgress?.isComplete != true) {
+            Surface(
+                shape = androidx.compose.foundation.shape.CircleShape,
+                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
+                shadowElevation = Elevation.overlay,
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(top = Space.sm, start = Touch.min + Space.md),
+            ) {
+                CircularProgressIndicator(modifier = Modifier.size(Touch.min).padding(Space.xs))
+            }
+        }
+
+        // ── Pastille de fiabilité GPS ──
+        val gpsQualityColor = when {
+            gpsAccuracyM == null -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+            gpsAccuracyM!! <= 6f -> GpsExcellent
+            gpsAccuracyM!! <= 12f -> GpsModere
+            else -> GpsMauvais
+        }
+        Surface(
+            onClick = { showGpsPrecisionDialog = true },
+            shape = androidx.compose.foundation.shape.CircleShape,
+            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
+            shadowElevation = Elevation.overlay,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(Space.sm)
+                .size(Touch.min),
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier
+                        .size(Space.sm)
+                        .background(gpsQualityColor, androidx.compose.foundation.shape.CircleShape),
+                )
+            }
+        }
+
+        if (showGpsPrecisionDialog) {
+            val qualityLabel = when {
+                gpsAccuracyM == null -> stringResource(R.string.gps_quality_unknown)
+                gpsAccuracyM!! <= 3f -> stringResource(R.string.gps_quality_excellent)
+                gpsAccuracyM!! <= 6f -> stringResource(R.string.gps_quality_good)
+                gpsAccuracyM!! <= 12f -> stringResource(R.string.gps_quality_moderate)
+                else -> stringResource(R.string.gps_quality_poor)
+            }
+            androidx.compose.material3.AlertDialog(
+                onDismissRequest = { showGpsPrecisionDialog = false },
+                title = { Text(stringResource(R.string.gps_precision_dialog_title)) },
+                text = {
+                    Text(
+                        if (gpsAccuracyM != null) {
+                            stringResource(R.string.gps_precision_dialog_body, qualityLabel, gpsAccuracyM!!)
+                        } else {
+                            stringResource(R.string.gps_precision_dialog_unknown)
+                        }
+                    )
+                },
+                confirmButton = {
+                    androidx.compose.material3.TextButton(onClick = { showGpsPrecisionDialog = false }) {
+                        Text(stringResource(R.string.ok))
+                    }
+                },
+            )
+        }
+
+        MapLayerPicker(
+            visible = showLayerPicker,
+            loadState = layerLoadState,
+            hasOfflineTilesState = hasOfflineTilesState,
+            offlineTileManager = offlineTileManager,
+            onLayerSelected = { index -> switchLayer(index) },
+            onRetry = { retryLayer() },
+            onDismiss = { showLayerPicker = false },
+            is3DActive = is3DActive,
+            onToggle3D = { toggle3D() },
+        )
+
+        MapLegendPanel(
+            visible = showLegend,
+            essenceColors = essenceColors,
+            essenceCounts = essenceCounts,
+            hiddenEssences = hiddenEssences,
+            essenceMap = essenceMap,
+            onToggleEssence = { code, hide -> hiddenEssences = if (hide) hiddenEssences + code else hiddenEssences - code },
+            modifier = Modifier.align(Alignment.TopEnd).padding(top = Touch.fieldPrimary + Space.xl, end = Space.sm),
+        )
+
+        MapGpsWarningBanner(
+            geoTiges = geoTiges,
+            dismissed = dismissedGpsBanner,
+            onDismiss = { dismissedGpsBanner = true },
+            modifier = Modifier.align(Alignment.TopCenter).padding(top = Touch.fieldPrimary + Space.xl),
+        )
+
+        MapTigeInfoPanel(
+            tappedTree = visibleTappedTree,
+            navActive = navState.isActive,
+            hasLocationPermission = hasLocationPermission,
+            onRequestPermission = { locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION) },
+            onStartNavigation = start@ { info ->
+                // Re-resolve against currently visible repository data, not the rendered snapshot.
+                val current = filteredGeoTiges.firstOrNull {
+                    it.first.id == info.tigeId && it.first.parcelleId == info.parcelleId
+                } ?: run { tappedTree = null; return@start }
+                val (tree, lon, lat) = current
+                if (!lon.isFinite() || lon !in -180.0..180.0 ||
+                    !lat.isFinite() || lat !in -90.0..90.0) {
+                    tappedTree = null
+                    return@start
+                }
+                treeNavigator.startNavigation(
+                    TreeNavigator.Target(
+                        tigeId = tree.id,
+                        essenceName = essenceMap[tree.essenceCode.uppercase()]?.name ?: tree.essenceCode,
+                        essenceCode = tree.essenceCode, diamCm = tree.diamCm,
+                        hauteurM = tree.hauteurM, lat = lat, lon = lon,
+                    )
+                )
+                tappedTree = null
+            },
+            onDismiss = { tappedTree = null },
+            modifier = Modifier.align(Alignment.TopCenter).padding(top = Touch.fieldPrimary + Space.xl, start = Space.md, end = Space.md),
+        )
+
+        MapNavigationOverlay(
+            navState = navState,
+            onStopNavigation = { treeNavigator.stopNavigation() },
+            modifier = Modifier.align(Alignment.TopCenter).padding(top = Touch.fieldPrimary + Space.xl, start = Space.md, end = Space.md),
+        )
+
+        MapOfflineProgressBar(
+            progress = offlineProgress,
+            onClearProgress = { offlineTileManager.clearProgress() },
+            modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(horizontal = Space.md, vertical = Touch.fieldPrimary + Space.xl),
+        )
+
+        if (mapContent is MapTreeContent.Loading) {
+            CircularProgressIndicator(Modifier.align(Alignment.Center))
+        }
+        if (mapContent is MapTreeContent.Unavailable) {
+            Surface(Modifier.align(Alignment.Center).padding(Space.md)) {
+                Column(Modifier.padding(Space.md), horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(stringResource(R.string.map_tree_data_unavailable))
+                    if (mapContent.reason == MapTreeContent.Reason.DATA_READ) {
+                        androidx.compose.material3.TextButton(onClick = { dataRetry++ }) {
+                            Text(stringResource(R.string.retry))
+                        }
+                    }
+                }
+            }
+        }
+        if (mapContent is MapTreeContent.Ready) MapNoGpsMessage(
+            total = total, withGps = withGps, geoTigesSize = geoTiges.size,
+            mapOnlyReliableGps = mapOnlyReliableGps, mapReliableGpsThresholdM = mapReliableGpsThresholdM,
+            onDismiss = { dismissedGpsBanner = true },
+            modifier = Modifier.align(Alignment.Center).padding(Space.xl),
+        )

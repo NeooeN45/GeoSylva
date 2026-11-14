@@ -1,0 +1,81 @@
+@@ -13,2 +13,4 @@
+ import kotlinx.coroutines.flow.MutableStateFlow
++import kotlinx.coroutines.flow.toList
++import kotlinx.coroutines.launch
+ import kotlinx.coroutines.test.*
+@@ -19,2 +21,49 @@
+ class MapTraceControllerTest {
++    @Test fun `source flow excludes map GPS throughout suspended start and resume persistence`() = runTest {
++        val fixture = Fixture(this)
++        val observed = mutableListOf<Boolean>()
++        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) { fixture.controller.sourceActive.toList(observed) }
++        fixture.controller.open(MapDataScope.Parcel("p")); runCurrent()
++        fixture.repository.draftGate = CompletableDeferred()
++        fixture.controller.start(); runCurrent()
++        assertTrue(fixture.controller.sourceActive.value)
++        assertNull(fixture.controller.currentSourceToken())
++        assertTrue(fixture.source.starts.isEmpty())
++        assertEquals(listOf(false, true), observed)
++        fixture.source.onStart = { assertTrue(fixture.controller.sourceActive.value) }
++        fixture.source.onStop = { assertTrue("The map claim must outlive source.stop", fixture.controller.sourceActive.value) }
++        fixture.repository.draftGate?.complete(Unit); runCurrent()
++        assertEquals(1, fixture.source.starts.size)
++        fixture.controller.pause(); runCurrent()
++        assertFalse(fixture.controller.sourceActive.value)
++
++        fixture.repository.draftGate = CompletableDeferred()
++        fixture.controller.resume(); runCurrent()
++        assertTrue(fixture.controller.sourceActive.value)
++        assertNull(fixture.controller.currentSourceToken())
++        assertEquals(1, fixture.source.starts.size)
++        fixture.repository.draftFailure = CartographicStoreError.IO
++        fixture.repository.draftGate?.complete(Unit); runCurrent()
++        assertFalse(fixture.controller.sourceActive.value)
++        assertNull(fixture.controller.currentSourceToken())
++        assertEquals(1, fixture.source.starts.size)
++        assertEquals(listOf(false, true, false, true, false), observed)
++
++        fixture.repository.draftFailure = null
++        fixture.source.startSucceeds = false
++        fixture.controller.resume(); runCurrent()
++        assertFalse(fixture.controller.sourceActive.value)
++        assertNull(fixture.controller.currentSourceToken())
++    }
++
++    @Test fun `failed initial persistence releases its observable source claim without a source token`() = runTest {
++        val fixture = Fixture(this)
++        fixture.repository.draftFailure = CartographicStoreError.IO
++        fixture.openAndStart()
++        assertFalse(fixture.controller.sourceActive.value)
++        assertNull(fixture.controller.currentSourceToken())
++        assertTrue(fixture.source.starts.isEmpty())
++        assertEquals(TraceScreen.REVIEW, fixture.controller.state.value.screen)
++    }
++
+     @Test fun `manual pause rejects callbacks and resume creates another portion without linking the gap`() = runTest {
+@@ -116,6 +165,9 @@
+         var permission = true
++        var startSucceeds = true
++        var onStart: ((TraceCaptureToken) -> Unit)? = null
++        var onStop: ((TraceCaptureToken) -> Unit)? = null
+         val starts = mutableListOf<TraceCaptureToken>()
+         override fun permitted() = permission
+-        override fun start(token: TraceCaptureToken): Boolean { starts += token; return true }
+-        override fun stop(token: TraceCaptureToken) = Unit
++        override fun start(token: TraceCaptureToken): Boolean { onStart?.invoke(token); starts += token; return startSucceeds }
++        override fun stop(token: TraceCaptureToken) { onStop?.invoke(token) }
+     }
+@@ -125,2 +177,4 @@
+         var readGate: CompletableDeferred<Unit>? = null
++        var draftGate: CompletableDeferred<Unit>? = null
++        var draftFailure: CartographicStoreError? = null
+         private val access = object : CartographicMeasurementAccess {
+@@ -133,3 +187,7 @@
+         override fun accessChanges(): Flow<Unit> = MutableStateFlow(Unit)
+-        override suspend fun writeDraft(id: String, name: String?, snapshot: TraceCaptureSnapshot, expectedRevision: Long, sourceTraceId: String?, access: CartographicMeasurementAccess) = write(id, name, snapshot, sourceTraceId, false)
++        override suspend fun writeDraft(id: String, name: String?, snapshot: TraceCaptureSnapshot, expectedRevision: Long, sourceTraceId: String?, access: CartographicMeasurementAccess): CartographicStoreResult<CartographicTraceDocument> {
++            draftGate?.await()
++            draftFailure?.let { return CartographicStoreResult.Failure(it) }
++            return write(id, name, snapshot, sourceTraceId, false)
++        }
+         override suspend fun save(id: String, name: String?, snapshot: TraceCaptureSnapshot, expectedRevision: Long, sourceTraceId: String?, access: CartographicMeasurementAccess) = write(id, name, snapshot, sourceTraceId, true)

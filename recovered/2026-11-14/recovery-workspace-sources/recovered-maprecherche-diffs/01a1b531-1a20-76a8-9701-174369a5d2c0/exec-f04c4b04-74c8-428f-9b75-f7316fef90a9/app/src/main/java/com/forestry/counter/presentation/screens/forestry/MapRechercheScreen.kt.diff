@@ -1,0 +1,18 @@
+@@ -121,12 +121,7 @@
+ /**
+- * Mode Recherche de l'onglet Carte — nouvelle base (esprit QField).
+- *
+- * Utilise le moteur Mapbox commun aux cartes et des données déjà autorisées.
+- * Conserve les outils et les routes existants pendant l’intégration : une
+- * seule barre d'outils flottante en bas, cibles tactiles 64dp, plus de
+- * panneaux qui se chevauchent. V1 volontairement resserrée sur l'essentiel
+- * (calques, mesure, légende, position, tiges géolocalisées, navigation
+- * vers une tige) — tracé GPS de parcelle et shapefile reviendront sur
+- * cette même base dans une passe dédiée plutôt que d'être portés tels
+- * quels depuis l'ancien écran.
++ * Hôte commun Terrain, Carte libre et contextes parcellaires.
++ * Le moteur Mapbox, les panneaux et les outils partagent leurs contrôleurs
++ * de données autorisées : mesures, couches importées, tracés GPS, préparation
++ * hors ligne et navigation vers une tige. Chaque contexte conserve ses droits,
++ * ses brouillons et sa caméra ; aucun moteur distinct n'est créé par métier.
+  */

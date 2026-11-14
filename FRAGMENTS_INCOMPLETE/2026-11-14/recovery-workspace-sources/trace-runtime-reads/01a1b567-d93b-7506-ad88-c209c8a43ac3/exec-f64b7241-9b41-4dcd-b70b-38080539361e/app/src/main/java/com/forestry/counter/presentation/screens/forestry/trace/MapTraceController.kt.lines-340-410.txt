@@ -1,0 +1,71 @@
+        if (token == sourceToken) sourceFailureLocked(token)
+    }
+    fun sourceIsCurrent(token: TraceCaptureToken): Boolean = sourceToken == token && access?.let(repository::isCurrent) == true
+    fun currentSourceToken(): TraceCaptureToken? = sourceToken?.takeIf(::sourceIsCurrent)
+    fun authorityIsCurrent(): Boolean = access?.let(repository::isCurrent) == true
+    fun needsLocationPermission(): Boolean = !source.permitted()
+    fun dismissIssue() = launchLocked { mutable.update { it.copy(issue = null) } }
+    fun refreshLibrary() = launchLocked { access?.let { refreshLibrary(it) } }
+
+    suspend fun exportPreview(id: String, expectedRevision: Long): CartographicStoreResult<String> = mutex.withLock {
+        val captured = access ?: return@withLock CartographicStoreResult.Failure(CartographicStoreError.ACCESS_CHANGED)
+        when (val read = repository.read(id, captured)) {
+            is CartographicStoreResult.Success -> if (read.value.saved && read.value.revision == expectedRevision)
+                CartographicStoreResult.Success(TraceGeoJsonExport.encode(read.value)) else CartographicStoreResult.Failure(CartographicStoreError.CONFLICT)
+            is CartographicStoreResult.Failure -> read
+        }
+    }
+
+    private suspend fun sourceFailureLocked(token: TraceCaptureToken) {
+        if (token != sourceToken) return
+        stopSource()
+        recorder?.let { r ->
+            val stopped = r.stop(nanoTime())
+            mutable.update { it.copy(snapshot = stopped, screen = TraceScreen.REVIEW, issue = TraceRuntimeIssue.INTERRUPTED) }
+            persist(stopped)
+        }
+    }
+    private fun stopSource() {
+        val token = sourceToken
+        sourceToken = null
+        phone.value = null
+        if (token != null) source.stop(token)
+    }
+    private suspend fun ready(): Boolean {
+        val captured = access ?: return false
+        if (!repository.isCurrent(captured)) { invalidate(); return false }
+        return state.value.authorised
+    }
+    private suspend fun persist(snapshot: TraceCaptureSnapshot): Boolean {
+        val captured = access ?: return false
+        val previousPending = pendingDraft
+        if (previousPending != null) {
+            when (val confirmed = repository.writeDraft(previousPending.second.sessionId, previousPending.first, previousPending.second, revision, originId, captured)) {
+                is CartographicStoreResult.Success -> { revision = confirmed.value.revision; pendingDraft = null }
+                is CartographicStoreResult.Failure -> {
+                    if (confirmed.reason in setOf(CartographicStoreError.ACCESS_CHANGED, CartographicStoreError.UNAVAILABLE)) invalidate()
+                    else mutable.update { it.copy(issue = TraceRuntimeIssue.STORE) }
+                    return false
+                }
+            }
+        }
+        val pending = state.value.name to snapshot
+        pendingDraft = pending
+        when (val stored = repository.writeDraft(snapshot.sessionId, pending.first, snapshot, revision, originId, captured)) {
+            is CartographicStoreResult.Success -> { revision = stored.value.revision; pendingDraft = null; return true }
+            is CartographicStoreResult.Failure -> {
+                if (stored.reason in setOf(CartographicStoreError.ACCESS_CHANGED, CartographicStoreError.UNAVAILABLE)) invalidate()
+                else mutable.update { it.copy(issue = TraceRuntimeIssue.STORE) }
+                return false
+            }
+        }
+    }
+    private suspend fun refreshLibrary(captured: CartographicMeasurementAccess) {
+        val result = repository.list(captured)
+        if (result is CartographicStoreResult.Success) mutable.update { it.copy(library = result.value) }
+    }
+    private fun invalidate() {
+        stopSource()
+        access = null
+        recorder = null
+        pendingSave = null

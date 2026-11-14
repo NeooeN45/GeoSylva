@@ -1,0 +1,1824 @@
+{
+  "entries": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+      "version_file": "source-panel-versions/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-78688fbd-6650-4869-adef-a97df07ee766/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+      "sha256": "5fcb22f697a5585b68fe418f66ef5601a4de5ecde261c256b191b58e221882e7",
+      "line_count": 118,
+      "bytes": 7369,
+      "classification": "full_literal_file_declaration_exact",
+      "provenance": {
+        "history_file": "layers-attributes-batch13.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+        "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+        "item_index": 30,
+        "turn_started_at": 1794044069,
+        "turn_completed_at": 1794044604,
+        "shell_header_line": 1,
+        "shell_body_first_line": 2,
+        "shell_body_last_line": 119,
+        "quoted_delimiter": "EOF",
+        "command_truncated_after_complete_declaration": false,
+        "command_status": "completed",
+        "command_exit_code": 0
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_declaration",
+          "entry": {
+            "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+            "version_file": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-78688fbd-6650-4869-adef-a97df07ee766/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+            "sha256": "5fcb22f697a5585b68fe418f66ef5601a4de5ecde261c256b191b58e221882e7",
+            "classification": "full_literal_file_declaration_exact",
+            "bytes": 7369,
+            "line_count": 118,
+            "provenance": {
+              "history_file": "layers-attributes-batch13.json",
+              "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+              "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+              "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+              "item_index": 30,
+              "turn_started_at": 1794044069,
+              "turn_completed_at": 1794044604,
+              "shell_header_line": 1,
+              "shell_body_first_line": 2,
+              "shell_body_last_line": 119,
+              "quoted_delimiter": "EOF",
+              "command_truncated_after_complete_declaration": false,
+              "command_status": "completed",
+              "command_exit_code": 0
+            },
+            "observations": [
+              {
+                "history_file": "layers-attributes-batch13.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+                "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+                "item_index": 30,
+                "turn_started_at": 1794044069,
+                "turn_completed_at": 1794044604,
+                "shell_header_line": 1,
+                "shell_body_first_line": 2,
+                "shell_body_last_line": 119,
+                "quoted_delimiter": "EOF",
+                "command_truncated_after_complete_declaration": false,
+                "command_status": "completed",
+                "command_exit_code": 0
+              }
+            ],
+            "command_evidence": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-78688fbd-6650-4869-adef-a97df07ee766/command-evidence.txt",
+            "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+          }
+        }
+      ]
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+      "version_file": "source-panel-versions/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-431c8666-07af-46bb-a2f5-ed185dbf3b23/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+      "sha256": "b11e42631313a94104f5f0a579bff3f1e8678979454bcb1eb35911d28c0559ca",
+      "line_count": 118,
+      "bytes": 7383,
+      "classification": "full_reconstruction_from_observed_string_edits",
+      "provenance": {
+        "history_file": "layers-attributes-batch13.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+        "item": "exec-431c8666-07af-46bb-a2f5-ed185dbf3b23",
+        "item_index": 36,
+        "turn_started_at": 1794044069,
+        "turn_completed_at": 1794044604
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_declaration",
+          "entry": {
+            "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+            "version_file": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-78688fbd-6650-4869-adef-a97df07ee766/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+            "sha256": "5fcb22f697a5585b68fe418f66ef5601a4de5ecde261c256b191b58e221882e7",
+            "classification": "full_literal_file_declaration_exact",
+            "bytes": 7369,
+            "line_count": 118,
+            "provenance": {
+              "history_file": "layers-attributes-batch13.json",
+              "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+              "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+              "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+              "item_index": 30,
+              "turn_started_at": 1794044069,
+              "turn_completed_at": 1794044604,
+              "shell_header_line": 1,
+              "shell_body_first_line": 2,
+              "shell_body_last_line": 119,
+              "quoted_delimiter": "EOF",
+              "command_truncated_after_complete_declaration": false,
+              "command_status": "completed",
+              "command_exit_code": 0
+            },
+            "observations": [
+              {
+                "history_file": "layers-attributes-batch13.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+                "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+                "item_index": 30,
+                "turn_started_at": 1794044069,
+                "turn_completed_at": 1794044604,
+                "shell_header_line": 1,
+                "shell_body_first_line": 2,
+                "shell_body_last_line": 119,
+                "quoted_delimiter": "EOF",
+                "command_truncated_after_complete_declaration": false,
+                "command_status": "completed",
+                "command_exit_code": 0
+              }
+            ],
+            "command_evidence": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-78688fbd-6650-4869-adef-a97df07ee766/command-evidence.txt",
+            "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+          }
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-431c8666-07af-46bb-a2f5-ed185dbf3b23",
+            "item_index": 36,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "script_sha256": "aa4ea7aabcff4d3bd02f3eaff4f2a2e131104d2596b4589ade6ee5ec90bde9dd",
+          "before_sha256": "5fcb22f697a5585b68fe418f66ef5601a4de5ecde261c256b191b58e221882e7",
+          "after_sha256": "b11e42631313a94104f5f0a579bff3f1e8678979454bcb1eb35911d28c0559ca",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "if (uri?.scheme != \"https\" || uri.host.isNullOrBlank() || uri.userInfo != null)",
+              "new": "if (uri == null || uri.scheme != \"https\" || uri.host.isNullOrBlank() || uri.userInfo != null)",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        }
+      ]
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+      "version_file": "source-panel-versions/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-575ba698-7ccf-48e1-b245-e3f2cf8dfbb2/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+      "sha256": "39b3d84c0bbade7e11ff9645c38f58aa12822b4b8848979e40dbd43ca83e80d7",
+      "line_count": 117,
+      "bytes": 7363,
+      "classification": "full_reconstruction_from_observed_string_edits",
+      "provenance": {
+        "history_file": "layers-attributes-batch13.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+        "item": "exec-575ba698-7ccf-48e1-b245-e3f2cf8dfbb2",
+        "item_index": 52,
+        "turn_started_at": 1794044069,
+        "turn_completed_at": 1794044604
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_declaration",
+          "entry": {
+            "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+            "version_file": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-78688fbd-6650-4869-adef-a97df07ee766/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+            "sha256": "5fcb22f697a5585b68fe418f66ef5601a4de5ecde261c256b191b58e221882e7",
+            "classification": "full_literal_file_declaration_exact",
+            "bytes": 7369,
+            "line_count": 118,
+            "provenance": {
+              "history_file": "layers-attributes-batch13.json",
+              "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+              "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+              "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+              "item_index": 30,
+              "turn_started_at": 1794044069,
+              "turn_completed_at": 1794044604,
+              "shell_header_line": 1,
+              "shell_body_first_line": 2,
+              "shell_body_last_line": 119,
+              "quoted_delimiter": "EOF",
+              "command_truncated_after_complete_declaration": false,
+              "command_status": "completed",
+              "command_exit_code": 0
+            },
+            "observations": [
+              {
+                "history_file": "layers-attributes-batch13.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+                "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+                "item_index": 30,
+                "turn_started_at": 1794044069,
+                "turn_completed_at": 1794044604,
+                "shell_header_line": 1,
+                "shell_body_first_line": 2,
+                "shell_body_last_line": 119,
+                "quoted_delimiter": "EOF",
+                "command_truncated_after_complete_declaration": false,
+                "command_status": "completed",
+                "command_exit_code": 0
+              }
+            ],
+            "command_evidence": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-78688fbd-6650-4869-adef-a97df07ee766/command-evidence.txt",
+            "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+          }
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-431c8666-07af-46bb-a2f5-ed185dbf3b23",
+            "item_index": 36,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "script_sha256": "aa4ea7aabcff4d3bd02f3eaff4f2a2e131104d2596b4589ade6ee5ec90bde9dd",
+          "before_sha256": "5fcb22f697a5585b68fe418f66ef5601a4de5ecde261c256b191b58e221882e7",
+          "after_sha256": "b11e42631313a94104f5f0a579bff3f1e8678979454bcb1eb35911d28c0559ca",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "if (uri?.scheme != \"https\" || uri.host.isNullOrBlank() || uri.userInfo != null)",
+              "new": "if (uri == null || uri.scheme != \"https\" || uri.host.isNullOrBlank() || uri.userInfo != null)",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-575ba698-7ccf-48e1-b245-e3f2cf8dfbb2",
+            "item_index": 52,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "script_sha256": "c3c950e362b39ca26476e620be17afae8f47e0641602b6a30ceb3e9f3119b543",
+          "before_sha256": "b11e42631313a94104f5f0a579bff3f1e8678979454bcb1eb35911d28c0559ca",
+          "after_sha256": "39b3d84c0bbade7e11ff9645c38f58aa12822b4b8848979e40dbd43ca83e80d7",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 5,
+              "old": "            notes = listOf(stringResource(R.string.gs_source_mapbox_attribution)),\n            previewDetails = stringResource(R.string.map_catalog_mapbox_credit)",
+              "new": "            previewDetails = stringResource(R.string.gs_source_mapbox_attribution) + \"\\n\" + stringResource(R.string.map_catalog_mapbox_credit)",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        }
+      ]
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+      "version_file": "source-panel-versions/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-78688fbd-6650-4869-adef-a97df07ee766/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+      "sha256": "ccea45ad96ef1a6337eb936d16bffa9a1c22ac84ed14311ea01d0ce597bc98d2",
+      "line_count": 216,
+      "bytes": 12561,
+      "classification": "full_reconstruction_from_observed_string_edits",
+      "provenance": {
+        "history_file": "layers-attributes-batch13.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+        "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+        "item_index": 30,
+        "turn_started_at": 1794044069,
+        "turn_completed_at": 1794044604
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_declaration",
+          "entry": {
+            "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+            "version_file": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+            "sha256": "de5236c7f8a4c4cc4da2388aabc5824cfcc0bda2c5d00702eae1a74ed49829cf",
+            "classification": "full_literal_file_declaration_exact",
+            "bytes": 12407,
+            "line_count": 215,
+            "provenance": {
+              "history_file": "layers-attributes-batch13.json",
+              "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+              "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+              "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+              "item_index": 14,
+              "turn_started_at": 1794044069,
+              "turn_completed_at": 1794044604,
+              "shell_header_line": 2,
+              "shell_body_first_line": 3,
+              "shell_body_last_line": 217,
+              "quoted_delimiter": "EOF",
+              "command_truncated_after_complete_declaration": false,
+              "command_status": "completed",
+              "command_exit_code": 0
+            },
+            "observations": [
+              {
+                "history_file": "layers-attributes-batch13.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+                "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+                "item_index": 14,
+                "turn_started_at": 1794044069,
+                "turn_completed_at": 1794044604,
+                "shell_header_line": 2,
+                "shell_body_first_line": 3,
+                "shell_body_last_line": 217,
+                "quoted_delimiter": "EOF",
+                "command_truncated_after_complete_declaration": false,
+                "command_status": "completed",
+                "command_exit_code": 0
+              }
+            ],
+            "command_evidence": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/command-evidence.txt",
+            "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+          }
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+            "item_index": 30,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "script_sha256": "70dfbddc6b3fb452d4ec3d0a7d4a5a0518341c80ce6dc5573904a353c726acd4",
+          "before_sha256": "de5236c7f8a4c4cc4da2388aabc5824cfcc0bda2c5d00702eae1a74ed49829cf",
+          "after_sha256": "ccea45ad96ef1a6337eb936d16bffa9a1c22ac84ed14311ea01d0ce597bc98d2",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "\"${(it * 100).toInt()} %\"",
+              "new": "stringResource(R.string.gs_source_panel_percent, (it * 100).toInt())",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 3,
+              "old": "            ?.let { Color(0xFF000000 or it) } ?: SourceMuted\n        Surface(Modifier.size(30.dp, 18.dp), shape = RoundedCornerShape(2.dp), color = Color.Transparent, border = BorderStroke(2.dp, color)) {}",
+              "new": "            ?.let { Color(0xFF000000 or it) }\n        if (color != null) Surface(Modifier.size(30.dp, 18.dp), shape = RoundedCornerShape(2.dp), color = Color.Transparent, border = BorderStroke(2.dp, color)) {}\n        else Text(stringResource(R.string.gs_source_panel_unknown), color = SourceMuted, fontSize = 11.sp)",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        }
+      ]
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+      "version_file": "source-panel-versions/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-431c8666-07af-46bb-a2f5-ed185dbf3b23/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+      "sha256": "9592ce51c2bac518006b7110451c9406be605495104e0694aa7900be9adf2eaf",
+      "line_count": 219,
+      "bytes": 12811,
+      "classification": "full_reconstruction_from_observed_string_edits",
+      "provenance": {
+        "history_file": "layers-attributes-batch13.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+        "item": "exec-431c8666-07af-46bb-a2f5-ed185dbf3b23",
+        "item_index": 36,
+        "turn_started_at": 1794044069,
+        "turn_completed_at": 1794044604
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_declaration",
+          "entry": {
+            "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+            "version_file": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+            "sha256": "de5236c7f8a4c4cc4da2388aabc5824cfcc0bda2c5d00702eae1a74ed49829cf",
+            "classification": "full_literal_file_declaration_exact",
+            "bytes": 12407,
+            "line_count": 215,
+            "provenance": {
+              "history_file": "layers-attributes-batch13.json",
+              "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+              "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+              "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+              "item_index": 14,
+              "turn_started_at": 1794044069,
+              "turn_completed_at": 1794044604,
+              "shell_header_line": 2,
+              "shell_body_first_line": 3,
+              "shell_body_last_line": 217,
+              "quoted_delimiter": "EOF",
+              "command_truncated_after_complete_declaration": false,
+              "command_status": "completed",
+              "command_exit_code": 0
+            },
+            "observations": [
+              {
+                "history_file": "layers-attributes-batch13.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+                "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+                "item_index": 14,
+                "turn_started_at": 1794044069,
+                "turn_completed_at": 1794044604,
+                "shell_header_line": 2,
+                "shell_body_first_line": 3,
+                "shell_body_last_line": 217,
+                "quoted_delimiter": "EOF",
+                "command_truncated_after_complete_declaration": false,
+                "command_status": "completed",
+                "command_exit_code": 0
+              }
+            ],
+            "command_evidence": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/command-evidence.txt",
+            "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+          }
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+            "item_index": 30,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "script_sha256": "70dfbddc6b3fb452d4ec3d0a7d4a5a0518341c80ce6dc5573904a353c726acd4",
+          "before_sha256": "de5236c7f8a4c4cc4da2388aabc5824cfcc0bda2c5d00702eae1a74ed49829cf",
+          "after_sha256": "ccea45ad96ef1a6337eb936d16bffa9a1c22ac84ed14311ea01d0ce597bc98d2",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "\"${(it * 100).toInt()} %\"",
+              "new": "stringResource(R.string.gs_source_panel_percent, (it * 100).toInt())",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 3,
+              "old": "            ?.let { Color(0xFF000000 or it) } ?: SourceMuted\n        Surface(Modifier.size(30.dp, 18.dp), shape = RoundedCornerShape(2.dp), color = Color.Transparent, border = BorderStroke(2.dp, color)) {}",
+              "new": "            ?.let { Color(0xFF000000 or it) }\n        if (color != null) Surface(Modifier.size(30.dp, 18.dp), shape = RoundedCornerShape(2.dp), color = Color.Transparent, border = BorderStroke(2.dp, color)) {}\n        else Text(stringResource(R.string.gs_source_panel_unknown), color = SourceMuted, fontSize = 11.sp)",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-431c8666-07af-46bb-a2f5-ed185dbf3b23",
+            "item_index": 36,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "script_sha256": "aa4ea7aabcff4d3bd02f3eaff4f2a2e131104d2596b4589ade6ee5ec90bde9dd",
+          "before_sha256": "ccea45ad96ef1a6337eb936d16bffa9a1c22ac84ed14311ea01d0ce597bc98d2",
+          "after_sha256": "9592ce51c2bac518006b7110451c9406be605495104e0694aa7900be9adf2eaf",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 5,
+              "old": "                    IconButton(onClose, Modifier.size(48.dp))",
+              "new": "                    if (!state.showSource) IconButton(onSource, Modifier.size(40.dp)) {\n                        Icon(Icons.Outlined.Info, stringResource(R.string.gs_source_panel_details), Modifier.size(20.dp), tint = SourceInk)\n                    }\n                    IconButton(onClose, Modifier.size(48.dp))",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        }
+      ]
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+      "version_file": "source-panel-versions/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-48fdc289-fefb-48b7-a5f4-ef9131c3a75f/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+      "sha256": "fb027d712d6c008d6d7ea580ff36ff7c0342e5c350afd846ef65556cd08e98e4",
+      "line_count": 219,
+      "bytes": 12817,
+      "classification": "full_reconstruction_from_observed_string_edits",
+      "provenance": {
+        "history_file": "layers-attributes-batch13.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+        "item": "exec-48fdc289-fefb-48b7-a5f4-ef9131c3a75f",
+        "item_index": 38,
+        "turn_started_at": 1794044069,
+        "turn_completed_at": 1794044604
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_declaration",
+          "entry": {
+            "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+            "version_file": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+            "sha256": "de5236c7f8a4c4cc4da2388aabc5824cfcc0bda2c5d00702eae1a74ed49829cf",
+            "classification": "full_literal_file_declaration_exact",
+            "bytes": 12407,
+            "line_count": 215,
+            "provenance": {
+              "history_file": "layers-attributes-batch13.json",
+              "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+              "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+              "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+              "item_index": 14,
+              "turn_started_at": 1794044069,
+              "turn_completed_at": 1794044604,
+              "shell_header_line": 2,
+              "shell_body_first_line": 3,
+              "shell_body_last_line": 217,
+              "quoted_delimiter": "EOF",
+              "command_truncated_after_complete_declaration": false,
+              "command_status": "completed",
+              "command_exit_code": 0
+            },
+            "observations": [
+              {
+                "history_file": "layers-attributes-batch13.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+                "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+                "item_index": 14,
+                "turn_started_at": 1794044069,
+                "turn_completed_at": 1794044604,
+                "shell_header_line": 2,
+                "shell_body_first_line": 3,
+                "shell_body_last_line": 217,
+                "quoted_delimiter": "EOF",
+                "command_truncated_after_complete_declaration": false,
+                "command_status": "completed",
+                "command_exit_code": 0
+              }
+            ],
+            "command_evidence": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/command-evidence.txt",
+            "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+          }
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+            "item_index": 30,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "script_sha256": "70dfbddc6b3fb452d4ec3d0a7d4a5a0518341c80ce6dc5573904a353c726acd4",
+          "before_sha256": "de5236c7f8a4c4cc4da2388aabc5824cfcc0bda2c5d00702eae1a74ed49829cf",
+          "after_sha256": "ccea45ad96ef1a6337eb936d16bffa9a1c22ac84ed14311ea01d0ce597bc98d2",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "\"${(it * 100).toInt()} %\"",
+              "new": "stringResource(R.string.gs_source_panel_percent, (it * 100).toInt())",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 3,
+              "old": "            ?.let { Color(0xFF000000 or it) } ?: SourceMuted\n        Surface(Modifier.size(30.dp, 18.dp), shape = RoundedCornerShape(2.dp), color = Color.Transparent, border = BorderStroke(2.dp, color)) {}",
+              "new": "            ?.let { Color(0xFF000000 or it) }\n        if (color != null) Surface(Modifier.size(30.dp, 18.dp), shape = RoundedCornerShape(2.dp), color = Color.Transparent, border = BorderStroke(2.dp, color)) {}\n        else Text(stringResource(R.string.gs_source_panel_unknown), color = SourceMuted, fontSize = 11.sp)",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-431c8666-07af-46bb-a2f5-ed185dbf3b23",
+            "item_index": 36,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "script_sha256": "aa4ea7aabcff4d3bd02f3eaff4f2a2e131104d2596b4589ade6ee5ec90bde9dd",
+          "before_sha256": "ccea45ad96ef1a6337eb936d16bffa9a1c22ac84ed14311ea01d0ce597bc98d2",
+          "after_sha256": "9592ce51c2bac518006b7110451c9406be605495104e0694aa7900be9adf2eaf",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 5,
+              "old": "                    IconButton(onClose, Modifier.size(48.dp))",
+              "new": "                    if (!state.showSource) IconButton(onSource, Modifier.size(40.dp)) {\n                        Icon(Icons.Outlined.Info, stringResource(R.string.gs_source_panel_details), Modifier.size(20.dp), tint = SourceInk)\n                    }\n                    IconButton(onClose, Modifier.size(48.dp))",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-48fdc289-fefb-48b7-a5f4-ef9131c3a75f",
+            "item_index": 38,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "script_sha256": "650e49a368345941b6778d796c591be9edbb9e357e82620b82d432af1dab2cde",
+          "before_sha256": "9592ce51c2bac518006b7110451c9406be605495104e0694aa7900be9adf2eaf",
+          "after_sha256": "fb027d712d6c008d6d7ea580ff36ff7c0342e5c350afd846ef65556cd08e98e4",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "Switch(layer.visible, visibility, enabled = visibility != null,",
+              "new": "Switch(layer.visible, visibility ?: {}, enabled = visibility != null,",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        }
+      ]
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+      "version_file": "source-panel-versions/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-575ba698-7ccf-48e1-b245-e3f2cf8dfbb2/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+      "sha256": "1ecbad601e41409b60d81062bed8884fae4db764d24ba701fd38ba50d531e671",
+      "line_count": 219,
+      "bytes": 12817,
+      "classification": "full_reconstruction_from_observed_string_edits",
+      "provenance": {
+        "history_file": "layers-attributes-batch13.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+        "item": "exec-575ba698-7ccf-48e1-b245-e3f2cf8dfbb2",
+        "item_index": 52,
+        "turn_started_at": 1794044069,
+        "turn_completed_at": 1794044604
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_declaration",
+          "entry": {
+            "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+            "version_file": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+            "sha256": "de5236c7f8a4c4cc4da2388aabc5824cfcc0bda2c5d00702eae1a74ed49829cf",
+            "classification": "full_literal_file_declaration_exact",
+            "bytes": 12407,
+            "line_count": 215,
+            "provenance": {
+              "history_file": "layers-attributes-batch13.json",
+              "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+              "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+              "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+              "item_index": 14,
+              "turn_started_at": 1794044069,
+              "turn_completed_at": 1794044604,
+              "shell_header_line": 2,
+              "shell_body_first_line": 3,
+              "shell_body_last_line": 217,
+              "quoted_delimiter": "EOF",
+              "command_truncated_after_complete_declaration": false,
+              "command_status": "completed",
+              "command_exit_code": 0
+            },
+            "observations": [
+              {
+                "history_file": "layers-attributes-batch13.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+                "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+                "item_index": 14,
+                "turn_started_at": 1794044069,
+                "turn_completed_at": 1794044604,
+                "shell_header_line": 2,
+                "shell_body_first_line": 3,
+                "shell_body_last_line": 217,
+                "quoted_delimiter": "EOF",
+                "command_truncated_after_complete_declaration": false,
+                "command_status": "completed",
+                "command_exit_code": 0
+              }
+            ],
+            "command_evidence": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/command-evidence.txt",
+            "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+          }
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+            "item_index": 30,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "script_sha256": "70dfbddc6b3fb452d4ec3d0a7d4a5a0518341c80ce6dc5573904a353c726acd4",
+          "before_sha256": "de5236c7f8a4c4cc4da2388aabc5824cfcc0bda2c5d00702eae1a74ed49829cf",
+          "after_sha256": "ccea45ad96ef1a6337eb936d16bffa9a1c22ac84ed14311ea01d0ce597bc98d2",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "\"${(it * 100).toInt()} %\"",
+              "new": "stringResource(R.string.gs_source_panel_percent, (it * 100).toInt())",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 3,
+              "old": "            ?.let { Color(0xFF000000 or it) } ?: SourceMuted\n        Surface(Modifier.size(30.dp, 18.dp), shape = RoundedCornerShape(2.dp), color = Color.Transparent, border = BorderStroke(2.dp, color)) {}",
+              "new": "            ?.let { Color(0xFF000000 or it) }\n        if (color != null) Surface(Modifier.size(30.dp, 18.dp), shape = RoundedCornerShape(2.dp), color = Color.Transparent, border = BorderStroke(2.dp, color)) {}\n        else Text(stringResource(R.string.gs_source_panel_unknown), color = SourceMuted, fontSize = 11.sp)",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-431c8666-07af-46bb-a2f5-ed185dbf3b23",
+            "item_index": 36,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "script_sha256": "aa4ea7aabcff4d3bd02f3eaff4f2a2e131104d2596b4589ade6ee5ec90bde9dd",
+          "before_sha256": "ccea45ad96ef1a6337eb936d16bffa9a1c22ac84ed14311ea01d0ce597bc98d2",
+          "after_sha256": "9592ce51c2bac518006b7110451c9406be605495104e0694aa7900be9adf2eaf",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 5,
+              "old": "                    IconButton(onClose, Modifier.size(48.dp))",
+              "new": "                    if (!state.showSource) IconButton(onSource, Modifier.size(40.dp)) {\n                        Icon(Icons.Outlined.Info, stringResource(R.string.gs_source_panel_details), Modifier.size(20.dp), tint = SourceInk)\n                    }\n                    IconButton(onClose, Modifier.size(48.dp))",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-48fdc289-fefb-48b7-a5f4-ef9131c3a75f",
+            "item_index": 38,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "script_sha256": "650e49a368345941b6778d796c591be9edbb9e357e82620b82d432af1dab2cde",
+          "before_sha256": "9592ce51c2bac518006b7110451c9406be605495104e0694aa7900be9adf2eaf",
+          "after_sha256": "fb027d712d6c008d6d7ea580ff36ff7c0342e5c350afd846ef65556cd08e98e4",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "Switch(layer.visible, visibility, enabled = visibility != null,",
+              "new": "Switch(layer.visible, visibility ?: {}, enabled = visibility != null,",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-575ba698-7ccf-48e1-b245-e3f2cf8dfbb2",
+            "item_index": 52,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "script_sha256": "c3c950e362b39ca26476e620be17afae8f47e0641602b6a30ceb3e9f3119b543",
+          "before_sha256": "fb027d712d6c008d6d7ea580ff36ff7c0342e5c350afd846ef65556cd08e98e4",
+          "after_sha256": "1ecbad601e41409b60d81062bed8884fae4db764d24ba701fd38ba50d531e671",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "verticalArrangement = Arrangement.spacedBy(8.dp)) {\n                    if (!state.showSource",
+              "new": "verticalArrangement = Arrangement.spacedBy(4.dp)) {\n                    if (!state.showSource",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        }
+      ]
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+      "version_file": "source-panel-versions/01a1b675-e1db-7682-9339-2958cb48ad8c/exec-e4a3bebe-1597-4d7f-9812-6b16697ab2e8/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+      "sha256": "8fd37621d58613afc16ef7124ebecf96d377e6f8f6226850a9de651092a687bf",
+      "line_count": 250,
+      "bytes": 14282,
+      "classification": "full_read_exact_historical_sha_verified",
+      "provenance": {
+        "history_file": "maquettes-audit-batch4.json",
+        "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+        "item": "exec-e4a3bebe-1597-4d7f-9812-6b16697ab2e8",
+        "item_index": 108,
+        "turn_started_at": 1794062541,
+        "turn_completed_at": 1794064511
+      },
+      "chain": [
+        {
+          "kind": "complete_historical_source_read",
+          "provenance": {
+            "history_file": "maquettes-audit-batch4.json",
+            "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+            "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+            "item": "exec-e4a3bebe-1597-4d7f-9812-6b16697ab2e8",
+            "item_index": 108,
+            "turn_started_at": 1794062541,
+            "turn_completed_at": 1794064511
+          },
+          "command_cat_boundary_output_line_start": 74,
+          "command_next_file_output_line_start": 324,
+          "historical_base_sha256": "8fd37621d58613afc16ef7124ebecf96d377e6f8f6226850a9de651092a687bf"
+        }
+      ]
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+      "version_file": "source-panel-versions/01a1b675-e1db-7682-9339-2958cb48ad8c/exec-f2c90790-23ca-47b1-b92d-6c24cb6d080e/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+      "sha256": "30b86f7ec2f4ba759f612ed5fe29be22e638c70d442fd87a9b7548d0f89002e0",
+      "line_count": 251,
+      "bytes": 14255,
+      "classification": "full_reconstruction_from_observed_string_edits",
+      "provenance": {
+        "history_file": "maquettes-audit-batch4.json",
+        "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+        "item": "exec-f2c90790-23ca-47b1-b92d-6c24cb6d080e",
+        "item_index": 121,
+        "turn_started_at": 1794062541,
+        "turn_completed_at": 1794064511
+      },
+      "chain": [
+        {
+          "kind": "complete_historical_source_read",
+          "provenance": {
+            "history_file": "maquettes-audit-batch4.json",
+            "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+            "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+            "item": "exec-e4a3bebe-1597-4d7f-9812-6b16697ab2e8",
+            "item_index": 108,
+            "turn_started_at": 1794062541,
+            "turn_completed_at": 1794064511
+          },
+          "command_cat_boundary_output_line_start": 74,
+          "command_next_file_output_line_start": 324,
+          "historical_base_sha256": "8fd37621d58613afc16ef7124ebecf96d377e6f8f6226850a9de651092a687bf"
+        },
+        {
+          "kind": "whitelisted_observed_pure_string_ast",
+          "provenance": {
+            "history_file": "maquettes-audit-batch4.json",
+            "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+            "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+            "item": "exec-f2c90790-23ca-47b1-b92d-6c24cb6d080e",
+            "item_index": 121,
+            "turn_started_at": 1794062541,
+            "turn_completed_at": 1794064511
+          },
+          "script_sha256": "bbf90c14d26728225c2252057830a94276bac4f90cbcce39be18a5a57b825aa2",
+          "selected_ast_lines": [
+            39,
+            44
+          ],
+          "before_sha256": "8fd37621d58613afc16ef7124ebecf96d377e6f8f6226850a9de651092a687bf",
+          "after_sha256": "30b86f7ec2f4ba759f612ed5fe29be22e638c70d442fd87a9b7548d0f89002e0",
+          "historical_candidate_sha_matches": true,
+          "historical_script_executed": false
+        }
+      ]
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapCompactSlider.kt",
+      "version_file": "source-panel-versions/01a1b675-e1db-7682-9339-2958cb48ad8c/exec-f2c90790-23ca-47b1-b92d-6c24cb6d080e/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapCompactSlider.kt",
+      "sha256": "e754c1e8d1e748a92e78689cfa249fa45a93cc22c945f9d85f3658faa2abe43c",
+      "line_count": 60,
+      "bytes": 3116,
+      "classification": "full_reconstruction_from_observed_string_edits",
+      "provenance": {
+        "history_file": "maquettes-audit-batch4.json",
+        "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+        "item": "exec-f2c90790-23ca-47b1-b92d-6c24cb6d080e",
+        "item_index": 121,
+        "turn_started_at": 1794062541,
+        "turn_completed_at": 1794064511
+      },
+      "chain": [
+        {
+          "kind": "complete_observed_function_read_plus_literal_imports_and_literal_symbol_rename",
+          "function_read": {
+            "history_file": "maquettes-audit-batch4.json",
+            "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+            "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+            "item": "exec-e4a3bebe-1597-4d7f-9812-6b16697ab2e8",
+            "item_index": 108,
+            "turn_started_at": 1794062541,
+            "turn_completed_at": 1794064511
+          },
+          "function_source_file": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt",
+          "function_read_window_lines": [
+            538,
+            610
+          ],
+          "declaration": {
+            "history_file": "maquettes-audit-batch4.json",
+            "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+            "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+            "item": "exec-f2c90790-23ca-47b1-b92d-6c24cb6d080e",
+            "item_index": 121,
+            "turn_started_at": 1794062541,
+            "turn_completed_at": 1794064511
+          },
+          "historical_candidate_sha_matches": true,
+          "historical_script_executed": false
+        }
+      ]
+    },
+    {
+      "path": "cartography-ui/src/main/res/values/source_panel_strings.xml",
+      "version_file": "source-panel-versions/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-78688fbd-6650-4869-adef-a97df07ee766/cartography-ui/src/main/res/values/source_panel_strings.xml",
+      "sha256": "0fa6a1b989ec1f2698d8a7b0f98a71ac66e465c1278ba0dbdeee7c404471a7ce",
+      "line_count": 19,
+      "bytes": 1171,
+      "classification": "full_reconstruction_from_observed_string_edits",
+      "provenance": {
+        "history_file": "layers-attributes-batch13.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+        "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+        "item_index": 30,
+        "turn_started_at": 1794044069,
+        "turn_completed_at": 1794044604
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_declaration",
+          "entry": {
+            "path": "cartography-ui/src/main/res/values/source_panel_strings.xml",
+            "version_file": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/cartography-ui/src/main/res/values/source_panel_strings.xml",
+            "sha256": "b3e96145f7ef4a0e6117d886cef18cc3fd58c75f3bc4ce35894d958935c87ee7",
+            "classification": "full_literal_file_declaration_exact",
+            "bytes": 1111,
+            "line_count": 18,
+            "provenance": {
+              "history_file": "layers-attributes-batch13.json",
+              "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+              "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+              "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+              "item_index": 14,
+              "turn_started_at": 1794044069,
+              "turn_completed_at": 1794044604,
+              "shell_header_line": 219,
+              "shell_body_first_line": 220,
+              "shell_body_last_line": 237,
+              "quoted_delimiter": "EOF",
+              "command_truncated_after_complete_declaration": false,
+              "command_status": "completed",
+              "command_exit_code": 0
+            },
+            "observations": [
+              {
+                "history_file": "layers-attributes-batch13.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+                "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+                "item_index": 14,
+                "turn_started_at": 1794044069,
+                "turn_completed_at": 1794044604,
+                "shell_header_line": 219,
+                "shell_body_first_line": 220,
+                "shell_body_last_line": 237,
+                "quoted_delimiter": "EOF",
+                "command_truncated_after_complete_declaration": false,
+                "command_status": "completed",
+                "command_exit_code": 0
+              }
+            ],
+            "command_evidence": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/command-evidence.txt",
+            "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+          }
+        },
+        {
+          "kind": "literal_xml_append_in_observed_for_each",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+            "item_index": 30,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "observed_loop_targets": [
+            "cartography-ui/src/main/res/values/source_panel_strings.xml",
+            "cartography-ui/src/main/res/values-en/source_panel_strings.xml"
+          ],
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 8,
+              "old": "</resources>",
+              "new": "    <string name=\"gs_source_panel_percent\">%1$d %%</string>\n</resources>",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        }
+      ]
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/source_panel_strings.xml",
+      "version_file": "source-panel-versions/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-78688fbd-6650-4869-adef-a97df07ee766/cartography-ui/src/main/res/values-en/source_panel_strings.xml",
+      "sha256": "7ed5ba6a20678d0c28a76428becf5684199fa106f548bcf9d9d43cb86f635da3",
+      "line_count": 19,
+      "bytes": 1138,
+      "classification": "full_reconstruction_from_observed_string_edits",
+      "provenance": {
+        "history_file": "layers-attributes-batch13.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+        "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+        "item_index": 30,
+        "turn_started_at": 1794044069,
+        "turn_completed_at": 1794044604
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_declaration",
+          "entry": {
+            "path": "cartography-ui/src/main/res/values-en/source_panel_strings.xml",
+            "version_file": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/cartography-ui/src/main/res/values-en/source_panel_strings.xml",
+            "sha256": "9bdb09c2b4534b8d5aaec501ca6b37d209333047ce610c73f5965ef5108f524e",
+            "classification": "full_literal_file_declaration_exact",
+            "bytes": 1078,
+            "line_count": 18,
+            "provenance": {
+              "history_file": "layers-attributes-batch13.json",
+              "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+              "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+              "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+              "item_index": 14,
+              "turn_started_at": 1794044069,
+              "turn_completed_at": 1794044604,
+              "shell_header_line": 239,
+              "shell_body_first_line": 240,
+              "shell_body_last_line": 257,
+              "quoted_delimiter": "EOF",
+              "command_truncated_after_complete_declaration": false,
+              "command_status": "completed",
+              "command_exit_code": 0
+            },
+            "observations": [
+              {
+                "history_file": "layers-attributes-batch13.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+                "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+                "item_index": 14,
+                "turn_started_at": 1794044069,
+                "turn_completed_at": 1794044604,
+                "shell_header_line": 239,
+                "shell_body_first_line": 240,
+                "shell_body_last_line": 257,
+                "quoted_delimiter": "EOF",
+                "command_truncated_after_complete_declaration": false,
+                "command_status": "completed",
+                "command_exit_code": 0
+              }
+            ],
+            "command_evidence": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/command-evidence.txt",
+            "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+          }
+        },
+        {
+          "kind": "literal_xml_append_in_observed_for_each",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+            "item_index": 30,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "observed_loop_targets": [
+            "cartography-ui/src/main/res/values/source_panel_strings.xml",
+            "cartography-ui/src/main/res/values-en/source_panel_strings.xml"
+          ],
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 8,
+              "old": "</resources>",
+              "new": "    <string name=\"gs_source_panel_percent\">%1$d %%</string>\n</resources>",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        }
+      ]
+    }
+  ],
+  "heads": {
+    "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt": {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+      "version_file": "source-panel-versions/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-575ba698-7ccf-48e1-b245-e3f2cf8dfbb2/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+      "sha256": "39b3d84c0bbade7e11ff9645c38f58aa12822b4b8848979e40dbd43ca83e80d7",
+      "line_count": 117,
+      "bytes": 7363,
+      "classification": "full_reconstruction_from_observed_string_edits",
+      "provenance": {
+        "history_file": "layers-attributes-batch13.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+        "item": "exec-575ba698-7ccf-48e1-b245-e3f2cf8dfbb2",
+        "item_index": 52,
+        "turn_started_at": 1794044069,
+        "turn_completed_at": 1794044604
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_declaration",
+          "entry": {
+            "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+            "version_file": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-78688fbd-6650-4869-adef-a97df07ee766/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+            "sha256": "5fcb22f697a5585b68fe418f66ef5601a4de5ecde261c256b191b58e221882e7",
+            "classification": "full_literal_file_declaration_exact",
+            "bytes": 7369,
+            "line_count": 118,
+            "provenance": {
+              "history_file": "layers-attributes-batch13.json",
+              "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+              "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+              "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+              "item_index": 30,
+              "turn_started_at": 1794044069,
+              "turn_completed_at": 1794044604,
+              "shell_header_line": 1,
+              "shell_body_first_line": 2,
+              "shell_body_last_line": 119,
+              "quoted_delimiter": "EOF",
+              "command_truncated_after_complete_declaration": false,
+              "command_status": "completed",
+              "command_exit_code": 0
+            },
+            "observations": [
+              {
+                "history_file": "layers-attributes-batch13.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+                "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+                "item_index": 30,
+                "turn_started_at": 1794044069,
+                "turn_completed_at": 1794044604,
+                "shell_header_line": 1,
+                "shell_body_first_line": 2,
+                "shell_body_last_line": 119,
+                "quoted_delimiter": "EOF",
+                "command_truncated_after_complete_declaration": false,
+                "command_status": "completed",
+                "command_exit_code": 0
+              }
+            ],
+            "command_evidence": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-78688fbd-6650-4869-adef-a97df07ee766/command-evidence.txt",
+            "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+          }
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-431c8666-07af-46bb-a2f5-ed185dbf3b23",
+            "item_index": 36,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "script_sha256": "aa4ea7aabcff4d3bd02f3eaff4f2a2e131104d2596b4589ade6ee5ec90bde9dd",
+          "before_sha256": "5fcb22f697a5585b68fe418f66ef5601a4de5ecde261c256b191b58e221882e7",
+          "after_sha256": "b11e42631313a94104f5f0a579bff3f1e8678979454bcb1eb35911d28c0559ca",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "if (uri?.scheme != \"https\" || uri.host.isNullOrBlank() || uri.userInfo != null)",
+              "new": "if (uri == null || uri.scheme != \"https\" || uri.host.isNullOrBlank() || uri.userInfo != null)",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-575ba698-7ccf-48e1-b245-e3f2cf8dfbb2",
+            "item_index": 52,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "script_sha256": "c3c950e362b39ca26476e620be17afae8f47e0641602b6a30ceb3e9f3119b543",
+          "before_sha256": "b11e42631313a94104f5f0a579bff3f1e8678979454bcb1eb35911d28c0559ca",
+          "after_sha256": "39b3d84c0bbade7e11ff9645c38f58aa12822b4b8848979e40dbd43ca83e80d7",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 5,
+              "old": "            notes = listOf(stringResource(R.string.gs_source_mapbox_attribution)),\n            previewDetails = stringResource(R.string.map_catalog_mapbox_credit)",
+              "new": "            previewDetails = stringResource(R.string.gs_source_mapbox_attribution) + \"\\n\" + stringResource(R.string.map_catalog_mapbox_credit)",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        }
+      ]
+    },
+    "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt": {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+      "version_file": "source-panel-versions/01a1b675-e1db-7682-9339-2958cb48ad8c/exec-f2c90790-23ca-47b1-b92d-6c24cb6d080e/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+      "sha256": "30b86f7ec2f4ba759f612ed5fe29be22e638c70d442fd87a9b7548d0f89002e0",
+      "line_count": 251,
+      "bytes": 14255,
+      "classification": "full_reconstruction_from_observed_string_edits",
+      "provenance": {
+        "history_file": "maquettes-audit-batch4.json",
+        "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+        "item": "exec-f2c90790-23ca-47b1-b92d-6c24cb6d080e",
+        "item_index": 121,
+        "turn_started_at": 1794062541,
+        "turn_completed_at": 1794064511
+      },
+      "chain": [
+        {
+          "kind": "complete_historical_source_read",
+          "provenance": {
+            "history_file": "maquettes-audit-batch4.json",
+            "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+            "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+            "item": "exec-e4a3bebe-1597-4d7f-9812-6b16697ab2e8",
+            "item_index": 108,
+            "turn_started_at": 1794062541,
+            "turn_completed_at": 1794064511
+          },
+          "command_cat_boundary_output_line_start": 74,
+          "command_next_file_output_line_start": 324,
+          "historical_base_sha256": "8fd37621d58613afc16ef7124ebecf96d377e6f8f6226850a9de651092a687bf"
+        },
+        {
+          "kind": "whitelisted_observed_pure_string_ast",
+          "provenance": {
+            "history_file": "maquettes-audit-batch4.json",
+            "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+            "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+            "item": "exec-f2c90790-23ca-47b1-b92d-6c24cb6d080e",
+            "item_index": 121,
+            "turn_started_at": 1794062541,
+            "turn_completed_at": 1794064511
+          },
+          "script_sha256": "bbf90c14d26728225c2252057830a94276bac4f90cbcce39be18a5a57b825aa2",
+          "selected_ast_lines": [
+            39,
+            44
+          ],
+          "before_sha256": "8fd37621d58613afc16ef7124ebecf96d377e6f8f6226850a9de651092a687bf",
+          "after_sha256": "30b86f7ec2f4ba759f612ed5fe29be22e638c70d442fd87a9b7548d0f89002e0",
+          "historical_candidate_sha_matches": true,
+          "historical_script_executed": false
+        }
+      ]
+    },
+    "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapCompactSlider.kt": {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapCompactSlider.kt",
+      "version_file": "source-panel-versions/01a1b675-e1db-7682-9339-2958cb48ad8c/exec-f2c90790-23ca-47b1-b92d-6c24cb6d080e/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapCompactSlider.kt",
+      "sha256": "e754c1e8d1e748a92e78689cfa249fa45a93cc22c945f9d85f3658faa2abe43c",
+      "line_count": 60,
+      "bytes": 3116,
+      "classification": "full_reconstruction_from_observed_string_edits",
+      "provenance": {
+        "history_file": "maquettes-audit-batch4.json",
+        "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+        "item": "exec-f2c90790-23ca-47b1-b92d-6c24cb6d080e",
+        "item_index": 121,
+        "turn_started_at": 1794062541,
+        "turn_completed_at": 1794064511
+      },
+      "chain": [
+        {
+          "kind": "complete_observed_function_read_plus_literal_imports_and_literal_symbol_rename",
+          "function_read": {
+            "history_file": "maquettes-audit-batch4.json",
+            "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+            "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+            "item": "exec-e4a3bebe-1597-4d7f-9812-6b16697ab2e8",
+            "item_index": 108,
+            "turn_started_at": 1794062541,
+            "turn_completed_at": 1794064511
+          },
+          "function_source_file": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt",
+          "function_read_window_lines": [
+            538,
+            610
+          ],
+          "declaration": {
+            "history_file": "maquettes-audit-batch4.json",
+            "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+            "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+            "item": "exec-f2c90790-23ca-47b1-b92d-6c24cb6d080e",
+            "item_index": 121,
+            "turn_started_at": 1794062541,
+            "turn_completed_at": 1794064511
+          },
+          "historical_candidate_sha_matches": true,
+          "historical_script_executed": false
+        }
+      ]
+    },
+    "cartography-ui/src/main/res/values/source_panel_strings.xml": {
+      "path": "cartography-ui/src/main/res/values/source_panel_strings.xml",
+      "version_file": "source-panel-versions/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-78688fbd-6650-4869-adef-a97df07ee766/cartography-ui/src/main/res/values/source_panel_strings.xml",
+      "sha256": "0fa6a1b989ec1f2698d8a7b0f98a71ac66e465c1278ba0dbdeee7c404471a7ce",
+      "line_count": 19,
+      "bytes": 1171,
+      "classification": "full_reconstruction_from_observed_string_edits",
+      "provenance": {
+        "history_file": "layers-attributes-batch13.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+        "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+        "item_index": 30,
+        "turn_started_at": 1794044069,
+        "turn_completed_at": 1794044604
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_declaration",
+          "entry": {
+            "path": "cartography-ui/src/main/res/values/source_panel_strings.xml",
+            "version_file": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/cartography-ui/src/main/res/values/source_panel_strings.xml",
+            "sha256": "b3e96145f7ef4a0e6117d886cef18cc3fd58c75f3bc4ce35894d958935c87ee7",
+            "classification": "full_literal_file_declaration_exact",
+            "bytes": 1111,
+            "line_count": 18,
+            "provenance": {
+              "history_file": "layers-attributes-batch13.json",
+              "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+              "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+              "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+              "item_index": 14,
+              "turn_started_at": 1794044069,
+              "turn_completed_at": 1794044604,
+              "shell_header_line": 219,
+              "shell_body_first_line": 220,
+              "shell_body_last_line": 237,
+              "quoted_delimiter": "EOF",
+              "command_truncated_after_complete_declaration": false,
+              "command_status": "completed",
+              "command_exit_code": 0
+            },
+            "observations": [
+              {
+                "history_file": "layers-attributes-batch13.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+                "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+                "item_index": 14,
+                "turn_started_at": 1794044069,
+                "turn_completed_at": 1794044604,
+                "shell_header_line": 219,
+                "shell_body_first_line": 220,
+                "shell_body_last_line": 237,
+                "quoted_delimiter": "EOF",
+                "command_truncated_after_complete_declaration": false,
+                "command_status": "completed",
+                "command_exit_code": 0
+              }
+            ],
+            "command_evidence": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/command-evidence.txt",
+            "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+          }
+        },
+        {
+          "kind": "literal_xml_append_in_observed_for_each",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+            "item_index": 30,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "observed_loop_targets": [
+            "cartography-ui/src/main/res/values/source_panel_strings.xml",
+            "cartography-ui/src/main/res/values-en/source_panel_strings.xml"
+          ],
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 8,
+              "old": "</resources>",
+              "new": "    <string name=\"gs_source_panel_percent\">%1$d %%</string>\n</resources>",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        }
+      ]
+    },
+    "cartography-ui/src/main/res/values-en/source_panel_strings.xml": {
+      "path": "cartography-ui/src/main/res/values-en/source_panel_strings.xml",
+      "version_file": "source-panel-versions/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-78688fbd-6650-4869-adef-a97df07ee766/cartography-ui/src/main/res/values-en/source_panel_strings.xml",
+      "sha256": "7ed5ba6a20678d0c28a76428becf5684199fa106f548bcf9d9d43cb86f635da3",
+      "line_count": 19,
+      "bytes": 1138,
+      "classification": "full_reconstruction_from_observed_string_edits",
+      "provenance": {
+        "history_file": "layers-attributes-batch13.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+        "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+        "item_index": 30,
+        "turn_started_at": 1794044069,
+        "turn_completed_at": 1794044604
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_declaration",
+          "entry": {
+            "path": "cartography-ui/src/main/res/values-en/source_panel_strings.xml",
+            "version_file": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/cartography-ui/src/main/res/values-en/source_panel_strings.xml",
+            "sha256": "9bdb09c2b4534b8d5aaec501ca6b37d209333047ce610c73f5965ef5108f524e",
+            "classification": "full_literal_file_declaration_exact",
+            "bytes": 1078,
+            "line_count": 18,
+            "provenance": {
+              "history_file": "layers-attributes-batch13.json",
+              "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+              "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+              "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+              "item_index": 14,
+              "turn_started_at": 1794044069,
+              "turn_completed_at": 1794044604,
+              "shell_header_line": 239,
+              "shell_body_first_line": 240,
+              "shell_body_last_line": 257,
+              "quoted_delimiter": "EOF",
+              "command_truncated_after_complete_declaration": false,
+              "command_status": "completed",
+              "command_exit_code": 0
+            },
+            "observations": [
+              {
+                "history_file": "layers-attributes-batch13.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+                "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+                "item_index": 14,
+                "turn_started_at": 1794044069,
+                "turn_completed_at": 1794044604,
+                "shell_header_line": 239,
+                "shell_body_first_line": 240,
+                "shell_body_last_line": 257,
+                "quoted_delimiter": "EOF",
+                "command_truncated_after_complete_declaration": false,
+                "command_status": "completed",
+                "command_exit_code": 0
+              }
+            ],
+            "command_evidence": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/command-evidence.txt",
+            "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+          }
+        },
+        {
+          "kind": "literal_xml_append_in_observed_for_each",
+          "provenance": {
+            "history_file": "layers-attributes-batch13.json",
+            "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+            "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+            "item_index": 30,
+            "turn_started_at": 1794044069,
+            "turn_completed_at": 1794044604
+          },
+          "observed_loop_targets": [
+            "cartography-ui/src/main/res/values/source_panel_strings.xml",
+            "cartography-ui/src/main/res/values-en/source_panel_strings.xml"
+          ],
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 8,
+              "old": "</resources>",
+              "new": "    <string name=\"gs_source_panel_percent\">%1$d %%</string>\n</resources>",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        }
+      ]
+    }
+  },
+  "checks": [
+    {
+      "kind": "exact_historical_read_match",
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+      "source_sha256": "39b3d84c0bbade7e11ff9645c38f58aa12822b4b8848979e40dbd43ca83e80d7",
+      "source_lines": [
+        1,
+        80
+      ],
+      "provenance": {
+        "history_file": "layers-attributes-batch12.json",
+        "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turn": "01a1b5b3-137f-720f-afe8-32bec9f81829",
+        "item": "exec-4fc752ac-0ef0-4d46-8a6b-8029f5f19ff1",
+        "item_index": 49,
+        "turn_started_at": 1794049774,
+        "turn_completed_at": 1794050382
+      }
+    }
+  ],
+  "recovered_diffs": [
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+      "diff_file": "recovered-source-panel-diffs/exec-e4894e8d-1e40-4671-8b2a-4bd9ee85012e.diff",
+      "diff_sha256": "fbbc8bf9d25eaef0999a5815d098dd8626d69e6e0b7604f541ab23b97eae9b9e",
+      "provenance": {
+        "history_file": "root0002-full250.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+        "item": "exec-e4894e8d-1e40-4671-8b2a-4bd9ee85012e",
+        "item_index": 1437,
+        "turn_started_at": 1794041256,
+        "turn_completed_at": 1794075423
+      },
+      "classification": "full_diff_reconstructed_from_exact_before_and_after_sources",
+      "before_source": {
+        "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+        "version_file": "source-panel-versions/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-575ba698-7ccf-48e1-b245-e3f2cf8dfbb2/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+        "sha256": "1ecbad601e41409b60d81062bed8884fae4db764d24ba701fd38ba50d531e671",
+        "line_count": 219,
+        "bytes": 12817,
+        "classification": "full_reconstruction_from_observed_string_edits",
+        "provenance": {
+          "history_file": "layers-attributes-batch13.json",
+          "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+          "item": "exec-575ba698-7ccf-48e1-b245-e3f2cf8dfbb2",
+          "item_index": 52,
+          "turn_started_at": 1794044069,
+          "turn_completed_at": 1794044604
+        },
+        "chain": [
+          {
+            "kind": "complete_literal_declaration",
+            "entry": {
+              "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+              "version_file": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/source/MapLayerSourcePanel.kt",
+              "sha256": "de5236c7f8a4c4cc4da2388aabc5824cfcc0bda2c5d00702eae1a74ed49829cf",
+              "classification": "full_literal_file_declaration_exact",
+              "bytes": 12407,
+              "line_count": 215,
+              "provenance": {
+                "history_file": "layers-attributes-batch13.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+                "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+                "item_index": 14,
+                "turn_started_at": 1794044069,
+                "turn_completed_at": 1794044604,
+                "shell_header_line": 2,
+                "shell_body_first_line": 3,
+                "shell_body_last_line": 217,
+                "quoted_delimiter": "EOF",
+                "command_truncated_after_complete_declaration": false,
+                "command_status": "completed",
+                "command_exit_code": 0
+              },
+              "observations": [
+                {
+                  "history_file": "layers-attributes-batch13.json",
+                  "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                  "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+                  "item": "exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36",
+                  "item_index": 14,
+                  "turn_started_at": 1794044069,
+                  "turn_completed_at": 1794044604,
+                  "shell_header_line": 2,
+                  "shell_body_first_line": 3,
+                  "shell_body_last_line": 217,
+                  "quoted_delimiter": "EOF",
+                  "command_truncated_after_complete_declaration": false,
+                  "command_status": "completed",
+                  "command_exit_code": 0
+                }
+              ],
+              "command_evidence": "complete-ui-heredocs/01a1b53b-4c1b-727e-aad6-51364e8ba05e/01a1b55c-043a-71e4-b802-b46e361c6d81/exec-fc8ce80b-3329-4cf8-a999-0c86a49a8d36/command-evidence.txt",
+              "limitation": "Complete literal declaration with quoted delimiter and observed closing delimiter. Historical shell is never executed. Other edits to this file must be reconciled separately."
+            }
+          },
+          {
+            "kind": "whitelisted_observed_string_ast",
+            "provenance": {
+              "history_file": "layers-attributes-batch13.json",
+              "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+              "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+              "item": "exec-78688fbd-6650-4869-adef-a97df07ee766",
+              "item_index": 30,
+              "turn_started_at": 1794044069,
+              "turn_completed_at": 1794044604
+            },
+            "script_sha256": "70dfbddc6b3fb452d4ec3d0a7d4a5a0518341c80ce6dc5573904a353c726acd4",
+            "before_sha256": "de5236c7f8a4c4cc4da2388aabc5824cfcc0bda2c5d00702eae1a74ed49829cf",
+            "after_sha256": "ccea45ad96ef1a6337eb936d16bffa9a1c22ac84ed14311ea01d0ce597bc98d2",
+            "operations": [
+              {
+                "kind": "literal_replace",
+                "script_line": 2,
+                "old": "\"${(it * 100).toInt()} %\"",
+                "new": "stringResource(R.string.gs_source_panel_percent, (it * 100).toInt())",
+                "matching_occurrences_before": 1,
+                "count_argument": null
+              },
+              {
+                "kind": "literal_replace",
+                "script_line": 3,
+                "old": "            ?.let { Color(0xFF000000 or it) } ?: SourceMuted\n        Surface(Modifier.size(30.dp, 18.dp), shape = RoundedCornerShape(2.dp), color = Color.Transparent, border = BorderStroke(2.dp, color)) {}",
+                "new": "            ?.let { Color(0xFF000000 or it) }\n        if (color != null) Surface(Modifier.size(30.dp, 18.dp), shape = RoundedCornerShape(2.dp), color = Color.Transparent, border = BorderStroke(2.dp, color)) {}\n        else Text(stringResource(R.string.gs_source_panel_unknown), color = SourceMuted, fontSize = 11.sp)",
+                "matching_occurrences_before": 1,
+                "count_argument": null
+              }
+            ],
+            "historical_script_executed": false
+          },
+          {
+            "kind": "whitelisted_observed_string_ast",
+            "provenance": {
+              "history_file": "layers-attributes-batch13.json",
+              "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+              "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+              "item": "exec-431c8666-07af-46bb-a2f5-ed185dbf3b23",
+              "item_index": 36,
+              "turn_started_at": 1794044069,
+              "turn_completed_at": 1794044604
+            },
+            "script_sha256": "aa4ea7aabcff4d3bd02f3eaff4f2a2e131104d2596b4589ade6ee5ec90bde9dd",
+            "before_sha256": "ccea45ad96ef1a6337eb936d16bffa9a1c22ac84ed14311ea01d0ce597bc98d2",
+            "after_sha256": "9592ce51c2bac518006b7110451c9406be605495104e0694aa7900be9adf2eaf",
+            "operations": [
+              {
+                "kind": "literal_replace",
+                "script_line": 5,
+                "old": "                    IconButton(onClose, Modifier.size(48.dp))",
+                "new": "                    if (!state.showSource) IconButton(onSource, Modifier.size(40.dp)) {\n                        Icon(Icons.Outlined.Info, stringResource(R.string.gs_source_panel_details), Modifier.size(20.dp), tint = SourceInk)\n                    }\n                    IconButton(onClose, Modifier.size(48.dp))",
+                "matching_occurrences_before": 1,
+                "count_argument": null
+              }
+            ],
+            "historical_script_executed": false
+          },
+          {
+            "kind": "whitelisted_observed_string_ast",
+            "provenance": {
+              "history_file": "layers-attributes-batch13.json",
+              "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+              "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+              "item": "exec-48fdc289-fefb-48b7-a5f4-ef9131c3a75f",
+              "item_index": 38,
+              "turn_started_at": 1794044069,
+              "turn_completed_at": 1794044604
+            },
+            "script_sha256": "650e49a368345941b6778d796c591be9edbb9e357e82620b82d432af1dab2cde",
+            "before_sha256": "9592ce51c2bac518006b7110451c9406be605495104e0694aa7900be9adf2eaf",
+            "after_sha256": "fb027d712d6c008d6d7ea580ff36ff7c0342e5c350afd846ef65556cd08e98e4",
+            "operations": [
+              {
+                "kind": "literal_replace",
+                "script_line": 2,
+                "old": "Switch(layer.visible, visibility, enabled = visibility != null,",
+                "new": "Switch(layer.visible, visibility ?: {}, enabled = visibility != null,",
+                "matching_occurrences_before": 1,
+                "count_argument": null
+              }
+            ],
+            "historical_script_executed": false
+          },
+          {
+            "kind": "whitelisted_observed_string_ast",
+            "provenance": {
+              "history_file": "layers-attributes-batch13.json",
+              "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+              "turn": "01a1b55c-043a-71e4-b802-b46e361c6d81",
+              "item": "exec-575ba698-7ccf-48e1-b245-e3f2cf8dfbb2",
+              "item_index": 52,
+              "turn_started_at": 1794044069,
+              "turn_completed_at": 1794044604
+            },
+            "script_sha256": "c3c950e362b39ca26476e620be17afae8f47e0641602b6a30ceb3e9f3119b543",
+            "before_sha256": "fb027d712d6c008d6d7ea580ff36ff7c0342e5c350afd846ef65556cd08e98e4",
+            "after_sha256": "1ecbad601e41409b60d81062bed8884fae4db764d24ba701fd38ba50d531e671",
+            "operations": [
+              {
+                "kind": "literal_replace",
+                "script_line": 2,
+                "old": "verticalArrangement = Arrangement.spacedBy(8.dp)) {\n                    if (!state.showSource",
+                "new": "verticalArrangement = Arrangement.spacedBy(4.dp)) {\n                    if (!state.showSource",
+                "matching_occurrences_before": 1,
+                "count_argument": null
+              }
+            ],
+            "historical_script_executed": false
+          }
+        ]
+      },
+      "after_source_sha256": "8fd37621d58613afc16ef7124ebecf96d377e6f8f6226850a9de651092a687bf",
+      "full_original_length_matches": true,
+      "prefix_matches": true,
+      "original_chars": 2966
+    }
+  ],
+  "production_application_witness": {
+    "snapshot": {
+      "history_file": "maquettes-audit-earlier.json",
+      "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+      "turn": "01a1b6f1-9033-7581-8fb0-44be73651959",
+      "item": "exec-e83fc9d2-417f-4afb-91dd-748f2daa4dea",
+      "item_index": 8,
+      "turn_started_at": 1794070647,
+      "turn_completed_at": 1794071884
+    },
+    "snapshot_names_patch_sha256": "5ce6ab578c7ffa9c32fe91e156f2a1b39bf702c7d4e0badb638bb411f34fe986",
+    "adoption": {
+      "history_file": "integration-validation-full500.json",
+      "thread": "01a1b639-64d0-7090-b99a-0ee0fe0b0074",
+      "turn": "01a1b639-6a9d-74b1-95f5-0812d8decf81",
+      "item": "exec-f43c9c08-f466-48ce-b86f-243a5d962ff9",
+      "item_index": 1326,
+      "turn_started_at": 1794058578,
+      "turn_completed_at": 1794075445
+    },
+    "adoption_exit_code": 0,
+    "adoption_output": "Reviewed 27 drafts / 65 paths; all20 native families ended.\nReviewed batch11 adopted and source snapshot frozen. No Gradle or Android action performed.\n"
+  },
+  "failure": null,
+  "unrecovered_resources": [
+    "cartography-ui/src/main/res/values/source_panel_help.xml",
+    "cartography-ui/src/main/res/values-en/source_panel_help.xml"
+  ],
+  "dependency_gaps": [
+    "MapCompactSlider requires the module-internal MapUiTokens visibility from the full MapWorkspace11 candidate. Its complete source is still being recovered."
+  ],
+  "limitation": "New SourceDetails host and full SourcePanel/slider bytes are exact. Help XML remains incomplete. No historical shell or Python ran; only whitelisted string edits were interpreted."
+}

@@ -1,0 +1,146 @@
+        revision = 0
+        originId = original.id
+        mutable.update { it.copy(selected = null, snapshot = requireNotNull(recorder).snapshot(nanoTime()),
+            name = original.name.orEmpty(), screen = TraceScreen.SAVE, issue = null) }
+        persist(requireNotNull(recorder).snapshot(nanoTime()))
+    }
+    fun details() = launchLocked { if (ready() && state.value.snapshot != null) mutable.update { it.copy(screen = TraceScreen.DETAILS) } }
+    fun backDetails() = launchLocked { mutable.update { it.copy(screen = if (it.selected?.saved == true) TraceScreen.SAVED else TraceScreen.REVIEW) } }
+    fun selectPortion(id: String) = launchLocked {
+        if (state.value.snapshot?.portions?.any { it.id == id } == true) mutable.update { it.copy(selectedPortionId = id) }
+    }
+
+    /** Called by the source with the exact token captured when its callback was installed. */
+    fun acceptLocation(token: TraceCaptureToken, location: Location) = launchLocked {
+        acceptFixLocked(token, toFix(location), location)
+    }
+    /** Internal deterministic boundary for source-contract tests; production uses Android Location. */
+    internal fun acceptFix(token: TraceCaptureToken, fix: TraceFix) = launchLocked {
+        acceptFixLocked(token, fix, null)
+    }
+    private suspend fun acceptFixLocked(token: TraceCaptureToken, fix: TraceFix, location: Location?) {
+        if (token != sourceToken || !ready()) return
+        val r = recorder ?: return
+        val now = nanoTime()
+        val result = r.accept(token, fix, now)
+        if (result !is TraceFixResult.Ignored && !persist(result.snapshot)) {
+            stopSource()
+            if (access == null) return
+            val stopped = r.stop(nanoTime())
+            mutable.update { it.copy(snapshot = stopped, screen = TraceScreen.REVIEW, issue = TraceRuntimeIssue.STORE) }
+        } else {
+            phone.value = if (location != null && (result is TraceFixResult.Accepted || result is TraceFixResult.Ignored && result.reason == TraceIgnoredReason.BELOW_MINIMUM_DISTANCE)) Location(location) else null
+            mutable.update { it.copy(snapshot = result.snapshot, nowNanos = now, issue = null) }
+        }
+    }
+    fun sourceUnavailable(token: TraceCaptureToken) = launchLocked {
+        if (token != sourceToken || !ready()) return@launchLocked
+        val result = recorder?.reportUnavailable(token, nanoTime()) ?: return@launchLocked
+        phone.value = null
+        mutable.update { it.copy(snapshot = result.snapshot) }
+        if (!persist(result.snapshot)) {
+            stopSource()
+            if (access != null) recorder?.let { r -> mutable.update { it.copy(snapshot = r.stop(nanoTime()), screen = TraceScreen.REVIEW, issue = TraceRuntimeIssue.STORE) } }
+        }
+    }
+    fun sourceStopped(token: TraceCaptureToken) = launchLocked {
+        if (token == sourceToken) sourceFailureLocked(token)
+    }
+    fun sourceIsCurrent(token: TraceCaptureToken): Boolean = sourceToken == token && access?.let(repository::isCurrent) == true
+    fun currentSourceToken(): TraceCaptureToken? = sourceToken?.takeIf(::sourceIsCurrent)
+    fun authorityIsCurrent(): Boolean = access?.let(repository::isCurrent) == true
+    fun needsLocationPermission(): Boolean = !source.permitted()
+    fun dismissIssue() = launchLocked { mutable.update { it.copy(issue = null) } }
+    fun refreshLibrary() = launchLocked { access?.let { refreshLibrary(it) } }
+
+    suspend fun exportPreview(id: String, expectedRevision: Long): CartographicStoreResult<String> = mutex.withLock {
+        val captured = access ?: return@withLock CartographicStoreResult.Failure(CartographicStoreError.ACCESS_CHANGED)
+        when (val read = repository.read(id, captured)) {
+            is CartographicStoreResult.Success -> if (read.value.saved && read.value.revision == expectedRevision)
+                CartographicStoreResult.Success(TraceGeoJsonExport.encode(read.value)) else CartographicStoreResult.Failure(CartographicStoreError.CONFLICT)
+            is CartographicStoreResult.Failure -> read
+        }
+    }
+
+    private suspend fun sourceFailureLocked(token: TraceCaptureToken) {
+        if (token != sourceToken) return
+        stopSource()
+        recorder?.let { r ->
+            val stopped = r.stop(nanoTime())
+            mutable.update { it.copy(snapshot = stopped, screen = TraceScreen.REVIEW, issue = TraceRuntimeIssue.INTERRUPTED) }
+            persist(stopped)
+        }
+    }
+    private fun stopSource() {
+        val token = sourceToken
+        sourceToken = null
+        phone.value = null
+        try { if (token != null) source.stop(token) }
+        finally { sourceClaim.value = false }
+    }
+    private suspend fun ready(): Boolean {
+        val captured = access ?: return false
+        if (!repository.isCurrent(captured)) { invalidate(); return false }
+        return state.value.authorised
+    }
+    private suspend fun persist(snapshot: TraceCaptureSnapshot): Boolean {
+        val captured = access ?: return false
+        val previousPending = pendingDraft
+        if (previousPending != null) {
+            when (val confirmed = repository.writeDraft(previousPending.second.sessionId, previousPending.first, previousPending.second, revision, originId, captured)) {
+                is CartographicStoreResult.Success -> { revision = confirmed.value.revision; pendingDraft = null }
+                is CartographicStoreResult.Failure -> {
+                    if (confirmed.reason in setOf(CartographicStoreError.ACCESS_CHANGED, CartographicStoreError.UNAVAILABLE)) invalidate()
+                    else mutable.update { it.copy(issue = TraceRuntimeIssue.STORE) }
+                    return false
+                }
+            }
+        }
+        val pending = state.value.name to snapshot
+        pendingDraft = pending
+        when (val stored = repository.writeDraft(snapshot.sessionId, pending.first, snapshot, revision, originId, captured)) {
+            is CartographicStoreResult.Success -> { revision = stored.value.revision; pendingDraft = null; return true }
+            is CartographicStoreResult.Failure -> {
+                if (stored.reason in setOf(CartographicStoreError.ACCESS_CHANGED, CartographicStoreError.UNAVAILABLE)) invalidate()
+                else mutable.update { it.copy(issue = TraceRuntimeIssue.STORE) }
+                return false
+            }
+        }
+    }
+    private suspend fun refreshLibrary(captured: CartographicMeasurementAccess) {
+        val result = repository.list(captured)
+        if (result is CartographicStoreResult.Success) mutable.update { it.copy(library = result.value) }
+    }
+    private fun invalidate() {
+        stopSource()
+        access = null
+        recorder = null
+        pendingSave = null
+        pendingDraft = null
+        revision = 0
+        originId = null
+        ++authorityGeneration
+        mutable.value = MapTraceState(scope = state.value.scope, visible = state.value.visible, issue = TraceRuntimeIssue.ACCESS)
+    }
+    private fun launchLocked(block: suspend () -> Unit) { work.launch { mutex.withLock { block() } } }
+    private fun toFix(location: Location): TraceFix {
+        @Suppress("DEPRECATION")
+        val mock = if (Build.VERSION.SDK_INT >= 31) location.isMock else location.isFromMockProvider
+        return TraceFix(location.latitude, location.longitude,
+            location.accuracy.toDouble().takeIf { location.hasAccuracy() }, location.elapsedRealtimeNanos,
+            TracePositionSource.PHONE_LOCATION, location.provider, location.time.takeIf { it > 0 },
+            location.altitude.takeIf { location.hasAltitude() }, mock, bootId)
+    }
+}
+
+data class MapTraceState(
+    val scope: MapDataScope? = null,
+    val visible: Boolean = false,
+    val authorised: Boolean = false,
+    val screen: TraceScreen = TraceScreen.PREPARATION,
+    val snapshot: TraceCaptureSnapshot? = null,
+    val selected: CartographicTraceDocument? = null,
+    val library: List<CartographicTraceDocument> = emptyList(),
+    val name: String = "",
+    val policy: TraceCapturePolicy = TraceCapturePolicy(10.0, 15_000_000_000L, 2.0, 20_000_000_000L),
+    val previewFix: TraceFix? = null,

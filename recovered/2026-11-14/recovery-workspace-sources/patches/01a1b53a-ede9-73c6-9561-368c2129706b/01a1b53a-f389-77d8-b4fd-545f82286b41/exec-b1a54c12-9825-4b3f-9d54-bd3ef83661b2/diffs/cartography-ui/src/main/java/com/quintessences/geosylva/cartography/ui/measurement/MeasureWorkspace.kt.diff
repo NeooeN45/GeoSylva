@@ -1,0 +1,7 @@
+@@ -68,4 +68,4 @@
+     val notifyCompass by rememberUpdatedState(onCompassTopChanged)
+-    LaunchedEffect(workspaceTop, workspaceHeight, panelTop, density) {
+-        if (workspaceTop.isFinite() && panelTop.isFinite() && workspaceHeight > 0f) {
++    LaunchedEffect(workspaceTop, workspaceHeight, panelTop, density, state.panelVisible) {
++        if (state.panelVisible && workspaceTop.isFinite() && panelTop.isFinite() && workspaceHeight > 0f) {
+             notifyPanel(with(density) { (workspaceTop + workspaceHeight - panelTop).coerceAtLeast(0f).toDp() })

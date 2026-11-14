@@ -1,0 +1,13 @@
+@@ -390,2 +390,3 @@
+         localVectorMode, renderedStyle.demSourceUrl != null, overlayFailed)
++    var compassTop by remember { mutableStateOf(156.dp) }
+     val workspaceState = MapWorkspaceState(
+@@ -475,2 +476,3 @@
+     MapWorkspace(state = workspaceState, actions = workspaceActions, modifier = modifier,
++        onCompassTopChanged = { compassTop = it },
+         thumbnail = { preview, thumbnailModifier -> MapCatalogThumbnail(preview, thumbnailModifier) }) {
+@@ -489,3 +491,3 @@
+                     relief = requestedRelief.copy(enabled = renderedStyle.demSourceUrl != null),
+-                    contentPadding = PaddingValues(start = 12.dp, top = 156.dp, end = 12.dp, bottom = ornamentsBottom),
++                    contentPadding = PaddingValues(start = 12.dp, top = compassTop, end = 12.dp, bottom = ornamentsBottom),
+                     modifier = Modifier.fillMaxSize().pointerInput(mapScope) {

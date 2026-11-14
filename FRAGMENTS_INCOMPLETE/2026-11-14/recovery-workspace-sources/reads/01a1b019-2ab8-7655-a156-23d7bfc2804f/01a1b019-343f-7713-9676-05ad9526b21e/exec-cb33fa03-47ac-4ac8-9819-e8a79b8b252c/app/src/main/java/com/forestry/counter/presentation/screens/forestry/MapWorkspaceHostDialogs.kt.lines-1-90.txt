@@ -1,0 +1,90 @@
+package com.forestry.counter.presentation.screens.forestry
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.CloudDownload
+import androidx.compose.material.icons.filled.Forest
+import androidx.compose.material.icons.filled.GpsFixed
+import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Straighten
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.forestry.counter.R
+import com.forestry.counter.data.maps.PublicMapsRepository
+import com.forestry.counter.domain.maps.MapsFailure
+import com.forestry.counter.domain.maps.MapsPlace
+import com.forestry.counter.domain.maps.MapsRepository
+import com.forestry.counter.domain.maps.MapsServiceException
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+
+/** Public address search, started only by the user's search action. No field data is sent. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun MapWorkspacePlaceSearch(
+    onDismiss: () -> Unit,
+    onSelect: (MapsPlace) -> Unit,
+    repository: MapsRepository? = null,
+) {
+    val source = remember(repository) { repository ?: PublicMapsRepository() }
+    val scope = rememberCoroutineScope()
+    val keyboard = LocalSoftwareKeyboardController.current
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+    var query by rememberSaveable { mutableStateOf("") }
+    var requestVersion by remember { mutableIntStateOf(0) }
+    var searchJob by remember { mutableStateOf<Job?>(null) }
+    var searching by remember { mutableStateOf(false) }
+    var searched by remember { mutableStateOf(false) }
+    var results by remember { mutableStateOf<List<MapsPlace>>(emptyList()) }
+    var failure by remember { mutableStateOf<MapsFailure?>(null) }
+
+    fun cancelSearch() {

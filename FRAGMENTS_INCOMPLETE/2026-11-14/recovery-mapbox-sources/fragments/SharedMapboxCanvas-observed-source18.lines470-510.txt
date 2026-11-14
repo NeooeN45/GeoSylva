@@ -1,0 +1,41 @@
+
+    fun observeCameraCommand() {
+        val map = sdkMap ?: return
+        if (!alive) return
+        val actual = map.cameraState.toMapCameraPosition()
+        val fit = cameraGate.fitObservationCandidate()
+        val frame = currentFrameCommand
+        val view = sdkMapView
+        var fitProjectionVerified = false
+        val window = issuedFrameFitWindow
+        if (fit != null && frame?.id == fit.id && view != null && window != null && window.ticket === fit &&
+            window.stillCurrent() && fit.target?.let { cameraMatches(it, actual) } == true) {
+            // Collect every point, including censored projections; never short-circuit on the first failure.
+            val pixels = frame.coordinates.map { coordinate ->
+                val pixel = map.pixelForCoordinate(Point.fromLngLat(coordinate.longitude, coordinate.latitude))
+                MapFitPixel(pixel.x, pixel.y)
+            }
+            if (cameraMatches(actual, map.cameraState.toMapCameraPosition()) &&
+                cameraGate.fitObservationCandidate() === fit && window.stillCurrent()) {
+                when (val decision = window.refinement.observe(actual, pixels, SystemClock.uptimeMillis())) {
+                    MapFitDecision.Verified -> fitProjectionVerified = true
+                    is MapFitDecision.Retry -> window.propose(decision.attempt)
+                    is MapFitDecision.Failed -> window.reject(decision.reason)
+                    MapFitDecision.Waiting -> Unit
+                }
+            }
+        }
+        val ticket = cameraGate.observe(actual, fitProjectionVerified) ?: return
+        if (ticket.kind == MapCameraCommandKind.FIT) {
+            issuedFrameFitWindow?.close()
+            issuedFrameFitWindow = null
+        }
+        cameraEvent(ticket, MapCameraCommandStage.OBSERVED, actual)
+        publishObservedCamera()
+        when (ticket.kind) {
+            MapCameraCommandKind.POINT -> consumedCallback(ticket.id)
+            MapCameraCommandKind.FIT -> frameConsumedCallback(ticket.id)
+        }
+    }
+
+    fun cameraUserGesture() {

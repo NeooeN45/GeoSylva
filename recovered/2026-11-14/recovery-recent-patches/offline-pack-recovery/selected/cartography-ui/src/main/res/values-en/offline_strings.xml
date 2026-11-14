@@ -1,0 +1,10 @@
+<resources>
+    <string name="gs_offline_back">Back</string>
+    <string name="gs_offline_search">Search territories</string>
+    <string name="gs_offline_library">My packs</string>
+    <string name="gs_offline_name">Area name</string>
+    <string name="gs_offline_satellite">Mapbox satellite map</string>
+    <string name="gs_offline_relief">3D terrain</string>
+    <string name="gs_offline_zooms">Detail levels: zoom %1$d to %2$d</string>
+    <string name="gs_offline_estimate">Estimate</string>
+</resources>

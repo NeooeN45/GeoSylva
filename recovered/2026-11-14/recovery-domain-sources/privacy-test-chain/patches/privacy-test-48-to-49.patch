@@ -1,0 +1,34 @@
+diff --git a/app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt b/app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt
+--- a/app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt
++++ b/app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt
+@@ -57,6 +57,9 @@
+     private val woodDepotDao = mockk<com.forestry.counter.data.local.dao.WoodDepotDao>(relaxed = true)
+     private val fieldDao = mockk<com.forestry.counter.data.local.dao.FieldDao>(relaxed = true)
+     private val cartographicMeasurementDao = mockk<com.forestry.counter.data.local.dao.CartographicMeasurementDao>(relaxed = true)
++    private val cartographicLayerDao = mockk<com.forestry.counter.data.local.dao.CartographicLayerDao>(relaxed = true)
++    private val cartographicTraceDao = mockk<com.forestry.counter.data.local.dao.CartographicTraceDao>(relaxed = true)
++    private val offlineMapPackDao = mockk<com.forestry.counter.data.local.dao.OfflineMapPackDao>(relaxed = true)
+     private var heightCapturePurgeCount = 0
+ 
+     init {
+@@ -88,6 +91,9 @@
+         woodDataGate = com.forestry.counter.data.repository.WoodDataAccessGate(),
+         fieldDao = fieldDao,
+         cartographicMeasurementDao = cartographicMeasurementDao,
++        cartographicLayerDao = cartographicLayerDao,
++        cartographicTraceDao = cartographicTraceDao,
++        offlineMapPackDao = offlineMapPackDao,
+         clearHeightReferenceCaptures = { heightCapturePurgeCount++ },
+     )
+ 
+@@ -112,6 +118,10 @@
+         coVerify(exactly = 1) { fieldDao.deleteEntries() }
+         coVerify(exactly = 1) { fieldDao.deleteLinks() }
+         coVerify(exactly = 1) { fieldDao.deleteSites() }
++        coVerify(exactly = 1) { cartographicLayerDao.deleteAllOperations() }
++        coVerify(exactly = 1) { cartographicLayerDao.deleteAll() }
++        coVerify(exactly = 1) { cartographicTraceDao.deleteAll() }
++        coVerify(exactly = 1) { offlineMapPackDao.deleteAll() }
+         coVerify(exactly = 1) { cartographicMeasurementDao.deleteAll() }
+         coVerify(exactly = 1) { cartographicMeasurementDao.deleteStoreIdentity() }
+         // Les 11 entités cœur métier (Vague C) : suppression physique via hardDeleteAll.

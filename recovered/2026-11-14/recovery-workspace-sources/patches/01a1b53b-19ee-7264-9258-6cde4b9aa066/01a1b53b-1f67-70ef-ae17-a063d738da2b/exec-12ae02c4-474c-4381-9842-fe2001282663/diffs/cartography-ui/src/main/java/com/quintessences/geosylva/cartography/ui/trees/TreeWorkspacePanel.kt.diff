@@ -1,0 +1,27 @@
+@@ -179,2 +179,3 @@
+         if (guidance.relativeBearingDeg == null) {
++            Chip(stringResource(R.string.gs_tree_gps_fresh))
+             StatusCard(compassLabel(guidance.heading), stringResource(R.string.gs_tree_direction_hidden), TreeHelp.COMPASS, onAction)
+@@ -224,3 +225,3 @@
+     PanelTitle(stringResource(R.string.gs_tree_species), TreeHelp.SPECIES, onAction)
+-    TextButton(onClick = { onAction(TreeWorkspaceAction.ShowAllSpecies) }, modifier = Modifier.alignEnd()) {
++    TextButton(onClick = { onAction(TreeWorkspaceAction.ShowAllSpecies) }, modifier = Modifier.fillMaxWidth()) {
+         Text(stringResource(R.string.gs_tree_show_all), color = TreeUi.secondary)
+@@ -269,3 +270,3 @@
+     Divider()
+-    FilterCounts(state, onAction)
++    FilterCounts(state)
+     TreeButton(stringResource(R.string.gs_tree_close)) { onAction(TreeWorkspaceAction.Close) }
+@@ -278,3 +279,3 @@
+     Divider()
+-    FilterCounts(state, onAction)
++    FilterCounts(state)
+     TreeButton(stringResource(R.string.gs_tree_disable_filter)) { onAction(TreeWorkspaceAction.SetAccuracyFilter(false)) }
+@@ -287,3 +288,3 @@
+ @Composable
+-private fun FilterCounts(state: TreeWorkspaceUiState, onAction: (TreeWorkspaceAction) -> Unit) {
++private fun FilterCounts(state: TreeWorkspaceUiState) {
+     Text(stringResource(R.string.gs_tree_selected_species), color = TreeUi.secondary, fontWeight = FontWeight.Medium)
+@@ -443,2 +444 @@
+ })
+-private fun Modifier.alignEnd(): Modifier = this.fillMaxWidth()

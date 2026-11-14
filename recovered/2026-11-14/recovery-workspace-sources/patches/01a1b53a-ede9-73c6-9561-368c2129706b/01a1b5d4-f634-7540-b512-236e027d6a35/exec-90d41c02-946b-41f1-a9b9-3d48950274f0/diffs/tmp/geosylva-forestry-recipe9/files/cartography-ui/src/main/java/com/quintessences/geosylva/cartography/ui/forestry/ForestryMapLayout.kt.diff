@@ -1,0 +1,24 @@
+@@ -33,2 +33,4 @@
+     map: @Composable (Modifier, Dp) -> Unit,
++    /** Optional action row kept outside the scrolling body and above system/keyboard insets. */
++    footer: (@Composable ColumnScope.() -> Unit)? = null,
+     panel: @Composable ColumnScope.() -> Unit,
+@@ -69,8 +71,12 @@
+                 shadowElevation = 6.dp) {
+-                Column(Modifier.fillMaxWidth().heightIn(max = panelLimit).navigationBarsPadding().imePadding()
+-                    .verticalScroll(rememberScrollState()).padding(horizontal = 18.dp, vertical = 12.dp),
+-                    verticalArrangement = Arrangement.spacedBy(8.dp)) {
+-                    Surface(Modifier.align(Alignment.CenterHorizontally).width(36.dp).height(4.dp),
+-                        shape = RoundedCornerShape(50), color = MaterialTheme.colorScheme.outlineVariant) {}
+-                    panel()
++                Column(Modifier.fillMaxWidth().heightIn(max = panelLimit).navigationBarsPadding().imePadding()) {
++                    Column(Modifier.fillMaxWidth().weight(1f, fill = false).verticalScroll(rememberScrollState())
++                        .padding(horizontal = 18.dp, vertical = 12.dp),
++                        verticalArrangement = Arrangement.spacedBy(8.dp)) {
++                        Surface(Modifier.align(Alignment.CenterHorizontally).width(36.dp).height(4.dp),
++                            shape = RoundedCornerShape(50), color = MaterialTheme.colorScheme.outlineVariant) {}
++                        panel()
++                    }
++                    if (footer != null) Column(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 8.dp),
++                        content = footer)
+                 }

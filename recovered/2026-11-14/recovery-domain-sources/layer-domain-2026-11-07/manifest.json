@@ -1,0 +1,790 @@
+{
+  "sources": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "sha256": "3472f1ce956e11cbe484664b45af6ad7aa41e81c89f2ec6e8df5b49bfac1c218",
+      "lines": 252,
+      "complete": false,
+      "artifact": "fragments/CartographicLayerRepositoryImpl.kt.fragment",
+      "provenance": [
+        "48-CartographicLayerRepositoryImpl.kt",
+        "61-CartographicLayerRepositoryImpl.kt",
+        "100-CartographicLayerRepositoryImpl.kt",
+        "155-CartographicLayerRepositoryImpl.kt",
+        "158-CartographicLayerRepositoryImpl.kt",
+        "166-CartographicLayerRepositoryImpl.kt"
+      ],
+      "missingSourceLines": [
+        209
+      ]
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "sha256": "bd8d753f0f61ebe0dae2690d8c8820e2c047154a35d50ad51e5ee601c525ed54",
+      "lines": 457,
+      "complete": true,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "provenance": [
+        "46-LayerImportStager.kt",
+        "79-LayerImportStager.kt",
+        "98-LayerImportStager.kt",
+        "103-LayerImportStager.kt",
+        "155-LayerImportStager.kt",
+        "158-LayerImportStager.kt",
+        "180-LayerImportStager.kt",
+        "188-LayerImportStager.kt",
+        "193-LayerImportStager.kt"
+      ],
+      "missingSourceLines": []
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "sha256": "682ad81eee440ea350dc1cba8e07f953e557237a49a10a2a0a230eb0684c63c3",
+      "lines": 147,
+      "complete": true,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "provenance": [
+        "35-CartographicLayer.kt",
+        "100-CartographicLayer.kt",
+        "110-CartographicLayer.kt",
+        "158-CartographicLayer.kt",
+        "166-CartographicLayer.kt",
+        "180-CartographicLayer.kt",
+        "193-CartographicLayer.kt"
+      ],
+      "missingSourceLines": []
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/repository/CartographicLayerRepository.kt",
+      "sha256": "84cd095bc097bce83e5df872a64710bebf026bc90320ac2f28604bd827805d46",
+      "lines": 38,
+      "complete": true,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/domain/repository/CartographicLayerRepository.kt",
+      "provenance": [
+        "35-CartographicLayerRepository.kt"
+      ],
+      "missingSourceLines": []
+    }
+  ],
+  "events": [
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-6784b151-819b-4eae-9d64-ddbf810851e4",
+      "itemIndex": 35,
+      "path": "app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "eventId": "35-CartographicLayer.kt",
+      "operation": "literal_heredoc",
+      "complete": true,
+      "redactionMarkers": 0,
+      "sha256": "e26600a68656766069387bd49a71c5f418b587ce5ed9df8092e490bbedc54127",
+      "artifact": "events/35-CartographicLayer.kt.literal"
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-6784b151-819b-4eae-9d64-ddbf810851e4",
+      "itemIndex": 35,
+      "path": "app/src/main/java/com/forestry/counter/domain/repository/CartographicLayerRepository.kt",
+      "eventId": "35-CartographicLayerRepository.kt",
+      "operation": "literal_heredoc",
+      "complete": true,
+      "redactionMarkers": 0,
+      "sha256": "84cd095bc097bce83e5df872a64710bebf026bc90320ac2f28604bd827805d46",
+      "artifact": "events/35-CartographicLayerRepository.kt.literal"
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-0a846e72-09cf-476e-8474-29b6a77b4df1",
+      "itemIndex": 46,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "eventId": "46-LayerImportStager.kt",
+      "operation": "literal_heredoc",
+      "complete": true,
+      "redactionMarkers": 0,
+      "sha256": "eb8d6733d78276027665700c0153f33e0093d63567eb1575fe5e377af9211d2f",
+      "artifact": "events/46-LayerImportStager.kt.literal"
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-7fddfc34-8688-4eaa-a766-68f58c478176",
+      "itemIndex": 48,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "eventId": "48-CartographicLayerRepositoryImpl.kt",
+      "operation": "literal_heredoc",
+      "complete": false,
+      "redactionMarkers": 3,
+      "sha256": "d2b985dfa5f335c8f718da0ee2629ef7ee9288873fd8234c9b1382d13182dce3",
+      "artifact": "events/48-CartographicLayerRepositoryImpl.kt.literal.fragment"
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-903a80d6-723d-4bad-9e91-faab412312a7",
+      "itemIndex": 61,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "eventId": "61-CartographicLayerRepositoryImpl.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "d2b985dfa5f335c8f718da0ee2629ef7ee9288873fd8234c9b1382d13182dce3",
+      "sha256": "2f1ad9b1ffc629a08181dda416a2cb3ad5ad5ca29d3feaddd022fdeeacdbf281",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "import kotlinx.coroutines.flow.Flow",
+          "new": "import kotlinx.coroutines.flow.Flow\nimport kotlinx.coroutines.flow.combine",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "override fun accessChanges(): Flow<Unit> = authority.accessChanges()",
+          "new": "override fun accessChanges(): Flow<Unit> = combine(authority.accessChanges(), dao.observeVersions()) { _, _ -> Unit }",
+          "matches": 1,
+          "count": null
+        }
+      ],
+      "artifact": "versions/61-CartographicLayerRepositoryImpl.kt/app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt.fragment",
+      "complete": false,
+      "redactionMarkers": 3,
+      "historicalCommandTruncated": true
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-3a25c856-166c-463f-814f-458b00799e90",
+      "itemIndex": 79,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "eventId": "79-LayerImportStager.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "eb8d6733d78276027665700c0153f33e0093d63567eb1575fe5e377af9211d2f",
+      "sha256": "b86d84dc9f280ce501ca9fe9ed924d18ee160aa7fdc3c9213919df51ec8e0540",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "            if (format == LayerImportFormat.KMZ) validateArchive(bytes)\n            if (format in setOf(LayerImportFormat.KML, LayerImportFormat.GPX)) validateXml(bytes)\n            val typedProperties = if (format == LayerImportFormat.GEOPACKAGE) geoPackageProperties(file) else null",
+          "new": "            if (format == LayerImportFormat.GEOJSON) validateJsonNesting(bytes)\n            val xmlProperties = when (format) {\n                LayerImportFormat.KMZ -> validateXml(validateArchive(bytes), LayerImportFormat.KML)\n                LayerImportFormat.KML, LayerImportFormat.GPX -> validateXml(bytes, format)\n                else -> null\n            }\n            val typedProperties = if (format == LayerImportFormat.GEOPACKAGE) geoPackageProperties(file) else null",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "            if (typedProperties != null && inputFeatures.size != typedProperties.first.size)",
+          "new": "            if (xmlProperties != null && inputFeatures.size != xmlProperties.size) layerFail(LayerStoreError.INVALID_GEOMETRY)\n            if (typedProperties != null && inputFeatures.size != typedProperties.first.size)",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "val properties = typedProperties?.first?.get(index) ?: feature[\"properties\"]",
+          "new": "val properties = typedProperties?.first?.get(index) ?: xmlProperties?.get(index) ?: feature[\"properties\"]",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "    private fun validateXml(bytes: ByteArray) {\n        val text = bytes.toString(Charsets.UTF_8)\n        if (Regex(\"<!\\\\s*(DOCTYPE|ENTITY)\", RegexOption.IGNORE_CASE).containsMatchIn(text)) layerFail(LayerStoreError.INVALID_INPUT)\n    }",
+          "new": "    private fun validateJsonNesting(bytes: ByteArray) {\n        var quoted = false\n        var escaped = false\n        var depth = 0\n        // ASCII structure also appears unchanged in UTF-16 except for zero bytes.\n        bytes.forEach { byte ->\n            val char = (byte.toInt() and 0xFF).toChar()\n            if (quoted) {\n                if (escaped) escaped = false else if (char == '\\\\') escaped = true else if (char == '\"') quoted = false\n            } else when (char) {\n                '\"' -> quoted = true\n                '{', '[' -> if (++depth > 32) layerFail(LayerStoreError.LIMIT_EXCEEDED)\n                '}', ']' -> if (--depth < 0) layerFail(LayerStoreError.INVALID_INPUT)\n            }\n        }\n    }\n\n    /** Validate every XML coordinate before the legacy extractor can omit it or substitute zero. */\n    private fun validateXml(bytes: ByteArray, format: LayerImportFormat): List<JsonObject> {\n        val text = Charsets.UTF_8.newDecoder().onMalformedInput(java.nio.charset.CodingErrorAction.REPORT)\n            .decode(java.nio.ByteBuffer.wrap(bytes)).toString()\n        if ('\\u0000' in text || Regex(\"<!\\\\s*(DOCTYPE|ENTITY)\", RegexOption.IGNORE_CASE).containsMatchIn(text)) layerFail(LayerStoreError.INVALID_INPUT)\n        val parser = android.util.Xml.newPullParser().apply {\n            setFeature(org.xmlpull.v1.XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)\n            setInput(java.io.StringReader(text))\n        }\n        val stack = mutableListOf<String>()\n        val properties = mutableListOf<JsonObject>()\n        val fields = mutableMapOf<String, JsonElement>()\n        val content = StringBuilder()\n        var geometryCount = 0\n        var coordinateCount = 0\n        var pointCount = 0\n        var segmentCount = 0\n        var geometry = \"\"\n        var section: String? = null\n        var totalPositions = 0\n        var event = parser.eventType\n        while (event != org.xmlpull.v1.XmlPullParser.END_DOCUMENT) {\n            when (event) {\n                org.xmlpull.v1.XmlPullParser.START_TAG -> {\n                    val tag = parser.name.substringAfterLast(':').lowercase()\n                    if (stack.size >= 32) layerFail(LayerStoreError.LIMIT_EXCEEDED)\n                    stack += tag; content.clear()\n                    if (format == LayerImportFormat.KML) {\n                        if (tag in setOf(\"multigeometry\", \"model\", \"track\", \"multitrack\", \"networklink\")) layerFail(LayerStoreError.UNSUPPORTED_FORMAT)\n                        if (tag == \"placemark\") {\n                            if (section != null) layerFail(LayerStoreError.INVALID_INPUT)\n                            section = tag; fields.clear(); geometryCount = 0; coordinateCount = 0\n                        }\n                        if (section != null && tag in setOf(\"point\", \"linestring\", \"polygon\")) { geometryCount++; geometry = tag }\n                    } else {\n                        if (tag in setOf(\"wpt\", \"trk\", \"rte\")) {\n                            if (section != null) layerFail(LayerStoreError.INVALID_INPUT)\n                            section = tag; fields.clear(); pointCount = 0; segmentCount = 0\n                        }\n                        if (tag == \"trkseg\") segmentCount++\n                        if (tag in setOf(\"wpt\", \"trkpt\", \"rtept\")) {\n                            val lat = parser.getAttributeValue(null, \"lat\")?.toDoubleOrNull() ?: layerFail(LayerStoreError.INVALID_GEOMETRY)\n                            val lon = parser.getAttributeValue(null, \"lon\")?.toDoubleOrNull() ?: layerFail(LayerStoreError.INVALID_GEOMETRY)\n                            GeoImportCoordinatePolicy.longitudeLatitude(lon, lat, 4326)\n                            pointCount++; totalPositions++\n                        }\n                    }\n                    if (totalPositions > 200_000) layerFail(LayerStoreError.LIMIT_EXCEEDED)\n                }\n                org.xmlpull.v1.XmlPullParser.TEXT, org.xmlpull.v1.XmlPullParser.CDSECT -> content.append(parser.text.orEmpty())\n                org.xmlpull.v1.XmlPullParser.END_TAG -> {\n                    val tag = stack.lastOrNull() ?: layerFail(LayerStoreError.INVALID_INPUT)\n                    val parent = stack.getOrNull(stack.lastIndex - 1)\n                    if (parent == section && tag in setOf(\"name\", \"description\", \"desc\")) fields[if (tag == \"desc\") \"description\" else tag] = JsonPrimitive(content.toString())\n                    if (tag == \"coordinates\" && format == LayerImportFormat.KML && section != null) {\n                        val tuples = content.toString().trim().split(Regex(\"\\\\s+\")).filter(String::isNotEmpty)\n                        if (geometry == \"point\" && tuples.size != 1 || geometry == \"linestring\" && tuples.size < 2 || geometry == \"polygon\" && tuples.size < 4) layerFail(LayerStoreError.INVALID_GEOMETRY)\n                        val coordinates = tuples.map { tuple ->\n                            val values = tuple.split(',').map { it.toDoubleOrNull()?.takeIf(Double::isFinite) ?: layerFail(LayerStoreError.INVALID_GEOMETRY) }\n                            if (values.size !in 2..3) layerFail(LayerStoreError.INVALID_GEOMETRY)\n                            GeoImportCoordinatePolicy.longitudeLatitude(values[0], values[1], 4326)\n                            values\n                        }\n                        if (geometry == \"polygon\" && coordinates.firstOrNull() != coordinates.lastOrNull()) layerFail(LayerStoreError.INVALID_GEOMETRY)\n                        totalPositions += coordinates.size; coordinateCount++\n                    }\n                    if (tag == \"ele\" && format == LayerImportFormat.GPX && content.toString().toDoubleOrNull()?.isFinite() != true) layerFail(LayerStoreError.INVALID_GEOMETRY)\n                    if (tag == section) {\n                        if (format == LayerImportFormat.KML) {\n                            if (geometryCount != 1 || coordinateCount < 1 || geometry != \"polygon\" && coordinateCount != 1) layerFail(LayerStoreError.INVALID_GEOMETRY)\n                        } else {\n                            if (tag != \"wpt\" && pointCount < 2) layerFail(LayerStoreError.INVALID_GEOMETRY)\n                            // The existing GPX parser joins segments. Refuse this unsupported case rather than inventing a bridge.\n                            if (tag == \"trk\" && segmentCount != 1) layerFail(LayerStoreError.UNSUPPORTED_FORMAT)\n                        }\n                        properties += JsonObject(fields.toMap()); section = null\n                        if (properties.size > MAX_FEATURES) layerFail(LayerStoreError.LIMIT_EXCEEDED)\n                    }\n                    if (totalPositions > 200_000) layerFail(LayerStoreError.LIMIT_EXCEEDED)\n                    stack.removeAt(stack.lastIndex); content.clear()\n                }\n            }\n            event = parser.next()\n        }\n        return properties\n    }",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "    private fun validateArchive(bytes: ByteArray) {",
+          "new": "    private fun validateArchive(bytes: ByteArray): ByteArray {\n        var kmlBytes: ByteArray? = null",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "if (kml) { kmlCount++; validateXml(requireNotNull(kmlOutput).toByteArray()) }",
+          "new": "if (kml) { kmlCount++; kmlBytes = requireNotNull(kmlOutput).toByteArray() }",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "        if (kmlCount != 1) layerFail(LayerStoreError.UNSAFE_ARCHIVE)\n    }",
+          "new": "        if (kmlCount != 1) layerFail(LayerStoreError.UNSAFE_ARCHIVE)\n        return kmlBytes ?: layerFail(LayerStoreError.UNSAFE_ARCHIVE)\n    }",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "                    tables += name to (c.getString(1) ?: name)",
+          "new": "                    db.rawQuery(\"SELECT type,sql FROM sqlite_master WHERE name=?\", arrayOf(name)).use { schema ->\n                        if (!schema.moveToFirst() || schema.getString(0) != \"table\" || schema.getString(1).contains(\"CREATE VIRTUAL\", true)) layerFail(LayerStoreError.INVALID_INPUT)\n                    }\n                    tables += name to (c.getString(1) ?: name)",
+          "matches": 1,
+          "count": null
+        }
+      ],
+      "artifact": "versions/79-LayerImportStager.kt/app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "complete": true,
+      "redactionMarkers": 0,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-38665d33-50b4-46c8-be46-77ebba51ab2e",
+      "itemIndex": 98,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "eventId": "98-LayerImportStager.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "b86d84dc9f280ce501ca9fe9ed924d18ee160aa7fdc3c9213919df51ec8e0540",
+      "sha256": "2affb29dd3e37f21fb1bd07926aa8d00fc4603585070880c37c2b22d0771e6f7",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "            val xmlProperties = when (format) {",
+          "new": "            val xmlMetadata = when (format) {",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "            val typedProperties = if (format == LayerImportFormat.GEOPACKAGE) geoPackageProperties(file) else null",
+          "new": "            val xmlProperties = xmlMetadata?.map { it.properties }\n            val typedProperties = if (format == LayerImportFormat.GEOPACKAGE) geoPackageProperties(file) else null",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "                parseCsv(bytes.toString(Charsets.UTF_8).removePrefix(\"\\uFEFF\"))\n            } else {",
+          "new": "                parseCsv(bytes.toString(Charsets.UTF_8).removePrefix(\"\\uFEFF\"))\n            } else if (format == LayerImportFormat.GPX) {\n                sourceCrs = \"EPSG:4326\"; sourceOrder = \"named_latitude_longitude_attributes\"\n                buildJsonObject {\n                    put(\"type\", \"FeatureCollection\")\n                    put(\"features\", JsonArray(xmlMetadata.orEmpty().map { item -> buildJsonObject {\n                        put(\"type\", \"Feature\"); put(\"properties\", item.properties); put(\"geometry\", item.geometry ?: JsonNull)\n                    } }))\n                }\n            } else {",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_index",
+          "anchor": "    /** Validate every XML coordinate before",
+          "start": null,
+          "position": 7975
+        },
+        {
+          "operation": "literal_index",
+          "anchor": "    private fun validateArchive",
+          "start": 7975,
+          "position": 14145
+        },
+        {
+          "operation": "literal_index",
+          "anchor": "    private fun validateJsonNesting(bytes: ByteArray) {",
+          "start": null,
+          "position": 7250
+        },
+        {
+          "operation": "literal_index",
+          "anchor": "    private data class XmlFeature",
+          "start": 7250,
+          "position": 7975
+        }
+      ],
+      "artifact": "versions/98-LayerImportStager.kt/app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "complete": true,
+      "redactionMarkers": 0,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-5f711b92-6109-4cc3-b848-a2e0df34449e",
+      "itemIndex": 100,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "eventId": "100-CartographicLayerRepositoryImpl.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "2f1ad9b1ffc629a08181dda416a2cb3ad5ad5ca29d3feaddd022fdeeacdbf281",
+      "sha256": "fa25c5b87c57c32352bd3598a6f20076d30a8ea7df81b1ee0e3cdceb4fde6884",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "dao.insertOperation(CartographicLayerOperationEntity(id, layer.id, authorityKey, command, json.encodeToString(layer)))",
+          "new": "val payload = \"${layer.id}:${layer.version}:${layer.source.sha256}\"\n        val result = buildJsonObject {\n            put(\"id\", layer.id); put(\"version\", layer.version); put(\"sourceSha256\", layer.source.sha256); put(\"integrity\", layerHash(payload))\n        }.toString()\n        dao.insertOperation(CartographicLayerOperationEntity(id, layer.id, authorityKey, command, result))",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "        val receipt = try { json.decodeFromString<CartographicLayer>(row.resultJson) } catch (_: Exception) { layerFail(LayerStoreError.CORRUPT) }\n        if (receipt.id != layerId || receipt.version < 1) layerFail(LayerStoreError.CORRUPT)",
+          "new": "        if (row.resultJson.length > 512) layerFail(LayerStoreError.CORRUPT)\n        val receipt = try { Json.parseToJsonElement(row.resultJson).jsonObject } catch (_: Exception) { layerFail(LayerStoreError.CORRUPT) }\n        val resultId = (receipt[\"id\"] as? JsonPrimitive)?.contentOrNull\n        val version = (receipt[\"version\"] as? JsonPrimitive)?.longOrNull\n        val source = (receipt[\"sourceSha256\"] as? JsonPrimitive)?.contentOrNull\n        val integrity = (receipt[\"integrity\"] as? JsonPrimitive)?.contentOrNull\n        if (resultId != layerId || version == null || version < 1 || source?.matches(Regex(\"[0-9a-f]{64}\")) != true ||\n            integrity != layerHash(\"$resultId:$version:$source\")) layerFail(LayerStoreError.CORRUPT)",
+          "matches": 1,
+          "count": null
+        }
+      ],
+      "artifact": "versions/100-CartographicLayerRepositoryImpl.kt/app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt.fragment",
+      "complete": false,
+      "redactionMarkers": 3,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-5f711b92-6109-4cc3-b848-a2e0df34449e",
+      "itemIndex": 100,
+      "path": "app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "eventId": "100-CartographicLayer.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "e26600a68656766069387bd49a71c5f418b587ce5ed9df8092e490bbedc54127",
+      "sha256": "4664d8e66af20c6e65b478871e965a74c359ca8e5a04d32cd8575fe512e6a8ad",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "fun format(argb: Long): String = \"#%08X\".format(argb and 0xFFFFFFFF)",
+          "new": "fun format(argb: Long): String = if ((argb ushr 24) and 0xFF == 0xFFL) \"#%06X\".format(argb and 0xFFFFFF) else \"#%08X\".format(argb and 0xFFFFFFFF)",
+          "matches": 1,
+          "count": null
+        }
+      ],
+      "artifact": "versions/100-CartographicLayer.kt/app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "complete": true,
+      "redactionMarkers": 0,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-f224d32c-8f5d-4c57-adda-4db45f1acc8e",
+      "itemIndex": 103,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "eventId": "103-LayerImportStager.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "2affb29dd3e37f21fb1bd07926aa8d00fc4603585070880c37c2b22d0771e6f7",
+      "sha256": "0286920d524a22c942afa9a2abaf8f3a1870036c4c45d8db188d314f7c3e694c",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "            if (ring && values.first() != values.last()) layerFail(LayerStoreError.INVALID_GEOMETRY)",
+          "new": "            if (ring && (values.first() != values.last() || values.dropLast(1).map { value ->\n                    value.jsonArray.take(2).map { it.jsonPrimitive.double }\n                }.distinct().size < 3)) layerFail(LayerStoreError.INVALID_GEOMETRY)",
+          "matches": 1,
+          "count": null
+        }
+      ],
+      "artifact": "versions/103-LayerImportStager.kt/app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "complete": true,
+      "redactionMarkers": 0,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-f7437bef-c71f-4d72-b770-4a73a0fad95b",
+      "itemIndex": 110,
+      "path": "app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "eventId": "110-CartographicLayer.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "4664d8e66af20c6e65b478871e965a74c359ca8e5a04d32cd8575fe512e6a8ad",
+      "sha256": "faef4a91bae5bf37624a0dce7b9642986b60cf897fa887c45a6613a3d93fea9e",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "val fieldNames: List<String> get() = features.flatMap { it.properties.keys }.distinct().sorted()",
+          "new": "val fieldNames: List<String> get() = features.flatMap {\n        (it.sourceFeature[\"properties\"] as? JsonObject)?.keys.orEmpty() + it.localAttributes.keys + it.removedAttributes\n    }.distinct().sorted()",
+          "matches": 1,
+          "count": null
+        }
+      ],
+      "artifact": "versions/110-CartographicLayer.kt/app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "complete": true,
+      "redactionMarkers": 0,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-ae5cae53-860a-4a36-991e-7c8a5cd2d231",
+      "itemIndex": 155,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "eventId": "155-LayerImportStager.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "0286920d524a22c942afa9a2abaf8f3a1870036c4c45d8db188d314f7c3e694c",
+      "sha256": "fd3b7ea9bfaf046648fd6b6ab47f17dc488b0e14917103853972f29f33aecb65",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "        val safeName = filename.substringAfterLast('/').substringAfterLast('\\\\')",
+          "new": "        val safeName = filename.substringAfterLast('/').substringAfterLast('\\\\')\n        if (safeName.isBlank()) layerFail(LayerStoreError.INVALID_INPUT)",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "            LayerGeometryValidation.validate(features)",
+          "new": "            if (features.flatMap { it.properties.keys }.distinct().size > MAX_FIELDS) layerFail(LayerStoreError.LIMIT_EXCEEDED)\n            LayerGeometryValidation.validate(features)",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "        const val MAX_FIELD_LENGTH = 200",
+          "new": "        const val MAX_FIELD_LENGTH = 200\n        const val MAX_FIELDS = 128",
+          "matches": 1,
+          "count": null
+        }
+      ],
+      "artifact": "versions/155-LayerImportStager.kt/app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "complete": true,
+      "redactionMarkers": 0,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-ae5cae53-860a-4a36-991e-7c8a5cd2d231",
+      "itemIndex": 155,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "eventId": "155-CartographicLayerRepositoryImpl.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "fa25c5b87c57c32352bd3598a6f20076d30a8ea7df81b1ee0e3cdceb4fde6884",
+      "sha256": "a032f1a5a1a665e41a1032ed10e36f4243c38611ef09574656fc5041c3850110",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "        val original = try { Base64.getDecoder().decode(layer.source.originalBase64) }",
+          "new": "        if (layer.source.originalBase64.length > ((LayerImportStager.MAX_SOURCE_BYTES + 2) / 3) * 4) layerFail(LayerStoreError.CORRUPT)\n        val original = try { Base64.getDecoder().decode(layer.source.originalBase64) }",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "            layer.features.any { it.version < 1 } || layer.style.colorArgb",
+          "new": "            layer.features.any { it.version < 1 } || layer.fieldNames.size > LayerImportStager.MAX_FIELDS || layer.style.colorArgb",
+          "matches": 1,
+          "count": null
+        }
+      ],
+      "artifact": "versions/155-CartographicLayerRepositoryImpl.kt/app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt.fragment",
+      "complete": false,
+      "redactionMarkers": 3,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-90606b2d-f9ad-4d47-ac37-ed199048c6a5",
+      "itemIndex": 158,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "eventId": "158-CartographicLayerRepositoryImpl.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "a032f1a5a1a665e41a1032ed10e36f4243c38611ef09574656fc5041c3850110",
+      "sha256": "1b84a31bd18d1cca0e952f7ebae314bd078f08e2e4df7e83ace6e3333abebe29",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "if (!LayerEditPolicy.validate(layer, target, changes))",
+          "new": "if (!LayerAttributePolicy.validate(layer, target, changes))",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_index",
+          "anchor": "\nobject LayerEditPolicy {",
+          "start": null,
+          "position": 15763
+        }
+      ],
+      "artifact": "versions/158-CartographicLayerRepositoryImpl.kt/app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt.fragment",
+      "complete": false,
+      "redactionMarkers": 3,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-90606b2d-f9ad-4d47-ac37-ed199048c6a5",
+      "itemIndex": 158,
+      "path": "app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "eventId": "158-CartographicLayer.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "faef4a91bae5bf37624a0dce7b9642986b60cf897fa887c45a6613a3d93fea9e",
+      "sha256": "4e6bd8507c762d87f6aa5e318d2470ca7ec777521abc61cf056f06ae143cf562",
+      "declarativeOperations": [],
+      "artifact": "versions/158-CartographicLayer.kt/app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "complete": true,
+      "redactionMarkers": 0,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-90606b2d-f9ad-4d47-ac37-ed199048c6a5",
+      "itemIndex": 158,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "eventId": "158-LayerImportStager.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "fd3b7ea9bfaf046648fd6b6ab47f17dc488b0e14917103853972f29f33aecb65",
+      "sha256": "4954f812b7ffb85bf7832968df02f5294e990ec2df46163c95621b68a74bd06e",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "                parseCsv(bytes.toString(Charsets.UTF_8).removePrefix(\"\\uFEFF\"))",
+          "new": "                val text = Charsets.UTF_8.newDecoder().onMalformedInput(java.nio.charset.CodingErrorAction.REPORT)\n                    .decode(java.nio.ByteBuffer.wrap(bytes)).toString().removePrefix(\"\\uFEFF\")\n                parseCsv(text)",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "        if (lat < 0 || lon < 0) layerFail(LayerStoreError.UNSUPPORTED_CRS)",
+          "new": "        if (lat < 0 || lon < 0 || header.count { it.lowercase() in setOf(\"lat\", \"latitude\") } != 1 ||\n            header.count { it.lowercase() in setOf(\"lon\", \"lng\", \"longitude\") } != 1) layerFail(LayerStoreError.UNSUPPORTED_CRS)",
+          "matches": 1,
+          "count": null
+        }
+      ],
+      "artifact": "versions/158-LayerImportStager.kt/app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "complete": true,
+      "redactionMarkers": 0,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-19fb47e4-d511-476d-be0b-20b30a37cad4",
+      "itemIndex": 166,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "eventId": "166-CartographicLayerRepositoryImpl.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "1b84a31bd18d1cca0e952f7ebae314bd078f08e2e4df7e83ace6e3333abebe29",
+      "sha256": "1ae904945e86a6856fd5fc852084faa08fe1db5f1de9cb172ea663ef54a9f471",
+      "declarativeOperations": [
+        {
+          "operation": "literal_index",
+          "anchor": "    override suspend fun stage(",
+          "start": null,
+          "position": 2343
+        },
+        {
+          "operation": "literal_index",
+          "anchor": "    override fun discard",
+          "start": 2343,
+          "position": 2989
+        }
+      ],
+      "artifact": "versions/166-CartographicLayerRepositoryImpl.kt/app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt.fragment",
+      "complete": false,
+      "redactionMarkers": 3,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-19fb47e4-d511-476d-be0b-20b30a37cad4",
+      "itemIndex": 166,
+      "path": "app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "eventId": "166-CartographicLayer.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "4e6bd8507c762d87f6aa5e318d2470ca7ec777521abc61cf056f06ae143cf562",
+      "sha256": "e5617635cb24cfcf80409ca5ed04b3d8463bc0c5ee25b751a1e29bb56cc627a8",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "        val families = features.mapNotNull { feature -> when (feature.geometryType) {",
+          "new": "        if (features.any { it.geometryType == \"GeometryCollection\" }) return LayerGeometryFamily.MIXED\n        val families = features.mapNotNull { feature -> when (feature.geometryType) {",
+          "matches": 1,
+          "count": null
+        }
+      ],
+      "artifact": "versions/166-CartographicLayer.kt/app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "complete": true,
+      "redactionMarkers": 0,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-703bc4cb-bbae-47f8-91d2-1ab4cbc9385f",
+      "itemIndex": 180,
+      "path": "app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "eventId": "180-CartographicLayer.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "e5617635cb24cfcf80409ca5ed04b3d8463bc0c5ee25b751a1e29bb56cc627a8",
+      "sha256": "64b522d240ee3d413a5ff1af17a49f7f4577eeddd30db962e813010d8c148dad",
+      "declarativeOperations": [],
+      "artifact": "versions/180-CartographicLayer.kt/app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "complete": true,
+      "redactionMarkers": 0,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-703bc4cb-bbae-47f8-91d2-1ab4cbc9385f",
+      "itemIndex": 180,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "eventId": "180-LayerImportStager.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "4954f812b7ffb85bf7832968df02f5294e990ec2df46163c95621b68a74bd06e",
+      "sha256": "32586a404277b780a70e7f9d6a04940fc307008dcba8d909af18cfdd8a3ce972",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "            val label = features.flatMap { it.properties.keys }.firstOrNull { it.equals(\"code\", true) }\n                ?: features.flatMap { it.properties.keys }.firstOrNull { it.lowercase() in setOf(\"name\", \"nom\", \"id\") }",
+          "new": "            val labelFields = LayerLabelFields.available(features)\n            val label = labelFields.firstOrNull { it.equals(\"code\", true) }\n                ?: labelFields.firstOrNull { it.lowercase() in setOf(\"name\", \"nom\", \"id\") }",
+          "matches": 1,
+          "count": null
+        }
+      ],
+      "artifact": "versions/180-LayerImportStager.kt/app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "complete": true,
+      "redactionMarkers": 0,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-9851082a-30e4-40b2-a07a-e6b08f084b26",
+      "itemIndex": 188,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "eventId": "188-LayerImportStager.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "32586a404277b780a70e7f9d6a04940fc307008dcba8d909af18cfdd8a3ce972",
+      "sha256": "1baa21534385a7310c4f1ce81e6e9a74329fa9843e32386c1a2d72dbec514e05",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "            val inputFeatures = normalized[\"features\"]",
+          "new": "            if (normalized.toString().length > MAX_NORMALIZED_CHARACTERS) layerFail(LayerStoreError.LIMIT_EXCEEDED)\n            val inputFeatures = normalized[\"features\"]",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "        val properties = mutableListOf<JsonObject>()\n        val crs = mutableSetOf<String>()",
+          "new": "        val properties = mutableListOf<JsonObject>()\n        var characterBudget = 0L\n        val crs = mutableSetOf<String>()",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "                db.rawQuery(\"SELECT * FROM \\\"$table\\\"\", null).use { cursor ->\n                    while (cursor.moveToNext())",
+          "new": "                db.rawQuery(\"SELECT * FROM \\\"$table\\\"\", null).use { cursor ->\n                    while (cursor.moveToNext())",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "                        properties += JsonObject(values)\n                    }",
+          "new": "                        val objectValue = JsonObject(values)\n                        characterBudget += objectValue.toString().length + 200L\n                        if (characterBudget > MAX_NORMALIZED_CHARACTERS) layerFail(LayerStoreError.LIMIT_EXCEEDED)\n                        properties += objectValue\n                    }",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "        if (header.any(String::isBlank) || header.distinct().size != header.size) layerFail(LayerStoreError.INVALID_INPUT)",
+          "new": "        if (header.any(String::isBlank) || header.distinct().size != header.size || header.any { it.length > MAX_FIELD_LENGTH }) layerFail(LayerStoreError.INVALID_INPUT)\n        if (header.size > MAX_FIELDS) layerFail(LayerStoreError.LIMIT_EXCEEDED)",
+          "matches": 1,
+          "count": null
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "        val features = rows.drop(1).map { cells ->\n            if (cells.size != header.size)",
+          "new": "        var characterBudget = 0L\n        val keyBudget = header.sumOf { JsonPrimitive(it).toString().length + 2 }\n        val features = rows.drop(1).map { cells ->\n            characterBudget += keyBudget + cells.sumOf { JsonPrimitive(it).toString().length } + 200L\n            if (characterBudget > MAX_NORMALIZED_CHARACTERS) layerFail(LayerStoreError.LIMIT_EXCEEDED)\n            if (cells.size != header.size)",
+          "matches": 1,
+          "count": null
+        }
+      ],
+      "artifact": "versions/188-LayerImportStager.kt/app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "complete": true,
+      "redactionMarkers": 0,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-c66b91d7-5c08-4357-8f2a-c8381386c8b9",
+      "itemIndex": 193,
+      "path": "app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "eventId": "193-CartographicLayer.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "64b522d240ee3d413a5ff1af17a49f7f4577eeddd30db962e813010d8c148dad",
+      "sha256": "682ad81eee440ea350dc1cba8e07f953e557237a49a10a2a0a230eb0684c63c3",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "    val warnings: List<String> = emptyList(),",
+          "new": "    val warnings: List<String> = emptyList(),\n    val crsEvidence: String = \"UNKNOWN\",",
+          "matches": 1,
+          "count": 1
+        }
+      ],
+      "artifact": "versions/193-CartographicLayer.kt/app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "complete": true,
+      "redactionMarkers": 0,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-c66b91d7-5c08-4357-8f2a-c8381386c8b9",
+      "itemIndex": 193,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "eventId": "193-LayerImportStager.kt",
+      "operation": "restricted_literal_string_AST",
+      "predecessorSha256": "1baa21534385a7310c4f1ce81e6e9a74329fa9843e32386c1a2d72dbec514e05",
+      "sha256": "bd8d753f0f61ebe0dae2690d8c8820e2c047154a35d50ad51e5ee601c525ed54",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "warnings = if (format in setOf(LayerImportFormat.KML, LayerImportFormat.KMZ)) listOf(\"KML_BASIC_ATTRIBUTES\") else emptyList()),",
+          "new": "warnings = if (format in setOf(LayerImportFormat.KML, LayerImportFormat.KMZ)) listOf(\"KML_BASIC_ATTRIBUTES\") else emptyList(),\n                crsEvidence = if (format == LayerImportFormat.GEOPACKAGE) \"DECLARED_LAYER_METADATA\" else \"FORMAT_CONTRACT\"),",
+          "matches": 1,
+          "count": null
+        }
+      ],
+      "artifact": "versions/193-LayerImportStager.kt/app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "complete": true,
+      "redactionMarkers": 0,
+      "historicalCommandTruncated": false
+    },
+    {
+      "source": "maquettes-audit-batch8-single.json",
+      "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+      "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+      "item": "exec-5e70a29b-a59c-419d-8696-4a970456257e",
+      "itemIndex": 22,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "operation": "exact_observed_source_line_replaces_redaction",
+      "observedLiteral": "    private class Access(val owner: Any, val token: CartographicScopeAuthority.Token) : CartographicLayerAccess {\n"
+    },
+    {
+      "source": "maquettes-audit-batch8-single.json",
+      "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+      "turn": "01a1b55c-1dc5-72e8-b3d6-a5c95a88462d",
+      "item": "exec-5e70a29b-a59c-419d-8696-4a970456257e",
+      "itemIndex": 22,
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "operation": "exact_observed_source_line_replaces_redaction",
+      "observedLiteral": "            val hash = layerHash(\"commit:$token:${scoped.authorityKey}\")\n"
+    }
+  ],
+  "patch": {
+    "artifact": "addition.patch",
+    "sha256": "8a462e19150275b2c515f23290fb51e2af5aa065887b96915fe799a71018c453"
+  },
+  "limits": [
+    "Latest direct source mutations available in the initial November7 layers thread. Later candidate UI patches are not replayed.",
+    "No FieldRepository business predecessor is included."
+  ],
+  "execution": "Source heredoc extraction and restricted literal/index/slice AST only; no historical command or application repository writes."
+}

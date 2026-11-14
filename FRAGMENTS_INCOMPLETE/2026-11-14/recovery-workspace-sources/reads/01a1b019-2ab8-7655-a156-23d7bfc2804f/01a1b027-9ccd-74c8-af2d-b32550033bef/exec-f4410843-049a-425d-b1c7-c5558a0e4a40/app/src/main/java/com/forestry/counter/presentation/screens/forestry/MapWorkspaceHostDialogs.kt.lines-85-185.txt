@@ -1,0 +1,101 @@
+    var searching by remember { mutableStateOf(false) }
+    var searched by remember { mutableStateOf(false) }
+    var results by remember { mutableStateOf<List<MapsPlace>>(emptyList()) }
+    var failure by remember { mutableStateOf<MapsFailure?>(null) }
+
+    fun cancelSearch() {
+        requestVersion++
+        searchJob?.cancel()
+        searchJob = null
+        searching = false
+    }
+
+    fun search() {
+        val submittedQuery = query.trim()
+        if (submittedQuery.length < 3 || searching) return
+        cancelSearch()
+        val version = requestVersion
+        searching = true
+        searched = false
+        results = emptyList()
+        failure = null
+        keyboard?.hide()
+        searchJob = scope.launch {
+            try {
+                val found = source.search(submittedQuery)
+                if (version == requestVersion) {
+                    results = found
+                    searched = true
+                }
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (error: Exception) {
+                if (version == requestVersion) {
+                    failure = (error as? MapsServiceException)?.failure ?: MapsFailure.NETWORK
+                }
+            } finally {
+                if (version == requestVersion) searching = false
+            }
+        }
+    }
+
+    // A request never survives leaving this sheet or the foreground.
+    DisposableEffect(lifecycle) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_STOP) cancelSearch()
+        }
+        lifecycle.addObserver(observer)
+        onDispose {
+            lifecycle.removeObserver(observer)
+            cancelSearch()
+        }
+    }
+
+    ModalBottomSheet(
+        onDismissRequest = { cancelSearch(); onDismiss() },
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+        containerColor = MaterialTheme.colorScheme.surface,
+    ) {
+        Column(
+            Modifier.fillMaxWidth().imePadding().heightIn(max = 560.dp)
+                .verticalScroll(rememberScrollState()).padding(start = 20.dp, end = 20.dp, bottom = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            WorkspaceSheetHeading(stringResource(R.string.gs_workspace_search_title)) {
+                cancelSearch()
+                onDismiss()
+            }
+            OutlinedTextField(
+                value = query,
+                onValueChange = {
+                    cancelSearch()
+                    query = it.take(160)
+                    results = emptyList()
+                    searched = false
+                    failure = null
+                },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(stringResource(R.string.gs_workspace_search_label)) },
+                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                singleLine = true,
+                shape = RoundedCornerShape(18.dp),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(onSearch = { search() }),
+            )
+            Button(
+                onClick = { search() },
+                enabled = query.trim().length >= 3 && !searching,
+                modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
+            ) {
+                if (searching) CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
+                else Icon(Icons.Default.Search, contentDescription = null)
+                Text(
+                    stringResource(if (searching) R.string.gs_workspace_search_loading else R.string.gs_workspace_search_action),
+                    Modifier.padding(start = 10.dp),
+                )
+            }
+            failure?.let { error ->
+                Text(
+                    stringResource(when (error) {
+                        MapsFailure.RATE_LIMIT -> R.string.maps_rate_limit
+                        MapsFailure.INVALID_RESPONSE -> R.string.gs_workspace_search_invalid

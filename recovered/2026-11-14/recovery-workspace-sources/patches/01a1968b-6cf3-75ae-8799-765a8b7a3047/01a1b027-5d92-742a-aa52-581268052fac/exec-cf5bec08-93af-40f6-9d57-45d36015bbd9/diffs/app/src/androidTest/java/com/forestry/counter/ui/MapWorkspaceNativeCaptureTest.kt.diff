@@ -1,0 +1,16 @@
+@@ -14,3 +14,6 @@
+ import androidx.compose.foundation.layout.PaddingValues
++import androidx.compose.foundation.layout.WindowInsets
++import androidx.compose.foundation.layout.asPaddingValues
+ import androidx.compose.foundation.layout.fillMaxSize
++import androidx.compose.foundation.layout.navigationBars
+ import androidx.compose.material3.Text
+@@ -93,4 +96,6 @@
+                     BoxWithConstraints(Modifier.fillMaxSize()) {
+-                        val bottom = if (panel != null) mapWorkspacePanelHeight(maxHeight, 1f) + 12.dp
+-                            else if (presentation == MapPresentation.FREE) 88.dp else 112.dp
++                        // Match the host's bottom chrome and system navigation
++                        // inset, so provider ornaments stay above every toolbar.
++                        val bottom = (if (panel != null) mapWorkspacePanelHeight(maxHeight, 1f) else 112.dp) +
++                            WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + 8.dp
+                         val confirmed = (status as? MapRenderStatus.Ready)?.styleId == MapboxStyles.Satellite.id

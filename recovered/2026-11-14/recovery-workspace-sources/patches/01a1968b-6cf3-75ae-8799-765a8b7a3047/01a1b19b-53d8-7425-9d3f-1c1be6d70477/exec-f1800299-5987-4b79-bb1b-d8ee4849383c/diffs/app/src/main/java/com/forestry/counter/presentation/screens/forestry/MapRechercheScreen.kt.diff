@@ -1,0 +1,5 @@
+@@ -657,3 +657,3 @@
+             }
+-            if (mapContent is MapTreeContent.Ready && !dismissedGpsBanner && workspacePanel == null) MapNoGpsMessage(
++            if (mapContent is MapTreeContent.Ready && !measureActive && !dismissedGpsBanner && workspacePanel == null) MapNoGpsMessage(
+                 total = total, withGps = withGps, geoTigesSize = geoTiges.size,

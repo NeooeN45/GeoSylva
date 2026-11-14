@@ -1,0 +1,121 @@
+    val scope = rememberCoroutineScope()
+
+    val mapScope = remember(parcelleId) { MapDataScope.fromLegacyKey(parcelleId) }
+    var dataRetry by remember(mapScope) { mutableStateOf(0) }
+    val observeMapTrees = remember(tigeRepository, parcelleRepository) {
+        ObserveMapTrees(tigeRepository, parcelleRepository)
+    }
+    val mapContentFlow = remember(observeMapTrees, mapScope, dataRetry) { observeMapTrees(mapScope) }
+    val collectedContent by key(mapContentFlow) {
+        mapContentFlow.collectAsStateWithLifecycle<MapTreeContent>(initialValue = MapTreeContent.Loading(mapScope))
+    }
+    // collectAsState can retain the previous flow's last value until the next emission.
+    // A new context never displays that previous context's trees, even for one frame.
+    val mapContent = collectedContent.takeIf { it.scope == mapScope } ?: MapTreeContent.Loading(mapScope)
+    val tiges = (mapContent as? MapTreeContent.Ready)?.trees.orEmpty()
+    val essencesFlow = remember(essenceRepository) { essenceRepository?.getAllEssences() ?: flowOf(emptyList<Essence>()) }
+    val essences by essencesFlow.collectAsStateWithLifecycle(initialValue = emptyList())
+    val essenceMap = remember(essences) { essences.associateBy { it.code.uppercase() } }
+
+    val mapLastLayerKey by preferencesManager.mapLastLayerKey.collectAsStateWithLifecycle(
+        initialValue = MapSourcePolicy.DEFAULT_LAYER_KEY,
+    )
+    val mapOnlyReliableGps by preferencesManager.mapOnlyReliableGps.collectAsStateWithLifecycle(initialValue = false)
+    val mapReliableGpsThresholdM by preferencesManager.mapReliableGpsThresholdM.collectAsStateWithLifecycle(initialValue = 8f)
+
+    var hasLocationPermission by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        )
+    }
+    val locationPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted -> if (granted) hasLocationPermission = true }
+    LaunchedEffect(Unit) {
+        if (!hasLocationPermission) locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+
+    @Suppress("NAME_SHADOWING")
+    val offlineTileManager = offlineTileManager ?: remember(context) { OfflineTileManager(context) }
+    val offlineProgress by offlineTileManager.downloadProgress.collectAsStateWithLifecycle()
+    var hasOfflineTilesState by remember { mutableStateOf(offlineTileManager.hasOfflineTiles()) }
+    var offlineRegions by remember { mutableStateOf(offlineTileManager.listRegions()) }
+    var showOfflineSheet by remember { mutableStateOf(false) }
+    var offlineEstimate by remember { mutableStateOf<Pair<Long, Long>?>(null) }
+    var pendingDownloadBounds by remember { mutableStateOf<MapBounds?>(null) }
+    LaunchedEffect(offlineProgress) {
+        if (offlineProgress?.isComplete == true && offlineProgress?.error == null) {
+            hasOfflineTilesState = offlineTileManager.hasOfflineTiles()
+            offlineRegions = offlineTileManager.listRegions()
+        }
+    }
+
+    val geoTiges = remember(tiges) {
+        tiges.mapNotNull { t ->
+            val (lon, lat, _) = WktUtils.parsePointZ(t.gpsWkt)
+            if (lon != null && lat != null && lon.isFinite() && lat.isFinite() && lon in -180.0..180.0 && lat in -90.0..90.0) Triple(t, lon, lat) else null
+        }
+    }
+    val displayedGeoTiges = remember(geoTiges, mapOnlyReliableGps, mapReliableGpsThresholdM) {
+        if (!mapOnlyReliableGps) geoTiges
+        else geoTiges.filter { (t, _, _) -> t.precisionM?.let { it.isFinite() && it > 0 && it <= mapReliableGpsThresholdM.toDouble() } == true }
+    }
+    val withGps = displayedGeoTiges.size
+    val total = tiges.size
+
+    val essenceColors = remember(displayedGeoTiges) {
+        val map = mutableMapOf<String, Int>()
+        var idx = 0
+        displayedGeoTiges.forEach { (t, _, _) -> map.getOrPut(t.essenceCode.uppercase()) { ESSENCE_COLOR_PALETTE[idx++ % ESSENCE_COLOR_PALETTE.size] } }
+        map
+    }
+    val essenceCounts = remember(displayedGeoTiges) {
+        displayedGeoTiges.groupBy { it.first.essenceCode.uppercase() }.mapValues { it.value.size }
+    }
+    var hiddenEssences by remember(mapScope) { mutableStateOf(emptySet<String>()) }
+    var treesVisible by rememberSaveable(mapScope.toString()) { mutableStateOf(true) }
+    var measurementVisible by rememberSaveable(mapScope.toString()) { mutableStateOf(true) }
+    val filteredGeoTiges = remember(displayedGeoTiges, hiddenEssences, treesVisible) {
+        if (!treesVisible) emptyList()
+        else if (hiddenEssences.isEmpty()) displayedGeoTiges
+        else displayedGeoTiges.filter { (t, _, _) -> t.essenceCode.uppercase() !in hiddenEssences }
+    }
+
+    val networkAvailable = rememberMapNetworkAvailable()
+    val density = LocalDensity.current.density
+    var camera by rememberSaveable(mapScope.toString(), stateSaver = MapCameraPositionSaver) { mutableStateOf(MapCameraPosition(2.5, 46.6, 5.0)) }
+    var cameraCommand by remember(mapScope) { mutableStateOf<MapCameraCommand?>(null) }
+    var frameCommand by remember(mapScope) { mutableStateOf<MapCameraFitCommand?>(null) }
+    var viewport by remember(mapScope) { mutableStateOf<MapViewport?>(null) }
+    var overlayFailed by remember(mapScope) { mutableStateOf(false) }
+    var renderStatus by remember(mapScope) { mutableStateOf<MapRenderStatus>(MapRenderStatus.Loading("satellite")) }
+    var retryGeneration by remember { mutableStateOf(0) }
+    val phonePosition = rememberMapPhoneLocation(hasLocationPermission)
+    val gpsAccuracyM = phonePosition?.takeIf { it.hasAccuracy() && it.accuracy.isFinite() && it.accuracy > 0 }?.accuracy
+    val initialLayerIdx = remember(mapLastLayerKey) { MAP_LAYERS.indexOfFirst { it.key == mapLastLayerKey }.takeIf { it >= 0 } ?: 0 }
+    var layerLoadState by remember(mapScope) { mutableStateOf(MapLayerLoadState(initialLayerIdx)) }
+    val currentLayerIdx = layerLoadState.displayedIndex
+    var workspacePanel by remember(mapScope) { mutableStateOf<MapPanel?>(null) }
+    var showTools by remember(mapScope) { mutableStateOf(false) }
+    var showPlaceSearch by remember(mapScope) { mutableStateOf(false) }
+    var selectedPlaceLabel by remember(mapScope) { mutableStateOf<String?>(null) }
+    var workspaceHelp by remember { mutableStateOf<MapHelp?>(null) }
+    var workspaceMessage by remember { mutableStateOf<Int?>(null) }
+    var requestedRelief by remember(mapScope) { mutableStateOf(MapRelief(enabled = true)) }
+    var appliedRelief by remember(mapScope) { mutableStateOf(MapRelief()) }
+    var showLegend by remember { mutableStateOf(false) }
+    var showGpsPrecisionDialog by remember { mutableStateOf(false) }
+    var showMeasureSheet by remember { mutableStateOf(false) }
+    var tappedTree by remember(parcelleId) { mutableStateOf<TappedTreeInfo?>(null) }
+    var dismissedGpsBanner by remember { mutableStateOf(false) }
+
+    // ── Outil de mesure ──
+    val measureActiveState = remember { mutableStateOf(false) }
+    var measureActive by measureActiveState
+    val measurePointsState = remember { mutableStateOf<List<MeasurePoint>>(emptyList()) }
+    var measurePoints by measurePointsState
+    var measureMode by remember { mutableStateOf(MeasureMode.DISTANCE) }
+    var measureDistUnit by remember { mutableStateOf(MeasureDistUnit.M) }
+    var measureAreaUnit by remember { mutableStateOf(MeasureAreaUnit.HA) }
+    var measureColor by remember { mutableStateOf(MEASURE_COLORS[0]) }

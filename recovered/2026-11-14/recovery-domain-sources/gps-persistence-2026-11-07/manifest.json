@@ -1,0 +1,660 @@
+{
+  "sources": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt",
+      "sha256": "9ca4b9f1150eab7241564314af19e305c8d942cac186701fd14aa8e849dbd903",
+      "lines": 227,
+      "method": "literal predecessor plus exact-context restoreStopped patch",
+      "complete": true,
+      "missingSourceLines": [],
+      "provenance": [
+        {
+          "source": "../gps-domain-2026-11-05/manifest.json"
+        },
+        {
+          "source": "trees-filters-batch11.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "turnStartedAt": "2026-11-07T08:58:33+00:00",
+          "item": "exec-906c3df6-109c-4479-969f-b19b5a82ec99",
+          "itemIndex": 98
+        }
+      ],
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt",
+      "sha256": "ab2b2a0432488985150208768e0000c806b5bf0d67cea628ce08cf06dbcb1cbb",
+      "lines": 112,
+      "method": "restricted literal AST edits equal complete later read",
+      "complete": true,
+      "missingSourceLines": [],
+      "provenance": [
+        {
+          "source": "trees-filters-batch11.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "turnStartedAt": "2026-11-07T08:58:33+00:00",
+          "item": "exec-e0a4ca34-e994-4195-911d-fde5467ca3f3",
+          "itemIndex": 97
+        },
+        {
+          "source": "trees-filters-batch11.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "turnStartedAt": "2026-11-07T08:58:33+00:00",
+          "item": "exec-ba1d97e8-d13b-4b0e-8932-5a08ff9958e6",
+          "itemIndex": 220
+        }
+      ],
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/repository/CartographicTraceRepository.kt",
+      "sha256": "7a13b1d36b4cbbcf233d2662c48590e81b6819363ae0af9ed087ac8077ea4672",
+      "lines": 33,
+      "method": "literal Add equals later complete read",
+      "complete": true,
+      "missingSourceLines": [],
+      "provenance": [
+        {
+          "source": "trees-filters-batch11.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "turnStartedAt": "2026-11-07T08:58:33+00:00",
+          "item": "exec-906c3df6-109c-4479-969f-b19b5a82ec99",
+          "itemIndex": 98
+        },
+        {
+          "source": "trees-filters-batch9.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b578-989e-70aa-b399-1c981844674b",
+          "turnStartedAt": "2026-11-07T10:05:42+00:00",
+          "item": "exec-244316e0-9155-4885-8b9a-26e91bb6a7d1",
+          "itemIndex": 2
+        }
+      ],
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/domain/repository/CartographicTraceRepository.kt"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/repository/CartographicTraceRepositoryImpl.kt",
+      "sha256": "36d3da4a5b227ebd76f80b77a8a0ebbed2acc30b86090aa2d2798f002f7707df",
+      "lines": 208,
+      "method": "complete read plus exact-context patch",
+      "complete": true,
+      "missingSourceLines": [],
+      "provenance": [
+        {
+          "source": "trees-filters-batch11.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "turnStartedAt": "2026-11-07T08:58:33+00:00",
+          "item": "exec-d79a9e0e-90f2-4462-9b93-fbeb9bc14521",
+          "itemIndex": 196
+        },
+        {
+          "source": "trees-filters-batch11.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "turnStartedAt": "2026-11-07T08:58:33+00:00",
+          "item": "exec-5f3800b3-2b31-49a7-aff6-db345c401269",
+          "itemIndex": 224
+        },
+        {
+          "source": "trees-filters-batch9.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b578-989e-70aa-b399-1c981844674b",
+          "turnStartedAt": "2026-11-07T10:05:42+00:00",
+          "item": "exec-244316e0-9155-4885-8b9a-26e91bb6a7d1",
+          "itemIndex": 2
+        }
+      ],
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/repository/CartographicTraceRepositoryImpl.kt"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/repository/TraceDraftJournal.kt",
+      "sha256": "8925d2c0b7eb2259a509cbc139a8b6778157eef188792969c96c0ca14315b399",
+      "lines": 136,
+      "method": "complete literal heredoc plus exact-context patch",
+      "complete": true,
+      "missingSourceLines": [],
+      "provenance": [
+        {
+          "source": "trees-filters-batch11.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "turnStartedAt": "2026-11-07T08:58:33+00:00",
+          "item": "exec-7d1bfa25-3a75-4863-b7d0-0e4378c2c852",
+          "itemIndex": 179
+        },
+        {
+          "source": "trees-filters-batch11.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "turnStartedAt": "2026-11-07T08:58:33+00:00",
+          "item": "exec-f31290ad-284b-42e6-aa72-14600844de44",
+          "itemIndex": 183
+        }
+      ],
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/repository/TraceDraftJournal.kt"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/data/repository/CartographicTraceRepositoryTest.kt",
+      "sha256": "7bfb4d3d1f8f3c3670bada408e14944e4670aabb3fe55fd1d7b5a9a0bf6e79bf",
+      "lines": 200,
+      "method": "complete read plus exact-context patch",
+      "complete": true,
+      "missingSourceLines": [],
+      "provenance": [
+        {
+          "source": "trees-filters-batch11.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "turnStartedAt": "2026-11-07T08:58:33+00:00",
+          "item": "exec-775c25df-552c-47b7-b7b5-57d3fab754ee",
+          "itemIndex": 201
+        },
+        {
+          "source": "trees-filters-batch11.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "turnStartedAt": "2026-11-07T08:58:33+00:00",
+          "item": "exec-8eb2ef60-b1e7-4716-9dd2-98e51003717d",
+          "itemIndex": 238
+        }
+      ],
+      "artifact": "recovered/app/src/test/java/com/forestry/counter/data/repository/CartographicTraceRepositoryTest.kt"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/location/trace/TraceRecoveryAndExportTest.kt",
+      "sha256": "7124c8921ea48988966504010de965610f7becc5edcb14041e9839838e2790fb",
+      "lines": 56,
+      "method": "complete first cat source before next package declaration",
+      "complete": true,
+      "missingSourceLines": [],
+      "provenance": [
+        {
+          "source": "trees-filters-batch11.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "turnStartedAt": "2026-11-07T08:58:33+00:00",
+          "item": "exec-328157d5-9a7d-497c-a11b-4a4e47e39a79",
+          "itemIndex": 243
+        }
+      ],
+      "artifact": "recovered/app/src/test/java/com/forestry/counter/domain/location/trace/TraceRecoveryAndExportTest.kt"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/location/trace/MapTraceForegroundService.kt",
+      "sha256": "a50b7e73349b5385011d25a982094250e89f33f23ad8ebbd84ce6790ddd2b7d4",
+      "lines": 115,
+      "method": "complete independent later full read; original creation command has automatic source redactions",
+      "complete": true,
+      "missingSourceLines": [],
+      "provenance": [
+        {
+          "source": "trees-filters-batch10-single.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b570-0c92-73e4-b7b5-5689a3c2d102",
+          "turnStartedAt": "2026-11-07T09:56:22+00:00",
+          "item": "exec-c1e2cd99-bdeb-4cb1-8a75-e4fd5326b9e8",
+          "itemIndex": 3
+        }
+      ],
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/location/trace/MapTraceForegroundService.kt"
+    },
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicTraceRepositoryRoomTest.kt",
+      "sha256": "92fede77593f3ed4ab043f090b32e7ac26e5b57a054d94f408a4460f9b9d3d04",
+      "lines": 204,
+      "method": "literal creation/AST plus exact lines43–101 read; a later token assignment remains redacted, fragment only",
+      "complete": false,
+      "missingSourceLines": [
+        187
+      ],
+      "provenance": [
+        {
+          "source": "trees-filters-batch9.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b578-989e-70aa-b399-1c981844674b",
+          "turnStartedAt": "2026-11-07T10:05:42+00:00",
+          "item": "exec-584870d8-a7d3-4d02-8204-12032ac3246b",
+          "itemIndex": 10
+        },
+        {
+          "source": "trees-filters-batch9.json",
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b578-989e-70aa-b399-1c981844674b",
+          "turnStartedAt": "2026-11-07T10:05:42+00:00",
+          "item": "exec-74fdbbcd-271a-4a89-a835-ea399640c57f",
+          "itemIndex": 15
+        }
+      ],
+      "artifact": "fragments/CartographicTraceRepositoryRoomTest.kt.fragment"
+    }
+  ],
+  "events": [
+    {
+      "source": "trees-filters-batch11.json",
+      "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+      "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+      "turnStartedAt": "2026-11-07T08:58:33+00:00",
+      "item": "exec-906c3df6-109c-4479-969f-b19b5a82ec99",
+      "itemIndex": 98,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt",
+      "operation": "update",
+      "literalSha256": "2b464b1aa560d6271d80b74b74b735cca9d63755346d2344ddc26145679e0935",
+      "artifact": "events/98-SegmentedTraceRecorder.kt.patch",
+      "contextMatches": [
+        {
+          "header": "@@ -32,2 +32,22 @@",
+          "matchedOldLine": 32
+        }
+      ]
+    },
+    {
+      "source": "trees-filters-batch11.json",
+      "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+      "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+      "turnStartedAt": "2026-11-07T08:58:33+00:00",
+      "item": "exec-e0a4ca34-e994-4195-911d-fde5467ca3f3",
+      "itemIndex": 97,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt",
+      "operation": "restricted_literal_ast",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "package com.forestry.counter.domain.location.trace",
+          "new": "package com.forestry.counter.domain.location.trace\n\nimport kotlinx.serialization.Serializable",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "data class TraceFix(",
+          "new": "@Serializable\ndata class TraceFix(",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "enum class TracePositionSource",
+          "new": "@Serializable\nenum class TracePositionSource",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "data class TraceCapturePolicy(",
+          "new": "@Serializable\ndata class TraceCapturePolicy(",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "enum class TraceCapturePhase",
+          "new": "@Serializable\nenum class TraceCapturePhase",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "enum class TraceBreakReason",
+          "new": "@Serializable\nenum class TraceBreakReason",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "enum class TraceRejectionReason",
+          "new": "@Serializable\nenum class TraceRejectionReason",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "enum class TraceIgnoredReason",
+          "new": "@Serializable\nenum class TraceIgnoredReason",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "enum class TraceEventType",
+          "new": "@Serializable\nenum class TraceEventType",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "data class TraceCaptureEvent(",
+          "new": "@Serializable\ndata class TraceCaptureEvent(",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "data class TracePortion(",
+          "new": "@Serializable\ndata class TracePortion(",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "data class TraceCaptureSnapshot(",
+          "new": "@Serializable\ndata class TraceCaptureSnapshot(",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "val isMock: Boolean = false,",
+          "new": "val isMock: Boolean = false,\n    /** Android boot clock identifier, retained independently for each observation. */\n    val clockDomainId: String? = null,",
+          "matches": 1
+        }
+      ],
+      "sha256": "ab2b2a0432488985150208768e0000c806b5bf0d67cea628ce08cf06dbcb1cbb"
+    },
+    {
+      "source": "trees-filters-batch11.json",
+      "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+      "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+      "turnStartedAt": "2026-11-07T08:58:33+00:00",
+      "item": "exec-906c3df6-109c-4479-969f-b19b5a82ec99",
+      "itemIndex": 98,
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicTraceMigrations.kt",
+      "operation": "add",
+      "literalSha256": "8d6e27c829593b44d47cce21555d8f753b347e61fdd39501759a17884daa1698",
+      "artifact": "events/98-CartographicTraceMigrations.kt.literal"
+    },
+    {
+      "source": "trees-filters-batch11.json",
+      "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+      "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+      "turnStartedAt": "2026-11-07T08:58:33+00:00",
+      "item": "exec-637d35e4-c20f-4f08-b935-168c5300ddee",
+      "itemIndex": 178,
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicTraceMigrations.kt",
+      "operation": "update",
+      "literalSha256": "9eeab1e687c205b30f5df30661b742e64f9ccfd1c89cfe83e3149fc1d89ec7b7",
+      "artifact": "events/178-CartographicTraceMigrations.kt.patch"
+    },
+    {
+      "source": "trees-filters-batch11.json",
+      "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+      "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+      "turnStartedAt": "2026-11-07T08:58:33+00:00",
+      "item": "exec-906c3df6-109c-4479-969f-b19b5a82ec99",
+      "itemIndex": 98,
+      "path": "app/src/main/java/com/forestry/counter/data/local/dao/CartographicTraceDao.kt",
+      "operation": "add",
+      "literalSha256": "20d6bed35f8ff1e5a284878d1180fcd025ea8a04e083612d82d9733607f59c3c",
+      "artifact": "events/98-CartographicTraceDao.kt.literal"
+    },
+    {
+      "source": "trees-filters-batch11.json",
+      "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+      "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+      "turnStartedAt": "2026-11-07T08:58:33+00:00",
+      "item": "exec-637d35e4-c20f-4f08-b935-168c5300ddee",
+      "itemIndex": 178,
+      "path": "app/src/main/java/com/forestry/counter/data/local/dao/CartographicTraceDao.kt",
+      "operation": "update",
+      "literalSha256": "5d37a6bf2320dc82ab70e4555ca6f94c9f996c98c8e6b4263b432b701a5e7bd5",
+      "artifact": "events/178-CartographicTraceDao.kt.patch"
+    },
+    {
+      "source": "trees-filters-batch11.json",
+      "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+      "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+      "turnStartedAt": "2026-11-07T08:58:33+00:00",
+      "item": "exec-906c3df6-109c-4479-969f-b19b5a82ec99",
+      "itemIndex": 98,
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceEntity.kt",
+      "operation": "add",
+      "literalSha256": "e793e3a4d535c2303e122d72eb6ba2c97ca80edf39ba62341d934a72edc93cd5",
+      "artifact": "events/98-CartographicTraceEntity.kt.literal"
+    },
+    {
+      "source": "trees-filters-batch11.json",
+      "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+      "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+      "turnStartedAt": "2026-11-07T08:58:33+00:00",
+      "item": "exec-637d35e4-c20f-4f08-b935-168c5300ddee",
+      "itemIndex": 178,
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceJournalEntity.kt",
+      "operation": "add",
+      "literalSha256": "117409d027476b3ea18d12f6910c3f3ba3d1e54bc3623756aa1b956bc4c8663f",
+      "artifact": "events/178-CartographicTraceJournalEntity.kt.literal"
+    },
+    {
+      "source": "trees-filters-batch11.json",
+      "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+      "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+      "turnStartedAt": "2026-11-07T08:58:33+00:00",
+      "item": "exec-906c3df6-109c-4479-969f-b19b5a82ec99",
+      "itemIndex": 98,
+      "path": "app/src/main/java/com/forestry/counter/domain/repository/CartographicTraceRepository.kt",
+      "operation": "add",
+      "literalSha256": "7a13b1d36b4cbbcf233d2662c48590e81b6819363ae0af9ed087ac8077ea4672",
+      "artifact": "events/98-CartographicTraceRepository.kt.literal"
+    },
+    {
+      "source": "trees-filters-batch11.json",
+      "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+      "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+      "turnStartedAt": "2026-11-07T08:58:33+00:00",
+      "item": "exec-5f3800b3-2b31-49a7-aff6-db345c401269",
+      "itemIndex": 224,
+      "path": "app/src/main/java/com/forestry/counter/data/repository/CartographicTraceRepositoryImpl.kt",
+      "operation": "update",
+      "literalSha256": "c04250367f51a0e0b7ccf2164d2219d9daa8f7ed8274cbb570bf7fd4d6d24e68",
+      "artifact": "events/224-CartographicTraceRepositoryImpl.kt.patch",
+      "contextMatches": [
+        {
+          "header": "@@ -15,2 +15,3 @@",
+          "matchedOldLine": 15
+        },
+        {
+          "header": "@@ -61,3 +62,3 @@",
+          "matchedOldLine": 62
+        },
+        {
+          "header": "@@ -117,3 +118,4 @@",
+          "matchedOldLine": 118
+        }
+      ]
+    },
+    {
+      "source": "trees-filters-batch11.json",
+      "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+      "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+      "turnStartedAt": "2026-11-07T08:58:33+00:00",
+      "item": "exec-f31290ad-284b-42e6-aa72-14600844de44",
+      "itemIndex": 183,
+      "path": "app/src/main/java/com/forestry/counter/data/repository/TraceDraftJournal.kt",
+      "operation": "update",
+      "literalSha256": "673ac7957702daa9a9cdeb3c4bab76a48d04dbe3d3bdbf76fecc58f36aac5d15",
+      "artifact": "events/183-TraceDraftJournal.kt.patch",
+      "contextMatches": [
+        {
+          "header": "@@ -75,4 +75,4 @@",
+          "matchedOldLine": 75
+        },
+        {
+          "header": "@@ -126,4 +126,4 @@",
+          "matchedOldLine": 126
+        }
+      ]
+    },
+    {
+      "source": "trees-filters-batch11.json",
+      "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+      "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+      "turnStartedAt": "2026-11-07T08:58:33+00:00",
+      "item": "exec-8eb2ef60-b1e7-4716-9dd2-98e51003717d",
+      "itemIndex": 238,
+      "path": "app/src/test/java/com/forestry/counter/data/repository/CartographicTraceRepositoryTest.kt",
+      "operation": "update",
+      "literalSha256": "fbe2fa823a1415538b0316fa3fe0877045fca0f75e096f73bd462da21ff3ed82",
+      "artifact": "events/238-CartographicTraceRepositoryTest.kt.patch",
+      "contextMatches": [
+        {
+          "header": "@@ -157,2 +157,28 @@",
+          "matchedOldLine": 157
+        }
+      ]
+    },
+    {
+      "source": "trees-filters-batch9.json",
+      "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+      "turn": "01a1b578-989e-70aa-b399-1c981844674b",
+      "turnStartedAt": "2026-11-07T10:05:42+00:00",
+      "item": "exec-74fdbbcd-271a-4a89-a835-ea399640c57f",
+      "itemIndex": 15,
+      "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicTraceRepositoryRoomTest.kt",
+      "operation": "restricted_literal_ast",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "repository = repository()",
+          "new": "repository = newRepository()",
+          "matches": 3
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "private fun repository() =",
+          "new": "private fun newRepository() =",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "BASE + 1_000",
+          "new": "BASE + 1_000_000_000",
+          "matches": 4
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "BASE + 2_000",
+          "new": "BASE + 2_000_000_000",
+          "matches": 4
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "BASE + 3_000",
+          "new": "BASE + 3_000_000_000",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "resumed.snapshot(10)",
+          "new": "resumed.snapshot(10_000_000_000)",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "resumed.resume(20)",
+          "new": "resumed.resume(20_000_000_000)",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "45.1750, 21,",
+          "new": "45.1750, 21_000_000_000,",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "), 21)",
+          "new": "), 21_000_000_000)",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "45.1751, 22,",
+          "new": "45.1751, 22_000_000_000,",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "), 22)",
+          "new": "), 22_000_000_000)",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "resumed.stop(30)",
+          "new": "resumed.stop(30_000_000_000)",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "        val header = ByteArray(16)\n        context.getDatabasePath(databaseName).inputStream().use { assertEquals(16, it.read(header)) }\n        assertNotEquals(\"SQLite format 3\\u0000\", String(header, Charsets.ISO_8859_1))\n\n        val oldAccess = access\n        val originalPartition = access.restorationKey\n        db.close()\n",
+          "new": "        val oldAccess = access\n        val originalPartition = access.restorationKey\n        db.close()\n        val header = ByteArray(16)\n        context.getDatabasePath(databaseName).inputStream().use { assertEquals(16, it.read(header)) }\n        assertNotEquals(\"SQLite format 3\\u0000\", String(header, Charsets.ISO_8859_1))\n",
+          "matches": 1
+        }
+      ],
+      "sha256": "92fede77593f3ed4ab043f090b32e7ac26e5b57a054d94f408a4460f9b9d3d04"
+    }
+  ],
+  "checks": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicTraceMigrations.kt",
+      "check": "literal_creation_and_updates_equal_independent_complete_Room49_read",
+      "sha256": "0da5e401d79a7a09ba7e6a00a9efce0698e735128c215bb7c9fedecf84bb4d68",
+      "passed": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/dao/CartographicTraceDao.kt",
+      "check": "literal_creation_and_updates_equal_independent_complete_Room49_read",
+      "sha256": "e61152e9c9a9ac1c05d0d1a72747d2b07771ce466322cf8cbdacb4fc4cf75084",
+      "passed": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceEntity.kt",
+      "check": "literal_creation_and_updates_equal_independent_complete_Room49_read",
+      "sha256": "e793e3a4d535c2303e122d72eb6ba2c97ca80edf39ba62341d934a72edc93cd5",
+      "passed": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceJournalEntity.kt",
+      "check": "literal_Add_equals_independent_complete_Room49_read",
+      "passed": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/repository/CartographicTraceRepositoryImpl.kt",
+      "check": "latest prefix1-155 equals independent later read",
+      "passed": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/location/trace/MapTraceForegroundService.kt",
+      "check": "creation heredoc rejected as full-source evidence because of redacted Kotlin identifiers",
+      "rejectedSource": {
+        "source": "trees-filters-batch11.json",
+        "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+        "turnStartedAt": "2026-11-07T08:58:33+00:00",
+        "item": "exec-fe802950-1039-451a-ae2f-59d6fad54504",
+        "itemIndex": 109
+      },
+      "redactionMarkers": 5,
+      "replacementEvidence": {
+        "source": "trees-filters-batch10-single.json",
+        "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "turn": "01a1b570-0c92-73e4-b7b5-5689a3c2d102",
+        "turnStartedAt": "2026-11-07T09:56:22+00:00",
+        "item": "exec-c1e2cd99-bdeb-4cb1-8a75-e4fd5326b9e8",
+        "itemIndex": 3
+      },
+      "passed": true
+    },
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicTraceRepositoryRoomTest.kt",
+      "check": "exact later read repairs token assignment52; original assignment187 remains unobserved",
+      "passed": true,
+      "complete": false
+    }
+  ],
+  "patch": {
+    "artifact": "patches/gps-persistence-transition-2026-11-07.patch",
+    "sha256": "28632d9024ac99cce072408f72553184212dec73495939307ca42ca4af96af36",
+    "predecessor": "gps-domain-2026-11-05 for two existing domain files; others are additions"
+  },
+  "dependencies": [
+    "../room49-observed/manifest.json",
+    "../shared-authority-observed.json",
+    "../room46-49-chain/manifest.json"
+  ],
+  "limits": [
+    "Complete sources from available November7 history; source observations remain dated. UI/VM adapters are recovered by the workspace agent."
+  ],
+  "execution": "Only local literal/AST extraction; no historical commands, repository changes, builds/tests/ADB/push."
+}

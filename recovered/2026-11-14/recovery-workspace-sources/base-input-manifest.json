@@ -1,0 +1,9 @@
+{
+  "git_repository": "/workspace/recovery-geosylva",
+  "commit": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+  "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+  "snapshot_file": "base-input/36d1515b6bd53217bd8d85a6fe0a2b11a549dc58/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+  "bytes": 53115,
+  "sha256": "a0a1d359ab53d2301a16635686daf5863a4df17b1f4bb68e6b9bc7a2f00582f4",
+  "method": "Read-only git show of immutable commit, independent of the active recovery work tree"
+}

@@ -1,0 +1,10 @@
+@@ -559,3 +559,8 @@
+         thumb = {
+-            Box(Modifier.size(MapUiTokens.sliderThumb).clip(CircleShape).background(activeColor))
++            // Material3 measures its progress/gesture node from max(thumb, track),
++            // inside requiredSizeIn. Reserve48dp here as well as outside the Slider;
++            // the visible thumb remains20dp and the already reserved row stays48dp.
++            Box(Modifier.size(MapUiTokens.sliderThumb, MapUiTokens.touch), contentAlignment = Alignment.Center) {
++                Box(Modifier.size(MapUiTokens.sliderThumb).clip(CircleShape).background(activeColor))
++            }
+         },

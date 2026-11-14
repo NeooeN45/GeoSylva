@@ -1,0 +1,126 @@
+    }
+
+    fun applyFrameCommand() {
+        val command = currentFrameCommand ?: return
+        if (command.id == consumedFrameId || command.id == issuedFrameCommandId) return
+        cancelNativeRestoration()
+        val map = sdkMap ?: return
+        val commandView = sdkMapView ?: return
+        val nativeStyle = map.style ?: return
+        if (!boundsAccepted || terrainControlFailed || resourceFailure != null || !nativeStyle.isStyleLoaded() ||
+            commandView.width <= 0 || commandView.height <= 0) return
+        issuedFrameCommandId = command.id
+        issuedFrameFitWindow?.close()
+        issuedFrameFitWindow = null
+        if (frameFitFailure != null) statusCallback(MapRenderStatus.Loading(currentStyle.id))
+        frameFitFailure = null
+        val padding = MapCameraPadding(command.paddingTopPx, command.paddingLeftPx,
+            command.paddingBottomPx, command.paddingRightPx)
+        val ticket = cameraGate.submit(command.id, MapCameraCommandKind.FIT, padding)
+        cameraEvent(ticket, MapCameraCommandStage.REQUESTED, map.cameraState.toMapCameraPosition())
+        val points = command.coordinates.map { Point.fromLngLat(it.longitude, it.latitude) }
+        val state = map.cameraState
+        val absolutePadding = EdgeInsets(padding.top,padding.left,padding.bottom,padding.right)
+        val camera = CameraOptions.Builder().padding(absolutePadding)
+            .bearing(state.bearing).pitch(state.pitch).build()
+        val width = commandView.width
+        val height = commandView.height
+        val layoutRevision = nativeLayoutRevision
+        val fitRelief = requestedRelief
+        val fitDensity = currentRenderDensity
+        val refinement = MapCameraFitRefinement(width,height,padding,points.size,map.getBounds().minZoom,
+            SystemClock.uptimeMillis())
+        lateinit var window: IssuedFrameFitWindow
+        fun contextCurrent(): Boolean = alive && sdkMap === map && sdkMapView === commandView &&
+            map.style === nativeStyle && nativeStyle.isStyleLoaded() && currentFrameCommand == command &&
+            issuedFrameFitWindow === window &&
+            commandView.width == width && commandView.height == height && nativeLayoutRevision == layoutRevision &&
+            requestedRelief == fitRelief && currentRenderDensity == fitDensity &&
+            !terrainControlFailed && resourceFailure == null
+        fun stillCurrent(): Boolean = contextCurrent() && cameraGate.isCurrent(ticket)
+        fun reject(reason: MapFitFailure) {
+            if (!contextCurrent()) return
+            window.close()
+            issuedFrameFitWindow = null
+            cameraGate.invalidate()
+            cameraEvent(ticket,MapCameraCommandStage.REJECTED_OPTIONS)
+            frameFitFailure = reason
+            readyPublished = false
+            publishReticle()
+            diagnosticCallback(MapRenderDiagnostic.CAMERA_FIT_FAILED)
+            statusCallback(MapRenderStatus.Failed(MapFailureReason.CAMERA_FIT))
+        }
+        fun applyCalculated(attempt: MapFitAttempt, options: CameraOptions) {
+            // A result is applicable only to this intent, layout and exact proposal nonce.
+            commandView.post applyOnMain@{
+                if (!stillCurrent() || !refinement.isCurrent(attempt)) return@applyOnMain
+                // Preserve all SDK fields, including the original Point, anchor and vertical field of view.
+                val nativeOptions = options.toBuilder().padding(absolutePadding)
+                    .bearing(options.bearing ?: state.bearing).pitch(options.pitch ?: state.pitch).build()
+                val center = nativeOptions.center
+                val zoom = nativeOptions.zoom
+                val target = runCatching {
+                    if (center == null || zoom == null) null else MapCameraPosition(
+                        canonicalLongitude(center.longitude()),center.latitude(),zoom,
+                        nativeOptions.bearing ?: state.bearing,nativeOptions.pitch ?: state.pitch,padding)
+                }.getOrNull()
+                if (target == null) { reject(MapFitFailure.INVALID_MEASUREMENT); return@applyOnMain }
+                if (!cameraGate.resolve(ticket,target)) return@applyOnMain
+                cameraEvent(ticket,MapCameraCommandStage.OPTIONS_CALCULATED,target)
+                commandView.viewport.idle()
+                if (!stillCurrent() || !refinement.isCurrent(attempt)) return@applyOnMain
+                val key = listOf(map,nativeStyle,commandView,width,height,layoutRevision,
+                    nativeOptions,command.coordinates,fitRelief)
+                if (!cameraGate.beginNativeFitApplication(ticket,map.cameraState.toMapCameraPosition(),key,
+                        System.currentTimeMillis(),::stillCurrent)) return@applyOnMain
+                var returnedNormally = false
+                var readbackAfterSetter: MapCameraPosition? = null
+                try {
+                    map.setCamera(nativeOptions)
+                    // setCamera is synchronous. Read the same map immediately: a constrained
+                    // repeat can be a native no-op and need not produce CameraChanged.
+                    if (stillCurrent() && refinement.isCurrent(attempt))
+                        readbackAfterSetter = map.cameraState.toMapCameraPosition()
+                    returnedNormally = true
+                } catch (_: RuntimeException) {
+                    // Only a fixed failure code escapes; an SDK exception may include credentials.
+                } finally { cameraGate.endNativeFitApplication(ticket,returnedNormally,readbackAfterSetter) }
+                if (!returnedNormally) { reject(MapFitFailure.INVALID_MEASUREMENT); return@applyOnMain }
+                if (stillCurrent()) refinement.applied(attempt)
+                observeCameraCommand()
+            }
+        }
+        fun propose(attempt: MapFitAttempt) {
+            if (!stillCurrent() || !refinement.isCurrent(attempt)) return
+            if (command.coordinates.distinct().size == 1) {
+                // Keep the existing single-point FIT policy; POINT commands are independent.
+                applyCalculated(attempt,CameraOptions.Builder().center(points.first())
+                    .zoom(minOf(17.0,attempt.maxZoom ?: 17.0)).bearing(state.bearing).pitch(state.pitch)
+                    .padding(absolutePadding).build())
+            } else {
+                val extra = attempt.coordinatesPadding
+                val coordinatesPadding = if (extra == MapCameraPadding()) null
+                    else EdgeInsets(extra.top,extra.left,extra.bottom,extra.right)
+                // Only measured coordinate padding is added. UI padding stays absolute and unchanged.
+                try {
+                    map.cameraForCoordinates(points,camera,coordinatesPadding,attempt.maxZoom,null) { options ->
+                        applyCalculated(attempt,options)
+                    }
+                } catch (_: RuntimeException) { reject(MapFitFailure.INVALID_MEASUREMENT) }
+            }
+        }
+        window = IssuedFrameFitWindow(ticket,refinement,::stillCurrent,::propose,::reject)
+        issuedFrameFitWindow = window
+        window.deadline = callbackScope.launch {
+            delay(refinement.maxDurationMs)
+            if (stillCurrent()) reject(MapFitFailure.BUDGET_EXHAUSTED)
+            else if (issuedFrameFitWindow === window) {
+                val failedResources = resourceFailure != null || terrainControlFailed
+                closeFrameFit(rearmForContext = !failedResources,resourceFailed = failedResources)
+            }
+        }
+        propose(refinement.initialAttempt)
+    }
+
+    fun publishViewport() {
+        val map = sdkMap ?: return

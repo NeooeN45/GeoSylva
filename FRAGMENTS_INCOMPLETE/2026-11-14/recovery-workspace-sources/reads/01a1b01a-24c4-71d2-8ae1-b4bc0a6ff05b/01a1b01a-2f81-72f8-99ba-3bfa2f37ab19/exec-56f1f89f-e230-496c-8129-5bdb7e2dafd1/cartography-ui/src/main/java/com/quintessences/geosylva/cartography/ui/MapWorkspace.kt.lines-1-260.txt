@@ -1,0 +1,260 @@
+package com.quintessences.geosylva.cartography.ui
+
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.AddCircleOutline
+import androidx.compose.material.icons.outlined.Assignment
+import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.ExpandMore
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Layers
+import androidx.compose.material.icons.outlined.MyLocation
+import androidx.compose.material.icons.outlined.RadioButtonUnchecked
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.Straighten
+import androidx.compose.material.icons.outlined.Tune
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.quintessences.geosylva.cartography.ui.R
+import java.text.NumberFormat
+import kotlin.math.roundToInt
+
+/**
+ * Shared chrome for Terrain and Libre. The canvas and all durable state belong to
+ * the host. This composable never assumes that a visible catalog item is usable.
+ */
+@Composable
+fun MapWorkspace(
+    state: MapWorkspaceState,
+    actions: MapWorkspaceActions,
+    modifier: Modifier = Modifier,
+    thumbnail: @Composable (MapPreviewKey, Modifier) -> Unit = { _, imageModifier ->
+        MissingPreview(imageModifier)
+    },
+    canvas: @Composable BoxScope.() -> Unit,
+) {
+    BackHandler(enabled = state.panel != null) { actions.onPanelChanged(null) }
+    val fontScale = LocalDensity.current.fontScale
+    BoxWithConstraints(modifier.fillMaxSize()) {
+        canvas()
+        Column(
+            Modifier.align(Alignment.TopCenter).fillMaxWidth().statusBarsPadding()
+                .padding(horizontal = MapUiTokens.edge, vertical = MapUiTokens.topGap),
+            verticalArrangement = Arrangement.spacedBy(MapUiTokens.topGap),
+        ) {
+            ContextCapsule(state, actions)
+            if (state.panel == null) Surface(
+                onClick = { actions.onPanelChanged(MapPanel.LAYERS) },
+                modifier = Modifier.align(Alignment.End).heightIn(min = MapUiTokens.touch),
+                shape = MapUiTokens.commandShape,
+                color = MapUiTokens.paper,
+                shadowElevation = MapUiTokens.elevation,
+            ) {
+                Row(Modifier.padding(horizontal = MapUiTokens.commandPadding),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(MapUiTokens.iconGap)) {
+                    Icon(Icons.Outlined.Layers, null, tint = MapUiTokens.ink)
+                    Text(stringResource(R.string.gs_map_layers), fontWeight = FontWeight.SemiBold,
+                        color = MapUiTokens.ink, fontSize = 16.sp)
+                }
+            }
+        }
+        if (state.panel == null) {
+            Column(
+                Modifier.align(Alignment.BottomCenter).fillMaxWidth().navigationBarsPadding()
+                    .padding(horizontal = MapUiTokens.edge, vertical = MapUiTokens.bottomGap),
+                verticalArrangement = Arrangement.spacedBy(MapUiTokens.commandGap),
+            ) {
+                Surface(
+                    onClick = actions::onLocate,
+                    modifier = Modifier.align(Alignment.End).size(MapUiTokens.positionSize),
+                    shape = MapUiTokens.commandShape, color = MapUiTokens.paper,
+                    shadowElevation = MapUiTokens.elevation,
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(Icons.Outlined.MyLocation, stringResource(R.string.gs_map_position),
+                            tint = MapUiTokens.ink, modifier = Modifier.size(MapUiTokens.positionIcon))
+                    }
+                }
+                TaskBar(actions)
+            }
+        } else {
+            val panelHeight = maxHeight * if (fontScale > 1.1f) 0.82f else 0.58f
+            Surface(
+                modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().height(panelHeight),
+                shape = MapUiTokens.panelShape, color = MapUiTokens.paper,
+                shadowElevation = MapUiTokens.panelElevation,
+            ) {
+                Column(Modifier.fillMaxSize().navigationBarsPadding()) {
+                    Box(Modifier.align(Alignment.CenterHorizontally).padding(top = MapUiTokens.handleTop)
+                        .size(MapUiTokens.handleWidth, MapUiTokens.handleHeight)
+                        .clip(CircleShape).background(MapUiTokens.muted.copy(alpha = 0.5f)))
+                    Row(Modifier.fillMaxWidth().padding(start = MapUiTokens.panelInset, end = MapUiTokens.closeInset),
+                        verticalAlignment = Alignment.CenterVertically) {
+                        Text(stringResource(R.string.gs_map_layers), Modifier.weight(1f),
+                            color = MapUiTokens.ink, fontWeight = FontWeight.Bold, fontSize = 25.sp)
+                        IconButton(onClick = { actions.onPanelChanged(null) }, Modifier.size(MapUiTokens.touch)) {
+                            Icon(Icons.Outlined.Close, stringResource(R.string.gs_map_close), tint = MapUiTokens.ink)
+                        }
+                    }
+                    PanelTabs(state.panel, actions)
+                    when (state.panel) {
+                        MapPanel.BASEMAPS -> BasemapPanel(state, actions, thumbnail)
+                        MapPanel.LAYERS -> LayerPanel(state, actions, thumbnail)
+                        MapPanel.RELIEF -> ReliefPanel(state, actions)
+                        null -> Unit
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ContextCapsule(state: MapWorkspaceState, actions: MapWorkspaceActions) {
+    Surface(shape = CircleShape, color = MapUiTokens.paper,
+        shadowElevation = MapUiTokens.elevation, modifier = Modifier.fillMaxWidth()) {
+        Row(Modifier.heightIn(min = MapUiTokens.contextHeight).padding(horizontal = MapUiTokens.contextInset),
+            verticalAlignment = Alignment.CenterVertically) {
+            IconButton(onClick = actions::onBack, modifier = Modifier.size(MapUiTokens.touch)) {
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.gs_map_back), tint = MapUiTokens.ink)
+            }
+            Row(Modifier.weight(1f).clickable(role = Role.Button, onClick = actions::onChooseContext)
+                .heightIn(min = MapUiTokens.touch), verticalAlignment = Alignment.CenterVertically) {
+                Text(contextLabel(state), modifier = Modifier.weight(1f), fontSize = 16.sp,
+                    maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Icon(Icons.Outlined.ExpandMore, stringResource(R.string.gs_map_choose_context),
+                    tint = MapUiTokens.ink, modifier = Modifier.size(MapUiTokens.icon))
+            }
+        }
+    }
+}
+
+private fun contextLabel(state: MapWorkspaceState): AnnotatedString = buildAnnotatedString {
+    withStyle(SpanStyle(color = MapUiTokens.ink, fontWeight = FontWeight.Bold)) { append(state.contextTitle) }
+    state.contextSubtitle?.takeIf { it.isNotBlank() }?.let {
+        withStyle(SpanStyle(color = MapUiTokens.muted)) { append(" · "); append(it) }
+    }
+}
+
+@Composable
+private fun TaskBar(actions: MapWorkspaceActions) {
+    Surface(shape = MapUiTokens.toolbarShape, color = MapUiTokens.paper,
+        shadowElevation = MapUiTokens.elevation) {
+        Row(Modifier.fillMaxWidth().padding(MapUiTokens.toolbarInset), verticalAlignment = Alignment.CenterVertically) {
+            TaskButton(Icons.Outlined.Assignment, stringResource(R.string.gs_map_surveys), Modifier.weight(1f),
+                selected = true, onClick = { actions.onTask(MapTask.SURVEYS) })
+            ToolbarDivider()
+            TaskButton(Icons.Outlined.Straighten, stringResource(R.string.gs_map_measure), Modifier.weight(1f),
+                onClick = { actions.onTask(MapTask.MEASURE) })
+            ToolbarDivider()
+            TaskButton(Icons.Outlined.Tune, stringResource(R.string.gs_map_tools), Modifier.weight(1f),
+                onClick = { actions.onTask(MapTask.TOOLS) })
+        }
+    }
+}
+
+@Composable
+private fun TaskButton(icon: ImageVector, title: String, modifier: Modifier, selected: Boolean = false, onClick: () -> Unit) {
+    Column(modifier.clip(MapUiTokens.commandShape)
+        .background(if (selected) MapUiTokens.selected else Color.Transparent)
+        .clickable(role = Role.Button, onClick = onClick)
+        .heightIn(min = MapUiTokens.taskHeight).padding(vertical = MapUiTokens.taskInset),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center) {
+        Icon(icon, null, tint = MapUiTokens.ink, modifier = Modifier.size(MapUiTokens.taskIcon))
+        Text(title, color = MapUiTokens.ink, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+    }
+}
+
+@Composable
+private fun ToolbarDivider() {
+    Spacer(Modifier.width(MapUiTokens.dividerWidth).height(MapUiTokens.toolbarDividerHeight)
+        .background(MapUiTokens.outline))
+}
+
+@Composable
+private fun PanelTabs(panel: MapPanel, actions: MapWorkspaceActions) {
+    val panels = MapPanel.entries
+    TabRow(selectedTabIndex = panels.indexOf(panel), containerColor = Color.Transparent,
+        contentColor = MapUiTokens.ink, modifier = Modifier.padding(horizontal = MapUiTokens.panelInset)) {
+        panels.forEach { item ->
+            Tab(selected = item == panel, onClick = { actions.onPanelChanged(item) },
+                text = { Text(stringResource(when(item) {
+                    MapPanel.BASEMAPS -> R.string.gs_map_basemap
+                    MapPanel.LAYERS -> R.string.gs_map_layers
+                    MapPanel.RELIEF -> R.string.gs_map_relief
+                }), fontWeight = if (item == panel) FontWeight.Bold else FontWeight.Normal,
+                    color = if (item == panel) MapUiTokens.ink else MapUiTokens.muted) })
+        }
+    }
+}
+
+@Composable
+private fun BasemapPanel(state: MapWorkspaceState, actions: MapWorkspaceActions,
+    thumbnail: @Composable (MapPreviewKey, Modifier) -> Unit) {
+    var query by rememberSaveable { mutableStateOf("") }
+    Column(Modifier.fillMaxSize().padding(horizontal = MapUiTokens.panelInset)) {
+        SearchBox(query, { query = it }, stringResource(R.string.gs_map_search_basemap))
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()),

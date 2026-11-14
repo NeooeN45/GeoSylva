@@ -1,0 +1,20 @@
+@@ -27,3 +27,3 @@
+  * Layer/IGN previews use a licensed public IGN orthophoto with fictitious vectors.
+- * Mapbox style choices retain schematic illustrations, not redistributed SDK tiles.
++ * Mapbox choices use Static Images API previews of a public Vercors location.
+  * Provenance and license are available in Sources and details.
+@@ -32,3 +32,13 @@
+ internal fun MapCatalogThumbnail(key: MapPreviewKey, modifier: Modifier = Modifier) {
+-    if (key.value in PHOTO_PREVIEW_KEYS) PhotographicLayerPreview(key, modifier)
++    val mapboxPreview = when (key.value) {
++        "MAPBOX_PLAN" -> R.drawable.gs_preview_mapbox_plan
++        "MAPBOX_SATELLITE" -> R.drawable.gs_preview_mapbox_satellite
++        "MAPBOX_SATELLITE_LABELS" -> R.drawable.gs_preview_mapbox_satellite_labels
++        "MAPBOX_TOPO" -> R.drawable.gs_preview_mapbox_topo
++        else -> null
++    }
++    if (mapboxPreview != null) Image(ImageBitmap.imageResource(mapboxPreview),
++        contentDescription = stringResource(R.string.map_catalog_mapbox_preview),
++        modifier = modifier, contentScale = ContentScale.Crop, filterQuality = FilterQuality.High)
++    else if (key.value in PHOTO_PREVIEW_KEYS) PhotographicLayerPreview(key, modifier)
+     else SchematicCatalogThumbnail(key, modifier)

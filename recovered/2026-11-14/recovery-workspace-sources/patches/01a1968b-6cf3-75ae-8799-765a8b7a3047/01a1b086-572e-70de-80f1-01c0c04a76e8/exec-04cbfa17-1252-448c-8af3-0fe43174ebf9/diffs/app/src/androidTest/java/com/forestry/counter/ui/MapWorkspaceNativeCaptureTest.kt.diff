@@ -1,0 +1,4 @@
+@@ -142,2 +142,3 @@
+                                 contentPadding = PaddingValues(start = 12.dp, top = compassTop, end = 12.dp, bottom = bottom),
++                                scaleBarVisible = panel == null,
+                                 onCameraChanged = { camera = it },

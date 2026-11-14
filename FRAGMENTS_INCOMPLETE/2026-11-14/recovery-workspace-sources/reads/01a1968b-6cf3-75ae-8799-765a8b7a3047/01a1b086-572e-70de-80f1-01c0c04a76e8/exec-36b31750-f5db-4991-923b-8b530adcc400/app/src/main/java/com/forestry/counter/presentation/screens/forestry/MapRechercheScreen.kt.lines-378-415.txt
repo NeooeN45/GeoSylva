@@ -1,0 +1,38 @@
+    val layerDetailsLabel = stringResource(R.string.workspace_layer_details)
+    val workspaceLayers = buildList {
+        if (!isFreeMap) add(MapLayerChoice("LOCAL_TREES", treeLayerTitle,
+            onMap = true, visible = treesVisible,
+            availability = if (geoTiges.isEmpty()) MapChoiceAvailability.DATA_REQUIRED else MapChoiceAvailability.AVAILABLE,
+            detailActionLabel = layerDetailsLabel))
+        add(MapLayerChoice("LOCAL_MEASUREMENTS", measureLayerTitle,
+            onMap = true, visible = measurementVisible && measurePoints.isNotEmpty(),
+            availability = if (measurePoints.isEmpty()) MapChoiceAvailability.DATA_REQUIRED else MapChoiceAvailability.AVAILABLE,
+            detailActionLabel = layerDetailsLabel))
+    }
+    val reliefControlsEnabled = workspaceControlsEnabled(renderStatus, renderedStyle.id,
+        localVectorMode, renderedStyle.demSourceUrl != null, overlayFailed)
+    var compassTop by remember { mutableStateOf(156.dp) }
+    val workspaceState = MapWorkspaceState(
+        contextTitle = contextTitle, contextSubtitle = contextSubtitle,
+        presentation = if (isFreeMap) MapPresentation.FREE else MapPresentation.TERRAIN,
+        basemaps = baseChoices, selectedBasemapId = acknowledgedWorkspaceBasemapId(renderStatus, renderedStyle.id, localVectorMode),
+        layers = workspaceLayers, panel = workspacePanel,
+        pitchDegrees = camera.pitch, verticalExaggeration = appliedRelief.exaggeration,
+        controlsEnabled = reliefControlsEnabled,
+        controlsUnavailableReason = stringResource(if (localVectorMode || renderedStyle.demSourceUrl == null)
+            R.string.workspace_relief_unavailable else R.string.workspace_wait_for_map),
+        taskBarVisible = !measureActive && !showMeasureSheet,
+        chromeVisible = !measureActive && !showMeasureSheet,
+        selectedTask = if (showLegend) MapTask.SURVEYS else null,
+        locationEnabled = !hasLocationPermission || phonePosition != null,
+        contextActionLabel = if (isFreeMap) stringResource(R.string.workspace_explore) else null,
+    )
+    fun openMeasurements(saved: Boolean = false) {
+        workspacePanel = null
+        showLegend = false
+        measurementVisible = true
+        measureActive = true
+        showSavedMeasuresPanel = saved
+        showMeasureSheet = true
+    }
+    val workspaceActions = object : MapWorkspaceActions {

@@ -1,0 +1,18 @@
+                            Box(contentAlignment = Alignment.Center) {
+                                Icon(Icons.Default.LocationOn, contentDescription = stringResource(R.string.measure_save_floating))
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    if (showLegend) AlertDialog(
+        onDismissRequest = { showLegend = false },
+        title = { Text(stringResource(R.string.workspace_tree_layer)) },
+        text = {
+            Column(Modifier.verticalScroll(rememberScrollState())) {
+                MapLegendPanel(visible = true, essenceColors = essenceColors, essenceCounts = essenceCounts,
+                    hiddenEssences = hiddenEssences, essenceMap = essenceMap,

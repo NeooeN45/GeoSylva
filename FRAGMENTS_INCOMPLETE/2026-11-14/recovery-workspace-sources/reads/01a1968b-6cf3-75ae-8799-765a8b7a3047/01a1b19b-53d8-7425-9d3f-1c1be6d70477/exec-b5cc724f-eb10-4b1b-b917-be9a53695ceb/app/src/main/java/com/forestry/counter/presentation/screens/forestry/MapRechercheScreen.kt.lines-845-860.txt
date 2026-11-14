@@ -1,0 +1,16 @@
+                hasOfflineTilesState = offlineTileManager.hasOfflineTiles()
+            },
+            onDismiss = { showOfflineSheet = false },
+        )
+    }
+
+    MapMeasureSaveDialog(
+        visible = showMeasureSaveDialog,
+        measureMode = measureMode,
+        measurePoints = measurePoints,
+        measureSaveName = measureSaveName,
+        onMeasureSaveNameChange = { measureSaveName = it },
+        onDismiss = { showMeasureSaveDialog = false },
+        context = context,
+    )
+}

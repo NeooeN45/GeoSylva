@@ -1,0 +1,10 @@
+@@ -89,3 +89,8 @@
+     Text(title, style = MaterialTheme.typography.titleLarge)
+-    rows.forEach { (label, value) -> ForestryMetric(label, value) }
++    rows.forEach { (label, value) ->
++        Column(Modifier.fillMaxWidth()) {
++            Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
++            Text(value, style = MaterialTheme.typography.bodyLarge)
++        }
++    }
+     Text(caution, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)

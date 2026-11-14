@@ -1,0 +1,7 @@
+@@ -249,3 +249,5 @@
+     val density = LocalDensity.current.density
+-    var camera by rememberSaveable(mapScope.toString(), stateSaver = MapCameraPositionSaver) { mutableStateOf(MapCameraPosition(2.5, 46.6, 5.0)) }
++    var camera by rememberSaveable(mapScope.toString(), stateSaver = MapCameraPositionSaver) {
++        mutableStateOf(MapCameraPosition(2.5, 46.6, 5.0, pitch = if (mapScope == MapDataScope.Free) 45.0 else 0.0))
++    }
+     var cameraCommand by remember(mapScope) { mutableStateOf<MapCameraCommand?>(null) }

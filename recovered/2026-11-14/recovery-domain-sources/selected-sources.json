@@ -1,0 +1,476 @@
+{
+  "selected": [
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicMeasurementRepositoryRoomTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/androidTest/java/com/forestry/counter/data/local/CartographicMeasurementRepositoryRoomTest.kt",
+      "sha256": "a6d319d3f345a89e007d4ad68e5683c3aac464380b11260ac672a90943ef0e49",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/manifest.json",
+      "version": "2026-11-06 manual measures",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/data/local/Migration47To48Test.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/androidTest/java/com/forestry/counter/data/local/Migration47To48Test.kt",
+      "sha256": "a94a54bc198c8dac9db3b90ac32173a5c265c574e0fbb99aecd0a2e5d54b0bff",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/manifest.json",
+      "version": "2026-11-06 manual measures",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicScopeAuthority.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/temporal/2026-11-07-observed-shared-authority/app/src/main/java/com/forestry/counter/data/cartography/CartographicScopeAuthority.kt",
+      "sha256": "b5386895e197bc6df44093fdd7be7f0590aa7d39f71e79d965f8bc2d24346bf3",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/shared-authority-observed.json",
+      "version": "2026-11-07 shared authority",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/recovered/app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "sha256": "bd8d753f0f61ebe0dae2690d8c8820e2c047154a35d50ad51e5ee601c525ed54",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/manifest.json",
+      "version": "2026-11-07 layer domain after all exact direct mutations",
+      "selection": "selected",
+      "compatibilityNote": "Complete literal heredoc plus exact restricted AST changes; no candidate UI patch replay."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicLayerMigrations.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/CartographicLayerMigrations.kt",
+      "sha256": "57aeda6a1e89f9009a35fe990fc8ba0ae794cf7a303ab30842dd9848d683e626",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+      "version": "Room49 complete observation",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicMeasurementMigrations.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/main/java/com/forestry/counter/data/local/CartographicMeasurementMigrations.kt",
+      "sha256": "dc34d6866ca82897d411faf8356604885d4b1bc6b5acd072c2e882dc009d94d8",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/manifest.json",
+      "version": "2026-11-06 manual measures",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicTraceMigrations.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/CartographicTraceMigrations.kt",
+      "sha256": "0da5e401d79a7a09ba7e6a00a9efce0698e735128c215bb7c9fedecf84bb4d68",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+      "version": "Room49 complete observation",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicWorkspaceMigrations.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/CartographicWorkspaceMigrations.kt",
+      "sha256": "a70c01443992439423d2683a461d032c1c8667efa867cb4b28d3e41c7e4c58b2",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+      "version": "Room49 complete observation",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/ControlBasisMigrations.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/room46-49-chain/versions/47/app/src/main/java/com/forestry/counter/data/local/ControlBasisMigrations.kt",
+      "sha256": "65f61ee858b8fee6f0939dedaedec07cbde92d32df279b37ae7b3b8c01e24434",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+      "version": "Room47 introduction",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/room46-49-chain/versions/49/app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "sha256": "23aa6042e0fa603523eeaa4b08c52aa10615f0a13b2a604664bee4fb7cca2800",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+      "version": "Room49 registration chain",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/room46-49-chain/versions/49/app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "sha256": "994f2e6268dace7e09127fde1c4962f1a4a667c60e31048b75f74ab3d5489644",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/room46-49-chain/manifest.json",
+      "version": "Room49 registration chain",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/dao/CartographicLayerDao.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-layer-dao/recovered/app/src/main/java/com/forestry/counter/data/local/dao/CartographicLayerDao.kt",
+      "sha256": "a97979f6bdeb55e068fe47801185bf6e9d5c7f9dfa4b625dffaa1bc70dbdb5a7",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-layer-dao/manifest.json",
+      "version": "Room49 layer DAO after exact version observation flow mutation",
+      "selection": "selected",
+      "compatibilityNote": "Matches shared layer repository accessChanges flow contract; no inferred query."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/dao/CartographicMeasurementDao.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/main/java/com/forestry/counter/data/local/dao/CartographicMeasurementDao.kt",
+      "sha256": "4f91e5568ef54d787b41a653f54355c140aa9b137cb9779740828d8718a08f5c",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/manifest.json",
+      "version": "2026-11-06 manual measures",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/dao/CartographicTraceDao.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/dao/CartographicTraceDao.kt",
+      "sha256": "e61152e9c9a9ac1c05d0d1a72747d2b07771ce466322cf8cbdacb4fc4cf75084",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+      "version": "Room49 complete observation",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/dao/OfflineMapPackDao.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-offline-pack/recovered/app/src/main/java/com/forestry/counter/data/local/dao/OfflineMapPackDao.kt",
+      "sha256": "a8fc75590b5dac49dbb4f81609c3e1b8e51bc21c861e856d48132ffb6cf7980a",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-offline-pack/manifest.json",
+      "version": "Room49 offline pack schema",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicLayerEntity.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicLayerEntity.kt",
+      "sha256": "5e9e4f752253dc17363efa7d862fa22e14b9937efdb7a8802837eed973cf9f69",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+      "version": "Room49 complete observation",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicMeasurementEntity.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicMeasurementEntity.kt",
+      "sha256": "c21ee79ec1307989d3651306fc9cc8900532aed0dcb6d59e640976366b90df44",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/manifest.json",
+      "version": "2026-11-06 manual measures",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceEntity.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceEntity.kt",
+      "sha256": "e793e3a4d535c2303e122d72eb6ba2c97ca80edf39ba62341d934a72edc93cd5",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+      "version": "Room49 complete observation",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceJournalEntity.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-observed/recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicTraceJournalEntity.kt",
+      "sha256": "117409d027476b3ea18d12f6910c3f3ba3d1e54bc3623756aa1b956bc4c8663f",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-observed/manifest.json",
+      "version": "Room49 complete observation",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-offline-pack/recovered/app/src/main/java/com/forestry/counter/data/local/entity/OfflineMapPackEntity.kt",
+      "sha256": "f9bee14282d271df534fc01110f28c2171d12653a08506dc8dd8eb9f6627bf4b",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-offline-pack/manifest.json",
+      "version": "Room49 offline pack schema",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/location/trace/MapTraceForegroundService.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/recovered/app/src/main/java/com/forestry/counter/data/location/trace/MapTraceForegroundService.kt",
+      "sha256": "a50b7e73349b5385011d25a982094250e89f33f23ad8ebbd84ce6790ddd2b7d4",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/manifest.json",
+      "version": "2026-11-07 GPS persistence",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-offline-pack/recovered/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "sha256": "495d4503cc2174bda86eecb166291327355ddef5ac5eac6450ad349f17624cea",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-offline-pack/manifest.json",
+      "version": "Room49 offline pack schema",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/temporal/2026-11-07-root0002-item154/app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt",
+      "sha256": "8f3dbfdc40c68bb8259e1fa00bbaf71cc3c045c4707e7c6729730e237628846e",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/shared-authority-transition.json",
+      "version": "2026-11-07 measurement repository delegates to shared scope authority",
+      "selection": "selected",
+      "compatibilityNote": "Required successor of the November6 repository when assembling shared Room49 authority."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/repository/CartographicTraceRepositoryImpl.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/recovered/app/src/main/java/com/forestry/counter/data/repository/CartographicTraceRepositoryImpl.kt",
+      "sha256": "36d3da4a5b227ebd76f80b77a8a0ebbed2acc30b86090aa2d2798f002f7707df",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/manifest.json",
+      "version": "2026-11-07 GPS persistence",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/repository/TraceDraftJournal.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/recovered/app/src/main/java/com/forestry/counter/data/repository/TraceDraftJournal.kt",
+      "sha256": "8925d2c0b7eb2259a509cbc139a8b6778157eef188792969c96c0ca14315b399",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/manifest.json",
+      "version": "2026-11-07 GPS persistence",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/calculation/UnitCatalog.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/main/java/com/forestry/counter/domain/calculation/UnitCatalog.kt",
+      "sha256": "72b2fda369c04857d176f287fb18f2f5748e7875e97b1ffe48127af3fb241e31",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/manifest.json",
+      "version": "2026-11-06 manual measures",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculator.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/main/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculator.kt",
+      "sha256": "1a0a07e83fb4653c733c19494cf0f8b739bfa94a1fd8ef924ef8a3d93da93f5d",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/manifest.json",
+      "version": "2026-11-06 manual measures",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/geometry/PlanarSegmentIntersection.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/main/java/com/forestry/counter/domain/geometry/PlanarSegmentIntersection.kt",
+      "sha256": "9a31e408ef5937321f721ef7ef7d73445ad5f22a42709bcf6fc4966afa7aa853",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/manifest.json",
+      "version": "2026-11-06 manual measures",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/ParcelGeometry.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/main/java/com/forestry/counter/domain/location/ParcelGeometry.kt",
+      "sha256": "bfc75968cd7b81d3b5129fc2d89d9ffda532095044368bd88b6182ed4ae8c103",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/manifest.json",
+      "version": "2026-11-06 manual measures",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/recovered/app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt",
+      "sha256": "9ca4b9f1150eab7241564314af19e305c8d942cac186701fd14aa8e849dbd903",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/manifest.json",
+      "version": "2026-11-07 GPS persistence",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/SphericalTraceDistance.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-domain-2026-11-05/recovered/app/src/main/java/com/forestry/counter/domain/location/trace/SphericalTraceDistance.kt",
+      "sha256": "2e16c7da0d5fed6f4abd3b0937e998d13c655b2d5d6acc5e99af729e1189cc7f",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-domain-2026-11-05/manifest.json",
+      "version": "2026-11-05 GPS domain",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/recovered/app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt",
+      "sha256": "ab2b2a0432488985150208768e0000c806b5bf0d67cea628ce08cf06dbcb1cbb",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/manifest.json",
+      "version": "2026-11-07 GPS persistence",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/recovered/app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "sha256": "682ad81eee440ea350dc1cba8e07f953e557237a49a10a2a0a230eb0684c63c3",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/manifest.json",
+      "version": "2026-11-07 layer domain after all exact direct mutations",
+      "selection": "selected",
+      "compatibilityNote": "Complete literal heredoc plus exact restricted AST changes; no candidate UI patch replay."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/repository/CartographicLayerRepository.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/recovered/app/src/main/java/com/forestry/counter/domain/repository/CartographicLayerRepository.kt",
+      "sha256": "84cd095bc097bce83e5df872a64710bebf026bc90320ac2f28604bd827805d46",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/manifest.json",
+      "version": "2026-11-07 layer domain after all exact direct mutations",
+      "selection": "selected",
+      "compatibilityNote": "Complete literal heredoc plus exact restricted AST changes; no candidate UI patch replay."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/repository/CartographicMeasurementRepository.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/main/java/com/forestry/counter/domain/repository/CartographicMeasurementRepository.kt",
+      "sha256": "f6176047a783998f25a2f91edb8e0dbaa001d71811a6523ed9b183b76a79bca8",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/manifest.json",
+      "version": "2026-11-06 manual measures",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/repository/CartographicTraceRepository.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/recovered/app/src/main/java/com/forestry/counter/domain/repository/CartographicTraceRepository.kt",
+      "sha256": "7a13b1d36b4cbbcf233d2662c48590e81b6819363ae0af9ed087ac8077ea4672",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/manifest.json",
+      "version": "2026-11-07 GPS persistence",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/room46-49-chain/versions/49-after-purge-finally/app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "sha256": "377798cce18d8b6bd4b5dbf88e7550ef599197a21ba580b0022f8a81b1dafb4b",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/room49-final-purge.json",
+      "version": "Room49 after NonCancellable/finally correction",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormatting.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormatting.kt",
+      "sha256": "4cde886a11ed1c3774422c6dd4881a825514ae9c99134dadcc6827a02fe1c5e8",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/manifest.json",
+      "version": "2026-11-06 manual measures",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapMeasureTools.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapMeasureTools.kt",
+      "sha256": "b831e775e319a6bcff8a71dcaa4cb5dba2599f3adf3d07616f5d70d50798e9d1",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/manifest.json",
+      "version": "2026-11-06 manual measures",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/data/repository/CartographicTraceRepositoryTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/recovered/app/src/test/java/com/forestry/counter/data/repository/CartographicTraceRepositoryTest.kt",
+      "sha256": "7bfb4d3d1f8f3c3670bada408e14944e4670aabb3fe55fd1d7b5a9a0bf6e79bf",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/manifest.json",
+      "version": "2026-11-07 GPS persistence",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/calculation/UnitConverterTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/test/java/com/forestry/counter/domain/calculation/UnitConverterTest.kt",
+      "sha256": "ecb31f300e6dbf54d84ca0889065cc4c8ff110ce7af0e78e5448aa45726f9a21",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/manifest.json",
+      "version": "2026-11-06 manual measures",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculatorTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/test/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculatorTest.kt",
+      "sha256": "d161994421300435ba779910c0ee0cfaf1e12edec820407a2b0bb398f176ccec",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/manifest.json",
+      "version": "2026-11-06 manual measures",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorderTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-domain-2026-11-05/recovered/app/src/test/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorderTest.kt",
+      "sha256": "f95f389cefe0a346976ea92626178ca23066c2863ebba70e0c5f82a5ad8604aa",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-domain-2026-11-05/manifest.json",
+      "version": "2026-11-05 GPS domain",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/location/trace/TraceRecoveryAndExportTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/recovered/app/src/test/java/com/forestry/counter/domain/location/trace/TraceRecoveryAndExportTest.kt",
+      "sha256": "7124c8921ea48988966504010de965610f7becc5edcb14041e9839838e2790fb",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/manifest.json",
+      "version": "2026-11-07 GPS persistence",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/privacy-test-chain/versions/49-final/app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt",
+      "sha256": "cc9adb5dc68c4c2f98aa88e15a4d0833ba16fd96e309ad5cd49a954c7d1b7f53",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/privacy-test-chain/manifest.json",
+      "version": "Room49 final async/cancellation privacy tests",
+      "selection": "selected",
+      "compatibilityNote": "Includes exact later async cleanup/admission/finally cancellation test edits; matches315–379 independent final read."
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormattingTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/test/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormattingTest.kt",
+      "sha256": "6835634982eec5a522cd3c8eed77c014a63f93eae9dc07ddc79119ee8779a423",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/manifest.json",
+      "version": "2026-11-06 manual measures",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/MapMeasureToolsTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/test/java/com/forestry/counter/presentation/screens/forestry/MapMeasureToolsTest.kt",
+      "sha256": "86c5138473edc3c62740e47646ac530fa3f47b0228b3f1194e277428b3797bd3",
+      "manifest": "/workspace/outputs/2026-11-14/recovery-domain-sources/manifest.json",
+      "version": "2026-11-06 manual measures",
+      "selection": "selected",
+      "compatibilityNote": "Exact source; retain this version over earlier temporal copies."
+    }
+  ],
+  "baseline": {
+    "commit": "36d1515",
+    "roomVersion": 46
+  },
+  "assemblyOrder": [
+    "Room47 ControlBasis prerequisites plus registration/purge",
+    "Room48 manual measurement sources plus registration/purge",
+    "Room49 shared authority, tables/schema, GPS persistence and registration",
+    "Room49 final NonCancellable purge correction"
+  ],
+  "remaining": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/FieldControlBasisEntity.kt",
+      "reason": "Room47 required entity; path observed in historical staging inventory; source body absent."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/dao/FieldControlBasisDao.kt",
+      "reason": "Room47 required DAO; path observed in historical staging inventory; source body absent."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/field/ControlBasisModels.kt",
+      "reason": "Observed Room47 business contract introduction; body absent."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/preferences/UserPreferences.kt",
+      "reason": "clearHeightReferenceCaptures must be wired to the actual historical implementation; partial reference only in this lane."
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "reason": "Full source has one unresolved automatically redacted method signature; two other redactions restored from exact independent read. Fragment not selected.",
+      "fragmentArtifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/fragments/CartographicLayerRepositoryImpl.kt.fragment",
+      "missingSourceLines": [
+        209
+      ]
+    },
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicTraceRepositoryRoomTest.kt",
+      "reason": "The token assignment at line52 is now restored from an exact later read; assignment187 remains automatically redacted and unobserved. Fragment only, excluded from assembly.",
+      "fragmentArtifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/fragments/CartographicTraceRepositoryRoomTest.kt.fragment",
+      "missingSourceLines": [
+        187
+      ]
+    }
+  ],
+  "exclusions": [
+    "No old FieldRepository or business source is selected against later parent revisions.",
+    "No generated app/build or other generated source is selected."
+  ],
+  "execution": "Only source selection and SHA verification; no application repository writes."
+}

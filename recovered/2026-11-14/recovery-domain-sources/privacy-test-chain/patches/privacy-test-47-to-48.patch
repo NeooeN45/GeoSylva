@@ -1,0 +1,28 @@
+diff --git a/app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt b/app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt
+--- a/app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt
++++ b/app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt
+@@ -56,6 +56,7 @@
+     private val woodObjectDao = mockk<com.forestry.counter.data.local.dao.WoodObjectDao>(relaxed = true)
+     private val woodDepotDao = mockk<com.forestry.counter.data.local.dao.WoodDepotDao>(relaxed = true)
+     private val fieldDao = mockk<com.forestry.counter.data.local.dao.FieldDao>(relaxed = true)
++    private val cartographicMeasurementDao = mockk<com.forestry.counter.data.local.dao.CartographicMeasurementDao>(relaxed = true)
+     private var heightCapturePurgeCount = 0
+ 
+     init {
+@@ -86,6 +87,7 @@
+         woodObjectDao = woodObjectDao,
+         woodDataGate = com.forestry.counter.data.repository.WoodDataAccessGate(),
+         fieldDao = fieldDao,
++        cartographicMeasurementDao = cartographicMeasurementDao,
+         clearHeightReferenceCaptures = { heightCapturePurgeCount++ },
+     )
+ 
+@@ -110,6 +112,8 @@
+         coVerify(exactly = 1) { fieldDao.deleteEntries() }
+         coVerify(exactly = 1) { fieldDao.deleteLinks() }
+         coVerify(exactly = 1) { fieldDao.deleteSites() }
++        coVerify(exactly = 1) { cartographicMeasurementDao.deleteAll() }
++        coVerify(exactly = 1) { cartographicMeasurementDao.deleteStoreIdentity() }
+         // Les 11 entités cœur métier (Vague C) : suppression physique via hardDeleteAll.
+         coVerify(exactly = 1) { foretDao.hardDeleteAll() }
+         coVerify(exactly = 1) { parcelleDao.hardDeleteAll() }

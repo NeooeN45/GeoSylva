@@ -1,0 +1,6 @@
+@@ -399,2 +399,5 @@
+             }
++            if (state.basemaps.any { it.previewKey.value.startsWith("MAPBOX_") }) Text(
++                stringResource(R.string.gs_map_preview_credit), style = MaterialTheme.typography.labelSmall,
++                color = MapUiTokens.muted, modifier = Modifier.padding(vertical = 4.dp))
+             DetailLink(stringResource(R.string.gs_map_sources), { actions.onExplain(MapHelp.BASEMAP_SOURCE) })

@@ -1,0 +1,136 @@
+    }
+
+    Box(modifier = modifier.fillMaxSize()) {
+        key(mapScope, retryGeneration) {
+            SharedMapboxCanvas(
+                accessToken = BuildConfig.MAPBOX_PUBLIC_ACCESS_TOKEN,
+                style = renderedStyle, initialCamera = camera, cameraCommand = cameraCommand,
+                frameCommand = frameCommand, overlays = scene,
+                relief = MapRelief(enabled = renderedStyle.demSourceUrl != null),
+                contentPadding = PaddingValues(start = 12.dp, top = 68.dp, end = 12.dp,
+                    bottom = if (showMeasureSheet) 330.dp else 80.dp),
+                modifier = Modifier.fillMaxSize().pointerInput(mapScope) {
+                    awaitPointerEventScope {
+                        while (true) {
+                            val event = awaitPointerEvent(PointerEventPass.Final)
+                            if (event.changes.any { it.pressed && it.position != it.previousPosition }) {
+                                framedContext = true
+                                frameCommand = null
+                                cameraCommand = null
+                            }
+                        }
+                    }
+                },
+                onOverlayStatusChanged = { overlayFailed = it is MapOverlayStatus.Failed },
+                onCameraChanged = { camera = it },
+                onViewportChanged = { viewport = it },
+                onCommandConsumed = {
+                    if (cameraCommand?.id == it) { cameraCommand = null; framedContext = true }
+                },
+                onFrameCommandConsumed = {
+                    if (frameCommand?.id == it) { frameCommand = null; framedContext = true }
+                },
+                onCoordinateTap = { coordinate ->
+                    if (measureActive) {
+                        if (!showMeasureSaveDialog) measurePoints = measurePoints + MeasurePoint(coordinate.latitude, coordinate.longitude)
+                        true
+                    } else false
+                },
+                onMapTap = { tap ->
+                    if (!measureActive && !showMeasureSaveDialog) tap.featureKey?.let { key ->
+                        currentProjection.treesByKey[key]?.let { handleCurrentTreeTap(it) }
+                        currentProjection.clustersByKey[key]?.let { members ->
+                            frameCommand = MapCameraFitCommand(UUID.randomUUID().toString(), members,
+                                paddingTopPx = 100.0 * density, paddingBottomPx = 130.0 * density,
+                                paddingLeftPx = 55.0 * density, paddingRightPx = 55.0 * density)
+                        }
+                    }
+                },
+                onStatusChanged = { status ->
+                    renderStatus = status
+                    layerLoadState.loadingRequest?.let { request ->
+                        if (status is MapRenderStatus.Ready && status.styleId == renderedStyle.id) {
+                            val loadedStyleId = status.styleId
+                            applyLayerDecision(layerLoadState.succeed(request.id))
+                            if (!localVectorMode) scope.launch { preferencesManager.setMapLastLayerKey(loadedStyleId) }
+                        } else if (status is MapRenderStatus.Failed) applyLayerDecision(layerLoadState.fail(request.id))
+                    }
+                },
+            )
+        }
+        MapboxRenderStatusOverlay(if (overlayFailed) MapRenderStatus.Failed(MapFailureReason.SOURCE) else renderStatus, ::retryLayer,
+            Modifier.align(Alignment.Center).padding(Space.md))
+
+        if (localVectorMode) MapLocalModeBadge(
+            Modifier.align(Alignment.TopCenter).padding(top = 60.dp, start = 60.dp, end = 60.dp))
+
+        // ── Bouton retour minimal ──
+        Surface(
+            onClick = onNavigateBack,
+            shape = androidx.compose.foundation.shape.CircleShape,
+            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
+            shadowElevation = Elevation.overlay,
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(Space.sm)
+                .size(Touch.min),
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Icon(
+                    Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = stringResource(R.string.back),
+                    modifier = Modifier.size(Space.md),
+                )
+            }
+        }
+
+        if (offlineProgress != null && offlineProgress?.isComplete != true) {
+            Surface(
+                shape = androidx.compose.foundation.shape.CircleShape,
+                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
+                shadowElevation = Elevation.overlay,
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(top = Space.sm, start = Touch.min + Space.md),
+            ) {
+                CircularProgressIndicator(modifier = Modifier.size(Touch.min).padding(Space.xs))
+            }
+        }
+
+        // ── Pastille de fiabilité GPS ──
+        val gpsQualityColor = when {
+            gpsAccuracyM == null -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+            gpsAccuracyM!! <= 6f -> GpsExcellent
+            gpsAccuracyM!! <= 12f -> GpsModere
+            else -> GpsMauvais
+        }
+        Surface(
+            onClick = { showGpsPrecisionDialog = true },
+            shape = androidx.compose.foundation.shape.CircleShape,
+            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
+            shadowElevation = Elevation.overlay,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(Space.sm)
+                .size(Touch.min),
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier
+                        .size(Space.sm)
+                        .background(gpsQualityColor, androidx.compose.foundation.shape.CircleShape),
+                )
+            }
+        }
+
+        if (showGpsPrecisionDialog) {
+            val qualityLabel = when {
+                gpsAccuracyM == null -> stringResource(R.string.gps_quality_unknown)
+                gpsAccuracyM!! <= 3f -> stringResource(R.string.gps_quality_excellent)
+                gpsAccuracyM!! <= 6f -> stringResource(R.string.gps_quality_good)
+                gpsAccuracyM!! <= 12f -> stringResource(R.string.gps_quality_moderate)
+                else -> stringResource(R.string.gps_quality_poor)
+            }
+            androidx.compose.material3.AlertDialog(
+                onDismissRequest = { showGpsPrecisionDialog = false },
+                title = { Text(stringResource(R.string.gps_precision_dialog_title)) },

@@ -1,0 +1,43 @@
+@@ -322,2 +322,42 @@
+ 
++    @Test fun returningToTheDraftDropsItsOldSavedSelectionBeforeAnotherShare() = runTest {
++        val repository = FakeRepository()
++        repository.seed(RECORD_B, "Saved B", LINE.map { it.copy(longitude = it.longitude + .01) })
++        val model = model(repository)
++        runCurrent(); drawLine(model); runCurrent()
++        model.selectSaved(RECORD_B); runCurrent()
++        assertEquals(RECORD_B, model.state.value.selected?.id)
++        model.auxiliary(ManualMeasureAuxiliary.NONE)
++        assertNull(model.state.value.selected)
++        assertEquals(LINE, model.state.value.points)
++        val shared = mutableListOf<String>()
++        model.auxiliary(ManualMeasureAuxiliary.SHARE)
++        model.withSelectedRecord { shared += it.id }; runCurrent()
++        assertTrue(shared.isEmpty())
++    }
++
++    @Test fun closingListOrDetailImmediatelyStopsLoadingAndIgnoresLateResponses() = runTest {
++        val repository = FakeRepository()
++        val record = repository.seed(RECORD_A, "Saved A", LINE)
++        val pendingList = CompletableDeferred<CartographicStoreResult<List<SavedCartographicMeasurement>>>()
++        repository.listAction = { pendingList.await() }
++        val model = model(repository)
++        runCurrent(); model.openSaved(); runCurrent()
++        assertTrue(model.state.value.loadingSaved)
++        model.auxiliary(ManualMeasureAuxiliary.NONE)
++        assertFalse(model.state.value.loadingSaved)
++        pendingList.complete(CartographicStoreResult.Success(listOf(record))); runCurrent()
++        assertFalse(model.state.value.loadingSaved)
++        assertEquals(ManualMeasureAuxiliary.NONE, model.state.value.auxiliary)
++        val pendingRead = CompletableDeferred<CartographicStoreResult<SavedCartographicMeasurement>>()
++        repository.readAction = { _, _ -> pendingRead.await() }
++        model.selectSaved(RECORD_A); runCurrent()
++        assertTrue(model.state.value.loadingSaved)
++        model.auxiliary(ManualMeasureAuxiliary.NONE)
++        assertFalse(model.state.value.loadingSaved)
++        pendingRead.complete(CartographicStoreResult.Success(record)); runCurrent()
++        assertFalse(model.state.value.loadingSaved)
++        assertNull(model.state.value.selected)
++    }
++
+     private fun model(repository: FakeRepository, handle: SavedStateHandle = SavedStateHandle()) =

@@ -1,0 +1,83 @@
+--- a/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt
++++ b/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt
+@@ -139,6 +139,9 @@
+     onNavigateBack: () -> Unit,
+     modifier: Modifier = Modifier,
+ ) {
++    // Register the screen fallback before every child/panel handler below.
++    // On a bare map, physical Back has the same destination as the visible arrow.
++    BackHandler(onBack = onNavigateBack)
+     val context = LocalContext.current
+     val scope = rememberCoroutineScope()
+ 
+@@ -264,6 +267,7 @@
+     val currentLayerIdx = layerLoadState.displayedIndex
+     var workspacePanel by remember(mapScope) { mutableStateOf<MapPanel?>(null) }
+     var showTools by remember(mapScope) { mutableStateOf(false) }
++    var toolsPanelHeight by remember { mutableStateOf(0.dp) }
+     var showPlaceSearch by remember(mapScope) { mutableStateOf(false) }
+     var selectedPlaceLabel by remember(mapScope) { mutableStateOf<String?>(null) }
+     var workspaceHelp by remember { mutableStateOf<MapHelp?>(null) }
+@@ -526,17 +530,20 @@
+         onCompassTopChanged = { compassTop = it },
+         thumbnail = { preview, thumbnailModifier -> MapCatalogThumbnail(preview, thumbnailModifier) }) {
+         BoxWithConstraints(Modifier.fillMaxSize()) {
+-            val ornamentsBottom = if (workspaceHelp != null) sourcePanelHeight + 8.dp else if (traceActive) tracePadding.calculateBottomPadding() else if (layerState.visible) layerPanelHeight + 8.dp
++            val panelOrnamentsBottom = if (workspaceHelp != null) sourcePanelHeight + 8.dp else if (traceActive) tracePadding.calculateBottomPadding() else if (layerState.visible) layerPanelHeight + 8.dp
+                 else if (treePanelActive) treePanelHeight + 8.dp else if (viewPack != null) offlinePanelHeight + 8.dp
+                 else if (measureActive) measurePanelHeight + 8.dp else (
+                 if (workspacePanel != null) mapWorkspacePanelHeight(maxHeight, LocalDensity.current.fontScale) else 112.dp
+             ) + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + 8.dp
++            // Outils owns a ModalBottomSheet window; use its measured full height,
++            // not a screen percentage or a smaller content-only Column.
++            val ornamentsBottom = if (showTools) maxOf(panelOrnamentsBottom, toolsPanelHeight + 8.dp) else panelOrnamentsBottom
+             key(mapScope, retryGeneration) {
+                 SharedMapboxCanvas(
+                     accessToken = BuildConfig.MAPBOX_PUBLIC_ACCESS_TOKEN,
+                     style = renderedStyle, initialCamera = camera, cameraCommand = cameraCommand,
+                     frameCommand = frameCommand, overlays = scene,
+-                    scaleBarVisible = workspaceHelp == null && !traceActive && !layerState.visible && !treePanelActive && viewPack == null && workspacePanel == null && (!measureActive ||
++                    scaleBarVisible = !showTools && workspaceHelp == null && !traceActive && !layerState.visible && !treePanelActive && viewPack == null && workspacePanel == null && (!measureActive ||
+                         manual.panel == MeasurePanel.COLLAPSED && manual.auxiliary == ManualMeasureAuxiliary.NONE),
+                     relief = requestedRelief.copy(enabled = renderedStyle.demSourceUrl != null),
+                     contentPadding = PaddingValues(start = 12.dp, top = if (traceActive) tracePadding.calculateTopPadding() else compassTop, end = 12.dp, bottom = ornamentsBottom),
+@@ -657,6 +664,7 @@
+ 
+     if (showTools) MapWorkspaceTools(
+         onDismiss = { showTools = false },
++        onPanelHeightChanged = { toolsPanelHeight = it },
+         onGpsPrecision = { workspacePanel = null; treeUi.openAccuracy() },
+         onOffline = {
+             val view = viewport
+--- a/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt
++++ b/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt
+@@ -48,12 +48,15 @@
+ import androidx.compose.runtime.setValue
+ import androidx.compose.ui.Alignment
+ import androidx.compose.ui.Modifier
++import androidx.compose.ui.layout.onSizeChanged
++import androidx.compose.ui.platform.LocalDensity
+ import androidx.compose.ui.graphics.vector.ImageVector
+ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+ import androidx.compose.ui.res.stringResource
+ import androidx.compose.ui.text.font.FontWeight
+ import androidx.compose.ui.text.input.ImeAction
+ import androidx.compose.ui.unit.dp
++import androidx.compose.ui.unit.Dp
+ import androidx.lifecycle.Lifecycle
+ import androidx.lifecycle.LifecycleEventObserver
+ import androidx.lifecycle.compose.LocalLifecycleOwner
+@@ -234,10 +237,13 @@
+     onMeasure: (() -> Unit)? = null,
+     onImportLayer: (() -> Unit)? = null,
+     onTrace: (() -> Unit)? = null,
++    onPanelHeightChanged: (Dp) -> Unit = {},
+ ) {
++    val density = LocalDensity.current.density
+     fun open(action: () -> Unit) { onDismiss(); action() }
+     ModalBottomSheet(
+         onDismissRequest = onDismiss,
++        modifier = Modifier.onSizeChanged { onPanelHeightChanged((it.height / density).dp) },
+         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+         containerColor = MaterialTheme.colorScheme.surface,
+     ) {

@@ -1,0 +1,27 @@
+@@ -4,2 +4,3 @@
+ import android.location.Location
++import androidx.activity.compose.BackHandler
+ import androidx.compose.foundation.layout.*
+@@ -46,2 +47,12 @@
+     if (!runtime.visible || runtime.scope != scope) return
++    val handleBack: () -> Unit = {
++        if (!runtime.busy && !runtime.saveUncertain) when (runtime.screen) {
++            TraceScreen.DETAILS -> controller.backDetails()
++            TraceScreen.CAPTURE -> controller.finish()
++            TraceScreen.SAVE -> controller.cancelSave()
++            else -> { controller.hide(); onClose() }
++        }
++    }
++    // Consume Android Back even while a commit is pending; Home/lifecycle changes keep capture running.
++    BackHandler(enabled = runtime.visible && runtime.scope == scope, onBack = handleBack)
+     val appContext = LocalContext.current
+@@ -122,8 +133,3 @@
+             when (action) {
+-                TraceAction.BACK -> when (runtime.screen) {
+-                    TraceScreen.DETAILS -> controller.backDetails()
+-                    TraceScreen.CAPTURE -> controller.finish()
+-                    TraceScreen.SAVE -> controller.cancelSave()
+-                    else -> { controller.hide(); onClose() }
+-                }
++                TraceAction.BACK -> handleBack()
+                 TraceAction.LAYERS -> onLayers()

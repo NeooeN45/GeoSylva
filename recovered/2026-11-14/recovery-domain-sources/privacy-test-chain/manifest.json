@@ -1,0 +1,254 @@
+{
+  "sources": [
+    {
+      "roomVersion": 47,
+      "path": "app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt",
+      "sha256": "d28df0da665f443c964312ce82a052be618890293842e910a60034218b3b05d6",
+      "lines": 194,
+      "artifact": "versions/47/app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt"
+    },
+    {
+      "roomVersion": 48,
+      "path": "app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt",
+      "sha256": "754144b2860b24766ae7006e47a5f840a01214876be59061df1838ecc9d94e30",
+      "lines": 198,
+      "artifact": "versions/48/app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt"
+    },
+    {
+      "roomVersion": 49,
+      "path": "app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt",
+      "sha256": "c8400f2736556fd26dc2cb3e399f7aaa847852b321dfa6018acbd588a87978b9",
+      "lines": 208,
+      "artifact": "versions/49/app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt"
+    },
+    {
+      "roomVersion": "49-final",
+      "path": "app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt",
+      "sha256": "cc9adb5dc68c4c2f98aa88e15a4d0833ba16fd96e309ad5cd49a954c7d1b7f53",
+      "lines": 379,
+      "artifact": "versions/49-final/app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt"
+    }
+  ],
+  "patches": [
+    {
+      "fromRoom": 46,
+      "toRoom": 47,
+      "artifact": "patches/privacy-test-46-to-47.patch",
+      "sha256": "0d6a42cdfee6d24398f475da145fc7260657eb752aad051f30718f55c74135d7"
+    },
+    {
+      "fromRoom": 47,
+      "toRoom": 48,
+      "artifact": "patches/privacy-test-47-to-48.patch",
+      "sha256": "2b9633e1be1bdd03827582056507fe9f6dfd5eed8e8be3fc339240bd5b54204e"
+    },
+    {
+      "fromRoom": 48,
+      "toRoom": 49,
+      "artifact": "patches/privacy-test-48-to-49.patch",
+      "sha256": "29e9a9d0dbb2ffd52e7c34611042b86f045bace01f83f396e3ff9a39a15fd61c"
+    },
+    {
+      "fromRoom": 49,
+      "toRoom": "49-final",
+      "artifact": "patches/privacy-test-49-final.patch",
+      "sha256": "eb05d556b628d42cb07d92120f6fb363c75fc8775e9da92cb6c364d8fdc3e069"
+    }
+  ],
+  "readCoverage47": [
+    {
+      "source": "packs-offline-batch5.json",
+      "thread": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+      "turn": "01a1b570-2e24-7500-8905-f54d8704b297",
+      "item": "exec-3e30bdf1-fa23-43c3-b854-0e1e680a8b81",
+      "itemIndex": 2,
+      "startLine": 1,
+      "endLine": 44,
+      "check": "exactly equals baseline46 header; before all known test-body edits"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "item": "exec-621e914a-dd29-4c1d-9088-f3d400563029",
+      "itemIndex": 27,
+      "startLine": 45,
+      "endLine": 125
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "item": "exec-621e914a-dd29-4c1d-9088-f3d400563029",
+      "itemIndex": 27,
+      "startLine": 125,
+      "endLine": 194,
+      "overlap125": "identical; duplicate line removed"
+    }
+  ],
+  "patch48": {
+    "source": "manual-repository-earlier.json",
+    "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+    "item": "exec-5ed9eafe-8cd6-4f43-95d7-5353509ebc6a",
+    "contextMatches": [
+      {
+        "header": "@@ -58,2 +58,3 @@",
+        "matchedOldLine": 58
+      },
+      {
+        "header": "@@ -88,2 +89,3 @@",
+        "matchedOldLine": 89
+      },
+      {
+        "header": "@@ -112,2 +114,4 @@",
+        "matchedOldLine": 114
+      }
+    ]
+  },
+  "patch49": {
+    "source": "root0002-commands20k.json",
+    "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+    "item": "exec-17de6124-66b1-4033-882f-8906410b65d2",
+    "declarativeOperations": [
+      {
+        "operation": "insert_before_literal_anchor",
+        "anchor": "    private var heightCapturePurgeCount",
+        "literal": "    private val cartographicLayerDao = mockk<com.forestry.counter.data.local.dao.CartographicLayerDao>(relaxed = true)\n    private val cartographicTraceDao = mockk<com.forestry.counter.data.local.dao.CartographicTraceDao>(relaxed = true)\n    private val offlineMapPackDao = mockk<com.forestry.counter.data.local.dao.OfflineMapPackDao>(relaxed = true)\n"
+      },
+      {
+        "operation": "literal_string_replace",
+        "old": "        cartographicMeasurementDao = cartographicMeasurementDao,",
+        "new": "        cartographicMeasurementDao = cartographicMeasurementDao,\n        cartographicLayerDao = cartographicLayerDao,\n        cartographicTraceDao = cartographicTraceDao,\n        offlineMapPackDao = offlineMapPackDao,",
+        "matches": 1
+      },
+      {
+        "operation": "literal_string_replace",
+        "old": "        coVerify(exactly = 1) { cartographicMeasurementDao.deleteAll() }",
+        "new": "        coVerify(exactly = 1) { cartographicLayerDao.deleteAllOperations() }\n        coVerify(exactly = 1) { cartographicLayerDao.deleteAll() }\n        coVerify(exactly = 1) { cartographicTraceDao.deleteAll() }\n        coVerify(exactly = 1) { offlineMapPackDao.deleteAll() }\n        coVerify(exactly = 1) { cartographicMeasurementDao.deleteAll() }",
+        "matches": 1
+      }
+    ]
+  },
+  "readCheck49": {
+    "source": "packs-offline-batch5.json",
+    "turn": "01a1b570-2e24-7500-8905-f54d8704b297",
+    "item": "exec-3e30bdf1-fa23-43c3-b854-0e1e680a8b81",
+    "prefixChars": 8032,
+    "passed": true
+  },
+  "laterAsyncAndCancellationEvents": [
+    {
+      "source": "packs-offline-batch5.json",
+      "turn": "01a1b570-2e24-7500-8905-f54d8704b297",
+      "item": "exec-a0ba2c6e-8a39-482b-83ee-319ee908458e",
+      "itemIndex": 26,
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "import kotlinx.coroutines.test.runTest\n",
+          "new": "import kotlinx.coroutines.test.runTest\nimport kotlinx.coroutines.CompletableDeferred\nimport kotlinx.coroutines.async\nimport kotlinx.coroutines.withTimeout\n",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "    private var heightCapturePurgeCount = 0\n",
+          "new": "    private var heightCapturePurgeCount = 0\n    private val woodDataGate = com.forestry.counter.data.repository.WoodDataAccessGate()\n    private var stopCartographicWork: suspend () -> Unit = {}\n    private var purgeMapboxRegions: suspend (List<String>) -> Unit = {}\n",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "woodDataGate = com.forestry.counter.data.repository.WoodDataAccessGate(),",
+          "new": "woodDataGate = woodDataGate,",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "        offlineMapPackDao = offlineMapPackDao,\n        clearHeightReferenceCaptures",
+          "new": "        offlineMapPackDao = offlineMapPackDao,\n        stopCartographicWork = { stopCartographicWork() },\n        purgeMapboxRegions = { ids -> purgeMapboxRegions(ids) },\n        clearHeightReferenceCaptures",
+          "matches": 1
+        },
+        {
+          "operation": "literal_rindex",
+          "anchor": "\n}",
+          "position": 10862
+        }
+      ],
+      "sha256": "11b6f441bd6c77b1b8fa67aff90b5caea00e0824ae876ea1fa68e9c08c2fc5a3"
+    },
+    {
+      "source": "packs-offline-batch5.json",
+      "turn": "01a1b570-2e24-7500-8905-f54d8704b297",
+      "item": "exec-621e914a-dd29-4c1d-9088-f3d400563029",
+      "itemIndex": 30,
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "import kotlinx.coroutines.CompletableDeferred\n",
+          "new": "import kotlinx.coroutines.CompletableDeferred\nimport kotlinx.coroutines.Dispatchers\nimport kotlinx.coroutines.withContext\n",
+          "matches": 1
+        },
+        {
+          "operation": "literal_string_replace",
+          "old": "            withTimeout(5_000) { cleanupStarted.await() }",
+          "new": "            withContext(Dispatchers.IO) { withTimeout(5_000) { cleanupStarted.await() } }",
+          "matches": 1
+        }
+      ],
+      "sha256": "8a22a5627554c8f454a5512486b1c41dbf62b8b82c1321cd4a1ff137a2f92616"
+    },
+    {
+      "source": "packs-offline-batch5.json",
+      "turn": "01a1b57d-5868-77f9-9f36-8ebbc0b33774",
+      "item": "exec-ccdf5ba8-7a03-4b39-9b6a-f173f0ab792c",
+      "itemIndex": 5,
+      "literalPatchSha256": "4176b22b4d5f757cf1391c7d38e83b4ba9887411da23d0d332d044e7dbd34bff",
+      "contextMatches": [
+        {
+          "header": "@@ -26,2 +26,6 @@",
+          "matchedOldLine": 26
+        },
+        {
+          "header": "@@ -70,2 +74,4 @@",
+          "matchedOldLine": 74
+        },
+        {
+          "header": "@@ -105,2 +111,3 @@",
+          "matchedOldLine": 111
+        },
+        {
+          "header": "@@ -240,3 +247,13 @@",
+          "matchedOldLine": 247
+        },
+        {
+          "header": "@@ -262,2 +279,8 @@",
+          "matchedOldLine": 279
+        },
+        {
+          "header": "@@ -265,3 +288,4 @@",
+          "matchedOldLine": 288
+        },
+        {
+          "header": "@@ -292,2 +316,3 @@",
+          "matchedOldLine": 316
+        },
+        {
+          "header": "@@ -303,2 +328,50 @@",
+          "matchedOldLine": 328
+        }
+      ],
+      "sha256": "cc9adb5dc68c4c2f98aa88e15a4d0833ba16fd96e309ad5cd49a954c7d1b7f53"
+    }
+  ],
+  "finalReadCheck": {
+    "source": "packs-offline-batch5.json",
+    "turn": "01a1b57d-5868-77f9-9f36-8ebbc0b33774",
+    "item": "exec-ece1882c-fd35-4c7e-b7e6-255e63d37172",
+    "startLine": 315,
+    "endLine": 379,
+    "passed": true
+  },
+  "limits": [
+    "Complete exact test states through the last available async/cancellation test patch in the November7 offline-pack thread."
+  ],
+  "execution": "Historical source read/overlap and literal AST operations only; no historical command or build/test/ADB/push executed."
+}

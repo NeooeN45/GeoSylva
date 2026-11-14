@@ -1,0 +1,28 @@
+@@ -42,3 +42,2 @@
+ import androidx.compose.material3.CircularProgressIndicator
+-import androidx.compose.material3.ExperimentalMaterial3Api
+ import androidx.compose.material3.HorizontalDivider
+@@ -78,2 +77,3 @@
+     val detailText: String,
++    val isArea: Boolean = false,
+ )
+@@ -321,3 +321,3 @@
+                         horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
+-                        SavedMeasureGlyph(Modifier.size(32.dp))
++                        SavedMeasureGlyph(row.isArea, Modifier.size(32.dp))
+                         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+@@ -435,7 +435,7 @@
+ @Composable
+-private fun SavedMeasureGlyph(modifier: Modifier) {
++private fun SavedMeasureGlyph(isArea: Boolean, modifier: Modifier) {
+     Canvas(modifier) {
+         val first = Offset(size.width * .15f, size.height * .8f)
+-        val second = Offset(size.width * .48f, size.height * .5f)
+-        val third = Offset(size.width * .85f, size.height * .2f)
++        val second = Offset(size.width * .48f, size.height * if (isArea) .2f else .5f)
++        val third = Offset(size.width * .85f, size.height * if (isArea) .7f else .2f)
+         val stroke = 1.5.dp.toPx()
+@@ -443,2 +443,3 @@
+         drawLine(AuxiliaryStyle.ink, second, third, stroke)
++        if (isArea) drawLine(AuxiliaryStyle.ink, third, first, stroke)
+         listOf(first, second, third).forEach {

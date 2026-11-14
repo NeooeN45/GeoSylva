@@ -1,0 +1,4 @@
+@@ -1,2 +1,3 @@
+ <resources>
++    <string name="gs_trace_request_permission">Autoriser la position précise</string>
+     <string name="gs_trace_title">Tracé GPS</string>

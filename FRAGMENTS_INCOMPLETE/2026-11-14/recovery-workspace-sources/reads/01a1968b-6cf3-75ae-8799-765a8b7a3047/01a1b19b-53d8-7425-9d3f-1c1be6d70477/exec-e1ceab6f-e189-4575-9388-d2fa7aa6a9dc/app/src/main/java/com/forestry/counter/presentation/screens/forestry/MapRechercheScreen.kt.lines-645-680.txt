@@ -1,0 +1,36 @@
+            }
+            if (mapContent is MapTreeContent.Unavailable) {
+                Surface(Modifier.align(Alignment.Center).padding(Space.md)) {
+                    Column(Modifier.padding(Space.md), horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(stringResource(R.string.map_tree_data_unavailable))
+                        if (mapContent.reason == MapTreeContent.Reason.DATA_READ) {
+                            androidx.compose.material3.TextButton(onClick = { dataRetry++ }) {
+                                Text(stringResource(R.string.retry))
+                            }
+                        }
+                    }
+                }
+            }
+            if (mapContent is MapTreeContent.Ready && !dismissedGpsBanner && workspacePanel == null) MapNoGpsMessage(
+                total = total, withGps = withGps, geoTigesSize = geoTiges.size,
+                mapOnlyReliableGps = mapOnlyReliableGps, mapReliableGpsThresholdM = mapReliableGpsThresholdM,
+                onDismiss = { dismissedGpsBanner = true },
+                modifier = Modifier.align(Alignment.Center).padding(Space.xl),
+            )
+            if (measureActive) MapManualMeasureUi(
+                state = manual, model = manualModel, contextLabel = contextTitle,
+                locationEnabled = !hasLocationPermission || phonePosition != null,
+                onOpenLayers = { manualModel.leave(); workspacePanel = MapPanel.LAYERS },
+                onLocateOnMap = { workspaceActions.onLocate() },
+                onPanelHeightChanged = { measurePanelHeight = it },
+                onCompassTopChanged = { compassTop = it },
+            )
+
+        }
+    }
+
+    if (showLegend) AlertDialog(
+        onDismissRequest = { showLegend = false },
+        title = { Text(stringResource(R.string.workspace_tree_layer)) },
+        text = {
+            Column(Modifier.verticalScroll(rememberScrollState())) {

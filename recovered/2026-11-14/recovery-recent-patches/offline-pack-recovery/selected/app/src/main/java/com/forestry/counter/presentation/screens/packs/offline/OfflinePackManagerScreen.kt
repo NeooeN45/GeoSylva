@@ -1,0 +1,277 @@
+package com.forestry.counter.presentation.screens.packs.offline
+
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Download
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.forestry.counter.BuildConfig
+import com.forestry.counter.R
+import com.forestry.counter.data.local.entity.OfflineMapPackEntity
+import com.forestry.counter.data.packs.offline.*
+import com.forestry.counter.domain.usecase.maps.MapDataScope
+import com.forestry.counter.domain.usecase.pack.PackManager
+import com.forestry.counter.presentation.components.maps.MapboxRenderStatusOverlay
+import com.forestry.counter.presentation.screens.packs.AdministrativePackMap
+import com.mapbox.geojson.MultiPolygon
+import com.mapbox.geojson.Polygon
+import com.quintessences.geosylva.cartography.mapbox.*
+import com.quintessences.geosylva.cartography.ui.offline.OfflinePackWorkspace
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.util.UUID
+import kotlinx.serialization.decodeFromString
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun OfflinePackManagerScreen(controller: OfflineMapPackController, onBack: () -> Unit,
+    onLegacyFiles: () -> Unit, modifier: Modifier = Modifier,
+    onMapRenderStatusChanged: (MapRenderStatus) -> Unit = {},
+    onMapOverlayStatusChanged: (MapOverlayStatus) -> Unit = {},
+) {
+    val context = LocalContext.current
+    val density = LocalDensity.current.density
+    val state by controller.state.collectAsStateWithLifecycle()
+    val legacyState by PackManager.getInstance(context).packState.collectAsStateWithLifecycle()
+    val areas = remember(context) { AdministrativeOfflineAreas(context.applicationContext) }
+    var catalog by remember { mutableStateOf<List<AdministrativeOfflineAreas.Area>>(emptyList()) }
+    var areaError by remember { mutableStateOf(false) }
+    LaunchedEffect(areas) { try { catalog = areas.catalog() } catch (_: Exception) { areaError = true } }
+    LaunchedEffect(controller) { controller.activate(MapDataScope.Free) }
+    var selected by rememberSaveable(state.authorityKey) { mutableStateOf(emptyList<String>()) }
+    var level by rememberSaveable { mutableStateOf("regions") }
+    var library by rememberSaveable { mutableStateOf(false) }
+    var libraryMap by rememberSaveable { mutableStateOf(false) }
+    var storage by rememberSaveable { mutableStateOf(false) }
+    var storageSelecting by rememberSaveable { mutableStateOf(false) }
+    var storageSearch by rememberSaveable { mutableStateOf(false) }
+    var storageQuery by rememberSaveable { mutableStateOf("") }
+    var libraryFilter by rememberSaveable { mutableStateOf("ALL") }
+    var libraryQuery by rememberSaveable { mutableStateOf("") }
+    var storageSelection by rememberSaveable(state.authorityKey) { mutableStateOf(emptyList<String>()) }
+    var search by rememberSaveable { mutableStateOf(false) }
+    var query by rememberSaveable { mutableStateOf("") }
+    var draft by remember { mutableStateOf<OfflineViewPackDraft?>(null) }
+    var detailsId by rememberSaveable { mutableStateOf<String?>(null) }
+    var openedId by rememberSaveable { mutableStateOf<String?>(null) }
+    var versionsId by rememberSaveable { mutableStateOf<String?>(null) }
+    var versionReturnId by rememberSaveable { mutableStateOf<String?>(null) }
+    var updateRequiredMissing by rememberSaveable(state.authorityKey) { mutableStateOf(false) }
+    var detailSectionTitle by remember { mutableStateOf<String?>(null) }
+    var preparationSectionTitle by remember { mutableStateOf<String?>(null) }
+    val details = state.packs.firstOrNull { it.id == detailsId }
+    val opened = state.packs.firstOrNull { it.id == openedId && it.status == OfflinePackStatus.READY.name }
+    val versionsAnchor = state.packs.firstOrNull { it.id == versionsId }
+    val displayedArea = opened ?: versionsAnchor ?: details
+    val selectedNames = catalog.filter { it.id in selected }.map { it.name }
+    val selectionName = selectedNames.joinToString(" · ").take(160)
+    val libraryPacks = state.packs.filter { pack ->
+        pack.name.contains(libraryQuery, true) && when (libraryFilter) {
+            "READY" -> pack.status == OfflinePackStatus.READY.name
+            "ATTENTION" -> pack.status != OfflinePackStatus.READY.name && pack.status != OfflinePackStatus.RETAINED.name
+            "RETAINED" -> pack.status == OfflinePackStatus.RETAINED.name
+            else -> true
+        }
+    }
+    val libraryAreas = remember(libraryPacks) { libraryPacks.sortedBy { it.selectedVersion }.mapNotNull { row -> runCatching {
+        val geometry = if (row.geometryJson.contains("\"MultiPolygon\"")) MultiPolygon.fromJson(row.geometryJson) else Polygon.fromJson(row.geometryJson)
+        MapOverlayFeature(MapFeatureKey("offline-saved-area", row.id), geometry, MapOverlayStyle(
+            colorHex = when (row.status) {
+                OfflinePackStatus.READY.name -> "#74D6A2"
+                OfflinePackStatus.PAUSED.name, OfflinePackStatus.WAITING_WIFI.name, OfflinePackStatus.DOWNLOADING.name -> "#C89037"
+                OfflinePackStatus.RETAINED.name -> "#889992"
+                else -> "#B8654E"
+            }, lineWidth = 2.8, fillOpacity = 0.10))
+    }.getOrNull() } }
+    val readyCount = state.packs.count { it.status == OfflinePackStatus.READY.name }
+    LaunchedEffect(state.authorityKey) { draft = null; detailsId = null; openedId = null; versionsId = null; versionReturnId = null }
+    LaunchedEffect(detailsId) { updateRequiredMissing = false; detailSectionTitle = null }
+    LaunchedEffect(draft?.id) { preparationSectionTitle = null }
+    LaunchedEffect(state.packs, draft?.id) {
+        storageSelection = storageSelection.filter { id -> state.packs.any { it.id == id } }
+        draft?.id?.let { id -> if (state.packs.any { it.id == id }) { draft = null; detailsId = id } }
+    }
+    val handleBack: () -> Unit = {
+        when { storage && storageSearch -> { storageSearch = false; storageQuery = "" }
+            storage && storageSelecting -> storageSelecting = false
+            storage -> storage = false
+            versionsId != null -> versionsId = null
+            versionReturnId != null -> { versionsId = versionReturnId; detailsId = versionReturnId; versionReturnId = null }
+            openedId != null -> { detailsId = openedId; openedId = null }
+            detailsId != null -> detailsId = null
+            draft != null -> draft = null
+            library -> library = false
+            else -> onBack()
+        }
+    }
+    BackHandler(enabled = storage || versionsId != null || versionReturnId != null || openedId != null || detailsId != null || draft != null || library, onBack = handleBack)
+    OfflinePackWorkspace(
+        title = when {
+            opened != null -> opened.name
+            state.removal.isNotEmpty() -> stringResource(R.string.offline_removal_confirm_title)
+            state.plan != null -> stringResource(R.string.offline_confirmation)
+            storage && storageSelecting -> stringResource(R.string.offline_storage_choose)
+            storage -> stringResource(R.string.offline_storage_title)
+            versionsAnchor != null -> stringResource(R.string.offline_saved_versions)
+            details != null -> detailSectionTitle ?: stringResource(R.string.offline_pack_details)
+            draft != null -> preparationSectionTitle ?: stringResource(if (draft?.territories?.isEmpty() == true) R.string.offline_save_view else R.string.offline_content)
+            library -> stringResource(R.string.offline_library)
+            else -> stringResource(if (level == "regions") R.string.pack_map_regions else R.string.pack_map_departments)
+        },
+        onBack = handleBack,
+        onSearch = if (storage && storageSelecting) ({ storageSearch = !storageSearch })
+            else if (!storage && !library && draft == null && details == null) ({ search = true }) else null,
+        onLibrary = { storage = false; storageSelecting = false; storageSearch = false; storageQuery = ""; draft = null; openedId = null; detailsId = null; versionsId = null; versionReturnId = null; library = !library; controller.refresh() },
+        modifier = modifier,
+        panelScroll = !storage && draft == null && (details == null || versionsAnchor != null),
+        map = { topInset, bottomInset ->
+            if (displayedArea != null) OfflineSavedAreaMap(displayedArea, Modifier.fillMaxSize(), topInset = topInset, bottomInset = bottomInset,
+                onMapRenderStatusChanged = onMapRenderStatusChanged, onMapOverlayStatusChanged = onMapOverlayStatusChanged)
+            else AdministrativePackMap(selectedIds = if (library) state.packs.filter { it.status == OfflinePackStatus.READY.name }
+                .flatMap { runCatching { kotlinx.serialization.json.Json.decodeFromString<List<String>>(it.territoriesJson) }.getOrDefault(emptyList()) }.toSet() else selected.toSet(),
+                onTerritoryClick = { id, _ ->
+                    if (library) {
+                        val departmentIds = if (id.startsWith("region:")) catalog.filter { it.regionId == id }.map { it.id }.toSet() else setOf(id)
+                        libraryPacks.firstOrNull { pack ->
+                            val coverage = runCatching { kotlinx.serialization.json.Json.decodeFromString<List<String>>(pack.territoriesJson) }.getOrDefault(emptyList())
+                            departmentIds.isNotEmpty() && departmentIds.all { it in coverage }
+                        }?.let { detailsId = it.id }
+                    } else if (draft == null) selected = if (id in selected) selected - id else selected + id
+                },
+                onVisibleLevelChanged = { level = it }, modifier = Modifier.fillMaxSize(), overlayTop = topInset,
+                overlayBottom = bottomInset,
+                additionalAreas = if (library) libraryAreas else emptyList(), onSavedAreaClick = { detailsId = it },
+                onMapRenderStatusChanged = onMapRenderStatusChanged, onMapOverlayStatusChanged = onMapOverlayStatusChanged)
+        },
+        panel = when {
+            opened != null -> null
+            storage && storageSelecting -> ({ OfflinePackStoragePanel(state, controller, storageSelection, { storageSelection = it },
+                query = storageQuery, onQueryChange = if (storageSearch) ({ storageQuery = it }) else null) })
+            storage -> ({ OfflinePackStorageSummary(state, onChooseContents = { storageSelecting = true; storageSearch = false; storageQuery = "" },
+                onPacks = { storage = false; library = true; libraryMap = false; libraryFilter = "ALL" },
+                onVersions = { storage = false; library = true; libraryMap = false; libraryFilter = "RETAINED" }) })
+            versionsAnchor != null -> ({ OfflinePackVersionsPanel(versionsAnchor, controller,
+                onDetails = { id -> versionReturnId = versionsAnchor.id; versionsId = null; detailsId = id },
+                onStorage = { storageSelection = emptyList(); storageSelecting = false; storageSearch = false; storageQuery = ""; storage = true; controller.refresh() }, onExistingFiles = onLegacyFiles) })
+            details != null -> ({ OfflinePackDetails(details, controller, onOpen = { openedId = details.id; detailsId = null; library = false }, onPrepareUpdate = {
+                val candidates = legacyState.allPacks.filter { it.signedManifest != null && it.checksum != null &&
+                    it.contentKind in setOf("administrative_boundaries", "forestry_layers") }.map {
+                    OfflineDataset(it.id, it.version, requireNotNull(it.checksum), it.name, null) }
+                when (val preparation = prepareOfflinePackUpdate(details, candidates)) {
+                    is OfflinePackUpdatePreparation.MissingRequired -> updateRequiredMissing = true
+                    is OfflinePackUpdatePreparation.Ready -> {
+                        updateRequiredMissing = false
+                        draft = preparation.draft
+                        detailsId = null
+                    }
+                }
+            }, onContinue = onBack, onVersions = { versionsId = details.id; versionReturnId = null }, updateRequiredMissing = updateRequiredMissing, onSectionTitleChanged = { detailSectionTitle = it }) })
+            draft != null -> ({ OfflineViewPackPreparation(controller, MapDataScope.Free, requireNotNull(draft), onDismiss = { draft = null }, onSectionTitleChanged = { preparationSectionTitle = it }) })
+            library -> ({
+                Row(Modifier.fillMaxWidth()) {
+                    TextButton({ libraryMap = true }, Modifier.weight(1f)) { Text(stringResource(R.string.pack_tab_map)) }
+                    TextButton({ libraryMap = false }, Modifier.weight(1f)) { Text(stringResource(R.string.offline_list)) }
+                    Text(stringResource(R.string.offline_ready_count, readyCount), style = MaterialTheme.typography.labelLarge)
+                }
+                Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    listOf("ALL" to R.string.offline_filter_all, "READY" to R.string.offline_filter_ready,
+                        "ATTENTION" to R.string.offline_filter_attention, "RETAINED" to R.string.offline_filter_retained).forEach { (key, label) ->
+                        FilterChip(libraryFilter == key, { libraryFilter = key }, label = { Text(stringResource(label)) })
+                    }
+                }
+                if (!libraryMap) {
+                    OutlinedTextField(libraryQuery, { libraryQuery = it }, singleLine = true, label = { Text(stringResource(R.string.offline_search_packs)) }, modifier = Modifier.fillMaxWidth())
+                    if (libraryPacks.isEmpty()) Text(stringResource(R.string.offline_empty))
+                    libraryPacks.forEach { pack ->
+                        ListItem(headlineContent = { Text(pack.name) }, supportingContent = {
+                            val status = if (pack.id in state.running) OfflinePackStatus.DOWNLOADING else runCatching { OfflinePackStatus.valueOf(pack.status) }.getOrDefault(OfflinePackStatus.INCOMPLETE)
+                            Text(offlineStatusLabel(status))
+                        }, leadingContent = { Icon(Icons.Default.Download, null) }, modifier = Modifier.clickable { detailsId = pack.id })
+                    }
+                }
+                if (state.error) Text(stringResource(R.string.offline_action_failed), color = MaterialTheme.colorScheme.error)
+                TextButton({ storageSelection = emptyList(); storageSelecting = false; storageSearch = false; storageQuery = ""; storage = true; controller.refresh() }, Modifier.fillMaxWidth()) { Text(stringResource(R.string.offline_storage_title)) }
+                if (!libraryMap) TextButton(onLegacyFiles, Modifier.fillMaxWidth()) { Text(stringResource(R.string.offline_existing_files)) }
+            })
+            selected.isNotEmpty() -> ({
+                Row(Modifier.fillMaxWidth()) {
+                    Column(Modifier.weight(1f)) { Text(selectionName, style = MaterialTheme.typography.titleLarge)
+                        Text(stringResource(R.string.offline_whole_territories), style = MaterialTheme.typography.bodyMedium) }
+                    IconButton({ selected = emptyList() }) { Icon(Icons.Default.Close, stringResource(R.string.offline_clear_selection)) }
+                }
+                if (areaError) Text(stringResource(R.string.offline_area_unavailable), color = MaterialTheme.colorScheme.error)
+                Button(onClick = {
+                    try {
+                        val selection = areas.selection(catalog, selected.toSet())
+                        val candidates = legacyState.allPacks.filter { it.territoryId in selection.departmentIds && it.signedManifest != null &&
+                            it.contentKind in setOf("administrative_boundaries", "forestry_layers") && it.checksum != null }.map {
+                            OfflineDataset(it.id, it.version, requireNotNull(it.checksum), it.name, null) }
+                        draft = OfflineViewPackDraft(name = selectionName, geometryJson = selection.geometryJson,
+                            minZoom = 6, maxZoom = 14, pixelRatio = density, styleUri = MapboxStyles.Satellite.uri,
+                            territories = selection.departmentIds, datasetCandidates = candidates)
+                    } catch (_: Exception) { areaError = true }
+                }, enabled = catalog.isNotEmpty() && state.authorityKey != null, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.offline_show_content)) }
+            })
+            else -> null
+        }
+    )
+    if (search) ModalBottomSheet(onDismissRequest = { search = false }) {
+        OutlinedTextField(query, { query = it }, label = { Text(stringResource(R.string.offline_search_territory)) }, modifier = Modifier.fillMaxWidth().padding(16.dp))
+        LazyColumn(Modifier.fillMaxWidth().heightIn(max = 420.dp)) {
+            items(catalog.filter { it.name.contains(query, true) || it.id.contains(query, true) }, key = { it.id }) { area ->
+                ListItem(headlineContent = { Text(area.name) }, supportingContent = { Text(area.id.substringAfter(':')) },
+                    modifier = Modifier.testTag("offline_territory_${area.id}").clickable { selected = (selected + area.id).distinct(); search = false })
+            }
+        }
+    }
+    OfflinePackDialogs(controller)
+}
+
+
+/** Opens the exact saved sources and geometry through the same native map engine and TileStore. */
+@Composable
+private fun OfflineSavedAreaMap(row: OfflineMapPackEntity, modifier: Modifier = Modifier, topInset: androidx.compose.ui.unit.Dp, bottomInset: androidx.compose.ui.unit.Dp,
+    onMapRenderStatusChanged: (MapRenderStatus) -> Unit = {}, onMapOverlayStatusChanged: (MapOverlayStatus) -> Unit = {}) {
+    val density = LocalDensity.current.density
+    val shape = remember(row.definitionHash) {
+        if (row.geometryJson.contains("\"MultiPolygon\"")) MultiPolygon.fromJson(row.geometryJson) else Polygon.fromJson(row.geometryJson)
+    }
+    val points = remember(shape) { when (shape) {
+        is MultiPolygon -> shape.coordinates().flatten().flatten()
+        is Polygon -> shape.coordinates().flatten()
+        else -> emptyList()
+    }.map { MapCoordinate(it.longitude(), it.latitude()) } }
+    val coordinates = points.ifEmpty { listOf(MapCoordinate(2.4, 46.6)) }
+    val scene = remember(row.definitionHash) { MapOverlayScene("offline:${row.id}", 1L,
+        listOf(MapOverlayFeature(MapFeatureKey("offline-area", row.id), shape, MapOverlayStyle("#B9F1CB", fillOpacity = 0.04, lineWidth = 2.0), selectable = false))) }
+    var frame by remember(row.id, topInset, bottomInset) { mutableStateOf<MapCameraFitCommand?>(MapCameraFitCommand(UUID.randomUUID().toString(), coordinates,
+        paddingTopPx = (topInset.value + 12.0) * density, paddingBottomPx = (bottomInset.value + 12.0) * density)) }
+    var status by remember(row.id) { mutableStateOf<MapRenderStatus>(MapRenderStatus.Loading("offline")) }
+    var retry by remember { mutableStateOf(0) }
+    key(row.id, retry) {
+        SharedMapboxCanvas(accessToken = BuildConfig.MAPBOX_PUBLIC_ACCESS_TOKEN,
+            style = MapboxStyleSpec("offline:${row.id}", row.styleUri),
+            initialCamera = MapCameraPosition(coordinates.first().longitude, coordinates.first().latitude, row.minZoom.toDouble()),
+            relief = MapRelief(enabled = row.extraTilesetsJson.contains("mapbox.mapbox-terrain-dem-v1")),
+            overlays = scene, frameCommand = frame, onFrameCommandConsumed = { frame = null },
+            onStatusChanged = { status = it; onMapRenderStatusChanged(it) },
+            onOverlayStatusChanged = onMapOverlayStatusChanged, modifier = modifier,
+            contentPadding = PaddingValues(top = topInset + 12.dp, bottom = bottomInset + 12.dp))
+    }
+    MapboxRenderStatusOverlay(status, onRetry = { retry++ })
+}

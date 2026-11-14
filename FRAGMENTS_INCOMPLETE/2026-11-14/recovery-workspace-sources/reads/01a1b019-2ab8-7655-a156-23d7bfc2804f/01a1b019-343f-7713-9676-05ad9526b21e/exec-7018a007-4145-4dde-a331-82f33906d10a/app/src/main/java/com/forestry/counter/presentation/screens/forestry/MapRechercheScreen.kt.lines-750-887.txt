@@ -1,0 +1,138 @@
+                val minZoom = camera.zoom.toInt().coerceAtLeast(8)
+                val maxZoom = (camera.zoom.toInt() + 4).coerceAtMost(17)
+                pendingDownloadBounds = bounds
+                offlineEstimate = offlineTileManager.estimateDownload(
+                    latSouth = bounds.south, latNorth = bounds.north,
+                    lonWest = bounds.west, lonEast = bounds.east,
+                    minZoom = minZoom, maxZoom = maxZoom, layerCount = layer.tileUrls.size.coerceAtLeast(1),
+                )
+            },
+            onConfirmDownload = {
+                val bounds = pendingDownloadBounds
+                val layer = MAP_LAYERS.getOrElse(currentLayerIdx) { MAP_LAYERS[0] }
+                if (bounds != null) {
+                    val minZoom = camera.zoom.toInt().coerceAtLeast(8)
+                    val maxZoom = (camera.zoom.toInt() + 4).coerceAtMost(17)
+                    offlineTileManager.downloadRegion(
+                        name = "$parcelleId · ${MAP_LAYERS.getOrElse(currentLayerIdx) { MAP_LAYERS[0] }.key}",
+                        latSouth = bounds.south, latNorth = bounds.north,
+                        lonWest = bounds.west, lonEast = bounds.east,
+                        tileUrlTemplates = layer.tileUrls,
+                        minZoom = minZoom, maxZoom = maxZoom,
+                    )
+                }
+                offlineEstimate = null
+                pendingDownloadBounds = null
+                showOfflineSheet = false
+            },
+            onCancelEstimate = { offlineEstimate = null; pendingDownloadBounds = null },
+            onDeleteRegion = { id ->
+                offlineTileManager.deleteRegion(id)
+                offlineRegions = offlineTileManager.listRegions()
+                hasOfflineTilesState = offlineTileManager.hasOfflineTiles()
+            },
+            onDismiss = { showOfflineSheet = false },
+        )
+    }
+
+    MapMeasureSaveDialog(
+        visible = showMeasureSaveDialog,
+        measureMode = measureMode,
+        measurePoints = measurePoints,
+        measureSaveName = measureSaveName,
+        onMeasureSaveNameChange = { measureSaveName = it },
+        onDismiss = { showMeasureSaveDialog = false },
+        context = context,
+    )
+}
+
+/**
+ * Barre d'outils verticale du mode Recherche, ancrée à droite : un bouton
+ * principal toujours visible qui déplie/replie les 4 autres — gagne de la
+ * place sur un écran désormais plein écran (plus de bottom nav dessous).
+ */
+@Composable
+private fun RechercheToolbar(
+    expanded: Boolean,
+    onToggleExpanded: () -> Unit,
+    measureActive: Boolean,
+    layersActive: Boolean,
+    legendActive: Boolean,
+    hasGeoTiges: Boolean,
+    onToggleMeasure: () -> Unit,
+    onToggleLayers: () -> Unit,
+    onToggleLegend: () -> Unit,
+    onLocate: () -> Unit,
+    onDownloadOffline: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(Space.xs),
+    ) {
+        androidx.compose.animation.AnimatedVisibility(
+            visible = expanded,
+            enter = androidx.compose.animation.expandVertically(tween(Motion.NORMAL)) + fadeIn(tween(Motion.NORMAL)),
+            exit = androidx.compose.animation.shrinkVertically(tween(Motion.FAST)) + fadeOut(tween(Motion.FAST)),
+        ) {
+            Surface(
+                color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.96f),
+                shape = GsShape.pill,
+                shadowElevation = Elevation.overlay,
+            ) {
+                Column(
+                    modifier = Modifier.padding(Space.xs),
+                    verticalArrangement = Arrangement.spacedBy(Space.xs),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    RechercheToolbarButton(Icons.Default.Layers, stringResource(R.string.map_style), layersActive, onToggleLayers)
+                    RechercheToolbarButton(Icons.Default.Straighten, stringResource(R.string.measure_tool_title), measureActive, onToggleMeasure)
+                    RechercheToolbarButton(Icons.AutoMirrored.Filled.FormatListBulleted, stringResource(R.string.map_legend), legendActive, onToggleLegend, enabled = hasGeoTiges)
+                    RechercheToolbarButton(Icons.Default.GpsFixed, stringResource(R.string.map_my_location), false, onLocate)
+                    RechercheToolbarButton(Icons.Default.CloudDownload, stringResource(R.string.offline_download), false, onDownloadOffline)
+                }
+            }
+        }
+        Surface(
+            onClick = onToggleExpanded,
+            modifier = Modifier.size(Touch.fieldPrimary),
+            shape = GsShape.pill,
+            color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.96f),
+            shadowElevation = Elevation.overlay,
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Icon(
+                    if (expanded) Icons.Default.Close else Icons.Default.Menu,
+                    contentDescription = stringResource(if (expanded) R.string.cd_close else R.string.map_toolbar_expand),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun RechercheToolbarButton(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    contentDescription: String,
+    active: Boolean,
+    onClick: () -> Unit,
+    enabled: Boolean = true,
+) {
+    Surface(
+        onClick = onClick,
+        enabled = enabled,
+        modifier = Modifier.size(Touch.fieldPrimary),
+        shape = GsShape.pill,
+        color = if (active) MaterialTheme.colorScheme.primary else Color.Transparent,
+        contentColor = when {
+            active -> MaterialTheme.colorScheme.onPrimary
+            enabled -> MaterialTheme.colorScheme.onSurface
+            else -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+        },
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Icon(icon, contentDescription = contentDescription)
+        }
+    }
+}

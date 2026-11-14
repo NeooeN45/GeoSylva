@@ -1,0 +1,23 @@
+                    onCommandConsumed = {
+                        if (cameraCommand?.id == it) { cameraCommand = null; framedContext = true }
+                    },
+                    onFrameCommandConsumed = {
+                        if (frameCommand?.id == it) { frameCommand = null; framedContext = true }
+                    },
+                    onCoordinateTap = { coordinate ->
+                        if (measureActive) {
+                            if (!showMeasureSaveDialog) measurePoints = measurePoints + MeasurePoint(coordinate.latitude, coordinate.longitude)
+                            true
+                        } else false
+                    },
+                    onMapTap = { tap ->
+                        if (!measureActive && !showMeasureSaveDialog) tap.featureKey?.let { key ->
+                            currentProjection.treesByKey[key]?.let { handleCurrentTreeTap(it) }
+                            currentProjection.clustersByKey[key]?.let { members ->
+                                frameCommand = MapCameraFitCommand(UUID.randomUUID().toString(), members,
+                                    paddingTopPx = 100.0 * density, paddingBottomPx = 130.0 * density,
+                                    paddingLeftPx = 55.0 * density, paddingRightPx = 55.0 * density)
+                            }
+                        }
+                    },
+                    onStatusChanged = { status ->

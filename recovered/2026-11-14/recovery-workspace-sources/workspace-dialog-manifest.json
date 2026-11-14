@@ -1,0 +1,784 @@
+{
+  "entries": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+      "version_file": "workspace-dialog-versions/01a1b531-1a20-76a8-9701-174369a5d2c0/exec-8d6b1bd7-68df-4a00-ab80-e2ba2b8849e8/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+      "sha256": "70c96fae743cbcf863d86b8ec6c31ec106d91b8ea807333e67c08675e59e7f14",
+      "line_count": 303,
+      "classification": "complete_reconstruction_from_observed_dialog_chain",
+      "provenance": {
+        "history_file": "root0002-full250.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+        "item": "exec-8d6b1bd7-68df-4a00-ab80-e2ba2b8849e8",
+        "item_index": 312,
+        "turn_started_at": 1794041256,
+        "turn_completed_at": 1794075423
+      },
+      "chain": [
+        {
+          "history_file": "workspace-search-tools-initial.json",
+          "thread": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
+          "turn": "01a1b01f-97b2-741c-94f8-fa9247eef839",
+          "item": "exec-0e98c790-e566-4e31-b1c1-d4c95b4ebb0f",
+          "item_index": 5,
+          "turn_started_at": 1793956223,
+          "turn_completed_at": 1793956385,
+          "kind": "add",
+          "diff_sha256": "d86b353349baf25224027ae67945c0fcb713f32ad979d42d1b8a2659d7eb00b6"
+        },
+        {
+          "history_file": "workspace-search-tools.json",
+          "thread": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
+          "turn": "01a1b022-405f-7043-9292-0fa95fb47645",
+          "item": "exec-220adb88-38e8-442e-a24d-f0fc2965f789",
+          "item_index": 21,
+          "turn_started_at": 1793956397,
+          "turn_completed_at": 1793956731,
+          "kind": "update",
+          "diff_sha256": "717c3cb1b77360c1c19803381892e2c17727ad7b0271cd476098bb92d873be14"
+        },
+        {
+          "kind": "strict_recovered_diff_from_observed_regions",
+          "evidence": {
+            "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+            "diff_file": "recovered-maprecherche-diffs/01a1b531-1a20-76a8-9701-174369a5d2c0/exec-8d6b1bd7-68df-4a00-ab80-e2ba2b8849e8/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt.diff",
+            "diff_sha256": "4ec10c60dc3dbc741d1b45432ef9a30b81516bd05748c5169ccabb1748889fe5",
+            "classification": "full_diff_reconstructed_from_observed_old_and_new_regions",
+            "provenance": {
+              "history_file": "root0002-full250.json",
+              "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+              "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+              "item": "exec-8d6b1bd7-68df-4a00-ab80-e2ba2b8849e8",
+              "item_index": 312,
+              "turn_started_at": 1794041256,
+              "turn_completed_at": 1794075423
+            },
+            "old_source_version": "versions/01a1b01f-8f77-75e2-b888-45f73cc0f054/01a1b022-405f-7043-9292-0fa95fb47645/exec-220adb88-38e8-442e-a24d-f0fc2965f789/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+            "old_source_sha256": "ef6705a8f7322aa53e211e49d4a1e144a57965f93f62b0706e2680e79fb022c7",
+            "new_region_evidence": {
+              "read": {
+                "history_file": "layers-attributes-batch12.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b5b3-137f-720f-afe8-32bec9f81829",
+                "item": "exec-49460b6f-d623-45bc-b043-ac84988582fd",
+                "item_index": 35,
+                "turn_started_at": 1794049774,
+                "turn_completed_at": 1794050382
+              },
+              "source_line_numbers": [
+                250,
+                251
+              ],
+              "new_optional_parameters_already_complete_in_diff_prefix": true
+            },
+            "observed_diff_prefix": "@@ -234,2 +234,4 @@\n     onMeasure: (() -> Unit)? = null,\n+    onImportLayer: (() -> Unit)? = null,\n+    onTrace: (() -> Unit)? = null,\n ) {\n@@ -247,2 +249,4 @@\n             WorkspaceSheetHeading(stringResource(R.string.gs_workspace_tools_title), onD",
+            "observed_original_chars": 675,
+            "reconstructed_chars": 675,
+            "prefix_matches": true,
+            "full_length_matches": true
+          }
+        }
+      ],
+      "contains_redacted_source": false
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+      "version_file": "workspace-dialog-versions/01a1b674-edc8-722a-b02e-cb30dc34215f/exec-c596edc5-9b0f-44da-886b-62831d6eae28/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+      "sha256": "d3ca7443e9bbd5e5747c573e4b9ac34d7b8402c7b2d2000236937d3793798442",
+      "line_count": 309,
+      "classification": "complete_reconstruction_from_observed_dialog_chain",
+      "provenance": {
+        "history_file": "maps-guidage-batch4.json",
+        "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "turn": "01a1b674-edc8-722a-b02e-cb30dc34215f",
+        "item": "exec-c596edc5-9b0f-44da-886b-62831d6eae28",
+        "item_index": 30,
+        "turn_started_at": 1794062479,
+        "turn_completed_at": 1794063244
+      },
+      "chain": [
+        {
+          "history_file": "workspace-search-tools-initial.json",
+          "thread": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
+          "turn": "01a1b01f-97b2-741c-94f8-fa9247eef839",
+          "item": "exec-0e98c790-e566-4e31-b1c1-d4c95b4ebb0f",
+          "item_index": 5,
+          "turn_started_at": 1793956223,
+          "turn_completed_at": 1793956385,
+          "kind": "add",
+          "diff_sha256": "d86b353349baf25224027ae67945c0fcb713f32ad979d42d1b8a2659d7eb00b6"
+        },
+        {
+          "history_file": "workspace-search-tools.json",
+          "thread": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
+          "turn": "01a1b022-405f-7043-9292-0fa95fb47645",
+          "item": "exec-220adb88-38e8-442e-a24d-f0fc2965f789",
+          "item_index": 21,
+          "turn_started_at": 1793956397,
+          "turn_completed_at": 1793956731,
+          "kind": "update",
+          "diff_sha256": "717c3cb1b77360c1c19803381892e2c17727ad7b0271cd476098bb92d873be14"
+        },
+        {
+          "kind": "strict_recovered_diff_from_observed_regions",
+          "evidence": {
+            "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+            "diff_file": "recovered-maprecherche-diffs/01a1b531-1a20-76a8-9701-174369a5d2c0/exec-8d6b1bd7-68df-4a00-ab80-e2ba2b8849e8/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt.diff",
+            "diff_sha256": "4ec10c60dc3dbc741d1b45432ef9a30b81516bd05748c5169ccabb1748889fe5",
+            "classification": "full_diff_reconstructed_from_observed_old_and_new_regions",
+            "provenance": {
+              "history_file": "root0002-full250.json",
+              "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+              "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+              "item": "exec-8d6b1bd7-68df-4a00-ab80-e2ba2b8849e8",
+              "item_index": 312,
+              "turn_started_at": 1794041256,
+              "turn_completed_at": 1794075423
+            },
+            "old_source_version": "versions/01a1b01f-8f77-75e2-b888-45f73cc0f054/01a1b022-405f-7043-9292-0fa95fb47645/exec-220adb88-38e8-442e-a24d-f0fc2965f789/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+            "old_source_sha256": "ef6705a8f7322aa53e211e49d4a1e144a57965f93f62b0706e2680e79fb022c7",
+            "new_region_evidence": {
+              "read": {
+                "history_file": "layers-attributes-batch12.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b5b3-137f-720f-afe8-32bec9f81829",
+                "item": "exec-49460b6f-d623-45bc-b043-ac84988582fd",
+                "item_index": 35,
+                "turn_started_at": 1794049774,
+                "turn_completed_at": 1794050382
+              },
+              "source_line_numbers": [
+                250,
+                251
+              ],
+              "new_optional_parameters_already_complete_in_diff_prefix": true
+            },
+            "observed_diff_prefix": "@@ -234,2 +234,4 @@\n     onMeasure: (() -> Unit)? = null,\n+    onImportLayer: (() -> Unit)? = null,\n+    onTrace: (() -> Unit)? = null,\n ) {\n@@ -247,2 +249,4 @@\n             WorkspaceSheetHeading(stringResource(R.string.gs_workspace_tools_title), onD",
+            "observed_original_chars": 675,
+            "reconstructed_chars": 675,
+            "prefix_matches": true,
+            "full_length_matches": true
+          }
+        },
+        {
+          "kind": "strict_complete_patch_historical_sha_verified",
+          "evidence": {
+            "patch_file": "recovered-maprecherche-diffs/root-back-tools11.patch",
+            "patch_sha256": "1a6184b1cd05783a742d14218cf856f753d0c308784af06081153aeb71bfd63a",
+            "classification": "complete_patch_read_exact_historical_sha_verified",
+            "provenance": {
+              "history_file": "maps-guidage-batch4.json",
+              "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+              "turn": "01a1b674-edc8-722a-b02e-cb30dc34215f",
+              "item": "exec-c596edc5-9b0f-44da-886b-62831d6eae28",
+              "item_index": 30,
+              "turn_started_at": 1794062479,
+              "turn_completed_at": 1794063244
+            },
+            "sha_witness": {
+              "history_file": "maps-guidage-batch4.json",
+              "turn": "01a1b674-edc8-722a-b02e-cb30dc34215f",
+              "item": "exec-2d075406-0f47-45f6-963d-0f4d69f741d7",
+              "item_index": 75
+            },
+            "frozen_build11_snapshot_witness": {
+              "history_file": "maquettes-audit-earlier.json",
+              "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+              "turn": "01a1b6f1-9033-7581-8fb0-44be73651959",
+              "item": "exec-e83fc9d2-417f-4afb-91dd-748f2daa4dea",
+              "item_index": 8,
+              "turn_started_at": 1794070647,
+              "turn_completed_at": 1794071884
+            },
+            "parts": [
+              {
+                "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+                "diff": "@@ -139,6 +139,9 @@\n     onNavigateBack: () -> Unit,\n     modifier: Modifier = Modifier,\n ) {\n+    // Register the screen fallback before every child/panel handler below.\n+    // On a bare map, physical Back has the same destination as the visible arrow.\n+    BackHandler(onBack = onNavigateBack)\n     val context = LocalContext.current\n     val scope = rememberCoroutineScope()\n \n@@ -264,6 +267,7 @@\n     val currentLayerIdx = layerLoadState.displayedIndex\n     var workspacePanel by remember(mapScope) { mutableStateOf<MapPanel?>(null) }\n     var showTools by remember(mapScope) { mutableStateOf(false) }\n+    var toolsPanelHeight by remember { mutableStateOf(0.dp) }\n     var showPlaceSearch by remember(mapScope) { mutableStateOf(false) }\n     var selectedPlaceLabel by remember(mapScope) { mutableStateOf<String?>(null) }\n     var workspaceHelp by remember { mutableStateOf<MapHelp?>(null) }\n@@ -526,17 +530,20 @@\n         onCompassTopChanged = { compassTop = it },\n         thumbnail = { preview, thumbnailModifier -> MapCatalogThumbnail(preview, thumbnailModifier) }) {\n         BoxWithConstraints(Modifier.fillMaxSize()) {\n-            val ornamentsBottom = if (workspaceHelp != null) sourcePanelHeight + 8.dp else if (traceActive) tracePadding.calculateBottomPadding() else if (layerState.visible) layerPanelHeight + 8.dp\n+            val panelOrnamentsBottom = if (workspaceHelp != null) sourcePanelHeight + 8.dp else if (traceActive) tracePadding.calculateBottomPadding() else if (layerState.visible) layerPanelHeight + 8.dp\n                 else if (treePanelActive) treePanelHeight + 8.dp else if (viewPack != null) offlinePanelHeight + 8.dp\n                 else if (measureActive) measurePanelHeight + 8.dp else (\n                 if (workspacePanel != null) mapWorkspacePanelHeight(maxHeight, LocalDensity.current.fontScale) else 112.dp\n             ) + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + 8.dp\n+            // Outils owns a ModalBottomSheet window; use its measured full height,\n+            // not a screen percentage or a smaller content-only Column.\n+            val ornamentsBottom = if (showTools) maxOf(panelOrnamentsBottom, toolsPanelHeight + 8.dp) else panelOrnamentsBottom\n             key(mapScope, retryGeneration) {\n                 SharedMapboxCanvas(\n                     accessToken = BuildConfig.MAPBOX_PUBLIC_ACCESS_TOKEN,\n                     style = renderedStyle, initialCamera = camera, cameraCommand = cameraCommand,\n                     frameCommand = frameCommand, overlays = scene,\n-                    scaleBarVisible = workspaceHelp == null && !traceActive && !layerState.visible && !treePanelActive && viewPack == null && workspacePanel == null && (!measureActive ||\n+                    scaleBarVisible = !showTools && workspaceHelp == null && !traceActive && !layerState.visible && !treePanelActive && viewPack == null && workspacePanel == null && (!measureActive ||\n                         manual.panel == MeasurePanel.COLLAPSED && manual.auxiliary == ManualMeasureAuxiliary.NONE),\n                     relief = requestedRelief.copy(enabled = renderedStyle.demSourceUrl != null),\n                     contentPadding = PaddingValues(start = 12.dp, top = if (traceActive) tracePadding.calculateTopPadding() else compassTop, end = 12.dp, bottom = ornamentsBottom),\n@@ -657,6 +664,7 @@\n \n     if (showTools) MapWorkspaceTools(\n         onDismiss = { showTools = false },\n+        onPanelHeightChanged = { toolsPanelHeight = it },\n         onGpsPrecision = { workspacePanel = null; treeUi.openAccuracy() },\n         onOffline = {\n             val view = viewport\n"
+              },
+              {
+                "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+                "diff": "@@ -48,12 +48,15 @@\n import androidx.compose.runtime.setValue\n import androidx.compose.ui.Alignment\n import androidx.compose.ui.Modifier\n+import androidx.compose.ui.layout.onSizeChanged\n+import androidx.compose.ui.platform.LocalDensity\n import androidx.compose.ui.graphics.vector.ImageVector\n import androidx.compose.ui.platform.LocalSoftwareKeyboardController\n import androidx.compose.ui.res.stringResource\n import androidx.compose.ui.text.font.FontWeight\n import androidx.compose.ui.text.input.ImeAction\n import androidx.compose.ui.unit.dp\n+import androidx.compose.ui.unit.Dp\n import androidx.lifecycle.Lifecycle\n import androidx.lifecycle.LifecycleEventObserver\n import androidx.lifecycle.compose.LocalLifecycleOwner\n@@ -234,10 +237,13 @@\n     onMeasure: (() -> Unit)? = null,\n     onImportLayer: (() -> Unit)? = null,\n     onTrace: (() -> Unit)? = null,\n+    onPanelHeightChanged: (Dp) -> Unit = {},\n ) {\n+    val density = LocalDensity.current.density\n     fun open(action: () -> Unit) { onDismiss(); action() }\n     ModalBottomSheet(\n         onDismissRequest = onDismiss,\n+        modifier = Modifier.onSizeChanged { onPanelHeightChanged((it.height / density).dp) },\n         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),\n         containerColor = MaterialTheme.colorScheme.surface,\n     ) {\n"
+              }
+            ],
+            "application_note": "Named with the same SHA and checkExit0 in the frozen build11 source snapshot. Exact production read matches must additionally be checked for MapRecherche."
+          }
+        }
+      ],
+      "contains_redacted_source": false
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/components/maps/MapModalStatusBar.kt",
+      "version_file": "workspace-dialog-versions/01a1b69a-288f-73ce-9c2b-accb752e2089/exec-6b6d8f93-9271-41bf-8334-46cdafc26d74/app/src/main/java/com/forestry/counter/presentation/components/maps/MapModalStatusBar.kt",
+      "sha256": "84f897bfbacae3bc649c705df7e43906a7cc15fcbab36b693db7547a5ee38b7b",
+      "line_count": 86,
+      "classification": "complete_exact_modal_patch_source_sha_verified",
+      "provenance": {
+        "history_file": "maps-guidage-batch3.json",
+        "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+        "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+        "item_index": 34,
+        "turn_started_at": 1794064918,
+        "turn_completed_at": 1794065580
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_add_from_refined_generator",
+          "provenance": {
+            "history_file": "maps-guidage-batch3.json",
+            "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+            "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+            "item": "exec-f8dc7178-db68-4b39-8355-8264ffd31d46",
+            "item_index": 27,
+            "turn_started_at": 1794064918,
+            "turn_completed_at": 1794065580
+          },
+          "refinement_provenance": {
+            "history_file": "maps-guidage-batch3.json",
+            "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+            "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+            "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+            "item_index": 34,
+            "turn_started_at": 1794064918,
+            "turn_completed_at": 1794065580
+          },
+          "refined_script_sha256": "985be962d327781034e3da7a69ec7969738fe53e8d910f8c30616cbed69565ac",
+          "patch_sha256": "782d19bfa0e78e6a4426beb082790cc3ae1b269d521ce019878fecf431953fe8"
+        }
+      ],
+      "contains_redacted_source": false
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+      "version_file": "workspace-dialog-versions/01a1b69a-288f-73ce-9c2b-accb752e2089/exec-6b6d8f93-9271-41bf-8334-46cdafc26d74/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+      "sha256": "f082a68b7c448c4ea26839dc78d66692143120e1c4d3eff72d6df002870f208f",
+      "line_count": 313,
+      "classification": "complete_exact_modal_patch_source_sha_verified",
+      "provenance": {
+        "history_file": "maps-guidage-batch3.json",
+        "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+        "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+        "item_index": 34,
+        "turn_started_at": 1794064918,
+        "turn_completed_at": 1794065580
+      },
+      "chain": [
+        {
+          "history_file": "workspace-search-tools-initial.json",
+          "thread": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
+          "turn": "01a1b01f-97b2-741c-94f8-fa9247eef839",
+          "item": "exec-0e98c790-e566-4e31-b1c1-d4c95b4ebb0f",
+          "item_index": 5,
+          "turn_started_at": 1793956223,
+          "turn_completed_at": 1793956385,
+          "kind": "add",
+          "diff_sha256": "d86b353349baf25224027ae67945c0fcb713f32ad979d42d1b8a2659d7eb00b6"
+        },
+        {
+          "history_file": "workspace-search-tools.json",
+          "thread": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
+          "turn": "01a1b022-405f-7043-9292-0fa95fb47645",
+          "item": "exec-220adb88-38e8-442e-a24d-f0fc2965f789",
+          "item_index": 21,
+          "turn_started_at": 1793956397,
+          "turn_completed_at": 1793956731,
+          "kind": "update",
+          "diff_sha256": "717c3cb1b77360c1c19803381892e2c17727ad7b0271cd476098bb92d873be14"
+        },
+        {
+          "kind": "strict_recovered_diff_from_observed_regions",
+          "evidence": {
+            "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+            "diff_file": "recovered-maprecherche-diffs/01a1b531-1a20-76a8-9701-174369a5d2c0/exec-8d6b1bd7-68df-4a00-ab80-e2ba2b8849e8/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt.diff",
+            "diff_sha256": "4ec10c60dc3dbc741d1b45432ef9a30b81516bd05748c5169ccabb1748889fe5",
+            "classification": "full_diff_reconstructed_from_observed_old_and_new_regions",
+            "provenance": {
+              "history_file": "root0002-full250.json",
+              "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+              "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+              "item": "exec-8d6b1bd7-68df-4a00-ab80-e2ba2b8849e8",
+              "item_index": 312,
+              "turn_started_at": 1794041256,
+              "turn_completed_at": 1794075423
+            },
+            "old_source_version": "versions/01a1b01f-8f77-75e2-b888-45f73cc0f054/01a1b022-405f-7043-9292-0fa95fb47645/exec-220adb88-38e8-442e-a24d-f0fc2965f789/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+            "old_source_sha256": "ef6705a8f7322aa53e211e49d4a1e144a57965f93f62b0706e2680e79fb022c7",
+            "new_region_evidence": {
+              "read": {
+                "history_file": "layers-attributes-batch12.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b5b3-137f-720f-afe8-32bec9f81829",
+                "item": "exec-49460b6f-d623-45bc-b043-ac84988582fd",
+                "item_index": 35,
+                "turn_started_at": 1794049774,
+                "turn_completed_at": 1794050382
+              },
+              "source_line_numbers": [
+                250,
+                251
+              ],
+              "new_optional_parameters_already_complete_in_diff_prefix": true
+            },
+            "observed_diff_prefix": "@@ -234,2 +234,4 @@\n     onMeasure: (() -> Unit)? = null,\n+    onImportLayer: (() -> Unit)? = null,\n+    onTrace: (() -> Unit)? = null,\n ) {\n@@ -247,2 +249,4 @@\n             WorkspaceSheetHeading(stringResource(R.string.gs_workspace_tools_title), onD",
+            "observed_original_chars": 675,
+            "reconstructed_chars": 675,
+            "prefix_matches": true,
+            "full_length_matches": true
+          }
+        },
+        {
+          "kind": "strict_complete_patch_historical_sha_verified",
+          "evidence": {
+            "patch_file": "recovered-maprecherche-diffs/root-back-tools11.patch",
+            "patch_sha256": "1a6184b1cd05783a742d14218cf856f753d0c308784af06081153aeb71bfd63a",
+            "classification": "complete_patch_read_exact_historical_sha_verified",
+            "provenance": {
+              "history_file": "maps-guidage-batch4.json",
+              "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+              "turn": "01a1b674-edc8-722a-b02e-cb30dc34215f",
+              "item": "exec-c596edc5-9b0f-44da-886b-62831d6eae28",
+              "item_index": 30,
+              "turn_started_at": 1794062479,
+              "turn_completed_at": 1794063244
+            },
+            "sha_witness": {
+              "history_file": "maps-guidage-batch4.json",
+              "turn": "01a1b674-edc8-722a-b02e-cb30dc34215f",
+              "item": "exec-2d075406-0f47-45f6-963d-0f4d69f741d7",
+              "item_index": 75
+            },
+            "frozen_build11_snapshot_witness": {
+              "history_file": "maquettes-audit-earlier.json",
+              "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+              "turn": "01a1b6f1-9033-7581-8fb0-44be73651959",
+              "item": "exec-e83fc9d2-417f-4afb-91dd-748f2daa4dea",
+              "item_index": 8,
+              "turn_started_at": 1794070647,
+              "turn_completed_at": 1794071884
+            },
+            "parts": [
+              {
+                "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+                "diff": "@@ -139,6 +139,9 @@\n     onNavigateBack: () -> Unit,\n     modifier: Modifier = Modifier,\n ) {\n+    // Register the screen fallback before every child/panel handler below.\n+    // On a bare map, physical Back has the same destination as the visible arrow.\n+    BackHandler(onBack = onNavigateBack)\n     val context = LocalContext.current\n     val scope = rememberCoroutineScope()\n \n@@ -264,6 +267,7 @@\n     val currentLayerIdx = layerLoadState.displayedIndex\n     var workspacePanel by remember(mapScope) { mutableStateOf<MapPanel?>(null) }\n     var showTools by remember(mapScope) { mutableStateOf(false) }\n+    var toolsPanelHeight by remember { mutableStateOf(0.dp) }\n     var showPlaceSearch by remember(mapScope) { mutableStateOf(false) }\n     var selectedPlaceLabel by remember(mapScope) { mutableStateOf<String?>(null) }\n     var workspaceHelp by remember { mutableStateOf<MapHelp?>(null) }\n@@ -526,17 +530,20 @@\n         onCompassTopChanged = { compassTop = it },\n         thumbnail = { preview, thumbnailModifier -> MapCatalogThumbnail(preview, thumbnailModifier) }) {\n         BoxWithConstraints(Modifier.fillMaxSize()) {\n-            val ornamentsBottom = if (workspaceHelp != null) sourcePanelHeight + 8.dp else if (traceActive) tracePadding.calculateBottomPadding() else if (layerState.visible) layerPanelHeight + 8.dp\n+            val panelOrnamentsBottom = if (workspaceHelp != null) sourcePanelHeight + 8.dp else if (traceActive) tracePadding.calculateBottomPadding() else if (layerState.visible) layerPanelHeight + 8.dp\n                 else if (treePanelActive) treePanelHeight + 8.dp else if (viewPack != null) offlinePanelHeight + 8.dp\n                 else if (measureActive) measurePanelHeight + 8.dp else (\n                 if (workspacePanel != null) mapWorkspacePanelHeight(maxHeight, LocalDensity.current.fontScale) else 112.dp\n             ) + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + 8.dp\n+            // Outils owns a ModalBottomSheet window; use its measured full height,\n+            // not a screen percentage or a smaller content-only Column.\n+            val ornamentsBottom = if (showTools) maxOf(panelOrnamentsBottom, toolsPanelHeight + 8.dp) else panelOrnamentsBottom\n             key(mapScope, retryGeneration) {\n                 SharedMapboxCanvas(\n                     accessToken = BuildConfig.MAPBOX_PUBLIC_ACCESS_TOKEN,\n                     style = renderedStyle, initialCamera = camera, cameraCommand = cameraCommand,\n                     frameCommand = frameCommand, overlays = scene,\n-                    scaleBarVisible = workspaceHelp == null && !traceActive && !layerState.visible && !treePanelActive && viewPack == null && workspacePanel == null && (!measureActive ||\n+                    scaleBarVisible = !showTools && workspaceHelp == null && !traceActive && !layerState.visible && !treePanelActive && viewPack == null && workspacePanel == null && (!measureActive ||\n                         manual.panel == MeasurePanel.COLLAPSED && manual.auxiliary == ManualMeasureAuxiliary.NONE),\n                     relief = requestedRelief.copy(enabled = renderedStyle.demSourceUrl != null),\n                     contentPadding = PaddingValues(start = 12.dp, top = if (traceActive) tracePadding.calculateTopPadding() else compassTop, end = 12.dp, bottom = ornamentsBottom),\n@@ -657,6 +664,7 @@\n \n     if (showTools) MapWorkspaceTools(\n         onDismiss = { showTools = false },\n+        onPanelHeightChanged = { toolsPanelHeight = it },\n         onGpsPrecision = { workspacePanel = null; treeUi.openAccuracy() },\n         onOffline = {\n             val view = viewport\n"
+              },
+              {
+                "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+                "diff": "@@ -48,12 +48,15 @@\n import androidx.compose.runtime.setValue\n import androidx.compose.ui.Alignment\n import androidx.compose.ui.Modifier\n+import androidx.compose.ui.layout.onSizeChanged\n+import androidx.compose.ui.platform.LocalDensity\n import androidx.compose.ui.graphics.vector.ImageVector\n import androidx.compose.ui.platform.LocalSoftwareKeyboardController\n import androidx.compose.ui.res.stringResource\n import androidx.compose.ui.text.font.FontWeight\n import androidx.compose.ui.text.input.ImeAction\n import androidx.compose.ui.unit.dp\n+import androidx.compose.ui.unit.Dp\n import androidx.lifecycle.Lifecycle\n import androidx.lifecycle.LifecycleEventObserver\n import androidx.lifecycle.compose.LocalLifecycleOwner\n@@ -234,10 +237,13 @@\n     onMeasure: (() -> Unit)? = null,\n     onImportLayer: (() -> Unit)? = null,\n     onTrace: (() -> Unit)? = null,\n+    onPanelHeightChanged: (Dp) -> Unit = {},\n ) {\n+    val density = LocalDensity.current.density\n     fun open(action: () -> Unit) { onDismiss(); action() }\n     ModalBottomSheet(\n         onDismissRequest = onDismiss,\n+        modifier = Modifier.onSizeChanged { onPanelHeightChanged((it.height / density).dp) },\n         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),\n         containerColor = MaterialTheme.colorScheme.surface,\n     ) {\n"
+              }
+            ],
+            "application_note": "Named with the same SHA and checkExit0 in the frozen build11 source snapshot. Exact production read matches must additionally be checked for MapRecherche."
+          }
+        },
+        {
+          "kind": "literal_generator_refinement",
+          "provenance": {
+            "history_file": "maps-guidage-batch3.json",
+            "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+            "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+            "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+            "item_index": 34,
+            "turn_started_at": 1794064918,
+            "turn_completed_at": 1794065580
+          },
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "    val applyAppearance = remember(source, target) {",
+              "new": "    val applyAppearance: () -> Unit = remember(source, target) {",
+              "matching_occurrences_before": 1,
+              "count_argument": 1
+            }
+          ]
+        },
+        {
+          "kind": "pure_tools_function_from_refined_generator",
+          "provenance": {
+            "history_file": "maps-guidage-batch3.json",
+            "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+            "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+            "item": "exec-f8dc7178-db68-4b39-8355-8264ffd31d46",
+            "item_index": 27,
+            "turn_started_at": 1794064918,
+            "turn_completed_at": 1794065580
+          },
+          "refined_script_sha256": "985be962d327781034e3da7a69ec7969738fe53e8d910f8c30616cbed69565ac",
+          "function_source": "def tools(s):\n s=s.replace('import com.forestry.counter.R','''import com.forestry.counter.R\nimport com.forestry.counter.presentation.components.maps.rememberMapModalStatusBarPolicy\nimport com.forestry.counter.presentation.components.maps.MapModalStatusBarEffect''',1)\n start=s.index('internal fun MapWorkspaceTools(')\n tail=s[start:]\n tail=tail.replace('''    val density = LocalDensity.current.density\n    fun open''','''    val density = LocalDensity.current.density\n    val statusBars = rememberMapModalStatusBarPolicy()\n    fun open''',1)\n needle='''        containerColor = MaterialTheme.colorScheme.surface,\n    ) {\n        Column('''\n replacement='''        containerColor = MaterialTheme.colorScheme.surface,\n    ) {\n        MapModalStatusBarEffect(statusBars)\n        Column('''\n assert needle in tail;tail=tail.replace(needle,replacement,1)\n return s[:start]+tail",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 96,
+              "old": "import com.forestry.counter.R",
+              "new": "import com.forestry.counter.R\nimport com.forestry.counter.presentation.components.maps.rememberMapModalStatusBarPolicy\nimport com.forestry.counter.presentation.components.maps.MapModalStatusBarEffect",
+              "matching_occurrences_before": 1,
+              "count_argument": 1
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 101,
+              "old": "    val density = LocalDensity.current.density\n    fun open",
+              "new": "    val density = LocalDensity.current.density\n    val statusBars = rememberMapModalStatusBarPolicy()\n    fun open",
+              "matching_occurrences_before": 1,
+              "count_argument": 1
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 112,
+              "old": "        containerColor = MaterialTheme.colorScheme.surface,\n    ) {\n        Column(",
+              "new": "        containerColor = MaterialTheme.colorScheme.surface,\n    ) {\n        MapModalStatusBarEffect(statusBars)\n        Column(",
+              "matching_occurrences_before": 1,
+              "count_argument": 1
+            }
+          ],
+          "historical_script_executed": false
+        }
+      ],
+      "contains_redacted_source": false
+    },
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/ui/MapModalStatusBarTest.kt",
+      "version_file": "workspace-dialog-versions/01a1b69a-288f-73ce-9c2b-accb752e2089/exec-6b6d8f93-9271-41bf-8334-46cdafc26d74/app/src/androidTest/java/com/forestry/counter/ui/MapModalStatusBarTest.kt",
+      "sha256": "df75eee8667723a03dab77738f55e8a6b40cb9062a5d070bdc29478ecd41d4b6",
+      "line_count": 86,
+      "classification": "complete_exact_modal_patch_source_sha_verified",
+      "provenance": {
+        "history_file": "maps-guidage-batch3.json",
+        "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+        "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+        "item_index": 34,
+        "turn_started_at": 1794064918,
+        "turn_completed_at": 1794065580
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_add_from_refined_generator",
+          "provenance": {
+            "history_file": "maps-guidage-batch3.json",
+            "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+            "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+            "item": "exec-f8dc7178-db68-4b39-8355-8264ffd31d46",
+            "item_index": 27,
+            "turn_started_at": 1794064918,
+            "turn_completed_at": 1794065580
+          },
+          "refinement_provenance": {
+            "history_file": "maps-guidage-batch3.json",
+            "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+            "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+            "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+            "item_index": 34,
+            "turn_started_at": 1794064918,
+            "turn_completed_at": 1794065580
+          },
+          "refined_script_sha256": "985be962d327781034e3da7a69ec7969738fe53e8d910f8c30616cbed69565ac",
+          "patch_sha256": "782d19bfa0e78e6a4426beb082790cc3ae1b269d521ce019878fecf431953fe8"
+        }
+      ],
+      "contains_redacted_source": false
+    }
+  ],
+  "heads": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/components/maps/MapModalStatusBar.kt",
+      "version_file": "workspace-dialog-versions/01a1b69a-288f-73ce-9c2b-accb752e2089/exec-6b6d8f93-9271-41bf-8334-46cdafc26d74/app/src/main/java/com/forestry/counter/presentation/components/maps/MapModalStatusBar.kt",
+      "sha256": "84f897bfbacae3bc649c705df7e43906a7cc15fcbab36b693db7547a5ee38b7b",
+      "line_count": 86,
+      "classification": "complete_exact_modal_patch_source_sha_verified",
+      "provenance": {
+        "history_file": "maps-guidage-batch3.json",
+        "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+        "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+        "item_index": 34,
+        "turn_started_at": 1794064918,
+        "turn_completed_at": 1794065580
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_add_from_refined_generator",
+          "provenance": {
+            "history_file": "maps-guidage-batch3.json",
+            "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+            "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+            "item": "exec-f8dc7178-db68-4b39-8355-8264ffd31d46",
+            "item_index": 27,
+            "turn_started_at": 1794064918,
+            "turn_completed_at": 1794065580
+          },
+          "refinement_provenance": {
+            "history_file": "maps-guidage-batch3.json",
+            "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+            "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+            "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+            "item_index": 34,
+            "turn_started_at": 1794064918,
+            "turn_completed_at": 1794065580
+          },
+          "refined_script_sha256": "985be962d327781034e3da7a69ec7969738fe53e8d910f8c30616cbed69565ac",
+          "patch_sha256": "782d19bfa0e78e6a4426beb082790cc3ae1b269d521ce019878fecf431953fe8"
+        }
+      ],
+      "contains_redacted_source": false
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+      "version_file": "workspace-dialog-versions/01a1b69a-288f-73ce-9c2b-accb752e2089/exec-6b6d8f93-9271-41bf-8334-46cdafc26d74/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+      "sha256": "f082a68b7c448c4ea26839dc78d66692143120e1c4d3eff72d6df002870f208f",
+      "line_count": 313,
+      "classification": "complete_exact_modal_patch_source_sha_verified",
+      "provenance": {
+        "history_file": "maps-guidage-batch3.json",
+        "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+        "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+        "item_index": 34,
+        "turn_started_at": 1794064918,
+        "turn_completed_at": 1794065580
+      },
+      "chain": [
+        {
+          "history_file": "workspace-search-tools-initial.json",
+          "thread": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
+          "turn": "01a1b01f-97b2-741c-94f8-fa9247eef839",
+          "item": "exec-0e98c790-e566-4e31-b1c1-d4c95b4ebb0f",
+          "item_index": 5,
+          "turn_started_at": 1793956223,
+          "turn_completed_at": 1793956385,
+          "kind": "add",
+          "diff_sha256": "d86b353349baf25224027ae67945c0fcb713f32ad979d42d1b8a2659d7eb00b6"
+        },
+        {
+          "history_file": "workspace-search-tools.json",
+          "thread": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
+          "turn": "01a1b022-405f-7043-9292-0fa95fb47645",
+          "item": "exec-220adb88-38e8-442e-a24d-f0fc2965f789",
+          "item_index": 21,
+          "turn_started_at": 1793956397,
+          "turn_completed_at": 1793956731,
+          "kind": "update",
+          "diff_sha256": "717c3cb1b77360c1c19803381892e2c17727ad7b0271cd476098bb92d873be14"
+        },
+        {
+          "kind": "strict_recovered_diff_from_observed_regions",
+          "evidence": {
+            "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+            "diff_file": "recovered-maprecherche-diffs/01a1b531-1a20-76a8-9701-174369a5d2c0/exec-8d6b1bd7-68df-4a00-ab80-e2ba2b8849e8/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt.diff",
+            "diff_sha256": "4ec10c60dc3dbc741d1b45432ef9a30b81516bd05748c5169ccabb1748889fe5",
+            "classification": "full_diff_reconstructed_from_observed_old_and_new_regions",
+            "provenance": {
+              "history_file": "root0002-full250.json",
+              "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+              "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+              "item": "exec-8d6b1bd7-68df-4a00-ab80-e2ba2b8849e8",
+              "item_index": 312,
+              "turn_started_at": 1794041256,
+              "turn_completed_at": 1794075423
+            },
+            "old_source_version": "versions/01a1b01f-8f77-75e2-b888-45f73cc0f054/01a1b022-405f-7043-9292-0fa95fb47645/exec-220adb88-38e8-442e-a24d-f0fc2965f789/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+            "old_source_sha256": "ef6705a8f7322aa53e211e49d4a1e144a57965f93f62b0706e2680e79fb022c7",
+            "new_region_evidence": {
+              "read": {
+                "history_file": "layers-attributes-batch12.json",
+                "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+                "turn": "01a1b5b3-137f-720f-afe8-32bec9f81829",
+                "item": "exec-49460b6f-d623-45bc-b043-ac84988582fd",
+                "item_index": 35,
+                "turn_started_at": 1794049774,
+                "turn_completed_at": 1794050382
+              },
+              "source_line_numbers": [
+                250,
+                251
+              ],
+              "new_optional_parameters_already_complete_in_diff_prefix": true
+            },
+            "observed_diff_prefix": "@@ -234,2 +234,4 @@\n     onMeasure: (() -> Unit)? = null,\n+    onImportLayer: (() -> Unit)? = null,\n+    onTrace: (() -> Unit)? = null,\n ) {\n@@ -247,2 +249,4 @@\n             WorkspaceSheetHeading(stringResource(R.string.gs_workspace_tools_title), onD",
+            "observed_original_chars": 675,
+            "reconstructed_chars": 675,
+            "prefix_matches": true,
+            "full_length_matches": true
+          }
+        },
+        {
+          "kind": "strict_complete_patch_historical_sha_verified",
+          "evidence": {
+            "patch_file": "recovered-maprecherche-diffs/root-back-tools11.patch",
+            "patch_sha256": "1a6184b1cd05783a742d14218cf856f753d0c308784af06081153aeb71bfd63a",
+            "classification": "complete_patch_read_exact_historical_sha_verified",
+            "provenance": {
+              "history_file": "maps-guidage-batch4.json",
+              "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+              "turn": "01a1b674-edc8-722a-b02e-cb30dc34215f",
+              "item": "exec-c596edc5-9b0f-44da-886b-62831d6eae28",
+              "item_index": 30,
+              "turn_started_at": 1794062479,
+              "turn_completed_at": 1794063244
+            },
+            "sha_witness": {
+              "history_file": "maps-guidage-batch4.json",
+              "turn": "01a1b674-edc8-722a-b02e-cb30dc34215f",
+              "item": "exec-2d075406-0f47-45f6-963d-0f4d69f741d7",
+              "item_index": 75
+            },
+            "frozen_build11_snapshot_witness": {
+              "history_file": "maquettes-audit-earlier.json",
+              "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+              "turn": "01a1b6f1-9033-7581-8fb0-44be73651959",
+              "item": "exec-e83fc9d2-417f-4afb-91dd-748f2daa4dea",
+              "item_index": 8,
+              "turn_started_at": 1794070647,
+              "turn_completed_at": 1794071884
+            },
+            "parts": [
+              {
+                "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+                "diff": "@@ -139,6 +139,9 @@\n     onNavigateBack: () -> Unit,\n     modifier: Modifier = Modifier,\n ) {\n+    // Register the screen fallback before every child/panel handler below.\n+    // On a bare map, physical Back has the same destination as the visible arrow.\n+    BackHandler(onBack = onNavigateBack)\n     val context = LocalContext.current\n     val scope = rememberCoroutineScope()\n \n@@ -264,6 +267,7 @@\n     val currentLayerIdx = layerLoadState.displayedIndex\n     var workspacePanel by remember(mapScope) { mutableStateOf<MapPanel?>(null) }\n     var showTools by remember(mapScope) { mutableStateOf(false) }\n+    var toolsPanelHeight by remember { mutableStateOf(0.dp) }\n     var showPlaceSearch by remember(mapScope) { mutableStateOf(false) }\n     var selectedPlaceLabel by remember(mapScope) { mutableStateOf<String?>(null) }\n     var workspaceHelp by remember { mutableStateOf<MapHelp?>(null) }\n@@ -526,17 +530,20 @@\n         onCompassTopChanged = { compassTop = it },\n         thumbnail = { preview, thumbnailModifier -> MapCatalogThumbnail(preview, thumbnailModifier) }) {\n         BoxWithConstraints(Modifier.fillMaxSize()) {\n-            val ornamentsBottom = if (workspaceHelp != null) sourcePanelHeight + 8.dp else if (traceActive) tracePadding.calculateBottomPadding() else if (layerState.visible) layerPanelHeight + 8.dp\n+            val panelOrnamentsBottom = if (workspaceHelp != null) sourcePanelHeight + 8.dp else if (traceActive) tracePadding.calculateBottomPadding() else if (layerState.visible) layerPanelHeight + 8.dp\n                 else if (treePanelActive) treePanelHeight + 8.dp else if (viewPack != null) offlinePanelHeight + 8.dp\n                 else if (measureActive) measurePanelHeight + 8.dp else (\n                 if (workspacePanel != null) mapWorkspacePanelHeight(maxHeight, LocalDensity.current.fontScale) else 112.dp\n             ) + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + 8.dp\n+            // Outils owns a ModalBottomSheet window; use its measured full height,\n+            // not a screen percentage or a smaller content-only Column.\n+            val ornamentsBottom = if (showTools) maxOf(panelOrnamentsBottom, toolsPanelHeight + 8.dp) else panelOrnamentsBottom\n             key(mapScope, retryGeneration) {\n                 SharedMapboxCanvas(\n                     accessToken = BuildConfig.MAPBOX_PUBLIC_ACCESS_TOKEN,\n                     style = renderedStyle, initialCamera = camera, cameraCommand = cameraCommand,\n                     frameCommand = frameCommand, overlays = scene,\n-                    scaleBarVisible = workspaceHelp == null && !traceActive && !layerState.visible && !treePanelActive && viewPack == null && workspacePanel == null && (!measureActive ||\n+                    scaleBarVisible = !showTools && workspaceHelp == null && !traceActive && !layerState.visible && !treePanelActive && viewPack == null && workspacePanel == null && (!measureActive ||\n                         manual.panel == MeasurePanel.COLLAPSED && manual.auxiliary == ManualMeasureAuxiliary.NONE),\n                     relief = requestedRelief.copy(enabled = renderedStyle.demSourceUrl != null),\n                     contentPadding = PaddingValues(start = 12.dp, top = if (traceActive) tracePadding.calculateTopPadding() else compassTop, end = 12.dp, bottom = ornamentsBottom),\n@@ -657,6 +664,7 @@\n \n     if (showTools) MapWorkspaceTools(\n         onDismiss = { showTools = false },\n+        onPanelHeightChanged = { toolsPanelHeight = it },\n         onGpsPrecision = { workspacePanel = null; treeUi.openAccuracy() },\n         onOffline = {\n             val view = viewport\n"
+              },
+              {
+                "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+                "diff": "@@ -48,12 +48,15 @@\n import androidx.compose.runtime.setValue\n import androidx.compose.ui.Alignment\n import androidx.compose.ui.Modifier\n+import androidx.compose.ui.layout.onSizeChanged\n+import androidx.compose.ui.platform.LocalDensity\n import androidx.compose.ui.graphics.vector.ImageVector\n import androidx.compose.ui.platform.LocalSoftwareKeyboardController\n import androidx.compose.ui.res.stringResource\n import androidx.compose.ui.text.font.FontWeight\n import androidx.compose.ui.text.input.ImeAction\n import androidx.compose.ui.unit.dp\n+import androidx.compose.ui.unit.Dp\n import androidx.lifecycle.Lifecycle\n import androidx.lifecycle.LifecycleEventObserver\n import androidx.lifecycle.compose.LocalLifecycleOwner\n@@ -234,10 +237,13 @@\n     onMeasure: (() -> Unit)? = null,\n     onImportLayer: (() -> Unit)? = null,\n     onTrace: (() -> Unit)? = null,\n+    onPanelHeightChanged: (Dp) -> Unit = {},\n ) {\n+    val density = LocalDensity.current.density\n     fun open(action: () -> Unit) { onDismiss(); action() }\n     ModalBottomSheet(\n         onDismissRequest = onDismiss,\n+        modifier = Modifier.onSizeChanged { onPanelHeightChanged((it.height / density).dp) },\n         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),\n         containerColor = MaterialTheme.colorScheme.surface,\n     ) {\n"
+              }
+            ],
+            "application_note": "Named with the same SHA and checkExit0 in the frozen build11 source snapshot. Exact production read matches must additionally be checked for MapRecherche."
+          }
+        },
+        {
+          "kind": "literal_generator_refinement",
+          "provenance": {
+            "history_file": "maps-guidage-batch3.json",
+            "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+            "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+            "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+            "item_index": 34,
+            "turn_started_at": 1794064918,
+            "turn_completed_at": 1794065580
+          },
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "    val applyAppearance = remember(source, target) {",
+              "new": "    val applyAppearance: () -> Unit = remember(source, target) {",
+              "matching_occurrences_before": 1,
+              "count_argument": 1
+            }
+          ]
+        },
+        {
+          "kind": "pure_tools_function_from_refined_generator",
+          "provenance": {
+            "history_file": "maps-guidage-batch3.json",
+            "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+            "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+            "item": "exec-f8dc7178-db68-4b39-8355-8264ffd31d46",
+            "item_index": 27,
+            "turn_started_at": 1794064918,
+            "turn_completed_at": 1794065580
+          },
+          "refined_script_sha256": "985be962d327781034e3da7a69ec7969738fe53e8d910f8c30616cbed69565ac",
+          "function_source": "def tools(s):\n s=s.replace('import com.forestry.counter.R','''import com.forestry.counter.R\nimport com.forestry.counter.presentation.components.maps.rememberMapModalStatusBarPolicy\nimport com.forestry.counter.presentation.components.maps.MapModalStatusBarEffect''',1)\n start=s.index('internal fun MapWorkspaceTools(')\n tail=s[start:]\n tail=tail.replace('''    val density = LocalDensity.current.density\n    fun open''','''    val density = LocalDensity.current.density\n    val statusBars = rememberMapModalStatusBarPolicy()\n    fun open''',1)\n needle='''        containerColor = MaterialTheme.colorScheme.surface,\n    ) {\n        Column('''\n replacement='''        containerColor = MaterialTheme.colorScheme.surface,\n    ) {\n        MapModalStatusBarEffect(statusBars)\n        Column('''\n assert needle in tail;tail=tail.replace(needle,replacement,1)\n return s[:start]+tail",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 96,
+              "old": "import com.forestry.counter.R",
+              "new": "import com.forestry.counter.R\nimport com.forestry.counter.presentation.components.maps.rememberMapModalStatusBarPolicy\nimport com.forestry.counter.presentation.components.maps.MapModalStatusBarEffect",
+              "matching_occurrences_before": 1,
+              "count_argument": 1
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 101,
+              "old": "    val density = LocalDensity.current.density\n    fun open",
+              "new": "    val density = LocalDensity.current.density\n    val statusBars = rememberMapModalStatusBarPolicy()\n    fun open",
+              "matching_occurrences_before": 1,
+              "count_argument": 1
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 112,
+              "old": "        containerColor = MaterialTheme.colorScheme.surface,\n    ) {\n        Column(",
+              "new": "        containerColor = MaterialTheme.colorScheme.surface,\n    ) {\n        MapModalStatusBarEffect(statusBars)\n        Column(",
+              "matching_occurrences_before": 1,
+              "count_argument": 1
+            }
+          ],
+          "historical_script_executed": false
+        }
+      ],
+      "contains_redacted_source": false
+    },
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/ui/MapModalStatusBarTest.kt",
+      "version_file": "workspace-dialog-versions/01a1b69a-288f-73ce-9c2b-accb752e2089/exec-6b6d8f93-9271-41bf-8334-46cdafc26d74/app/src/androidTest/java/com/forestry/counter/ui/MapModalStatusBarTest.kt",
+      "sha256": "df75eee8667723a03dab77738f55e8a6b40cb9062a5d070bdc29478ecd41d4b6",
+      "line_count": 86,
+      "classification": "complete_exact_modal_patch_source_sha_verified",
+      "provenance": {
+        "history_file": "maps-guidage-batch3.json",
+        "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+        "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+        "item_index": 34,
+        "turn_started_at": 1794064918,
+        "turn_completed_at": 1794065580
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_add_from_refined_generator",
+          "provenance": {
+            "history_file": "maps-guidage-batch3.json",
+            "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+            "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+            "item": "exec-f8dc7178-db68-4b39-8355-8264ffd31d46",
+            "item_index": 27,
+            "turn_started_at": 1794064918,
+            "turn_completed_at": 1794065580
+          },
+          "refinement_provenance": {
+            "history_file": "maps-guidage-batch3.json",
+            "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+            "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+            "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+            "item_index": 34,
+            "turn_started_at": 1794064918,
+            "turn_completed_at": 1794065580
+          },
+          "refined_script_sha256": "985be962d327781034e3da7a69ec7969738fe53e8d910f8c30616cbed69565ac",
+          "patch_sha256": "782d19bfa0e78e6a4426beb082790cc3ae1b269d521ce019878fecf431953fe8"
+        }
+      ],
+      "contains_redacted_source": false
+    }
+  ],
+  "modal_patch_file": "recovered-maprecherche-diffs/map-modal-bars11.patch",
+  "modal_patch_sha256": "782d19bfa0e78e6a4426beb082790cc3ae1b269d521ce019878fecf431953fe8",
+  "modal_patch_historical_sha_matches": true,
+  "production_application_witness": {
+    "snapshot": {
+      "history_file": "maquettes-audit-earlier.json",
+      "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+      "turn": "01a1b6f1-9033-7581-8fb0-44be73651959",
+      "item": "exec-e83fc9d2-417f-4afb-91dd-748f2daa4dea",
+      "item_index": 8,
+      "turn_started_at": 1794070647,
+      "turn_completed_at": 1794071884
+    },
+    "snapshot_names_same_patch_sha": true,
+    "adoption": {
+      "history_file": "integration-validation-full500.json",
+      "thread": "01a1b639-64d0-7090-b99a-0ee0fe0b0074",
+      "turn": "01a1b639-6a9d-74b1-95f5-0812d8decf81",
+      "item": "exec-f43c9c08-f466-48ce-b86f-243a5d962ff9",
+      "item_index": 1326,
+      "turn_started_at": 1794058578,
+      "turn_completed_at": 1794075445
+    },
+    "adoption_exit_code": 0,
+    "adoption_output": "Reviewed 27 drafts / 65 paths; all20 native families ended.\nReviewed batch11 adopted and source snapshot frozen. No Gradle or Android action performed.\n"
+  },
+  "application_note": "BackTools and modal patch SHAs are named in the frozen build11 snapshot; the coordinator records adoption of all27 drafts and snapshot freeze with exit0. No historical action is rerun."
+}

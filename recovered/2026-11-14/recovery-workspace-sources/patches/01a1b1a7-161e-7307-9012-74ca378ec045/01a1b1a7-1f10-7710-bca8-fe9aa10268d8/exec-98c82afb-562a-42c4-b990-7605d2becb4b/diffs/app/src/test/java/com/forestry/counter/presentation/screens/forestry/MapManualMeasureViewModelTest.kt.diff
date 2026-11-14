@@ -1,0 +1,22 @@
+@@ -308,2 +308,16 @@
+ 
++    @Test fun closingTheSelectedRecordPreventsItsDelayedExternalAction() = runTest {
++        val repository = FakeRepository()
++        val record = repository.seed(RECORD_A, "Explicit share only", LINE)
++        val model = model(repository)
++        runCurrent(); model.selectSaved(RECORD_A); runCurrent()
++        val pending = CompletableDeferred<CartographicStoreResult<SavedCartographicMeasurement>>()
++        repository.readAction = { _, _ -> pending.await() }
++        val delivered = mutableListOf<String>()
++        model.withSelectedRecord { delivered += it.id }; runCurrent()
++        model.auxiliary(ManualMeasureAuxiliary.NONE)
++        pending.complete(CartographicStoreResult.Success(record)); runCurrent()
++        assertTrue(delivered.isEmpty())
++    }
++
+     private fun model(repository: FakeRepository, handle: SavedStateHandle = SavedStateHandle()) =
+@@ -374,3 +388,3 @@
+         fun seed(id: String, name: String, points: List<CartographicCoordinate>, kind: CartographicMeasureKind = CartographicMeasureKind.DISTANCE): SavedCartographicMeasurement =
+-            (commit(CartographicMeasurementInput(id, name, kind, points), FakeAccess(MapDataScope.Free, owner, generation)) as CartographicStoreResult.Success).value
++            (commit(CartographicMeasurementInput(id, name, kind, points), FakeAccess(MapDataScope.Free, owner, generation)) as CartographicStoreResult.Success<SavedCartographicMeasurement>).value
+     }

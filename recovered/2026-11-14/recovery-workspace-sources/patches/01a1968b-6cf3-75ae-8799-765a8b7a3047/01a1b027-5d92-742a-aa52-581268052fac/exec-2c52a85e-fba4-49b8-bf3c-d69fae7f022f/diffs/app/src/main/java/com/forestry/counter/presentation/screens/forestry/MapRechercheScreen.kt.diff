@@ -1,0 +1,5 @@
+@@ -480,3 +480,3 @@
+             val ornamentsBottom = when {
+-                workspacePanel != null -> maxHeight * if (LocalDensity.current.fontScale > 1.1f || LocalConfiguration.current.screenHeightDp < 500) 0.82f else 0.58f
++                workspacePanel != null -> mapWorkspacePanelHeight(maxHeight, LocalDensity.current.fontScale)
+                 showMeasureSheet -> 330.dp

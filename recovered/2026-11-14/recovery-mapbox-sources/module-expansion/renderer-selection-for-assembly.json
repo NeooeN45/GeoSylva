@@ -1,0 +1,136 @@
+{
+  "policy": "Complete exact historical source variants, no invented implementation; production integration qualification remains explicit.",
+  "productionSources": [
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-label-below17/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "sha256": "71de8da22a23d7c288a72565682ad032d89764c4f5d658924f211123ccee66ba",
+      "lineCount": 467,
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-1.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d5b1-d2fc-73ee-b297-672c6fa46929",
+          "turnStartedAt": 1794586563,
+          "itemIndex": 52,
+          "itemId": "exec-c73639ea-ec64-4d44-ade4-50b91a44ea4d",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-label17-consult/build_candidate.py",
+          "producerTextSha256": "1eb696740978504dde96b1d1dfd51599cd18e01ef8339d609fbde5a78943f479",
+          "producerDiffTruncated": false
+        }
+      ],
+      "complete": true,
+      "temporalScope": "November13 SOURCE17 label-below candidate, preserved through camera20/21 contract observations",
+      "qualification": "Complete exact candidate17 source reconstructed from the complete observed producer on a checked-pin SOURCE15 baseline whose whole-file SHA and28104-byte count match the independent frozen November13 13:42 snapshot exactly. The matching model additions and MapsCanvas usage are observed later in camera20/21, but a full final Native source read or whole-file historical SHA after candidate17 is not available in these JSONs.",
+      "directedChainManifest": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-recovery-manifest.json",
+      "conflicts": []
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-label-below17/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "sha256": "d3eef72d60be5b358ecc9676c3e33219cea04a35e770a2c3815b5dcb51732fa5",
+      "lineCount": 167,
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-1.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d5b1-d2fc-73ee-b297-672c6fa46929",
+          "turnStartedAt": 1794586563,
+          "itemIndex": 52,
+          "itemId": "exec-c73639ea-ec64-4d44-ade4-50b91a44ea4d",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-label17-consult/build_candidate.py",
+          "producerTextSha256": "1eb696740978504dde96b1d1dfd51599cd18e01ef8339d609fbde5a78943f479",
+          "producerDiffTruncated": false
+        }
+      ],
+      "complete": true,
+      "temporalScope": "November13 SOURCE17 shared model, additions independently observed in camera-resume13 final read",
+      "qualification": "Full source from complete model155-line read, complete visual/ACK producers, checked-arrival16 producer and below17 producer; all newly added17 model lines are independently read later in camera-resume13-latest item105.",
+      "directedChainManifest": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-recovery-manifest.json",
+      "conflicts": []
+    }
+  ],
+  "optionalHistoricalTests": [
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapPinGeometryTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-checked-arrival16/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapPinGeometryTest.kt",
+      "sha256": "1f8f0eb3e5c7a978d00783711549224dd5eccdc6b1aaf67d07689105326b7657",
+      "lineCount": 39,
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-3.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d509-40f4-720a-a75c-db6dba27e211",
+          "turnStartedAt": 1794575517,
+          "itemIndex": 23,
+          "itemId": "exec-11550263-275f-4376-9cdf-aa517b869b59",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-symbol16-consult/build_candidate.py",
+          "producerTextSha256": "f3d4bfc006196f656f26e53378010b52bd9a5c41edbad602d0305ce39dbc293d",
+          "producerDiffTruncated": false
+        }
+      ],
+      "complete": true,
+      "temporalScope": "nov13-checked-arrival16",
+      "qualification": "Exact historical test source; archived only, never executed.",
+      "directedChainManifest": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-recovery-manifest.json",
+      "conflicts": []
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/PointLabelPlacementTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-label-below17/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/PointLabelPlacementTest.kt",
+      "sha256": "4a2ab064b96c2730bd16c7b04c432863ffba7a9c3a32d768b537cf8ab93071c8",
+      "lineCount": 69,
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-1.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d5b1-d2fc-73ee-b297-672c6fa46929",
+          "turnStartedAt": 1794586563,
+          "itemIndex": 52,
+          "itemId": "exec-c73639ea-ec64-4d44-ade4-50b91a44ea4d",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-label17-consult/build_candidate.py",
+          "producerTextSha256": "1eb696740978504dde96b1d1dfd51599cd18e01ef8339d609fbde5a78943f479",
+          "producerDiffTruncated": false
+        }
+      ],
+      "complete": true,
+      "temporalScope": "nov13-label-below17",
+      "qualification": "Exact historical test source; archived only, never executed.",
+      "directedChainManifest": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-recovery-manifest.json",
+      "conflicts": []
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCheckedPinContractTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-checked-arrival16/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCheckedPinContractTest.kt",
+      "sha256": "c91c0011eaa7db59dbfcab55ccc2f6adaed1f6d6062236b10350d2a3ca738911",
+      "lineCount": 34,
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-3.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d509-40f4-720a-a75c-db6dba27e211",
+          "turnStartedAt": 1794575517,
+          "itemIndex": 23,
+          "itemId": "exec-11550263-275f-4376-9cdf-aa517b869b59",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-symbol16-consult/build_candidate.py",
+          "producerTextSha256": "f3d4bfc006196f656f26e53378010b52bd9a5c41edbad602d0305ce39dbc293d",
+          "producerDiffTruncated": false
+        }
+      ],
+      "complete": true,
+      "temporalScope": "nov13-checked-arrival16",
+      "qualification": "Exact historical test source; archived only, never executed.",
+      "directedChainManifest": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-recovery-manifest.json",
+      "conflicts": []
+    }
+  ],
+  "applicationRepositoryModified": false,
+  "recordedHistoricalProgramsExecuted": false,
+  "testsGradleAdbPushRun": false,
+  "remainingProofGap": "No full final NativeMapOverlays read or independent historical whole-file SHA after candidate17. The candidate17 renderer mutator is complete, and its new shared model contract and app usage are read after integration."
+}

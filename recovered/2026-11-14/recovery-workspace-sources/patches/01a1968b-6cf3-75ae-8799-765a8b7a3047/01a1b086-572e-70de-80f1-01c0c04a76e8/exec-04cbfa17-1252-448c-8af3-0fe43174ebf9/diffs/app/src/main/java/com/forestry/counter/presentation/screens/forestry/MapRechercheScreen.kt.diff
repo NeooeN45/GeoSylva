@@ -1,0 +1,4 @@
+@@ -490,2 +490,3 @@
+                     frameCommand = frameCommand, overlays = scene,
++                    scaleBarVisible = workspacePanel == null,
+                     relief = requestedRelief.copy(enabled = renderedStyle.demSourceUrl != null),

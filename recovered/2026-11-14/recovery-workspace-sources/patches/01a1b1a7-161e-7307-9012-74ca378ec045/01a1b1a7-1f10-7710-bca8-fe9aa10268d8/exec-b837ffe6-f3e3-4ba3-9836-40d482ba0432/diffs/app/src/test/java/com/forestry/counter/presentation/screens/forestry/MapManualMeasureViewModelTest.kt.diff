@@ -1,0 +1,6 @@
+@@ -351,3 +351,4 @@
+ 
+-        override suspend fun captureAccess(scope: MapDataScope) = CartographicStoreResult.Success(FakeAccess(scope, owner, generation))
++        override suspend fun captureAccess(scope: MapDataScope): CartographicStoreResult<CartographicMeasurementAccess> =
++            CartographicStoreResult.Success(FakeAccess(scope, owner, generation))
+         override fun isCurrent(access: CartographicMeasurementAccess) = (access as? FakeAccess)?.let {

@@ -1,0 +1,15 @@
+@@ -9,2 +9,3 @@
+ import androidx.activity.ComponentActivity
++import androidx.activity.enableEdgeToEdge
+ import androidx.compose.foundation.background
+@@ -75,2 +76,5 @@
+         assertTrue("Configure the public SDK token in the test build", BuildConfig.MAPBOX_PUBLIC_ACCESS_TOKEN.startsWith("pk."))
++        // Match MainActivity's window policy so the captured chrome has the same
++        // status/navigation insets as the application's actual full-screen maps.
++        compose.runOnUiThread { compose.activity.enableEdgeToEdge() }
+         val configuration = Configuration(compose.activity.resources.configuration).apply {
+@@ -203,3 +207,3 @@
+                     "status=Ready:satellite\nfullFrame=true\n" +
+-                    "location=public_Vercors\nappHostVerified=false\npixelFidelityVerified=false\n",
++                    "location=public_Vercors\nedgeToEdge=true\nappHostVerified=false\npixelFidelityVerified=false\n",
+             )

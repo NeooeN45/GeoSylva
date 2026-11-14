@@ -1,0 +1,99 @@
+{
+  "schema": "geosylva.github-restoration-receipt.v1",
+  "checkedAtUTC": "2026-11-14T14:52:07.914034+00:00",
+  "result": "PASS",
+  "repository": "NeooeN45/GeoSylva",
+  "url": "https://github.com/NeooeN45/GeoSylva.git",
+  "branch": "backup/geosylva-recovery-2026-11-14",
+  "expectedCommit": "59bbd037c04fd3c74f7c1d029efd6c84f54a5ed7",
+  "clonedHead": "59bbd037c04fd3c74f7c1d029efd6c84f54a5ed7",
+  "clonedOriginBranchHead": "59bbd037c04fd3c74f7c1d029efd6c84f54a5ed7",
+  "remoteHeadReadBack": "59bbd037c04fd3c74f7c1d029efd6c84f54a5ed7",
+  "remoteCommitMatchesExpected": true,
+  "remoteMainReadBack": "c59ba7cccd3b5a69ae81e5007bb7d5f263aeacb7",
+  "expectedMain": "c59ba7cccd3b5a69ae81e5007bb7d5f263aeacb7",
+  "mainMatchesExpected": true,
+  "cloneDirectory": "/workspace/outputs/2026-11-14/recovery-backup/remote-smoke/checkpoint5-20261114T144918Z/github-branch",
+  "cloneDepth": 1,
+  "gitFsckPassed": true,
+  "trackedFiles": 643,
+  "manifestSha256": "c6900d84278f70e5b49486782e35ac6f767f5ca3a6345bdd156e63c92e69eddf",
+  "manifestMatchesPublishedCheckpoint5": true,
+  "payloadHashesVerified": 616,
+  "proofHashReferencesVerified": 563,
+  "integrityScriptResult": {
+    "result": "PASS",
+    "payloadFilesVerified": 616,
+    "proofHashReferencesVerified": 563,
+    "kindCounts": {
+      "recovery-proof": 161,
+      "complete-source": 337,
+      "complete-recorded-patch": 27,
+      "incomplete-code-fragment": 9,
+      "complete-recorded-file-change": 78,
+      "superseded-incomplete-source-excerpt": 1,
+      "baseline-source-archive": 1,
+      "recovered-project-document": 2
+    },
+    "baselinePayloadEntriesPreserved": 0,
+    "baselinePreservationChecked": false,
+    "distinctTechnicalSourcePaths": 135,
+    "distinctTechnicalSourceByteVersions": 293,
+    "baselineInternalSourceFilesVerified": 1389,
+    "manifestSha256": "c6900d84278f70e5b49486782e35ac6f767f5ca3a6345bdd156e63c92e69eddf",
+    "qualification": "Backup integrity only; no application execution or network."
+  },
+  "baseline": {
+    "archivePath": "baseline/GeoSylva-recovery-base-2026-10-19-36d1515.zip",
+    "archiveSha256": "76e446c3ca6fdcc73656e7d82e06405089b1eaf0c0759ff3e08dc17e29b214a6",
+    "baseCommit": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+    "sourceDate": "2026-10-19",
+    "roomVersion": 46,
+    "versionName": "3.0.0",
+    "versionCode": 11,
+    "archivedSourceManifestSha256": "a9727451121375bb6ac7cc5302eb86e7dbeafdf7727223d09df149024a10a71b",
+    "originalSourceManifestSha256": "a9727451121375bb6ac7cc5302eb86e7dbeafdf7727223d09df149024a10a71b",
+    "archivedManifestMatchesIndependentSourceManifest": true,
+    "sourceFilesComparedAgainstOriginalManifest": 1389,
+    "restorationRoot": "/workspace/outputs/2026-11-14/recovery-backup/remote-smoke/checkpoint5-20261114T144918Z/restored-baseline/GeoSylva-recovery-base-2026-10-19",
+    "sourceExtraction": {
+      "result": "PASS",
+      "archiveSha256": "76e446c3ca6fdcc73656e7d82e06405089b1eaf0c0759ff3e08dc17e29b214a6",
+      "restoredFiles": 1389,
+      "sourceHashesVerified": 1389,
+      "fileModesVerifiedBeforeLauncherFix": 1389,
+      "directoryModesVerified": 246,
+      "filesWithArchiveUnixModes": 0,
+      "filesWithExplicitDefaultMode0644": 1389,
+      "gradlewModeBeforeExplicitFix": "0o644",
+      "explicitGradlewExecutableFixApplied": true,
+      "gradlewModeAfterFix": "0o755",
+      "gradlewExecutable": true,
+      "scriptsExecuted": false,
+      "qualification": "Old Room46 source base only; November13 recovery is not assembled or qualified."
+    },
+    "publicPemFixtures": [
+      {
+        "path": "capsule-verifier/src/test/resources/contract-interop/other-public.pem",
+        "header": "BEGIN PUBLIC KEY",
+        "sha256": "8a1dc6a4d85b6e217102075efe9f231ea374beef72626ee43988341e37ed79dd"
+      },
+      {
+        "path": "capsule-verifier/src/test/resources/contract-interop/trusted-public.pem",
+        "header": "BEGIN PUBLIC KEY",
+        "sha256": "31bee9012d295b5292f2467b8607009885c0f7c720473f83f38e258788cb2bec"
+      }
+    ]
+  },
+  "pendingCheckpoint6QualityErratum": {
+    "file": "CartographicTraceRepositoryRoomTest.kt",
+    "presentInCheckpoint5": false,
+    "observations": [],
+    "handling": "Future classification work only; the remote snapshot and backup repository were not modified."
+  },
+  "applicationRepositoriesReadOrModified": false,
+  "backupRepositoryCommittedOrModified": false,
+  "remoteMutationOrPushPerformed": false,
+  "clonedWorktreeClean": true,
+  "qualification": "Independent source restoration from GitHub; application assembly, compilation, Android/JVM tests and APK qualification are outside this check. The Room46 base is not the final November13 application."
+}

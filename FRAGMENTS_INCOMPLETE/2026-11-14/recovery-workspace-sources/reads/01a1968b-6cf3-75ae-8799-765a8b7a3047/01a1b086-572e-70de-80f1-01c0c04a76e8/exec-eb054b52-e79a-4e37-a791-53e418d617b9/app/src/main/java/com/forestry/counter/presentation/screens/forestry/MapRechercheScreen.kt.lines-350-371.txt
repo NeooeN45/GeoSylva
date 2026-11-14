@@ -1,0 +1,22 @@
+        if (layerLoadState.loadingRequest?.id == request.id) applyLayerDecision(layerLoadState.fail(request.id))
+    }
+
+    val isFreeMap = mapScope == MapDataScope.Free
+    val contextTitle = when (mapScope) {
+        MapDataScope.Free -> selectedPlaceLabel ?: stringResource(R.string.workspace_explore)
+        MapDataScope.AllForests -> stringResource(R.string.recherche_scope_all)
+        is MapDataScope.Parcel -> stringResource(R.string.workspace_parcel)
+        is MapDataScope.Forest -> stringResource(R.string.workspace_forest)
+        is MapDataScope.Plot -> stringResource(R.string.workspace_plot)
+        MapDataScope.Invalid -> stringResource(R.string.map_tree_data_unavailable)
+    }
+    val contextSubtitle = if (isFreeMap || mapContent !is MapTreeContent.Ready) null else stringResource(R.string.workspace_tree_count, filteredGeoTiges.size)
+    val configured = BuildConfig.MAPBOX_PUBLIC_ACCESS_TOKEN.startsWith("pk.")
+    val baseChoices = MAP_LAYERS.map { layer ->
+        MapBasemapChoice(layer.key, stringResource(layer.labelResId),
+            when {
+                layer.key.startsWith("MAPBOX_") -> "Mapbox"
+                layer.key == "ORTHO_IGN" -> "IGN · BD ORTHO®"
+                else -> stringResource(R.string.workspace_on_device)
+            }, availability = when {
+                !configured -> MapChoiceAvailability.CONFIGURATION_REQUIRED

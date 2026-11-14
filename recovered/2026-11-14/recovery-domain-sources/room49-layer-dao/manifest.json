@@ -1,0 +1,40 @@
+{
+  "path": "app/src/main/java/com/forestry/counter/data/local/dao/CartographicLayerDao.kt",
+  "artifact": "room49-layer-dao/recovered/app/src/main/java/com/forestry/counter/data/local/dao/CartographicLayerDao.kt",
+  "sha256": "a97979f6bdeb55e068fe47801185bf6e9d5c7f9dfa4b625dffaa1bc70dbdb5a7",
+  "lines": 32,
+  "events": [
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-6784b151-819b-4eae-9d64-ddbf810851e4",
+      "itemIndex": 35,
+      "kind": "complete literal heredoc"
+    },
+    {
+      "source": "layers-attributes-batch14.json",
+      "thread": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+      "turn": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+      "item": "exec-903a80d6-723d-4bad-9e91-faab412312a7",
+      "itemIndex": 61,
+      "kind": "complete first Python heredoc from truncated command prefix",
+      "wholeHistoricalCommandTruncated": true,
+      "sourcePrefixEndOffset": 1020,
+      "prefixSha256": "8f5ae41df7d304db9620e93f7bee77874203c9b5ece7d60a6b5922e0f2622efb",
+      "declarativeOperations": [
+        {
+          "operation": "literal_string_replace",
+          "old": "    @Query(\"DELETE FROM cartographic_layer_operations\")",
+          "new": "    @Query(\"SELECT id, version, deletedAt FROM cartographic_layers ORDER BY id\")\n    fun observeVersions(): kotlinx.coroutines.flow.Flow<List<CartographicLayerVersion>>\n    @Query(\"DELETE FROM cartographic_layer_operations\")",
+          "matches": 1
+        },
+        {
+          "operation": "append_literal",
+          "literal": "\ndata class CartographicLayerVersion(val id: String, val version: Long, val deletedAt: Long?)\n"
+        }
+      ]
+    }
+  ],
+  "execution": "Only source literal/AST extraction; appended quote is parser framing for the intact complete prefix, never a source edit."
+}

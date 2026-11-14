@@ -1,0 +1,8 @@
+@@ -42,4 +42,5 @@
+                 map(Modifier.fillMaxSize(), headerHeight + 8.dp)
+-                Column(Modifier.fillMaxWidth().statusBarsPadding().padding(12.dp)
+-                    .onSizeChanged { headerHeight = with(density) { it.height.toDp() } },
++                Column(Modifier.fillMaxWidth()
++                    .onSizeChanged { headerHeight = with(density) { it.height.toDp() } }
++                    .statusBarsPadding().padding(12.dp),
+                     verticalArrangement = Arrangement.spacedBy(8.dp)) {

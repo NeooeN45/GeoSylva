@@ -1,0 +1,717 @@
+{
+  "policy": "Selection of complete observed sources for root review; preserve temporalScope. Current root/settings/libs handled separately by recovery_history_index.",
+  "configAndHelpers": [
+    {
+      "sourcePath": "cartography-mapbox/build.gradle.kts",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-06T11-02-36+00-00--01a1b086--item55/cartography-mapbox/build.gradle.kts",
+      "sha256": "df009bf4e6cb1bd4065204ae636e0f9725414be41fb111f0ee6c17847338f5d7",
+      "temporalScope": "Complete module Gradle configuration observed Nov6; latest fully recovered version, catalogue aliases remain supplied by parent",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/root0004-full.json",
+          "threadId": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turnId": "01a1b086-572e-70de-80f1-01c0c04a76e8",
+          "turnStartedUTC": "2026-11-06T11:02:36+00:00",
+          "itemId": "exec-7e6499cd-3244-403a-8b22-5985fd998c39",
+          "itemIndex": 55,
+          "kind": "complete module build.gradle cat before gradle.properties rg output",
+          "commandExitCode": 0,
+          "outputTruncated": false
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/AndroidManifest.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-03T17-33-08+00-00--01a1a278--item34/cartography-mapbox/src/main/AndroidManifest.xml",
+      "sha256": "678647a824ef7ab16066708585790ab265135d32fdf84bcd918a4b050f8891b9",
+      "temporalScope": "Complete initial module manifest observed Nov3; no later complete module manifest recovered",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/mapbox-engine-design-earlier2.json",
+          "threadId": "01a1a278-c645-743e-920a-63323ffd4068",
+          "turnId": "01a1a278-cea1-7516-ab25-588f58e2f11a",
+          "turnStartedUTC": "2026-11-03T17:33:08+00:00",
+          "itemId": "exec-32003277-21fb-4f2f-888b-471d239952b4",
+          "itemIndex": 34,
+          "kind": "complete quoted heredoc",
+          "commandExitCode": 0,
+          "outputTruncated": null,
+          "delimiter": "EOF",
+          "payloadStartLine": 31
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxPublicConfiguration.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item15/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxPublicConfiguration.kt",
+      "sha256": "b96da7bcfc04b40c7bb866dd4eea02959a54c4106ffd6eadab94c9ef9fcb3bb2",
+      "temporalScope": "Complete public token-shape guard observed Nov13, no literal token stored",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b5c2-5636-70e4-ab31-4fcbaa86754b",
+          "turnStartedUTC": "2026-11-07T11:26:14+00:00",
+          "itemId": "exec-4786f643-e27f-4682-8129-b3427da395dc",
+          "itemIndex": 15,
+          "kind": "complete leading cat before next file's package header",
+          "commandExitCode": 0,
+          "outputTruncated": false
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier18.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d496-4ba4-708c-aed1-08f8beace6e9",
+          "turnStartedUTC": "2026-11-13T11:06:22+00:00",
+          "itemId": "exec-7a8276c3-2f31-4210-bf18-70b56e8823e3",
+          "itemIndex": 16,
+          "kind": "complete final cat after earlier app sed output",
+          "commandExitCode": 0,
+          "outputTruncated": false
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprint.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-13T16-57-14+00-00--01a1d5d7--item18/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprint.kt",
+      "sha256": "39bf8cc8d26385e05e6b73998dd2e88b443c09b9cfcb21f0813b6c81975d34d3",
+      "temporalScope": "Complete viewport helper observed Nov13 16:57",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+          "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+          "itemId": "exec-ec55d008-0527-45d9-ac67-e3159b42d125",
+          "itemIndex": 18,
+          "kind": "complete sed1..125 before independently matching Gate140..162 boundary",
+          "commandExitCode": 0,
+          "outputTruncated": false
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlaySourceAckGate.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-50-20+00-00--01a1b5d8--item36/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlaySourceAckGate.kt",
+      "sha256": "48d04439aa6a003f1bc20545e53550f0eefe68b234f5202625105db959afbc59",
+      "temporalScope": "Complete Nov7 ACK gate, independent historical SHA printed again by Maps reviewer",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b5d8-638e-7177-b665-d9570af1eb7d",
+          "turnStartedUTC": "2026-11-07T11:50:20+00:00",
+          "itemId": "exec-fc640502-0a29-416a-a8d8-3c559b350500",
+          "itemIndex": 36,
+          "kind": "complete declared source literal in add",
+          "commandExitCode": 0,
+          "outputTruncated": false,
+          "delimiter": "PY",
+          "payloadStartLine": 3,
+          "quotedPythonHeredocPath": "/tmp/geosylva-overlay-ack9/prepare.py",
+          "containerTruncatedAfterCompleteValues": true,
+          "pythonLine": 20
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayRasterBudget.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T09-56-15+00-00--01a1b56f--item84/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayRasterBudget.kt",
+      "sha256": "cb101f9d902d1fb7831281f4220e91805edbe6511f21c448713694865f78752a",
+      "temporalScope": "Complete Nov7 raster admission policy and its historical tests",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch13.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b56f-f136-744b-9ec5-1aa29f5c4393",
+          "turnStartedUTC": "2026-11-07T09:56:15+00:00",
+          "itemId": "exec-14f8e36e-17bc-44ae-b021-c8310a19c4f3",
+          "itemIndex": 84,
+          "kind": "complete quoted heredoc",
+          "commandExitCode": 0,
+          "outputTruncated": null,
+          "delimiter": "EOF",
+          "payloadStartLine": 2
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayLabelBadgePixels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayLabelBadgePixels.kt",
+      "sha256": "497368093758b03c33348e1c99f2cdf049bf148b53f3c91580eae1445ba7fa51",
+      "temporalScope": "Complete Nov7 label badge pixel helper",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b5c2-5636-70e4-ab31-4fcbaa86754b",
+          "turnStartedUTC": "2026-11-07T11:26:14+00:00",
+          "itemId": "exec-e363a162-4b03-4179-9eff-9ce40f584f01",
+          "itemIndex": 35,
+          "kind": "complete declared source literal in add",
+          "commandExitCode": 0,
+          "outputTruncated": false,
+          "delimiter": "PY",
+          "payloadStartLine": 3,
+          "quotedPythonHeredocPath": "/tmp/geosylva-map-visual9/prepare.py",
+          "containerTruncatedAfterCompleteValues": true,
+          "pythonLine": 47
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicy.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicy.kt",
+      "sha256": "10011f6b52bfa541ffd4105588ae0b0b65f204e28ec9c8fdda7b40906a1bc1ed",
+      "temporalScope": "Complete Nov7 fixed per-root status-bar policy",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b5c2-5636-70e4-ab31-4fcbaa86754b",
+          "turnStartedUTC": "2026-11-07T11:26:14+00:00",
+          "itemId": "exec-e363a162-4b03-4179-9eff-9ce40f584f01",
+          "itemIndex": 35,
+          "kind": "complete declared source literal in add",
+          "commandExitCode": 0,
+          "outputTruncated": false,
+          "delimiter": "PY",
+          "payloadStartLine": 3,
+          "quotedPythonHeredocPath": "/tmp/geosylva-map-visual9/prepare.py",
+          "containerTruncatedAfterCompleteValues": true,
+          "pythonLine": 72
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarChrome.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T15-21-58+00-00--01a1b69a--item6/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarChrome.kt",
+      "sha256": "d73edfeecb05938d4b402703f2df8558a035003de08750059ed3df9286aeb4c9",
+      "temporalScope": "Complete Nov7 status-bar bridge",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/maps-guidage-batch3.json",
+          "threadId": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+          "turnId": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+          "turnStartedUTC": "2026-11-07T15:21:58+00:00",
+          "itemId": "exec-9f2bb226-bca4-476e-a2ac-78256f81da5d",
+          "itemIndex": 6,
+          "kind": "complete leading cat before next file's package header",
+          "commandExitCode": 0,
+          "outputTruncated": false
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/res/values/map_system_bar_ids.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/res/values/map_system_bar_ids.xml",
+      "sha256": "e114aa4e85f96fff7b27dd29a3c1d667ae4e3e77678b89d9eaddead76c8de6fb",
+      "temporalScope": "Complete Nov7 IDs paired with status-bar bridge",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b5c2-5636-70e4-ab31-4fcbaa86754b",
+          "turnStartedUTC": "2026-11-07T11:26:14+00:00",
+          "itemId": "exec-e363a162-4b03-4179-9eff-9ce40f584f01",
+          "itemIndex": 35,
+          "kind": "complete declared source literal in add",
+          "commandExitCode": 0,
+          "outputTruncated": false,
+          "delimiter": "PY",
+          "payloadStartLine": 3,
+          "quotedPythonHeredocPath": "/tmp/geosylva-map-visual9/prepare.py",
+          "containerTruncatedAfterCompleteValues": true,
+          "pythonLine": 89
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxCanvasModels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source20-pre-source21/MapboxCanvasModels.kt",
+      "sha256": "2258ebf915975f869e28d1d5e027c56d0a18734c96862875dc1524813796ca87",
+      "temporalScope": "observed source20; cat exact first file before next package",
+      "historicalSha256": "2258ebf915975f869e28d1d5e027c56d0a18734c96862875dc1524813796ca87",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
+          "threadId": "6af7a318-0430-8191-8c9d-1cee283ec043",
+          "turnId": "01a1d763-d071-7747-82e6-27b0e60c23af",
+          "turnStartedUTC": "2026-11-14T00:10:05+00:00",
+          "itemId": "exec-e99b6fab-9822-4c0f-9b27-2384b837f25d",
+          "itemIndex": 22,
+          "outputTruncated": false
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+          "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+          "itemId": "exec-501c8424-75c5-4b86-830c-68aa6392ab24",
+          "itemIndex": 75,
+          "outputTruncated": false
+        }
+      ],
+      "role": "Contains the actual MapboxStyleSpec/MapboxStyles catalog; no standalone MapboxStyles.kt was observed"
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapReticleProjection.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T09-51-38+00-00--01a1b56b--item1/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapReticleProjection.kt",
+      "sha256": "18a84b6a86f959b085f3d19f033db93369775464d9f24e904a6af0f85fa5ade9",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch13.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b56b-ba2f-706c-bf7f-2345be1d179b",
+          "turnStartedUTC": "2026-11-07T09:51:38+00:00",
+          "itemId": "exec-9ea87f0b-563a-494a-a32c-66c3b02c593b",
+          "itemIndex": 1,
+          "kind": "complete cat bounded before following rg, real Add prefix matches",
+          "commandExitCode": 0,
+          "outputTruncated": true,
+          "realAddProvenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/root0002-full250.json",
+            "threadId": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turnId": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+            "turnStartedUTC": "2026-11-07T08:47:36+00:00",
+            "itemId": "exec-94089329-95b8-4c1e-b068-d07dd1435e2a",
+            "itemIndex": 118,
+            "kind": "bounded complete source read",
+            "commandExitCode": null,
+            "outputTruncated": null
+          },
+          "aggregateOutputTruncatesAfterThisCompleteFile": true
+        }
+      ],
+      "temporalScope": "Complete original Nov7 cat, bounded before subsequent rg; actual Add prefix independently matches",
+      "conflicts": []
+    }
+  ],
+  "nativeOfflineFamily": [
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineMapModels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T09-24-10+00-00--01a1b552--item65/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineMapModels.kt",
+      "sha256": "c968e1aeedcce56fd942c696c2413b7b61ebe6adcc5a09ba55cdbc7775567f99",
+      "temporalScope": "Latest completely recovered native offline variant observed Nov7; keep as a separately dated offline family",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch6-single.json",
+          "threadId": "01a1b53a-ede9-73c6-9561-368c2129706b",
+          "turnId": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+          "turnStartedUTC": "2026-11-07T09:24:10+00:00",
+          "itemId": "exec-39b95cb0-324b-453a-be0c-81b3b3c56d1a",
+          "itemIndex": 65,
+          "kind": "complete leading cat before next file's package header",
+          "commandExitCode": 0,
+          "outputTruncated": false
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T16-48-30+00-00--01a1b6e9--item29/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "sha256": "f80aea92b9d1791b701e2dea964a5032cb66b7a708c8f452dd09621211add43e",
+      "temporalScope": "Latest completely recovered native offline variant observed Nov7; keep as a separately dated offline family",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch6.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b6e9-5eb0-7764-9944-b57f5daae838",
+          "turnStartedUTC": "2026-11-07T16:48:30+00:00",
+          "itemId": "exec-439b22a3-5aa7-4304-9280-b2a2ff0f4192",
+          "itemIndex": 29,
+          "kind": "complete sed1..N output, observed EOF before N",
+          "commandExitCode": 0,
+          "outputTruncated": false
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineNativeDiagnostics.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T14-05-33+00-00--01a1b654--item66/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineNativeDiagnostics.kt",
+      "sha256": "45c416f2645d9af080092a10c7ac02d2ef6ff751b48a9ec95b61ea48ad6a9bb7",
+      "temporalScope": "Latest completely recovered native offline variant observed Nov7; keep as a separately dated offline family",
+      "conflicts": [],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch10.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b654-314a-75cc-aa10-e1a2891ea8bc",
+          "turnStartedUTC": "2026-11-07T14:05:33+00:00",
+          "itemId": "exec-0f69bfa3-3b44-4e01-9e2e-b47241c2e6b5",
+          "itemIndex": 66,
+          "kind": "strict recorded diagnostic string delta, independently matched complete69-line read",
+          "commandExitCode": 0,
+          "outputTruncated": false,
+          "beforeSha256": "bcd5bce06c9e6dde7e7722a2b202e911a986b4104c156e4af96e9f258d87332a",
+          "afterSha256": "45c416f2645d9af080092a10c7ac02d2ef6ff751b48a9ec95b61ea48ad6a9bb7",
+          "independentRead": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch10.json",
+            "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+            "turnId": "01a1b654-314a-75cc-aa10-e1a2891ea8bc",
+            "turnStartedUTC": "2026-11-07T14:05:33+00:00",
+            "itemId": "exec-e12dec43-bef4-4517-8127-67f258504442",
+            "itemIndex": 70,
+            "kind": "bounded complete source read",
+            "commandExitCode": 0,
+            "outputTruncated": false
+          },
+          "operations": [
+            {
+              "kind": "literal replacement",
+              "old": "enum class OfflineNativeHint { UNKNOWN, TLS, DNS, AUTH, TIMEOUT }",
+              "new": "enum class OfflineNativeHint { UNKNOWN, TLS, DNS, AUTH, TIMEOUT }\n\n/** Fixed native validation categories. This is a diagnostic signal, not a conclusion about the requested resource. */\nenum class OfflineNativeDetail {\n    UNKNOWN, URI_JSON_INVALID, TILEJSON_EMPTY, RASTER_LAYERS_INVALID, TILE_VARIANT_INVALID, DESCRIPTOR_RESOLUTION,\n}",
+              "count": -1
+            },
+            {
+              "kind": "literal replacement",
+              "old": "    val hint: OfflineNativeHint = OfflineNativeHint.UNKNOWN,",
+              "new": "    val hint: OfflineNativeHint = OfflineNativeHint.UNKNOWN,\n    val detail: OfflineNativeDetail = OfflineNativeDetail.UNKNOWN,",
+              "count": -1
+            },
+            {
+              "kind": "literal replacement",
+              "old": "sdkCode == OfflineNativeSdkCode.UNKNOWN && hint == OfflineNativeHint.UNKNOWN)",
+              "new": "sdkCode == OfflineNativeSdkCode.UNKNOWN && hint == OfflineNativeHint.UNKNOWN && detail == OfflineNativeDetail.UNKNOWN)",
+              "count": -1
+            },
+            {
+              "kind": "literal replacement",
+              "old": "sdk=${sdkCode.name}, hint=${hint.name}]",
+              "new": "sdk=${sdkCode.name}, hint=${hint.name}, detail=${detail.name}]",
+              "count": -1
+            },
+            {
+              "kind": "literal replacement",
+              "old": "internal fun offlineNativeFailure(stage: OfflineNativeStage, nativeTypeName: String, nativeMessage: String?): OfflineNativeException {\n    val code = OfflineNativeSdkCode.entries.firstOrNull { it.name == nativeTypeName } ?: OfflineNativeSdkCode.UNKNOWN\n    val hint = if (code == OfflineNativeSdkCode.OTHER || code == OfflineNativeSdkCode.TILESET_DESCRIPTOR)\n        offlineNativeHint(nativeMessage) else OfflineNativeHint.UNKNOWN\n    return OfflineNativeException(stage,code,hint)\n}",
+              "new": "internal fun offlineNativeFailure(stage: OfflineNativeStage, nativeTypeName: String, nativeMessage: String?): OfflineNativeException =\n    classifyOfflineNativeFailure(stage,nativeTypeName,nativeMessage)\n\n/** Native callback boundary, also reusable by opt-in SDK TEST probes. Only fixed enums escape; no text/cause is retained. */\nfun classifyOfflineNativeFailure(stage: OfflineNativeStage, nativeTypeName: String, nativeMessage: String?): OfflineNativeException {\n    val code = OfflineNativeSdkCode.entries.firstOrNull { it.name == nativeTypeName } ?: OfflineNativeSdkCode.UNKNOWN\n    val canClassify = code == OfflineNativeSdkCode.OTHER || code == OfflineNativeSdkCode.TILESET_DESCRIPTOR\n    return OfflineNativeException(stage,code,\n        if (canClassify) offlineNativeHint(nativeMessage) else OfflineNativeHint.UNKNOWN,\n        if (canClassify) offlineNativeDetail(nativeMessage) else OfflineNativeDetail.UNKNOWN)\n}\n\n/** Match only known SDK11.34.1 static validation prefixes; never return a fragment of a native message. */\ninternal fun offlineNativeDetail(nativeMessage: String?): OfflineNativeDetail {\n    val text = nativeMessage.orEmpty().lowercase(Locale.ROOT)\n    return when {\n        \"invalid tileset in the tileset descriptoroptions\" in text -> OfflineNativeDetail.URI_JSON_INVALID\n        \"unexpectedly empty tilejson\" in text -> OfflineNativeDetail.TILEJSON_EMPTY\n        \"no valid raster layers were found in tilejson\" in text -> OfflineNativeDetail.RASTER_LAYERS_INVALID\n        \"invalid tileset descriptor, tile variant\" in text && \"is invalid\" in text -> OfflineNativeDetail.TILE_VARIANT_INVALID\n        \"failed to resolve tileset descriptors\" in text -> OfflineNativeDetail.DESCRIPTOR_RESOLUTION\n        else -> OfflineNativeDetail.UNKNOWN\n    }\n}",
+              "count": -1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "historicalOverlaysNotSelectedAsFinal": [
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-05T18-57-28+00-00--01a1ad12--item108/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "sha256": "d156ce3ca3f4c89ccadf840178a39d938e8ba1b5b5e0bfce02a1243b86641299",
+      "temporalScope": "Complete historical overlay variant; later Nov7/13 updates remain incompletely recovered",
+      "conflicts": [
+        "Later renderer/model changes exist, so this source is not selected as final compatible with SharedMapboxCanvas21"
+      ],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/mapbox-audit-earliest3.json",
+          "threadId": "01a1ad12-b15f-72b7-8c46-8aa6f18e8041",
+          "turnId": "01a1ad12-ba1a-7316-b1aa-37c2a1bec76b",
+          "turnStartedUTC": "2026-11-05T18:57:28+00:00",
+          "itemId": "exec-3e25f99f-4911-4872-8102-ff3b83b94a46",
+          "itemIndex": 108,
+          "kind": "strict recorded update hunks",
+          "commandExitCode": null,
+          "outputTruncated": null,
+          "beforeSha256": "6de6419ae4f5677519a304d672d10e66d6e9f0916ead9b2a3a9b01361228877e",
+          "afterSha256": "d156ce3ca3f4c89ccadf840178a39d938e8ba1b5b5e0bfce02a1243b86641299",
+          "directedAncestry": [
+            {
+              "historyFile": "/workspace/outputs/2026-11-14/recovery-history/mapbox-audit-earliest3.json",
+              "threadId": "01a1ad12-b15f-72b7-8c46-8aa6f18e8041",
+              "turnId": "01a1ad12-ba1a-7316-b1aa-37c2a1bec76b",
+              "turnStartedUTC": "2026-11-05T18:57:28+00:00",
+              "itemId": "exec-1bc8b087-6415-4dda-bd75-8e76c25ec0cf",
+              "itemIndex": 67,
+              "kind": "bounded complete source read",
+              "commandExitCode": null,
+              "outputTruncated": null
+            },
+            {
+              "historyFile": "/workspace/outputs/2026-11-14/recovery-history/mapbox-audit-earliest3.json",
+              "threadId": "01a1ad12-b15f-72b7-8c46-8aa6f18e8041",
+              "turnId": "01a1ad12-ba1a-7316-b1aa-37c2a1bec76b",
+              "turnStartedUTC": "2026-11-05T18:57:28+00:00",
+              "itemId": "exec-3e25f99f-4911-4872-8102-ff3b83b94a46",
+              "itemIndex": 108,
+              "kind": "bounded complete source read",
+              "commandExitCode": null,
+              "outputTruncated": null
+            }
+          ]
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch14.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b53b-518f-73ce-a8b0-2916b517b303",
+          "turnStartedUTC": "2026-11-07T08:58:46+00:00",
+          "itemId": "exec-07fd8bb7-2a90-436b-8991-c44ccb8ac5f1",
+          "itemIndex": 91,
+          "kind": "complete leading cat before next file's package header",
+          "commandExitCode": 0,
+          "outputTruncated": false
+        }
+      ]
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-05T18-57-28+00-00--01a1ad12--item109/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "sha256": "8ac3644e1b094c5612506cf4699bd7a8ebe3a21016757e72e998383cf8f73ec4",
+      "temporalScope": "Complete historical overlay variant; later Nov7/13 updates remain incompletely recovered",
+      "conflicts": [
+        "Later renderer/model changes exist, so this source is not selected as final compatible with SharedMapboxCanvas21"
+      ],
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/mapbox-audit-earliest3.json",
+          "threadId": "01a1ad12-b15f-72b7-8c46-8aa6f18e8041",
+          "turnId": "01a1ad12-ba1a-7316-b1aa-37c2a1bec76b",
+          "turnStartedUTC": "2026-11-05T18:57:28+00:00",
+          "itemId": "exec-7690048e-f8da-4575-8737-14fda82f8c94",
+          "itemIndex": 109,
+          "kind": "recorded literal class replacement with exact named boundaries",
+          "commandExitCode": 0,
+          "outputTruncated": null,
+          "operations": [
+            {
+              "kind": "observed index boundary",
+              "needle": "internal class NativeMapOverlays {",
+              "count": 1
+            },
+            {
+              "kind": "observed index boundary",
+              "needle": "\nprivate fun get(",
+              "count": 1
+            },
+            {
+              "kind": "literal replacement",
+              "old": "val display = if (text.length > 96) text.take(95) + \"…\" else text",
+              "new": "var display = if (text.length > 96) text.take(95) + \"…\" else text\n    val maxTextWidth = 384 * density\n    while (paint.measureText(display) > maxTextWidth && display.length > 1) {\n        display = display.dropLast(if (display.endsWith(\"…\")) 2 else 1) + \"…\"\n    }",
+              "count": -1
+            }
+          ],
+          "beforeSha256": "91d3e7ee1368e07ed89bd5bea32c629588fce9edc9172a02973ab170176ea13e",
+          "afterSha256": "8ac3644e1b094c5612506cf4699bd7a8ebe3a21016757e72e998383cf8f73ec4",
+          "directedAncestry": [
+            {
+              "historyFile": "/workspace/outputs/2026-11-14/recovery-history/mapbox-audit-earliest3.json",
+              "threadId": "01a1ad12-b15f-72b7-8c46-8aa6f18e8041",
+              "turnId": "01a1ad12-ba1a-7316-b1aa-37c2a1bec76b",
+              "turnStartedUTC": "2026-11-05T18:57:28+00:00",
+              "itemId": "exec-33d3ba1c-5248-4e42-91fd-30185dc6fdaf",
+              "itemIndex": 80,
+              "kind": "bounded complete source read",
+              "commandExitCode": null,
+              "outputTruncated": null
+            },
+            {
+              "historyFile": "/workspace/outputs/2026-11-14/recovery-history/mapbox-audit-earliest3.json",
+              "threadId": "01a1ad12-b15f-72b7-8c46-8aa6f18e8041",
+              "turnId": "01a1ad12-ba1a-7316-b1aa-37c2a1bec76b",
+              "turnStartedUTC": "2026-11-05T18:57:28+00:00",
+              "itemId": "exec-3e25f99f-4911-4872-8102-ff3b83b94a46",
+              "itemIndex": 108,
+              "kind": "bounded complete source read",
+              "commandExitCode": null,
+              "outputTruncated": null
+            },
+            {
+              "historyFile": "/workspace/outputs/2026-11-14/recovery-history/mapbox-audit-earliest3.json",
+              "threadId": "01a1ad12-b15f-72b7-8c46-8aa6f18e8041",
+              "turnId": "01a1ad12-ba1a-7316-b1aa-37c2a1bec76b",
+              "turnStartedUTC": "2026-11-05T18:57:28+00:00",
+              "itemId": "exec-7690048e-f8da-4575-8737-14fda82f8c94",
+              "itemIndex": 109,
+              "kind": "bounded complete source read",
+              "commandExitCode": 0,
+              "outputTruncated": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "rootConfigsNotRecoveredHere": [
+    "build.gradle.kts",
+    "settings.gradle.kts",
+    "gradle/libs.versions.toml",
+    "gradle.properties"
+  ],
+  "catalogueNote": "Styles are declared in MapboxCanvasModels.kt; OfflineMapGateway interface is declared in OfflineMapModels.kt. No cartography-engine module exists in available evidence.",
+  "additionalVerifiedTests": [
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapReticleProjectionTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T09-51-38+00-00--01a1b56b--item3/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapReticleProjectionTest.kt",
+      "sha256": "28549a870727417015900ec178a4ed28a05a3fa7a45b115135500cdb9101a264",
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch13.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b56b-ba2f-706c-bf7f-2345be1d179b",
+          "turnStartedUTC": "2026-11-07T09:51:38+00:00",
+          "itemId": "exec-c296e2c5-aab6-414f-a05f-54242ff86ee4",
+          "itemIndex": 3,
+          "kind": "complete cat bounded before following rg, real Add prefix matches",
+          "commandExitCode": 0,
+          "outputTruncated": false,
+          "realAddProvenance": {
+            "historyFile": "/workspace/outputs/2026-11-14/recovery-history/root0002-full250.json",
+            "threadId": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turnId": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+            "turnStartedUTC": "2026-11-07T08:47:36+00:00",
+            "itemId": "exec-94089329-95b8-4c1e-b068-d07dd1435e2a",
+            "itemIndex": 118,
+            "kind": "bounded complete source read",
+            "commandExitCode": null,
+            "outputTruncated": null
+          },
+          "aggregateOutputTruncatesAfterThisCompleteFile": false
+        }
+      ],
+      "temporalScope": "Complete original Nov7 cat, bounded before subsequent rg; actual Add prefix independently matches",
+      "conflicts": []
+    }
+  ],
+  "recoveredNovember13RendererAndModels": [
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-label-below17/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+      "sha256": "71de8da22a23d7c288a72565682ad032d89764c4f5d658924f211123ccee66ba",
+      "lineCount": 467,
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-1.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d5b1-d2fc-73ee-b297-672c6fa46929",
+          "turnStartedAt": 1794586563,
+          "itemIndex": 52,
+          "itemId": "exec-c73639ea-ec64-4d44-ade4-50b91a44ea4d",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-label17-consult/build_candidate.py",
+          "producerTextSha256": "1eb696740978504dde96b1d1dfd51599cd18e01ef8339d609fbde5a78943f479",
+          "producerDiffTruncated": false
+        }
+      ],
+      "complete": true,
+      "temporalScope": "November13 SOURCE17 label-below candidate, preserved through camera20/21 contract observations",
+      "qualification": "Complete exact candidate17 source reconstructed from the complete observed producer on a checked-pin SOURCE15 baseline whose whole-file SHA and28104-byte count match the independent frozen November13 13:42 snapshot exactly. The matching model additions and MapsCanvas usage are observed later in camera20/21, but a full final Native source read or whole-file historical SHA after candidate17 is not available in these JSONs.",
+      "directedChainManifest": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-recovery-manifest.json",
+      "conflicts": []
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-label-below17/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+      "sha256": "d3eef72d60be5b358ecc9676c3e33219cea04a35e770a2c3815b5dcb51732fa5",
+      "lineCount": 167,
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-1.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d5b1-d2fc-73ee-b297-672c6fa46929",
+          "turnStartedAt": 1794586563,
+          "itemIndex": 52,
+          "itemId": "exec-c73639ea-ec64-4d44-ade4-50b91a44ea4d",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-label17-consult/build_candidate.py",
+          "producerTextSha256": "1eb696740978504dde96b1d1dfd51599cd18e01ef8339d609fbde5a78943f479",
+          "producerDiffTruncated": false
+        }
+      ],
+      "complete": true,
+      "temporalScope": "November13 SOURCE17 shared model, additions independently observed in camera-resume13 final read",
+      "qualification": "Full source from complete model155-line read, complete visual/ACK producers, checked-arrival16 producer and below17 producer; all newly added17 model lines are independently read later in camera-resume13-latest item105.",
+      "directedChainManifest": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-recovery-manifest.json",
+      "conflicts": []
+    }
+  ],
+  "recoveredArrivalNativeTests": [
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapPinGeometryTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-checked-arrival16/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapPinGeometryTest.kt",
+      "sha256": "1f8f0eb3e5c7a978d00783711549224dd5eccdc6b1aaf67d07689105326b7657",
+      "lineCount": 39,
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-3.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d509-40f4-720a-a75c-db6dba27e211",
+          "turnStartedAt": 1794575517,
+          "itemIndex": 23,
+          "itemId": "exec-11550263-275f-4376-9cdf-aa517b869b59",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-symbol16-consult/build_candidate.py",
+          "producerTextSha256": "f3d4bfc006196f656f26e53378010b52bd9a5c41edbad602d0305ce39dbc293d",
+          "producerDiffTruncated": false
+        }
+      ],
+      "complete": true,
+      "temporalScope": "nov13-checked-arrival16",
+      "qualification": "Exact historical test source; archived only, never executed.",
+      "directedChainManifest": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-recovery-manifest.json",
+      "conflicts": []
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/PointLabelPlacementTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-label-below17/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/PointLabelPlacementTest.kt",
+      "sha256": "4a2ab064b96c2730bd16c7b04c432863ffba7a9c3a32d768b537cf8ab93071c8",
+      "lineCount": 69,
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-1.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d5b1-d2fc-73ee-b297-672c6fa46929",
+          "turnStartedAt": 1794586563,
+          "itemIndex": 52,
+          "itemId": "exec-c73639ea-ec64-4d44-ade4-50b91a44ea4d",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-label17-consult/build_candidate.py",
+          "producerTextSha256": "1eb696740978504dde96b1d1dfd51599cd18e01ef8339d609fbde5a78943f479",
+          "producerDiffTruncated": false
+        }
+      ],
+      "complete": true,
+      "temporalScope": "nov13-label-below17",
+      "qualification": "Exact historical test source; archived only, never executed.",
+      "directedChainManifest": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-recovery-manifest.json",
+      "conflicts": []
+    },
+    {
+      "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCheckedPinContractTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-versions/nov13-checked-arrival16/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCheckedPinContractTest.kt",
+      "sha256": "c91c0011eaa7db59dbfcab55ccc2f6adaed1f6d6062236b10350d2a3ca738911",
+      "lineCount": 34,
+      "provenance": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-3.json",
+          "threadId": "6af70c99-3890-8191-b298-c47aea9c006e",
+          "turnId": "01a1d509-40f4-720a-a75c-db6dba27e211",
+          "turnStartedAt": 1794575517,
+          "itemIndex": 23,
+          "itemId": "exec-11550263-275f-4376-9cdf-aa517b869b59",
+          "outputTruncated": null,
+          "recordedProducerPath": "/workspace/outputs/2026-11-13/reprise-geosylva/arrival-symbol16-consult/build_candidate.py",
+          "producerTextSha256": "f3d4bfc006196f656f26e53378010b52bd9a5c41edbad602d0305ce39dbc293d",
+          "producerDiffTruncated": false
+        }
+      ],
+      "complete": true,
+      "temporalScope": "nov13-checked-arrival16",
+      "qualification": "Exact historical test source; archived only, never executed.",
+      "directedChainManifest": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/renderer-recovery-manifest.json",
+      "conflicts": []
+    }
+  ],
+  "rendererIntegrationQualification": "No full final NativeMapOverlays read or independent historical whole-file SHA after candidate17. The candidate17 renderer mutator is complete, and its new shared model contract and app usage are read after integration."
+}

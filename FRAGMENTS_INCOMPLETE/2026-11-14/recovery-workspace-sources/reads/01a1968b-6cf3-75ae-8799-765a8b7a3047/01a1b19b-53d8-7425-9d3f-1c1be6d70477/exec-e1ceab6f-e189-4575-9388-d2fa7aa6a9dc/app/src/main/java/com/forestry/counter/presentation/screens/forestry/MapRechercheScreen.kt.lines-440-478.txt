@@ -1,0 +1,39 @@
+                    treesVisible = true
+                    if (essenceCounts.isNotEmpty()) showLegend = !showLegend
+                    else workspaceMessage = R.string.workspace_no_releves
+                }
+                MapTask.MEASURE -> openMeasurements()
+                MapTask.TOOLS -> { showLegend = false; showTools = true }
+            }
+        }
+        override fun onSelectBasemap(id: String) {
+            val choice = baseChoices.firstOrNull { it.id == id } ?: return
+            if (choice.availability == MapChoiceAvailability.AVAILABLE) {
+                val index = MAP_LAYERS.indexOfFirst { it.key == id }
+                if (index >= 0) switchLayer(index)
+            } else workspaceMessage = if (choice.availability == MapChoiceAvailability.CONFIGURATION_REQUIRED)
+                R.string.workspace_configuration_required else R.string.workspace_local_data_required
+        }
+        override fun onToggleLayer(id: String, visible: Boolean) {
+            when (id) {
+                "LOCAL_TREES" -> treesVisible = visible
+                "LOCAL_MEASUREMENTS" -> {
+                    measurementVisible = visible
+                    if (!visible) manualModel.leave()
+                }
+            }
+        }
+        override fun onAddLayer(id: String) { onLayerDetails(id) }
+        override fun onLayerDetails(id: String) {
+            workspaceMessage = when (id) {
+                "LOCAL_TREES" -> R.string.workspace_trees_source
+                "LOCAL_MEASUREMENTS" -> R.string.workspace_measure_source
+                else -> return
+            }
+        }
+        override fun onPitchChange(degrees: Double) {
+            if (reliefControlsEnabled) requestCamera(camera.copy(pitch = degrees.coerceIn(0.0, 60.0)))
+        }
+        override fun onExaggerationChange(exaggeration: Double) {
+            if (reliefControlsEnabled) requestedRelief = requestedRelief.copy(exaggeration = exaggeration.coerceIn(1.0, 3.0))
+        }

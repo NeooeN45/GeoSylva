@@ -1,0 +1,25 @@
+@@ -55,2 +55,4 @@
+ import java.util.Locale
++import java.util.concurrent.CountDownLatch
++import java.util.concurrent.TimeUnit
+ import java.util.concurrent.atomic.AtomicInteger
+@@ -203,4 +205,18 @@
+         assertEquals(MapRenderStatus.Ready("satellite"), status)
++        // A full GL frame does not prove that Android's separate UI surface has
++        // presented the updated tab/sheet. Await real vsync opportunities and
++        // accessibility idle before asking SurfaceFlinger for the screenshot.
++        val presented = CountDownLatch(1)
++        compose.runOnUiThread {
++            compose.activity.window.decorView.postOnAnimation {
++                compose.activity.window.decorView.postOnAnimation { presented.countDown() }
++            }
++        }
++        assertTrue("Android UI frames did not settle", presented.await(5, TimeUnit.SECONDS))
++        val automation = InstrumentationRegistry.getInstrumentation().uiAutomation
++        automation.waitForIdle(250, 5_000)
++        assertEquals("A system window would obscure this evidence", compose.activity.packageName,
++            automation.rootInActiveWindow?.packageName?.toString())
+         val directory = File(compose.activity.cacheDir, "map-workspace-native-evidence").apply { check(isDirectory || mkdirs()) }
+-        val screen = checkNotNull(InstrumentationRegistry.getInstrumentation().uiAutomation.takeScreenshot())
++        val screen = checkNotNull(automation.takeScreenshot())
+         try {

@@ -1,0 +1,42 @@
+{
+  "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/native-offline-independent/remove-implicit-style-pack.patch",
+  "sha256": "8241905965f5cc58139252e9706ed1e4f4d7e7e3b2bef6db84f78417a4e48c97",
+  "completeObservedPatch": true,
+  "provenance": {
+    "historyFile": "/workspace/outputs/2026-11-14/recovery-history/offline-independent-latest.json",
+    "threadId": "01a1b66e-fe61-75a1-a67e-8d8b36e4704a",
+    "turnId": "01a1b66f-0423-74ab-9383-1a8723daf308",
+    "turnStartedAt": 1794062091,
+    "itemIndex": 72,
+    "itemId": "exec-a1d760d5-40c6-4790-abfd-643ce3c6f209",
+    "outputTruncated": false
+  },
+  "selectedLaterCompleteSource": {
+    "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+    "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T16-48-30+00-00--01a1b6e9--item29/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+    "sha256": "f80aea92b9d1791b701e2dea964a5032cb66b7a708c8f452dd09621211add43e",
+    "temporalScope": "Latest completely recovered native offline variant observed Nov7; keep as a separately dated offline family",
+    "conflicts": [],
+    "provenance": [
+      {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch6.json",
+        "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "turnId": "01a1b6e9-5eb0-7764-9944-b57f5daae838",
+        "turnStartedUTC": "2026-11-07T16:48:30+00:00",
+        "itemId": "exec-439b22a3-5aa7-4304-9280-b2a2ff0f4192",
+        "itemIndex": 29,
+        "kind": "complete sed1..N output, observed EOF before N",
+        "commandExitCode": 0,
+        "outputTruncated": false
+      }
+    ]
+  },
+  "patchPostimageMatchesSelectedSourceRange": [
+    78,
+    84
+  ],
+  "sourceVersionPromoted": false,
+  "reason": "The exact selected November7 16:48 source already contains this patch postimage. The standalone review is earlier and does not establish a later source version.",
+  "historicalProducerExecuted": false,
+  "applicationRepositoryModified": false
+}

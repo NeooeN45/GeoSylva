@@ -1,0 +1,5 @@
+@@ -524,3 +524,3 @@
+         RangeLabels("1×", "3×")
+-        Row(Modifier.heightIn(min = MapUiTokens.icon).padding(top = 4.dp),
++        Row(Modifier.heightIn(min = MapUiTokens.icon),
+             verticalAlignment = Alignment.CenterVertically) {

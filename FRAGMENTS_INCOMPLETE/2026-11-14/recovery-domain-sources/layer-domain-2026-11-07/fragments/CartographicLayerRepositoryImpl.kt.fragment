@@ -1,0 +1,252 @@
+package com.forestry.counter.data.cartography
+
+import android.content.Context
+import com.forestry.counter.data.local.ForestryDatabase
+import com.forestry.counter.data.local.entity.*
+import com.forestry.counter.domain.model.cartography.*
+import com.forestry.counter.domain.repository.*
+import com.forestry.counter.domain.usecase.maps.MapDataScope
+import java.util.Base64
+import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.*
+
+/** Encrypted scoped snapshots, immutable source and compare-and-set edits; legacy JSON is never adopted. */
+class CartographicLayerRepositoryImpl(
+    private val db: ForestryDatabase,
+    private val authority: CartographicScopeAuthority,
+    context: Context,
+    private val clock: () -> Long = System::currentTimeMillis,
+) : CartographicLayerRepository {
+    private val dao get() = db.cartographicLayerDao()
+    private val stager = LayerImportStager(context.applicationContext)
+    private val owner = Any()
+    private val json = Json { encodeDefaults = true }
+    private class Access(val owner: Any, val token: CartographicScopeAuthority.Token) : CartographicLayerAccess {
+        override val scope get() = token.scope
+        override val restorationKey get() = token.restorationKey
+    }
+    private data class Stage(val access: Access, val layer: CartographicLayer)
+    private val stages = ConcurrentHashMap<String, Stage>()
+
+    override suspend fun captureAccess(scope: MapDataScope): LayerStoreResult<CartographicLayerAccess> = result {
+        when (val captured = authority.capture(scope)) {
+            is CartographicStoreResult.Success -> Access(owner, captured.value)
+            is CartographicStoreResult.Failure -> layerFail(captured.reason.toLayerError())
+        }
+    }
+    override fun isCurrent(access: CartographicLayerAccess): Boolean = (access as? Access)?.let {
+        it.owner === owner && authority.isCurrent(it.token)
+    } == true
+    override fun accessChanges(): Flow<Unit> = combine(authority.accessChanges(), dao.observeVersions()) { _, _ -> Unit }
+
+    override suspend fun stage(bytes: ByteArray, filename: String, format: LayerImportFormat, access: CartographicLayerAccess): LayerStoreResult<StagedCartographicLayer> {
+        var stagedToken: String? = null
+        try {
+            val result = result {
+                val a = current(access)
+                authority.transaction(a.token) { Unit }
+                val layer = stager.parse(bytes.copyOf(), filename, format, now())
+                authority.transaction(a.token) { Unit }
+                stages.entries.removeAll { !isCurrent(it.value.access) }
+                synchronized(stages) {
+                    if (stages.size >= MAX_STAGED) layerFail(LayerStoreError.LIMIT_EXCEEDED)
+                    stagedToken = layer.id
+                    stages[layer.id] = Stage(a, layer)
+                }
+                current(a)
+                StagedCartographicLayer(layer.id, layer)
+            }
+            if (result is LayerStoreResult.Failure) stagedToken?.let(stages::remove)
+            return result
+        } catch (cancelled: CancellationException) {
+            stagedToken?.let(stages::remove)
+            throw cancelled
+        }
+    }
+    override fun discard(token: String) { stages.remove(token) }
+
+    override suspend fun commit(token: String, operationId: String, access: CartographicLayerAccess): LayerStoreResult<CartographicLayer> = result {
+        canonicalId(token); canonicalId(operationId)
+        val a = current(access)
+        authority.transaction(a.token, mutation = true) { scoped ->
+            val hash = layerHash("commit:$token:${scoped.authorityKey}")
+            val row = dao.byId(token)
+            if (row != null) {
+                requireOwned(row, scoped, active = true)
+                val receipt = dao.operation(operationId) ?: layerFail(LayerStoreError.CONFLICT)
+                requireReceipt(receipt, operationId, token, scoped.authorityKey, hash)
+                decode(row)
+            } else {
+                if (dao.operation(operationId) != null) layerFail(LayerStoreError.CONFLICT)
+                val staged = stages[token] ?: layerFail(LayerStoreError.UNAVAILABLE)
+                if (staged.access !== a || !isCurrent(staged.access)) layerFail(LayerStoreError.ACCESS_CHANGED)
+                val encoded = json.encodeToString(staged.layer)
+                dao.insert(CartographicLayerEntity(token, scoped.authorityKey, encoded, layerHash(encoded), 1))
+                receipt(operationId, scoped.authorityKey, hash, staged.layer)
+                decode(dao.byId(token) ?: layerFail(LayerStoreError.IO))
+            }
+        }
+        // Keep the bounded stage until discard/host close, allowing an ambiguous-result retry.
+    }
+
+    override suspend fun list(access: CartographicLayerAccess): LayerStoreResult<List<CartographicLayer>> = result {
+        val a = current(access)
+        authority.transaction(a.token) { scoped -> dao.inScope(scoped.authorityKey).map(::decode) }
+    }
+    override suspend fun read(id: String, access: CartographicLayerAccess): LayerStoreResult<CartographicLayer> = result {
+        canonicalId(id)
+        val a = current(access)
+        authority.transaction(a.token) { scoped ->
+            val row = dao.byId(id) ?: layerFail(LayerStoreError.UNAVAILABLE)
+            requireOwned(row, scoped, true)
+            decode(row)
+        }
+    }
+
+    override suspend fun updateStyle(id: String, expectedVersion: Long, operationId: String, style: LayerStyle, access: CartographicLayerAccess): LayerStoreResult<CartographicLayer> =
+        mutate(id, expectedVersion, operationId, "style:${json.encodeToString(style)}", access) { layer ->
+            if (style.colorArgb !in 0..0xFFFFFFFFL || (style.labelField != null && style.labelField !in layer.fieldNames)) layerFail(LayerStoreError.INVALID_INPUT)
+            layer.copy(style = style)
+        }
+
+    override suspend fun patchAttributes(id: String, featureId: String, expectedVersion: Long, expectedFeatureVersion: Long, operationId: String,
+        changes: List<LayerAttributeChange>, access: CartographicLayerAccess): LayerStoreResult<CartographicLayer> {
+        val command = buildJsonObject {
+            put("feature", featureId); put("featureVersion", expectedFeatureVersion)
+            put("changes", JsonArray(changes.sortedBy { it.field }.map { change -> buildJsonObject {
+                put("field", change.field); put("remove", change.value == null); put("value", change.value ?: JsonNull)
+            } }))
+        }.toString()
+        return mutate(id, expectedVersion, operationId, "attributes:$command", access) { layer ->
+            if (changes.isEmpty() || changes.map { it.field }.distinct().size != changes.size) layerFail(LayerStoreError.INVALID_INPUT)
+            val target = layer.features.firstOrNull { it.id == featureId } ?: layerFail(LayerStoreError.UNAVAILABLE)
+            if (target.version != expectedFeatureVersion) layerFail(LayerStoreError.CONFLICT)
+            if (!LayerAttributePolicy.validate(layer, target, changes)) layerFail(LayerStoreError.INVALID_INPUT)
+            val local = target.localAttributes.toMutableMap()
+            val removed = target.removedAttributes.toMutableSet()
+            changes.forEach { change ->
+                if (change.value == null) { local.remove(change.field); removed += change.field }
+                else { local[change.field] = change.value; removed -= change.field }
+            }
+            val edited = target.copy(localAttributes = local, removedAttributes = removed, version = nextVersion(target.version))
+            layer.copy(features = layer.features.map { if (it.id == featureId) edited else it })
+        }
+    }
+
+    private suspend fun mutate(id: String, expectedVersion: Long, operationId: String, command: String, access: CartographicLayerAccess,
+        edit: (CartographicLayer) -> CartographicLayer): LayerStoreResult<CartographicLayer> = result {
+        canonicalId(id); canonicalId(operationId)
+        if (expectedVersion < 1) layerFail(LayerStoreError.INVALID_INPUT)
+        val a = current(access)
+        authority.transaction(a.token, mutation = true) { scoped ->
+            val row = dao.byId(id) ?: layerFail(LayerStoreError.UNAVAILABLE)
+            requireOwned(row, scoped, true) // Deleted layers reject even a previously successful replay.
+            val existing = decode(row)
+            val hash = layerHash("$id:$expectedVersion:$command")
+            val previous = dao.operation(operationId)
+            if (previous != null) {
+                requireReceipt(previous, operationId, id, scoped.authorityKey, hash)
+                existing // Return current version, so an older retry never rolls back a later UI snapshot.
+            } else {
+                if (existing.version != expectedVersion) layerFail(LayerStoreError.CONFLICT)
+                val edited = edit(existing).copy(version = nextVersion(existing.version))
+                if (edited.source != existing.source || edited.features.map { it.id to it.sourceFeature } != existing.features.map { it.id to it.sourceFeature }) layerFail(LayerStoreError.INVALID_INPUT)
+                val encoded = json.encodeToString(edited)
+                if (dao.update(id, scoped.authorityKey, expectedVersion, encoded, layerHash(encoded), edited.version) != 1) layerFail(LayerStoreError.CONFLICT)
+                receipt(operationId, scoped.authorityKey, hash, edited)
+                decode(dao.byId(id) ?: layerFail(LayerStoreError.IO))
+            }
+        }
+    }
+
+    override suspend fun delete(id: String, expectedVersion: Long, operationId: String, access: CartographicLayerAccess): LayerStoreResult<Unit> = result {
+        canonicalId(id); canonicalId(operationId)
+        val a = current(access)
+        authority.transaction(a.token, mutation = true) { scoped ->
+            val row = dao.byId(id) ?: layerFail(LayerStoreError.UNAVAILABLE)
+            requireOwned(row, scoped, active = false)
+            val hash = layerHash("delete:$id:$expectedVersion")
+            val previous = dao.operation(operationId)
+            if (previous != null) {
+                requireReceipt(previous, operationId, id, scoped.authorityKey, hash)
+                if (row.deletedAt == null) layerFail(LayerStoreError.CORRUPT)
+            } else {
+                if (row.deletedAt != null) layerFail(LayerStoreError.UNAVAILABLE)
+                val layer = decode(row)
+                if (layer.version != expectedVersion) layerFail(LayerStoreError.CONFLICT)
+                if (dao.delete(id, scoped.authorityKey, expectedVersion, now()) != 1) layerFail(LayerStoreError.CONFLICT)
+                receipt(operationId, scoped.authorityKey, hash, layer)
+            }
+        }
+    }
+
+    private suspend fun receipt(id: String, authorityKey: String, command: String, layer: CartographicLayer) {
+        val payload = "${layer.id}:${layer.version}:${layer.source.sha256}"
+        val result = buildJsonObject {
+            put("id", layer.id); put("version", layer.version); put("sourceSha256", layer.source.sha256); put("integrity", layerHash(payload))
+        }.toString()
+        dao.insertOperation(CartographicLayerOperationEntity(id, layer.id, authorityKey, command, result))
+    }
+    private fun requireReceipt(row: CartographicLayerOperationEntity, id: String, layerId: String, authorityKey: String, command: String) {
+        if (row.id != id || row.layerId != layerId || row.authorityKey != authorityKey || row.commandSha256 != command) layerFail(LayerStoreError.CONFLICT)
+        if (row.resultJson.length > 512) layerFail(LayerStoreError.CORRUPT)
+        val receipt = try { Json.parseToJsonElement(row.resultJson).jsonObject } catch (_: Exception) { layerFail(LayerStoreError.CORRUPT) }
+        val resultId = (receipt["id"] as? JsonPrimitive)?.contentOrNull
+        val version = (receipt["version"] as? JsonPrimitive)?.longOrNull
+        val source = (receipt["sourceSha256"] as? JsonPrimitive)?.contentOrNull
+        val integrity = (receipt["integrity"] as? JsonPrimitive)?.contentOrNull
+        if (resultId != layerId || version == null || version < 1 || source?.matches(Regex("[0-9a-f]{64}")) != true ||
+            integrity != layerHash("$resultId:$version:$source")) layerFail(LayerStoreError.CORRUPT)
+    }
+    private fun requireOwned(row: CartographicLayerEntity, token: [REDACTED_SECRET] active: Boolean) {
+        if (row.authorityKey != token.authorityKey || (active && row.deletedAt != null)) layerFail(LayerStoreError.UNAVAILABLE)
+    }
+    private fun decode(row: CartographicLayerEntity): CartographicLayer {
+        if (row.payloadJson.length > MAX_PAYLOAD_CHARACTERS || row.payloadSha256 != layerHash(row.payloadJson)) layerFail(LayerStoreError.CORRUPT)
+        val layer = try { json.decodeFromString<CartographicLayer>(row.payloadJson) } catch (_: Exception) { layerFail(LayerStoreError.CORRUPT) }
+        if (layer.source.originalBase64.length > ((LayerImportStager.MAX_SOURCE_BYTES + 2) / 3) * 4) layerFail(LayerStoreError.CORRUPT)
+        val original = try { Base64.getDecoder().decode(layer.source.originalBase64) } catch (_: Exception) { layerFail(LayerStoreError.CORRUPT) }
+        if (layer.id != row.id || layer.version != row.version || layer.version < 1 || layer.recordedAt <= 0 ||
+            layer.name.isBlank() || layer.name.length > 240 || layer.features.size !in 1..LayerImportStager.MAX_FEATURES ||
+            original.size > LayerImportStager.MAX_SOURCE_BYTES || layerHash(original) != layer.source.sha256 ||
+            layer.source.normalizedCrs != "EPSG:4326" || layer.source.normalizedCoordinateOrder != "longitude_latitude" ||
+            layer.source.parserVersion != 1 || layer.features.map { it.id }.distinct().size != layer.features.size ||
+            layer.features.any { it.version < 1 } || layer.fieldNames.size > LayerImportStager.MAX_FIELDS || layer.style.colorArgb !in 0..0xFFFFFFFFL ||
+            layer.style.labelField?.let { it !in layer.fieldNames } == true) layerFail(LayerStoreError.CORRUPT)
+        try { LayerGeometryValidation.validate(layer.features) } catch (_: Exception) { layerFail(LayerStoreError.CORRUPT) }
+        return layer
+    }
+    private fun current(access: CartographicLayerAccess): Access {
+        if (!isCurrent(access)) layerFail(LayerStoreError.ACCESS_CHANGED)
+        return access as Access
+    }
+    private fun canonicalId(id: String) { if (runCatching { UUID.fromString(id).toString() }.getOrNull() != id) layerFail(LayerStoreError.INVALID_INPUT) }
+    private fun nextVersion(current: Long): Long = if (current in 1 until Long.MAX_VALUE) current + 1 else layerFail(LayerStoreError.CORRUPT)
+    private fun now() = clock().takeIf { it > 0 } ?: layerFail(LayerStoreError.IO)
+    private suspend fun <T> result(block: suspend () -> T): LayerStoreResult<T> = withContext(Dispatchers.IO) {
+        try { LayerStoreResult.Success(block()) }
+        catch (cancelled: CancellationException) { throw cancelled }
+        catch (failure: LayerFailure) { LayerStoreResult.Failure(failure.error) }
+        catch (failure: CartographicAuthorityFailure) { LayerStoreResult.Failure(failure.reason.toLayerError()) }
+        catch (_: Exception) { LayerStoreResult.Failure(LayerStoreError.IO) }
+    }
+    private fun CartographicStoreError.toLayerError(): LayerStoreError = when (this) {
+        CartographicStoreError.ACCESS_CHANGED -> LayerStoreError.ACCESS_CHANGED
+        CartographicStoreError.UNAVAILABLE -> LayerStoreError.UNAVAILABLE
+        CartographicStoreError.INVALID_INPUT -> LayerStoreError.INVALID_INPUT
+        CartographicStoreError.CONFLICT -> LayerStoreError.CONFLICT
+        CartographicStoreError.CORRUPT -> LayerStoreError.CORRUPT
+        CartographicStoreError.UNKNOWN_RESULT -> LayerStoreError.UNKNOWN_RESULT
+        CartographicStoreError.IO -> LayerStoreError.IO
+    }
+    companion object { private const val MAX_STAGED = 2; private const val MAX_PAYLOAD_CHARACTERS = 40 * 1024 * 1024 }
+}
+

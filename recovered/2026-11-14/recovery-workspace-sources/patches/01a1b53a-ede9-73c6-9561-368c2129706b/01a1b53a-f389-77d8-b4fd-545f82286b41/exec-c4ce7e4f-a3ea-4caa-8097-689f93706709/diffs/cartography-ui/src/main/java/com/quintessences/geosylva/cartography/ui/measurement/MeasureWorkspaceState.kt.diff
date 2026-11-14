@@ -1,0 +1,5 @@
+@@ -23,2 +23,4 @@
+     val availableMenuActions: Set<MeasureMenuAction> = MeasureMenuAction.entries.toSet(),
++    /** Auxiliary panels replace the editor body while preserving its map/context controls. */
++    val panelVisible: Boolean = true,
+ )

@@ -1,0 +1,89 @@
+{
+  "createdUTC": "2026-11-14T15:10:32.915601+00:00",
+  "previousCommit": "8106be51bb9a1569f7b385b78a86e03a0418a9e7",
+  "changedSources": [
+    "app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+    "app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+    "app/src/main/java/com/forestry/counter/domain/repository/CartographicLayerRepository.kt",
+    "cartography-mapbox/build.gradle.kts",
+    "cartography-mapbox/src/main/AndroidManifest.xml",
+    "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxPublicConfiguration.kt",
+    "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprint.kt",
+    "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlaySourceAckGate.kt",
+    "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayRasterBudget.kt",
+    "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayLabelBadgePixels.kt",
+    "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicy.kt",
+    "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarChrome.kt",
+    "cartography-mapbox/src/main/res/values/map_system_bar_ids.xml",
+    "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapReticleProjection.kt",
+    "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineMapModels.kt",
+    "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+    "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineNativeDiagnostics.kt",
+    "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapReticleProjectionTest.kt",
+    "app/src/main/java/com/forestry/counter/presentation/components/maps/MapModalStatusBar.kt",
+    "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+    "app/src/androidTest/java/com/forestry/counter/ui/MapModalStatusBarTest.kt",
+    "app/build.gradle.kts",
+    "settings.gradle.kts",
+    "build.gradle.kts",
+    "gradle/libs.versions.toml",
+    "cartography-preview/build.gradle.kts",
+    "cartography-preview/src/main/AndroidManifest.xml",
+    "cartography-preview/src/main/res/values/styles.xml",
+    "cartography-preview/src/main/res/values/strings.xml"
+  ],
+  "selectedInputs": 74,
+  "activeSelectedCaptures": 145,
+  "removed": [
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicTraceRepositoryRoomTest.kt",
+      "previous_sha256": "0eb3302812e386699deac8ff3fb9ea8ea87ea4a6286ed05b14f6619b1b1cb700",
+      "reason": "Earlier capture was incorrectly selected as complete: two historical automatic redaction markers were present. Line52 was later recovered, but line187 remains unobserved. The incomplete test is removed from active sources without replacement.",
+      "partialArtifact": "recovery-domain-sources/gps-persistence-2026-11-07/fragments/CartographicTraceRepositoryRoomTest.kt.fragment"
+    }
+  ],
+  "inputs": [
+    {
+      "manifest": "recovery-domain-sources/selected-sources.json",
+      "sha256": "a45a4f910aa8a33be62e573759eeca26a4470606bb1632a1403e6864c98cb6f2"
+    },
+    {
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "sha256": "4c282385bfb78a83d08864eb0819476a449f78aa2f1c7702ddee88731bdce652"
+    },
+    {
+      "manifest": "recovery-workspace-sources/assembly-selection-ui-supplement.json",
+      "sha256": "79cc6045b66657352da87bd684ed77ada49e9f20731e3c1dba5d7eb42685a9d7"
+    },
+    {
+      "manifest": "recovery-history-index/gradle-chain/selection.json",
+      "sha256": "b7626fff9d4418d32af04f7cb4948e0e849a1b5a2bbda9af88230230a34fc0cf"
+    }
+  ],
+  "configurationChecks": [
+    {
+      "path": "build.gradle.kts",
+      "catalogueAliasReferencesPresent": true
+    },
+    {
+      "path": "app/build.gradle.kts",
+      "catalogueAliasReferencesPresent": true
+    },
+    {
+      "path": "cartography-preview/build.gradle.kts",
+      "catalogueAliasReferencesPresent": true
+    },
+    {
+      "path": "cartography-mapbox/build.gradle.kts",
+      "catalogueAliasReferencesPresent": true
+    },
+    {
+      "path": "cartography-ui/build.gradle.kts",
+      "catalogueAliasReferencesPresent": true
+    }
+  ],
+  "status": [
+    "NON_COMPILÉ",
+    "NON_COMPLET_13NOV"
+  ]
+}

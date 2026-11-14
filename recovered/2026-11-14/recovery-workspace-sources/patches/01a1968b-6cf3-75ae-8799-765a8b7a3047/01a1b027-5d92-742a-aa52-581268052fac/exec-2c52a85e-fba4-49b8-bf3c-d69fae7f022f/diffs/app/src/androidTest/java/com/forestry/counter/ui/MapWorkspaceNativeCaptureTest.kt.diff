@@ -1,0 +1,5 @@
+@@ -89,3 +89,3 @@
+                     BoxWithConstraints(Modifier.fillMaxSize()) {
+-                        val bottom = if (panel != null) maxHeight * 0.58f + 12.dp
++                        val bottom = if (panel != null) mapWorkspacePanelHeight(maxHeight, 1f) + 12.dp
+                             else if (presentation == MapPresentation.FREE) 88.dp else 112.dp

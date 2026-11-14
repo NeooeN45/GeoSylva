@@ -1,0 +1,13 @@
+@@ -86,2 +86,3 @@
+                 actionsAllowed += TraceAction.SETTINGS
++                actionsAllowed += TraceAction.LIBRARY
+                 if (controller.needsLocationPermission()) actionsAllowed += TraceAction.REQUEST_PERMISSION
+@@ -133,2 +134,3 @@
+                 TraceAction.REQUEST_PERMISSION -> onRequestPermissions()
++                TraceAction.LIBRARY -> { controller.refreshLibrary(); dialog = TraceHostDialog.LIBRARY }
+                 TraceAction.START -> controller.start()
+@@ -170,3 +172,3 @@
+                 else {
+-                    TextButton(onClick = { dialog = TraceHostDialog.LIBRARY }) { Text(stringResource(R.string.map_trace_library)) }
++                    TextButton(onClick = { controller.refreshLibrary(); dialog = TraceHostDialog.LIBRARY }) { Text(stringResource(R.string.map_trace_library)) }
+                     TextButton(onClick = { controller.newTrace(); dialog = null }) { Text(stringResource(R.string.map_trace_new)) }

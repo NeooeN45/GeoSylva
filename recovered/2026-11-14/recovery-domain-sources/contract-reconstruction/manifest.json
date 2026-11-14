@@ -1,0 +1,91 @@
+{
+  "classification": "RECONSTRUCTION PAR CONTRAT",
+  "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+  "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/contract-reconstruction/app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+  "candidateSha256": "c5406f0ac718a708669f061fd2c68216db0c46c43c1901f4ce82b1cbbe79628e",
+  "fragmentArtifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/fragments/CartographicLayerRepositoryImpl.kt.fragment",
+  "fragmentSha256": "3472f1ce956e11cbe484664b45af6ad7aa41e81c89f2ec6e8df5b49bfac1c218",
+  "patch": "/workspace/outputs/2026-11-14/recovery-domain-sources/contract-reconstruction/annotation-only.patch",
+  "changedLine": 209,
+  "oldMaskedLine": "    private fun requireOwned(row: CartographicLayerEntity, token: [REDACTED_SECRET] active: Boolean) {",
+  "candidateLine": "    private fun requireOwned(row: CartographicLayerEntity, token: CartographicScopeAuthority.Token, active: Boolean) {",
+  "nominalType": "com.forestry.counter.data.cartography.CartographicScopeAuthority.Token",
+  "rationale": [
+    "The recovered Access.token declaration explicitly uses CartographicScopeAuthority.Token.",
+    "The recovered transaction contract invokes a suspend callback with its Token type.",
+    "All four requireOwned callers pass that callback parameter directly.",
+    "The unchanged helper reads authorityKey, a property explicitly declared by Token.",
+    "Both classes share the recovered com.forestry.counter.data.cartography package; no import change is required."
+  ],
+  "evidence": [
+    {
+      "kind": "complete_authority_contract",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/temporal/2026-11-07-observed-shared-authority/app/src/main/java/com/forestry/counter/data/cartography/CartographicScopeAuthority.kt",
+      "sha256": "b5386895e197bc6df44093fdd7be7f0590aa7d39f71e79d965f8bc2d24346bf3",
+      "line": 31,
+      "literal": "    class Token internal constructor(\n        internal val owner: Any,\n        internal val snapshot: BusinessReadAccess.AccessSnapshot,\n        internal val epoch: Long,\n        override val scope: MapDataScope,\n        val binding: Binding,\n        override val restorationKey: String,\n    ) : CartographicMeasurementAccess {\n        val ownerKey: String get() = snapshot.accountId?.let { \"ACCOUNT:$it\" } ?: \"LOCAL\"\n        override val localDevice: Boolean get() = snapshot.accountId == null\n        /** Includes store identity, account, canonical parent binding and full ancestor chain. */\n        val authorityKey: String get() = restorationKey\n    }\n",
+      "provenance": "../shared-authority-observed.json"
+    },
+    {
+      "kind": "typed_transaction_callback",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/temporal/2026-11-07-observed-shared-authority/app/src/main/java/com/forestry/counter/data/cartography/CartographicScopeAuthority.kt",
+      "line": 86,
+      "literal": "    suspend fun <T> transaction(token: Token, mutation: Boolean = false, block: suspend (Token) -> T): T {\n"
+    },
+    {
+      "kind": "literal_repository_Access_type",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/fragments/CartographicLayerRepositoryImpl.kt.fragment",
+      "line": 32,
+      "literal": "    private class Access(val owner: Any, val token: CartographicScopeAuthority.Token) : CartographicLayerAccess {\n",
+      "provenance": "../layer-domain-2026-11-07/manifest.json; exact numbered read replaced this earlier redaction"
+    },
+    {
+      "kind": "commit_call",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/fragments/CartographicLayerRepositoryImpl.kt.fragment",
+      "line": 79,
+      "literal": "        authority.transaction(a.token, mutation = true) { scoped ->\n            val hash = layerHash(\"commit:$token:${scoped.authorityKey}\")\n            val row = dao.byId(token)\n            if (row != null) {\n                requireOwned(row, scoped, active = true)\n                val receipt = dao.operation(operationId) ?: layerFail(LayerStoreError.CONFLICT)\n                requireReceipt(receipt, operationId, token, scoped.authorityKey, hash)\n"
+    },
+    {
+      "kind": "read_call",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/fragments/CartographicLayerRepositoryImpl.kt.fragment",
+      "line": 107,
+      "literal": "        authority.transaction(a.token) { scoped ->\n            val row = dao.byId(id) ?: layerFail(LayerStoreError.UNAVAILABLE)\n            requireOwned(row, scoped, true)\n            decode(row)\n"
+    },
+    {
+      "kind": "mutation_call",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/fragments/CartographicLayerRepositoryImpl.kt.fragment",
+      "line": 149,
+      "literal": "        authority.transaction(a.token, mutation = true) { scoped ->\n            val row = dao.byId(id) ?: layerFail(LayerStoreError.UNAVAILABLE)\n            requireOwned(row, scoped, true) // Deleted layers reject even a previously successful replay.\n            val existing = decode(row)\n"
+    },
+    {
+      "kind": "delete_call",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/fragments/CartographicLayerRepositoryImpl.kt.fragment",
+      "line": 173,
+      "literal": "        authority.transaction(a.token, mutation = true) { scoped ->\n            val row = dao.byId(id) ?: layerFail(LayerStoreError.UNAVAILABLE)\n            requireOwned(row, scoped, active = false)\n            val hash = layerHash(\"delete:$id:$expectedVersion\")\n"
+    },
+    {
+      "kind": "unchanged_helper_body",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/fragments/CartographicLayerRepositoryImpl.kt.fragment",
+      "line": 210,
+      "literal": "        if (row.authorityKey != token.authorityKey || (active && row.deletedAt != null)) layerFail(LayerStoreError.UNAVAILABLE)\n"
+    }
+  ],
+  "verification": {
+    "changedSourceLines": 1,
+    "onlyNominalAnnotationAndParameterDelimiterChanged": true,
+    "logicOrSqlChanges": false,
+    "literalOriginalLineRecovered": false,
+    "historicalWholeFileShaVerified": false,
+    "countAsRecoveredSource": false,
+    "selectedForAssembly": false,
+    "copiedToApplication": false,
+    "compiled": false,
+    "testsRun": false
+  },
+  "limits": [
+    "The original masked line was not recovered literally.",
+    "The complete historical file SHA has not been confirmed.",
+    "This candidate is separate from selected-sources.json and the recovered-source count.",
+    "Review and later compilation/tests remain necessary before an application copy."
+  ]
+}

@@ -1,0 +1,35 @@
+    var requestedRelief by remember(mapScope) { mutableStateOf(MapRelief(enabled = true)) }
+    var appliedRelief by remember(mapScope) { mutableStateOf(MapRelief()) }
+    var showLegend by remember { mutableStateOf(false) }
+    var showGpsPrecisionDialog by remember { mutableStateOf(false) }
+    var showMeasureSheet by remember { mutableStateOf(false) }
+    var tappedTree by remember(parcelleId) { mutableStateOf<TappedTreeInfo?>(null) }
+    var dismissedGpsBanner by remember { mutableStateOf(false) }
+
+    // ── Outil de mesure ──
+    val measureActiveState = remember { mutableStateOf(false) }
+    var measureActive by measureActiveState
+    val measurePointsState = remember { mutableStateOf<List<MeasurePoint>>(emptyList()) }
+    var measurePoints by measurePointsState
+    var measureMode by remember { mutableStateOf(MeasureMode.DISTANCE) }
+    var measureDistUnit by remember { mutableStateOf(MeasureDistUnit.M) }
+    var measureAreaUnit by remember { mutableStateOf(MeasureAreaUnit.HA) }
+    var measureColor by remember { mutableStateOf(MEASURE_COLORS[0]) }
+    var showSavedMeasuresPanel by remember { mutableStateOf(false) }
+    var showMeasureSaveDialog by remember { mutableStateOf(false) }
+    var measureSaveName by remember { mutableStateOf("") }
+
+    val treeNavigator = remember(context) { TreeNavigator(context) }
+    val navState by treeNavigator.state.collectAsStateWithLifecycle()
+    DisposableEffect(treeNavigator, parcelleId) { onDispose { treeNavigator.stopNavigation() } }
+    // The repository/filters own visibility; obsolete selections cannot remain active.
+    val visibleTreeIds = remember(filteredGeoTiges) {
+        filteredGeoTiges.map { it.first.id to it.first.parcelleId }.toSet()
+    }
+    val visibleTappedTree = tappedTree?.takeIf { (it.tigeId to it.parcelleId) in visibleTreeIds }
+    val handleCurrentTreeTap by rememberUpdatedState<(TappedTreeInfo) -> Unit>({ info ->
+        if ((info.tigeId to info.parcelleId) in visibleTreeIds) tappedTree = info
+    })
+    LaunchedEffect(visibleTreeIds, parcelleId) {
+        if (tappedTree != null && visibleTappedTree == null) tappedTree = null
+        treeNavigator.state.value.target?.let { target ->

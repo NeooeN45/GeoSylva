@@ -1,0 +1,5 @@
+@@ -131,3 +131,3 @@
+                 HorizontalDivider()
+-                if (basemap?.key in MAPBOX_SOURCE_KEYS) {
++                if (basemap != null && basemap.key in MAPBOX_SOURCE_KEYS) {
+                     SourceFact(stringResource(R.string.gs_source_preview_title), stringResource(R.string.map_catalog_mapbox_credit))

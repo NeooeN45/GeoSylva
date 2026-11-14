@@ -1,0 +1,188 @@
+@@ -4,3 +4,5 @@
+ import androidx.compose.foundation.BorderStroke
++import androidx.compose.foundation.Canvas
+ import androidx.compose.foundation.background
++import androidx.compose.foundation.border
+ import androidx.compose.foundation.clickable
+@@ -27,2 +29,3 @@
+ import androidx.compose.foundation.shape.RoundedCornerShape
++import androidx.compose.foundation.text.BasicTextField
+ import androidx.compose.foundation.verticalScroll
+@@ -44,2 +47,3 @@
+ import androidx.compose.material3.HorizontalDivider
++import androidx.compose.material3.ExperimentalMaterial3Api
+ import androidx.compose.material3.Icon
+@@ -47,5 +51,3 @@
+ import androidx.compose.material3.MaterialTheme
+-import androidx.compose.material3.OutlinedTextField
+ import androidx.compose.material3.Slider
+-import androidx.compose.material3.SliderDefaults
+ import androidx.compose.material3.Surface
+@@ -68,3 +70,6 @@
+ import androidx.compose.ui.draw.clip
++import androidx.compose.ui.geometry.Offset
+ import androidx.compose.ui.graphics.Color
++import androidx.compose.ui.graphics.SolidColor
++import androidx.compose.ui.graphics.StrokeCap
+ import androidx.compose.ui.graphics.vector.ImageVector
+@@ -74,2 +79,3 @@
+ import androidx.compose.ui.platform.LocalConfiguration
++import androidx.compose.ui.platform.LocalLayoutDirection
+ import androidx.compose.ui.res.stringResource
+@@ -87,2 +93,3 @@
+ import androidx.compose.ui.unit.Dp
++import androidx.compose.ui.unit.LayoutDirection
+ import androidx.compose.ui.unit.sp
+@@ -282,2 +289,3 @@
+                 verticalAlignment = Alignment.CenterVertically) {
++                Icon(Icons.Outlined.Layers, null, Modifier.size(MapUiTokens.icon))
+                 Text(stringResource(R.string.gs_map_layers), fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+@@ -478,8 +486,12 @@
+     Column(Modifier.fillMaxSize().padding(horizontal = MapUiTokens.panelInset).verticalScroll(rememberScrollState())) {
+-        SectionLabel(stringResource(R.string.gs_map_view))
+-        Surface(shape = MapUiTokens.rowShape, color = Color.Transparent,
+-            border = BorderStroke(MapUiTokens.border, MapUiTokens.outline)) {
+-            Row(Modifier.fillMaxWidth().selectableGroup()) {
+-                ModeButton("2D", state.pitchDegrees <= 0.1, state.controlsEnabled, Modifier.weight(1f)) { actions.onFlatView(true) }
+-                ModeButton("3D", state.pitchDegrees > 0.1, state.controlsEnabled, Modifier.weight(1f)) { actions.onFlatView(false) }
++        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
++            horizontalArrangement = Arrangement.spacedBy(MapUiTokens.rowTextGap)) {
++            Text(stringResource(R.string.gs_map_view), Modifier.weight(1f),
++                color = MapUiTokens.ink, fontWeight = FontWeight.SemiBold)
++            Surface(modifier = Modifier.weight(2f), shape = MapUiTokens.rowShape, color = Color.Transparent,
++                border = BorderStroke(MapUiTokens.border, MapUiTokens.outline)) {
++                Row(Modifier.fillMaxWidth().selectableGroup()) {
++                    ModeButton("2D", state.pitchDegrees <= 0.1, state.controlsEnabled, Modifier.weight(1f)) { actions.onFlatView(true) }
++                    ModeButton("3D", state.pitchDegrees > 0.1, state.controlsEnabled, Modifier.weight(1f)) { actions.onFlatView(false) }
++                }
+             }
+@@ -490,3 +502,2 @@
+             modifier = Modifier.padding(vertical = MapUiTokens.rowGap))
+-        HorizontalDivider(Modifier.padding(vertical = MapUiTokens.sectionGap), color = MapUiTokens.outline)
+         Row(verticalAlignment = Alignment.CenterVertically) {
+@@ -502,3 +513,3 @@
+         }
+-        Slider(value = exaggerationDraft,
++        CompactReliefSlider(value = exaggerationDraft,
+             onValueChange = { exaggerationDraft = it },
+@@ -511,8 +522,6 @@
+             enabled = state.controlsEnabled,
+-            modifier = Modifier.semantics { contentDescription = verticalScaleLabel },
+-            colors = SliderDefaults.colors(thumbColor = MapUiTokens.ink,
+-                activeTrackColor = MapUiTokens.ink, inactiveTrackColor = MapUiTokens.outline))
++            label = verticalScaleLabel)
+         RangeLabels("1×", "3×")
+-        HorizontalDivider(Modifier.padding(vertical = MapUiTokens.sectionGap), color = MapUiTokens.outline)
+-        Row(verticalAlignment = Alignment.CenterVertically) {
++        Row(Modifier.heightIn(min = MapUiTokens.icon).padding(top = 4.dp),
++            verticalAlignment = Alignment.CenterVertically) {
+             Text(stringResource(R.string.gs_map_pitch), Modifier.weight(1f), color = MapUiTokens.ink,
+@@ -521,11 +530,9 @@
+         }
+-        Slider(value = state.pitchDegrees.toFloat().coerceIn(0f, 60f),
++        CompactReliefSlider(value = state.pitchDegrees.toFloat().coerceIn(0f, 60f),
+             onValueChange = { actions.onPitchChange(it.toDouble()) }, valueRange = 0f..60f,
+             enabled = state.controlsEnabled,
+-            modifier = Modifier.semantics { contentDescription = pitchLabel },
+-            colors = SliderDefaults.colors(thumbColor = MapUiTokens.ink,
+-                activeTrackColor = MapUiTokens.ink, inactiveTrackColor = MapUiTokens.outline))
++            label = pitchLabel)
+         RangeLabels("0°", "60°")
+-        Spacer(Modifier.height(MapUiTokens.sectionGap))
+-        DetailLink(stringResource(R.string.gs_map_terrain_data), { actions.onExplain(MapHelp.RELIEF_SOURCE) })
++        DetailLink(stringResource(R.string.gs_map_terrain_data),
++            { actions.onExplain(MapHelp.RELIEF_SOURCE) }, showDivider = false)
+     }
+@@ -533,3 +540,36 @@
+ 
++/** Thin decoration only: Material's slider retains its keyboard, drag and range semantics. */
++@OptIn(ExperimentalMaterial3Api::class)
+ @Composable
++private fun CompactReliefSlider(
++    value: Float,
++    onValueChange: (Float) -> Unit,
++    valueRange: ClosedFloatingPointRange<Float>,
++    enabled: Boolean,
++    label: String,
++    onValueChangeFinished: (() -> Unit)? = null,
++) {
++    val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
++    val activeColor = MapUiTokens.ink.copy(alpha = if (enabled) 1f else 0.38f)
++    val inactiveColor = MapUiTokens.outline.copy(alpha = if (enabled) 1f else 0.6f)
++    Slider(value = value, onValueChange = onValueChange, valueRange = valueRange,
++        enabled = enabled, onValueChangeFinished = onValueChangeFinished,
++        modifier = Modifier.fillMaxWidth().heightIn(min = MapUiTokens.touch)
++            .semantics { contentDescription = label },
++        thumb = {
++            Box(Modifier.size(MapUiTokens.sliderThumb).clip(CircleShape).background(activeColor))
++        },
++        track = {
++            Canvas(Modifier.fillMaxWidth().height(MapUiTokens.sliderTrack)) {
++                val fraction = ((value - valueRange.start) / (valueRange.endInclusive - valueRange.start)).coerceIn(0f, 1f)
++                val start = Offset(if (rtl) size.width else 0f, size.height / 2f)
++                val end = Offset(if (rtl) 0f else size.width, size.height / 2f)
++                val activeEnd = Offset(if (rtl) size.width * (1f - fraction) else size.width * fraction, size.height / 2f)
++                drawLine(inactiveColor, start, end, size.height, StrokeCap.Round)
++                if (fraction > 0f) drawLine(activeColor, start, activeEnd, size.height, StrokeCap.Round)
++            }
++        })
++}
++
++@Composable
+ private fun ModeButton(label: String, selected: Boolean, enabled: Boolean, modifier: Modifier, onClick: () -> Unit) {
+@@ -555,7 +595,25 @@
+ private fun SearchBox(query: String, onQuery: (String) -> Unit, placeholder: String) {
+-    OutlinedTextField(value = query, onValueChange = onQuery,
+-        placeholder = { Text(placeholder, style = MaterialTheme.typography.bodyMedium) },
+-        leadingIcon = { Icon(Icons.Outlined.Search, null, tint = MapUiTokens.ink) },
+-        singleLine = true, shape = CircleShape,
+-        modifier = Modifier.fillMaxWidth().padding(vertical = MapUiTokens.rowGap))
++    BasicTextField(value = query, onValueChange = onQuery, singleLine = true,
++        textStyle = MaterialTheme.typography.bodyMedium.copy(color = MapUiTokens.ink),
++        cursorBrush = SolidColor(MapUiTokens.ink),
++        modifier = Modifier.fillMaxWidth().heightIn(min = MapUiTokens.touch)
++            .semantics { contentDescription = placeholder },
++        decorationBox = { innerTextField ->
++            // The full 48 dp field accepts input; only its outline is 40 dp at standard text size.
++            // Intrinsic text height can enlarge the outline for accessibility, with no fixed-height clip.
++            Box(Modifier.fillMaxWidth().heightIn(min = MapUiTokens.touch), contentAlignment = Alignment.Center) {
++                Row(Modifier.fillMaxWidth().heightIn(min = MapUiTokens.searchVisualHeight)
++                    .border(MapUiTokens.border, MapUiTokens.outline, CircleShape)
++                    .padding(horizontal = 12.dp, vertical = 4.dp),
++                    verticalAlignment = Alignment.CenterVertically,
++                    horizontalArrangement = Arrangement.spacedBy(MapUiTokens.iconGap)) {
++                    Icon(Icons.Outlined.Search, null, tint = MapUiTokens.ink, modifier = Modifier.size(20.dp))
++                    Box(Modifier.weight(1f)) {
++                        if (query.isEmpty()) Text(placeholder, color = MapUiTokens.muted,
++                            style = MaterialTheme.typography.bodyMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
++                        innerTextField()
++                    }
++                }
++            }
++        })
+ }
+@@ -574,3 +632,3 @@
+     Text(label, color = MapUiTokens.muted, fontWeight = FontWeight.SemiBold,
+-        modifier = Modifier.padding(top = MapUiTokens.sectionGap, bottom = MapUiTokens.rowGap))
++        modifier = Modifier.padding(top = MapUiTokens.sectionGap, bottom = 4.dp))
+ }
+@@ -578,4 +636,4 @@
+ @Composable
+-private fun DetailLink(label: String, onClick: () -> Unit) {
+-    HorizontalDivider(color = MapUiTokens.outline)
++private fun DetailLink(label: String, onClick: () -> Unit, showDivider: Boolean = true) {
++    if (showDivider) HorizontalDivider(color = MapUiTokens.outline)
+     Row(Modifier.fillMaxWidth().heightIn(min = MapUiTokens.touch).clickable(role = Role.Button, onClick = onClick),
+@@ -628,3 +686,3 @@
+     val toolbarDividerHeight = 28.dp
+-    val handleTop = 8.dp
++    val handleTop = 6.dp
+     val handleWidth = 36.dp
+@@ -644,3 +702,6 @@
+     val border = 1.dp
+-    val sectionGap = 16.dp
++    val sectionGap = 8.dp
++    val sliderTrack = 4.dp
++    val sliderThumb = 20.dp
++    val searchVisualHeight = 40.dp
+     val commandShape = RoundedCornerShape(16.dp)

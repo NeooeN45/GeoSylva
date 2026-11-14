@@ -1,0 +1,5 @@
+@@ -664,3 +664,3 @@
+             if (measureActive) MapManualMeasureUi(
+-                state = manual, model = manualModel, contextLabel = contextTitle,
++                unverifiedState = manual, model = manualModel, contextLabel = contextTitle,
+                 locationEnabled = !hasLocationPermission || phonePosition != null,

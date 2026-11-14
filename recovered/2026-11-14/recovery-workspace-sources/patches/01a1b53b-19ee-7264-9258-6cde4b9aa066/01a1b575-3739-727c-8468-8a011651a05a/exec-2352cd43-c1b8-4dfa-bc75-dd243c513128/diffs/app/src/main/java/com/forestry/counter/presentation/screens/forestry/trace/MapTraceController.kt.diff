@@ -1,0 +1,118 @@
+@@ -28,2 +28,6 @@
+     private val mutex = Mutex()
++    private val admissionLock = Any()
++    @Volatile private var purging = false
++    @Volatile private var admissionGeneration = 0L
++    private var purgeDepth = 0
+     private val mutable = MutableStateFlow(MapTraceState())
+@@ -50,2 +54,3 @@
+                 mutex.withLock {
++                    if (purging) return@withLock
+                     val captured = access ?: return@withLock
+@@ -59,2 +64,3 @@
+                 mutex.withLock {
++                    if (purging) return@withLock
+                     val captured = access
+@@ -128,4 +134,24 @@
+ 
+-    /** Waits for in-flight writes, then invalidates without entering the purge gate again. */
+-    suspend fun stopForPurge() = mutex.withLock { invalidate() }
++    /** Closes admission before joining writers; only the purge coordinator may reopen it. */
++    suspend fun stopForPurge() {
++        synchronized(admissionLock) {
++            purgeDepth++
++            purging = true
++            admissionGeneration++
++        }
++        mutex.withLock { invalidate() }
++    }
++
++    /** No authority, draft or source is restored; a new explicit open is required. */
++    suspend fun resumeAfterPurge() = mutex.withLock {
++        synchronized(admissionLock) { if (purgeDepth == 0) return@withLock }
++        invalidate()
++        synchronized(admissionLock) {
++            purgeDepth--
++            if (purgeDepth == 0) {
++                admissionGeneration++
++                purging = false
++            }
++        }
++    }
+ 
+@@ -140,5 +166,7 @@
+     fun setPreviewLocation(location: Location?) {
+-        if (sourceToken != null) return
+-        val fix = location?.let(::toFix)
+-        mutable.update { it.copy(previewFix = fix, nowNanos = nanoTime()) }
++        synchronized(admissionLock) {
++            if (purging || sourceClaim.value) return
++            val fix = location?.let(::toFix)
++            mutable.update { it.copy(previewFix = fix, nowNanos = nanoTime()) }
++        }
+     }
+@@ -169,4 +197,5 @@
+         }
+-        sourceToken = token
+-        if (!source.start(token)) sourceFailureLocked(token)
++        if (!startSource(token)) {
++            if (purging) stopSource() else sourceFailureLocked(token)
++        }
+     }
+@@ -205,4 +234,5 @@
+         }
+-        sourceToken = token
+-        if (!source.start(token)) sourceFailureLocked(token)
++        if (!startSource(token)) {
++            if (purging) stopSource() else sourceFailureLocked(token)
++        }
+     }
+@@ -347,5 +377,5 @@
+     }
+-    fun sourceIsCurrent(token: TraceCaptureToken): Boolean = sourceToken == token && access?.let(repository::isCurrent) == true
++    fun sourceIsCurrent(token: TraceCaptureToken): Boolean = !purging && sourceToken == token && access?.let(repository::isCurrent) == true
+     fun currentSourceToken(): TraceCaptureToken? = sourceToken?.takeIf(::sourceIsCurrent)
+-    fun authorityIsCurrent(): Boolean = access?.let(repository::isCurrent) == true
++    fun authorityIsCurrent(): Boolean = !purging && access?.let(repository::isCurrent) == true
+     fun needsLocationPermission(): Boolean = !source.permitted()
+@@ -354,8 +384,14 @@
+ 
+-    suspend fun exportPreview(id: String, expectedRevision: Long): CartographicStoreResult<String> = mutex.withLock {
+-        val captured = access ?: return@withLock CartographicStoreResult.Failure(CartographicStoreError.ACCESS_CHANGED)
+-        when (val read = repository.read(id, captured)) {
+-            is CartographicStoreResult.Success -> if (read.value.saved && read.value.revision == expectedRevision)
+-                CartographicStoreResult.Success(TraceGeoJsonExport.encode(read.value)) else CartographicStoreResult.Failure(CartographicStoreError.CONFLICT)
+-            is CartographicStoreResult.Failure -> read
++    suspend fun exportPreview(id: String, expectedRevision: Long): CartographicStoreResult<String> {
++        val admitted = admit() ?: return CartographicStoreResult.Failure(CartographicStoreError.ACCESS_CHANGED)
++        return mutex.withLock {
++            if (!admissionIsCurrent(admitted)) return@withLock CartographicStoreResult.Failure(CartographicStoreError.ACCESS_CHANGED)
++            val captured = access ?: return@withLock CartographicStoreResult.Failure(CartographicStoreError.ACCESS_CHANGED)
++            val read = repository.read(id, captured)
++            if (!admissionIsCurrent(admitted)) return@withLock CartographicStoreResult.Failure(CartographicStoreError.ACCESS_CHANGED)
++            when (read) {
++                is CartographicStoreResult.Success -> if (read.value.saved && read.value.revision == expectedRevision)
++                    CartographicStoreResult.Success(TraceGeoJsonExport.encode(read.value)) else CartographicStoreResult.Failure(CartographicStoreError.CONFLICT)
++                is CartographicStoreResult.Failure -> read
++            }
+         }
+@@ -379,3 +415,9 @@
+     }
++    private fun startSource(token: TraceCaptureToken): Boolean = synchronized(admissionLock) {
++        if (purging) return@synchronized false
++        sourceToken = token
++        source.start(token)
++    }
+     private suspend fun ready(): Boolean {
++        if (purging) return false
+         val captured = access ?: return false
+@@ -423,3 +465,8 @@
+     }
+-    private fun launchLocked(block: suspend () -> Unit) { work.launch { mutex.withLock { block() } } }
++    private fun admit(): Long? = synchronized(admissionLock) { if (purging) null else admissionGeneration }
++    private fun admissionIsCurrent(generation: Long) = !purging && admissionGeneration == generation
++    private fun launchLocked(block: suspend () -> Unit) {
++        val admitted = admit() ?: return
++        work.launch { mutex.withLock { if (admissionIsCurrent(admitted)) block() } }
++    }
+     private fun toFix(location: Location): TraceFix {

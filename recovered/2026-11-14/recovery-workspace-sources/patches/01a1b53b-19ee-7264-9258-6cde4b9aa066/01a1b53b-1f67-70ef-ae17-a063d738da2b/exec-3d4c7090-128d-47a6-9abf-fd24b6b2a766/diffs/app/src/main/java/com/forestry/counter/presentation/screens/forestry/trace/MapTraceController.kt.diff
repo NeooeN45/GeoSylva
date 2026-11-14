@@ -1,0 +1,79 @@
+@@ -39,2 +39,3 @@
+     private var pendingSave: Pair<String, TraceCaptureSnapshot>? = null
++    private var pendingDraft: Pair<String, TraceCaptureSnapshot>? = null
+     private val bootId = runCatching { Settings.Global.getInt(appContext.contentResolver, Settings.Global.BOOT_COUNT).toString() }
+@@ -57,4 +58,5 @@
+                     if (captured != null && !repository.isCurrent(captured)) { invalidate(); return@withLock }
++                    val now = nanoTime()
++                    mutable.update { it.copy(nowNanos = now) }
+                     val r = recorder ?: return@withLock
+-                    val now = nanoTime()
+                     val snapshot = r.snapshot(now)
+@@ -88,2 +90,3 @@
+         pendingSave = null
++        pendingDraft = null
+         val generation = ++authorityGeneration
+@@ -115,2 +118,5 @@
+ 
++    /** Waits for in-flight writes, then invalidates without entering the purge gate again. */
++    suspend fun stopForPurge() = mutex.withLock { invalidate() }
++
+     fun hide() = launchLocked {
+@@ -145,3 +151,8 @@
+         mutable.update { it.copy(snapshot = r.snapshot(now), screen = TraceScreen.CAPTURE, name = "", selected = null, issue = null) }
+-        if (!persist(r.snapshot(now))) { stopSource(); r.stop(nanoTime()); return@launchLocked }
++        if (!persist(r.snapshot(now))) {
++            stopSource()
++            val stopped = r.stop(nanoTime())
++            mutable.update { it.copy(snapshot = stopped, screen = TraceScreen.REVIEW) }
++            return@launchLocked
++        }
+         sourceToken = token
+@@ -174,3 +185,7 @@
+         mutable.update { it.copy(snapshot = r.snapshot(nanoTime()), screen = TraceScreen.CAPTURE, issue = null) }
+-        if (!persist(r.snapshot(nanoTime()))) { r.stop(nanoTime()); return@launchLocked }
++        if (!persist(r.snapshot(nanoTime()))) {
++            val stopped = r.stop(nanoTime())
++            mutable.update { it.copy(snapshot = stopped, screen = TraceScreen.REVIEW) }
++            return@launchLocked
++        }
+         sourceToken = token
+@@ -195,2 +210,3 @@
+         val pending = pendingSave ?: (state.value.name to r.snapshot(nanoTime())).also { pendingSave = it }
++        if (!persist(pending.second)) return@launchLocked
+         mutable.update { it.copy(busy = true, issue = null, saveUncertain = true) }
+@@ -278,4 +294,2 @@
+         val result = r.accept(token, toFix(location), now)
+-        phone.value = if (result is TraceFixResult.Accepted) Location(location) else null
+-        mutable.update { it.copy(snapshot = result.snapshot, nowNanos = now, issue = null) }
+         if (result !is TraceFixResult.Ignored && !persist(result.snapshot)) {
+@@ -284,2 +298,5 @@
+             mutable.update { it.copy(snapshot = stopped, screen = TraceScreen.REVIEW, issue = TraceRuntimeIssue.STORE) }
++        } else {
++            phone.value = if (result is TraceFixResult.Accepted || result is TraceFixResult.Ignored && result.reason == TraceIgnoredReason.BELOW_MINIMUM_DISTANCE) Location(location) else null
++            mutable.update { it.copy(snapshot = result.snapshot, nowNanos = now, issue = null) }
+         }
+@@ -331,4 +348,17 @@
+         val captured = access ?: return false
+-        when (val stored = repository.writeDraft(snapshot.sessionId, state.value.name, snapshot, revision, originId, captured)) {
+-            is CartographicStoreResult.Success -> { revision = stored.value.revision; return true }
++        val previousPending = pendingDraft
++        if (previousPending != null) {
++            when (val confirmed = repository.writeDraft(previousPending.second.sessionId, previousPending.first, previousPending.second, revision, originId, captured)) {
++                is CartographicStoreResult.Success -> { revision = confirmed.value.revision; pendingDraft = null }
++                is CartographicStoreResult.Failure -> {
++                    if (confirmed.reason in setOf(CartographicStoreError.ACCESS_CHANGED, CartographicStoreError.UNAVAILABLE)) invalidate()
++                    else mutable.update { it.copy(issue = TraceRuntimeIssue.STORE) }
++                    return false
++                }
++            }
++        }
++        val pending = state.value.name to snapshot
++        pendingDraft = pending
++        when (val stored = repository.writeDraft(snapshot.sessionId, pending.first, snapshot, revision, originId, captured)) {
++            is CartographicStoreResult.Success -> { revision = stored.value.revision; pendingDraft = null; return true }
+             is CartographicStoreResult.Failure -> {
+@@ -349,2 +379,3 @@
+         pendingSave = null
++        pendingDraft = null
+         revision = 0

@@ -1,0 +1,959 @@
+{
+  "schema": "geosylva.incomplete-code-fragments.v2",
+  "createdUTC": "2026-11-14T15:50:08.727045+00:00",
+  "checkpoint": 6,
+  "completeSources": false,
+  "compilableAsSources": false,
+  "excludedFromCompleteSourceCounts": true,
+  "fragments": [
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-mapbox-sources/fragments/SharedMapboxCanvas-observed-source18.lines.json",
+      "sha256": "c2b8c8eee8a9d24d16d81ba6c1c7a978a331c57e6b131af68dc3bdf361f3051e",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "version": "source18-before-source20/21",
+      "completeSource": false,
+      "codeLinesObserved": 359,
+      "gaps": [
+        "Sparse exact lines only; absent source lines remain absent",
+        "Do not combine with later numbering without a proven edit chain"
+      ]
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-recent-patches/fragments/SharedMapboxCanvas-source21-original.lines.json",
+      "sha256": "f7312d5cfdaf1c0df9afe5969332618a70829bcba3b8506ad1925075367e83ce",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "version": "source21-original-before-CAM21-01",
+      "completeSource": false,
+      "codeLinesObserved": 438,
+      "gaps": [
+        "Sparse exact lines only; complete source and EOF are not established."
+      ]
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/initial-maprecherche-known-lines.json",
+      "sha256": "50767492ea6574fbbfba4283d5db7e4b9c0dc8417b9518190139fcd1701c8307",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "initial-workspace-thread-observed-lines",
+      "completeSource": false,
+      "codeLinesObserved": 732,
+      "gaps": [
+        [
+          595,
+          749
+        ]
+      ]
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-mapbox-sources/fragments/SharedMapboxCanvas-observed-source18.lines.checkpoint3-e5c8e26cbc74.json",
+      "sha256": "e5c8e26cbc7418082c63a44aa503d20a24f8dd9ad4b3b20d85391452732cf8ac",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "version": "camera-resume13 latest turn source18, before SOURCE20/21; line offsets differ later:expanded-checkpoint3",
+      "completeSource": false,
+      "codeLinesObserved": 574,
+      "gaps": [
+        "Sparse exact lines only; absent source lines remain absent",
+        "Do not combine with later numbering without a proven edit chain"
+      ]
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/root0003-initial-maprecherche-known-lines.json",
+      "sha256": "e2572636fb4ae03f1ea24842ad31595b0b9ff37d7fab83d7f068fd0a1611aca4",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "observed reads before manual integration command item114",
+      "completeSource": false,
+      "codeLinesObserved": 438,
+      "gaps": [
+        [
+          264,
+          314
+        ],
+        [
+          338,
+          509
+        ],
+        [
+          533,
+          649
+        ],
+        [
+          763,
+          844
+        ]
+      ]
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-domain-sources/fragments/root0002-item195-CartographicWorkspaceMigrations.kt.literal.fragment",
+      "sha256": "6c49ee50692359149c3296b083d53ec7b7aeefb4ae606b911f0fd9045ab232bc",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/CartographicWorkspaceMigrations.kt",
+      "version": "truncated-recorded-code-bytes-item195",
+      "completeSource": false,
+      "codeLinesObserved": 7,
+      "gaps": [
+        "Recorded source/diff truncated at 250 characters; absent bytes are not reconstructed."
+      ]
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-domain-sources/fragments/root0002-item195-ForestryDatabase.kt.patch.fragment",
+      "sha256": "44afb97c88655cdf4c9fc350326196b2eacbb317f7ba7a1c4aebbbd5b9e9ca94",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "version": "truncated-recorded-code-bytes-item195",
+      "completeSource": false,
+      "codeLinesObserved": 4,
+      "gaps": [
+        "Recorded source/diff truncated at 250 characters; absent bytes are not reconstructed."
+      ]
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-domain-sources/fragments/root0007-read-46-SegmentedTraceRecorder.kt.fragment",
+      "sha256": "7b1ad986930a0618e8a1c5efa2c231c31a7f713caf42743e752c7fe96f60ba81",
+      "sourcePath": "app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 107,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/literal-ui-fragments/01a1ad13-c050-733a-9871-44c82f130226/exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt.lines-1-330.txt",
+      "sha256": "76f2589add8c0ec5b4d00d57283b0dbf372e20df91b6cc511e5b059cf9fc97bf",
+      "sourcePath": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 330,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-mapbox-sources/fragments/MapCameraCommandGate-observed-source18.lines084-162.txt",
+      "sha256": "646b29ada87fa302bc324cf03dee54f2ca28a4f19feaffb4c55bb280dec67805",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGate.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 79,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-mapbox-sources/fragments/MapCameraFitRefinement-observed-source18.lines001-105.txt",
+      "sha256": "3c56758221c3b596427e607e14d2fb8935d2d96377ba40b00833824335efa8f8",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinement.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 105,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-mapbox-sources/fragments/MapCameraCommandGate-observed-nov13-1657.lines001-085.txt",
+      "sha256": "9d309c58bbfbc1559fcdae9b8c23e65563073beed5086dc8a8912c2d45711271",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGate.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 85,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-mapbox-sources/fragments/SharedMapboxCanvas-observed-source18.lines470-510.txt",
+      "sha256": "28235b067e167ca4726204f22096011dc23ffdefc81baa80d8d6de8915f11de3",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 41,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-mapbox-sources/fragments/SharedMapboxCanvas-observed-source18.lines540-665.txt",
+      "sha256": "53252f3efc628f1bbc670c689a4ea49005a1ba27d9e35a5f8dfaabc4642cde03",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 126,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-mapbox-sources/fragments/SharedMapboxCanvas-source18-derived.lines001-703.txt",
+      "sha256": "c8e7dd2a5bbf9b62b518849471499a1d9385ffecc937f0bba4832ed45da0e444",
+      "sourcePath": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 703,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-a9208567-422c-434a-a683-40bd2fa3a98f/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-345-640.txt",
+      "sha256": "fd773a55f3de7a05ad54873584939c25df23dc9e5ba3c058d78b1795a3835ad3",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 296,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-a9208567-422c-434a-a683-40bd2fa3a98f/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-720-776.txt",
+      "sha256": "9f2086893ac5065f043ecf860f8396cbc89f58c1e8d0185f3f8ebf35b6122d61",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 57,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-6675dc5f-48e4-4c95-a9de-80c702af2be9/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-1-115.txt",
+      "sha256": "e0286ec947ee6766f0f95fba8a0512bde2157732d3491a036562a00465281e41",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 115,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-f4410843-049a-425d-b1c7-c5558a0e4a40/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-440-505.txt",
+      "sha256": "663808768fb3e28e7e6d5089b906d91b39a75016a9cff57423cd13b3c5cf0822",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 66,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-f4410843-049a-425d-b1c7-c5558a0e4a40/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-640-770.txt",
+      "sha256": "4bbf965f340074a6f716052ee269d97993eb8fb3e83b2a36ee981a6714ca2dd5",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 131,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-36b31750-f5db-4991-923b-8b530adcc400/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-378-415.txt",
+      "sha256": "68acde6c3ff8d53a20134a05d6d02a1ef483ef40b520ef5836de87e204e36a15",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 38,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-e1ceab6f-e189-4575-9388-d2fa7aa6a9dc/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-440-478.txt",
+      "sha256": "1c10ff22679acbec5d025849928c6a2024db415c5e87b35ea2d3394a6e8f5fff",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 39,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-e1ceab6f-e189-4575-9388-d2fa7aa6a9dc/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-645-680.txt",
+      "sha256": "23565aa7c96b2ddfa940e817dfa1ccacd359a90adffed46d778e086212409a64",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 36,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/trace-runtime-reads/01a1b55c-1dc5-72e8-b3d6-a5c95a88462d/exec-ec58546c-7f80-44bb-aeb6-d4c353b95a05/app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/MapTraceController.kt.lines-1-315.txt",
+      "sha256": "207c0763dab81c35c86bed7f9ab7ce3f07a20024837c905c473810aff9cf5a5b",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/MapTraceController.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 315,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/trace-runtime-reads/01a1b575-3739-727c-8468-8a011651a05a/exec-79354e93-d760-4d9b-9f4f-4326f1b29a51/app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/MapTraceController.kt.lines-300-445.txt",
+      "sha256": "4eed3403964ed7f4a22994417f04326c7f118c3676f4edec70af7ed3a960026d",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/MapTraceController.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 146,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/trace-runtime-reads/01a1b53b-1f67-70ef-ae17-a063d738da2b/exec-b19419ed-eda4-4b98-a130-9f2439f9b30d/app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/MapTraceController.kt.lines-371-455.txt",
+      "sha256": "6065263a069f4a965b3a1a4ef93781cff74c5ef9022e1d3b7e3fa8de6ef81f24",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/MapTraceController.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 85,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b/01a1b01a-2f81-72f8-99ba-3bfa2f37ab19/exec-56f1f89f-e230-496c-8129-5bdb7e2dafd1/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt.lines-1-260.txt",
+      "sha256": "b039053d07a8473199538a733921d913f32ba50b077137ef3a60f5bd69274c1f",
+      "sourcePath": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 260,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b/01a1b01a-2f81-72f8-99ba-3bfa2f37ab19/exec-8463b9e1-6800-4833-8f11-b86e4a4e70a0/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt.lines-255-519.txt",
+      "sha256": "2af58ca7a6e9bb256eea8f85dc271fa14fe38dccc908c1fc4d52e21cfb7bba93",
+      "sourcePath": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 265,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/trace-runtime-reads/01a1b5b3-137f-720f-afe8-32bec9f81829/exec-75995b52-5a52-4996-bda0-cdaf40c48d8e/app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/MapTraceHost.kt.lines-1-190.txt",
+      "sha256": "9c00c091f9770fcac93e966fd776464d186309a6bbb2e2f3c7ba7cc50f767001",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/MapTraceHost.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 190,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/trace-runtime-reads/01a1b567-d93b-7506-ad88-c209c8a43ac3/exec-f64b7241-9b41-4dcd-b70b-38080539361e/app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/MapTraceController.kt.lines-340-410.txt",
+      "sha256": "013f7962a4b0ee1bf5ece928afffd1e2ca47ab6127d53821a391a5b240ee7789",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/MapTraceController.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 71,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/trace-runtime-reads/01a1b567-d93b-7506-ad88-c209c8a43ac3/exec-8c3af082-d4d7-4370-96ee-e5d3102aa491/app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/MapTraceController.kt.lines-1-280.txt",
+      "sha256": "030b27d2a2f19aa6716d870c6c611e24cd73fa0869f4b25f9e3f763cc2b227b9",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/MapTraceController.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 280,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/trace-runtime-reads/01a1b53b-1f67-70ef-ae17-a063d738da2b/exec-b19419ed-eda4-4b98-a130-9f2439f9b30d/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt.lines-1-64.txt",
+      "sha256": "71ffaa3c8d439b27bfb0f6b7673a5aa2ebc5d01128a5d3a2c940878978e31a08",
+      "sourcePath": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 64,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-711ee733-a4be-4c54-803a-e59299815aff/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-1-356.txt",
+      "sha256": "82e83b8f4f9c187daaa79c422babea834afd59300512ae96acd3017962ee0ba8",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 356,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-49b2ffc3-9aa3-4f3f-bda6-260623b6d54d/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-1-356.txt",
+      "sha256": "82e83b8f4f9c187daaa79c422babea834afd59300512ae96acd3017962ee0ba8",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 356,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-1e13e8f1-fac3-4bcc-9d29-bc0546705648/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-350-485.txt",
+      "sha256": "a70ff65deb855dbe0b3d716653d883a5440307f02779a372a34f33aac77567fc",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 136,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-67cb81bc-c91d-4e7c-8a84-76de0791d58f/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-1-285.txt",
+      "sha256": "4511b0248d412c7198abfcac47ad8eac5bef5abe7278d503dada0559f1c39d74",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 285,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-ff8289b5-c679-4f7e-9844-d39e7568143a/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-285-594.txt",
+      "sha256": "fe688c3313029f66f81c2bbe760618ba6a23ead5fd0d5dda6e004d601115649f",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 310,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-7018a007-4145-4dde-a331-82f33906d10a/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-750-887.txt",
+      "sha256": "9d7ff5814657d4747066501b6a5f48dae1b431ebe46432573b548780b79009c3",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 138,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-2d49b3ad-3d7d-45d6-98c8-e8b660917c38/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt.lines-1-200.txt",
+      "sha256": "d3bb6f6974f8ec33e0af3ed6ab7faf3fc1e06d52b79186bcc21161e4c8fc5836",
+      "sourcePath": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 200,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-0afa6a54-6ee7-450f-b5fc-bdba71bfa5bf/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt.lines-340-455.txt",
+      "sha256": "4a7ef962ef9df386ca810ab73875451efe1767fb4ffd9260a2392358ec9f93b5",
+      "sourcePath": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 116,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-930e1d57-68c8-4391-ae6b-7f18ccfdcfbf/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt.lines-230-340.txt",
+      "sha256": "270fd93fdafe6f43c068918df3dede8e8142c25d567a5428d546d56ac88190ea",
+      "sourcePath": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 111,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-cb33fa03-47ac-4ac8-9819-e8a79b8b252c/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt.lines-1-90.txt",
+      "sha256": "6b80caa7e9cd08cffb65cb78808c443e9cd67cba23e489c939e037a23f9c0ece",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 90,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-6675dc5f-48e4-4c95-a9de-80c702af2be9/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt.lines-1-130.txt",
+      "sha256": "ae4222d08a928cbf9057c756fa48ee0456e7a198a88274f9d6c92feebd88c4f5",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 130,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-f4410843-049a-425d-b1c7-c5558a0e4a40/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt.lines-85-185.txt",
+      "sha256": "62fc84b568607b10724a7e0bd47c9ca00bd9ad54a7a1d8b5834685553bf78803",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 101,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-eb054b52-e79a-4e37-a791-53e418d617b9/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-350-371.txt",
+      "sha256": "4049acee1667d6041216f60a220ded7773aac08dcd5aa20e41e849a5f88bdf54",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 22,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-04e3fdfe-7db9-4704-b602-3c4d9818e8b1/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-470-500.txt",
+      "sha256": "73698c43fceaa0c1428a98345687b630db393b0a390d253457fdef8fa1a11cb5",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 31,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-f4db7e60-4230-42fc-a3dc-367fef62df45/app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureAuxiliaryPanels.kt.lines-1-120.txt",
+      "sha256": "9325bb8bb54c56deaefcca0420b194e2d3a3a567f90f6689fe172dd69d1db930",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureAuxiliaryPanels.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 120,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-e631c7ce-9bff-4ec8-b2e2-f6c63002d5ba/app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureAuxiliaryPanels.kt.lines-125-210.txt",
+      "sha256": "dbd1ee0d6923da82a89c0935c347b1a8dbc1c350293ba1db40e9a8d1d14e2784",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureAuxiliaryPanels.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 86,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-b5cc724f-eb10-4b1b-b917-be9a53695ceb/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-650-755.txt",
+      "sha256": "023248d8ae545ea9488846c97e9ac37a6ee1236ae8aeccadfc4fc4487e29a7cd",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 106,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-b5cc724f-eb10-4b1b-b917-be9a53695ceb/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-845-860.txt",
+      "sha256": "e2b19e67b4fed06b73157f17b2d7aac270cd736548ffd8603b540c6ddd5a8957",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 16,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-3c79c159-4274-4628-ae15-b90df74ff035/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-125-245.txt",
+      "sha256": "847b1a7e332d5ba5fd57128882677321cf84408a6aebc26c90381c34818190d1",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 121,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-4fac56eb-f91a-4792-a10a-e56dc2d00e6d/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-1-135.txt",
+      "sha256": "8c6bc1d920e79862e0e4636fac039420bb01d6259493a9fe4c47f3af2293fecf",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 135,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-28a2c69d-4727-4ab8-872e-a654262a9199/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-229-263.txt",
+      "sha256": "6bf31d827bf048d0ef3ef690c7fd8cb0d1cf8fd7975dc36836ad97c4d953eac3",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 35,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-28a2c69d-4727-4ab8-872e-a654262a9199/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-315-337.txt",
+      "sha256": "72326a729ea864ba3f7435b9605a75bd6b9ace986958416608f9f71569da6a9d",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 23,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-28a2c69d-4727-4ab8-872e-a654262a9199/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-510-532.txt",
+      "sha256": "cc4660c1cfc37d0daba7ac81c627f917b130b77b085f19c481e7c20676efdf48",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 23,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-workspace-sources/reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-28a2c69d-4727-4ab8-872e-a654262a9199/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-745-762.txt",
+      "sha256": "59a5a176d0eb0028f67e3f9bcc074cf402ccda70e4bb97df54939ca4c14082ad",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 18,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/fragments/CartographicTraceRepositoryRoomTest.kt.fragment",
+      "sha256": "92fede77593f3ed4ab043f090b32e7ac26e5b57a054d94f408a4460f9b9d3d04",
+      "sourcePath": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicTraceRepositoryRoomTest.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 204,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/fragments/CartographicLayerRepositoryImpl.kt.fragment",
+      "sha256": "3472f1ce956e11cbe484664b45af6ad7aa41e81c89f2ec6e8df5b49bfac1c218",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 252,
+      "gaps": [
+        "Original masked nominal type is not observed; never promoted as exact source."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/events/48-CartographicLayerRepositoryImpl.kt.literal.fragment",
+      "sha256": "d2b985dfa5f335c8f718da0ee2629ef7ee9288873fd8234c9b1382d13182dce3",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 241,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/versions/61-CartographicLayerRepositoryImpl.kt/app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt.fragment",
+      "sha256": "2f1ad9b1ffc629a08181dda416a2cb3ad5ad5ca29d3feaddd022fdeeacdbf281",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 242,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/versions/100-CartographicLayerRepositoryImpl.kt/app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt.fragment",
+      "sha256": "fa25c5b87c57c32352bd3598a6f20076d30a8ea7df81b1ee0e3cdceb4fde6884",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 252,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/versions/155-CartographicLayerRepositoryImpl.kt/app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt.fragment",
+      "sha256": "a032f1a5a1a665e41a1032ed10e36f4243c38611ef09574656fc5041c3850110",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 253,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/versions/158-CartographicLayerRepositoryImpl.kt/app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt.fragment",
+      "sha256": "1b84a31bd18d1cca0e952f7ebae314bd078f08e2e4df7e83ace6e3333abebe29",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 239,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/versions/166-CartographicLayerRepositoryImpl.kt/app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt.fragment",
+      "sha256": "1ae904945e86a6856fd5fc852084faa08fe1db5f1de9cb172ea663ef54a9f471",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 252,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-recent-patches/offline-pack-recovery/versions-chain/01a1b53b-8b21-708c-926f-f73c52c42f63/item-0048-e536340356f1/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackRepository.kt",
+      "sha256": "e536340356f17e4b1003a062f4d6f8213840eed1de372a2cec9017c4336c97fd",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackRepository.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 231,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-recent-patches/offline-pack-recovery/versions-chain/01a1b53b-8b21-708c-926f-f73c52c42f63/item-0079-7f8a25a10d16/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackRepository.kt",
+      "sha256": "7f8a25a10d16b15304995ee6ef1003a8becac633bbb6b70e251886c615fca1e5",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackRepository.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 232,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-recent-patches/offline-pack-recovery/versions-chain/01a1b53b-8b21-708c-926f-f73c52c42f63/item-0094-d9c108e294e4/app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackRepository.kt",
+      "sha256": "d9c108e294e49344bafe75371b3e54023dfacf01a6696ed3332c79b8563d69e8",
+      "sourcePath": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackRepository.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 224,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-recent-patches/offline-pack-recovery/versions-chain/01a1b53b-8b21-708c-926f-f73c52c42f63/item-0054-ccb044553737/app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "sha256": "ccb0445537375c32732585a45921a2c877911bb0d2d4d6783ff730b1187a8d8d",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 202,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-recent-patches/offline-pack-recovery/versions-chain/01a1b53b-8b21-708c-926f-f73c52c42f63/item-0077-7bc7f58fb4e5/app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "sha256": "7bc7f58fb4e5354e5ac6abaf4c747a6347b02efa401d33dd1b27b76fc351a710",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 208,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-recent-patches/offline-pack-recovery/versions-chain/01a1b53b-8b21-708c-926f-f73c52c42f63/item-0079-0b0839480753/app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "sha256": "0b08394807535a428f7ab4c32298036a9f25a8ce9df86a744e4803656c0937d9",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 209,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-recent-patches/offline-pack-recovery/versions-chain/01a1b53b-8b21-708c-926f-f73c52c42f63/item-0112-0ff1ad54c01c/app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "sha256": "0ff1ad54c01c5ee31c3ba7c5b71ce57d9b4ee0e805caad3526b48708b60c978c",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 211,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-recent-patches/offline-pack-recovery/versions-chain/01a1b53b-8b21-708c-926f-f73c52c42f63/item-0122-2dd336a7099a/app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "sha256": "2dd336a7099af29eef815c988ca7a2a1baf0e003acfd2d8c18fa0dee72e2b16f",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 217,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-recent-patches/offline-pack-recovery/versions-chain/01a1b53b-8b21-708c-926f-f73c52c42f63/item-0124-3679579118ec/app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "sha256": "3679579118ec9d7b5c1ff800f0078c718dae9102108481e9560357fb2545db5b",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 226,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-recent-patches/offline-pack-recovery/versions-chain/01a1b53b-8b21-708c-926f-f73c52c42f63/item-0127-930f39272324/app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "sha256": "930f39272324fb15cb944c5ab6d046f4ad9bcc2bee8f292098e4b5937aace1bc",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 239,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-recent-patches/offline-pack-recovery/versions-chain/01a1b53b-8b21-708c-926f-f73c52c42f63/item-0139-f1756dc5e6bf/app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "sha256": "f1756dc5e6bf2a82fe278b8cd8008a7f55e16bd122c478b887d4ea9069b9ee34",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 246,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-recent-patches/offline-pack-recovery/versions-chain/01a1b53b-8b21-708c-926f-f73c52c42f63/item-0144-f96809dba8a5/app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "sha256": "f96809dba8a532ef2f1f03fae9cd52055614f515c0d73e2244653478844214e2",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 247,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-recent-patches/offline-pack-recovery/versions-chain/01a1b53b-8b21-708c-926f-f73c52c42f63/item-0151-8cbbd0f65196/app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "sha256": "8cbbd0f65196da35140bfd638de97edc2464366811191b578523a0897927850e",
+      "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflineMapPackController.kt",
+      "version": "explicit-incomplete-recorded-code",
+      "completeSource": false,
+      "codeLinesObserved": 259,
+      "gaps": [
+        "Masked, partial or explicitly incomplete recorded source; missing bytes are not guessed."
+      ],
+      "fragmentFormat": "text"
+    },
+    {
+      "path": "FRAGMENTS_INCOMPLETE/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/original-two-masks/CartographicTraceRepositoryRoomTest.kt.fragment",
+      "sha256": "0eb3302812e386699deac8ff3fb9ea8ea87ea4a6286ed05b14f6619b1b1cb700",
+      "sourcePath": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicTraceRepositoryRoomTest.kt",
+      "version": "superseded-initial-assembly-extraction-two-masked-assignments",
+      "completeSource": false,
+      "codeLinesObserved": 204,
+      "gaps": [
+        "Automatic source redaction markers remain at two assignments; never an exact complete Kotlin source."
+      ],
+      "fragmentFormat": "text"
+    }
+  ]
+}

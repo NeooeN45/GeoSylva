@@ -1,0 +1,279 @@
+{
+  "created_utc": "2026-11-14T15:37:32.426666+00:00",
+  "selection_status": "EXACT_MANUAL_MEASUREMENT_UI_SUPPLEMENT",
+  "selected": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureViewModel.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/manual-measure-versions/01a1b531-1a20-76a8-9701-174369a5d2c0/exec-1f0b61bb-de70-46f9-8c8b-ff8c081e595a/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureViewModel.kt",
+      "sha256": "746cd1b322aa8d34c21edada0b7d306e5278405c8494affdb2528353fec7e3a1",
+      "line_count": 393,
+      "selection": "selected_exact_observed_source",
+      "provenance": {
+        "history_file": "root0002-commands20k.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+        "item": "exec-1f0b61bb-de70-46f9-8c8b-ff8c081e595a",
+        "item_index": 238,
+        "turn_started_at": 1794041256,
+        "turn_completed_at": 1794075423
+      },
+      "evidence": {
+        "manifest": "manual-measure-manifest.json",
+        "production_application_witness": null
+      },
+      "dependency_gaps": [
+        "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureAuxiliaryPanels.kt",
+        "app/src/main/res/values-en/map_measure_auxiliary.xml"
+      ]
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/manual-measure-versions/01a1b675-e1db-7682-9339-2958cb48ad8c/exec-4cc2484e-5696-4c38-9a03-e03dbac16878/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt",
+      "sha256": "023f7906609c64dc633499dbc2c202721208dbaa3e7af7a60a4772d645a1f208",
+      "line_count": 247,
+      "selection": "selected_exact_observed_source",
+      "provenance": {
+        "history_file": "maquettes-audit-batch4.json",
+        "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+        "item": "exec-4cc2484e-5696-4c38-9a03-e03dbac16878",
+        "item_index": 245,
+        "turn_started_at": 1794062541,
+        "turn_completed_at": 1794064511
+      },
+      "evidence": {
+        "manifest": "manual-measure-manifest.json",
+        "production_application_witness": {
+          "snapshot": {
+            "history_file": "maquettes-audit-earlier.json",
+            "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+            "turn": "01a1b6f1-9033-7581-8fb0-44be73651959",
+            "item": "exec-e83fc9d2-417f-4afb-91dd-748f2daa4dea",
+            "item_index": 8,
+            "turn_started_at": 1794070647,
+            "turn_completed_at": 1794071884
+          },
+          "snapshot_names_patch_sha256": "55ad62b4eade093eacc1abab230cf3c840a01df0604e1b9738c2f2225089b5c2",
+          "adoption": {
+            "history_file": "integration-validation-full500.json",
+            "thread": "01a1b639-64d0-7090-b99a-0ee0fe0b0074",
+            "turn": "01a1b639-6a9d-74b1-95f5-0812d8decf81",
+            "item": "exec-f43c9c08-f466-48ce-b86f-243a5d962ff9",
+            "item_index": 1326,
+            "turn_started_at": 1794058578,
+            "turn_completed_at": 1794075445
+          },
+          "adoption_exit_code": 0,
+          "adoption_output": "Reviewed 27 drafts / 65 paths; all20 native families ended.\nReviewed batch11 adopted and source snapshot frozen. No Gradle or Android action performed.\n",
+          "snapshot_names_patch_sha256s": {
+            "working_copy_caption": "1d38cfac6bd15a75471c2160cd32ce0aea955bd2cb1964726358ccac4698b69b",
+            "measure_details_compact": "656ad94c5a9252085dae4b4f15c3405ce75eafaa9ce65328834e021c1284be69"
+          }
+        }
+      },
+      "dependency_gaps": [
+        "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureAuxiliaryPanels.kt",
+        "app/src/main/res/values-en/map_measure_auxiliary.xml"
+      ]
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasureWorkspace.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/manual-measure-versions/01a1b53a-f389-77d8-b4fd-545f82286b41/exec-b1a54c12-9825-4b3f-9d54-bd3ef83661b2/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasureWorkspace.kt",
+      "sha256": "f11f7b656f5124622a31070fb1281b36d8fe0569a9bf6d8928ccfc135333f03d",
+      "line_count": 164,
+      "selection": "selected_exact_observed_source",
+      "provenance": {
+        "history_file": "forets-placettes-batch7.json",
+        "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+        "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+        "item": "exec-b1a54c12-9825-4b3f-9d54-bd3ef83661b2",
+        "item_index": 184,
+        "turn_started_at": 1794041902,
+        "turn_completed_at": 1794043412
+      },
+      "evidence": {
+        "manifest": "manual-measure-manifest.json",
+        "production_application_witness": null
+      },
+      "dependency_gaps": []
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasureWorkspaceState.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/manual-measure-versions/01a1b53a-f389-77d8-b4fd-545f82286b41/exec-c4ce7e4f-a3ea-4caa-8097-689f93706709/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasureWorkspaceState.kt",
+      "sha256": "6684e4913428bc4d599ade21704d99b98a772a7b3befed983e4da2511b61a81c",
+      "line_count": 52,
+      "selection": "selected_exact_observed_source",
+      "provenance": {
+        "history_file": "forets-placettes-batch7.json",
+        "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+        "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+        "item": "exec-c4ce7e4f-a3ea-4caa-8097-689f93706709",
+        "item_index": 154,
+        "turn_started_at": 1794041902,
+        "turn_completed_at": 1794043412
+      },
+      "evidence": {
+        "manifest": "manual-measure-manifest.json",
+        "production_application_witness": null
+      },
+      "dependency_gaps": []
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasurePanels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/manual-measure-versions/01a1b675-e1db-7682-9339-2958cb48ad8c/exec-9ceaff99-6bf7-4c18-b2f4-d31c5d0d37b0/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasurePanels.kt",
+      "sha256": "b13aaf96f7f8bbf6d5160a9799dbc56c2b921216a5c4cd6b0d6dce702f5b6b9a",
+      "line_count": 311,
+      "selection": "selected_exact_observed_source",
+      "provenance": {
+        "history_file": "maquettes-audit-batch4.json",
+        "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "turn": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+        "item": "exec-9ceaff99-6bf7-4c18-b2f4-d31c5d0d37b0",
+        "item_index": 76,
+        "turn_started_at": 1794062541,
+        "turn_completed_at": 1794064511
+      },
+      "evidence": {
+        "manifest": "manual-measure-manifest.json",
+        "production_application_witness": {
+          "snapshot": {
+            "history_file": "maquettes-audit-earlier.json",
+            "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+            "turn": "01a1b6f1-9033-7581-8fb0-44be73651959",
+            "item": "exec-e83fc9d2-417f-4afb-91dd-748f2daa4dea",
+            "item_index": 8,
+            "turn_started_at": 1794070647,
+            "turn_completed_at": 1794071884
+          },
+          "snapshot_names_patch_sha256": "55ad62b4eade093eacc1abab230cf3c840a01df0604e1b9738c2f2225089b5c2",
+          "adoption": {
+            "history_file": "integration-validation-full500.json",
+            "thread": "01a1b639-64d0-7090-b99a-0ee0fe0b0074",
+            "turn": "01a1b639-6a9d-74b1-95f5-0812d8decf81",
+            "item": "exec-f43c9c08-f466-48ce-b86f-243a5d962ff9",
+            "item_index": 1326,
+            "turn_started_at": 1794058578,
+            "turn_completed_at": 1794075445
+          },
+          "adoption_exit_code": 0,
+          "adoption_output": "Reviewed 27 drafts / 65 paths; all20 native families ended.\nReviewed batch11 adopted and source snapshot frozen. No Gradle or Android action performed.\n",
+          "snapshot_names_patch_sha256s": {
+            "working_copy_caption": "1d38cfac6bd15a75471c2160cd32ce0aea955bd2cb1964726358ccac4698b69b",
+            "measure_details_compact": "656ad94c5a9252085dae4b4f15c3405ce75eafaa9ce65328834e021c1284be69"
+          }
+        }
+      },
+      "dependency_gaps": []
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasureUi.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/manual-measure-versions/01a1b19c-a437-7792-962b-86ad02a981a9/exec-b527113e-734b-4e9b-a202-eb47ed788124/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasureUi.kt",
+      "sha256": "680701223935a700fb40d8237e1d72d73e841a1294a4956179596a1a7e012599",
+      "line_count": 128,
+      "selection": "selected_exact_observed_source",
+      "provenance": {
+        "history_file": "workspace-ui-earlier.json",
+        "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+        "turn": "01a1b19c-a437-7792-962b-86ad02a981a9",
+        "item": "exec-b527113e-734b-4e9b-a202-eb47ed788124",
+        "item_index": 42,
+        "turn_started_at": 1793981195,
+        "turn_completed_at": 1793982251
+      },
+      "evidence": {
+        "manifest": "manual-measure-manifest.json",
+        "production_application_witness": null
+      },
+      "dependency_gaps": []
+    },
+    {
+      "path": "cartography-ui/src/main/res/values/measure_strings.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/manual-measure-versions/01a1b19c-a437-7792-962b-86ad02a981a9/exec-4109e703-1fc1-4db5-bb87-266e74761d01/cartography-ui/src/main/res/values/measure_strings.xml",
+      "sha256": "c0e2032347ea2240dfb36bc74e61b827a1ca36b885a83ed324e307e2bf4b7ed7",
+      "line_count": 47,
+      "selection": "selected_exact_observed_source",
+      "provenance": {
+        "history_file": "workspace-ui-earlier.json",
+        "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+        "turn": "01a1b19c-a437-7792-962b-86ad02a981a9",
+        "item": "exec-4109e703-1fc1-4db5-bb87-266e74761d01",
+        "item_index": 29,
+        "turn_started_at": 1793981195,
+        "turn_completed_at": 1793982251
+      },
+      "evidence": {
+        "manifest": "manual-measure-manifest.json",
+        "production_application_witness": null
+      },
+      "dependency_gaps": []
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/measure_strings.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/manual-measure-versions/01a1b19c-a437-7792-962b-86ad02a981a9/exec-4109e703-1fc1-4db5-bb87-266e74761d01/cartography-ui/src/main/res/values-en/measure_strings.xml",
+      "sha256": "98d34cbf2e76983e92dfb5120af645a7cc4d385ade5a6081c46e41cc1890bc99",
+      "line_count": 47,
+      "selection": "selected_exact_observed_source",
+      "provenance": {
+        "history_file": "workspace-ui-earlier.json",
+        "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+        "turn": "01a1b19c-a437-7792-962b-86ad02a981a9",
+        "item": "exec-4109e703-1fc1-4db5-bb87-266e74761d01",
+        "item_index": 29,
+        "turn_started_at": 1793981195,
+        "turn_completed_at": 1793982251
+      },
+      "evidence": {
+        "manifest": "manual-measure-manifest.json",
+        "production_application_witness": null
+      },
+      "dependency_gaps": []
+    },
+    {
+      "path": "app/src/main/res/values/map_manual_measure.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/manual-measure-versions/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-c5ef21b0-376e-4cad-b711-405bc6224745/app/src/main/res/values/map_manual_measure.xml",
+      "sha256": "621e43c50ee4bb3c889b5c258d56cd09eadbdba3dc0415931f1ac7f08954f607",
+      "line_count": 30,
+      "selection": "selected_exact_observed_source",
+      "provenance": {
+        "history_file": "root0003-full.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+        "item": "exec-c5ef21b0-376e-4cad-b711-405bc6224745",
+        "item_index": 108,
+        "turn_started_at": 1793981109,
+        "turn_completed_at": 1793987989
+      },
+      "evidence": {
+        "manifest": "manual-measure-manifest.json",
+        "production_application_witness": null
+      },
+      "dependency_gaps": []
+    },
+    {
+      "path": "app/src/main/res/values-en/map_manual_measure.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/manual-measure-versions/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-c5ef21b0-376e-4cad-b711-405bc6224745/app/src/main/res/values-en/map_manual_measure.xml",
+      "sha256": "091d87b165a2728fc05025d2231b703df58804aa32592e645e80993c0bf28ce5",
+      "line_count": 30,
+      "selection": "selected_exact_observed_source",
+      "provenance": {
+        "history_file": "root0003-full.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+        "item": "exec-c5ef21b0-376e-4cad-b711-405bc6224745",
+        "item_index": 108,
+        "turn_started_at": 1793981109,
+        "turn_completed_at": 1793987989
+      },
+      "evidence": {
+        "manifest": "manual-measure-manifest.json",
+        "production_application_witness": null
+      },
+      "dependency_gaps": []
+    }
+  ],
+  "supersedes_blocked_paths": [],
+  "limitations": [
+    "Complete manual UI/VM/module sources remain distinct from the incomplete auxiliary sheet. UI caption and panel candidates match historical source SHA expectations and their adopted11 patch identities. No historical commands were executed.",
+    "These10complete paths do not fill the auxiliary panel or its missing English resources."
+  ]
+}

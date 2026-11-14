@@ -1,0 +1,5 @@
+@@ -214,3 +214,3 @@
+     }
+-    OutlinedTextField(value = state.name, onValueChange = actions::onNameChanged, enabled = !state.saving,
++    OutlinedTextField(value = state.name, onValueChange = actions::onNameChanged, enabled = !state.saving && state.nameEditable,
+         modifier = Modifier.fillMaxWidth(), singleLine = true, shape = RoundedCornerShape(10.dp),

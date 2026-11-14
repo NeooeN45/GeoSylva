@@ -13,4 +13,5 @@ token.json
 *.bundle
 *.zip
 !baseline/GeoSylva-recovery-base-2026-10-19-36d1515.zip
+!assembly-wip/WIP_NON_COMPILE_NON_COMPLET_13NOV-c4e107548913.zip
 restore-check/

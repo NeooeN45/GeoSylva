@@ -1,0 +1,5 @@
+@@ -243,3 +243,3 @@
+         Text(state.errorText, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyLarge)
+-        OutlinedButton(onClick = onRetry, enabled = state.actionsEnabled, modifier = Modifier.heightIn(min = 48.dp)) {
++        OutlinedButton(onClick = onRetry, modifier = Modifier.heightIn(min = 48.dp)) {
+             Text(stringResource(R.string.manual_aux_retry))

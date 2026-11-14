@@ -1,0 +1,15 @@
+@@ -217,4 +217,7 @@
+         automation.waitForIdle(250, 5_000)
+-        assertEquals("A system window would obscure this evidence", compose.activity.packageName,
+-            automation.rootInActiveWindow?.packageName?.toString())
++        compose.runOnUiThread {
++            // API28 can report a null accessibility root even for a focused
++            // activity. Window focus detects the system-dialog case directly.
++            assertTrue("A system window would obscure this evidence", compose.activity.hasWindowFocus())
++        }
+         val directory = File(compose.activity.cacheDir, "map-workspace-native-evidence").apply { check(isDirectory || mkdirs()) }
+@@ -228,3 +231,3 @@
+                     "status=Ready:satellite\nfullFrame=true\n" +
+-                    "location=public_Vercors\nedgeToEdge=true\nappHostVerified=false\npixelFidelityVerified=false\n",
++                    "location=public_Vercors\nedgeToEdge=true\nactivityFocused=true\nappHostVerified=false\npixelFidelityVerified=false\n",
+             )

@@ -1,0 +1,14 @@
+{
+  "commit": "8106be51bb9a1569f7b385b78a86e03a0418a9e7",
+  "branch": "recovery/reassembled-2026-11-14",
+  "selectedFiles": 117,
+  "rawAddsMaterialized": 35,
+  "conflictsOmitted": 0,
+  "status": [
+    "NON_COMPILÉ",
+    "NON_COMPLET_13NOV"
+  ],
+  "cleanAfterCommit": true,
+  "pushRun": false,
+  "buildRun": false
+}

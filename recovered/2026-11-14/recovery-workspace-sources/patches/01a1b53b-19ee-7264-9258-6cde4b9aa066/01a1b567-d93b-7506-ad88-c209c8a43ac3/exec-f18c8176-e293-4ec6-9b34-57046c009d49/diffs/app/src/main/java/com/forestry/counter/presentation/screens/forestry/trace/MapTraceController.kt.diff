@@ -1,0 +1,23 @@
+@@ -32,2 +32,5 @@
+     val currentPhoneLocation: StateFlow<Location?> = phone.asStateFlow()
++    private val sourceClaim = MutableStateFlow(false)
++    /** Includes a pending durable start/resume, so the host can release its GPS subscription first. */
++    val sourceActive: StateFlow<Boolean> = sourceClaim.asStateFlow()
+     @Volatile private var access: CartographicMeasurementAccess? = null
+@@ -157,2 +160,3 @@
+         val token = r.start(now) ?: return@launchLocked
++        sourceClaim.value = true
+         mutable.update { it.copy(snapshot = r.snapshot(now), screen = TraceScreen.CAPTURE, name = "", selected = null, issue = null) }
+@@ -192,4 +196,6 @@
+         val token = r.resume(nanoTime()) ?: return@launchLocked
++        sourceClaim.value = true
+         mutable.update { it.copy(snapshot = r.snapshot(nanoTime()), screen = TraceScreen.CAPTURE, issue = null) }
+         if (!persist(r.snapshot(nanoTime()))) {
++            stopSource()
+             if (access == null) return@launchLocked
+@@ -370,3 +376,4 @@
+         phone.value = null
+-        if (token != null) source.stop(token)
++        try { if (token != null) source.stop(token) }
++        finally { sourceClaim.value = false }
+     }

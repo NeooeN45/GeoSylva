@@ -1,0 +1,52 @@
+@@ -136,5 +136,16 @@
+ private fun LayerControls(layer: MapSourceLayerUi, visibility: ((Boolean) -> Unit)?, opacity: ((Float) -> Unit)?, source: () -> Unit) {
++    var help by remember(layer.id) { mutableStateOf<SourceControlHelp?>(null) }
++    help?.let { topic ->
++        AlertDialog(onDismissRequest = { help = null },
++            title = { Text(stringResource(topic.title)) },
++            text = { Text(stringResource(topic.explanation)) },
++            confirmButton = { TextButton(onClick = { help = null }) {
++                Text(stringResource(R.string.gs_source_panel_close))
++            } })
++    }
+     HorizontalDivider(color = SourceBorder)
+     Row(Modifier.fillMaxWidth().heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically) {
+-        Text(stringResource(R.string.gs_source_panel_show), Modifier.weight(1f), fontSize = 16.sp)
++        Text(stringResource(R.string.gs_source_panel_show), fontSize = 16.sp)
++        SourceControlInfo(SourceControlHelp.VISIBILITY) { help = it }
++        Spacer(Modifier.weight(1f))
+         val description = stringResource(R.string.gs_source_panel_show)
+@@ -144,4 +155,6 @@
+     HorizontalDivider(color = SourceBorder)
+-    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
++    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+         Text(stringResource(R.string.gs_source_panel_opacity), fontSize = 16.sp)
++        SourceControlInfo(SourceControlHelp.OPACITY) { help = it }
++        Spacer(Modifier.weight(1f))
+         Text(layer.opacity?.takeIf { it.isFinite() && it in 0f..1f }?.let { stringResource(R.string.gs_source_panel_percent, (it * 100).toInt()) }
+@@ -159,3 +172,6 @@
+     HorizontalDivider(color = SourceBorder)
+-    Text(stringResource(R.string.gs_source_panel_legend), fontSize = 15.sp, fontWeight = FontWeight.Bold)
++    Row(verticalAlignment = Alignment.CenterVertically) {
++        Text(stringResource(R.string.gs_source_panel_legend), fontSize = 15.sp, fontWeight = FontWeight.Bold)
++        SourceControlInfo(SourceControlHelp.LEGEND) { help = it }
++    }
+     Row(Modifier.fillMaxWidth().heightIn(min = 38.dp), verticalAlignment = Alignment.CenterVertically) {
+@@ -171,2 +187,17 @@
+ 
++private enum class SourceControlHelp(val title: Int, val explanation: Int) {
++    VISIBILITY(R.string.gs_source_panel_show, R.string.gs_source_help_visibility),
++    OPACITY(R.string.gs_source_panel_opacity, R.string.gs_source_help_opacity),
++    LEGEND(R.string.gs_source_panel_legend, R.string.gs_source_help_legend),
++}
++
++@Composable
++private fun SourceControlInfo(topic: SourceControlHelp, onClick: (SourceControlHelp) -> Unit) {
++    IconButton(onClick = { onClick(topic) }, modifier = Modifier.size(48.dp)) {
++        Icon(Icons.Outlined.Info,
++            stringResource(R.string.gs_source_help_description, stringResource(topic.title)),
++            Modifier.size(18.dp), tint = SourceMuted)
++    }
++}
++
+ @Composable

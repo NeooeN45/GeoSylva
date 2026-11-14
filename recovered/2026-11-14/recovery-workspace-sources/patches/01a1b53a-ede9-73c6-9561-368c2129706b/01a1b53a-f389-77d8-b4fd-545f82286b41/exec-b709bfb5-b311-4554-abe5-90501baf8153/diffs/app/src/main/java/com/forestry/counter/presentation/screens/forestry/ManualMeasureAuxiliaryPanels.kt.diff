@@ -1,0 +1,39 @@
+@@ -6,2 +6,3 @@
+ import androidx.compose.foundation.background
++import androidx.compose.foundation.gestures.detectTapGestures
+ import androidx.compose.foundation.layout.Arrangement
+@@ -54,5 +55,5 @@
+ import androidx.compose.ui.layout.onSizeChanged
++import androidx.compose.ui.input.pointer.pointerInput
+ import androidx.compose.ui.platform.LocalDensity
+ import androidx.compose.ui.unit.Dp
+-import androidx.compose.ui.unit.sp
+ import androidx.compose.ui.Alignment
+@@ -256,3 +257,4 @@
+             Surface(shape = RoundedCornerShape(28.dp), color = AuxiliaryStyle.paper, shadowElevation = 5.dp,
+-                modifier = Modifier.fillMaxWidth().heightIn(max = maximum)) {
++                modifier = Modifier.fillMaxWidth().heightIn(max = maximum)
++                    .pointerInput(Unit) { detectTapGestures(onTap = {}) }) {
+                 Column(Modifier.fillMaxWidth()) {
+@@ -262,3 +264,3 @@
+                         verticalAlignment = Alignment.CenterVertically) {
+-                        if (back) IconButton(onClick = onClose, Modifier.size(48.dp)) {
++                        if (back) IconButton(onClick = onClose, modifier = Modifier.size(48.dp)) {
+                             Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.back), tint = AuxiliaryStyle.ink)
+@@ -270,3 +272,3 @@
+                             style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold, color = AuxiliaryStyle.ink)
+-                        if (!back) IconButton(onClick = onClose, Modifier.size(48.dp)) {
++                        if (!back) IconButton(onClick = onClose, modifier = Modifier.size(48.dp)) {
+                             Icon(Icons.Outlined.Close, stringResource(R.string.manual_aux_close), tint = AuxiliaryStyle.ink)
+@@ -306,2 +308,3 @@
+     onRetry: () -> Unit, onNewMeasure: (() -> Unit)?) {
++    val expandedText = LocalDensity.current.fontScale > 1.15f
+     OnPhoneLabel()
+@@ -324,4 +327,6 @@
+                                 color = MaterialTheme.colorScheme.onSurfaceVariant)
++                            if (expandedText) Text(row.valueText, style = MaterialTheme.typography.titleMedium,
++                                color = AuxiliaryStyle.ink, fontWeight = FontWeight.Bold)
+                         }
+-                        Text(row.valueText, style = MaterialTheme.typography.titleMedium,
++                        if (!expandedText) Text(row.valueText, style = MaterialTheme.typography.titleMedium,
+                             color = AuxiliaryStyle.ink, fontWeight = FontWeight.Bold)

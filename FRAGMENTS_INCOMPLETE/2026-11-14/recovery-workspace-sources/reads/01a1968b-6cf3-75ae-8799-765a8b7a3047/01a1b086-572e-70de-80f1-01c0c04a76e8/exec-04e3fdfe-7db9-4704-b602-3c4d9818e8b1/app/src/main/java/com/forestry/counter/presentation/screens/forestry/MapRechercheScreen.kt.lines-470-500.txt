@@ -1,0 +1,31 @@
+            if (reliefControlsEnabled) requestCamera(camera.copy(pitch = if (flat) 0.0 else 45.0))
+        }
+        override fun onExplain(help: MapHelp) { workspaceHelp = help }
+    }
+    BackHandler(enabled = measureActive && !showMeasureSheet && workspacePanel == null) { measureActive = false }
+    BackHandler(enabled = showLegend) { showLegend = false }
+    MapWorkspace(state = workspaceState, actions = workspaceActions, modifier = modifier,
+        onCompassTopChanged = { compassTop = it },
+        thumbnail = { preview, thumbnailModifier -> MapCatalogThumbnail(preview, thumbnailModifier) }) {
+        BoxWithConstraints(Modifier.fillMaxSize()) {
+            val ornamentsBottom = when {
+                workspacePanel != null -> mapWorkspacePanelHeight(maxHeight, LocalDensity.current.fontScale)
+                showMeasureSheet -> 330.dp
+                measureActive -> 84.dp
+                else -> 112.dp
+            } + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + 8.dp
+            key(mapScope, retryGeneration) {
+                SharedMapboxCanvas(
+                    accessToken = BuildConfig.MAPBOX_PUBLIC_ACCESS_TOKEN,
+                    style = renderedStyle, initialCamera = camera, cameraCommand = cameraCommand,
+                    frameCommand = frameCommand, overlays = scene,
+                    relief = requestedRelief.copy(enabled = renderedStyle.demSourceUrl != null),
+                    contentPadding = PaddingValues(start = 12.dp, top = compassTop, end = 12.dp, bottom = ornamentsBottom),
+                    modifier = Modifier.fillMaxSize().pointerInput(mapScope) {
+                        awaitPointerEventScope {
+                            while (true) {
+                                val event = awaitPointerEvent(PointerEventPass.Final)
+                                if (event.changes.any { it.pressed && it.position != it.previousPosition }) {
+                                    framedContext = true
+                                    frameCommand = null
+                                    cameraCommand = null

@@ -1,0 +1,18 @@
+<resources>
+    <string name="gs_source_panel_details">Source and details</string>
+    <string name="gs_source_panel_back">Back</string>
+    <string name="gs_source_panel_close">Close</string>
+    <string name="gs_source_panel_show">Show layer</string>
+    <string name="gs_source_panel_opacity">Opacity</string>
+    <string name="gs_source_panel_zero">0 %</string>
+    <string name="gs_source_panel_full">100 %</string>
+    <string name="gs_source_panel_legend">Legend</string>
+    <string name="gs_source_panel_origin">Origin</string>
+    <string name="gs_source_panel_distribution">Distribution</string>
+    <string name="gs_source_panel_edition">Advertised edition</string>
+    <string name="gs_source_panel_unknown">Not provided</string>
+    <string name="gs_source_panel_terms">Terms and licence</string>
+    <string name="gs_source_panel_official">Open the official product page</string>
+    <string name="gs_source_panel_previews">About previews</string>
+    <string name="gs_source_panel_link_unavailable">Unable to open this link on this device.</string>
+</resources>

@@ -1,0 +1,111 @@
+[
+  {
+    "need": "Complete Add and patch text for Room49 workspace migration",
+    "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+    "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+    "item": "exec-dde46b28-58bb-4c6d-9f9a-9c41a2282abd",
+    "itemIndex": 195,
+    "paths": [
+      "app/src/main/java/com/forestry/counter/data/local/CartographicWorkspaceMigrations.kt",
+      "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt"
+    ],
+    "currentEvidence": "prefix250chars only; DatabaseMigrations patch complete",
+    "status": "resolved",
+    "resolution": "room49-observed/manifest.json +room46-49-chain/manifest.json"
+  },
+  {
+    "need": "Shared scope authority complete source",
+    "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+    "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+    "item": "exec-f7b1e8e1-50e8-4531-b776-29fa78d6f03c",
+    "itemIndex": 88,
+    "paths": [
+      "app/src/main/java/com/forestry/counter/data/cartography/CartographicScopeAuthority.kt"
+    ],
+    "currentEvidence": "Complete153line source identical in two independent November7 reads.",
+    "status": "resolved",
+    "resolution": "shared-authority-observed.json"
+  },
+  {
+    "need": "Earlier trace-domain turns through first creation",
+    "thread": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+    "oldestAvailableTurn": "01a1ad19-9948-7611-9996-194714d37585",
+    "currentEvidence": "Complete initial trace-domain page plus12literal Adds/patches recovered;4complete sources/tests.",
+    "status": "resolved",
+    "resolution": "gps-domain-2026-11-05/manifest.json"
+  },
+  {
+    "need": "Segmented trace recorder complete source and associated tests",
+    "paths": [
+      "app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt",
+      "app/src/test/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorderTest.kt"
+    ],
+    "currentEvidence": "Complete initial trace-domain page plus12literal Adds/patches recovered;4complete sources/tests.",
+    "status": "resolved",
+    "resolution": "gps-domain-2026-11-05/manifest.json"
+  },
+  {
+    "need": "Trace persistence/capture creations and updates through November13",
+    "paths": [
+      "CartographicTraceRepository.kt",
+      "CartographicTraceMigrations.kt",
+      "CartographicTraceDao.kt",
+      "data/location/trace/",
+      "CartographicTraceRepositoryRoomTest.kt"
+    ],
+    "currentEvidence": "references and partial root0002 reads only",
+    "additionalNeed": "Trace entity source names have not yet been observed; recover from actual repository or Room registration evidence.",
+    "status": "resolved",
+    "resolution": "gps-persistence-2026-11-07/manifest.json +room49-observed/manifest.json"
+  },
+  {
+    "need": "Room47 and privacy full predecessor sources for complete patches already recovered",
+    "paths": [
+      "app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt"
+    ],
+    "currentEvidence": "base36d1515 older than required; exact old contexts absent; no inferred lines written",
+    "status": "resolved",
+    "resolution": "room46-49-chain/manifest.json +privacy-test-chain/manifest.json"
+  },
+  {
+    "status": "still_missing",
+    "path": "app/src/main/java/com/forestry/counter/data/local/entity/FieldControlBasisEntity.kt",
+    "reason": "Room47 required entity; path observed in historical staging inventory; source body absent."
+  },
+  {
+    "status": "still_missing",
+    "path": "app/src/main/java/com/forestry/counter/data/local/dao/FieldControlBasisDao.kt",
+    "reason": "Room47 required DAO; path observed in historical staging inventory; source body absent."
+  },
+  {
+    "status": "still_missing",
+    "path": "app/src/main/java/com/forestry/counter/domain/field/ControlBasisModels.kt",
+    "reason": "Observed Room47 business contract introduction; body absent."
+  },
+  {
+    "status": "still_missing",
+    "path": "app/src/main/java/com/forestry/counter/data/preferences/UserPreferences.kt",
+    "reason": "clearHeightReferenceCaptures must be wired to the actual historical implementation; partial reference only in this lane."
+  },
+  {
+    "status": "still_missing",
+    "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+    "reason": "Full source has one unresolved automatically redacted method signature; two other redactions restored from exact independent read. Fragment not selected.",
+    "fragmentArtifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/fragments/CartographicLayerRepositoryImpl.kt.fragment",
+    "missingSourceLines": [
+      209
+    ]
+  },
+  {
+    "status": "still_missing",
+    "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicTraceRepositoryRoomTest.kt",
+    "reason": "The token assignment at line52 is now restored from an exact later read; assignment187 remains automatically redacted and unobserved. Fragment only, excluded from assembly.",
+    "fragmentArtifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/fragments/CartographicTraceRepositoryRoomTest.kt.fragment",
+    "missingSourceLines": [
+      187
+    ]
+  }
+]

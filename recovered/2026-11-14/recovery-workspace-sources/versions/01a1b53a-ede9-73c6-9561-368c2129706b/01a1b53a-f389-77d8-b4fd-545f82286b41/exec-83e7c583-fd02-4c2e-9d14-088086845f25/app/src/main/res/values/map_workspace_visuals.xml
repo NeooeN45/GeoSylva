@@ -1,0 +1,5 @@
+<resources>
+    <string name="map_catalog_mapbox_preview">Aperçu Mapbox au Vercors. Plan illustré par Streets 2D ; styles satellite, satellite légendé et topo correspondants. © Mapbox, © OpenStreetMap. Ce ne sont pas vos données.</string>
+    <string name="map_catalog_mapbox_credit">Aperçus Static Images API : © Mapbox, © OpenStreetMap. Lieu public au Vercors ; aucun objet utilisateur. Plan : Streets 2D illustratif du fond Standard. Les trois autres images utilisent les styles correspondants.</string>
+    <string name="map_catalog_mapbox_details">Images récupérées le 7 novembre 2026 pour illustrer le catalogue. Cette date est celle du téléchargement, pas celle des prises de vue. Une vignette ne confirme ni chargement de la carte ni disponibilité hors ligne.</string>
+</resources>

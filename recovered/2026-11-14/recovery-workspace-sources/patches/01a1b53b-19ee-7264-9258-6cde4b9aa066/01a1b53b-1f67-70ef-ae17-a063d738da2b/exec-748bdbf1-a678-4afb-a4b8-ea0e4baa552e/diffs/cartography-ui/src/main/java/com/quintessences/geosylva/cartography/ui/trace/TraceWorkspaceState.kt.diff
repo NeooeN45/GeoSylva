@@ -1,0 +1,4 @@
+@@ -15,2 +15,3 @@
+     val saving: Boolean = false,
++    val nameEditable: Boolean = true,
+     val errorMessage: String? = null,

@@ -1,0 +1,699 @@
+{
+  "entries": [
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt",
+      "state": "baseline-before-ui9",
+      "classification": "exact_partial_source_ranges_not_complete",
+      "source_line_count_observed_from_wc_and_literal_deltas": 520,
+      "known_lines": 477,
+      "missing_line_count": 43,
+      "missing_line_numbers": [
+        443,
+        444,
+        445,
+        446,
+        447,
+        448,
+        449,
+        450,
+        451,
+        452,
+        453,
+        454,
+        455,
+        456,
+        457,
+        458,
+        459,
+        460,
+        461,
+        462,
+        463,
+        464,
+        465,
+        466,
+        467,
+        468,
+        469,
+        470,
+        471,
+        472,
+        473,
+        474,
+        475,
+        476,
+        477,
+        478,
+        479,
+        480,
+        481,
+        482,
+        483,
+        484,
+        485
+      ],
+      "ranges": [
+        {
+          "source_line_start": 1,
+          "source_line_end": 442,
+          "line_count": 442,
+          "version_file": "trace-workspace-known-ranges/baseline-before-ui9/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt.lines-1-442.txt",
+          "sha256": "188a27042e5f7533b071f08eb4a2ba3a53380a2fb203c9dc4b9f91c43ecabdcb"
+        },
+        {
+          "source_line_start": 486,
+          "source_line_end": 520,
+          "line_count": 35,
+          "version_file": "trace-workspace-known-ranges/baseline-before-ui9/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt.lines-486-520.txt",
+          "sha256": "0a74e529cee47ab99cfbba127e1de5cb2cdbecf725e68a190140e6e4f00a87b1"
+        }
+      ],
+      "whole_source_historical_expected_sha256_unverified": "ee6d6ca2c587acdfda47fd1ebc4a80349d07ca9960f7febd51f9e88e39253150",
+      "provenance": {
+        "history_file": "trees-filters-batch7.json",
+        "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "turn": "01a1b5ca-7889-74fc-8814-ed80cea4367b",
+        "item": "exec-82646600-fa5a-4fa7-82a2-b8afa6accc30",
+        "item_index": 86,
+        "turn_started_at": 1794051308,
+        "turn_completed_at": 1794052984
+      },
+      "chain": [
+        {
+          "kind": "exact_initial_literal_prefix",
+          "fragment": {
+            "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt",
+            "version_file": "literal-ui-fragments/01a1ad13-c050-733a-9871-44c82f130226/exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt.lines-1-330.txt",
+            "sha256": "76f2589add8c0ec5b4d00d57283b0dbf372e20df91b6cc511e5b059cf9fc97bf",
+            "classification": "exact_literal_command_prefix_only",
+            "source_line_start": 1,
+            "source_line_end": 330,
+            "discarded_partial_last_line": "private fun DataRow(label: String, value: String, help: TraceHelp,",
+            "provenance": {
+              "history_file": "trace-ui-initial-next.json",
+              "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+              "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+              "item": "exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687",
+              "item_index": 13,
+              "turn_started_at": 1793905115,
+              "turn_completed_at": 1793905568
+            },
+            "limitation": "Command is cut at20000 characters before heredoc EOF. This is not a complete Kotlin source."
+          }
+        },
+        {
+          "kind": "observed_literal_edits_applied_only_to_known_prefix",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-43b9285e-41c4-4967-b39d-9d4e5645f8b2",
+            "item_index": 15,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "script_sha256": "539789a6477cf380dc511bca9e4eaba3bb86d9a0be4c790ba819683945493369",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "Text(label, Modifier.padding(start = if (positive) 8.dp else 0.dp), color = TraceTokens.ink, fontSize = 14.sp,\n                modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })",
+              "new": "Text(label, color = TraceTokens.ink, fontSize = 14.sp,\n                modifier = Modifier.padding(start = if (positive) 8.dp else 0.dp).semantics { liveRegion = LiveRegionMode.Polite })",
+              "matching_occurrences_before": 0,
+              "count_argument": null
+            }
+          ],
+          "complete_source_line_count_delta_from_observed_literals": 0,
+          "historical_script_executed": false
+        },
+        {
+          "kind": "observed_literal_edits_applied_only_to_known_prefix",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-5b1ea7c6-c02f-4380-a474-3ab5666e5bae",
+            "item_index": 21,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "script_sha256": "c04db1933ba586f9fbe3fb710631047afa16f3766822a087db410dcdec5b0aae",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "import androidx.compose.ui.draw.clip",
+              "new": "import androidx.compose.ui.draw.alpha\nimport androidx.compose.ui.draw.clip",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 3,
+              "old": "Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth()\n            .imePadding().navigationBarsPadding().padding(horizontal = 12.dp, vertical = 18.dp)\n            .onSizeChanged { panelHeightPx = it.height })",
+              "new": "Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth()\n            .onSizeChanged { panelHeightPx = it.height }\n            .imePadding().navigationBarsPadding().padding(horizontal = 12.dp, vertical = 18.dp))",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 4,
+              "old": "if ((state.statistics.unrecordedPassageCount ?: 0) > 0)\n        Notice(stringResource(R.string.gs_trace_gap_excluded), TraceHelp.UNRECORDED_PASSAGES, actions)",
+              "new": "val gapCount = state.statistics.unrecordedPassageCount\n    if (gapCount == null || gapCount < 0) Notice(stringResource(R.string.gs_trace_gaps_unknown), TraceHelp.UNRECORDED_PASSAGES, actions)\n    else if (gapCount > 0) Notice(stringResource(R.string.gs_trace_gap_excluded), TraceHelp.UNRECORDED_PASSAGES, actions)",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 5,
+              "old": "Surface(onClick = onClick, enabled = enabled, modifier = modifier.heightIn(min = 48.dp), shape",
+              "new": "Surface(onClick = onClick, enabled = enabled, modifier = modifier.heightIn(min = 48.dp).alpha(if (enabled) 1f else 0.45f), shape",
+              "matching_occurrences_before": 0,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 6,
+              "old": "modifier = Modifier.size(48.dp)) {\n        Box(contentAlignment",
+              "new": "modifier = Modifier.size(48.dp).alpha(if (enabled) 1f else 0.45f)) {\n        Box(contentAlignment",
+              "matching_occurrences_before": 0,
+              "count_argument": null
+            }
+          ],
+          "complete_source_line_count_delta_from_observed_literals": 2,
+          "historical_script_executed": false
+        },
+        {
+          "kind": "observed_literal_edits_applied_only_to_known_prefix",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-e35566fc-1fb7-4e17-945d-1c35fb00d0c2",
+            "item_index": 40,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "script_sha256": "2b3c33f53422fa9057213afbbaffe08d14ec6194170702b17c8742f5c319c513",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 1,
+              "old": "BackHandler { if (!state.saving && TraceAction.BACK in state.allowedActions) actions.onAction(TraceAction.BACK) }",
+              "new": "val backAction = if (state.screen == TraceScreen.SAVE) TraceAction.CANCEL_SAVE else TraceAction.BACK\n    BackHandler(enabled = state.saving || backAction in state.allowedActions) {\n        if (!state.saving) actions.onAction(backAction)\n    }",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 4,
+              "old": "FloatingCommand(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.gs_map_back), state.enabled(TraceAction.BACK)) {\n            actions.onAction(TraceAction.BACK)\n        }",
+              "new": "val backAction = if (state.screen == TraceScreen.SAVE) TraceAction.CANCEL_SAVE else TraceAction.BACK\n        FloatingCommand(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.gs_map_back), state.enabled(backAction)) {\n            actions.onAction(backAction)\n        }",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "complete_source_line_count_delta_from_observed_literals": 4,
+          "historical_script_executed": false
+        },
+        {
+          "kind": "strict_recorded_diff_on_known_prefix",
+          "provenance": {
+            "history_file": "trees-filters-batch11.json",
+            "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+            "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+            "item": "exec-748bdbf1-a678-4afb-a4b8-ea0e4baa552e",
+            "item_index": 116,
+            "turn_started_at": 1794041913,
+            "turn_completed_at": 1794043977
+          },
+          "diff_sha256": "0fabaf0d01f21817ccc0010fe939948575f7218c4ebe261b31550e4921629b72",
+          "complete_source_line_count_delta": 0
+        },
+        {
+          "kind": "strict_recorded_diff_on_known_prefix",
+          "provenance": {
+            "history_file": "trees-filters-batch11.json",
+            "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+            "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+            "item": "exec-05ae1d68-0aea-440c-8ea3-498df61c7940",
+            "item_index": 135,
+            "turn_started_at": 1794041913,
+            "turn_completed_at": 1794043977
+          },
+          "diff_sha256": "630ebd9c2d76169f9a05363c1a888bc5caf28464da806f7ae84138699a1b1e57",
+          "complete_source_line_count_delta": 5
+        },
+        {
+          "kind": "strict_recorded_diff_on_known_prefix",
+          "provenance": {
+            "history_file": "trees-filters-batch11.json",
+            "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+            "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+            "item": "exec-bb69e07f-420e-4cf4-915d-3be0bb18f05d",
+            "item_index": 158,
+            "turn_started_at": 1794041913,
+            "turn_completed_at": 1794043977
+          },
+          "diff_sha256": "6cdca6a59ac6271447945b4b25140e329d69821e7eb856fb3889ff6171735792",
+          "complete_source_line_count_delta": 2
+        }
+      ],
+      "limitation": "The missing functions are never inferred, and no whole Kotlin source artifact is emitted."
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt",
+      "state": "ui9-draft-and-observed-source",
+      "classification": "exact_partial_source_ranges_not_complete",
+      "source_line_count_observed_from_wc_and_literal_deltas": 548,
+      "known_lines": 505,
+      "missing_line_count": 43,
+      "missing_line_numbers": [
+        471,
+        472,
+        473,
+        474,
+        475,
+        476,
+        477,
+        478,
+        479,
+        480,
+        481,
+        482,
+        483,
+        484,
+        485,
+        486,
+        487,
+        488,
+        489,
+        490,
+        491,
+        492,
+        493,
+        494,
+        495,
+        496,
+        497,
+        498,
+        499,
+        500,
+        501,
+        502,
+        503,
+        504,
+        505,
+        506,
+        507,
+        508,
+        509,
+        510,
+        511,
+        512,
+        513
+      ],
+      "ranges": [
+        {
+          "source_line_start": 1,
+          "source_line_end": 470,
+          "line_count": 470,
+          "version_file": "trace-workspace-known-ranges/ui9-draft-and-observed-source/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt.lines-1-470.txt",
+          "sha256": "966bc217176ffa13fc1e318f5dfef6c5259af5c426b472c2c58b0e8ea3431bfd"
+        },
+        {
+          "source_line_start": 514,
+          "source_line_end": 548,
+          "line_count": 35,
+          "version_file": "trace-workspace-known-ranges/ui9-draft-and-observed-source/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt.lines-514-548.txt",
+          "sha256": "0a74e529cee47ab99cfbba127e1de5cb2cdbecf725e68a190140e6e4f00a87b1"
+        }
+      ],
+      "whole_source_historical_expected_sha256_unverified": "bb34376593ff60f2bee155ac5d8c564010ad18ded3bb8e0d255cd9d0482bab12",
+      "provenance": {
+        "history_file": "trees-filters-batch6.json",
+        "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "turn": "01a1b624-0da3-7303-a8c3-c270a6040db6",
+        "item": "exec-704bd59d-8b03-4e73-b07b-00f75c6eaaae",
+        "item_index": 1,
+        "turn_started_at": 1794057178,
+        "turn_completed_at": 1794057274
+      },
+      "chain": [
+        {
+          "kind": "exact_initial_literal_prefix",
+          "fragment": {
+            "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt",
+            "version_file": "literal-ui-fragments/01a1ad13-c050-733a-9871-44c82f130226/exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt.lines-1-330.txt",
+            "sha256": "76f2589add8c0ec5b4d00d57283b0dbf372e20df91b6cc511e5b059cf9fc97bf",
+            "classification": "exact_literal_command_prefix_only",
+            "source_line_start": 1,
+            "source_line_end": 330,
+            "discarded_partial_last_line": "private fun DataRow(label: String, value: String, help: TraceHelp,",
+            "provenance": {
+              "history_file": "trace-ui-initial-next.json",
+              "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+              "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+              "item": "exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687",
+              "item_index": 13,
+              "turn_started_at": 1793905115,
+              "turn_completed_at": 1793905568
+            },
+            "limitation": "Command is cut at20000 characters before heredoc EOF. This is not a complete Kotlin source."
+          }
+        },
+        {
+          "kind": "observed_literal_edits_applied_only_to_known_prefix",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-43b9285e-41c4-4967-b39d-9d4e5645f8b2",
+            "item_index": 15,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "script_sha256": "539789a6477cf380dc511bca9e4eaba3bb86d9a0be4c790ba819683945493369",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "Text(label, Modifier.padding(start = if (positive) 8.dp else 0.dp), color = TraceTokens.ink, fontSize = 14.sp,\n                modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })",
+              "new": "Text(label, color = TraceTokens.ink, fontSize = 14.sp,\n                modifier = Modifier.padding(start = if (positive) 8.dp else 0.dp).semantics { liveRegion = LiveRegionMode.Polite })",
+              "matching_occurrences_before": 0,
+              "count_argument": null
+            }
+          ],
+          "complete_source_line_count_delta_from_observed_literals": 0,
+          "historical_script_executed": false
+        },
+        {
+          "kind": "observed_literal_edits_applied_only_to_known_prefix",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-5b1ea7c6-c02f-4380-a474-3ab5666e5bae",
+            "item_index": 21,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "script_sha256": "c04db1933ba586f9fbe3fb710631047afa16f3766822a087db410dcdec5b0aae",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "import androidx.compose.ui.draw.clip",
+              "new": "import androidx.compose.ui.draw.alpha\nimport androidx.compose.ui.draw.clip",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 3,
+              "old": "Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth()\n            .imePadding().navigationBarsPadding().padding(horizontal = 12.dp, vertical = 18.dp)\n            .onSizeChanged { panelHeightPx = it.height })",
+              "new": "Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth()\n            .onSizeChanged { panelHeightPx = it.height }\n            .imePadding().navigationBarsPadding().padding(horizontal = 12.dp, vertical = 18.dp))",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 4,
+              "old": "if ((state.statistics.unrecordedPassageCount ?: 0) > 0)\n        Notice(stringResource(R.string.gs_trace_gap_excluded), TraceHelp.UNRECORDED_PASSAGES, actions)",
+              "new": "val gapCount = state.statistics.unrecordedPassageCount\n    if (gapCount == null || gapCount < 0) Notice(stringResource(R.string.gs_trace_gaps_unknown), TraceHelp.UNRECORDED_PASSAGES, actions)\n    else if (gapCount > 0) Notice(stringResource(R.string.gs_trace_gap_excluded), TraceHelp.UNRECORDED_PASSAGES, actions)",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 5,
+              "old": "Surface(onClick = onClick, enabled = enabled, modifier = modifier.heightIn(min = 48.dp), shape",
+              "new": "Surface(onClick = onClick, enabled = enabled, modifier = modifier.heightIn(min = 48.dp).alpha(if (enabled) 1f else 0.45f), shape",
+              "matching_occurrences_before": 0,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 6,
+              "old": "modifier = Modifier.size(48.dp)) {\n        Box(contentAlignment",
+              "new": "modifier = Modifier.size(48.dp).alpha(if (enabled) 1f else 0.45f)) {\n        Box(contentAlignment",
+              "matching_occurrences_before": 0,
+              "count_argument": null
+            }
+          ],
+          "complete_source_line_count_delta_from_observed_literals": 2,
+          "historical_script_executed": false
+        },
+        {
+          "kind": "observed_literal_edits_applied_only_to_known_prefix",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-e35566fc-1fb7-4e17-945d-1c35fb00d0c2",
+            "item_index": 40,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "script_sha256": "2b3c33f53422fa9057213afbbaffe08d14ec6194170702b17c8742f5c319c513",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 1,
+              "old": "BackHandler { if (!state.saving && TraceAction.BACK in state.allowedActions) actions.onAction(TraceAction.BACK) }",
+              "new": "val backAction = if (state.screen == TraceScreen.SAVE) TraceAction.CANCEL_SAVE else TraceAction.BACK\n    BackHandler(enabled = state.saving || backAction in state.allowedActions) {\n        if (!state.saving) actions.onAction(backAction)\n    }",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 4,
+              "old": "FloatingCommand(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.gs_map_back), state.enabled(TraceAction.BACK)) {\n            actions.onAction(TraceAction.BACK)\n        }",
+              "new": "val backAction = if (state.screen == TraceScreen.SAVE) TraceAction.CANCEL_SAVE else TraceAction.BACK\n        FloatingCommand(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.gs_map_back), state.enabled(backAction)) {\n            actions.onAction(backAction)\n        }",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "complete_source_line_count_delta_from_observed_literals": 4,
+          "historical_script_executed": false
+        },
+        {
+          "kind": "strict_recorded_diff_on_known_prefix",
+          "provenance": {
+            "history_file": "trees-filters-batch11.json",
+            "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+            "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+            "item": "exec-748bdbf1-a678-4afb-a4b8-ea0e4baa552e",
+            "item_index": 116,
+            "turn_started_at": 1794041913,
+            "turn_completed_at": 1794043977
+          },
+          "diff_sha256": "0fabaf0d01f21817ccc0010fe939948575f7218c4ebe261b31550e4921629b72",
+          "complete_source_line_count_delta": 0
+        },
+        {
+          "kind": "strict_recorded_diff_on_known_prefix",
+          "provenance": {
+            "history_file": "trees-filters-batch11.json",
+            "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+            "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+            "item": "exec-05ae1d68-0aea-440c-8ea3-498df61c7940",
+            "item_index": 135,
+            "turn_started_at": 1794041913,
+            "turn_completed_at": 1794043977
+          },
+          "diff_sha256": "630ebd9c2d76169f9a05363c1a888bc5caf28464da806f7ae84138699a1b1e57",
+          "complete_source_line_count_delta": 5
+        },
+        {
+          "kind": "strict_recorded_diff_on_known_prefix",
+          "provenance": {
+            "history_file": "trees-filters-batch11.json",
+            "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+            "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+            "item": "exec-bb69e07f-420e-4cf4-915d-3be0bb18f05d",
+            "item_index": 158,
+            "turn_started_at": 1794041913,
+            "turn_completed_at": 1794043977
+          },
+          "diff_sha256": "6cdca6a59ac6271447945b4b25140e329d69821e7eb856fb3889ff6171735792",
+          "complete_source_line_count_delta": 2
+        },
+        {
+          "kind": "observed_prefix_only_ast",
+          "provenance": {
+            "history_file": "trees-filters-batch7.json",
+            "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+            "turn": "01a1b5ca-7889-74fc-8814-ed80cea4367b",
+            "item": "exec-f5d0a360-5f88-412d-9383-5cc1ca9fd13a",
+            "item_index": 96,
+            "turn_started_at": 1794051308,
+            "turn_completed_at": 1794052984
+          },
+          "script_sha256": "ccb5fc33abc8c45ec96334548243bc834d05e6571df9dab77c2f7c9d2b290333",
+          "selected_ast_lines": [
+            3,
+            117
+          ],
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 45,
+              "old": "    Row(verticalAlignment = Alignment.CenterVertically) {\n        Text(stringResource(R.string.gs_trace_name), color = TraceTokens.ink, fontSize = 15.sp)\n        HelpButton(TraceHelp.NAME, stringResource(R.string.gs_trace_name), actions)\n    }\n",
+              "new": "",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 51,
+              "old": "        label = { Text(stringResource(R.string.gs_trace_name)) },\n        colors = OutlinedTextFieldDefaults.colors",
+              "new": "        label = { Text(stringResource(R.string.gs_trace_name)) },\n        trailingIcon = { HelpButton(TraceHelp.NAME, stringResource(R.string.gs_trace_name), actions) },\n        colors = OutlinedTextFieldDefaults.colors",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 68,
+              "old": "    Commands(state, actions, TraceAction.CANCEL_SAVE, TraceAction.SAVE)\n}\n",
+              "new": "}\n\n@Composable\nprivate fun SaveCommands(state: TraceWorkspaceState, actions: TraceWorkspaceActions) {\n    if (LocalDensity.current.fontScale <= 1.15f) Commands(state, actions, TraceAction.CANCEL_SAVE, TraceAction.SAVE)\n    else Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {\n        Command(actionLabel(TraceAction.CANCEL_SAVE), actionIcon(TraceAction.CANCEL_SAVE), primary = false,\n            enabled = state.enabled(TraceAction.CANCEL_SAVE), modifier = Modifier.fillMaxWidth()) { actions.onAction(TraceAction.CANCEL_SAVE) }\n        Command(actionLabel(TraceAction.SAVE), actionIcon(TraceAction.SAVE), primary = true,\n            enabled = state.enabled(TraceAction.SAVE), modifier = Modifier.fillMaxWidth()) { actions.onAction(TraceAction.SAVE) }\n    }\n}\n",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 83,
+              "old": "    DataRow(stringResource(R.string.gs_trace_session_duration), duration(state.statistics.elapsedSeconds), TraceHelp.SESSION_DURATION, actions)\n    Divider()\n    DataRow(stringResource(R.string.gs_trace_uncertainty), state.statistics.overallUncertaintyM?.let { distance(it) }\n",
+              "new": "    DataRow(stringResource(R.string.gs_trace_session_duration), duration(state.statistics.elapsedSeconds), TraceHelp.SESSION_DURATION, actions)\n}\n\n/** Unknown overall quality stays visible together with its method action, outside the scroll body. */\n@Composable\nprivate fun DetailsFooter(state: TraceWorkspaceState, actions: TraceWorkspaceActions) {\n    Column(Modifier.fillMaxWidth()) {\n    Divider()\n    DataRow(stringResource(R.string.gs_trace_uncertainty), state.statistics.overallUncertaintyM?.let { distance(it) }\n",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 97,
+              "old": "        actions.onAction(TraceAction.METHOD_SOURCE)\n    }\n}\n\n@Composable\nprivate fun PortionTile",
+              "new": "        actions.onAction(TraceAction.METHOD_SOURCE)\n    }\n    }\n}\n\n@Composable\nprivate fun PortionTile",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 116,
+              "old": "        Column(Modifier.padding(8.dp)) {\n            Row(verticalAlignment = Alignment.CenterVertically) {\n                Text(label, Modifier.weight(1f), color = TraceTokens.ink, fontSize = 14.sp)\n                HelpButton(TraceHelp.PORTIONS, label, actions)\n            }\n            Text(distance(portion.lengthM), color = TraceTokens.green, fontSize = 23.sp, fontWeight = FontWeight.Bold,\n                modifier = Modifier.padding(start = 4.dp, bottom = 4.dp))\n        }\n",
+              "new": "        Box(Modifier.padding(8.dp)) {\n            Column(Modifier.padding(end = 44.dp)) {\n                Text(label, color = TraceTokens.ink, fontSize = 14.sp)\n                Text(distance(portion.lengthM), color = TraceTokens.green, fontSize = 23.sp, fontWeight = FontWeight.Bold,\n                    modifier = Modifier.padding(start = 4.dp, bottom = 4.dp))\n            }\n            Box(Modifier.align(Alignment.TopEnd)) { HelpButton(TraceHelp.PORTIONS, label, actions) }\n        }\n",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        },
+        {
+          "kind": "observed_prefix_only_ast",
+          "provenance": {
+            "history_file": "trees-filters-batch7.json",
+            "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+            "turn": "01a1b5ca-7889-74fc-8814-ed80cea4367b",
+            "item": "exec-a3a49eb6-3682-4f28-8808-a9a1c2d7b0f1",
+            "item_index": 135,
+            "turn_started_at": 1794051308,
+            "turn_completed_at": 1794052984
+          },
+          "script_sha256": "be037b240cd489553b7f55dc795abbe8406fc0154ee8a63fdc75ef235cb88439",
+          "selected_ast_lines": [
+            2,
+            5
+          ],
+          "operations": [],
+          "historical_script_executed": false
+        },
+        {
+          "kind": "observed_prefix_only_ast",
+          "provenance": {
+            "history_file": "trees-filters-batch7.json",
+            "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+            "turn": "01a1b5ca-7889-74fc-8814-ed80cea4367b",
+            "item": "exec-1bc36f40-b455-440f-a260-77f6ab96df69",
+            "item_index": 175,
+            "turn_started_at": 1794051308,
+            "turn_completed_at": 1794052984
+          },
+          "script_sha256": "a6c52fc9a62b344ca5aa700e8a60408273549084cbcafde86371cd101f6bce13",
+          "selected_ast_lines": [
+            2,
+            4
+          ],
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 3,
+              "old": "val maxPanelHeight = maxHeight * if (density.fontScale > 1.15f) 0.78f else 0.49f",
+              "new": "val maxPanelHeight = maxHeight * when {\n            density.fontScale > 1.15f -> 0.78f\n            state.screen == TraceScreen.DETAILS -> 0.54f\n            else -> 0.49f\n        }",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        }
+      ],
+      "limitation": "The missing functions are never inferred, and no whole Kotlin source artifact is emitted."
+    }
+  ],
+  "checks": [
+    {
+      "kind": "exact_overlapping_read_matches_known_prefix",
+      "source_lines": [
+        334,
+        429
+      ],
+      "overlap_lines": [
+        334,
+        343
+      ],
+      "provenance": {
+        "history_file": "trees-filters-batch7.json",
+        "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "turn": "01a1b5ca-7889-74fc-8814-ed80cea4367b",
+        "item": "exec-d64ffd9d-820a-4550-9c97-90d55105e829",
+        "item_index": 78,
+        "turn_started_at": 1794051308,
+        "turn_completed_at": 1794052984
+      }
+    },
+    {
+      "kind": "exact_read_with_observed_prefix_delta",
+      "source_lines_after_ui9": [
+        270,
+        470
+      ],
+      "baseline_lines_from_unchanged_suffix": [
+        344,
+        442
+      ],
+      "prefix_delta_lines": 28,
+      "overlap_baseline_lines": [
+        344,
+        429
+      ],
+      "provenance": {
+        "history_file": "trees-filters-batch6.json",
+        "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "turn": "01a1b624-0da3-7303-a8c3-c270a6040db6",
+        "item": "exec-704bd59d-8b03-4e73-b07b-00f75c6eaaae",
+        "item_index": 1,
+        "turn_started_at": 1794057178,
+        "turn_completed_at": 1794057274
+      }
+    }
+  ],
+  "original_line_count_provenance": {
+    "history_file": "trace-ui-initial-next.json",
+    "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+    "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+    "item": "exec-43b9285e-41c4-4967-b39d-9d4e5645f8b2",
+    "item_index": 15,
+    "turn_started_at": 1793905115,
+    "turn_completed_at": 1793905568
+  },
+  "failure": null,
+  "limitation": "Both states remain partial with43missing lines. Complete trace adapters are a different recovery; they do not supply these UI functions."
+}

@@ -1,0 +1,26 @@
+@@ -120,7 +120,7 @@
+                             layers = listOf(
+-                                MapLayerChoice("parcels", "Parcelles fictives", true, true, MapPreviewKey("NO_PREVIEW_PARCELS"), MapChoiceAvailability.AVAILABLE),
++                                MapLayerChoice("parcels", "Parcelles fictives", true, true, MapPreviewKey("ILLUSTRATION_PARCELS"), MapChoiceAvailability.AVAILABLE),
+                                 MapLayerChoice("surveys", "Relevés fictifs", true, true, MapPreviewKey("LOCAL_TREES"), MapChoiceAvailability.AVAILABLE),
+-                                MapLayerChoice("cadastre", "Cadastre", false, previewKey = MapPreviewKey("NO_PREVIEW_CADASTRE")),
+-                                MapLayerChoice("public-forests", "Forêts publiques", false, previewKey = MapPreviewKey("NO_PREVIEW_FORESTS")),
+-                                MapLayerChoice("slopes", "Pentes", false, previewKey = MapPreviewKey("NO_PREVIEW_SLOPES")),
++                                MapLayerChoice("cadastre", "Cadastre", false, previewKey = MapPreviewKey("ILLUSTRATION_CADASTRE")),
++                                MapLayerChoice("public-forests", "Forêts publiques", false, previewKey = MapPreviewKey("ILLUSTRATION_PUBLIC_FORESTS")),
++                                MapLayerChoice("slopes", "Pentes", false, previewKey = MapPreviewKey("ILLUSTRATION_SLOPES")),
+                             ),
+@@ -128,7 +128,3 @@
+                         MapWorkspace(ui, actions, onCompassTopChanged = { compassTop = it }, thumbnail = { key, modifier ->
+-                            if (key.value.startsWith("NO_PREVIEW_")) {
+-                                Box(modifier.background(Color(0xFFE4E8E4)), contentAlignment = Alignment.Center) {
+-                                    Text("Aperçu indisponible", fontSize = 10.sp, color = Color(0xFF516258))
+-                                }
+-                            } else MapCatalogThumbnail(key, modifier)
++                            MapCatalogThumbnail(key, modifier)
+                         }) {
+@@ -231,3 +227,3 @@
+                     "screen=${screen.width}x${screen.height}\ndensity=$density\nfontScale=1.0\nlocale=fr-FR\n" +
+-                    "status=Ready:satellite\nfullFrame=true\n" +
++                    "status=Ready:satellite\nfullFrame=true\nscaleBarRequested=${panel == null}\n" +
+                     "location=public_Vercors\nedgeToEdge=true\nactivityFocused=true\nappHostVerified=false\npixelFidelityVerified=false\n",

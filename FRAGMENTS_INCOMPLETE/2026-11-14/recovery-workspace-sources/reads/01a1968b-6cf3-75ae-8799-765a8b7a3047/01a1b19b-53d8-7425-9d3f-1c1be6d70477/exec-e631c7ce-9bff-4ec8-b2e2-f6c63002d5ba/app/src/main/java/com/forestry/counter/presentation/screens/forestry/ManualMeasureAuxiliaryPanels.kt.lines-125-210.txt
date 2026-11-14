@@ -1,0 +1,86 @@
+        ManualMeasureAuxiliary.COLOR -> ColorDialog(state, onClose, onColor)
+        else -> AuxiliarySheet(title = auxiliaryTitle(state), onClose = onClose) {
+            when (state.panel) {
+                ManualMeasureAuxiliary.SEGMENTS -> {
+                    if (state.segments.isEmpty()) Text(stringResource(R.string.manual_aux_no_segments))
+                    state.segments.forEach { segment ->
+                        Text(segment, style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
+                        HorizontalDivider()
+                    }
+                }
+                ManualMeasureAuxiliary.HELP -> {
+                    if (!MeasurementReadStatus(state, onRetrySaved)) {
+                        when {
+                            state.helpText != null -> Text(state.helpText, style = MaterialTheme.typography.bodyLarge)
+                            state.detail != null -> ManualMeasureStoredCalculation(state.detail)
+                            else -> DefaultCalculationHelp()
+                        }
+                    }
+                }
+                ManualMeasureAuxiliary.SAVED -> SavedMeasurements(state, onSelectSaved, onRetrySaved, onNewMeasure)
+                ManualMeasureAuxiliary.DETAIL -> {
+                    val detail = state.detail
+                    if (!MeasurementReadStatus(state, onRetrySaved)) {
+                        if (detail == null) Text(stringResource(R.string.manual_aux_record_unavailable))
+                        else {
+                            Text(detail.title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+                            Text(detail.valueText, style = MaterialTheme.typography.headlineMedium,
+                                color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+                            Text(detail.pointCountText, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(stringResource(R.string.manual_aux_on_phone), style = MaterialTheme.typography.labelLarge)
+                            AuxiliaryLink(stringResource(R.string.manual_aux_calculation_details), state.actionsEnabled) {
+                                onRequestDetails(detail.id)
+                            }
+                            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                                OutlinedButton(onClick = { onRequestShare(detail.id) }, enabled = state.actionsEnabled,
+                                    modifier = Modifier.weight(1f).heightIn(min = 48.dp)) {
+                                    Text(stringResource(R.string.manual_aux_share_action))
+                                }
+                                Button(onClick = { onRequestCopy(detail.id) }, enabled = state.actionsEnabled,
+                                    modifier = Modifier.weight(1f).heightIn(min = 48.dp)) {
+                                    Text(stringResource(R.string.manual_aux_resume_copy))
+                                }
+                            }
+                        }
+                    }
+                }
+                ManualMeasureAuxiliary.SHARE -> {
+                    if (!MeasurementReadStatus(state, onRetrySaved)) {
+                        Text(stringResource(R.string.manual_aux_text_summary), style = MaterialTheme.typography.labelLarge)
+                        val preview = state.shareText
+                        if (preview.isNullOrBlank()) Text(stringResource(R.string.manual_aux_share_unavailable))
+                        else Surface(shape = RoundedCornerShape(16.dp),
+                            color = MaterialTheme.colorScheme.surfaceContainerLow, modifier = Modifier.fillMaxWidth()) {
+                            Text(preview, Modifier.padding(16.dp), style = MaterialTheme.typography.bodyLarge)
+                        }
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                            OutlinedButton(onClick = onCopyShareText,
+                                enabled = state.actionsEnabled && !preview.isNullOrBlank(),
+                                modifier = Modifier.weight(1f).heightIn(min = 48.dp)) {
+                                Text(stringResource(R.string.manual_aux_copy_text))
+                            }
+                            Button(onClick = onShareText, enabled = state.actionsEnabled && !preview.isNullOrBlank(),
+                                modifier = Modifier.weight(1f).heightIn(min = 48.dp)) {
+                                Text(stringResource(R.string.manual_aux_share_action))
+                            }
+                        }
+                    }
+                }
+                else -> Unit
+            }
+        }
+    }
+}
+
+@Composable
+private fun auxiliaryTitle(state: ManualMeasureAuxiliaryState): String = when (state.panel) {
+    ManualMeasureAuxiliary.SEGMENTS -> stringResource(R.string.manual_aux_segments_title)
+    ManualMeasureAuxiliary.COLOR -> stringResource(R.string.manual_aux_color_title)
+    ManualMeasureAuxiliary.CLEAR -> stringResource(R.string.manual_aux_clear_title)
+    ManualMeasureAuxiliary.HELP -> state.helpTitle ?: stringResource(R.string.manual_aux_help_title)
+    ManualMeasureAuxiliary.SAVED -> stringResource(R.string.manual_aux_saved_title)
+    ManualMeasureAuxiliary.DETAIL -> stringResource(R.string.manual_aux_detail_title)
+    ManualMeasureAuxiliary.SHARE -> stringResource(R.string.manual_aux_share_title)
+    ManualMeasureAuxiliary.NONE -> ""
+}

@@ -1,0 +1,18 @@
+{
+  "commit": "ad49bd8ae261e6bc86044cd30adbba3d5ea4a185",
+  "previousCommit": "8106be51bb9a1569f7b385b78a86e03a0418a9e7",
+  "changedSources": 29,
+  "removedIncompleteCaptures": 1,
+  "activeSelectedCaptures": 145,
+  "status": [
+    "NON_COMPILÉ",
+    "NON_COMPLET_13NOV"
+  ],
+  "cleanAfterCommit": true,
+  "diffCheckPassed": true,
+  "allStagedSelectedHashesVerified": true,
+  "appGradleMatchesHistoricalNov13Snapshot": true,
+  "buildRun": false,
+  "adbRun": false,
+  "pushRun": false
+}

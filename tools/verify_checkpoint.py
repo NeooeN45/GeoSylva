@@ -50,6 +50,7 @@ def main() -> None:
     overrides = manifest.get('classificationOverrides', {})
     check(set(overrides) <= set(by_path), 'Classification override references absent payload.')
     baseline_members_verified = 0
+    wip_members_verified = 0
     for row in rows:
         relative = Path(row['path'])
         check(not relative.is_absolute() and '..' not in relative.parts,
@@ -63,6 +64,8 @@ def main() -> None:
         check(sha(data) == row['sha256'], f'SHA256 mismatch: {relative}')
         effective_kind = overrides.get(row['path'], {}).get('kind', row['kind'])
         kinds[effective_kind] += 1
+        if effective_kind == 'complete-source':
+            check(b'[REDACTED_SECRET]' not in data, f'Masked source is counted complete: {relative}')
         if effective_kind == 'superseded-incomplete-source-excerpt':
             correction = overrides[row['path']]
             check(correction['completeSource'] is False and correction['originalSha256'] == row['sha256'],
@@ -107,6 +110,44 @@ def main() -> None:
                       'Baseline internal file count mismatch.')
                 check(z.testzip() is None, 'Baseline ZIP CRC failure.')
                 baseline_members_verified = len(actual)
+        if effective_kind == 'wip-assembled-source-archive':
+            wip = manifest['assemblyWip']
+            check(wip['archivePath'] == row['path'] and wip['sha256'] == row['sha256']
+                  and wip['excludedFromRecoverySourceCounts'] is True, 'WIP archive classification mismatch.')
+            source_tree = json.loads((root / wip['sourceTreeManifest']).read_bytes())
+            check(source_tree['commit'] == wip['commit'] and source_tree['gitTree'] == wip['gitTree'],
+                  'WIP source commit/tree mismatch.')
+            expected = {entry['path']: entry for entry in source_tree['files']}
+            transformations = {entry['path']: entry['kind'] for entry in source_tree['verifiedGitArchiveExportTransformations']}
+            check(transformations == {'gradlew.bat': 'LF_TO_CRLF'}, 'Unexpected WIP export transformation.')
+            with zipfile.ZipFile(path) as z:
+                members = z.infolist()
+                check(len(members) == len({entry.filename for entry in members}), 'Duplicate WIP member.')
+                actual = set()
+                for member in members:
+                    member_path = Path(member.filename)
+                    check(not member_path.is_absolute() and '..' not in member_path.parts
+                          and '\\' not in member.filename and '.git' not in member_path.parts
+                          and member.filename.startswith(source_tree['prefix'])
+                          and not stat.S_ISLNK(member.external_attr >> 16), 'Unsafe WIP member path/type.')
+                    if member.is_dir(): continue
+                    name = member.filename[len(source_tree['prefix']):]
+                    check(name in expected, 'Unmanifested WIP source member.')
+                    entry = expected[name]
+                    data = z.read(member)
+                    check(len(data) == entry['bytes'] and sha(data) == entry['sha256'], 'WIP exported byte mismatch.')
+                    original = data.replace(b'\r\n', b'\n') if name in transformations else data
+                    check(len(original) == entry['gitSourceBytes'] and sha(original) == entry['gitSourceSha256'],
+                          'WIP raw Git-source byte mismatch.')
+                    check(hashlib.sha1(f'blob {len(original)}\0'.encode() + original).hexdigest() == entry['gitBlobSha1']
+                          and entry['gitMode'] in ('100644', '100755'), 'WIP Git blob/mode mismatch.')
+                    if Path(name).suffix in ('.kt', '.kts', '.xml'):
+                        check(b'[REDACTED_SECRET]' not in original, 'Masked code is integrated into WIP archive.')
+                    actual.add(name)
+                check(actual == set(expected) and len(actual) == source_tree['sourceFileCount'] == wip['internalSourceFiles'],
+                      'WIP source path set/count mismatch.')
+                check(z.testzip() is None, 'WIP ZIP CRC failure.')
+                wip_members_verified = len(actual)
         if effective_kind == 'incomplete-code-fragment':
             check(relative.parts[0] == 'FRAGMENTS_INCOMPLETE' and row['completeSource'] is False,
                   f'Incomplete fragment mislabeled: {relative}')
@@ -144,11 +185,21 @@ def main() -> None:
         ('baseline-source-archive', 'baselineArchiveCount'),
         ('recovered-project-document', 'recoveredProjectDocumentCount'),
         ('superseded-incomplete-source-excerpt', 'supersededIncompleteSourceExcerptCount'),
+        ('wip-assembled-source-archive', 'wipAssembledSourceArchiveCount'),
+        ('nominal-contract-repair-candidate', 'nominalContractRepairCandidateCount'),
+        ('nominal-contract-repair-patch', 'nominalContractRepairPatchCount'),
     ]:
         check(kinds[kind] == manifest.get(key, 0), f'Kind count mismatch: {kind}')
     scan = json.loads((root / manifest['currentSecretScanReport']).read_bytes())
     check(scan['filesScanned'] == len(rows) and scan['findings'] == [],
           'Secret scan record is missing, stale, or has findings.')
+    for path, correction in manifest.get('sourcePathOverrides', {}).items():
+        row = by_path.get(path)
+        check(row is not None and row['sha256'] == correction['sha256']
+              and not Path(correction['sourcePath']).is_absolute(), 'Source destination override mismatch.')
+        proof = json.loads((root / correction['proofPath']).read_bytes())
+        check(any(item['sha256'] == correction['sha256'] and item['applicationSourcePath'] == correction['sourcePath']
+                  for item in proof['destinationOverrides']), 'Source destination correction proof mismatch.')
     catalogue_path = manifest.get('currentSourceCatalogue')
     distinct_paths = distinct_versions = None
     if catalogue_path:
@@ -220,6 +271,7 @@ def main() -> None:
         'distinctTechnicalSourcePaths': distinct_paths,
         'distinctTechnicalSourceByteVersions': distinct_versions,
         'baselineInternalSourceFilesVerified': baseline_members_verified,
+        'wipInternalSourceFilesVerified': wip_members_verified,
         'manifestSha256': sha((root / 'MANIFEST.json').read_bytes()),
         'qualification': 'Backup integrity only; no application execution or network.',
     }, ensure_ascii=False, indent=2))

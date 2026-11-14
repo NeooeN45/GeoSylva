@@ -1,0 +1,34 @@
+@@ -18,2 +18,3 @@
+ import androidx.compose.ui.graphics.Color
++import androidx.compose.ui.geometry.Offset
+ import androidx.compose.ui.platform.LocalConfiguration
+@@ -65,2 +66,12 @@
+         listOf(scale, pitch, scaleHelp, source).forEach(::assertTouchHeight)
++        // Exercise the real pointer area beyond the20dp decorative circle, not only SetProgress.
++        scale.performTouchInput { click(Offset(width * .75f, 2.dp.toPx())) }
++        pitch.performTouchInput { click(Offset(width * .25f, height - 2.dp.toPx())) }
++        compose.runOnIdle {
++            assertTrue("The top of the48dp scale strip must accept a real tap",
++                actions.exaggerations.any { it > 1.5 && it <= 3.0 })
++            assertTrue("The bottom of the48dp pitch strip must accept a real tap",
++                actions.pitches.any { it >= 0.0 && it < 30.0 })
++            actions.pitches.clear()
++        }
+         assertEquals(2, compose.onAllNodes(SemanticsMatcher.keyIsDefined(SemanticsActions.SetProgress))
+@@ -136,4 +147,5 @@
+     private fun assertTouchHeight(interaction: SemanticsNodeInteraction) {
+-        assertTrue("Editing/slider/help target must be at least 48 dp",
+-            interaction.fetchSemanticsNode().size.height >= 48f * TARGET_DENSITY - 1f)
++        val node = interaction.fetchSemanticsNode()
++        assertTrue("Editing/slider/help target must be at least48dp; actual=${node.size.height / TARGET_DENSITY}dp; ${node.config}",
++            node.size.height >= 48f * TARGET_DENSITY - 1f)
+     }
+@@ -175,2 +187,3 @@
+         val pitches = mutableListOf<Double>()
++        val exaggerations = mutableListOf<Double>()
+         override fun onBack() = Unit
+@@ -184,3 +197,3 @@
+         override fun onPitchChange(degrees: Double) { pitches += degrees }
+-        override fun onExaggerationChange(exaggeration: Double) = Unit
++        override fun onExaggerationChange(exaggeration: Double) { exaggerations += exaggeration }
+         override fun onFlatView(flat: Boolean) = Unit
