@@ -1,0 +1,22 @@
+GÉOSYLVA — CHECKPOINT 10 / SOURCES AVEC PREUVES DEBUG ET JVM
+
+Commit immuable : 11a7adbbf1f0b03a4559787bbb02caad57b1e16e
+Arbre Git : d3a56ea74df604440759d32d4a6798fda9bf3343
+1660 fichiers suivis ; aucun fichier ignoré ou non suivi.
+Source effectivement testée : 33d904901a320cb3439e25a2af4d2efdfebe444a.
+Seuls les documents diffèrent depuis cette révision : le reçu suivi prouve
+l'APK debug complet, la signature v2 debug et2083 tests JVM (2036 app+47 carto),
+zéro échec, erreur ou test ignoré. L'APK n'est pas inclus dans cette sauvegarde.
+
+Seuls sources et documents suivis sont archivés. Aucun APK de191Mo,
+local.properties, secret, environnement, sortie de build, log local ou
+historique brut n'est ajouté. La sauvegarde n'exécute aucun script applicatif.
+Android instrumenté, S25 Ultra réel, identité visuelle des100 maquettes et
+production restent non qualifiés. Les preuves SQLite gardent leur portée.
+
+Restauration dans un dossier neuf sans dépôt applicatif d'origine :
+
+    python3 tools/restore_assembly_wip.py --snapshot checkpoint10 --destination /tmp/geosylva-checkpoint10-neuf
+
+SHA256, chaque blob/mode Git et arbre exact sont contrôlés. Seule la conversion
+LF→CRLF de gradlew.bat est inversée. Les anciens snapshots sont conservés.

@@ -1,0 +1,23 @@
+{
+  "result": "PASS",
+  "sourceCommit": "11a7adbbf1f0b03a4559787bbb02caad57b1e16e",
+  "sourceGitTree": "d3a56ea74df604440759d32d4a6798fda9bf3343",
+  "restoredGitTreeBeforeLauncherFix": "d3a56ea74df604440759d32d4a6798fda9bf3343",
+  "exactImmutableGitTreeRestored": true,
+  "sourceFilesRestored": 1660,
+  "gitBlobIdentitiesVerified": 1660,
+  "gitFileModesVerifiedBeforeLauncherFix": 1660,
+  "directoriesCreated0755": 337,
+  "reversedArchiveExportTransformations": [
+    "gradlew.bat"
+  ],
+  "gradlewModeBeforeExplicitFix": "0o755",
+  "explicitGradlewFixApplied": false,
+  "gradlewModeAfterFix": "0o755",
+  "applicationScriptsExecuted": false,
+  "qualification": "Debug APK/JVM validation evidence archived for identical tested code; no APK binary, instrumentation/device/production qualification.",
+  "checkpoint": 10,
+  "verifiedAtUTC": "2026-11-14T20:32:31.085722+00:00",
+  "originalApplicationRepositoryRequired": false,
+  "originalApplicationWorktreesModified": false
+}

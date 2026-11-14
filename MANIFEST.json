@@ -4,20 +4,20 @@
   "sourceRoot": "/workspace/outputs/2026-11-14/recovery-recent-patches",
   "payloadRoot": "recovered/2026-11-14/recovery-recent-patches",
   "scope": "Immutable tracked application source snapshot and preserved recovery checkpoints; no complete13Nov source or application execution qualification claimed.",
-  "copiedFileCount": 1160,
+  "copiedFileCount": 1163,
   "sourceFileCount": 660,
   "patchFileCount": 37,
-  "proofFileCount": 212,
+  "proofFileCount": 214,
   "copyVerification": "Every destination byte string equals the source snapshot; source stability rechecked after copy.",
   "historicalHashVerification": "Only the explicit proof references assert a recorded or derived hash match. A newly observed SHA256 is not automatically a historical hash.",
   "limitations": [
-    "Checkpoint9 archives the exact immutable edbe6c2 tracked source tree. Later application changes are outside this snapshot; no complete13Nov equivalence is asserted.",
-    "Room49 generated schema and verification documents are included because they are tracked in this commit. Host SQLite and KSP/schema evidence do not certify a complete application build or Android execution.",
-    "Application diagnostic3 was in progress at the freeze request. This checkpoint includes no APK or untracked diagnostic logs and claims no app compilation, S25/device, visuals or production qualification.",
-    "Every previous1157 payload entry and classification is preserved. New archive members do not inflate historical source/variant counters.",
-    "Only tracked source bytes are archived, without .git, prior Git history/bundle, raw transcripts, untracked outputs, private configurations or actual credentials.",
-    "Git modes are recorded for every file. The sole gradlew.bat LF-to-CRLF export conversion is reversed to reproduce the exact source tree.",
-    "Only the authorized public backup branch may be pushed; application main must remain c59ba7cccd3b5a69ae81e5007bb7d5f263aeacb7."
+    "Checkpoint10 preserves the exact immutable tracked source tree 11a7adbbf1f0b03a4559787bbb02caad57b1e16e; later work is outside this snapshot. Full November13 equivalence is not asserted.",
+    "The tracked receipt qualifies a complete debug APK, debug v2 signature and2083 JVM tests for33d9049. Only documentation differs in the archived commit. No APK binary is included.",
+    "No Android instrumentation, physical S25 Ultra,100-mockup visual match or production readiness is certified. No application build/test is run by this backup.",
+    "Every previous1160 payload entry and classification is preserved. New archive members do not inflate historical source/variant counters.",
+    "Only tracked source/docs are archived; no local.properties, credentials, APK/AAB, ignored build outputs/logs, .git, Git bundle or raw history is added.",
+    "Git modes and blobs are recorded per file; the sole gradlew.bat LF-to-CRLF export conversion is reversed to restore the exact source tree.",
+    "Only the authorized public backup branch may be pushed; application main remainsc59ba7cccd3b5a69ae81e5007bb7d5f263aeacb7."
   ],
   "excluded": [
     "raw transcripts",
@@ -23003,6 +23003,56 @@
       "hashStatus": "restoration-integrity-only-no-application-execution",
       "proofReferences": [],
       "checkpoint": 9
+    },
+    {
+      "path": "assembly-checkpoint10/DEBUG_APK_JVM_VERIFIED_NOT_DEVICE_NOT_PROD-11a7adbbf1f0.zip",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-backup",
+      "sourceRelativePath": "DEBUG_APK_JVM_VERIFIED_NOT_DEVICE_NOT_PROD-11a7adbbf1f0.zip",
+      "sourcePath": null,
+      "kind": "recovery-assembled-source-archive",
+      "version": "checkpoint10-immutable-debug-validated-sources",
+      "bytes": 25918782,
+      "sha256": "03693d1db43b804b124b1b0a1d81f59a74e8d429d57e6ebd00048958bdf3afad",
+      "hashStatus": "immutable-source-and-tracked-validation-evidence",
+      "proofReferences": [
+        {
+          "proofPath": "assembly-checkpoint10/SOURCE_TREE_11a7adbbf1f0.json",
+          "pointer": "/archiveSha256",
+          "expectedSha256": "03693d1db43b804b124b1b0a1d81f59a74e8d429d57e6ebd00048958bdf3afad",
+          "historicalSnapshotHash": false
+        }
+      ],
+      "checkpoint": 10,
+      "internalSourceFileCount": 1660,
+      "sourceCommit": "11a7adbbf1f0b03a4559787bbb02caad57b1e16e",
+      "sourceTreeManifest": "assembly-checkpoint10/SOURCE_TREE_11a7adbbf1f0.json",
+      "excludedFromRecoverySourceCounts": true
+    },
+    {
+      "path": "assembly-checkpoint10/SOURCE_TREE_11a7adbbf1f0.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-backup",
+      "sourceRelativePath": "SOURCE_TREE_11a7adbbf1f0.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": "checkpoint10-immutable-debug-validated-sources",
+      "bytes": 867515,
+      "sha256": "b04fdad016b34c53c7189490d12adff1383485ecfd9f76e5ff6c368757aa541c",
+      "hashStatus": "immutable-source-and-tracked-validation-evidence",
+      "proofReferences": [],
+      "checkpoint": 10
+    },
+    {
+      "path": "verification/checkpoint10/RESTORE_EXACT_SOURCE.json",
+      "sourceRoot": "/workspace/outputs/2026-11-14/recovery-backup",
+      "sourceRelativePath": "checkpoint10-restore-verification.json",
+      "sourcePath": null,
+      "kind": "recovery-proof",
+      "version": "checkpoint10-exact-source-restoration",
+      "bytes": 972,
+      "sha256": "c684b44d003a27622438abf597c07aaba945e7e3a9cb927803ff0af940ee8267",
+      "hashStatus": "restoration-integrity-only-no-application-execution",
+      "proofReferences": [],
+      "checkpoint": 10
     }
   ],
   "remoteDestination": {
@@ -23016,8 +23066,8 @@
     "snapshotScope": "Verified partial recovery artifacts, not the restored application",
     "initialLocalCheckpoint": "9a91b0e13c6a1505e37c83b33ea18c70598eb16f"
   },
-  "updatedUTC": "2026-11-14T20:09:00.112296+00:00",
-  "checkpoint": 9,
+  "updatedUTC": "2026-11-14T20:32:30.133291+00:00",
+  "checkpoint": 10,
   "previousCheckpointCommit": "3e24ffa65c94ebcd3d4fd8b40e0212ad40867c83",
   "initialLocalCheckpointCommit": "9a91b0e13c6a1505e37c83b33ea18c70598eb16f",
   "sourceRoots": [
@@ -23046,7 +23096,7 @@
     "fragmentCodeLinesMatchedToExactReads": 732
   },
   "initial41PayloadEntriesPreserved": true,
-  "currentSecretScanReport": "SECRET_SCAN.checkpoint9.json",
+  "currentSecretScanReport": "SECRET_SCAN.checkpoint10.json",
   "incompleteFragmentPolicy": "Only schema-checked sparse code JSONs are preserved under FRAGMENTS_INCOMPLETE; all remain incomplete, noncompilable and outside complete source counts.",
   "completeSourceVariantCount": 660,
   "distinctCompleteSourcePathCount": 192,
@@ -24627,7 +24677,7 @@
     "build-verification-evidence": 15
   },
   "previous1133PayloadEntriesAndClassificationsPreserved": true,
-  "currentAssemblySnapshot": "assemblyCheckpoint9",
+  "currentAssemblySnapshot": "assemblyCheckpoint10",
   "assemblyMilestone": {
     "archivePath": "assembly-milestone7/LIBRARIES_VERIFIED_NOT_APP_NOT_S25-f2c1b508ee43.zip",
     "sha256": "7264a2185c94c9cac4568f8ccd0fbac35b926f14aba8eef2d0761a2663044730",
@@ -24662,7 +24712,7 @@
     "historicalGitBundleIncluded": false
   },
   "checkpoint7DeferredOptionalProviderVariants": "Latest Workspace/Tree/GPS/Mapbox forensic selections remain in provider folders for a later capture; this minimal milestone protects the entire immutable assembled source and its actual build evidence.",
-  "recoveryAssembledSourceArchiveCount": 2,
+  "recoveryAssembledSourceArchiveCount": 3,
   "previous1154PayloadEntriesAndClassificationsPreserved": true,
   "assemblyCheckpoint8": {
     "archivePath": "assembly-checkpoint8/SOURCES_RESTORED_NOT_APP_NOT_S25-ff8be9bb9b5f.zip",
@@ -24719,6 +24769,56 @@
     "restorationReceipt": "verification/checkpoint9/RESTORE_EXACT_SOURCE.json"
   },
   "checkpoint9Additions": {
+    "recovery-assembled-source-archive": 1,
+    "recovery-proof": 2
+  },
+  "previous1160PayloadEntriesAndClassificationsPreserved": true,
+  "assemblyCheckpoint10": {
+    "archivePath": "assembly-checkpoint10/DEBUG_APK_JVM_VERIFIED_NOT_DEVICE_NOT_PROD-11a7adbbf1f0.zip",
+    "sha256": "03693d1db43b804b124b1b0a1d81f59a74e8d429d57e6ebd00048958bdf3afad",
+    "sourceTreeManifest": "assembly-checkpoint10/SOURCE_TREE_11a7adbbf1f0.json",
+    "commit": "11a7adbbf1f0b03a4559787bbb02caad57b1e16e",
+    "gitTree": "d3a56ea74df604440759d32d4a6798fda9bf3343",
+    "internalSourceFiles": 1660,
+    "status": [
+      "DEBUG_APK_BUILD_VERIFIED",
+      "2083_JVM_TESTS_PASS",
+      "DEVICE_NOT_QUALIFIED",
+      "PRODUCTION_NOT_QUALIFIED",
+      "NON_COMPLET_13NOV"
+    ],
+    "excludedFromRecoverySourceCounts": true,
+    "historicalGitBundleIncluded": false,
+    "untrackedOutputsIncluded": false,
+    "trackedValidationReceipt": "docs/recovery/APPLICATION_VALIDATION_2026-11-14.json",
+    "testedSourceCommit": "33d904901a320cb3439e25a2af4d2efdfebe444a",
+    "onlyDocsChangedSinceTestedSource": true,
+    "changedDocsSinceTestedSource": [
+      "docs/production/ETAT_LIVRAISON_3_1.json",
+      "docs/recovery/APPLICATION_VALIDATION_2026-11-14.json",
+      "docs/recovery/LACUNES.json",
+      "docs/recovery/STATUS.txt"
+    ],
+    "debugApkBuildVerified": true,
+    "debugV2SignatureVerified": true,
+    "jvmTests": {
+      "app": 2036,
+      "cartography-mapbox": 47,
+      "total": 2083,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "apkBinaryIncluded": false,
+    "localPropertiesReadOrIncluded": false,
+    "ignoredBuildOutputsAndLogsIncluded": false,
+    "androidInstrumentationQualified": false,
+    "deviceQualified": false,
+    "productionQualified": false,
+    "buildOrApplicationTestsRunByBackup": false,
+    "restorationReceipt": "verification/checkpoint10/RESTORE_EXACT_SOURCE.json"
+  },
+  "checkpoint10Additions": {
     "recovery-assembled-source-archive": 1,
     "recovery-proof": 2
   }

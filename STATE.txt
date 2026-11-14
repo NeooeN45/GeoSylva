@@ -1,21 +1,25 @@
-GÉOSYLVA — CHECKPOINT 9 / SOURCE IMMUABLE edbe6c2
+GÉOSYLVA — CHECKPOINT 10 / SOURCES AVEC PREUVES DEBUG ET JVM
 
-Commit : edbe6c2d1829ac1446bd1ab21643206c0016829c
-Arbre : 387491c133286c9772c7832fd130d7d537fadcde
-1 655 fichiers suivis ; 1 157 anciennes pièces et classifications préservées.
-Les corrections applicatives postérieures restent hors de cet instantané.
-Ce gel n'affirme pas une récupération complète du 13 novembre.
+Commit immuable : 11a7adbbf1f0b03a4559787bbb02caad57b1e16e
+Arbre Git : d3a56ea74df604440759d32d4a6798fda9bf3343
+1660 fichiers suivis ; aucun fichier ignoré ou non suivi.
+Source effectivement testée : 33d904901a320cb3439e25a2af4d2efdfebe444a.
+Seuls les documents diffèrent depuis cette révision : le reçu suivi prouve
+l'APK debug complet, la signature v2 debug et2083 tests JVM (2036 app+47 carto),
+zéro échec, erreur ou test ignoré. L'APK n'est pas inclus dans cette sauvegarde.
 
-Sources, documents et schéma Room49 suivis sont inclus. Les preuves SQLite
-et KSP gardent leur portée d'origine ; le diagnostic applicatif3 est en cours
-à la demande du checkpoint. Aucun APK, nouveau log de test/environnement,
-historique brut ou fichier privé n'est ajouté. La compilation applicative,
-le S25 Ultra, les visuels et la production ne sont pas certifiés ici.
+Seuls sources et documents suivis sont archivés. Aucun APK de191Mo,
+local.properties, secret, environnement, sortie de build, log local ou
+historique brut n'est ajouté. La sauvegarde n'exécute aucun script applicatif.
+Android instrumenté, S25 Ultra réel, identité visuelle des100 maquettes et
+production restent non qualifiés. Les preuves SQLite gardent leur portée.
 
-Restauration : tools/restore_assembly_wip.py --snapshot checkpoint9.
-Vérification des octets, blobs, modes Git et arbre exact dans un dossier neuf.
+Restauration dans un dossier neuf sans dépôt applicatif d'origine :
 
-Destination autorisée : NeooeN45/GeoSylva,
-branche backup/geosylva-recovery-2026-11-14 uniquement.
-Main doit rester c59ba7cccd3b5a69ae81e5007bb7d5f263aeacb7.
-Le reçu distant checkpoint9 sous outputs/recovery-backup fait foi du push.
+    python3 tools/restore_assembly_wip.py --snapshot checkpoint10 --destination /tmp/geosylva-checkpoint10-neuf
+
+SHA256, chaque blob/mode Git et arbre exact sont contrôlés. Seule la conversion
+LF→CRLF de gradlew.bat est inversée. Les anciens snapshots sont conservés.
+
+Destination autorisée : NeooeN45/GeoSylva, branche backup/geosylva-recovery-2026-11-14
+Main doit rester c59ba7cccd3b5a69ae81e5007bb7d5f263aeacb7. Le reçu distant checkpoint10 fait foi du push.
