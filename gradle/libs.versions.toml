@@ -39,7 +39,8 @@ poi = "5.5.1"
 exp4j = "0.4.8"
 playServicesLocation = "21.3.0"
 blurview = "version-2.0.6"
-maplibre = "10.3.1"
+mapbox = "11.34.1"
+mapboxGeojson = "7.10.1"
 okhttp = "4.12.0"
 retrofit = "2.11.0"
 credentials = "1.5.0"
@@ -115,7 +116,9 @@ poi-ooxml-lite = { module = "org.apache.poi:poi-ooxml-lite", version.ref = "poi"
 exp4j = { module = "net.objecthunter:exp4j", version.ref = "exp4j" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 blurview = { module = "com.github.Dimezis:BlurView", version.ref = "blurview" }
-maplibre = { module = "org.maplibre.gl:android-sdk", version.ref = "maplibre" }
+mapbox-maps-android-ndk27 = { module = "com.mapbox.maps:android-ndk27", version.ref = "mapbox" }
+mapbox-geojson = { module = "com.mapbox.mapboxsdk:mapbox-sdk-geojson", version.ref = "mapboxGeojson" }
+mapbox-maps-compose-ndk27 = { module = "com.mapbox.extension:maps-compose-ndk27", version.ref = "mapbox" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-kotlinx-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
@@ -188,6 +191,7 @@ android-testing = [
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

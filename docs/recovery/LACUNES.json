@@ -3,53 +3,12 @@
     "NON_COMPILÉ",
     "NON_COMPLET_13NOV"
   ],
-  "conflicts_omitted": [],
   "known_gaps": [
-    {
-      "owner": "domain",
-      "detail": {
-        "path": "app/src/main/java/com/forestry/counter/data/local/entity/FieldControlBasisEntity.kt",
-        "reason": "Room47 required entity; path observed in historical staging inventory; source body absent."
-      }
-    },
-    {
-      "owner": "domain",
-      "detail": {
-        "path": "app/src/main/java/com/forestry/counter/data/local/dao/FieldControlBasisDao.kt",
-        "reason": "Room47 required DAO; path observed in historical staging inventory; source body absent."
-      }
-    },
-    {
-      "owner": "domain",
-      "detail": {
-        "path": "app/src/main/java/com/forestry/counter/domain/field/ControlBasisModels.kt",
-        "reason": "Observed Room47 business contract introduction; body absent."
-      }
-    },
-    {
-      "owner": "domain",
-      "detail": {
-        "path": "app/src/main/java/com/forestry/counter/data/preferences/UserPreferences.kt",
-        "reason": "clearHeightReferenceCaptures must be wired to the actual historical implementation; partial reference only in this lane."
-      }
-    },
     {
       "owner": "mapbox",
       "detail": {
         "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGateTest.kt",
         "reason": "Only earlier complete variants currently recovered by module expansion; the inline-readback-era final test file is not yet fully verified. Do not substitute an older test as final."
-      }
-    },
-    {
-      "owner": "mapbox",
-      "detail": true
-    },
-    {
-      "owner": "workspace",
-      "detail": {
-        "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
-        "selection": "gap_do_not_replace_with_earlier_or_partial_variant",
-        "reason": "Complete6nov baseline exists, but later7nov source changes and BackTools/modal-bars changes are not yet fully reconciled."
       }
     },
     {
@@ -173,8 +132,90 @@
       "detail": "English strings_retained_workflows.xml full contents; its complete21 patch and expected SHA values are recovered."
     },
     {
-      "owner": "recent",
-      "detail": "SharedMapboxCanvas whole source remains incomplete here;438 exact original21 lines and completeP2V2 patch available, core recovery owned by sibling."
+      "owner": "domain",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/data/local/entity/FieldControlBasisEntity.kt",
+        "reason": "Room47 required entity; path observed in historical staging inventory; source body absent."
+      }
+    },
+    {
+      "owner": "domain",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/data/local/dao/FieldControlBasisDao.kt",
+        "reason": "Room47 required DAO; path observed in historical staging inventory; source body absent."
+      }
+    },
+    {
+      "owner": "domain",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/domain/field/ControlBasisModels.kt",
+        "reason": "Observed Room47 business contract introduction; body absent."
+      }
+    },
+    {
+      "owner": "domain",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/data/preferences/UserPreferences.kt",
+        "reason": "clearHeightReferenceCaptures must be wired to the actual historical implementation; partial reference only in this lane."
+      }
+    },
+    {
+      "owner": "domain",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+        "reason": "Full source has one unresolved automatically redacted method signature; two other redactions restored from exact independent read. Fragment not selected.",
+        "fragmentArtifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/fragments/CartographicLayerRepositoryImpl.kt.fragment",
+        "missingSourceLines": [
+          209
+        ]
+      }
+    },
+    {
+      "owner": "domain",
+      "detail": {
+        "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicTraceRepositoryRoomTest.kt",
+        "reason": "The token assignment at line52 is now restored from an exact later read; assignment187 remains automatically redacted and unobserved. Fragment only, excluded from assembly.",
+        "fragmentArtifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/fragments/CartographicTraceRepositoryRoomTest.kt.fragment",
+        "missingSourceLines": [
+          187
+        ]
+      }
+    },
+    {
+      "owner": "configuration",
+      "detail": {
+        "path": "cartography-preview/src/main/java/com/quintessences/geosylva/cartographypreview/CartographyPreviewActivity.kt",
+        "reason": "Preview module is included by the exact settings chain. Its current Activity body is not selected in this configuration recovery; no placeholder is created."
+      }
+    },
+    {
+      "owner": "workspace",
+      "detail": {
+        "path": "app/src/main/res/values/map_workspace_integration.xml",
+        "reason": "Resource XML required by exact recovered HostDialogs remains unobserved; no generated copy is inserted."
+      }
+    },
+    {
+      "owner": "mapbox",
+      "detail": {
+        "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+        "reason": "Later overlay changes exist. Earlier full source is deliberately not inserted with the source21 canvas; final selection still pending."
+      }
+    },
+    {
+      "owner": "mapbox",
+      "detail": {
+        "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+        "reason": "Later overlay changes exist. Earlier full source is deliberately not inserted with the source21 canvas; final selection still pending."
+      }
+    }
+  ],
+  "removed_captures": [
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicTraceRepositoryRoomTest.kt",
+      "previous_sha256": "0eb3302812e386699deac8ff3fb9ea8ea87ea4a6286ed05b14f6619b1b1cb700",
+      "reason": "Earlier capture was incorrectly selected as complete: two historical automatic redaction markers were present. Line52 was later recovered, but line187 remains unobserved. The incomplete test is removed from active sources without replacement.",
+      "partialArtifact": "recovery-domain-sources/gps-persistence-2026-11-07/fragments/CartographicTraceRepositoryRoomTest.kt.fragment"
     }
   ],
   "baseline_files_not_in_selection": "Remain at36d1515; absence of a selection does not prove the13Nov state."

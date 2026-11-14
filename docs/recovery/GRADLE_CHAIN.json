@@ -1,0 +1,750 @@
+{
+  "schema": "geosylva.recovered-gradle-chain.v1",
+  "base": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+  "selected": [
+    {
+      "path": "app/build.gradle.kts",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-history-index/gradle-chain/recovered/app/build.gradle.kts",
+      "sha256": "4f34e308f51edd11809d84cce5d955867eef7e2e450e4d81b4d2e96d4dfa2113",
+      "bytes": 11067,
+      "lines": 302,
+      "provenance": [
+        {
+          "kind": "immutable_git_base",
+          "commit": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+          "sha256": "5db36bcd87757fe51a0296c22e9fdb6548016d466b58ad74ebf620b37f75e67f",
+          "bytes": 10095
+        },
+        {
+          "kind": "observed_exact_context_diff",
+          "diff": "@@ -182,2 +182,3 @@\n dependencies {\n+    implementation(project(\":cartography-ui\"))\n     implementation(project(\":capsule-verifier\"))\n",
+          "diff_sha256": "17ac6e3b52a94995b5d8bb075024b99622affcd91be3eb78a459591d34a254a8",
+          "matches": [
+            {
+              "header": "@@ -182,2 +182,3 @@",
+              "matchedOldLine": 182,
+              "method": "declared_line_and_exact_context"
+            }
+          ],
+          "provenance": {
+            "history_file": "root0007-full10k.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1ad12-44db-7277-9120-277722007c21",
+            "item": "exec-ed01b16d-85fa-4c8d-b29d-4fc85014865b",
+            "item_index": 49
+          },
+          "before_sha256": "5db36bcd87757fe51a0296c22e9fdb6548016d466b58ad74ebf620b37f75e67f",
+          "after_sha256": "aa2946d05f2a10b1035e6979945daef568a7030e5854a948b5825a4f8c6f7add"
+        },
+        {
+          "kind": "observed_exact_context_diff",
+          "diff": "@@ -56,2 +56,7 @@\n \n+        val mapboxPublicToken = providers.environmentVariable(\"MAPBOX_PUBLIC_ACCESS_TOKEN\")\n+            .orElse(localProps.getProperty(\"MAPBOX_PUBLIC_ACCESS_TOKEN\", \"\"))\n+            .get()\n+        buildConfigField(\"String\", \"MAPBOX_PUBLIC_ACCESS_TOKEN\", \"\\\"${buildConfigString(mapboxPublicToken)}\\\"\")\n+\n         val gsieApiBaseUrl = localProps.getProperty(\"GSIE_API_BASE_URL\")\n@@ -183,2 +188,3 @@\n     implementation(project(\":cartography-ui\"))\n+    implementation(project(\":cartography-mapbox\"))\n     implementation(project(\":capsule-verifier\"))\n@@ -257,3 +263,2 @@\n     // MapLibre GL (Map mode)\n-    implementation(libs.maplibre)\n \n",
+          "diff_sha256": "cf78944dc511c93a62fe5b0b439c4a3fe16771e77403bf1c4c6e12e57c16ac3c",
+          "matches": [
+            {
+              "header": "@@ -56,2 +56,7 @@",
+              "matchedOldLine": 56,
+              "method": "declared_line_and_exact_context"
+            },
+            {
+              "header": "@@ -183,2 +188,3 @@",
+              "matchedOldLine": 188,
+              "method": "declared_line_and_exact_context"
+            },
+            {
+              "header": "@@ -257,3 +263,2 @@",
+              "matchedOldLine": 263,
+              "method": "declared_line_and_exact_context"
+            }
+          ],
+          "provenance": {
+            "history_file": "root0007-full10k.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1ad12-44db-7277-9120-277722007c21",
+            "item": "exec-b08d1c52-d7f3-4ee8-b9f8-c72cbbc502b7",
+            "item_index": 77
+          },
+          "before_sha256": "aa2946d05f2a10b1035e6979945daef568a7030e5854a948b5825a4f8c6f7add",
+          "after_sha256": "74cfbedc582edf55574c9f4b3763c73240ae4a2a922242c553e6df4a9ae56aa0"
+        },
+        {
+          "kind": "observed_exact_context_diff",
+          "diff": "@@ -59,2 +59,6 @@\n             .get()\n+        require(mapboxPublicToken.isEmpty() || (mapboxPublicToken.startsWith(\"pk.\") &&\n+            mapboxPublicToken.none { it.isWhitespace() || it == '\"' || it == '\\\\' })) {\n+            \"Configure only a public Mapbox token outside the repository.\"\n+        }\n         buildConfigField(\"String\", \"MAPBOX_PUBLIC_ACCESS_TOKEN\", \"\\\"${buildConfigString(mapboxPublicToken)}\\\"\")\n",
+          "diff_sha256": "adb3c240a393df2a670d96836cf253b65e49d1c3e5d390576d9f6705e1d65215",
+          "matches": [
+            {
+              "header": "@@ -59,2 +59,6 @@",
+              "matchedOldLine": 59,
+              "method": "declared_line_and_exact_context"
+            }
+          ],
+          "provenance": {
+            "history_file": "root0007-full10k.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1ad12-44db-7277-9120-277722007c21",
+            "item": "exec-6f113d67-6b8e-4099-b354-c89ff0ba00e9",
+            "item_index": 165
+          },
+          "before_sha256": "74cfbedc582edf55574c9f4b3763c73240ae4a2a922242c553e6df4a9ae56aa0",
+          "after_sha256": "bff18659cb50354f8066398b59903622be4a6ed7c74a1f54e01ea8140f1a385f"
+        },
+        {
+          "kind": "observed_exact_context_diff",
+          "diff": "@@ -291,2 +291,4 @@\n     androidTestImplementation(libs.bundles.android.testing)\n+    // Native renderer assertions are test-only; production hosts use the shared adapter.\n+    androidTestImplementation(libs.mapbox.maps.android.ndk27)\n     // MigrationTestHelper (tests de migration Room instrumentés)\n",
+          "diff_sha256": "fd9f11829ed05a01e051765a884cf9769caf2ecc4c289051506dd05d6d3f3773",
+          "matches": [
+            {
+              "header": "@@ -291,2 +291,4 @@",
+              "matchedOldLine": 291,
+              "method": "declared_line_and_exact_context"
+            }
+          ],
+          "provenance": {
+            "history_file": "root0007-full10k.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1ad12-44db-7277-9120-277722007c21",
+            "item": "exec-7ed2515c-171b-4e35-9a92-f00aa639666d",
+            "item_index": 314
+          },
+          "before_sha256": "bff18659cb50354f8066398b59903622be4a6ed7c74a1f54e01ea8140f1a385f",
+          "after_sha256": "57c3887dd4bbc76bab68ae2a0181f006da639128faac507e68b9a7e8febf34a1"
+        },
+        {
+          "kind": "observed_exact_context_diff",
+          "diff": "@@ -236,2 +236,4 @@\n     implementation(libs.opencsv)\n+    // Robust boolean operations on ephemeral map-preview polygons; no surveyed area is inferred.\n+    implementation(\"org.locationtech.jts:jts-core:1.20.0\")\n \n",
+          "diff_sha256": "7f01261175d2b5e04da21b2b2936c41be4ce4b5420804d9a5a1561753a65a99c",
+          "matches": [
+            {
+              "header": "@@ -236,2 +236,4 @@",
+              "matchedOldLine": 236,
+              "method": "declared_line_and_exact_context"
+            }
+          ],
+          "provenance": {
+            "history_file": "forets-placettes-batch5.json",
+            "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+            "turn": "01a1b570-1e5c-7128-8841-d3fffab400ec",
+            "item": "exec-8f50ba34-592c-4426-9e5e-c97f8339c1eb",
+            "item_index": 83
+          },
+          "before_sha256": "57c3887dd4bbc76bab68ae2a0181f006da639128faac507e68b9a7e8febf34a1",
+          "after_sha256": "7c2a7b7fd6996e0e376e892f94861de3b96e97f5fe379698f6c0e7cb0e5810f3"
+        },
+        {
+          "kind": "literal_documentary_comment_mutation_confirmed_by_later_snapshot",
+          "provenance": {
+            "history_file": "camera-resume13-earlier18.json",
+            "thread": "6af6e294-444c-8191-93d9-8086c2b14061",
+            "turn": "01a1d496-4ba4-708c-aed1-08f8beace6e9",
+            "item": "exec-31aeaaa8-4134-4fe8-a6fc-2a84de4a449e",
+            "item_index": 65
+          },
+          "old": "    // MapLibre GL (Map mode)",
+          "new": "    // Cartographie Mapbox partagée : module :cartography-mapbox.",
+          "before_sha256": "7c2a7b7fd6996e0e376e892f94861de3b96e97f5fe379698f6c0e7cb0e5810f3",
+          "after_sha256": "4f34e308f51edd11809d84cce5d955867eef7e2e450e4d81b4d2e96d4dfa2113"
+        }
+      ],
+      "scope": "Exact observed configuration text from base36d1515 plus Nov3–7 literal edits; app Gradle confirmed by Nov13 source-build18 snapshot. No claim of compilation."
+    },
+    {
+      "path": "settings.gradle.kts",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-history-index/gradle-chain/recovered/settings.gradle.kts",
+      "sha256": "97d3e9eb2bc1dc970ab2ea40838eb7d2aa545c7647866e4d935e148a4849dda2",
+      "bytes": 733,
+      "lines": 29,
+      "provenance": [
+        {
+          "kind": "immutable_git_base",
+          "commit": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+          "sha256": "132c5a6d7952d30a6accc5d49cff156165fbeaab09ad4706fcdb08c2428b5488",
+          "bytes": 415
+        },
+        {
+          "kind": "observed_pure_string_AST_mutation",
+          "provenance": {
+            "history_file": "root-older-single-0050.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+            "item": "exec-5c0a1fc5-821f-48d5-bb55-fad1e9d99c34",
+            "item_index": 37
+          },
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 4,
+              "old": "        maven(\"https://jitpack.io\")",
+              "new": "        maven(\"https://jitpack.io\")\n        maven(\"https://api.mapbox.com/downloads/v2/releases/maven\") {\n            content { includeGroupByRegex(\"com\\\\.mapbox.*\") }\n        }",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_append",
+              "script_line": 4,
+              "text": "\n// Moteur commun et hôte de recette isolés ; :app ne dépend pas encore de Mapbox.\ninclude(\":cartography-mapbox\")\ninclude(\":cartography-preview\")\n"
+            }
+          ],
+          "before_sha256": "132c5a6d7952d30a6accc5d49cff156165fbeaab09ad4706fcdb08c2428b5488",
+          "after_sha256": "b6ca6c910fc6cce0020a1c2754bfc78bb789a4ac63bcd8ac05a32a1aba74455c"
+        },
+        {
+          "kind": "observed_exact_context_diff",
+          "diff": "@@ -28 +28,2 @@\n include(\":cartography-preview\")\n+include(\":cartography-ui\")\n",
+          "diff_sha256": "d32fd3598f3876d7664f51d70a4339585d649176815190ffcdc7e65e89677191",
+          "matches": [
+            {
+              "header": "@@ -28 +28,2 @@",
+              "matchedOldLine": 28,
+              "method": "declared_line_and_exact_context"
+            }
+          ],
+          "provenance": {
+            "history_file": "root0007-full10k.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1ad12-44db-7277-9120-277722007c21",
+            "item": "exec-ed01b16d-85fa-4c8d-b29d-4fc85014865b",
+            "item_index": 49
+          },
+          "before_sha256": "b6ca6c910fc6cce0020a1c2754bfc78bb789a4ac63bcd8ac05a32a1aba74455c",
+          "after_sha256": "97d3e9eb2bc1dc970ab2ea40838eb7d2aa545c7647866e4d935e148a4849dda2"
+        }
+      ],
+      "scope": "Exact observed configuration text from base36d1515 plus Nov3–7 literal edits; app Gradle confirmed by Nov13 source-build18 snapshot. No claim of compilation."
+    },
+    {
+      "path": "build.gradle.kts",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-history-index/gradle-chain/recovered/build.gradle.kts",
+      "sha256": "015650c33cd74765983e60ba33b0312ba1e8420f0b9225cac4f5cceb8b5ab495",
+      "bytes": 415,
+      "lines": 9,
+      "provenance": [
+        {
+          "kind": "immutable_git_base",
+          "commit": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+          "sha256": "05617a54996c0324f7db5e7fd3efc6001e8370204c33cdc148fab450c696af60",
+          "bytes": 363
+        },
+        {
+          "kind": "observed_pure_string_AST_mutation",
+          "provenance": {
+            "history_file": "root-older-single-0050.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+            "item": "exec-5c0a1fc5-821f-48d5-bb55-fad1e9d99c34",
+            "item_index": 37
+          },
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 3,
+              "old": "alias(libs.plugins.android.application) apply false",
+              "new": "alias(libs.plugins.android.application) apply false\n    alias(libs.plugins.android.library) apply false",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "before_sha256": "05617a54996c0324f7db5e7fd3efc6001e8370204c33cdc148fab450c696af60",
+          "after_sha256": "015650c33cd74765983e60ba33b0312ba1e8420f0b9225cac4f5cceb8b5ab495"
+        }
+      ],
+      "scope": "Exact observed configuration text from base36d1515 plus Nov3–7 literal edits; app Gradle confirmed by Nov13 source-build18 snapshot. No claim of compilation."
+    },
+    {
+      "path": "gradle/libs.versions.toml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-history-index/gradle-chain/recovered/gradle/libs.versions.toml",
+      "sha256": "94f420a7827029325b0680c3194fae87524d5c07293ccb8b9c08fe5d32d7b9e8",
+      "bytes": 8366,
+      "lines": 198,
+      "provenance": [
+        {
+          "kind": "immutable_git_base",
+          "commit": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+          "sha256": "f71011898021d51f97e33f6ea2191762400c0a0667ce45a6df7f21aa74d8e53a",
+          "bytes": 8045
+        },
+        {
+          "kind": "observed_pure_string_AST_mutation",
+          "provenance": {
+            "history_file": "root-older-single-0050.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+            "item": "exec-5c0a1fc5-821f-48d5-bb55-fad1e9d99c34",
+            "item_index": 37
+          },
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "maplibre = \"10.3.1\"",
+              "new": "maplibre = \"10.3.1\"\nmapbox = \"11.34.1\"",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "maplibre = { module = \"org.maplibre.gl:android-sdk\", version.ref = \"maplibre\" }",
+              "new": "maplibre = { module = \"org.maplibre.gl:android-sdk\", version.ref = \"maplibre\" }\nmapbox-maps-android-ndk27 = { module = \"com.mapbox.maps:android-ndk27\", version.ref = \"mapbox\" }\nmapbox-maps-compose-ndk27 = { module = \"com.mapbox.extension:maps-compose-ndk27\", version.ref = \"mapbox\" }",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "android-application = { id = \"com.android.application\", version.ref = \"agp\" }",
+              "new": "android-application = { id = \"com.android.application\", version.ref = \"agp\" }\nandroid-library = { id = \"com.android.library\", version.ref = \"agp\" }",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "before_sha256": "f71011898021d51f97e33f6ea2191762400c0a0667ce45a6df7f21aa74d8e53a",
+          "after_sha256": "42ebb2e08ae43099118c14bff8d3256e2cc8e7928822e55448570f71ecbe8cb8"
+        },
+        {
+          "kind": "observed_exact_context_diff",
+          "diff": "@@ -43,2 +43,3 @@\n mapbox = \"11.34.1\"\n+mapboxGeojson = \"7.10.1\"\n okhttp = \"4.12.0\"\n@@ -120,2 +121,3 @@\n mapbox-maps-android-ndk27 = { module = \"com.mapbox.maps:android-ndk27\", version.ref = \"mapbox\" }\n+mapbox-geojson = { module = \"com.mapbox.mapboxsdk:mapbox-sdk-geojson\", version.ref = \"mapboxGeojson\" }\n mapbox-maps-compose-ndk27 = { module = \"com.mapbox.extension:maps-compose-ndk27\", version.ref = \"mapbox\" }\n",
+          "diff_sha256": "583cdc75696eefab684b8f51cd6f686c4ec4111b10f7af1b81a32c1336174c6d",
+          "matches": [
+            {
+              "header": "@@ -43,2 +43,3 @@",
+              "matchedOldLine": 43,
+              "method": "declared_line_and_exact_context"
+            },
+            {
+              "header": "@@ -120,2 +121,3 @@",
+              "matchedOldLine": 121,
+              "method": "declared_line_and_exact_context"
+            }
+          ],
+          "provenance": {
+            "history_file": "root0007-full10k.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1ad12-44db-7277-9120-277722007c21",
+            "item": "exec-b08d1c52-d7f3-4ee8-b9f8-c72cbbc502b7",
+            "item_index": 77
+          },
+          "before_sha256": "42ebb2e08ae43099118c14bff8d3256e2cc8e7928822e55448570f71ecbe8cb8",
+          "after_sha256": "c26fccbd302604fccfd61e8d4436bd4fc55ba480b1bde7804bc7ff247e204905"
+        },
+        {
+          "kind": "observed_pure_string_AST_mutation",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 6,
+              "old": "maplibre = \"10.3.1\"\n",
+              "new": "",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 6,
+              "old": "maplibre = { module = \"org.maplibre.gl:android-sdk\", version.ref = \"maplibre\" }\n",
+              "new": "",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "provenance": {
+            "history_file": "root0007-commands20k.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1ad12-44db-7277-9120-277722007c21",
+            "item": "exec-9bf1610c-dd44-443f-9a54-504c86023871",
+            "item_index": 312
+          },
+          "before_sha256": "c26fccbd302604fccfd61e8d4436bd4fc55ba480b1bde7804bc7ff247e204905",
+          "after_sha256": "94f420a7827029325b0680c3194fae87524d5c07293ccb8b9c08fe5d32d7b9e8"
+        }
+      ],
+      "scope": "Exact observed configuration text from base36d1515 plus Nov3–7 literal edits; app Gradle confirmed by Nov13 source-build18 snapshot. No claim of compilation."
+    },
+    {
+      "path": "cartography-preview/build.gradle.kts",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-history-index/gradle-chain/recovered/cartography-preview/build.gradle.kts",
+      "sha256": "4fc923a5627f77b992e8f14def4a29448be189b0ca2839e0aa7bdc55e42f39d8",
+      "bytes": 2024,
+      "lines": 46,
+      "provenance": [
+        {
+          "kind": "complete_observed_literal_new_file",
+          "provenance": {
+            "history_file": "root-older-single-0050.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+            "item": "exec-5c0a1fc5-821f-48d5-bb55-fad1e9d99c34",
+            "item_index": 37
+          },
+          "script_line": 6,
+          "sha256": "409251c0f174a440ed6506154a6942326dba6f7505a831198c1408f5f98dcd68"
+        },
+        {
+          "kind": "observed_pure_string_AST_mutation",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 3,
+              "old": "    // Hôte interne uniquement : aucun artefact release de recette à publier.\n    androidComponents { beforeVariants(selector().withBuildType(\"release\")) { it.enable = false } }\n}",
+              "new": "}\n\n// Hôte interne uniquement : aucun artefact release de recette à publier.\nandroidComponents { beforeVariants(selector().withBuildType(\"release\")) { it.enable = false } }",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "provenance": {
+            "history_file": "root-older-single-0050.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+            "item": "exec-12bd284a-b03a-4bfa-87c9-04c5eda0de80",
+            "item_index": 51
+          },
+          "before_sha256": "409251c0f174a440ed6506154a6942326dba6f7505a831198c1408f5f98dcd68",
+          "after_sha256": "8a141ae07ac1b12d5c2cdae9968c7a896ebf992ccb24614f45e13ae488ac4130"
+        },
+        {
+          "kind": "observed_pure_string_AST_mutation",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "implementation(libs.activity.compose)",
+              "new": "implementation(libs.activity.compose)\n    implementation(libs.kotlinx.coroutines.android)",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "provenance": {
+            "history_file": "root-older-single-0050.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+            "item": "exec-9abe1b9d-167d-4603-884a-45cd08a64d98",
+            "item_index": 62
+          },
+          "before_sha256": "8a141ae07ac1b12d5c2cdae9968c7a896ebf992ccb24614f45e13ae488ac4130",
+          "after_sha256": "5ab96a4cc1533190b48915a45130ae90771f454b5bc3f92df329af28e822fc31"
+        },
+        {
+          "kind": "observed_pure_string_AST_mutation",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "        versionName = \"3.0.0-test-mapbox\"",
+              "new": "        versionName = \"3.0.0-test-mapbox\"\n        testInstrumentationRunner = \"androidx.test.runner.AndroidJUnitRunner\"",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "    implementation(libs.bundles.compose)",
+              "new": "    implementation(libs.bundles.compose)\n    androidTestImplementation(libs.androidx.test.ext.junit)\n    androidTestImplementation(\"androidx.test:runner:1.5.2\")\n    androidTestImplementation(libs.mapbox.maps.android.ndk27)",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "provenance": {
+            "history_file": "root-older-single-0049.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1a2bc-4e6f-70e4-9dbf-59840ea6a472",
+            "item": "exec-198c87aa-2a02-4953-a40f-36bdf76c0787",
+            "item_index": 183
+          },
+          "before_sha256": "5ab96a4cc1533190b48915a45130ae90771f454b5bc3f92df329af28e822fc31",
+          "after_sha256": "4fc923a5627f77b992e8f14def4a29448be189b0ca2839e0aa7bdc55e42f39d8"
+        }
+      ],
+      "scope": "Exact observed configuration text from base36d1515 plus Nov3–7 literal edits; app Gradle confirmed by Nov13 source-build18 snapshot. No claim of compilation."
+    },
+    {
+      "path": "cartography-preview/src/main/AndroidManifest.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-history-index/gradle-chain/recovered/cartography-preview/src/main/AndroidManifest.xml",
+      "sha256": "dab4d489775b433ec22a1af3144c4136ea94c85363ec6fea14ffea74a8890635",
+      "bytes": 645,
+      "lines": 12,
+      "provenance": [
+        {
+          "kind": "complete_observed_literal_new_file",
+          "provenance": {
+            "history_file": "root-older-single-0050.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+            "item": "exec-5c0a1fc5-821f-48d5-bb55-fad1e9d99c34",
+            "item_index": 37
+          },
+          "script_line": 47,
+          "sha256": "dab4d489775b433ec22a1af3144c4136ea94c85363ec6fea14ffea74a8890635"
+        }
+      ],
+      "scope": "Exact observed configuration text from base36d1515 plus Nov3–7 literal edits; app Gradle confirmed by Nov13 source-build18 snapshot. No claim of compilation."
+    },
+    {
+      "path": "cartography-preview/src/main/res/values/styles.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-history-index/gradle-chain/recovered/cartography-preview/src/main/res/values/styles.xml",
+      "sha256": "4361be24edbf418f4c61a5e47fb6c3510fa287e6b9cac9e5968c1bd578f5e6f3",
+      "bytes": 484,
+      "lines": 10,
+      "provenance": [
+        {
+          "kind": "complete_observed_literal_new_file",
+          "provenance": {
+            "history_file": "root-older-single-0050.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+            "item": "exec-5c0a1fc5-821f-48d5-bb55-fad1e9d99c34",
+            "item_index": 37
+          },
+          "script_line": 60,
+          "sha256": "4361be24edbf418f4c61a5e47fb6c3510fa287e6b9cac9e5968c1bd578f5e6f3"
+        }
+      ],
+      "scope": "Exact observed configuration text from base36d1515 plus Nov3–7 literal edits; app Gradle confirmed by Nov13 source-build18 snapshot. No claim of compilation."
+    },
+    {
+      "path": "cartography-preview/src/main/res/values/strings.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-history-index/gradle-chain/recovered/cartography-preview/src/main/res/values/strings.xml",
+      "sha256": "37b4b8e50b4ea7db34f4380d1282d9093b40c8b856962ea912bd159738c4e7cf",
+      "bytes": 1800,
+      "lines": 22,
+      "provenance": [
+        {
+          "kind": "complete_observed_literal_new_file",
+          "provenance": {
+            "history_file": "root-older-single-0050.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+            "item": "exec-5c0a1fc5-821f-48d5-bb55-fad1e9d99c34",
+            "item_index": 37
+          },
+          "script_line": 71,
+          "sha256": "b5e92e030ee11d9d34ee0c702dfa985ecf50b452cc732e32cfd1231f4804d96b"
+        },
+        {
+          "kind": "observed_pure_string_AST_mutation",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 2,
+              "old": "<string name=\"preview_demo_title\">Bois des Sources</string>",
+              "new": "<string name=\"preview_demo_title\">Exemple fictif</string>",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "provenance": {
+            "history_file": "root-older-single-0050.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+            "item": "exec-6a75484c-515e-47bd-bf78-d9decf572d4f",
+            "item_index": 89
+          },
+          "before_sha256": "b5e92e030ee11d9d34ee0c702dfa985ecf50b452cc732e32cfd1231f4804d96b",
+          "after_sha256": "e80f0573ba92fe2d31561b46ff99d0c2be9a1f2c37f2619a4744142fa1d63f0e"
+        },
+        {
+          "kind": "observed_pure_string_AST_mutation",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 14,
+              "old": "<resources>",
+              "new": "<resources xmlns:tools=\"http://schemas.android.com/tools\" tools:locale=\"fr\">",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            },
+            {
+              "kind": "literal_replace",
+              "script_line": 14,
+              "old": "    <string name=\"preview_return_configuration\">Revenir à la configuration</string>\n",
+              "new": "",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "provenance": {
+            "history_file": "root-older-single-0050.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+            "item": "exec-7b460fa3-4b12-4319-8419-5f445db85f15",
+            "item_index": 156
+          },
+          "before_sha256": "e80f0573ba92fe2d31561b46ff99d0c2be9a1f2c37f2619a4744142fa1d63f0e",
+          "after_sha256": "fc52bafc7504d3cbe7dfc11b044dc4ffd502a9c3575ecf24833ef67c85e3ba7e"
+        },
+        {
+          "kind": "observed_pure_string_AST_mutation",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 11,
+              "old": "    <string name=\"preview_illustration_label\">Aperçu d’interface · données fictives</string>\n",
+              "new": "",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "provenance": {
+            "history_file": "root-older-single-0050.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+            "item": "exec-297afa94-cb60-4c3e-8f00-fa910b34c1be",
+            "item_index": 197
+          },
+          "before_sha256": "fc52bafc7504d3cbe7dfc11b044dc4ffd502a9c3575ecf24833ef67c85e3ba7e",
+          "after_sha256": "dc967d32f937cfb5f66fe326afd2a309554cf322b442deeb46ce5197e88384d0"
+        },
+        {
+          "kind": "observed_pure_string_AST_mutation",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 49,
+              "old": "</resources>",
+              "new": "    <string name=\"preview_vercors\">Vercors · vue d’essai</string>\n</resources>",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "provenance": {
+            "history_file": "root-older-single-0049.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1a2bc-4e6f-70e4-9dbf-59840ea6a472",
+            "item": "exec-8a89ce86-e981-48ac-bda6-1182cd4aeff4",
+            "item_index": 28
+          },
+          "before_sha256": "dc967d32f937cfb5f66fe326afd2a309554cf322b442deeb46ce5197e88384d0",
+          "after_sha256": "fe488cd76932fe9c532a1b9f5d65c1470b6c58b84a615d7841a2c37898c7a7a0"
+        },
+        {
+          "kind": "observed_pure_string_AST_mutation",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 31,
+              "old": "</resources>",
+              "new": "    <string name=\"preview_map_loading\">Chargement de la carte…</string>\n    <string name=\"preview_relief_applying\">Application du relief…</string>\n</resources>",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "provenance": {
+            "history_file": "root-older-single-0049.json",
+            "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+            "turn": "01a1a2bc-4e6f-70e4-9dbf-59840ea6a472",
+            "item": "exec-41b6710c-7160-47fd-9726-0aa3e5e21f62",
+            "item_index": 144
+          },
+          "before_sha256": "fe488cd76932fe9c532a1b9f5d65c1470b6c58b84a615d7841a2c37898c7a7a0",
+          "after_sha256": "37b4b8e50b4ea7db34f4380d1282d9093b40c8b856962ea912bd159738c4e7cf"
+        }
+      ],
+      "scope": "Exact observed configuration text from base36d1515 plus Nov3–7 literal edits; app Gradle confirmed by Nov13 source-build18 snapshot. No claim of compilation."
+    }
+  ],
+  "historical_commands_executed": false,
+  "buildRun": false,
+  "checks": [
+    {
+      "kind": "exact_historical_Nov13_snapshot_hash_and_bytes",
+      "provenance": {
+        "history_file": "camera-resume13-earlier3.json",
+        "thread": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turn": "01a1d622-7bcf-7286-825b-6c0040510561",
+        "item": "exec-ab2d940e-8b72-4cd6-b3d5-1ddd48e2dae2",
+        "item_index": 13
+      },
+      "file": {
+        "path": "app/build.gradle.kts",
+        "bytes": 11067,
+        "sha256": "4f34e308f51edd11809d84cce5d955867eef7e2e450e4d81b4d2e96d4dfa2113"
+      }
+    },
+    {
+      "kind": "complete_historical_cat_match",
+      "provenance": {
+        "history_file": "root-older-single-0049.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1a2bc-4e6f-70e4-9dbf-59840ea6a472",
+        "item": "exec-53ef8749-fd18-4c4a-9e5e-eeb61a37f16a",
+        "item_index": 288
+      },
+      "path": "cartography-preview/build.gradle.kts",
+      "sha256": "4fc923a5627f77b992e8f14def4a29448be189b0ca2839e0aa7bdc55e42f39d8"
+    },
+    {
+      "kind": "complete_configuration_payload_in_observed_read",
+      "path": "settings.gradle.kts",
+      "stage": 0,
+      "sha256": "132c5a6d7952d30a6accc5d49cff156165fbeaab09ad4706fcdb08c2428b5488",
+      "history_file": "root-older-batch-0066.json",
+      "turn": "01a19d4a-4b8d-71e1-80db-7b59570702a5",
+      "item": "exec-b094a597-feea-43d8-a850-b5ab7a02b7cb",
+      "item_index": 23
+    },
+    {
+      "kind": "complete_configuration_payload_in_observed_read",
+      "path": "settings.gradle.kts",
+      "stage": 0,
+      "sha256": "132c5a6d7952d30a6accc5d49cff156165fbeaab09ad4706fcdb08c2428b5488",
+      "history_file": "root-older-batch-0064.json",
+      "turn": "01a1a068-8e59-709d-8c80-2f32502d8846",
+      "item": "exec-0fc4c71f-af0e-4528-941a-72ad6e4e8b5c",
+      "item_index": 20
+    },
+    {
+      "kind": "complete_configuration_payload_in_observed_read",
+      "path": "settings.gradle.kts",
+      "stage": 0,
+      "sha256": "132c5a6d7952d30a6accc5d49cff156165fbeaab09ad4706fcdb08c2428b5488",
+      "history_file": "root-older-single-0050.json",
+      "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+      "item": "exec-840939fb-9aee-49af-a9e0-4117113be2fc",
+      "item_index": 7
+    },
+    {
+      "kind": "complete_configuration_payload_in_observed_read",
+      "path": "settings.gradle.kts",
+      "stage": 1,
+      "sha256": "b6ca6c910fc6cce0020a1c2754bfc78bb789a4ac63bcd8ac05a32a1aba74455c",
+      "history_file": "root-older-batch-0048.json",
+      "turn": "01a1a619-4633-749f-b6c7-8dccaa8428b5",
+      "item": "exec-e5a29c69-c1c9-4547-b5e9-621598a64df0",
+      "item_index": 2
+    },
+    {
+      "kind": "complete_configuration_payload_in_observed_read",
+      "path": "build.gradle.kts",
+      "stage": 0,
+      "sha256": "05617a54996c0324f7db5e7fd3efc6001e8370204c33cdc148fab450c696af60",
+      "history_file": "root-older-single-0050.json",
+      "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+      "item": "exec-6f1879b4-987e-41e7-95a0-cc3a23a4381c",
+      "item_index": 25
+    },
+    {
+      "kind": "complete_configuration_payload_in_observed_read",
+      "path": "build.gradle.kts",
+      "stage": 1,
+      "sha256": "015650c33cd74765983e60ba33b0312ba1e8420f0b9225cac4f5cceb8b5ab495",
+      "history_file": "forets-placettes-batch2.json",
+      "turn": "01a1b712-aa3e-735f-ba62-a732c6778374",
+      "item": "exec-4f8fa6a3-748a-4537-af35-6a5f9e34094c",
+      "item_index": 6
+    },
+    {
+      "kind": "complete_configuration_payload_in_observed_read",
+      "path": "gradle/libs.versions.toml",
+      "stage": 0,
+      "sha256": "f71011898021d51f97e33f6ea2191762400c0a0667ce45a6df7f21aa74d8e53a",
+      "history_file": "mapbox-engine-design-earlier2.json",
+      "turn": "01a1a278-cea1-7516-ab25-588f58e2f11a",
+      "item": "exec-b680f4c9-a065-4df9-b127-18b0eca9302d",
+      "item_index": 2
+    }
+  ],
+  "remaining": [
+    {
+      "path": "cartography-preview/src/main/java/com/quintessences/geosylva/cartographypreview/CartographyPreviewActivity.kt",
+      "reason": "Preview module is included by the exact settings chain. Its current Activity body is not selected in this configuration recovery; no placeholder is created."
+    }
+  ]
+}

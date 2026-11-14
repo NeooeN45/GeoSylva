@@ -54,6 +54,15 @@ android {
             .replace("\\", "\\\\")
             .replace("\"", "\\\"")
 
+        val mapboxPublicToken = providers.environmentVariable("MAPBOX_PUBLIC_ACCESS_TOKEN")
+            .orElse(localProps.getProperty("MAPBOX_PUBLIC_ACCESS_TOKEN", ""))
+            .get()
+        require(mapboxPublicToken.isEmpty() || (mapboxPublicToken.startsWith("pk.") &&
+            mapboxPublicToken.none { it.isWhitespace() || it == '"' || it == '\\' })) {
+            "Configure only a public Mapbox token outside the repository."
+        }
+        buildConfigField("String", "MAPBOX_PUBLIC_ACCESS_TOKEN", "\"${buildConfigString(mapboxPublicToken)}\"")
+
         val gsieApiBaseUrl = localProps.getProperty("GSIE_API_BASE_URL")
             ?: System.getenv("GSIE_API_BASE_URL")
             ?: ""
@@ -180,6 +189,8 @@ ksp {
 }
 
 dependencies {
+    implementation(project(":cartography-ui"))
+    implementation(project(":cartography-mapbox"))
     implementation(project(":capsule-verifier"))
     implementation(libs.coil.compose)
     // Core Android
@@ -223,6 +234,8 @@ dependencies {
 
     // CSV Parsing
     implementation(libs.opencsv)
+    // Robust boolean operations on ephemeral map-preview polygons; no surveyed area is inferred.
+    implementation("org.locationtech.jts:jts-core:1.20.0")
 
     // Excel (Apache POI - lite version for Android)
     implementation(libs.poi) {
@@ -253,8 +266,7 @@ dependencies {
     // BlurView for backdrop blur (Android 12+ optimized)
     implementation(libs.blurview)
 
-    // MapLibre GL (Map mode)
-    implementation(libs.maplibre)
+    // Cartographie Mapbox partagée : module :cartography-mapbox.
 
     // Note — la vidéo de l'écran de connexion n'utilise aucune dépendance :
     // `TextureView` + `MediaPlayer` de la plateforme suffisent pour une boucle
@@ -279,6 +291,8 @@ dependencies {
     // Testing
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.android.testing)
+    // Native renderer assertions are test-only; production hosts use the shared adapter.
+    androidTestImplementation(libs.mapbox.maps.android.ndk27)
     // MigrationTestHelper (tests de migration Room instrumentés)
     androidTestImplementation(libs.room.testing)
     androidTestImplementation(composeBom)

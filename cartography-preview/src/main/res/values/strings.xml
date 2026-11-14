@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="fr">
+    <string name="preview_app_name">Géosylva TEST Mapbox</string>
+    <string name="preview_configuration_title">Mapbox à configurer</string>
+    <string name="preview_configuration_body">Le compte et le jeton public de Géosylva sont nécessaires pour afficher la carte réelle.</string>
+    <string name="preview_show_illustration">Voir l’interface validée</string>
+    <string name="preview_context_title">Terrain forestier</string>
+    <string name="preview_context_subtitle">Aucune zone ouverte</string>
+    <string name="preview_demo_title">Exemple fictif</string>
+    <string name="preview_demo_parcel">Parcelle A</string>
+    <string name="preview_unavailable_title">Raccordement en cours</string>
+    <string name="preview_unavailable_body">Ce banc d’essai vérifie le moteur et les panneaux communs. Les données et les outils métier restent disponibles dans Géosylva.</string>
+    <string name="preview_no_position">Aucune position acquise dans ce banc d’essai.</string>
+    <string name="preview_no_source">Cette source reste à qualifier et à raccorder avant son activation.</string>
+    <string name="preview_camera_requires_map">Disponible avec la carte Mapbox configurée.</string>
+    <string name="preview_no_data">Aucune donnée terrain chargée dans ce banc d’essai.</string>
+    <string name="preview_close">Fermer</string>
+    <string name="preview_retry">Réessayer</string>
+    <string name="preview_failure">La carte n’a pas pu se charger.</string>
+    <string name="preview_vercors">Vercors · vue d’essai</string>
+    <string name="preview_map_loading">Chargement de la carte…</string>
+    <string name="preview_relief_applying">Application du relief…</string>
+</resources>

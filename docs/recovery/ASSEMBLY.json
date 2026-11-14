@@ -1,5 +1,5 @@
 {
-  "schema": "geosylva.isolated.partial-source-assembly.v1",
+  "schema": "geosylva.isolated.partial-source-assembly.v2",
   "createdUTC": "2026-11-14T14:42:16.641616+00:00",
   "status": [
     "NON_COMPILÉ",
@@ -28,9 +28,80 @@
     {
       "manifest": "recovery-history-index/history-index.json",
       "sha256": "7940626cc473f2f01a5c00dbb13a9720f1116e597870cb119c8b5089a2ffc706"
+    },
+    {
+      "manifest": "recovery-domain-sources/selected-sources.json",
+      "sha256": "a45a4f910aa8a33be62e573759eeca26a4470606bb1632a1403e6864c98cb6f2"
+    },
+    {
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "sha256": "4c282385bfb78a83d08864eb0819476a449f78aa2f1c7702ddee88731bdce652"
+    },
+    {
+      "manifest": "recovery-workspace-sources/assembly-selection-ui-supplement.json",
+      "sha256": "79cc6045b66657352da87bd684ed77ada49e9f20731e3c1dba5d7eb42685a9d7"
+    },
+    {
+      "manifest": "recovery-history-index/gradle-chain/selection.json",
+      "sha256": "b7626fff9d4418d32af04f7cb4948e0e849a1b5a2bbda9af88230230a34fc0cf"
     }
   ],
   "selected": [
+    {
+      "path": "app/build.gradle.kts",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-history-index/gradle-chain/recovered/app/build.gradle.kts",
+      "sha256": "4f34e308f51edd11809d84cce5d955867eef7e2e450e4d81b4d2e96d4dfa2113",
+      "owner": "configuration",
+      "manifest": "recovery-history-index/gradle-chain/selection.json",
+      "scope": "Exact observed configuration text from base36d1515 plus Nov3–7 literal edits; app Gradle confirmed by Nov13 source-build18 snapshot. No claim of compilation.",
+      "historical_refs": [
+        {
+          "history_file": "root0007-full10k.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1ad12-44db-7277-9120-277722007c21",
+          "item": "exec-ed01b16d-85fa-4c8d-b29d-4fc85014865b",
+          "item_index": 49
+        },
+        {
+          "history_file": "root0007-full10k.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1ad12-44db-7277-9120-277722007c21",
+          "item": "exec-b08d1c52-d7f3-4ee8-b9f8-c72cbbc502b7",
+          "item_index": 77
+        },
+        {
+          "history_file": "root0007-full10k.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1ad12-44db-7277-9120-277722007c21",
+          "item": "exec-6f113d67-6b8e-4099-b354-c89ff0ba00e9",
+          "item_index": 165
+        },
+        {
+          "history_file": "root0007-full10k.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1ad12-44db-7277-9120-277722007c21",
+          "item": "exec-7ed2515c-171b-4e35-9a92-f00aa639666d",
+          "item_index": 314
+        },
+        {
+          "history_file": "forets-placettes-batch5.json",
+          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+          "turn": "01a1b570-1e5c-7128-8841-d3fffab400ec",
+          "item": "exec-8f50ba34-592c-4426-9e5e-c97f8339c1eb",
+          "item_index": 83
+        },
+        {
+          "history_file": "camera-resume13-earlier18.json",
+          "thread": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turn": "01a1d496-4ba4-708c-aed1-08f8beace6e9",
+          "item": "exec-31aeaaa8-4134-4fe8-a6fc-2a84de4a449e",
+          "item_index": 65
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "5db36bcd87757fe51a0296c22e9fdb6548016d466b58ad74ebf620b37f75e67f",
+      "copied_sha256_verified": true
+    },
     {
       "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicMeasurementRepositoryRoomTest.kt",
       "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/recovered/app/src/androidTest/java/com/forestry/counter/data/local/CartographicMeasurementRepositoryRoomTest.kt",
@@ -39,32 +110,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-06 manual measures",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-06 manual measures"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicTraceRepositoryRoomTest.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/recovered/app/src/androidTest/java/com/forestry/counter/data/local/CartographicTraceRepositoryRoomTest.kt",
-      "sha256": "0eb3302812e386699deac8ff3fb9ea8ea87ea4a6286ed05b14f6619b1b1cb700",
-      "owner": "domain",
-      "manifest": "recovery-domain-sources/selected-sources.json",
-      "scope": "2026-11-07 GPS persistence",
-      "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-07 GPS persistence"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "a6d319d3f345a89e007d4ad68e5683c3aac464380b11260ac672a90943ef0e49",
       "copied_sha256_verified": true
     },
     {
@@ -75,11 +122,77 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-06 manual measures",
       "historical_refs": [],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "a94a54bc198c8dac9db3b90ac32173a5c265c574e0fbb99aecd0a2e5d54b0bff",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/ui/ForestryAndMeasureInsetsTest.kt",
+      "artifact": null,
+      "sha256": "ebfd77214ff49c4edfe700f6688cd47799b2d8cd598f64ed87ed6d21eb22b60e",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+          "turn": "01a1b570-1e5c-7128-8841-d3fffab400ec",
+          "item": "exec-8433594d-846e-4013-8a4f-4db25c714897",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch5.json",
+          "item_index": 67,
+          "item_id": "exec-8433594d-846e-4013-8a4f-4db25c714897"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/ui/MapModalStatusBarTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/workspace-dialog-versions/01a1b69a-288f-73ce-9c2b-accb752e2089/exec-6b6d8f93-9271-41bf-8334-46cdafc26d74/app/src/androidTest/java/com/forestry/counter/ui/MapModalStatusBarTest.kt",
+      "sha256": "df75eee8667723a03dab77738f55e8a6b40cb9062a5d070bdc29478ecd41d4b6",
+      "owner": "workspace",
+      "manifest": "recovery-workspace-sources/assembly-selection-ui-supplement.json",
+      "scope": null,
+      "historical_refs": [
+        {
+          "history_file": "maps-guidage-batch3.json",
+          "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+          "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+          "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+          "item_index": 34
+        },
+        {
+          "history_file": "maquettes-audit-earlier.json",
+          "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+          "turn": "01a1b6f1-9033-7581-8fb0-44be73651959",
+          "item": "exec-e83fc9d2-417f-4afb-91dd-748f2daa4dea",
+          "item_index": 8
+        },
+        {
+          "history_file": "integration-validation-full500.json",
+          "thread": "01a1b639-64d0-7090-b99a-0ee0fe0b0074",
+          "turn": "01a1b639-6a9d-74b1-95f5-0812d8decf81",
+          "item": "exec-f43c9c08-f466-48ce-b86f-243a5d962ff9",
+          "item_index": 1326
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-composed-journal-wood/app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt",
+      "sha256": "2e1d0513f528dfafb7fd0caee73d42e836731d83ae7ab931ed92736f5257ba76",
+      "owner": "recent",
+      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+      "scope": "Exact recorded composition; full snapshot21 match not claimed",
+      "historical_refs": [],
       "supporting_selections": [
         {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-06 manual measures"
+          "owner": "recent",
+          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+          "scope": "Exact recorded composition; full snapshot21 match not claimed"
         }
       ],
       "baseline_sha256_before": null,
@@ -93,14 +206,20 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-07 shared authority",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-07 shared authority"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "b5386895e197bc6df44093fdd7be7f0590aa7d39f71e79d965f8bc2d24346bf3",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/recovered/app/src/main/java/com/forestry/counter/data/cartography/LayerImportStager.kt",
+      "sha256": "bd8d753f0f61ebe0dae2690d8c8820e2c047154a35d50ad51e5ee601c525ed54",
+      "owner": "domain",
+      "manifest": "recovery-domain-sources/selected-sources.json",
+      "scope": "2026-11-07 layer domain after all exact direct mutations",
+      "historical_refs": [],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
       "copied_sha256_verified": true
     },
     {
@@ -111,14 +230,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "Room49 complete observation",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "Room49 complete observation"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "57aeda6a1e89f9009a35fe990fc8ba0ae794cf7a303ab30842dd9848d683e626",
       "copied_sha256_verified": true
     },
     {
@@ -129,14 +242,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-06 manual measures",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-06 manual measures"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "dc34d6866ca82897d411faf8356604885d4b1bc6b5acd072c2e882dc009d94d8",
       "copied_sha256_verified": true
     },
     {
@@ -147,14 +254,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "Room49 complete observation",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "Room49 complete observation"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "0da5e401d79a7a09ba7e6a00a9efce0698e735128c215bb7c9fedecf84bb4d68",
       "copied_sha256_verified": true
     },
     {
@@ -165,14 +266,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "Room49 complete observation",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "Room49 complete observation"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "a70c01443992439423d2683a461d032c1c8667efa867cb4b28d3e41c7e4c58b2",
       "copied_sha256_verified": true
     },
     {
@@ -183,14 +278,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "Room47 introduction",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "Room47 introduction"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "65f61ee858b8fee6f0939dedaedec07cbde92d32df279b37ae7b3b8c01e24434",
       "copied_sha256_verified": true
     },
     {
@@ -201,14 +290,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "Room49 registration chain",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "Room49 registration chain"
-        }
-      ],
-      "baseline_sha256_before": "9b8dd6f0f2560e3ffda8a2975885781958f708cf4deaa1eb755831f661aa1eb4",
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "23aa6042e0fa603523eeaa4b08c52aa10615f0a13b2a604664bee4fb7cca2800",
       "copied_sha256_verified": true
     },
     {
@@ -219,14 +302,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "Room49 registration chain",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "Room49 registration chain"
-        }
-      ],
-      "baseline_sha256_before": "5b18251f5541a9c895cdfac593a386d9f4f2a86e3f2102521b8573b03710e13f",
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "994f2e6268dace7e09127fde1c4962f1a4a667c60e31048b75f74ab3d5489644",
       "copied_sha256_verified": true
     },
     {
@@ -237,14 +314,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "Room49 layer DAO after exact version observation flow mutation",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "Room49 layer DAO after exact version observation flow mutation"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "a97979f6bdeb55e068fe47801185bf6e9d5c7f9dfa4b625dffaa1bc70dbdb5a7",
       "copied_sha256_verified": true
     },
     {
@@ -255,14 +326,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-06 manual measures",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-06 manual measures"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "4f91e5568ef54d787b41a653f54355c140aa9b137cb9779740828d8718a08f5c",
       "copied_sha256_verified": true
     },
     {
@@ -273,14 +338,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "Room49 complete observation",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "Room49 complete observation"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "e61152e9c9a9ac1c05d0d1a72747d2b07771ce466322cf8cbdacb4fc4cf75084",
       "copied_sha256_verified": true
     },
     {
@@ -291,14 +350,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "Room49 offline pack schema",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "Room49 offline pack schema"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "a8fc75590b5dac49dbb4f81609c3e1b8e51bc21c861e856d48132ffb6cf7980a",
       "copied_sha256_verified": true
     },
     {
@@ -309,14 +362,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "Room49 complete observation",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "Room49 complete observation"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "5e9e4f752253dc17363efa7d862fa22e14b9937efdb7a8802837eed973cf9f69",
       "copied_sha256_verified": true
     },
     {
@@ -327,14 +374,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-06 manual measures",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-06 manual measures"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "c21ee79ec1307989d3651306fc9cc8900532aed0dcb6d59e640976366b90df44",
       "copied_sha256_verified": true
     },
     {
@@ -345,14 +386,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "Room49 complete observation",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "Room49 complete observation"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "e793e3a4d535c2303e122d72eb6ba2c97ca80edf39ba62341d934a72edc93cd5",
       "copied_sha256_verified": true
     },
     {
@@ -363,14 +398,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "Room49 complete observation",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "Room49 complete observation"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "117409d027476b3ea18d12f6910c3f3ba3d1e54bc3623756aa1b956bc4c8663f",
       "copied_sha256_verified": true
     },
     {
@@ -381,14 +410,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "Room49 offline pack schema",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "Room49 offline pack schema"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "f9bee14282d271df534fc01110f28c2171d12653a08506dc8dd8eb9f6627bf4b",
       "copied_sha256_verified": true
     },
     {
@@ -399,14 +422,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-07 GPS persistence",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-07 GPS persistence"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "a50b7e73349b5385011d25a982094250e89f33f23ad8ebbd84ce6790ddd2b7d4",
       "copied_sha256_verified": true
     },
     {
@@ -417,14 +434,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "Room49 offline pack schema",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "Room49 offline pack schema"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "495d4503cc2174bda86eecb166291327355ddef5ac5eac6450ad349f17624cea",
       "copied_sha256_verified": true
     },
     {
@@ -435,14 +446,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-07 measurement repository delegates to shared scope authority",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-07 measurement repository delegates to shared scope authority"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "8f3dbfdc40c68bb8259e1fa00bbaf71cc3c045c4707e7c6729730e237628846e",
       "copied_sha256_verified": true
     },
     {
@@ -453,14 +458,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-07 GPS persistence",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-07 GPS persistence"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "36d3da4a5b227ebd76f80b77a8a0ebbed2acc30b86090aa2d2798f002f7707df",
       "copied_sha256_verified": true
     },
     {
@@ -471,14 +470,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-07 GPS persistence",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-07 GPS persistence"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "8925d2c0b7eb2259a509cbc139a8b6778157eef188792969c96c0ca14315b399",
       "copied_sha256_verified": true
     },
     {
@@ -489,14 +482,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-06 manual measures",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-06 manual measures"
-        }
-      ],
-      "baseline_sha256_before": "be7826169808a74bd9ab041238a42b7cee3542bbee889294f7d14eb3e730f969",
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "72b2fda369c04857d176f287fb18f2f5748e7875e97b1ffe48127af3fb241e31",
       "copied_sha256_verified": true
     },
     {
@@ -507,14 +494,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-06 manual measures",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-06 manual measures"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "1a0a07e83fb4653c733c19494cf0f8b739bfa94a1fd8ef924ef8a3d93da93f5d",
       "copied_sha256_verified": true
     },
     {
@@ -525,14 +506,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-06 manual measures",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-06 manual measures"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "9a31e408ef5937321f721ef7ef7d73445ad5f22a42709bcf6fc4966afa7aa853",
       "copied_sha256_verified": true
     },
     {
@@ -543,14 +518,48 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-06 manual measures",
       "historical_refs": [],
-      "supporting_selections": [
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "bfc75968cd7b81d3b5129fc2d89d9ffda532095044368bd88b6182ed4ae8c103",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/PlotOutsidePreview.kt",
+      "artifact": null,
+      "sha256": "f9331fc1e4d89189d26d434eda821114547780aebcfa9eefb035137837b16ad9",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
         {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-06 manual measures"
+          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+          "turn": "01a1b570-1e5c-7128-8841-d3fffab400ec",
+          "item": "exec-8f50ba34-592c-4426-9e5e-c97f8339c1eb",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch5.json",
+          "item_index": 83,
+          "item_id": "exec-8f50ba34-592c-4426-9e5e-c97f8339c1eb"
         }
       ],
-      "baseline_sha256_before": "6ec4a53afe09157f8c13f93889e5cfd1ce8bb55b51a3e2d45abdb4ec74ff3cd7",
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/TreeGuidancePolicy.kt",
+      "artifact": null,
+      "sha256": "4b5ca73ccb411f1ffbf8ace5b1d62bbab2c91a7adb74d890edb8af2021fbf04e",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "item": "exec-6151a9d6-f337-4818-9d93-6a0fa382fbf6",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-batch11.json",
+          "item_index": 44,
+          "item_id": "exec-6151a9d6-f337-4818-9d93-6a0fa382fbf6"
+        }
+      ],
+      "baseline_sha256_before": null,
       "copied_sha256_verified": true
     },
     {
@@ -561,14 +570,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-07 GPS persistence",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-07 GPS persistence"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "9ca4b9f1150eab7241564314af19e305c8d942cac186701fd14aa8e849dbd903",
       "copied_sha256_verified": true
     },
     {
@@ -579,14 +582,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-05 GPS domain",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-05 GPS domain"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "2e16c7da0d5fed6f4abd3b0937e998d13c655b2d5d6acc5e99af729e1189cc7f",
       "copied_sha256_verified": true
     },
     {
@@ -597,14 +594,32 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-07 GPS persistence",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-07 GPS persistence"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "ab2b2a0432488985150208768e0000c806b5bf0d67cea628ce08cf06dbcb1cbb",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/recovered/app/src/main/java/com/forestry/counter/domain/model/cartography/CartographicLayer.kt",
+      "sha256": "682ad81eee440ea350dc1cba8e07f953e557237a49a10a2a0a230eb0684c63c3",
+      "owner": "domain",
+      "manifest": "recovery-domain-sources/selected-sources.json",
+      "scope": "2026-11-07 layer domain after all exact direct mutations",
+      "historical_refs": [],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/repository/CartographicLayerRepository.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/recovered/app/src/main/java/com/forestry/counter/domain/repository/CartographicLayerRepository.kt",
+      "sha256": "84cd095bc097bce83e5df872a64710bebf026bc90320ac2f28604bd827805d46",
+      "owner": "domain",
+      "manifest": "recovery-domain-sources/selected-sources.json",
+      "scope": "2026-11-07 layer domain after all exact direct mutations",
+      "historical_refs": [],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
       "copied_sha256_verified": true
     },
     {
@@ -615,14 +630,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-06 manual measures",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-06 manual measures"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "f6176047a783998f25a2f91edb8e0dbaa001d71811a6523ed9b183b76a79bca8",
       "copied_sha256_verified": true
     },
     {
@@ -633,11 +642,25 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-07 GPS persistence",
       "historical_refs": [],
-      "supporting_selections": [
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "7a13b1d36b4cbbcf233d2662c48590e81b6819363ae0af9ed087ac8077ea4672",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/usecase/maps/MapTreeDisplay.kt",
+      "artifact": null,
+      "sha256": "e5c4c71420688ba062d9038a2f9499409c7294a7f93d7f82f5daef9cf64b44b7",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
         {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-07 GPS persistence"
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "item": "exec-6e4a1982-95e0-4b2b-a348-072dfd1180d4",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-batch11.json",
+          "item_index": 42,
+          "item_id": "exec-6e4a1982-95e0-4b2b-a348-072dfd1180d4"
         }
       ],
       "baseline_sha256_before": null,
@@ -651,14 +674,234 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "Room49 after NonCancellable/finally correction",
       "historical_refs": [],
-      "supporting_selections": [
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "377798cce18d8b6bd4b5dbf88e7550ef599197a21ba580b0022f8a81b1dafb4b",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/components/maps/FixedRadarProjection.kt",
+      "artifact": null,
+      "sha256": "b458f8cc20efd6ab1ed934f7d216b1fff2ee6b041cfcf0bc968398da8988356f",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
         {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "Room49 after NonCancellable/finally correction"
+          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+          "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+          "item": "exec-8009cd3f-c766-45de-9a25-d39ca98923d0",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch6-single.json",
+          "item_index": 144,
+          "item_id": "exec-8009cd3f-c766-45de-9a25-d39ca98923d0"
         }
       ],
-      "baseline_sha256_before": "17088abdc27f011b2cc6df3f706bae2e45dcd7bd382e62095c4ca55227c5875b",
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/components/maps/MapCatalogThumbnail.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-3221f546-9637-4df5-a4fa-9df4fc7d1087/app/src/main/java/com/forestry/counter/presentation/components/maps/MapCatalogThumbnail.kt",
+      "sha256": "24e68c9d5c7e881aef7431750f17382cd9735a703e9b82498514b3456d6a55c1",
+      "owner": "workspace",
+      "manifest": "recovery-workspace-sources/assembly-selection.json",
+      "scope": null,
+      "historical_refs": [
+        {
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047"
+        }
+      ],
+      "supporting_selections": [
+        {
+          "owner": "workspace",
+          "manifest": "recovery-workspace-sources/assembly-selection.json",
+          "scope": null
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/components/maps/MapModalStatusBar.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/workspace-dialog-versions/01a1b69a-288f-73ce-9c2b-accb752e2089/exec-6b6d8f93-9271-41bf-8334-46cdafc26d74/app/src/main/java/com/forestry/counter/presentation/components/maps/MapModalStatusBar.kt",
+      "sha256": "84f897bfbacae3bc649c705df7e43906a7cc15fcbab36b693db7547a5ee38b7b",
+      "owner": "workspace",
+      "manifest": "recovery-workspace-sources/assembly-selection-ui-supplement.json",
+      "scope": null,
+      "historical_refs": [
+        {
+          "history_file": "maps-guidage-batch3.json",
+          "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+          "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+          "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+          "item_index": 34
+        },
+        {
+          "history_file": "maquettes-audit-earlier.json",
+          "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+          "turn": "01a1b6f1-9033-7581-8fb0-44be73651959",
+          "item": "exec-e83fc9d2-417f-4afb-91dd-748f2daa4dea",
+          "item_index": 8
+        },
+        {
+          "history_file": "integration-validation-full500.json",
+          "thread": "01a1b639-64d0-7090-b99a-0ee0fe0b0074",
+          "turn": "01a1b639-6a9d-74b1-95f5-0812d8decf81",
+          "item": "exec-f43c9c08-f466-48ce-b86f-243a5d962ff9",
+          "item_index": 1326
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/components/maps/MapboxRenderStatusOverlay.kt",
+      "artifact": null,
+      "sha256": "aa51318d87a8c85b28a5a959be36f7b0b9a6dd2d9dc9965e2acb5823670ff699",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1ad12-44db-7277-9120-277722007c21",
+          "item": "exec-b08d1c52-d7f3-4ee8-b9f8-c72cbbc502b7",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/root0007-full10k.json",
+          "item_index": 77,
+          "item_id": "exec-b08d1c52-d7f3-4ee8-b9f8-c72cbbc502b7"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/navigation/JourneyNavigation.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source20-map-target-candidate/app/src/main/java/com/forestry/counter/presentation/navigation/JourneyNavigation.kt",
+      "sha256": "2bad5fbbd28b99ef4621282194d74e69c978ff3b97bd39ac6bb03d53ad126e3c",
+      "owner": "recent",
+      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+      "scope": "complete-recorded-source20-map-target-candidate",
+      "historical_refs": [],
+      "supporting_selections": [
+        {
+          "owner": "recent",
+          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+          "scope": "complete-recorded-source20-map-target-candidate"
+        }
+      ],
+      "baseline_sha256_before": "2bad5fbbd28b99ef4621282194d74e69c978ff3b97bd39ac6bb03d53ad126e3c",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/navigation/MapAccessObservationRoute.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source20-map-target-candidate/app/src/main/java/com/forestry/counter/presentation/navigation/MapAccessObservationRoute.kt",
+      "sha256": "879cd2303e13056be681b15670e830af0f58b53c434a20ba54151009da7a57f7",
+      "owner": "recent",
+      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+      "scope": "complete-recorded-source20-map-target-candidate",
+      "historical_refs": [],
+      "supporting_selections": [
+        {
+          "owner": "recent",
+          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+          "scope": "complete-recorded-source20-map-target-candidate"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/field/FieldMapContextScreen.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source20-map-target-candidate/app/src/main/java/com/forestry/counter/presentation/screens/field/FieldMapContextScreen.kt",
+      "sha256": "9441ed747fa6c2eb3f769183f568656f7b92621f19f69bdd639c06926cc19c60",
+      "owner": "recent",
+      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+      "scope": "complete-recorded-source20-map-target-candidate",
+      "historical_refs": [],
+      "supporting_selections": [
+        {
+          "owner": "recent",
+          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+          "scope": "complete-recorded-source20-map-target-candidate"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/field/RetainedJournalContent.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-journal-candidate/app/src/main/java/com/forestry/counter/presentation/screens/field/RetainedJournalContent.kt",
+      "sha256": "92ec917fc20b9da997dfe2b359e7b86bed843edda9c806db3baaa31d5c0c100e",
+      "owner": "recent",
+      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+      "scope": "complete-recorded-final-candidate21",
+      "historical_refs": [],
+      "supporting_selections": [
+        {
+          "owner": "recent",
+          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+          "scope": "complete-recorded-final-candidate21"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
+      "sha256": "6b4a90b1b8e56e2bcfa8372360254729e7ca9ab50bb3ea6797adf5c5617f4b5c",
+      "owner": "recent",
+      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+      "scope": "complete-recorded-final-candidate21",
+      "historical_refs": [],
+      "supporting_selections": [
+        {
+          "owner": "recent",
+          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+          "scope": "complete-recorded-final-candidate21"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/CarteModeArtwork.kt",
+      "artifact": null,
+      "sha256": "77d57d28eb4a6d2832d8b53008394d18a809b75c54d4dffb3fd1158e1f185ff5",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1a1d1-9063-7147-a4cb-af6ea0e051e9",
+          "item": "exec-b2afa359-723d-43f0-9033-9a375da274ad",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/root-older-single-0051.json",
+          "item_index": 57,
+          "item_id": "exec-b2afa359-723d-43f0-9033-9a375da274ad"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ForestryCreationSourcePanel.kt",
+      "artifact": null,
+      "sha256": "43c885c26c8889010233879caa891aca955f482d9c8ed253a73f2092d23751c1",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+          "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+          "item": "exec-3406d8e1-f499-4a1a-89fc-59a9082f2af6",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
+          "item_index": 49,
+          "item_id": "exec-3406d8e1-f499-4a1a-89fc-59a9082f2af6"
+        }
+      ],
+      "baseline_sha256_before": null,
       "copied_sha256_verified": true
     },
     {
@@ -669,14 +912,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-06 manual measures",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-06 manual measures"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "4cde886a11ed1c3774422c6dd4881a825514ae9c99134dadcc6827a02fe1c5e8",
       "copied_sha256_verified": true
     },
     {
@@ -687,14 +924,540 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-06 manual measures",
       "historical_refs": [],
-      "supporting_selections": [
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "b831e775e319a6bcff8a71dcaa4cb5dba2599f3adf3d07616f5d70d50798e9d1",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/maprecherche-observed-chain-versions/01a1b674-edc8-722a-b02e-cb30dc34215f/exec-c596edc5-9b0f-44da-886b-62831d6eae28/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "sha256": "44b5d83e4196d05a4af3d4e70032703d625e79cf9f2427e75c3a7af37d9a7e7b",
+      "owner": "workspace",
+      "manifest": "recovery-workspace-sources/assembly-selection.json",
+      "scope": null,
+      "historical_refs": [
         {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-06 manual measures"
+          "history_file": "maps-guidage-batch4.json",
+          "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+          "turn": "01a1b674-edc8-722a-b02e-cb30dc34215f",
+          "item": "exec-c596edc5-9b0f-44da-886b-62831d6eae28",
+          "item_index": 30
         }
       ],
-      "baseline_sha256_before": "7089385ed37be521002a3ab5f6d9db893d8bcb9db5abd232105413623a2d5ce5",
+      "supporting_selections": [
+        {
+          "owner": "workspace",
+          "manifest": "recovery-workspace-sources/assembly-selection.json",
+          "scope": null
+        }
+      ],
+      "baseline_sha256_before": "a0a1d359ab53d2301a16635686daf5863a4df17b1f4bb68e6b9bc7a2f00582f4",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/workspace-dialog-versions/01a1b69a-288f-73ce-9c2b-accb752e2089/exec-6b6d8f93-9271-41bf-8334-46cdafc26d74/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+      "sha256": "f082a68b7c448c4ea26839dc78d66692143120e1c4d3eff72d6df002870f208f",
+      "owner": "workspace",
+      "manifest": "recovery-workspace-sources/assembly-selection-ui-supplement.json",
+      "scope": null,
+      "historical_refs": [
+        {
+          "history_file": "maps-guidage-batch3.json",
+          "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+          "turn": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+          "item": "exec-6b6d8f93-9271-41bf-8334-46cdafc26d74",
+          "item_index": 34
+        },
+        {
+          "history_file": "maquettes-audit-earlier.json",
+          "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+          "turn": "01a1b6f1-9033-7581-8fb0-44be73651959",
+          "item": "exec-e83fc9d2-417f-4afb-91dd-748f2daa4dea",
+          "item_index": 8
+        },
+        {
+          "history_file": "integration-validation-full500.json",
+          "thread": "01a1b639-64d0-7090-b99a-0ee0fe0b0074",
+          "turn": "01a1b639-6a9d-74b1-95f5-0812d8decf81",
+          "item": "exec-f43c9c08-f466-48ce-b86f-243a5d962ff9",
+          "item_index": 1326
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostPolicy.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/versions/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-bd043ba8-e5d4-4952-86c4-785d9142afda/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostPolicy.kt",
+      "sha256": "b7686b9eb3d907148ed452e2a53c47d82ffa2bea8082ab41f3c6a94503de8904",
+      "owner": "workspace",
+      "manifest": "recovery-workspace-sources/assembly-selection.json",
+      "scope": null,
+      "historical_refs": [
+        {
+          "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f"
+        }
+      ],
+      "supporting_selections": [
+        {
+          "owner": "workspace",
+          "manifest": "recovery-workspace-sources/assembly-selection.json",
+          "scope": null
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/TraceShareExport.kt",
+      "artifact": null,
+      "sha256": "e5d3091c8408109ca16c9357468b0631a043a1c59f9bbd5ce91c8af2d1ec30a1",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b567-d93b-7506-ad88-c209c8a43ac3",
+          "item": "exec-a14a1106-c36e-4bda-aa98-a92d8e3c60cf",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-batch11.json",
+          "item_index": 12,
+          "item_id": "exec-a14a1106-c36e-4bda-aa98-a92d8e3c60cf"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/wood/PileMeasurementForm.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-wood-candidate/app/src/main/java/com/forestry/counter/presentation/screens/wood/PileMeasurementForm.kt",
+      "sha256": "66bf14230bd6fc75e5adc21296e5ac84f6e1aa42d3f29b4dd1110518003d831b",
+      "owner": "recent",
+      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+      "scope": "complete-recorded-final-candidate21",
+      "historical_refs": [],
+      "supporting_selections": [
+        {
+          "owner": "recent",
+          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+          "scope": "complete-recorded-final-candidate21"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/wood/WoodFileCard.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-wood-candidate/app/src/main/java/com/forestry/counter/presentation/screens/wood/WoodFileCard.kt",
+      "sha256": "c8a260d0fa492238b0a4c3615984b5811de8c8ae01fdfbe3cf49c888b7a0400f",
+      "owner": "recent",
+      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+      "scope": "complete-recorded-final-candidate21",
+      "historical_refs": [],
+      "supporting_selections": [
+        {
+          "owner": "recent",
+          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+          "scope": "complete-recorded-final-candidate21"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values-en/forestry_creation_workspace.xml",
+      "artifact": null,
+      "sha256": "3d5d29070f73072b5abab312e3bd2111db427b15c55d25efaef447a764d79843",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+          "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+          "item": "exec-3406d8e1-f499-4a1a-89fc-59a9082f2af6",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
+          "item_index": 49,
+          "item_id": "exec-3406d8e1-f499-4a1a-89fc-59a9082f2af6"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values-en/map_catalog_preview.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f0d8a1a5-5d13-42b7-9927-dbb2526249a9/app/src/main/res/values-en/map_catalog_preview.xml",
+      "sha256": "c75ea474955e2ae8babb6bc9b05581ce8cd8509269962296d579b74244480aed",
+      "owner": "workspace",
+      "manifest": "recovery-workspace-sources/assembly-selection.json",
+      "scope": null,
+      "historical_refs": [
+        {
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047"
+        }
+      ],
+      "supporting_selections": [
+        {
+          "owner": "workspace",
+          "manifest": "recovery-workspace-sources/assembly-selection.json",
+          "scope": null
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values-en/map_manual_measure.xml",
+      "artifact": null,
+      "sha256": "091d87b165a2728fc05025d2231b703df58804aa32592e645e80993c0bf28ce5",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+          "item": "exec-c5ef21b0-376e-4cad-b711-405bc6224745",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/root0003-full.json",
+          "item_index": 108,
+          "item_id": "exec-c5ef21b0-376e-4cad-b711-405bc6224745"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values-en/map_workspace_host.xml",
+      "artifact": null,
+      "sha256": "52cf832262bb1e0ebdabe1a1ab817e06f7e9cea00bd2107e74d176ea07bde8e1",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+          "turn": "01a1b019-343f-7713-9676-05ad9526b21e",
+          "item": "exec-7073f730-8322-42cf-9e5b-6df22c3aa684",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/workspace-host-earlier.json",
+          "item_index": 56,
+          "item_id": "exec-7073f730-8322-42cf-9e5b-6df22c3aa684"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values-en/map_workspace_host_dialogs.xml",
+      "artifact": null,
+      "sha256": "2f165cb30ffb38bb79c70c21c1f5b867e46166fbe82b94f5a674b439d7dd985c",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
+          "turn": "01a1b01f-97b2-741c-94f8-fa9247eef839",
+          "item": "exec-0e98c790-e566-4e31-b1c1-d4c95b4ebb0f",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/workspace-search-tools-initial.json",
+          "item_index": 5,
+          "item_id": "exec-0e98c790-e566-4e31-b1c1-d4c95b4ebb0f"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values-en/map_workspace_visuals.xml",
+      "artifact": null,
+      "sha256": "8ddfbbadf6f1206b22b32d9ff2e74ba2e41faf55e2d50b0fb2f6b93c8fe5c432",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+          "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+          "item": "exec-83e7c583-fd02-4c2e-9d14-088086845f25",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
+          "item_index": 149,
+          "item_id": "exec-83e7c583-fd02-4c2e-9d14-088086845f25"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values-en/strings_business_polish12.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-journal-candidate/app/src/main/res/values-en/strings_business_polish12.xml",
+      "sha256": "e855e5a8f39b7351ede3793aa84ff105be2b17d5c5571cfe8e1cad84ed3f1ddf",
+      "owner": "recent",
+      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+      "scope": "complete-recorded-final-candidate21",
+      "historical_refs": [],
+      "supporting_selections": [
+        {
+          "owner": "recent",
+          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+          "scope": "complete-recorded-final-candidate21"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values-en/strings_field_map_context.xml",
+      "artifact": null,
+      "sha256": "f1c2e688a56e39717368830dd80b8f12c4287230d91eaa402d5f5c6a5dca7a7d",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+          "turn": "01a1b53a-c2e9-71ac-9c00-1ae4b6f318a5",
+          "item": "exec-a5791967-1e43-4cf0-b2a5-aba59f04bc59",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-initial10k.json",
+          "item_index": 188,
+          "item_id": "exec-a5791967-1e43-4cf0-b2a5-aba59f04bc59"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values-en/strings_retained_workflows.xml",
+      "artifact": null,
+      "sha256": "3febfa0a569de5cf20ad8c0c0262b15e8fd8eedb08c73284f0014f4609699ef1",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+          "turn": "01a1b53a-c2e9-71ac-9c00-1ae4b6f318a5",
+          "item": "exec-ae3aeafd-0291-4f3e-8e2a-122861196345",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-initial10k.json",
+          "item_index": 81,
+          "item_id": "exec-ae3aeafd-0291-4f3e-8e2a-122861196345"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values-en/strings_wood_presentation.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-wood-candidate/app/src/main/res/values-en/strings_wood_presentation.xml",
+      "sha256": "f909d20db3cbc31f63c320432323b448714c2e83417a4bc8012fbac4c63ce698",
+      "owner": "recent",
+      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+      "scope": "complete-recorded-final-candidate21",
+      "historical_refs": [],
+      "supporting_selections": [
+        {
+          "owner": "recent",
+          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+          "scope": "complete-recorded-final-candidate21"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values/forestry_creation_workspace.xml",
+      "artifact": null,
+      "sha256": "7c1adf7d8e61b6d84bf89189b71f172e91fd7fec949dfdf04f3b72f563842247",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+          "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+          "item": "exec-3406d8e1-f499-4a1a-89fc-59a9082f2af6",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
+          "item_index": 49,
+          "item_id": "exec-3406d8e1-f499-4a1a-89fc-59a9082f2af6"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values/map_catalog_preview.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f0d8a1a5-5d13-42b7-9927-dbb2526249a9/app/src/main/res/values/map_catalog_preview.xml",
+      "sha256": "caa381047cddf871ca6602cca7c54825e01a91091eccbd3709035fae4a1efbc8",
+      "owner": "workspace",
+      "manifest": "recovery-workspace-sources/assembly-selection.json",
+      "scope": null,
+      "historical_refs": [
+        {
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047"
+        }
+      ],
+      "supporting_selections": [
+        {
+          "owner": "workspace",
+          "manifest": "recovery-workspace-sources/assembly-selection.json",
+          "scope": null
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values/map_manual_measure.xml",
+      "artifact": null,
+      "sha256": "621e43c50ee4bb3c889b5c258d56cd09eadbdba3dc0415931f1ac7f08954f607",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+          "item": "exec-c5ef21b0-376e-4cad-b711-405bc6224745",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/root0003-full.json",
+          "item_index": 108,
+          "item_id": "exec-c5ef21b0-376e-4cad-b711-405bc6224745"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values/map_workspace_host.xml",
+      "artifact": null,
+      "sha256": "b32f9e9beee8b8b79caa0ce3d09b12c5bba153008c3712a20e638337dad7a97b",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+          "turn": "01a1b019-343f-7713-9676-05ad9526b21e",
+          "item": "exec-7073f730-8322-42cf-9e5b-6df22c3aa684",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/workspace-host-earlier.json",
+          "item_index": 56,
+          "item_id": "exec-7073f730-8322-42cf-9e5b-6df22c3aa684"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values/map_workspace_host_dialogs.xml",
+      "artifact": null,
+      "sha256": "e7ce1371bd4b4ae57c02b9aa1668b965223bdf5f0912396f139ea86e6caa60f8",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
+          "turn": "01a1b01f-97b2-741c-94f8-fa9247eef839",
+          "item": "exec-0e98c790-e566-4e31-b1c1-d4c95b4ebb0f",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/workspace-search-tools-initial.json",
+          "item_index": 5,
+          "item_id": "exec-0e98c790-e566-4e31-b1c1-d4c95b4ebb0f"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values/map_workspace_visuals.xml",
+      "artifact": null,
+      "sha256": "45dea7d8d3e261e04cbef9cffa7d076f3d4c005f31061e5621813a7ef8566530",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+          "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+          "item": "exec-83e7c583-fd02-4c2e-9d14-088086845f25",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
+          "item_index": 149,
+          "item_id": "exec-83e7c583-fd02-4c2e-9d14-088086845f25"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values/strings_business_polish12.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-journal-candidate/app/src/main/res/values/strings_business_polish12.xml",
+      "sha256": "979ed1ce9e0176cc9595e38717afabd623c951839e5dbab844979f8d99eaf0d7",
+      "owner": "recent",
+      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+      "scope": "complete-recorded-final-candidate21",
+      "historical_refs": [],
+      "supporting_selections": [
+        {
+          "owner": "recent",
+          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+          "scope": "complete-recorded-final-candidate21"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values/strings_field_map_context.xml",
+      "artifact": null,
+      "sha256": "055b3b2ecd1ba64a265f5ae2d7901ffe200d4d7e3b4039b83fb0e0c822c92789",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+          "turn": "01a1b53a-c2e9-71ac-9c00-1ae4b6f318a5",
+          "item": "exec-a5791967-1e43-4cf0-b2a5-aba59f04bc59",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-initial10k.json",
+          "item_index": 188,
+          "item_id": "exec-a5791967-1e43-4cf0-b2a5-aba59f04bc59"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values/strings_retained_workflows.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21/app/src/main/res/values/strings_retained_workflows.xml",
+      "sha256": "7a48407db93a13989f97c7dc8152bf3b429175ffa5ce70ea03beb9e8b3ae38d2",
+      "owner": "recent",
+      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+      "scope": "complete-recorded-final-candidate21",
+      "historical_refs": [],
+      "supporting_selections": [
+        {
+          "owner": "recent",
+          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+          "scope": "complete-recorded-final-candidate21"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/main/res/values/strings_wood_presentation.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-wood-candidate/app/src/main/res/values/strings_wood_presentation.xml",
+      "sha256": "f13d8d8255c8aa710c34e15ef37c9254e05c89ca96ccc43b5c1e32b94155dfd4",
+      "owner": "recent",
+      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+      "scope": "complete-recorded-final-candidate21",
+      "historical_refs": [],
+      "supporting_selections": [
+        {
+          "owner": "recent",
+          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+          "scope": "complete-recorded-final-candidate21"
+        }
+      ],
+      "baseline_sha256_before": null,
       "copied_sha256_verified": true
     },
     {
@@ -705,14 +1468,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-07 GPS persistence",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-07 GPS persistence"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "7bfb4d3d1f8f3c3670bada408e14944e4670aabb3fe55fd1d7b5a9a0bf6e79bf",
       "copied_sha256_verified": true
     },
     {
@@ -723,14 +1480,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-06 manual measures",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-06 manual measures"
-        }
-      ],
-      "baseline_sha256_before": "c9d7060b897dd8551e16f8d2c4f3983bb5cadf2983ce64f2db809906b128f59c",
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "ecb31f300e6dbf54d84ca0889065cc4c8ff110ce7af0e78e5448aa45726f9a21",
       "copied_sha256_verified": true
     },
     {
@@ -741,11 +1492,25 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-06 manual measures",
       "historical_refs": [],
-      "supporting_selections": [
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "d161994421300435ba779910c0ee0cfaf1e12edec820407a2b0bb398f176ccec",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/location/PlotBoundaryDifferenceTest.kt",
+      "artifact": null,
+      "sha256": "5e79f6ff89fd128c26ea0d899ce6b9453b48839b9799978a9da54e17b3166615",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
         {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-06 manual measures"
+          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+          "turn": "01a1b570-1e5c-7128-8841-d3fffab400ec",
+          "item": "exec-839bdcd1-bcf0-46ce-849b-6db45391dafe",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch5.json",
+          "item_index": 90,
+          "item_id": "exec-839bdcd1-bcf0-46ce-849b-6db45391dafe"
         }
       ],
       "baseline_sha256_before": null,
@@ -759,14 +1524,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-05 GPS domain",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-05 GPS domain"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "f95f389cefe0a346976ea92626178ca23066c2863ebba70e0c5f82a5ad8604aa",
       "copied_sha256_verified": true
     },
     {
@@ -777,14 +1536,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-07 GPS persistence",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-07 GPS persistence"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "7124c8921ea48988966504010de965610f7becc5edcb14041e9839838e2790fb",
       "copied_sha256_verified": true
     },
     {
@@ -795,14 +1548,86 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "Room49 final async/cancellation privacy tests",
       "historical_refs": [],
-      "supporting_selections": [
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "cc9adb5dc68c4c2f98aa88e15a4d0833ba16fd96e309ad5cd49a954c7d1b7f53",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/navigation/MapsObservationRouteBoundaryTest.kt",
+      "artifact": null,
+      "sha256": "b89170db2ec72b919d516861fd97e65bbc05d3be20f0c0c15e026cb9d47ec395",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
         {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "Room49 final async/cancellation privacy tests"
+          "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+          "turn": "01a1b53a-c2e9-71ac-9c00-1ae4b6f318a5",
+          "item": "exec-6d7d3368-94ef-425e-a940-f3a4b9505817",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-initial10k.json",
+          "item_index": 206,
+          "item_id": "exec-6d7d3368-94ef-425e-a940-f3a4b9505817"
         }
       ],
-      "baseline_sha256_before": "5cf9be190266845feddffe447028fbc5b405b268a937795c4fda288682b0f4fd",
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/field/FieldMapContextViewModelTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source20-map-target-candidate/app/src/test/java/com/forestry/counter/presentation/screens/field/FieldMapContextViewModelTest.kt",
+      "sha256": "8efdf263d7e773520b9ae272ad96fe7f5094e2ec0cd286b36cea261a4e2bb93d",
+      "owner": "recent",
+      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+      "scope": "complete-recorded-source20-map-target-candidate",
+      "historical_refs": [],
+      "supporting_selections": [
+        {
+          "owner": "recent",
+          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
+          "scope": "complete-recorded-source20-map-target-candidate"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/field/RetainedJournalPresentationTest.kt",
+      "artifact": null,
+      "sha256": "61ebe41b4c288c225e26514750f7230044e45e807e9ad8bed851fe015adeb73f",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+          "turn": "01a1b53a-c2e9-71ac-9c00-1ae4b6f318a5",
+          "item": "exec-34ad55ed-6058-4a5d-a65b-859fe9381163",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-initial10k.json",
+          "item_index": 130,
+          "item_id": "exec-34ad55ed-6058-4a5d-a65b-859fe9381163"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/CreateParcelleViewModelTest.kt",
+      "artifact": null,
+      "sha256": "e9a1d6c9429057d2eeebd9a06819f69d0cbe519471e93e6a5f8ffad428f1c67a",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+          "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+          "item": "exec-1ef78a2b-e5a6-4722-bb21-d245a35307af",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
+          "item_index": 76,
+          "item_id": "exec-1ef78a2b-e5a6-4722-bb21-d245a35307af"
+        }
+      ],
+      "baseline_sha256_before": null,
       "copied_sha256_verified": true
     },
     {
@@ -813,14 +1638,8 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-06 manual measures",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-06 manual measures"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "6835634982eec5a522cd3c8eed77c014a63f93eae9dc07ddc79119ee8779a423",
       "copied_sha256_verified": true
     },
     {
@@ -831,131 +1650,88 @@
       "manifest": "recovery-domain-sources/selected-sources.json",
       "scope": "2026-11-06 manual measures",
       "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "domain",
-          "manifest": "recovery-domain-sources/selected-sources.json",
-          "scope": "2026-11-06 manual measures"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "86c5138473edc3c62740e47646ac530fa3f47b0228b3f1194e277428b3797bd3",
       "copied_sha256_verified": true
     },
     {
-      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/final-after-p2/SharedMapboxCanvas.kt",
-      "sha256": "98209439aafde4330257f71ee7755cc90fbd2e79d13e75dc41aaa2f07c569926",
-      "owner": "mapbox",
-      "manifest": "recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
-      "scope": "final after P2v2; strict context-checked patch, whole historical digest matched",
-      "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "mapbox",
-          "manifest": "recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
-          "scope": "final after P2v2; strict context-checked patch, whole historical digest matched"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinement.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source21/MapCameraFitRefinement.kt",
-      "sha256": "69efa569cbc5248f44df83a91e00a2e6f8eb2ad0117f246a1fb05e6cfaf60d93",
-      "owner": "mapbox",
-      "manifest": "recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
-      "scope": "SOURCE21 exact historical literal transformations",
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/wood/PilePreviewTest.kt",
+      "artifact": null,
+      "sha256": "0fa313d48ccc6bec4c2c4dcc36af4e2a14a67523a2ed79cd711a99082ac6357a",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
       "historical_refs": [
         {
-          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-latest.json",
-          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
-          "turnId": "01a1d647-bf14-75ac-94d5-d91cae69f7c6",
-          "itemId": "exec-126ed208-3016-411f-9b0e-25f86d2b6c0c",
-          "itemIndex": 10
-        },
-        {
-          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
-          "threadId": "6af7a318-0430-8191-8c9d-1cee283ec043",
-          "turnId": "01a1d763-d071-7747-82e6-27b0e60c23af",
-          "itemId": "exec-fe6b0a44-f642-41ae-9fa6-a81941d8f187",
-          "itemIndex": 71
-        }
-      ],
-      "supporting_selections": [
-        {
-          "owner": "mapbox",
-          "manifest": "recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
-          "scope": "SOURCE21 exact historical literal transformations"
+          "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+          "turn": "01a1b53a-c2e9-71ac-9c00-1ae4b6f318a5",
+          "item": "exec-34ad55ed-6058-4a5d-a65b-859fe9381163",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-initial10k.json",
+          "item_index": 130,
+          "item_id": "exec-34ad55ed-6058-4a5d-a65b-859fe9381163"
         }
       ],
       "baseline_sha256_before": null,
       "copied_sha256_verified": true
     },
     {
-      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapNativeCameraPose.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source21/MapNativeCameraPose.kt",
-      "sha256": "57dd55f4d42625dd7d3f4a86732c715c9a4f9986a16e532018b2848b540110b2",
-      "owner": "mapbox",
-      "manifest": "recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
-      "scope": "SOURCE21 candidate; unchanged by camera status P2 patch",
+      "path": "build.gradle.kts",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-history-index/gradle-chain/recovered/build.gradle.kts",
+      "sha256": "015650c33cd74765983e60ba33b0312ba1e8420f0b9225cac4f5cceb8b5ab495",
+      "owner": "configuration",
+      "manifest": "recovery-history-index/gradle-chain/selection.json",
+      "scope": "Exact observed configuration text from base36d1515 plus Nov3–7 literal edits; app Gradle confirmed by Nov13 source-build18 snapshot. No claim of compilation.",
       "historical_refs": [
         {
-          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
-          "threadId": "6af7a318-0430-8191-8c9d-1cee283ec043",
-          "turnId": "01a1d763-d071-7747-82e6-27b0e60c23af",
-          "itemId": "exec-8a1d4005-95ce-487a-bdea-f053d4ff9de9",
-          "itemIndex": 43
-        },
-        {
-          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
-          "threadId": "6af7a318-0430-8191-8c9d-1cee283ec043",
-          "turnId": "01a1d763-d071-7747-82e6-27b0e60c23af",
-          "itemId": "exec-fe6b0a44-f642-41ae-9fa6-a81941d8f187",
-          "itemIndex": 71
+          "history_file": "root-older-single-0050.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+          "item": "exec-5c0a1fc5-821f-48d5-bb55-fad1e9d99c34",
+          "item_index": 37
         }
       ],
-      "supporting_selections": [
-        {
-          "owner": "mapbox",
-          "manifest": "recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
-          "scope": "SOURCE21 candidate; unchanged by camera status P2 patch"
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "05617a54996c0324f7db5e7fd3efc6001e8370204c33cdc148fab450c696af60",
       "copied_sha256_verified": true
     },
     {
-      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraState.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source18-native-restoration/MapCameraState.kt",
-      "sha256": "56c2e564c0cefcf717850887bff066d54a3f77d1700abce36d0d982fd509e6a1",
+      "path": "cartography-mapbox/build.gradle.kts",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-06T11-02-36+00-00--01a1b086--item55/cartography-mapbox/build.gradle.kts",
+      "sha256": "df009bf4e6cb1bd4065204ae636e0f9725414be41fb111f0ee6c17847338f5d7",
       "owner": "mapbox",
-      "manifest": "recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
-      "scope": "native-restoration SOURCE18 candidate; source manifest SHA exact",
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "scope": "Complete module Gradle configuration observed Nov6; latest fully recovered version, catalogue aliases remain supplied by parent",
       "historical_refs": [
         {
-          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
-          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
-          "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
-          "itemId": "exec-93bfabb4-44cc-457c-9a92-b43c0939dc4e",
-          "itemIndex": 42
-        },
-        {
-          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
-          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
-          "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
-          "itemId": "exec-501c8424-75c5-4b86-830c-68aa6392ab24",
-          "itemIndex": 75
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/root0004-full.json",
+          "threadId": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turnId": "01a1b086-572e-70de-80f1-01c0c04a76e8",
+          "itemId": "exec-7e6499cd-3244-403a-8b22-5985fd998c39",
+          "itemIndex": 55
         }
       ],
-      "supporting_selections": [
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-mapbox/src/main/AndroidManifest.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-03T17-33-08+00-00--01a1a278--item34/cartography-mapbox/src/main/AndroidManifest.xml",
+      "sha256": "678647a824ef7ab16066708585790ab265135d32fdf84bcd918a4b050f8891b9",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "scope": "Complete initial module manifest observed Nov3; no later complete module manifest recovered",
+      "historical_refs": [
         {
-          "owner": "mapbox",
-          "manifest": "recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
-          "scope": "native-restoration SOURCE18 candidate; source manifest SHA exact"
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/mapbox-engine-design-earlier2.json",
+          "threadId": "01a1a278-c645-743e-920a-63323ffd4068",
+          "turnId": "01a1a278-cea1-7516-ab25-588f58e2f11a",
+          "itemId": "exec-32003277-21fb-4f2f-888b-471d239952b4",
+          "itemIndex": 34
         }
       ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
       "copied_sha256_verified": true
     },
     {
@@ -1013,33 +1789,33 @@
       "copied_sha256_verified": true
     },
     {
-      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxCanvasModels.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source20-pre-source21/MapboxCanvasModels.kt",
-      "sha256": "2258ebf915975f869e28d1d5e027c56d0a18734c96862875dc1524813796ca87",
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraFitRefinement.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source21/MapCameraFitRefinement.kt",
+      "sha256": "69efa569cbc5248f44df83a91e00a2e6f8eb2ad0117f246a1fb05e6cfaf60d93",
       "owner": "mapbox",
       "manifest": "recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
-      "scope": "observed source20; cat exact first file before next package",
+      "scope": "SOURCE21 exact historical literal transformations",
       "historical_refs": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-latest.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d647-bf14-75ac-94d5-d91cae69f7c6",
+          "itemId": "exec-126ed208-3016-411f-9b0e-25f86d2b6c0c",
+          "itemIndex": 10
+        },
         {
           "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
           "threadId": "6af7a318-0430-8191-8c9d-1cee283ec043",
           "turnId": "01a1d763-d071-7747-82e6-27b0e60c23af",
-          "itemId": "exec-e99b6fab-9822-4c0f-9b27-2384b837f25d",
-          "itemIndex": 22
-        },
-        {
-          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
-          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
-          "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
-          "itemId": "exec-501c8424-75c5-4b86-830c-68aa6392ab24",
-          "itemIndex": 75
+          "itemId": "exec-fe6b0a44-f642-41ae-9fa6-a81941d8f187",
+          "itemIndex": 71
         }
       ],
       "supporting_selections": [
         {
           "owner": "mapbox",
           "manifest": "recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
-          "scope": "observed source20; cat exact first file before next package"
+          "scope": "SOURCE21 exact historical literal transformations"
         }
       ],
       "baseline_sha256_before": null,
@@ -1079,6 +1855,72 @@
       "copied_sha256_verified": true
     },
     {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapCameraState.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source18-native-restoration/MapCameraState.kt",
+      "sha256": "56c2e564c0cefcf717850887bff066d54a3f77d1700abce36d0d982fd509e6a1",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
+      "scope": "native-restoration SOURCE18 candidate; source manifest SHA exact",
+      "historical_refs": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+          "itemId": "exec-93bfabb4-44cc-457c-9a92-b43c0939dc4e",
+          "itemIndex": 42
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+          "itemId": "exec-501c8424-75c5-4b86-830c-68aa6392ab24",
+          "itemIndex": 75
+        }
+      ],
+      "supporting_selections": [
+        {
+          "owner": "mapbox",
+          "manifest": "recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
+          "scope": "native-restoration SOURCE18 candidate; source manifest SHA exact"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapNativeCameraPose.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source21/MapNativeCameraPose.kt",
+      "sha256": "57dd55f4d42625dd7d3f4a86732c715c9a4f9986a16e532018b2848b540110b2",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
+      "scope": "SOURCE21 candidate; unchanged by camera status P2 patch",
+      "historical_refs": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
+          "threadId": "6af7a318-0430-8191-8c9d-1cee283ec043",
+          "turnId": "01a1d763-d071-7747-82e6-27b0e60c23af",
+          "itemId": "exec-8a1d4005-95ce-487a-bdea-f053d4ff9de9",
+          "itemIndex": 43
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
+          "threadId": "6af7a318-0430-8191-8c9d-1cee283ec043",
+          "turnId": "01a1d763-d071-7747-82e6-27b0e60c23af",
+          "itemId": "exec-fe6b0a44-f642-41ae-9fa6-a81941d8f187",
+          "itemIndex": 71
+        }
+      ],
+      "supporting_selections": [
+        {
+          "owner": "mapbox",
+          "manifest": "recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
+          "scope": "SOURCE21 candidate; unchanged by camera status P2 patch"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
       "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapResourceCycle.kt",
       "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/initial-nov05/MapResourceCycle.kt",
       "sha256": "96c01f76fd108b9340e3161bbf12e686e4103f7c5a2474d60077d93f066abb06",
@@ -1102,6 +1944,312 @@
         }
       ],
       "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapReticleProjection.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T09-51-38+00-00--01a1b56b--item1/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapReticleProjection.kt",
+      "sha256": "18a84b6a86f959b085f3d19f033db93369775464d9f24e904a6af0f85fa5ade9",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "scope": "Complete original Nov7 cat, bounded before subsequent rg; actual Add prefix independently matches",
+      "historical_refs": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch13.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b56b-ba2f-706c-bf7f-2345be1d179b",
+          "itemId": "exec-9ea87f0b-563a-494a-a32c-66c3b02c593b",
+          "itemIndex": 1
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/root0002-full250.json",
+          "threadId": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turnId": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+          "itemId": "exec-94089329-95b8-4c1e-b068-d07dd1435e2a",
+          "itemIndex": 118
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarChrome.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T15-21-58+00-00--01a1b69a--item6/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarChrome.kt",
+      "sha256": "d73edfeecb05938d4b402703f2df8558a035003de08750059ed3df9286aeb4c9",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "scope": "Complete Nov7 status-bar bridge",
+      "historical_refs": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/maps-guidage-batch3.json",
+          "threadId": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+          "turnId": "01a1b69a-288f-73ce-9c2b-accb752e2089",
+          "itemId": "exec-9f2bb226-bca4-476e-a2ac-78256f81da5d",
+          "itemIndex": 6
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicy.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapStatusBarPolicy.kt",
+      "sha256": "10011f6b52bfa541ffd4105588ae0b0b65f204e28ec9c8fdda7b40906a1bc1ed",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "scope": "Complete Nov7 fixed per-root status-bar policy",
+      "historical_refs": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b5c2-5636-70e4-ab31-4fcbaa86754b",
+          "itemId": "exec-e363a162-4b03-4179-9eff-9ce40f584f01",
+          "itemIndex": 35
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprint.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-13T16-57-14+00-00--01a1d5d7--item18/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapViewportFootprint.kt",
+      "sha256": "39bf8cc8d26385e05e6b73998dd2e88b443c09b9cfcb21f0813b6c81975d34d3",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "scope": "Complete viewport helper observed Nov13 16:57",
+      "historical_refs": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+          "itemId": "exec-ec55d008-0527-45d9-ac67-e3159b42d125",
+          "itemIndex": 18
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxCanvasModels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/source20-pre-source21/MapboxCanvasModels.kt",
+      "sha256": "2258ebf915975f869e28d1d5e027c56d0a18734c96862875dc1524813796ca87",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "scope": "observed source20; cat exact first file before next package",
+      "historical_refs": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
+          "threadId": "6af7a318-0430-8191-8c9d-1cee283ec043",
+          "turnId": "01a1d763-d071-7747-82e6-27b0e60c23af",
+          "itemId": "exec-e99b6fab-9822-4c0f-9b27-2384b837f25d",
+          "itemIndex": 22
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+          "itemId": "exec-501c8424-75c5-4b86-830c-68aa6392ab24",
+          "itemIndex": 75
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "2258ebf915975f869e28d1d5e027c56d0a18734c96862875dc1524813796ca87",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxPublicConfiguration.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item15/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapboxPublicConfiguration.kt",
+      "sha256": "b96da7bcfc04b40c7bb866dd4eea02959a54c4106ffd6eadab94c9ef9fcb3bb2",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "scope": "Complete public token-shape guard observed Nov13, no literal token stored",
+      "historical_refs": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b5c2-5636-70e4-ab31-4fcbaa86754b",
+          "itemId": "exec-4786f643-e27f-4682-8129-b3427da395dc",
+          "itemIndex": 15
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier18.json",
+          "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+          "turnId": "01a1d496-4ba4-708c-aed1-08f8beace6e9",
+          "itemId": "exec-7a8276c3-2f31-4210-bf18-70b56e8823e3",
+          "itemIndex": 16
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayLabelBadgePixels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayLabelBadgePixels.kt",
+      "sha256": "497368093758b03c33348e1c99f2cdf049bf148b53f3c91580eae1445ba7fa51",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "scope": "Complete Nov7 label badge pixel helper",
+      "historical_refs": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b5c2-5636-70e4-ab31-4fcbaa86754b",
+          "itemId": "exec-e363a162-4b03-4179-9eff-9ce40f584f01",
+          "itemIndex": 35
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayRasterBudget.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T09-56-15+00-00--01a1b56f--item84/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlayRasterBudget.kt",
+      "sha256": "cb101f9d902d1fb7831281f4220e91805edbe6511f21c448713694865f78752a",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "scope": "Complete Nov7 raster admission policy and its historical tests",
+      "historical_refs": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch13.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b56f-f136-744b-9ec5-1aa29f5c4393",
+          "itemId": "exec-14f8e36e-17bc-44ae-b021-c8310a19c4f3",
+          "itemIndex": 84
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlaySourceAckGate.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-50-20+00-00--01a1b5d8--item36/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/OverlaySourceAckGate.kt",
+      "sha256": "48d04439aa6a003f1bc20545e53550f0eefe68b234f5202625105db959afbc59",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "scope": "Complete Nov7 ACK gate, independent historical SHA printed again by Maps reviewer",
+      "historical_refs": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b5d8-638e-7177-b665-d9570af1eb7d",
+          "itemId": "exec-fc640502-0a29-416a-a8d8-3c559b350500",
+          "itemIndex": 36
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/complete-files/final-after-p2/SharedMapboxCanvas.kt",
+      "sha256": "98209439aafde4330257f71ee7755cc90fbd2e79d13e75dc41aaa2f07c569926",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
+      "scope": "final after P2v2; strict context-checked patch, whole historical digest matched",
+      "historical_refs": [],
+      "supporting_selections": [
+        {
+          "owner": "mapbox",
+          "manifest": "recovery-mapbox-sources/module-expansion/camera-selection-for-assembly.json",
+          "scope": "final after P2v2; strict context-checked patch, whole historical digest matched"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T16-48-30+00-00--01a1b6e9--item29/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/NativeOfflineMapGateway.kt",
+      "sha256": "f80aea92b9d1791b701e2dea964a5032cb66b7a708c8f452dd09621211add43e",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "scope": "Latest completely recovered native offline variant observed Nov7; keep as a separately dated offline family",
+      "historical_refs": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch6.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b6e9-5eb0-7764-9944-b57f5daae838",
+          "itemId": "exec-439b22a3-5aa7-4304-9280-b2a2ff0f4192",
+          "itemIndex": 29
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineMapModels.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T09-24-10+00-00--01a1b552--item65/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineMapModels.kt",
+      "sha256": "c968e1aeedcce56fd942c696c2413b7b61ebe6adcc5a09ba55cdbc7775567f99",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "scope": "Latest completely recovered native offline variant observed Nov7; keep as a separately dated offline family",
+      "historical_refs": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch6-single.json",
+          "threadId": "01a1b53a-ede9-73c6-9561-368c2129706b",
+          "turnId": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
+          "itemId": "exec-39b95cb0-324b-453a-be0c-81b3b3c56d1a",
+          "itemIndex": 65
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineNativeDiagnostics.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T14-05-33+00-00--01a1b654--item66/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/offline/OfflineNativeDiagnostics.kt",
+      "sha256": "45c416f2645d9af080092a10c7ac02d2ef6ff751b48a9ec95b61ea48ad6a9bb7",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "scope": "Latest completely recovered native offline variant observed Nov7; keep as a separately dated offline family",
+      "historical_refs": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch10.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b654-314a-75cc-aa10-e1a2891ea8bc",
+          "itemId": "exec-0f69bfa3-3b44-4e01-9e2e-b47241c2e6b5",
+          "itemIndex": 66
+        },
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch10.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b654-314a-75cc-aa10-e1a2891ea8bc",
+          "itemId": "exec-e12dec43-bef4-4517-8127-67f258504442",
+          "itemIndex": 70
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-mapbox/src/main/res/values/map_system_bar_ids.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T11-26-14+00-00--01a1b5c2--item35/cartography-mapbox/src/main/res/values/map_system_bar_ids.xml",
+      "sha256": "e114aa4e85f96fff7b27dd29a3c1d667ae4e3e77678b89d9eaddead76c8de6fb",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "scope": "Complete Nov7 IDs paired with status-bar bridge",
+      "historical_refs": [
+        {
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b5c2-5636-70e4-ab31-4fcbaa86754b",
+          "itemId": "exec-e363a162-4b03-4179-9eff-9ce40f584f01",
+          "itemIndex": 35
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
       "copied_sha256_verified": true
     },
     {
@@ -1220,117 +2368,166 @@
       "copied_sha256_verified": true
     },
     {
-      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/maprecherche-observed-chain-versions/01a1b674-edc8-722a-b02e-cb30dc34215f/exec-c596edc5-9b0f-44da-886b-62831d6eae28/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
-      "sha256": "44b5d83e4196d05a4af3d4e70032703d625e79cf9f2427e75c3a7af37d9a7e7b",
-      "owner": "workspace",
-      "manifest": "recovery-workspace-sources/assembly-selection.json",
-      "scope": null,
+      "path": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapReticleProjectionTest.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-mapbox-sources/module-expansion/versions/2026-11-07T09-51-38+00-00--01a1b56b--item3/cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapReticleProjectionTest.kt",
+      "sha256": "28549a870727417015900ec178a4ed28a05a3fa7a45b115135500cdb9101a264",
+      "owner": "mapbox",
+      "manifest": "recovery-mapbox-sources/module-expansion/module-selection-for-assembly.json",
+      "scope": "Complete original Nov7 cat, bounded before subsequent rg; actual Add prefix independently matches",
       "historical_refs": [
         {
-          "history_file": "maps-guidage-batch4.json",
-          "thread": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
-          "turn": "01a1b674-edc8-722a-b02e-cb30dc34215f",
-          "item": "exec-c596edc5-9b0f-44da-886b-62831d6eae28",
-          "item_index": 30
-        }
-      ],
-      "supporting_selections": [
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch13.json",
+          "threadId": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+          "turnId": "01a1b56b-ba2f-706c-bf7f-2345be1d179b",
+          "itemId": "exec-c296e2c5-aab6-414f-a05f-54242ff86ee4",
+          "itemIndex": 3
+        },
         {
-          "owner": "workspace",
-          "manifest": "recovery-workspace-sources/assembly-selection.json",
-          "scope": null
+          "historyFile": "/workspace/outputs/2026-11-14/recovery-history/root0002-full250.json",
+          "threadId": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turnId": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+          "itemId": "exec-94089329-95b8-4c1e-b068-d07dd1435e2a",
+          "itemIndex": 118
         }
       ],
-      "baseline_sha256_before": "a0a1d359ab53d2301a16635686daf5863a4df17b1f4bb68e6b9bc7a2f00582f4",
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
       "copied_sha256_verified": true
     },
     {
-      "path": "app/src/main/java/com/forestry/counter/presentation/components/maps/MapCatalogThumbnail.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-3221f546-9637-4df5-a4fa-9df4fc7d1087/app/src/main/java/com/forestry/counter/presentation/components/maps/MapCatalogThumbnail.kt",
-      "sha256": "24e68c9d5c7e881aef7431750f17382cd9735a703e9b82498514b3456d6a55c1",
-      "owner": "workspace",
-      "manifest": "recovery-workspace-sources/assembly-selection.json",
-      "scope": null,
+      "path": "cartography-preview/build.gradle.kts",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-history-index/gradle-chain/recovered/cartography-preview/build.gradle.kts",
+      "sha256": "4fc923a5627f77b992e8f14def4a29448be189b0ca2839e0aa7bdc55e42f39d8",
+      "owner": "configuration",
+      "manifest": "recovery-history-index/gradle-chain/selection.json",
+      "scope": "Exact observed configuration text from base36d1515 plus Nov3–7 literal edits; app Gradle confirmed by Nov13 source-build18 snapshot. No claim of compilation.",
       "historical_refs": [
         {
-          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047"
-        }
-      ],
-      "supporting_selections": [
+          "history_file": "root-older-single-0050.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+          "item": "exec-5c0a1fc5-821f-48d5-bb55-fad1e9d99c34",
+          "item_index": 37
+        },
         {
-          "owner": "workspace",
-          "manifest": "recovery-workspace-sources/assembly-selection.json",
-          "scope": null
+          "history_file": "root-older-single-0050.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+          "item": "exec-12bd284a-b03a-4bfa-87c9-04c5eda0de80",
+          "item_index": 51
+        },
+        {
+          "history_file": "root-older-single-0050.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+          "item": "exec-9abe1b9d-167d-4603-884a-45cd08a64d98",
+          "item_index": 62
+        },
+        {
+          "history_file": "root-older-single-0049.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1a2bc-4e6f-70e4-9dbf-59840ea6a472",
+          "item": "exec-198c87aa-2a02-4953-a40f-36bdf76c0787",
+          "item_index": 183
         }
       ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
       "copied_sha256_verified": true
     },
     {
-      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostPolicy.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/versions/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-bd043ba8-e5d4-4952-86c4-785d9142afda/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostPolicy.kt",
-      "sha256": "b7686b9eb3d907148ed452e2a53c47d82ffa2bea8082ab41f3c6a94503de8904",
-      "owner": "workspace",
-      "manifest": "recovery-workspace-sources/assembly-selection.json",
-      "scope": null,
+      "path": "cartography-preview/src/main/AndroidManifest.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-history-index/gradle-chain/recovered/cartography-preview/src/main/AndroidManifest.xml",
+      "sha256": "dab4d489775b433ec22a1af3144c4136ea94c85363ec6fea14ffea74a8890635",
+      "owner": "configuration",
+      "manifest": "recovery-history-index/gradle-chain/selection.json",
+      "scope": "Exact observed configuration text from base36d1515 plus Nov3–7 literal edits; app Gradle confirmed by Nov13 source-build18 snapshot. No claim of compilation.",
       "historical_refs": [
         {
-          "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f"
+          "history_file": "root-older-single-0050.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+          "item": "exec-5c0a1fc5-821f-48d5-bb55-fad1e9d99c34",
+          "item_index": 37
         }
       ],
-      "supporting_selections": [
-        {
-          "owner": "workspace",
-          "manifest": "recovery-workspace-sources/assembly-selection.json",
-          "scope": null
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
       "copied_sha256_verified": true
     },
     {
-      "path": "app/src/main/res/values/map_catalog_preview.xml",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f0d8a1a5-5d13-42b7-9927-dbb2526249a9/app/src/main/res/values/map_catalog_preview.xml",
-      "sha256": "caa381047cddf871ca6602cca7c54825e01a91091eccbd3709035fae4a1efbc8",
-      "owner": "workspace",
-      "manifest": "recovery-workspace-sources/assembly-selection.json",
-      "scope": null,
+      "path": "cartography-preview/src/main/res/values/strings.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-history-index/gradle-chain/recovered/cartography-preview/src/main/res/values/strings.xml",
+      "sha256": "37b4b8e50b4ea7db34f4380d1282d9093b40c8b856962ea912bd159738c4e7cf",
+      "owner": "configuration",
+      "manifest": "recovery-history-index/gradle-chain/selection.json",
+      "scope": "Exact observed configuration text from base36d1515 plus Nov3–7 literal edits; app Gradle confirmed by Nov13 source-build18 snapshot. No claim of compilation.",
       "historical_refs": [
         {
-          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047"
-        }
-      ],
-      "supporting_selections": [
+          "history_file": "root-older-single-0050.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+          "item": "exec-5c0a1fc5-821f-48d5-bb55-fad1e9d99c34",
+          "item_index": 37
+        },
         {
-          "owner": "workspace",
-          "manifest": "recovery-workspace-sources/assembly-selection.json",
-          "scope": null
+          "history_file": "root-older-single-0050.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+          "item": "exec-6a75484c-515e-47bd-bf78-d9decf572d4f",
+          "item_index": 89
+        },
+        {
+          "history_file": "root-older-single-0050.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+          "item": "exec-7b460fa3-4b12-4319-8419-5f445db85f15",
+          "item_index": 156
+        },
+        {
+          "history_file": "root-older-single-0050.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+          "item": "exec-297afa94-cb60-4c3e-8f00-fa910b34c1be",
+          "item_index": 197
+        },
+        {
+          "history_file": "root-older-single-0049.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1a2bc-4e6f-70e4-9dbf-59840ea6a472",
+          "item": "exec-8a89ce86-e981-48ac-bda6-1182cd4aeff4",
+          "item_index": 28
+        },
+        {
+          "history_file": "root-older-single-0049.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1a2bc-4e6f-70e4-9dbf-59840ea6a472",
+          "item": "exec-41b6710c-7160-47fd-9726-0aa3e5e21f62",
+          "item_index": 144
         }
       ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
       "copied_sha256_verified": true
     },
     {
-      "path": "app/src/main/res/values-en/map_catalog_preview.xml",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f0d8a1a5-5d13-42b7-9927-dbb2526249a9/app/src/main/res/values-en/map_catalog_preview.xml",
-      "sha256": "c75ea474955e2ae8babb6bc9b05581ce8cd8509269962296d579b74244480aed",
-      "owner": "workspace",
-      "manifest": "recovery-workspace-sources/assembly-selection.json",
-      "scope": null,
+      "path": "cartography-preview/src/main/res/values/styles.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-history-index/gradle-chain/recovered/cartography-preview/src/main/res/values/styles.xml",
+      "sha256": "4361be24edbf418f4c61a5e47fb6c3510fa287e6b9cac9e5968c1bd578f5e6f3",
+      "owner": "configuration",
+      "manifest": "recovery-history-index/gradle-chain/selection.json",
+      "scope": "Exact observed configuration text from base36d1515 plus Nov3–7 literal edits; app Gradle confirmed by Nov13 source-build18 snapshot. No claim of compilation.",
       "historical_refs": [
         {
-          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047"
+          "history_file": "root-older-single-0050.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+          "item": "exec-5c0a1fc5-821f-48d5-bb55-fad1e9d99c34",
+          "item_index": 37
         }
       ],
-      "supporting_selections": [
-        {
-          "owner": "workspace",
-          "manifest": "recovery-workspace-sources/assembly-selection.json",
-          "scope": null
-        }
-      ],
-      "baseline_sha256_before": null,
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": null,
       "copied_sha256_verified": true
     },
     {
@@ -1343,6 +2540,32 @@
       "historical_refs": [
         {
           "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047"
+        }
+      ],
+      "supporting_selections": [
+        {
+          "owner": "workspace",
+          "manifest": "recovery-workspace-sources/assembly-selection.json",
+          "scope": null
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-ui/src/main/AndroidManifest.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/literal-ui-versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1ad12-44db-7277-9120-277722007c21/exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a/cartography-ui/src/main/AndroidManifest.xml",
+      "sha256": "571f2735faf5e857752ee057ac8ef63425576a721616c60b86ee5d4c0a2d682f",
+      "owner": "workspace",
+      "manifest": "recovery-workspace-sources/assembly-selection.json",
+      "scope": null,
+      "historical_refs": [
+        {
+          "history_file": "root0007-commands20k.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1ad12-44db-7277-9120-277722007c21",
+          "item": "exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a",
+          "item_index": 48
         }
       ],
       "supporting_selections": [
@@ -1404,26 +2627,60 @@
       "copied_sha256_verified": true
     },
     {
-      "path": "cartography-ui/src/main/res/values/strings.xml",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/observed-chain-versions/01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b/01a1b01a-2f81-72f8-99ba-3bfa2f37ab19/exec-c13f02ba-fe1b-4509-a9f7-1149f92da7d1/cartography-ui/src/main/res/values/strings.xml",
-      "sha256": "0a56a82443100424ddbe3f2136f8e1df751032227dd22a05071caa49874bb4ed",
-      "owner": "workspace",
-      "manifest": "recovery-workspace-sources/assembly-selection.json",
-      "scope": null,
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trees/TreeWorkspaceState.kt",
+      "artifact": null,
+      "sha256": "617abb325ba9ac91dc4d5a2a426ef87675eb86007a2c02ffa3a0634b7c9b5e06",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
       "historical_refs": [
         {
-          "history_file": "workspace-ui-earliest-next.json",
-          "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
-          "turn": "01a1b01a-2f81-72f8-99ba-3bfa2f37ab19",
-          "item": "exec-c13f02ba-fe1b-4509-a9f7-1149f92da7d1",
-          "item_index": 37
+          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "item": "exec-6e4a1982-95e0-4b2b-a348-072dfd1180d4",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-batch11.json",
+          "item_index": 42,
+          "item_id": "exec-6e4a1982-95e0-4b2b-a348-072dfd1180d4"
         }
       ],
-      "supporting_selections": [
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/catalog_visuals.xml",
+      "artifact": null,
+      "sha256": "39f3627d11bc7e3bfe9a87b1e5ba7cbf1c6a3e0c11096fbbee1b34906139b5ff",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
         {
-          "owner": "workspace",
-          "manifest": "recovery-workspace-sources/assembly-selection.json",
-          "scope": null
+          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+          "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+          "item": "exec-c4ce7e4f-a3ea-4caa-8097-689f93706709",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
+          "item_index": 154,
+          "item_id": "exec-c4ce7e4f-a3ea-4caa-8097-689f93706709"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/measure_strings.xml",
+      "artifact": null,
+      "sha256": "98d34cbf2e76983e92dfb5120af645a7cc4d385ade5a6081c46e41cc1890bc99",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+          "turn": "01a1b19c-a437-7792-962b-86ad02a981a9",
+          "item": "exec-4109e703-1fc1-4db5-bb87-266e74761d01",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/workspace-ui-earlier.json",
+          "item_index": 29,
+          "item_id": "exec-4109e703-1fc1-4db5-bb87-266e74761d01"
         }
       ],
       "baseline_sha256_before": null,
@@ -1456,518 +2713,20 @@
       "copied_sha256_verified": true
     },
     {
-      "path": "cartography-ui/src/main/AndroidManifest.xml",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/literal-ui-versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1ad12-44db-7277-9120-277722007c21/exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a/cartography-ui/src/main/AndroidManifest.xml",
-      "sha256": "571f2735faf5e857752ee057ac8ef63425576a721616c60b86ee5d4c0a2d682f",
-      "owner": "workspace",
-      "manifest": "recovery-workspace-sources/assembly-selection.json",
-      "scope": null,
-      "historical_refs": [
-        {
-          "history_file": "root0007-commands20k.json",
-          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
-          "turn": "01a1ad12-44db-7277-9120-277722007c21",
-          "item": "exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a",
-          "item_index": 48
-        }
-      ],
-      "supporting_selections": [
-        {
-          "owner": "workspace",
-          "manifest": "recovery-workspace-sources/assembly-selection.json",
-          "scope": null
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
-      "sha256": "6b4a90b1b8e56e2bcfa8372360254729e7ca9ab50bb3ea6797adf5c5617f4b5c",
-      "owner": "recent",
-      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-      "scope": "complete-recorded-final-candidate21",
-      "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "recent",
-          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-          "scope": "complete-recorded-final-candidate21"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values/strings_retained_workflows.xml",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21/app/src/main/res/values/strings_retained_workflows.xml",
-      "sha256": "7a48407db93a13989f97c7dc8152bf3b429175ffa5ce70ea03beb9e8b3ae38d2",
-      "owner": "recent",
-      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-      "scope": "complete-recorded-final-candidate21",
-      "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "recent",
-          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-          "scope": "complete-recorded-final-candidate21"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/java/com/forestry/counter/presentation/screens/field/RetainedJournalContent.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-journal-candidate/app/src/main/java/com/forestry/counter/presentation/screens/field/RetainedJournalContent.kt",
-      "sha256": "92ec917fc20b9da997dfe2b359e7b86bed843edda9c806db3baaa31d5c0c100e",
-      "owner": "recent",
-      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-      "scope": "complete-recorded-final-candidate21",
-      "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "recent",
-          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-          "scope": "complete-recorded-final-candidate21"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values/strings_business_polish12.xml",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-journal-candidate/app/src/main/res/values/strings_business_polish12.xml",
-      "sha256": "979ed1ce9e0176cc9595e38717afabd623c951839e5dbab844979f8d99eaf0d7",
-      "owner": "recent",
-      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-      "scope": "complete-recorded-final-candidate21",
-      "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "recent",
-          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-          "scope": "complete-recorded-final-candidate21"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values-en/strings_business_polish12.xml",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-journal-candidate/app/src/main/res/values-en/strings_business_polish12.xml",
-      "sha256": "e855e5a8f39b7351ede3793aa84ff105be2b17d5c5571cfe8e1cad84ed3f1ddf",
-      "owner": "recent",
-      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-      "scope": "complete-recorded-final-candidate21",
-      "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "recent",
-          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-          "scope": "complete-recorded-final-candidate21"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/java/com/forestry/counter/presentation/screens/wood/PileMeasurementForm.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-wood-candidate/app/src/main/java/com/forestry/counter/presentation/screens/wood/PileMeasurementForm.kt",
-      "sha256": "66bf14230bd6fc75e5adc21296e5ac84f6e1aa42d3f29b4dd1110518003d831b",
-      "owner": "recent",
-      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-      "scope": "complete-recorded-final-candidate21",
-      "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "recent",
-          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-          "scope": "complete-recorded-final-candidate21"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/java/com/forestry/counter/presentation/screens/wood/WoodFileCard.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-wood-candidate/app/src/main/java/com/forestry/counter/presentation/screens/wood/WoodFileCard.kt",
-      "sha256": "c8a260d0fa492238b0a4c3615984b5811de8c8ae01fdfbe3cf49c888b7a0400f",
-      "owner": "recent",
-      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-      "scope": "complete-recorded-final-candidate21",
-      "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "recent",
-          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-          "scope": "complete-recorded-final-candidate21"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values/strings_wood_presentation.xml",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-wood-candidate/app/src/main/res/values/strings_wood_presentation.xml",
-      "sha256": "f13d8d8255c8aa710c34e15ef37c9254e05c89ca96ccc43b5c1e32b94155dfd4",
-      "owner": "recent",
-      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-      "scope": "complete-recorded-final-candidate21",
-      "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "recent",
-          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-          "scope": "complete-recorded-final-candidate21"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values-en/strings_wood_presentation.xml",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-wood-candidate/app/src/main/res/values-en/strings_wood_presentation.xml",
-      "sha256": "f909d20db3cbc31f63c320432323b448714c2e83417a4bc8012fbac4c63ce698",
-      "owner": "recent",
-      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-      "scope": "complete-recorded-final-candidate21",
-      "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "recent",
-          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-          "scope": "complete-recorded-final-candidate21"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/java/com/forestry/counter/presentation/navigation/JourneyNavigation.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source20-map-target-candidate/app/src/main/java/com/forestry/counter/presentation/navigation/JourneyNavigation.kt",
-      "sha256": "2bad5fbbd28b99ef4621282194d74e69c978ff3b97bd39ac6bb03d53ad126e3c",
-      "owner": "recent",
-      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-      "scope": "complete-recorded-source20-map-target-candidate",
-      "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "recent",
-          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-          "scope": "complete-recorded-source20-map-target-candidate"
-        }
-      ],
-      "baseline_sha256_before": "2bad5fbbd28b99ef4621282194d74e69c978ff3b97bd39ac6bb03d53ad126e3c",
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/java/com/forestry/counter/presentation/navigation/MapAccessObservationRoute.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source20-map-target-candidate/app/src/main/java/com/forestry/counter/presentation/navigation/MapAccessObservationRoute.kt",
-      "sha256": "879cd2303e13056be681b15670e830af0f58b53c434a20ba54151009da7a57f7",
-      "owner": "recent",
-      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-      "scope": "complete-recorded-source20-map-target-candidate",
-      "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "recent",
-          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-          "scope": "complete-recorded-source20-map-target-candidate"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/java/com/forestry/counter/presentation/screens/field/FieldMapContextScreen.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source20-map-target-candidate/app/src/main/java/com/forestry/counter/presentation/screens/field/FieldMapContextScreen.kt",
-      "sha256": "9441ed747fa6c2eb3f769183f568656f7b92621f19f69bdd639c06926cc19c60",
-      "owner": "recent",
-      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-      "scope": "complete-recorded-source20-map-target-candidate",
-      "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "recent",
-          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-          "scope": "complete-recorded-source20-map-target-candidate"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/test/java/com/forestry/counter/presentation/screens/field/FieldMapContextViewModelTest.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source20-map-target-candidate/app/src/test/java/com/forestry/counter/presentation/screens/field/FieldMapContextViewModelTest.kt",
-      "sha256": "8efdf263d7e773520b9ae272ad96fe7f5094e2ec0cd286b36cea261a4e2bb93d",
-      "owner": "recent",
-      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-      "scope": "complete-recorded-source20-map-target-candidate",
-      "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "recent",
-          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-          "scope": "complete-recorded-source20-map-target-candidate"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt",
-      "artifact": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-composed-journal-wood/app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt",
-      "sha256": "2e1d0513f528dfafb7fd0caee73d42e836731d83ae7ab931ed92736f5257ba76",
-      "owner": "recent",
-      "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-      "scope": "Exact recorded composition; full snapshot21 match not claimed",
-      "historical_refs": [],
-      "supporting_selections": [
-        {
-          "owner": "recent",
-          "manifest": "recovery-recent-patches/RECOVERY_SUMMARY.json",
-          "scope": "Exact recorded composition; full snapshot21 match not claimed"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "docs/referentiels/metiers/2026-11-02/README.md",
+      "path": "cartography-ui/src/main/res/values/catalog_visuals.xml",
       "artifact": null,
-      "sha256": "c8d05e0e00278542947abc9c8583097aef75504c4c4c79a83844770439eb81c5",
+      "sha256": "b978a9da7495dcb368bc12b656962feb110d3efa202574a01d0ecbdc9c7eab92",
       "owner": "recorded_add",
       "manifest": "recovery-history-index/history-index.json",
       "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
       "historical_refs": [
         {
-          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
-          "turn": "01a19be0-a6ab-74d8-b79d-bff97eb9c448",
-          "item": "exec-f5d7095f-c9e1-4933-9aba-fd85a532e72a",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0074.json",
-          "item_index": 115,
-          "item_id": "exec-f5d7095f-c9e1-4933-9aba-fd85a532e72a"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "docs/metiers-prioritaires/2026-11-02/ETUDE_FORLOG.md",
-      "artifact": null,
-      "sha256": "897401958f88e1c6914c580d9a4a6b0619f21ac0805903bdf13506a8bacfd297",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
-          "turn": "01a19c12-84cd-74ac-b926-10878132ec54",
-          "item": "exec-5144ba8e-c4f7-459c-a22d-be1b8c9957f0",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0073.json",
-          "item_index": 90,
-          "item_id": "exec-5144ba8e-c4f7-459c-a22d-be1b8c9957f0"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "docs/architecture-gsie-mobile/2026-11-02/ARBITRAGES_ET_BRAINSTORM.md",
-      "artifact": null,
-      "sha256": "4be67a2183b03f8370421f6f6492cdf4b0a3471b6a25b499981a490650de4831",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
-          "turn": "01a19c69-6b6e-75b6-b1e3-997fb92e1efa",
-          "item": "exec-bd348657-3434-4642-bef4-0546b9637c6b",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0072.json",
-          "item_index": 64,
-          "item_id": "exec-bd348657-3434-4642-bef4-0546b9637c6b"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/CarteModeArtwork.kt",
-      "artifact": null,
-      "sha256": "77d57d28eb4a6d2832d8b53008394d18a809b75c54d4dffb3fd1158e1f185ff5",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
-          "turn": "01a1a1d1-9063-7147-a4cb-af6ea0e051e9",
-          "item": "exec-b2afa359-723d-43f0-9033-9a375da274ad",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/root-older-single-0051.json",
-          "item_index": 57,
-          "item_id": "exec-b2afa359-723d-43f0-9033-9a375da274ad"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/java/com/forestry/counter/presentation/components/maps/MapboxRenderStatusOverlay.kt",
-      "artifact": null,
-      "sha256": "aa51318d87a8c85b28a5a959be36f7b0b9a6dd2d9dc9965e2acb5823670ff699",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
-          "turn": "01a1ad12-44db-7277-9120-277722007c21",
-          "item": "exec-b08d1c52-d7f3-4ee8-b9f8-c72cbbc502b7",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/root0007-full10k.json",
-          "item_index": 77,
-          "item_id": "exec-b08d1c52-d7f3-4ee8-b9f8-c72cbbc502b7"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values-en/map_workspace_host.xml",
-      "artifact": null,
-      "sha256": "52cf832262bb1e0ebdabe1a1ab817e06f7e9cea00bd2107e74d176ea07bde8e1",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
-          "turn": "01a1b019-343f-7713-9676-05ad9526b21e",
-          "item": "exec-7073f730-8322-42cf-9e5b-6df22c3aa684",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/workspace-host-earlier.json",
-          "item_index": 56,
-          "item_id": "exec-7073f730-8322-42cf-9e5b-6df22c3aa684"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values/map_workspace_host.xml",
-      "artifact": null,
-      "sha256": "b32f9e9beee8b8b79caa0ce3d09b12c5bba153008c3712a20e638337dad7a97b",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
-          "turn": "01a1b019-343f-7713-9676-05ad9526b21e",
-          "item": "exec-7073f730-8322-42cf-9e5b-6df22c3aa684",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/workspace-host-earlier.json",
-          "item_index": 56,
-          "item_id": "exec-7073f730-8322-42cf-9e5b-6df22c3aa684"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values-en/map_workspace_host_dialogs.xml",
-      "artifact": null,
-      "sha256": "2f165cb30ffb38bb79c70c21c1f5b867e46166fbe82b94f5a674b439d7dd985c",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
-          "turn": "01a1b01f-97b2-741c-94f8-fa9247eef839",
-          "item": "exec-0e98c790-e566-4e31-b1c1-d4c95b4ebb0f",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/workspace-search-tools-initial.json",
-          "item_index": 5,
-          "item_id": "exec-0e98c790-e566-4e31-b1c1-d4c95b4ebb0f"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values/map_workspace_host_dialogs.xml",
-      "artifact": null,
-      "sha256": "e7ce1371bd4b4ae57c02b9aa1668b965223bdf5f0912396f139ea86e6caa60f8",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
-          "turn": "01a1b01f-97b2-741c-94f8-fa9247eef839",
-          "item": "exec-0e98c790-e566-4e31-b1c1-d4c95b4ebb0f",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/workspace-search-tools-initial.json",
-          "item_index": 5,
-          "item_id": "exec-0e98c790-e566-4e31-b1c1-d4c95b4ebb0f"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values-en/map_manual_measure.xml",
-      "artifact": null,
-      "sha256": "091d87b165a2728fc05025d2231b703df58804aa32592e645e80993c0bf28ce5",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
-          "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
-          "item": "exec-c5ef21b0-376e-4cad-b711-405bc6224745",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/root0003-full.json",
-          "item_index": 108,
-          "item_id": "exec-c5ef21b0-376e-4cad-b711-405bc6224745"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values/map_manual_measure.xml",
-      "artifact": null,
-      "sha256": "621e43c50ee4bb3c889b5c258d56cd09eadbdba3dc0415931f1ac7f08954f607",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
-          "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
-          "item": "exec-c5ef21b0-376e-4cad-b711-405bc6224745",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/root0003-full.json",
-          "item_index": 108,
-          "item_id": "exec-c5ef21b0-376e-4cad-b711-405bc6224745"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "cartography-ui/src/main/res/values-en/measure_strings.xml",
-      "artifact": null,
-      "sha256": "98d34cbf2e76983e92dfb5120af645a7cc4d385ade5a6081c46e41cc1890bc99",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
-          "turn": "01a1b19c-a437-7792-962b-86ad02a981a9",
-          "item": "exec-4109e703-1fc1-4db5-bb87-266e74761d01",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/workspace-ui-earlier.json",
-          "item_index": 29,
-          "item_id": "exec-4109e703-1fc1-4db5-bb87-266e74761d01"
+          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
+          "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
+          "item": "exec-c4ce7e4f-a3ea-4caa-8097-689f93706709",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
+          "item_index": 154,
+          "item_id": "exec-c4ce7e4f-a3ea-4caa-8097-689f93706709"
         }
       ],
       "baseline_sha256_before": null,
@@ -1994,493 +2753,160 @@
       "copied_sha256_verified": true
     },
     {
-      "path": "app/src/main/res/values-en/strings_retained_workflows.xml",
-      "artifact": null,
-      "sha256": "3febfa0a569de5cf20ad8c0c0262b15e8fd8eedb08c73284f0014f4609699ef1",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "path": "cartography-ui/src/main/res/values/strings.xml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-workspace-sources/observed-chain-versions/01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b/01a1b01a-2f81-72f8-99ba-3bfa2f37ab19/exec-c13f02ba-fe1b-4509-a9f7-1149f92da7d1/cartography-ui/src/main/res/values/strings.xml",
+      "sha256": "0a56a82443100424ddbe3f2136f8e1df751032227dd22a05071caa49874bb4ed",
+      "owner": "workspace",
+      "manifest": "recovery-workspace-sources/assembly-selection.json",
+      "scope": null,
       "historical_refs": [
         {
-          "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
-          "turn": "01a1b53a-c2e9-71ac-9c00-1ae4b6f318a5",
-          "item": "exec-ae3aeafd-0291-4f3e-8e2a-122861196345",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-initial10k.json",
-          "item_index": 81,
-          "item_id": "exec-ae3aeafd-0291-4f3e-8e2a-122861196345"
+          "history_file": "workspace-ui-earliest-next.json",
+          "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+          "turn": "01a1b01a-2f81-72f8-99ba-3bfa2f37ab19",
+          "item": "exec-c13f02ba-fe1b-4509-a9f7-1149f92da7d1",
+          "item_index": 37
+        }
+      ],
+      "supporting_selections": [
+        {
+          "owner": "workspace",
+          "manifest": "recovery-workspace-sources/assembly-selection.json",
+          "scope": null
         }
       ],
       "baseline_sha256_before": null,
       "copied_sha256_verified": true
     },
     {
-      "path": "app/src/test/java/com/forestry/counter/presentation/screens/field/RetainedJournalPresentationTest.kt",
+      "path": "docs/architecture-gsie-mobile/2026-11-02/ARBITRAGES_ET_BRAINSTORM.md",
       "artifact": null,
-      "sha256": "61ebe41b4c288c225e26514750f7230044e45e807e9ad8bed851fe015adeb73f",
+      "sha256": "4be67a2183b03f8370421f6f6492cdf4b0a3471b6a25b499981a490650de4831",
       "owner": "recorded_add",
       "manifest": "recovery-history-index/history-index.json",
       "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
       "historical_refs": [
         {
-          "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
-          "turn": "01a1b53a-c2e9-71ac-9c00-1ae4b6f318a5",
-          "item": "exec-34ad55ed-6058-4a5d-a65b-859fe9381163",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-initial10k.json",
-          "item_index": 130,
-          "item_id": "exec-34ad55ed-6058-4a5d-a65b-859fe9381163"
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a19c69-6b6e-75b6-b1e3-997fb92e1efa",
+          "item": "exec-bd348657-3434-4642-bef4-0546b9637c6b",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0072.json",
+          "item_index": 64,
+          "item_id": "exec-bd348657-3434-4642-bef4-0546b9637c6b"
         }
       ],
       "baseline_sha256_before": null,
       "copied_sha256_verified": true
     },
     {
-      "path": "app/src/test/java/com/forestry/counter/presentation/screens/wood/PilePreviewTest.kt",
+      "path": "docs/metiers-prioritaires/2026-11-02/ETUDE_FORLOG.md",
       "artifact": null,
-      "sha256": "0fa313d48ccc6bec4c2c4dcc36af4e2a14a67523a2ed79cd711a99082ac6357a",
+      "sha256": "897401958f88e1c6914c580d9a4a6b0619f21ac0805903bdf13506a8bacfd297",
       "owner": "recorded_add",
       "manifest": "recovery-history-index/history-index.json",
       "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
       "historical_refs": [
         {
-          "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
-          "turn": "01a1b53a-c2e9-71ac-9c00-1ae4b6f318a5",
-          "item": "exec-34ad55ed-6058-4a5d-a65b-859fe9381163",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-initial10k.json",
-          "item_index": 130,
-          "item_id": "exec-34ad55ed-6058-4a5d-a65b-859fe9381163"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values-en/strings_field_map_context.xml",
-      "artifact": null,
-      "sha256": "f1c2e688a56e39717368830dd80b8f12c4287230d91eaa402d5f5c6a5dca7a7d",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
-          "turn": "01a1b53a-c2e9-71ac-9c00-1ae4b6f318a5",
-          "item": "exec-a5791967-1e43-4cf0-b2a5-aba59f04bc59",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-initial10k.json",
-          "item_index": 188,
-          "item_id": "exec-a5791967-1e43-4cf0-b2a5-aba59f04bc59"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values/strings_field_map_context.xml",
-      "artifact": null,
-      "sha256": "055b3b2ecd1ba64a265f5ae2d7901ffe200d4d7e3b4039b83fb0e0c822c92789",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
-          "turn": "01a1b53a-c2e9-71ac-9c00-1ae4b6f318a5",
-          "item": "exec-a5791967-1e43-4cf0-b2a5-aba59f04bc59",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-initial10k.json",
-          "item_index": 188,
-          "item_id": "exec-a5791967-1e43-4cf0-b2a5-aba59f04bc59"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/test/java/com/forestry/counter/presentation/navigation/MapsObservationRouteBoundaryTest.kt",
-      "artifact": null,
-      "sha256": "b89170db2ec72b919d516861fd97e65bbc05d3be20f0c0c15e026cb9d47ec395",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53a-bd88-70ff-956f-23b61b57e077",
-          "turn": "01a1b53a-c2e9-71ac-9c00-1ae4b6f318a5",
-          "item": "exec-6d7d3368-94ef-425e-a940-f3a4b9505817",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-initial10k.json",
-          "item_index": 206,
-          "item_id": "exec-6d7d3368-94ef-425e-a940-f3a4b9505817"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ForestryCreationSourcePanel.kt",
-      "artifact": null,
-      "sha256": "43c885c26c8889010233879caa891aca955f482d9c8ed253a73f2092d23751c1",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
-          "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
-          "item": "exec-3406d8e1-f499-4a1a-89fc-59a9082f2af6",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
-          "item_index": 49,
-          "item_id": "exec-3406d8e1-f499-4a1a-89fc-59a9082f2af6"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values-en/forestry_creation_workspace.xml",
-      "artifact": null,
-      "sha256": "3d5d29070f73072b5abab312e3bd2111db427b15c55d25efaef447a764d79843",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
-          "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
-          "item": "exec-3406d8e1-f499-4a1a-89fc-59a9082f2af6",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
-          "item_index": 49,
-          "item_id": "exec-3406d8e1-f499-4a1a-89fc-59a9082f2af6"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values/forestry_creation_workspace.xml",
-      "artifact": null,
-      "sha256": "7c1adf7d8e61b6d84bf89189b71f172e91fd7fec949dfdf04f3b72f563842247",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
-          "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
-          "item": "exec-3406d8e1-f499-4a1a-89fc-59a9082f2af6",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
-          "item_index": 49,
-          "item_id": "exec-3406d8e1-f499-4a1a-89fc-59a9082f2af6"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/CreateParcelleViewModelTest.kt",
-      "artifact": null,
-      "sha256": "e9a1d6c9429057d2eeebd9a06819f69d0cbe519471e93e6a5f8ffad428f1c67a",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
-          "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
-          "item": "exec-1ef78a2b-e5a6-4722-bb21-d245a35307af",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
-          "item_index": 76,
-          "item_id": "exec-1ef78a2b-e5a6-4722-bb21-d245a35307af"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values-en/map_workspace_visuals.xml",
-      "artifact": null,
-      "sha256": "8ddfbbadf6f1206b22b32d9ff2e74ba2e41faf55e2d50b0fb2f6b93c8fe5c432",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
-          "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
-          "item": "exec-83e7c583-fd02-4c2e-9d14-088086845f25",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
-          "item_index": 149,
-          "item_id": "exec-83e7c583-fd02-4c2e-9d14-088086845f25"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/res/values/map_workspace_visuals.xml",
-      "artifact": null,
-      "sha256": "45dea7d8d3e261e04cbef9cffa7d076f3d4c005f31061e5621813a7ef8566530",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
-          "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
-          "item": "exec-83e7c583-fd02-4c2e-9d14-088086845f25",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
-          "item_index": 149,
-          "item_id": "exec-83e7c583-fd02-4c2e-9d14-088086845f25"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "cartography-ui/src/main/res/values-en/catalog_visuals.xml",
-      "artifact": null,
-      "sha256": "39f3627d11bc7e3bfe9a87b1e5ba7cbf1c6a3e0c11096fbbee1b34906139b5ff",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
-          "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
-          "item": "exec-c4ce7e4f-a3ea-4caa-8097-689f93706709",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
-          "item_index": 154,
-          "item_id": "exec-c4ce7e4f-a3ea-4caa-8097-689f93706709"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "cartography-ui/src/main/res/values/catalog_visuals.xml",
-      "artifact": null,
-      "sha256": "b978a9da7495dcb368bc12b656962feb110d3efa202574a01d0ecbdc9c7eab92",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
-          "turn": "01a1b53a-f389-77d8-b4fd-545f82286b41",
-          "item": "exec-c4ce7e4f-a3ea-4caa-8097-689f93706709",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
-          "item_index": 154,
-          "item_id": "exec-c4ce7e4f-a3ea-4caa-8097-689f93706709"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/java/com/forestry/counter/domain/usecase/maps/MapTreeDisplay.kt",
-      "artifact": null,
-      "sha256": "e5c4c71420688ba062d9038a2f9499409c7294a7f93d7f82f5daef9cf64b44b7",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
-          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
-          "item": "exec-6e4a1982-95e0-4b2b-a348-072dfd1180d4",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-batch11.json",
-          "item_index": 42,
-          "item_id": "exec-6e4a1982-95e0-4b2b-a348-072dfd1180d4"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trees/TreeWorkspaceState.kt",
-      "artifact": null,
-      "sha256": "617abb325ba9ac91dc4d5a2a426ef87675eb86007a2c02ffa3a0634b7c9b5e06",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
-          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
-          "item": "exec-6e4a1982-95e0-4b2b-a348-072dfd1180d4",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-batch11.json",
-          "item_index": 42,
-          "item_id": "exec-6e4a1982-95e0-4b2b-a348-072dfd1180d4"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/java/com/forestry/counter/domain/location/TreeGuidancePolicy.kt",
-      "artifact": null,
-      "sha256": "4b5ca73ccb411f1ffbf8ace5b1d62bbab2c91a7adb74d890edb8af2021fbf04e",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
-          "turn": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
-          "item": "exec-6151a9d6-f337-4818-9d93-6a0fa382fbf6",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-batch11.json",
-          "item_index": 44,
-          "item_id": "exec-6151a9d6-f337-4818-9d93-6a0fa382fbf6"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/java/com/forestry/counter/presentation/components/maps/FixedRadarProjection.kt",
-      "artifact": null,
-      "sha256": "b458f8cc20efd6ab1ed934f7d216b1fff2ee6b041cfcf0bc968398da8988356f",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
-          "turn": "01a1b552-945e-74ef-ad7f-78e1f66260d0",
-          "item": "exec-8009cd3f-c766-45de-9a25-d39ca98923d0",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch6-single.json",
-          "item_index": 144,
-          "item_id": "exec-8009cd3f-c766-45de-9a25-d39ca98923d0"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/trace/TraceShareExport.kt",
-      "artifact": null,
-      "sha256": "e5d3091c8408109ca16c9357468b0631a043a1c59f9bbd5ce91c8af2d1ec30a1",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
-          "turn": "01a1b567-d93b-7506-ad88-c209c8a43ac3",
-          "item": "exec-a14a1106-c36e-4bda-aa98-a92d8e3c60cf",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-batch11.json",
-          "item_index": 12,
-          "item_id": "exec-a14a1106-c36e-4bda-aa98-a92d8e3c60cf"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/androidTest/java/com/forestry/counter/ui/ForestryAndMeasureInsetsTest.kt",
-      "artifact": null,
-      "sha256": "ebfd77214ff49c4edfe700f6688cd47799b2d8cd598f64ed87ed6d21eb22b60e",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
-          "turn": "01a1b570-1e5c-7128-8841-d3fffab400ec",
-          "item": "exec-8433594d-846e-4013-8a4f-4db25c714897",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch5.json",
-          "item_index": 67,
-          "item_id": "exec-8433594d-846e-4013-8a4f-4db25c714897"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/main/java/com/forestry/counter/domain/location/PlotOutsidePreview.kt",
-      "artifact": null,
-      "sha256": "f9331fc1e4d89189d26d434eda821114547780aebcfa9eefb035137837b16ad9",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
-          "turn": "01a1b570-1e5c-7128-8841-d3fffab400ec",
-          "item": "exec-8f50ba34-592c-4426-9e5e-c97f8339c1eb",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch5.json",
-          "item_index": 83,
-          "item_id": "exec-8f50ba34-592c-4426-9e5e-c97f8339c1eb"
-        }
-      ],
-      "baseline_sha256_before": null,
-      "copied_sha256_verified": true
-    },
-    {
-      "path": "app/src/test/java/com/forestry/counter/domain/location/PlotBoundaryDifferenceTest.kt",
-      "artifact": null,
-      "sha256": "5e79f6ff89fd128c26ea0d899ce6b9453b48839b9799978a9da54e17b3166615",
-      "owner": "recorded_add",
-      "manifest": "recovery-history-index/history-index.json",
-      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
-      "historical_refs": [
-        {
-          "thread": "01a1b53a-ede9-73c6-9561-368c2129706b",
-          "turn": "01a1b570-1e5c-7128-8841-d3fffab400ec",
-          "item": "exec-839bdcd1-bcf0-46ce-849b-6db45391dafe",
-          "file": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch5.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a19c12-84cd-74ac-b926-10878132ec54",
+          "item": "exec-5144ba8e-c4f7-459c-a22d-be1b8c9957f0",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0073.json",
           "item_index": 90,
-          "item_id": "exec-839bdcd1-bcf0-46ce-849b-6db45391dafe"
+          "item_id": "exec-5144ba8e-c4f7-459c-a22d-be1b8c9957f0"
         }
       ],
       "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "docs/referentiels/metiers/2026-11-02/README.md",
+      "artifact": null,
+      "sha256": "c8d05e0e00278542947abc9c8583097aef75504c4c4c79a83844770439eb81c5",
+      "owner": "recorded_add",
+      "manifest": "recovery-history-index/history-index.json",
+      "scope": "Complete literal Add, only observed file-change kind at this path; final source21 not asserted",
+      "historical_refs": [
+        {
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a19be0-a6ab-74d8-b79d-bff97eb9c448",
+          "item": "exec-f5d7095f-c9e1-4933-9aba-fd85a532e72a",
+          "file": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0074.json",
+          "item_index": 115,
+          "item_id": "exec-f5d7095f-c9e1-4933-9aba-fd85a532e72a"
+        }
+      ],
+      "baseline_sha256_before": null,
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "gradle/libs.versions.toml",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-history-index/gradle-chain/recovered/gradle/libs.versions.toml",
+      "sha256": "94f420a7827029325b0680c3194fae87524d5c07293ccb8b9c08fe5d32d7b9e8",
+      "owner": "configuration",
+      "manifest": "recovery-history-index/gradle-chain/selection.json",
+      "scope": "Exact observed configuration text from base36d1515 plus Nov3–7 literal edits; app Gradle confirmed by Nov13 source-build18 snapshot. No claim of compilation.",
+      "historical_refs": [
+        {
+          "history_file": "root-older-single-0050.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+          "item": "exec-5c0a1fc5-821f-48d5-bb55-fad1e9d99c34",
+          "item_index": 37
+        },
+        {
+          "history_file": "root0007-full10k.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1ad12-44db-7277-9120-277722007c21",
+          "item": "exec-b08d1c52-d7f3-4ee8-b9f8-c72cbbc502b7",
+          "item_index": 77
+        },
+        {
+          "history_file": "root0007-commands20k.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1ad12-44db-7277-9120-277722007c21",
+          "item": "exec-9bf1610c-dd44-443f-9a54-504c86023871",
+          "item_index": 312
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "f71011898021d51f97e33f6ea2191762400c0a0667ce45a6df7f21aa74d8e53a",
+      "copied_sha256_verified": true
+    },
+    {
+      "path": "settings.gradle.kts",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-history-index/gradle-chain/recovered/settings.gradle.kts",
+      "sha256": "97d3e9eb2bc1dc970ab2ea40838eb7d2aa545c7647866e4d935e148a4849dda2",
+      "owner": "configuration",
+      "manifest": "recovery-history-index/gradle-chain/selection.json",
+      "scope": "Exact observed configuration text from base36d1515 plus Nov3–7 literal edits; app Gradle confirmed by Nov13 source-build18 snapshot. No claim of compilation.",
+      "historical_refs": [
+        {
+          "history_file": "root-older-single-0050.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1a278-3271-7534-9767-f78b19746c57",
+          "item": "exec-5c0a1fc5-821f-48d5-bb55-fad1e9d99c34",
+          "item_index": 37
+        },
+        {
+          "history_file": "root0007-full10k.json",
+          "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "turn": "01a1ad12-44db-7277-9120-277722007c21",
+          "item": "exec-ed01b16d-85fa-4c8d-b29d-4fc85014865b",
+          "item_index": 49
+        }
+      ],
+      "recovery_classification": "EXACT_OBSERVED_SOURCE_BYTES",
+      "previous_sha256": "132c5a6d7952d30a6accc5d49cff156165fbeaab09ad4706fcdb08c2428b5488",
       "copied_sha256_verified": true
     }
   ],
   "conflicts_omitted": [],
   "known_gaps": [
     {
-      "owner": "domain",
-      "detail": {
-        "path": "app/src/main/java/com/forestry/counter/data/local/entity/FieldControlBasisEntity.kt",
-        "reason": "Room47 required entity; path observed in historical staging inventory; source body absent."
-      }
-    },
-    {
-      "owner": "domain",
-      "detail": {
-        "path": "app/src/main/java/com/forestry/counter/data/local/dao/FieldControlBasisDao.kt",
-        "reason": "Room47 required DAO; path observed in historical staging inventory; source body absent."
-      }
-    },
-    {
-      "owner": "domain",
-      "detail": {
-        "path": "app/src/main/java/com/forestry/counter/domain/field/ControlBasisModels.kt",
-        "reason": "Observed Room47 business contract introduction; body absent."
-      }
-    },
-    {
-      "owner": "domain",
-      "detail": {
-        "path": "app/src/main/java/com/forestry/counter/data/preferences/UserPreferences.kt",
-        "reason": "clearHeightReferenceCaptures must be wired to the actual historical implementation; partial reference only in this lane."
-      }
-    },
-    {
       "owner": "mapbox",
       "detail": {
         "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGateTest.kt",
         "reason": "Only earlier complete variants currently recovered by module expansion; the inline-readback-era final test file is not yet fully verified. Do not substitute an older test as final."
-      }
-    },
-    {
-      "owner": "mapbox",
-      "detail": true
-    },
-    {
-      "owner": "workspace",
-      "detail": {
-        "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
-        "selection": "gap_do_not_replace_with_earlier_or_partial_variant",
-        "reason": "Complete6nov baseline exists, but later7nov source changes and BackTools/modal-bars changes are not yet fully reconciled."
       }
     },
     {
@@ -2604,13 +3030,125 @@
       "detail": "English strings_retained_workflows.xml full contents; its complete21 patch and expected SHA values are recovered."
     },
     {
-      "owner": "recent",
-      "detail": "SharedMapboxCanvas whole source remains incomplete here;438 exact original21 lines and completeP2V2 patch available, core recovery owned by sibling."
+      "owner": "domain",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/data/local/entity/FieldControlBasisEntity.kt",
+        "reason": "Room47 required entity; path observed in historical staging inventory; source body absent."
+      }
+    },
+    {
+      "owner": "domain",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/data/local/dao/FieldControlBasisDao.kt",
+        "reason": "Room47 required DAO; path observed in historical staging inventory; source body absent."
+      }
+    },
+    {
+      "owner": "domain",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/domain/field/ControlBasisModels.kt",
+        "reason": "Observed Room47 business contract introduction; body absent."
+      }
+    },
+    {
+      "owner": "domain",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/data/preferences/UserPreferences.kt",
+        "reason": "clearHeightReferenceCaptures must be wired to the actual historical implementation; partial reference only in this lane."
+      }
+    },
+    {
+      "owner": "domain",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+        "reason": "Full source has one unresolved automatically redacted method signature; two other redactions restored from exact independent read. Fragment not selected.",
+        "fragmentArtifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/fragments/CartographicLayerRepositoryImpl.kt.fragment",
+        "missingSourceLines": [
+          209
+        ]
+      }
+    },
+    {
+      "owner": "domain",
+      "detail": {
+        "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicTraceRepositoryRoomTest.kt",
+        "reason": "The token assignment at line52 is now restored from an exact later read; assignment187 remains automatically redacted and unobserved. Fragment only, excluded from assembly.",
+        "fragmentArtifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/gps-persistence-2026-11-07/fragments/CartographicTraceRepositoryRoomTest.kt.fragment",
+        "missingSourceLines": [
+          187
+        ]
+      }
+    },
+    {
+      "owner": "configuration",
+      "detail": {
+        "path": "cartography-preview/src/main/java/com/quintessences/geosylva/cartographypreview/CartographyPreviewActivity.kt",
+        "reason": "Preview module is included by the exact settings chain. Its current Activity body is not selected in this configuration recovery; no placeholder is created."
+      }
+    },
+    {
+      "owner": "workspace",
+      "detail": {
+        "path": "app/src/main/res/values/map_workspace_integration.xml",
+        "reason": "Resource XML required by exact recovered HostDialogs remains unobserved; no generated copy is inserted."
+      }
+    },
+    {
+      "owner": "mapbox",
+      "detail": {
+        "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/MapOverlayModels.kt",
+        "reason": "Later overlay changes exist. Earlier full source is deliberately not inserted with the source21 canvas; final selection still pending."
+      }
+    },
+    {
+      "owner": "mapbox",
+      "detail": {
+        "path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/NativeMapOverlays.kt",
+        "reason": "Later overlay changes exist. Earlier full source is deliberately not inserted with the source21 canvas; final selection still pending."
+      }
     }
   ],
   "buildRun": false,
   "adbRun": false,
   "pushRun": false,
   "rawHistoryCommitted": false,
-  "sourceLinesGuessed": false
+  "sourceLinesGuessed": false,
+  "updatedUTC": "2026-11-14T15:10:32.915601+00:00",
+  "previousAssemblyCommit": "8106be51bb9a1569f7b385b78a86e03a0418a9e7",
+  "removed_captures": [
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicTraceRepositoryRoomTest.kt",
+      "previous_sha256": "0eb3302812e386699deac8ff3fb9ea8ea87ea4a6286ed05b14f6619b1b1cb700",
+      "reason": "Earlier capture was incorrectly selected as complete: two historical automatic redaction markers were present. Line52 was later recovered, but line187 remains unobserved. The incomplete test is removed from active sources without replacement.",
+      "partialArtifact": "recovery-domain-sources/gps-persistence-2026-11-07/fragments/CartographicTraceRepositoryRoomTest.kt.fragment"
+    }
+  ],
+  "configurationChecks": [
+    {
+      "path": "build.gradle.kts",
+      "catalogueAliasReferencesPresent": true
+    },
+    {
+      "path": "app/build.gradle.kts",
+      "catalogueAliasReferencesPresent": true
+    },
+    {
+      "path": "cartography-preview/build.gradle.kts",
+      "catalogueAliasReferencesPresent": true
+    },
+    {
+      "path": "cartography-mapbox/build.gradle.kts",
+      "catalogueAliasReferencesPresent": true
+    },
+    {
+      "path": "cartography-ui/build.gradle.kts",
+      "catalogueAliasReferencesPresent": true
+    }
+  ],
+  "byteIdentityChecks": {
+    "existingAssemblyCapturesVerifiedBeforeChanges": true,
+    "selectedArtifactSHA256Verified": true,
+    "appGradleMatchesHistoricalNov13Snapshot": true,
+    "redactedTestRemoved": true
+  }
 }
