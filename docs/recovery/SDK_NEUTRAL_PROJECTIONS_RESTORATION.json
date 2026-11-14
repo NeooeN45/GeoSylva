@@ -1,0 +1,69 @@
+{
+  "date": "2026-11-14",
+  "classification": "SDK_NEUTRAL_PROJECTIONS_RESTORATION_AND_UNUSED_LEGACY_REMOVAL",
+  "changes": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRenderers.kt",
+      "beforeSha256": "d3194c14ddb8c7a90fdca10e7e5a79db0a1b010760b64b47d0a017a7808ba886",
+      "afterSha256": "fdeae8c43ba67cbf91c3569013837b9de40fae426cf6d5620328ec2bbbbf1d98",
+      "source": "trace-domain-initial-next.json/exec-52de4d6c-48bf-47b8-aaef-a6927509cbe3",
+      "literalInitialSha256": "e2fd9ea2148170bdd945bc0605afa0e7872ed92ecff5ff531fd3f5f7c43056bd",
+      "classification": "COMPLETE_LITERAL_ANTECEDENT_PLUS_OBSERVED_VISUAL_SUCCESSOR",
+      "observedSuccessor": "layers-attributes-batch13.json/exec-2d398d3a-50c6-4362-91c5-3c3a3e582267 lines42–161 exact",
+      "successorChanges": [
+        "cluster label color #FFFFFF → #12285B"
+      ],
+      "final13NovWholeFileSHAClaimed": false
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapAdditionalFeatures.kt",
+      "afterSha256": "12d38a161b90be5727f3bd40b00e76b4d3506a08701cff3b44a5dedbab06577c",
+      "classification": "COMPLETE_LITERAL_READ",
+      "source": "layers-attributes-batch13.json/exec-025ffe72-b960-4671-95a9-02388a386983 first complete cat output",
+      "safety": "trace portions are separate; stale GPS connector never shown; target and user currentness distinct"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRenderEffects.kt",
+      "operation": "delete_unused_legacy_helper",
+      "beforeSha256": "5cd70fef4229e1edec2ecde551a531e09943ca5e190dea5bff42b8ca52e8d117",
+      "reason": "No caller in current app main/test/androidTest; replaced current route uses SharedMapboxCanvas and common repository-bound controllers"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapCameraAnimations.kt",
+      "operation": "delete_unused_legacy_helper",
+      "beforeSha256": "a3208fbd95dceebb5c6f705d4763c3304940442fc3e90c7bd8972fe0a6adf66f",
+      "reason": "No caller in current app main/test/androidTest; replaced current route uses SharedMapboxCanvas and common repository-bound controllers"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapMeasurePanel.kt",
+      "operation": "delete_unused_legacy_helper",
+      "beforeSha256": "2078e772e5b8b0619ca58be71b032dfbe8fc93b170dc8fd63102df141df222d0",
+      "reason": "No caller in current app main/test/androidTest; replaced current route uses SharedMapboxCanvas and common repository-bound controllers"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapZoomControls.kt",
+      "operation": "delete_unused_legacy_helper",
+      "beforeSha256": "d6127aa1905d98440f47d11665b2f6d312404d8827126999443decdc17db1ddc",
+      "reason": "No caller in current app main/test/androidTest; replaced current route uses SharedMapboxCanvas and common repository-bound controllers"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapDialogs.kt",
+      "operation": "delete_unused_legacy_helper",
+      "beforeSha256": "8c7f7bd2830d918f52cc7fed745b32ade650f4a03039dd4e9b216e7185a54cdb",
+      "reason": "No caller in current app main/test/androidTest; replaced current route uses SharedMapboxCanvas and common repository-bound controllers"
+    }
+  ],
+  "staticCallAudit": "rg on all app/src Kotlin sources before modifications found no outside callers for removed helpers; only MapLayers KDoc mentions swapRasterLayer",
+  "unchanged": [
+    "MapRechercheScreen",
+    "GeographicSelectionMap",
+    "SharedMapboxCanvas",
+    "layer VM",
+    "Gradle and dependencies"
+  ],
+  "notClaimed": [
+    "Original full13Nov source tree",
+    "Tests executed",
+    "Pixel or S25 qualification"
+  ]
+}
