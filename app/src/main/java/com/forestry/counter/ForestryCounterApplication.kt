@@ -7,6 +7,8 @@ import com.forestry.counter.data.local.DatabaseMigrations
 import com.forestry.counter.data.local.CanonicalEssences
 import com.forestry.counter.data.preferences.UserPreferencesManager
 import com.forestry.counter.data.repository.CounterRepositoryImpl
+import com.forestry.counter.data.repository.CartographicMeasurementRepositoryImpl
+import com.forestry.counter.data.repository.CartographicTraceRepositoryImpl
 import com.forestry.counter.data.repository.DiagnosticSylvicoleRepositoryImpl
 import com.forestry.counter.data.repository.ForetRepositoryImpl
 import com.forestry.counter.data.repository.FormulaRepositoryImpl
@@ -64,7 +66,8 @@ import com.forestry.counter.domain.model.ParameterItem
 import com.forestry.counter.data.sylviculture.SylvicultureDataSeeder
 import com.forestry.counter.domain.location.LocalisationResolverService
 
-class ForestryCounterApplication : Application(), com.forestry.counter.data.sync.hierarchy.HierarchySyncOwner {
+class ForestryCounterApplication : Application(), com.forestry.counter.data.sync.hierarchy.HierarchySyncOwner,
+    com.forestry.counter.data.location.trace.MapTraceOwner {
 
     companion object {
         init {
@@ -74,6 +77,7 @@ class ForestryCounterApplication : Application(), com.forestry.counter.data.sync
     }
 
     private val applicationScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private val cartographicWorkScope = CoroutineScope(Dispatchers.Main.immediate + SupervisorJob())
 
     // Database
     lateinit var database: ForestryDatabase
@@ -131,6 +135,20 @@ class ForestryCounterApplication : Application(), com.forestry.counter.data.sync
     override lateinit var hierarchySyncRepository: com.forestry.counter.domain.repository.HierarchySyncRepository
         private set
     lateinit var businessReadAccess: com.forestry.counter.data.sync.hierarchy.BusinessReadAccess
+        private set
+    lateinit var cartographicScopeAuthority: com.forestry.counter.data.cartography.CartographicScopeAuthority
+        private set
+    lateinit var cartographicMeasurementRepository: com.forestry.counter.domain.repository.CartographicMeasurementRepository
+        private set
+    lateinit var cartographicLayerRepository: com.forestry.counter.domain.repository.CartographicLayerRepository
+        private set
+    lateinit var cartographicTraceRepository: com.forestry.counter.domain.repository.CartographicTraceRepository
+        private set
+    override lateinit var mapTraceController: com.forestry.counter.presentation.screens.forestry.trace.MapTraceController
+        private set
+    lateinit var offlineMapPackRepository: com.forestry.counter.data.packs.offline.OfflineMapPackRepository
+        private set
+    lateinit var offlineMapPackController: com.forestry.counter.presentation.screens.packs.offline.OfflineMapPackController
         private set
     lateinit var projectRepository: com.forestry.counter.domain.repository.ProjectRepository
         private set
@@ -200,6 +218,36 @@ class ForestryCounterApplication : Application(), com.forestry.counter.data.sync
         )
         fieldRepository = com.forestry.counter.data.repository.FieldRepositoryImpl(database, identityRepository, businessReadAccess)
         businessReadAccess.startObserving(applicationScope)
+        // One authority and one set of writers for every profession and map entry point.
+        cartographicScopeAuthority = com.forestry.counter.data.cartography.CartographicScopeAuthority(
+            database, identityRepository, businessReadAccess,
+        )
+        cartographicMeasurementRepository = CartographicMeasurementRepositoryImpl(
+            database, identityRepository, businessReadAccess, authority = cartographicScopeAuthority,
+        )
+        cartographicLayerRepository = com.forestry.counter.data.cartography.CartographicLayerRepositoryImpl(
+            database, cartographicScopeAuthority, applicationContext,
+        )
+        cartographicTraceRepository = CartographicTraceRepositoryImpl(
+            database.cartographicTraceDao(), cartographicScopeAuthority,
+        )
+        mapTraceController = com.forestry.counter.presentation.screens.forestry.trace.MapTraceController(
+            applicationContext, cartographicTraceRepository, work = cartographicWorkScope,
+        )
+        if (com.quintessences.geosylva.cartography.mapbox.configureMapboxPublicToken(BuildConfig.MAPBOX_PUBLIC_ACCESS_TOKEN)) {
+            com.quintessences.geosylva.cartography.mapbox.offline.MapboxOfflineResources.configureRendering(
+                java.io.File(noBackupFilesDir, "mapbox/tiles"),
+            )
+        }
+        offlineMapPackRepository = com.forestry.counter.data.packs.offline.OfflineMapPackRepository(
+            applicationContext, database, cartographicScopeAuthority,
+            com.forestry.counter.domain.usecase.pack.PackManager.getInstance(applicationContext),
+            com.quintessences.geosylva.cartography.mapbox.offline.NativeOfflineMapGateway(),
+        )
+        offlineMapPackController = com.forestry.counter.presentation.screens.packs.offline.OfflineMapPackController(
+            offlineMapPackRepository, cartographicWorkScope,
+            com.forestry.counter.data.packs.offline.observeOfflinePackNetwork(applicationContext),
+        )
         val mutationJournal = com.forestry.counter.data.sync.ParcelMutationJournal(
             parcelleDao = database.parcelleDao(),
             syncDao = database.parcelSyncDao(),
@@ -336,6 +384,29 @@ class ForestryCounterApplication : Application(), com.forestry.counter.data.sync
             woodObjectDao = database.woodObjectDao(),
             woodDataGate = database.woodDataGate,
             fieldDao = database.fieldDao(),
+            cartographicMeasurementDao = database.cartographicMeasurementDao(),
+            cartographicLayerDao = database.cartographicLayerDao(),
+            cartographicTraceDao = database.cartographicTraceDao(),
+            offlineMapPackDao = database.offlineMapPackDao(),
+            stopCartographicWork = {
+                // Both admissions must be closed even on cancellation or a source-stop failure.
+                // The use case pairs both releases in its non-cancellable finally block.
+                kotlinx.coroutines.withContext(kotlinx.coroutines.NonCancellable) {
+                    try {
+                        mapTraceController.stopForPurge()
+                    } finally {
+                        offlineMapPackController.stopForPurge()
+                    }
+                }
+            },
+            resumeCartographicWork = {
+                try {
+                    offlineMapPackController.resumeAfterPurge()
+                } finally {
+                    mapTraceController.resumeAfterPurge()
+                }
+            },
+            purgeMapboxRegions = offlineMapPackRepository::purgeNativeRegions,
         )
 
         applicationScope.launch {

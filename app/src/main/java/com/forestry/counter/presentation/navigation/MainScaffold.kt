@@ -391,22 +391,18 @@ fun TopLevelTabContent(
                     modifier = modifier,
                 )
                 com.forestry.counter.presentation.screens.forestry.CarteMode.RECHERCHE -> {
-                    // Base "mode Recherche" (esprit QField) : moteur MapLibre
-                    // avec interface repensée (barre d'outils unique). Depuis
-                    // la suppression de l'ancien MapScreen, c'est aussi le
-                    // moteur unique utilisé pour Forêts→Parcelle→carte (voir
-                    // ForestryFlowNavGraph). Un choix de zone
-                    // (forêt/parcelle/placette) précède l'ouverture de la
-                    // carte elle-même — état imbriqué, même pattern que
-                    // `carteMode`, réinitialisé à la sortie de la branche.
+                    // The shared Mapbox host retains the selected business scope.
                     var rechercheScope by androidx.compose.runtime.remember {
                         androidx.compose.runtime.mutableStateOf<String?>(null)
                     }
                     when (rechercheScope) {
                         null -> com.forestry.counter.presentation.screens.forestry.RechercheScopeSelectorScreen(
                             groupRepository = app.groupRepository,
+                            foretRepository = app.foretRepository,
                             parcelleRepository = app.parcelleRepository,
                             placetteRepository = app.placetteRepository,
+                            businessReadAccess = app.businessReadAccess,
+                            scopeAuthority = app.cartographicScopeAuthority,
                             onSelectScope = { rechercheScope = it },
                             onBack = { onCarteModeChange(null) },
                             modifier = modifier,
@@ -417,6 +413,10 @@ fun TopLevelTabContent(
                             essenceRepository = app.essenceRepository,
                             parcelleRepository = app.parcelleRepository,
                             preferencesManager = app.userPreferences,
+                            measurementRepository = app.cartographicMeasurementRepository,
+                            layerRepository = app.cartographicLayerRepository,
+                            traceController = app.mapTraceController,
+                            offlineController = app.offlineMapPackController,
                             offlineTileManager = app.offlineTileManager,
                             onNavigateBack = { rechercheScope = null },
                             modifier = modifier,
@@ -433,15 +433,15 @@ fun TopLevelTabContent(
                     )
                 }
                 com.forestry.counter.presentation.screens.forestry.CarteMode.LIBRE -> {
-                    // Même base que le mode Recherche (moteur MapLibre, calques,
-                    // mesure, zoom), mais sans le sélecteur de zone préalable et
-                    // sans tiges : parcelleId="none" fait déjà tourner
-                    // tigesFlow à emptyList() dans MapRechercheScreen — aucune
-                    // logique de filtrage ou de rendu de tiges à dupliquer ici.
+                    // Carte libre uses the same Mapbox host and shared stores.
                     com.forestry.counter.presentation.screens.forestry.MapRechercheScreen(
                         parcelleId = "none",
                         tigeRepository = app.tigeRepository,
                         preferencesManager = app.userPreferences,
+                        measurementRepository = app.cartographicMeasurementRepository,
+                        layerRepository = app.cartographicLayerRepository,
+                        traceController = app.mapTraceController,
+                        offlineController = app.offlineMapPackController,
                         offlineTileManager = app.offlineTileManager,
                         onNavigateBack = { onCarteModeChange(null) },
                         modifier = modifier,

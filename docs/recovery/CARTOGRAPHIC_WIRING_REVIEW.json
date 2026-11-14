@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-14",
+  "scope": "Revue en lecture seule du raccord Application/Manifest/navigation non commité, puis vérification de la correction faite par l’agent principal.",
+  "result": "no_open_concrete_findings",
+  "findings": [],
+  "resolvedFinding": {
+    "id": "PURGE-PAIRING-01",
+    "file": "app/src/main/java/com/forestry/counter/ForestryCounterApplication.kt",
+    "line": 394,
+    "problem": "Avant correction, une annulation pendant trace.stopForPurge pouvait empêcher offline.stopForPurge, alors que le finally reprenait toujours offline ; ce décalage pouvait rouvrir l’admission d’une purge concurrente.",
+    "fixVerified": "Les deux arrêts sont dans withContext(NonCancellable) ; finally garantit offline.stopForPurge même si l’arrêt trace échoue. La reprise conserve try offline / finally trace dans le finally NonCancellable du use case.",
+    "status": "resolved_in_current_source"
+  },
+  "confirmed": [
+    "Une CartographicScopeAuthority Application est passée aux dépôts mesures, couches, tracés et packs. Les trois routes MapRechercheScreen réutilisent les mêmes dépôts et contrôleurs.",
+    "Les contrôleurs tracé/hors ligne appartiennent au processus via l’Application ; scope commun SupervisorJob + Dispatchers.Main.immediate. Base, identité et BusinessReadAccess existent avant leur création.",
+    "Le token public puis configureRendering(noBackupFilesDir/mapbox/tiles) sont configurés sur Main avant gateway/cartes. Les composants natifs du gateway sont paresseux.",
+    "Le service tracé est non exporté, foreground location, avec permissions FGS/location présentes. MapTraceOwner fournit le contrôleur Application ; le service ne recrée aucune autorité et vérifie ses jetons.",
+    "Purge : arrêt/jonction avant le gate ; suppression native des régions enregistrées avant la transaction SQL ; registre conservé si le natif échoue ; reprises appariées en finally, sans redémarrage automatique.",
+    "Aucun producteur ni stockage HeightReferenceCapture trouvé dans app/src/main/java : clearHeightReferenceCaptures reste légitimement au callback par défaut."
+  ],
+  "validation": {
+    "mode": "Lecture des diffs et des implémentations appelées, vérification statique de la correction.",
+    "sourceEditsByReviewer": 0,
+    "buildsByReviewer": 0,
+    "commitsByReviewer": 0,
+    "runtime": "Aucun test exécuté ; test de purge et compilation coordonnés par l’agent principal."
+  },
+  "snapshotSha256": {
+    "app/src/main/java/com/forestry/counter/ForestryCounterApplication.kt": "c20ce4a72cd2595c97d0fdd6f56397ffcdbe990213dee905254eef84ead4ac53",
+    "app/src/main/AndroidManifest.xml": "e2732cb70c82dd12e9f3b190ae8cb0ba48fef16321e857c78bdda5618e32fec2",
+    "app/src/main/java/com/forestry/counter/presentation/navigation/MainScaffold.kt": "c1059b70558834ab31951fef18e4451adf4c8a16ff63a64f5ea05bb327e8fa4f",
+    "app/src/main/java/com/forestry/counter/presentation/navigation/ForestryFlowNavGraph.kt": "be41dd196f8c6873f94d96a77b15b041bfe7af8315cfe5af1084dac8fa80b7b3"
+  }
+}

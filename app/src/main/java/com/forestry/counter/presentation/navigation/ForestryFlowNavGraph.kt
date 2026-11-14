@@ -425,6 +425,10 @@ fun NavGraphBuilder.forestryFlowNavGraph(
             parcelleRepository = app.parcelleRepository,
             preferencesManager = app.userPreferences,
             offlineTileManager = app.offlineTileManager,
+            measurementRepository = app.cartographicMeasurementRepository,
+            layerRepository = app.cartographicLayerRepository,
+            traceController = app.mapTraceController,
+            offlineController = app.offlineMapPackController,
             onNavigateBack = { navController.popBackStack() },
         )
     }
