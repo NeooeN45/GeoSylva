@@ -56,8 +56,8 @@
   "files": [
     {
       "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/layers/MapLayerViewModel.kt",
-      "sha256": "185ba25c618a2d47031cc0d0807ff06ca2e7c0a4ef6bcaa98de37c72ee322c7d",
-      "lines": 820,
+      "sha256": "10593a627f1f2a6e736dbbe69c7c6251432329776aa19bed20cc787112614fde",
+      "lines": 833,
       "tests": 0,
       "classification": "RECONSTRUCTED_IMPLEMENTATION_OR_TARGETED_TESTS"
     },
@@ -77,9 +77,9 @@
     },
     {
       "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/layers/MapLayerViewModelReconstructionTest.kt",
-      "sha256": "c9e274998da7c9f035c13305cb4604729d76e74c7b2c0cfe3d34157eb23e1511",
-      "lines": 423,
-      "tests": 13,
+      "sha256": "75f8624a670bf161bcf00a7ab5fb6fe784fff43f1d83cce9f81116e40abd94f1",
+      "lines": 446,
+      "tests": 14,
       "classification": "RECONSTRUCTED_IMPLEMENTATION_OR_TARGETED_TESTS"
     }
   ],
@@ -89,17 +89,18 @@
     "Preview import remains memory-only until explicit repository commit; discard and ViewModel cleanup release the staged token.",
     "All persistent writes use repository authority tokens, compare-and-set versions and UUID operation receipts.",
     "Successful mutations re-read the live list before publishing a refreshed view; late callbacks cannot replace another scope.",
-    "Uncertain mutations retain a frozen command and operationId; the same action retries the same command while other navigation/draft mutations are blocked.",
+    "Uncertain mutations retain a frozen command and operationId; the same action retries the same command while payload replacement/internal navigation are blocked; closing only hides the panel and reopening restores the retry.",
     "Local attribute drafts validate scalar type, finite numbers, field eligibility,4000character limits and CSV coordinate restrictions using LayerAttributePolicy.",
     "Attribute edits never alter sourceFeature or source metadata; sourceFields expose original values separately.",
     "LayerBrowser drives map GeoJSON, visible count, row list and selection with identical query/filter predicates; excluded selections never resurrect.",
     "Typed null, absence, empty text, numeric zero and false remain distinct; contains/empty options require an observed text field.",
     "Appearance/color previews remain local until updateStyle; cancel restores the baseline and style edits preserve their captured version.",
     "Common layer visibility updates only its requested layer and preserves another editor/filter/selection.",
-    "Deletion is confirmed through repository delete and a live-list read before its overlay is removed as a successful action."
+    "Deletion is confirmed through repository delete and a live-list read before its overlay is removed as a successful action.",
+    "A failed or lost access capture can close its error panel; private snapshots remain invalidated."
   ],
   "deliberateReconstructionChoices": [
-    "An uncertain write blocks navigation/draft replacement until its original action is retried. Historical partial Back behavior allowed more navigation; this stronger rule keeps the retry reachable and prevents lost operation identity.",
+    "An uncertain write preserves its command/draft when onClose hides the panel for Root tool handoff. open restores the unresolved panel. Payload replacement and internal Back navigation remain blocked until the same action retries, preserving operation identity.",
     "Appearance writes for a staged source return INVALID_INPUT until commit; the recovered Preview UI exposes no appearance-save action and the repository has no staged-style mutation API.",
     "Row titles prefer observed name/nom/label/title attributes and otherwise use the stable internal feature ID; the exact historical helper tail was unavailable."
   ],
@@ -107,14 +108,15 @@
     "workspaceActionsRequired": 24,
     "workspaceActionsImplemented": 24,
     "missingWorkspaceActions": [],
-    "targetedJvmTests": 20,
+    "targetedJvmTests": 21,
     "testsExecutedByThisAgent": false,
     "compilationExecutedByThisAgent": false,
     "staticChecks": [
       "All four new Kotlin files have balanced delimiters and no implementation placeholders.",
       "All LayerWorkspaceActions methods are implemented.",
       "JUnit and kotlinx-coroutines-test are already in the existing testing bundle.",
-      "No Gradle, DI, Manifest, resource, host or workspace UI file changed by this task."
+      "No Gradle, DI, Manifest, resource, host or workspace UI file changed by this task.",
+      "Final close-handoff patch passed git diff --check; no build or test command was run."
     ]
   },
   "remainingRisks": [
@@ -129,5 +131,17 @@
     "testsRun": false,
     "commitRun": false,
     "pushRun": false
-  }
+  },
+  "finalCloseHandoffPatch": {
+    "parentReadyCommit": "26b1efc",
+    "changedFiles": [
+      "app/src/main/java/com/forestry/counter/presentation/screens/forestry/layers/MapLayerViewModel.kt",
+      "app/src/test/java/com/forestry/counter/presentation/screens/forestry/layers/MapLayerViewModelReconstructionTest.kt",
+      "docs/recovery/LAYER_VIEWMODEL_RECONSTRUCTION.json"
+    ],
+    "semantics": "Closing an uncertain mutation hides its panel and preserves exact retry state; reopening restores that panel. Authority loss still clears all private data. An unavailable access capture can close its error panel.",
+    "additionalTest": "a_failed_access_capture_can_close_its_error_panel_without_retaining_private_snapshots"
+  },
+  "frozenUTC": "2026-11-14T20:02:06.545617+00:00",
+  "status": "FROZEN_FOR_PARENT_IMMUTABLE_COMPILE_AND_TEST"
 }

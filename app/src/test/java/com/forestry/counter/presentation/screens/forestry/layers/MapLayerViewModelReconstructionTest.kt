@@ -292,6 +292,21 @@ class MapLayerViewModelReconstructionTest {
         assertTrue(repo.commitIds.isEmpty())
     }
 
+    @Test fun a_failed_access_capture_can_close_its_error_panel_without_retaining_private_snapshots() = runTest(dispatcher) {
+        val repo = Fake(listOf(layer()))
+        repo.captureFailure = LayerStoreError.UNAVAILABLE
+        val vm = model(repo)
+        vm.open(MapDataScope.Free)
+        runCurrent()
+        assertEquals(LayerStoreError.UNAVAILABLE, vm.state.value.error)
+        assertTrue(vm.state.value.visible)
+        assertTrue(vm.state.value.renders.isEmpty())
+        vm.onBack()
+        assertFalse(vm.state.value.visible)
+        assertTrue(vm.state.value.renders.isEmpty())
+        assertNull(vm.captureFileSelectionTicket())
+    }
+
     private fun model(repo: Fake) = MapLayerViewModel(repo).also { store.put("layer-" + models++, it) }
     private suspend fun TestScope.openLayer(repo: Fake): MapLayerViewModel = model(repo).also {
         it.open(MapDataScope.Free)
@@ -328,8 +343,10 @@ class MapLayerViewModelReconstructionTest {
         var uncertainCommitOnce = false
         var failListAfterStyleOnce = false
         var invalidateAfterStyleOnce = false
+        var captureFailure: LayerStoreError? = null
         private var failedLists = 0
-        override suspend fun captureAccess(scope: MapDataScope) = LayerStoreResult.Success(Access(scope, epoch))
+        override suspend fun captureAccess(scope: MapDataScope): LayerStoreResult<CartographicLayerAccess> =
+            captureFailure?.let { LayerStoreResult.Failure(it) } ?: LayerStoreResult.Success(Access(scope, epoch))
         override fun isCurrent(access: CartographicLayerAccess) = (access as? Access)?.epoch == epoch
         override fun accessChanges() = signals
         private fun rows(a: CartographicLayerAccess) = scoped[a.scope] ?: saved

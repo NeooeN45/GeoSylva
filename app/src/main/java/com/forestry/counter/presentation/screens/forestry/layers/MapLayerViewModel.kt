@@ -227,6 +227,7 @@ class MapLayerViewModel(private val repository: CartographicLayerRepository) : V
     }
 
     override fun onBack() {
+        if (!mutable.value.ui.busy && access == null) { onClose(); return }
         if (!interactive()) return
         if (panel == LayerPanel.LIBRARY && history.isEmpty()) {
             when {
@@ -248,8 +249,12 @@ class MapLayerViewModel(private val repository: CartographicLayerRepository) : V
     }
 
     override fun onClose() {
-        val a = access ?: return
-        if (!current(a, generation) || mutable.value.ui.busy) return
+        if (mutable.value.ui.busy) return
+        val a = access
+        if (a == null || !current(a, generation)) {
+            publish(visible = false, error = mutable.value.error)
+            return
+        }
         if (pending?.unresolved == true) {
             // Root closes this panel before opening another tool. Keep the exact retry alive,
             // but honor that visibility handoff; open() restores the unresolved panel.
