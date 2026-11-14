@@ -1,9 +1,10 @@
-CARTOGRAPHY_LIBRARIES_COMPILED / 47 RECOVERED JVM TESTS PASS
-APP_NON_COMPILEE / NON_COMPLETE_13NOV
-Source verifiee : 2d2259f217a96f12a697ef45fbba85998c3931e9
-Branche isolee recovery/reassembled-2026-11-14 ; base36d1515 Room46.
-Provenance cumulative : ASSEMBLY.json, GRADLE_CHAIN.json, CONTRACT_REPAIRS.json, ASSEMBLY_SUPPLEMENT_2026-11-14.json.
-Reparations et copy UI nouvelle : SOURCE_HELP_RESOURCE_REPAIR.json et CONTRACT_REPAIRS.json.
-Validation de bibliotheque seulement : CARTOGRAPHY_LIBRARY_VERIFICATION.json.
-Reste a restaurer : sources incompletes et dependances applicatives ; voir LACUNES et manifestes des equipes.
-Aucune qualification APK complet, appareil, pixels ou production.
+APPLICATION_DEBUG_COMPILED_AND_PACKAGED / MAPBOX_CONFIGURED
+2036 APP JVM TESTS + 47 CARTOGRAPHY JVM TESTS PASS / NO FAILURES OR SKIPS
+Tested source: 33d904901a320cb3439e25a2af4d2efdfebe444a
+Proof: APPLICATION_VALIDATION_2026-11-14.json
+Room46-to49 host schema comparison passed; Android SQLCipher migration execution remains pending.
+Current development includes literal recovered sources and documented new contract repairs.
+Historical recovery remains partial; exact November13 source identity is not claimed.
+Pending sources and missing business contracts: WOOD_FIELD_INTEGRATION_BOUNDARIES.json and RESOURCE_CONTRACT_REPAIRS.json.
+No physical S25, all100-mockup pixel or production qualification.
+Delivery target: February2027; exact date pending. See ../production/LIVRAISON_3_1_FEVRIER_2027.md.

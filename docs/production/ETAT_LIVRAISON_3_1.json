@@ -1,0 +1,32 @@
+{
+  "targetDeliveryMonth": "2027-02",
+  "exactDeliveryDate": "PENDING_USER_REPLY",
+  "constructionVersion": "3.0.0",
+  "productionVersionTarget": "3.1",
+  "testedSource": "33d904901a320cb3439e25a2af4d2efdfebe444a",
+  "build": "DEBUG_APK_PACKAGED",
+  "tests": {
+    "appJvm": 2036,
+    "cartographyJvm": 47,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "mapbox": {
+    "publicCredentialConfiguredLocally": true,
+    "styleMetadataHttpStatus": 200,
+    "nativeS25RenderVerified": false
+  },
+  "remainingKnownWork": [
+    "S25 Ultra installation and native render review",
+    "Android instrumentation and SQLCipher record migrations",
+    "One full field day offline",
+    "Native comparison against approved100 mockups",
+    "Restore or complete stock/control contracts before activating pending WoodFileCard and RetainedJournalContent",
+    "Approved21 artwork and selector integration",
+    "Wire and qualify complete Maps navigation journey, current main entry remains stub",
+    "Production signature, release optimization, agreed sales scope and distribution channel"
+  ],
+  "evidence": "APPLICATION_VALIDATION_2026-11-14.json",
+  "qualification": "Current development over partially recovered sources; not exact November13 identity; not production ready"
+}

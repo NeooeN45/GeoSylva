@@ -1,7 +1,7 @@
 {
   "status": [
-    "NON_COMPILÉ",
-    "NON_COMPLET_13NOV"
+    "HISTORICAL_RECOVERY_GAP_INVENTORY",
+    "NOT_FULL_13NOV"
   ],
   "known_gaps": [
     {
@@ -238,5 +238,14 @@
       "compiled": false,
       "testsRun": false
     }
-  ]
+  ],
+  "currentDevelopmentQualification": {
+    "sourceHead": "33d904901a320cb3439e25a2af4d2efdfebe444a",
+    "currentProof": "APPLICATION_VALIDATION_2026-11-14.json",
+    "applicationDebugBuild": "PASS",
+    "applicationJvmTests": 2036,
+    "cartographyJvmTests": 47,
+    "historicalGapEntriesPreserved": true,
+    "note": "These are the earlier forensic gap records. Later restorations, new contract repairs and pending integration sources are documented separately; they do not prove recovery of the exact November13 tree."
+  }
 }

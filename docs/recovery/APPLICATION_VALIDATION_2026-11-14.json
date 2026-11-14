@@ -1,0 +1,1219 @@
+{
+  "status": "DEBUG_APK_AND_JVM_TESTS_PASS",
+  "sourceHead": "33d904901a320cb3439e25a2af4d2efdfebe444a",
+  "sourceWorktreeClean": true,
+  "build": {
+    "head": "33d904901a320cb3439e25a2af4d2efdfebe444a",
+    "target": ":app:assembleDebug :app:testDebugUnitTest :cartography-mapbox:testDebugUnitTest",
+    "client": "Gradle8.2/JDK17; Android CLI build unavailable, documented attempt1",
+    "status": "FINISHED",
+    "startEpoch": 1794687530.3895242,
+    "log": "/workspace/outputs/2026-11-14/android-tooling/app-build-tests5.log",
+    "scope": "Full debug APK packaging and JVM tests; no device or production qualification",
+    "exitCode": 0,
+    "elapsedSeconds": 307.64
+  },
+  "apk": {
+    "path": "/workspace/outputs/2026-11-14/february-delivery/GeoSylva-3.0-construction-33d9049.apk",
+    "bytes": 191138293,
+    "sha256": "acbb44e722cd6ca00bf27b4247219aa8a4eb3d58e51742903af12f751856e682",
+    "publicMapboxConfigured": true,
+    "signing": "debug, not production",
+    "signatureVerification": {
+      "tool": "apksigner34.0.0",
+      "exitCode": 0,
+      "v2Verified": true,
+      "signers": 1
+    }
+  },
+  "modules": [
+    {
+      "module": "app",
+      "suites": 156,
+      "tests": 2036,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "details": [
+        {
+          "name": "com.forestry.counter.FormulaParserTest",
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.BackupRestoreTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.ExportImportRoundTripTest",
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.calculation.AdvancedCalculationEngineTest",
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.correlation.DataCorrelationEngineTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.local.DatabaseMigration32to33Test",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.local.DatabaseMigration33to34Test",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.mapper.ForetGeometryMapperTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.maps.PublicMapsRepositoryContractTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.packs.AdministrativePackContractTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.packs.AdministrativeTerritoryCoverageTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.packs.ForestryPackContractTest",
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.packs.ForestryV2ManifestTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.packs.TerritoryPresentationParserTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.packs.offline.AdministrativeOfflineAreasTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.parameters.RegionalPricePresetsTest",
+          "tests": 21,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.remote.identity.JwtSessionDecoderTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.repository.CartographicTraceRepositoryTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.repository.IdentityActionCodeTransportTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.repository.IdentityRepositorySessionGuardTest",
+          "tests": 41,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.repository.IdentityStoredSessionAdoptionTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.repository.ParcelMapRepositoryImplTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.repository.PlacetteBatchCreationTest",
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.repository.WoodDataAccessGateTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.service.EventLoggerTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.service.MetadataServiceTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.sync.ParcelMutationJournalTest",
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.sync.ParcelSyncMapperTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.sync.ParcelSyncPolicyTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.sync.ParcelSyncRepositorySessionGuardTest",
+          "tests": 61,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.sync.hierarchy.BusinessMutationGuardTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.sync.hierarchy.BusinessReadAccessTest",
+          "tests": 19,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.sync.hierarchy.HierarchySyncApiPathTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.sync.hierarchy.HierarchySyncContractTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.sync.hierarchy.HierarchySyncRepositoryTest",
+          "tests": 19,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.work.BackupWorkerFileTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.data.work.PriceSyncWorkerValidationTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.ConfidenceEngineTest",
+          "tests": 29,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.CorrelationEngineExplicabiliteTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.FloristDatabaseExtensionTest",
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.RegionalPackContentTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.TerritorialResolverTest",
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.BiodiversityIndicesTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.CubageInputAdmissibilityTest",
+          "tests": 72,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.EssenceAliasesTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.ExpertForestryCalculatorTest",
+          "tests": 50,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.ForestryCalculatorTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.IndividualSlendernessTest",
+          "tests": 45,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.PeuplementAvantCoupeCalculatorTest",
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.RecordedDendrometryTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.RichardsGrowthModelTest",
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.SanityCheckerTest",
+          "tests": 32,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.StructureTriangleTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.SynthesisReportTest",
+          "tests": 37,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.UnitConverterTest",
+          "tests": 34,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.cartography.CartographicMeasureCalculatorTest",
+          "tests": 21,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.pricing.ProPricingEngineTest",
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.quality.DefaultProductPricesTest",
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.quality.ProductClassifierTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.quality.WoodQualityGradeTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.reception.HarvestedWoodCalculatorTest",
+          "tests": 24,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.reception.HarvestedWoodReferenceCasesTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.tarifs.DecoupeCalculatorTest",
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.tarifs.TarifCalculatorTest",
+          "tests": 42,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.calculation.tarifs.VolumeConversionTest",
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.export.GeoSylvaFieldExporterTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.field.FieldBalanceTest",
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.field.ReceiptFormTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.geo.GeoImportCoordinatePolicyTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.journey.NavigationFeaturePolicyTest",
+          "tests": 19,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.journey.ProfessionJourneyResolverTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.location.Lambert93ConverterTest",
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.location.MapSourcePolicyTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.location.OfflineTilePolicyTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.location.ParcelGeometryTest",
+          "tests": 31,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.location.PlotBoundaryDifferenceTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.location.PlotSamplingGeometryTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.location.RecordedTerritoryResolverTest",
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.location.TreeGuidancePolicyTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.location.WktUtilsTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.location.trace.SegmentedTraceRecorderTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.location.trace.TraceGeoJsonExportTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.location.trace.TraceRecoveryAndExportTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.martelage.MartelageGpsTraceTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.martelage.MartelageLifecycleTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.martelage.MartelageSnapshotCompatibilityTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.model.IbpCriterionDataTest",
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.model.ObservationQualificationTest",
+          "tests": 24,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.model.SurveyContextTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.model.WoodDepotTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.export.CurrencyFormatterTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.export.IllustratedSynthesisDocumentTest",
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.export.ObservationExportCalculatorTest",
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.export.QgisExportHelperTest",
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.export.SpecializedSynthesisDocumentTest",
+          "tests": 21,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.export.SynthesisExportAccessTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.export.SynthesisGpsExportTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.export.SynthesisPdfWrappingTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.maps.ForestScopeChoicesTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.maps.MapTreeDisplayTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.maps.ObserveMapTreesTest",
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.pack.PackInstallationStoreTest",
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.pack.PackManagerActivationTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.pack.PackStorageBudgetTest",
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.pack.RegionalPackSelectionTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.pack.ResumableDownloaderTest",
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.usecase.privacy.DeleteAllUserDataUseCaseTest",
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.wood.RawWoodObservationTest",
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.wood.WoodContractCodecTest",
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.wood.WoodObservationCalculatorTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.domain.wood.WoodObservationHistoryTest",
+          "tests": 26,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.network.SecureHttpClientTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.account.AccountInputValidatorTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.coachmark.CoachMarkControllerTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.navigation.JourneyNavigationTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.navigation.MapsObservationRouteBoundaryTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.field.FieldLedgerSelectionTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.field.FieldMapContextViewModelTest",
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.field.ReceiptsViewModelTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.field.RetainedJournalPresentationTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.field.WorksiteExportViewModelTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.CreateForestViewModelTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.CreateParcelleViewModelTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.CreatePlacetteViewModelTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.DiagnosticScopeViewModelTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.EssenceSessionSelectionTest",
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.GeographicSelectionFeaturesTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.ManualMeasureFormattingTest",
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.MapLayerCommercialPolicyTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.MapLayerLoadStateTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.MapMeasureToolsTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.MartelagePlotSynthesisTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.MartelageSessionControlsTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.ObservationQualificationEditorControllerTest",
+          "tests": 27,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.ObservationQualificationFormStateTest",
+          "tests": 28,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.ParcelMapCreationViewModelTest",
+          "tests": 24,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.SpecializedCostDraftTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.SurveyContextFormStateTest",
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.SynthesisReadIsolationTest",
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.layers.LayerSelectionProjectionTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.layers.MapLayerViewModelReconstructionTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.layers.MapLayerViewModelTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.forestry.trace.TraceShareExportTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.packs.OfflineViewportFootprintTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.packs.offline.OfflineMapPackControllerTest",
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.packs.offline.OfflinePackUpdatePreparationTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.settings.DeveloperModeUnlockerTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.wood.PilePreviewTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.wood.WoodDepotsViewModelTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.screens.wood.WoodManualFormTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.utils.HeightInputUtilsTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.viewmodel.AccountViewModelTest",
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.viewmodel.ForestSyncSelectionViewModelTest",
+          "tests": 26,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.viewmodel.LoginViewModelTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.viewmodel.PackManagerViewModelTest",
+          "tests": 28,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.forestry.counter.presentation.viewmodel.ParcelSyncSelectionViewModelTest",
+          "tests": 21,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ]
+    },
+    {
+      "module": "cartography-mapbox",
+      "suites": 9,
+      "tests": 47,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "details": [
+        {
+          "name": "com.quintessences.geosylva.cartography.mapbox.MapCameraFitRefinementTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.quintessences.geosylva.cartography.mapbox.MapCheckedPinContractTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.quintessences.geosylva.cartography.mapbox.MapFitResourceReadinessTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.quintessences.geosylva.cartography.mapbox.MapNativeCameraPoseTest",
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.quintessences.geosylva.cartography.mapbox.MapPinGeometryTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.quintessences.geosylva.cartography.mapbox.MapResourceCycleTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.quintessences.geosylva.cartography.mapbox.MapReticleProjectionTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.quintessences.geosylva.cartography.mapbox.MapStatusBarPolicyTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "com.quintessences.geosylva.cartography.mapbox.PointLabelPlacementTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ]
+    }
+  ],
+  "totalTests": 2083,
+  "notClaimed": [
+    "Android instrumentation execution",
+    "Physical Samsung S25 Ultra qualification",
+    "Pixel identity with all100 mockups",
+    "Full November13 repository identity",
+    "Production readiness"
+  ],
+  "configuration": {
+    "publicMapboxCredentialStoredInGit": false,
+    "mapboxStyleMetadataHttpStatus": 200,
+    "nativeRenderVerified": false
+  }
+}
