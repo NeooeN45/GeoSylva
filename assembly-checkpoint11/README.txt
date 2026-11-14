@@ -1,0 +1,24 @@
+GÉOSYLVA — CHECKPOINT 11 / SOURCES AVEC PREUVES DEBUG ET JVM
+
+Commit immuable : 3e016bc072c915c37006195c6000fd37e3fc0ac6
+Arbre Git : b8562d823a1cb47b3b26381f2bd22d4a8e4ec437
+1660 fichiers suivis ; aucun fichier ignoré ou non suivi.
+Source effectivement testée : 33d904901a320cb3439e25a2af4d2efdfebe444a.
+Seuls les documents diffèrent depuis cette révision : le reçu suivi prouve
+l'APK debug complet, la signature v2 debug et2083 tests JVM (2036 app+47 carto),
+zéro échec, erreur ou test ignoré. L'APK n'est pas inclus dans cette sauvegarde.
+
+Échéance production confirmée : 28 février 2027. Candidat stabilisé visé : 14 février 2027.
+
+Seuls sources et documents suivis sont archivés. Aucun APK de191Mo,
+local.properties, secret, environnement, sortie de build, log local ou
+historique brut n'est ajouté. La sauvegarde n'exécute aucun script applicatif.
+Android instrumenté, S25 Ultra réel, identité visuelle des100 maquettes et
+production restent non qualifiés. Les preuves SQLite gardent leur portée.
+
+Restauration dans un dossier neuf sans dépôt applicatif d'origine :
+
+    python3 tools/restore_assembly_wip.py --snapshot checkpoint11 --destination /tmp/geosylva-checkpoint11-neuf
+
+SHA256, chaque blob/mode Git et arbre exact sont contrôlés. Seule la conversion
+LF→CRLF de gradlew.bat est inversée. Les anciens snapshots sont conservés.
