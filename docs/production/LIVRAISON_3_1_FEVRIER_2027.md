@@ -1,7 +1,7 @@
 # Géosylva 3.1 — livraison en février 2027
 
-Décision utilisateur du 14 novembre 2026 : terminer l’application pour février 2027.
-Le jour exact et le canal de distribution restent à préciser. Cette échéance guide
+Décision utilisateur du 14 novembre 2026 : terminer l’application au plus tard le **28 février 2027**.
+Le canal de distribution reste à préciser. Cette échéance guide
 le développement ; la production doit être vérifiée sur l’artefact réellement livré.
 
 ## Versions et règles de travail
@@ -25,7 +25,7 @@ le développement ; la production doit être vérifiée sur l’artefact réelle
 | Novembre 2026 | Restaurer les contrats manquants, unifier Mapbox et obtenir l’APK complet | Build depuis un commit identifié, migrations testées, installation et parcours de base |
 | Décembre 2026 | Intégrer les interfaces validées par parcours, fiabiliser le terrain | Comparaisons des maquettes, saisie/reprise, cartes et données pendant une journée sans réseau |
 | Janvier 2027 | Terminer les parcours convenus, recette et corrections | Tests de bout en bout, revue des 100 maquettes, exports relus, candidat de production sur S25 Ultra |
-| Février 2027 | Recette finale et distribution de la 3.1 | Candidat signé, mise à jour sans perte, validation utilisateur et sauvegarde restaurable |
+| Février 2027 | Candidat stabilisé visé le 14 février, recette finale et distribution au plus tard le 28 février | Candidat signé, mise à jour sans perte, validation utilisateur et sauvegarde restaurable |
 
 La tranche de vente de bois et la couverture de chaque métier doivent rester explicites
 dans la feuille de route métier. L’existence du stock, des réceptions et des chantiers

@@ -7,4 +7,4 @@ Current development includes literal recovered sources and documented new contra
 Historical recovery remains partial; exact November13 source identity is not claimed.
 Pending sources and missing business contracts: WOOD_FIELD_INTEGRATION_BOUNDARIES.json and RESOURCE_CONTRACT_REPAIRS.json.
 No physical S25, all100-mockup pixel or production qualification.
-Delivery target: February2027; exact date pending. See ../production/LIVRAISON_3_1_FEVRIER_2027.md.
+Production deadline: February28,2027, confirmed by user. Stabilized candidate target: February14. See ../production/LIVRAISON_3_1_FEVRIER_2027.md.

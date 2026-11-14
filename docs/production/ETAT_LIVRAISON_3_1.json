@@ -1,6 +1,6 @@
 {
   "targetDeliveryMonth": "2027-02",
-  "exactDeliveryDate": "PENDING_USER_REPLY",
+  "exactDeliveryDate": "2027-02-28",
   "constructionVersion": "3.0.0",
   "productionVersionTarget": "3.1",
   "testedSource": "33d904901a320cb3439e25a2af4d2efdfebe444a",
@@ -28,5 +28,7 @@
     "Production signature, release optimization, agreed sales scope and distribution channel"
   ],
   "evidence": "APPLICATION_VALIDATION_2026-11-14.json",
-  "qualification": "Current development over partially recovered sources; not exact November13 identity; not production ready"
+  "qualification": "Current development over partially recovered sources; not exact November13 identity; not production ready",
+  "dateConfirmedByUser": true,
+  "stabilizedCandidatePlanningTarget": "2027-02-14"
 }
