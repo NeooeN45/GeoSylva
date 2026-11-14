@@ -51,6 +51,7 @@ import com.forestry.counter.domain.calculation.tarifs.TarifMethod
 import com.forestry.counter.domain.calculation.tarifs.TarifSelection
 import com.forestry.counter.domain.calculation.tarifs.TarifCalculator
 import com.forestry.counter.domain.usecase.export.QgisExportHelper
+import com.forestry.counter.domain.usecase.export.ObservationExportCalculator
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
@@ -1144,10 +1145,17 @@ fun SettingsScreen(
                                         }
                                         else -> tigeRepository.getAllTiges().first()
                                     }
+                                    val exportParcels = parcelleRepository?.getAllParcelles()?.first().orEmpty().associateBy { it.id }
+                                    val exportPlots = if (placetteRepository != null) {
+                                        tiges.mapNotNull { it.placetteId }.distinct().mapNotNull { id ->
+                                            placetteRepository.getPlacetteById(id).first()
+                                        }
+                                    } else emptyList()
+                                    val exportTarif = forestryCalculator.loadTarifSelection()
                                     context.contentResolver.openOutputStream(uri)?.bufferedWriter()?.use { w ->
-                                        w.write("id;parcelle_id;placette_id;essence;diam_cm;hauteur_m;V_m3;lat;lon;alt;altitude_m;precision_m;timestamp;numero;categorie;qualite;produit;f_coef;value_eur;note;defauts;photo_uri;gps_wkt\n")
+                                        w.write("id;parcelle_id;placette_id;essence;diam_cm;hauteur_m;V_m3;lat;lon;alt;altitude_m;precision_m;timestamp;numero;categorie;qualite;produit;f_coef;value_eur;note;defauts;photo_uri;gps_wkt;V_statut\n")
                                         for (t in tiges) {
-                                            val v = forestryCalculator.volumeForTige(t)
+                                            val volume = ObservationExportCalculator.volume(t, exportParcels[t.parcelleId], exportPlots, exportTarif)
                                             val (lon,lat,alt) = parseWktPointZ(t.gpsWkt)
                                             val line = listOf(
                                                 csvCell(t.id),
@@ -1156,7 +1164,7 @@ fun SettingsScreen(
                                                 csvCell(t.essenceCode),
                                                 String.format(Locale.US, "%.2f", t.diamCm),
                                                 t.hauteurM?.let { String.format(Locale.US, "%.2f", it) } ?: "",
-                                                v?.let { String.format(Locale.US, "%.4f", it) } ?: "",
+                                                volume.m3?.let { String.format(Locale.US, "%.4f", it) } ?: "",
                                                 lat?.let { String.format(Locale.US, "%.7f", it) } ?: "",
                                                 lon?.let { String.format(Locale.US, "%.7f", it) } ?: "",
                                                 alt?.let { String.format(Locale.US, "%.2f", it) } ?: "",
@@ -1172,7 +1180,8 @@ fun SettingsScreen(
                                                 csvCell(t.note),
                                                 csvCell(t.defauts?.joinToString(",")),
                                                 csvCell(t.photoUri),
-                                                csvCell(t.gpsWkt)
+                                                csvCell(t.gpsWkt),
+                                                csvCell(volume.status)
                                             ).joinToString(";")
                                             w.write(line + "\n")
                                         }
@@ -1328,6 +1337,7 @@ fun SettingsScreen(
                                     val placetteById = placettesAll.associateBy { it.id }
                                     val essencesAll = essenceRepository?.getAllEssences()?.first() ?: emptyList()
                                     val essenceByCode = essencesAll.associateBy { it.code }
+                                    val exportTarif = forestryCalculator.loadTarifSelection()
 
                                     context.contentResolver.openOutputStream(uri)?.use { outputStream ->
                                         XSSFWorkbook().use { workbook ->
@@ -1348,7 +1358,8 @@ fun SettingsScreen(
                                                 "N_total",
                                                 "V_total_m3",
                                                 "Dm_weighted_cm",
-                                                "H_mean_total_m"
+                                                "H_mean_total_m",
+                                                "V_statut"
                                             )
                                             headers.forEachIndexed { idx, title ->
                                                 header.createCell(idx).setCellValue(title)
@@ -1358,11 +1369,15 @@ fun SettingsScreen(
                                             val grouped = tigesAll.groupBy { Triple(it.parcelleId, it.placetteId, it.essenceCode) }
                                             for ((key, groupTiges) in grouped) {
                                                 val (parcelleId, placetteId, essenceCode) = key
-                                                val (perClass, totals) = forestryCalculator.synthesisForEssence(
+                                                val exportSynthesis = ObservationExportCalculator.synthesis(
                                                     essenceCode = essenceCode,
                                                     classes = classes,
-                                                    tiges = groupTiges
+                                                    observations = groupTiges,
+                                                    parcel = parcelleById[parcelleId],
+                                                    plots = placettesAll,
+                                                    selection = exportTarif,
                                                 )
+                                                val (perClass, totals) = exportSynthesis
                                                 val parcelleName = parcelleById[parcelleId]?.name ?: ""
                                                 val placetteName = placetteId?.let { id -> placetteById[id]?.name ?: "" } ?: ""
                                                 val essenceName = essenceByCode[essenceCode]?.name ?: ""
@@ -1384,6 +1399,7 @@ fun SettingsScreen(
                                                     totals.vTotal?.let { row.createCell(12).setCellValue(it) }
                                                     totals.dmWeighted?.let { row.createCell(13).setCellValue(it) }
                                                     totals.hMean?.let { row.createCell(14).setCellValue(it) }
+                                                    row.createCell(15).setCellValue(exportSynthesis.volumeByClass[cs.diamClass]?.status.orEmpty())
                                                 }
                                             }
 

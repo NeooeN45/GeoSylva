@@ -1,0 +1,45 @@
+{
+  "schema": "geosylva.live-observation-export-guard.v1",
+  "classification": "NEW_CURRENT_DEVELOPMENT_NOT_HISTORICAL_SOURCE_RECOVERY",
+  "scope": "New CSV tree exports and forestry Excel exports reachable from SettingsScreen; closed report and archive exporters are not modified.",
+  "problem": "CSV called ForestryCalculator.volumeForTige; Excel called synthesisForEssence. These routes could emit a legacy fallback tariff and market-derived valuation without a qualified method catalog.",
+  "behavior": [
+    "Both export routes now use ObservationExportCalculator, which delegates cubage to the existing SynthesisReportCalculator.",
+    "Real parcel context and session partitions are preserved; unknown, deleted or mismatched parents produce unavailable values with an explicit reason.",
+    "No tariff choice, method number, form coefficient, default height or price activates a formula in this adapter.",
+    "Existing V_m3/V_sum_m3/V_total_m3 numeric columns remain at their previous positions; unavailable cells are empty, never fabricated zeros.",
+    "V_statut is appended as a stable machine-readable reason column. Nonvolume CSV fields are preserved.",
+    "Excel keeps class counts and observed finite positive height means; class midpoint uses synthesisDiameterClass. Diameter mean excludes invalid diameters while observation counts retain them.",
+    "Excel Value_sum_EUR now sums only finite nonnegative entered values, including an entered zero, consistent with current Synthese; no default market valuation.",
+    "Deleted and duplicate observations follow the same live aggregate policy as Synthese; raw CSV rows are retained but deleted rows cannot receive a volume."
+  ],
+  "files": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/settings/SettingsScreen.kt",
+      "sha256": "0c2830d1b34a7e3d02c6ed0e14c2cd891e0bc92268fea8c73a529618cc11a40e"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/usecase/export/ObservationExportCalculator.kt",
+      "sha256": "47785a86c73a81c960ad55982b6c0ea1f87b9b90627ad95e7ce86e5221deb399"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/usecase/export/ObservationExportCalculatorTest.kt",
+      "sha256": "5cccaad0f7436df4b6fd784b2ad3ed86eba9c55125bcbbbb0830e0fc458a750a"
+    }
+  ],
+  "validation": {
+    "gitDiffCheck": "PASS",
+    "staticLegacyCallsRemoved": "PASS",
+    "sharedSynthesisPolicyReferenced": "PASS",
+    "jvmTestsPrepared": 11,
+    "jvmTestsExecuted": false,
+    "buildExecuted": false,
+    "deviceTestsExecuted": false
+  },
+  "limits": [
+    "No qualified cubage method catalog is wired to the current Synthese; new exports correctly expose unavailable volume until that shared policy can resolve one.",
+    "The new JVM tests still require the coordinated application build. Excel/CSV on-device export roundtrip is not yet executed.",
+    "Existing export-launcher account/access revalidation is outside this bounded calculation patch; repository access must be qualified in end-to-end release testing.",
+    "Previously captured closed reports and their archive transports are not recalculated or migrated by this change."
+  ]
+}
