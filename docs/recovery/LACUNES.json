@@ -167,7 +167,8 @@
         "fragmentArtifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/layer-domain-2026-11-07/fragments/CartographicLayerRepositoryImpl.kt.fragment",
         "missingSourceLines": [
           209
-        ]
+        ],
+        "assemblyNote": "Candidate present as a separately classified contract repair. The original line and whole-file historical SHA remain unverified."
       }
     },
     {
@@ -218,5 +219,24 @@
       "partialArtifact": "recovery-domain-sources/gps-persistence-2026-11-07/fragments/CartographicTraceRepositoryRoomTest.kt.fragment"
     }
   ],
-  "baseline_files_not_in_selection": "Remain at36d1515; absence of a selection does not prove the13Nov state."
+  "baseline_files_not_in_selection": "Remain at36d1515; absence of a selection does not prove the13Nov state.",
+  "contract_repairs": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "artifact": "/workspace/outputs/2026-11-14/recovery-domain-sources/contract-reconstruction/app/src/main/java/com/forestry/counter/data/cartography/CartographicLayerRepositoryImpl.kt",
+      "sha256": "c5406f0ac718a708669f061fd2c68216db0c46c43c1901f4ce82b1cbbe79628e",
+      "classification": "RÉPARATION PAR CONTRAT — PAS UNE SOURCE HISTORIQUE EXACTE",
+      "reconstructedSourceLines": 1,
+      "historicalWholeFileShaVerified": false,
+      "countAsExactRecoveredSource": false,
+      "sourceLine": 209,
+      "nominalType": "com.forestry.counter.data.cartography.CartographicScopeAuthority.Token",
+      "logicOrSqlChanges": false,
+      "contractManifestSha256": "efe7536c1506bcd7b56656cc708db84ad9e2151b54935f07e93b33903cfa498d",
+      "previousAssemblyCommit": "ad49bd8ae261e6bc86044cd30adbba3d5ea4a185",
+      "validatedAgainstSelectedDomainSources": 47,
+      "compiled": false,
+      "testsRun": false
+    }
+  ]
 }
