@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "scope": "Host SQLite schema compatibility only",
+  "sqliteVersion": "3.53.1",
+  "fromVersion": 46,
+  "toVersion": 49,
+  "literalStatements": 13,
+  "roomEntities": 66,
+  "tablesComparedIncludingFts": 71,
+  "migrationInputs": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/ControlBasisMigrations.kt",
+      "sha256": "65f61ee858b8fee6f0939dedaedec07cbde92d32df279b37ae7b3b8c01e24434"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicMeasurementMigrations.kt",
+      "sha256": "dc34d6866ca82897d411faf8356604885d4b1bc6b5acd072c2e882dc009d94d8"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicLayerMigrations.kt",
+      "sha256": "57aeda6a1e89f9009a35fe990fc8ba0ae794cf7a303ab30842dd9848d683e626"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/packs/offline/OfflineMapPackSchema.kt",
+      "sha256": "495d4503cc2174bda86eecb166291327355ddef5ac5eac6450ad349f17624cea"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicTraceMigrations.kt",
+      "sha256": "0da5e401d79a7a09ba7e6a00a9efce0698e735128c215bb7c9fedecf84bb4d68"
+    }
+  ],
+  "room49IdentityHash": "20649a82ebc19f6c2decfaa25fd3043f",
+  "notClaimed": [
+    "Android SQLCipher execution",
+    "User-record migration",
+    "Device qualification"
+  ]
+}
