@@ -1,0 +1,20 @@
+@@ -48,3 +48,3 @@
+         val epoch = runCatching { db.woodDataGate.capture() }.getOrElse { fail(CartographicStoreError.ACCESS_CHANGED) }
+-        db.woodDataGate.withAccess(epoch) {
++        val captured = try { db.woodDataGate.withAccess(epoch) {
+             db.withTransaction {
+@@ -61,3 +61,9 @@
+             }
++        } } catch (cancelled: CancellationException) { throw cancelled }
++        catch (failure: Exception) {
++            if (!db.woodDataGate.isCurrent(epoch) || !reads.isCurrent(snapshot)) fail(CartographicStoreError.ACCESS_CHANGED)
++            throw failure
+         }
++        current(captured)
++        captured
+     }
+@@ -214,3 +220,3 @@
+     private fun canonicalId(id: String) {
+-        if (runCatching { UUID.fromString(id).toString() }.getOrNull() != id) fail(CartographicStoreError.INVALID_INPUT)
++        if (id.length != 36 || runCatching { UUID.fromString(id).toString() }.getOrNull() != id) fail(CartographicStoreError.INVALID_INPUT)
+     }

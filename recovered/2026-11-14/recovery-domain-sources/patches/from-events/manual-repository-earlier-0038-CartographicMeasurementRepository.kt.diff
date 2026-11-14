@@ -1,0 +1,5 @@
+@@ -11,2 +11,4 @@
+     val localDevice: Boolean
++    /** Stable draft partition only; this fingerprint never authorizes a read or write. */
++    val restorationKey: String
+ }

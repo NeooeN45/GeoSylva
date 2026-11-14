@@ -1,0 +1,53 @@
+@@ -54,2 +54,3 @@
+                 val store = dao.storeIdentity() ?: fail(CartographicStoreError.IO)
++                if (runCatching { UUID.fromString(store.localId).toString() }.getOrNull() != store.localId) fail(CartographicStoreError.CORRUPT)
+                 val ownerKey = snapshot.accountId?.let { "ACCOUNT:$it" } ?: "LOCAL"
+@@ -76,2 +77,6 @@
+         canonicalId(input.id)
++        input.sourceMeasurementId?.let {
++            canonicalId(it)
++            if (it == input.id) fail(CartographicStoreError.INVALID_INPUT)
++        }
+         if (input.points.size > CartographicMeasureCalculator.MAX_POINTS) fail(CartographicStoreError.INVALID_INPUT)
+@@ -84,2 +89,7 @@
+         transaction(access, mutation = true) { a ->
++            input.sourceMeasurementId?.let { id ->
++                val original = dao.byId(id) ?: fail(CartographicStoreError.UNAVAILABLE)
++                requireOwned(original, a)
++                saved(original, a.scope)
++            }
+             val previous = dao.byId(input.id)
+@@ -88,3 +98,4 @@
+                 if (previous.name != name || previous.kind != input.kind.name || previous.geometryJson != geometry ||
+-                    previous.valueSi != calculation.valueSi || previous.methodId != calculation.methodId || previous.methodVersion != calculation.methodVersion) {
++                    previous.valueSi != calculation.valueSi || previous.methodId != calculation.methodId || previous.methodVersion != calculation.methodVersion ||
++                    previous.sourceMeasurementId != input.sourceMeasurementId) {
+                     fail(CartographicStoreError.CONFLICT)
+@@ -96,3 +107,3 @@
+                     name, input.kind.name, geometry, calculation.valueSi, calculation.methodId,
+-                    calculation.methodVersion, now, "")
++                    calculation.methodVersion, now, "", input.sourceMeasurementId)
+                 dao.insert(row.copy(payloadSha256 = payloadHash(row)))
+@@ -181,3 +192,4 @@
+     private fun saved(row: CartographicMeasurementEntity, scope: MapDataScope): SavedCartographicMeasurement {
+-        if (row.geometryJson.length > MAX_GEOMETRY_CHARACTERS || row.payloadSha256 != payloadHash(row) ||
++        if (row.geometryJson.length > MAX_GEOMETRY_CHARACTERS || row.name?.let { it.length > MAX_NAME_LENGTH || it.any(Char::isISOControl) } == true ||
++            row.methodId.length > 128 || row.payloadSha256 != payloadHash(row) ||
+             !row.valueSi.isFinite() || row.valueSi <= 0 || row.recordedAt <= 0 || row.methodVersion < 1 || row.methodId.isBlank()) {
+@@ -192,3 +204,5 @@
+         return SavedCartographicMeasurement(row.id, scope, row.name, kind, points.toList(), row.valueSi,
+-            row.methodId, row.methodVersion, row.recordedAt)
++            row.methodId, row.methodVersion, row.recordedAt,
++            source = if (row.sourceMeasurementId == null) "manual_map" else "manual_map_copy",
++            sourceMeasurementId = row.sourceMeasurementId)
+     }
+@@ -197,3 +211,3 @@
+         row.id, row.ownerKey, row.scopeKind, row.scopeId, row.name, row.kind, row.geometryJson,
+-        row.valueSi, row.methodId, row.methodVersion, row.recordedAt)))
++        row.valueSi, row.methodId, row.methodVersion, row.recordedAt, row.sourceMeasurementId)))
+ 
+@@ -218,3 +232,3 @@
+         val scopeId: String, val name: String?, val kind: String, val geometryJson: String, val valueSi: Double,
+-        val methodId: String, val methodVersion: Int, val recordedAt: Long)
++        val methodId: String, val methodVersion: Int, val recordedAt: Long, val sourceMeasurementId: String?)
+ 

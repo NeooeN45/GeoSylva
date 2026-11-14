@@ -1,0 +1,306 @@
+{
+  "recordedCommandsExecuted": false,
+  "literalStringOperationsOnly": true,
+  "basePrefixLineRange": [
+    1,
+    590
+  ],
+  "basePrefixSha256": "9fec78f8806fad2ce8b54c3d14de4277b134dcb64d24b7747d05f135756c7ed9",
+  "resultPrefixLineRange": [
+    1,
+    703
+  ],
+  "resultPrefixSha256": "c8e7dd2a5bbf9b62b518849471499a1d9385ffecc937f0bba4832ed45da0e444",
+  "allPreviouslyObservedOverlapsMatch": true,
+  "steps": [
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-93bfabb4-44cc-457c-9a92-b43c0939dc4e",
+        "itemIndex": 42,
+        "outputTruncated": false
+      },
+      "pythonLine": 17,
+      "old": "import androidx.compose.runtime.snapshotFlow\n",
+      "new": "",
+      "count": -1,
+      "beforeFragmentSha256": "9fec78f8806fad2ce8b54c3d14de4277b134dcb64d24b7747d05f135756c7ed9",
+      "afterFragmentSha256": "517d7297820b52ea69c347840b6dc3fc64db77bb449e5ea114b624c20f166bba"
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-93bfabb4-44cc-457c-9a92-b43c0939dc4e",
+        "itemIndex": 42,
+        "outputTruncated": false
+      },
+      "pythonLine": 18,
+      "old": "    // The host's saved observedCamera is the sole restoration authority; native MapEffect\n    // applies that retained bootstrap camera once before loading the style.\n",
+      "new": "    // The host's observed camera is the sole saved authority. Its optional same-observation\n    // physical witness is consumed once after resources; the logical seed locates the DEM first.\n",
+      "count": -1,
+      "beforeFragmentSha256": "517d7297820b52ea69c347840b6dc3fc64db77bb449e5ea114b624c20f166bba",
+      "afterFragmentSha256": "1623e1aab23098d2436374dadf8b4f48e43d2ed9e73ef9f84bb64a5ae9870f10"
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-93bfabb4-44cc-457c-9a92-b43c0939dc4e",
+        "itemIndex": 42,
+        "outputTruncated": false
+      },
+      "pythonLine": 23,
+      "old": "    var lastTerrainRequest by remember { mutableStateOf<MapRelief?>(null) }\n",
+      "new": "    var lastTerrainRequest by remember { mutableStateOf<MapRelief?>(null) }\n    val nativeRestoration = remember { MapNativeCameraRestoration(initialCamera) }\n    val nativeRestoreEvents = remember { NativeRestoreEvents() }\n    val nativePoseStyle = remember(style.id,style.document,style.demSourceUrl) { nativePoseStyleKey(style) }\n\n    fun poseContext(): MapNativeCameraContext? = runCatching {\n        val map = sdkMap ?: return null\n        val view = sdkMapView ?: return null\n        val size = map.getSize()\n        if (view.width <= 0 || view.height <= 0 || size.width.toDouble() != view.width.toDouble() ||\n            size.height.toDouble() != view.height.toDouble()) return null\n        MapNativeCameraContext(nativePoseStyle,currentScene.scopeId,requestedRelief,view.width,view.height,\n            map.getMapOptions().pixelRatio.toDouble(),map.cameraState.verticalFov,map.getCenterAltitudeMode().name,\n            currentVisibleInsets.let {MapCameraPadding(it.top,it.left,it.bottom,it.right)})\n    }.getOrNull()\n\n    fun observedCamera(): MapCameraPosition? {\n        if (nativeRestoration.pending || nativeRestoration.failed) return null\n        val map = sdkMap ?: return null\n        val logical = map.cameraState.toMapCameraPosition()\n        if (!nativeRestoreEvents.readyForPose() || !resourceCycle.isComplete(resourceGeneration) ||\n            resourceFailure != null || terrainControlFailed || acknowledgedRelief != requestedRelief ||\n            map.style?.let {it.isStyleLoaded() && currentStyle.matchesNativeStyleUri(it.styleURI)} != true) return logical\n        val context = poseContext() ?: return logical\n        val pose = runCatching {\n            val free = map.getFreeCameraOptions()\n            val p = free.position ?: return logical\n            val q = free.orientation ?: return logical\n            MapNativeCameraPose(logical,context,p.x,p.y,p.z,q.x,q.y,q.z,q.w)\n        }.getOrNull() ?: return logical\n        return if (logical == map.cameraState.toMapCameraPosition() && context == poseContext())\n            logical.copy(nativePose=pose) else logical\n    }\n\n    fun publishObservedCamera() { observedCamera()?.let(cameraCallback) }\n    fun cancelNativeRestoration() {\n        val wasFailed = nativeRestoration.failed\n        nativeRestoration.cancel()\n        if (wasFailed) {readyPublished=false;statusCallback(MapRenderStatus.Loading(currentStyle.id))}\n    }\n    fun newerCameraIntention(): Boolean =\n        currentCameraCommand?.id?.let {it != consumedPointId && it != issuedPointCommandId} == true ||\n        currentFrameCommand?.id?.let {it != consumedFrameId && it != issuedFrameCommandId} == true\n\n    fun restoreNativePose(): Boolean {\n        if (newerCameraIntention()) cancelNativeRestoration()\n        if (nativeRestoration.failed) {\n            diagnosticCallback(MapRenderDiagnostic.CAMERA_RESTORE_FAILED)\n            statusCallback(MapRenderStatus.Failed(MapFailureReason.CAMERA_RESTORE));return false\n        }\n        if (!nativeRestoration.pending) return true\n        val map = sdkMap ?: return false\n        val context = poseContext() ?: return false\n        if (!nativeRestoration.compatible(context)) {nativeRestoration.cancel();return true}\n        if (nativeRestoration.observe(nativeRestoreEvents)) return true\n        if (!nativeRestoreEvents.readyForPose()) return false\n        val pose = nativeRestoration.proposal(context) ?: return false\n        fun samePhysicalPose(): Boolean {\n            val free=map.getFreeCameraOptions();val p=free.position;val q=free.orientation\n            return p != null && q != null && p.x==pose.x && p.y==pose.y && p.z==pose.z &&\n                q.x==pose.qx && q.y==pose.qy && q.z==pose.qz && q.w==pose.qw &&\n                map.cameraState.padding.toMapCameraPadding()==pose.camera.padding && poseContext()==context\n        }\n        try {\n            val unchangedBefore=samePhysicalPose()\n            val beforeCameraSequence=nativeRestoreEvents.cameraSequence\n            nativeRestoration.submitted(nativeRestoreEvents.fence(System.currentTimeMillis()))\n            val free=map.getFreeCameraOptions()\n            free.position=com.mapbox.maps.Vec3(pose.x,pose.y,pose.z)\n            free.orientation=com.mapbox.maps.Vec4(pose.qx,pose.qy,pose.qz,pose.qw)\n            // The geographic seed loaded this region's DEM. Restore this physical observation once,\n            // with unchanged size/FOV/padding/terrain, not by reapplying the lossy CameraOptions.\n            map.setCamera(free)\n            if (unchangedBefore && nativeRestoreEvents.cameraSequence==beforeCameraSequence && samePhysicalPose()) {\n                nativeRestoration.exactNoOp();return true\n            }\n        } catch (_: RuntimeException) {\n            nativeRestoration.fail()\n            diagnosticCallback(MapRenderDiagnostic.CAMERA_RESTORE_FAILED)\n            statusCallback(MapRenderStatus.Failed(MapFailureReason.CAMERA_RESTORE))\n        }\n        return false\n    }\n",
+      "count": 1,
+      "beforeFragmentSha256": "1623e1aab23098d2436374dadf8b4f48e43d2ed9e73ef9f84bb64a5ae9870f10",
+      "afterFragmentSha256": "f2673eb01f9b5530683c8246740e956b82dc0617964780f3ec4684720f1e738b"
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-93bfabb4-44cc-457c-9a92-b43c0939dc4e",
+        "itemIndex": 42,
+        "outputTruncated": false
+      },
+      "pythonLine": 108,
+      "old": "        cameraCallback(actual)\n",
+      "new": "        publishObservedCamera()\n",
+      "count": 1,
+      "beforeFragmentSha256": "f2673eb01f9b5530683c8246740e956b82dc0617964780f3ec4684720f1e738b",
+      "afterFragmentSha256": "c1a58e8c1b620b0ed05a54004c58db293a608f13e93b5a05215659cec216460f"
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-93bfabb4-44cc-457c-9a92-b43c0939dc4e",
+        "itemIndex": 42,
+        "outputTruncated": false
+      },
+      "pythonLine": 111,
+      "old": "    fun cameraUserGesture() {\n        if (!alive) return\n",
+      "new": "    fun cameraUserGesture() {\n        if (!alive) return\n        cancelNativeRestoration()\n",
+      "count": 1,
+      "beforeFragmentSha256": "c1a58e8c1b620b0ed05a54004c58db293a608f13e93b5a05215659cec216460f",
+      "afterFragmentSha256": "5fe808ff9509324707c3959381bec3be77e44a6afdf291f65a120f0e80983567"
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-93bfabb4-44cc-457c-9a92-b43c0939dc4e",
+        "itemIndex": 42,
+        "outputTruncated": false
+      },
+      "pythonLine": 117,
+      "old": "        if (command.id == consumedPointId || command.id == issuedPointCommandId) return\n",
+      "new": "        if (command.id == consumedPointId || command.id == issuedPointCommandId) return\n        cancelNativeRestoration()\n",
+      "count": 1,
+      "beforeFragmentSha256": "5fe808ff9509324707c3959381bec3be77e44a6afdf291f65a120f0e80983567",
+      "afterFragmentSha256": "7423c8e4e9cf06104f545a7daf0058b2dd6a1e9fa2a858878bc9f1a7a5a419df"
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-93bfabb4-44cc-457c-9a92-b43c0939dc4e",
+        "itemIndex": 42,
+        "outputTruncated": false
+      },
+      "pythonLine": 121,
+      "old": "        if (command.id == consumedFrameId || command.id == issuedFrameCommandId) return\n",
+      "new": "        if (command.id == consumedFrameId || command.id == issuedFrameCommandId) return\n        cancelNativeRestoration()\n",
+      "count": 1,
+      "beforeFragmentSha256": "7423c8e4e9cf06104f545a7daf0058b2dd6a1e9fa2a858878bc9f1a7a5a419df",
+      "afterFragmentSha256": "89cdda608d55b8c4da99d0d198680a2e8c80eb609cc1b7c745d008985bb1e47a"
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-5883380e-5a6a-4750-bb02-6912561428df",
+        "itemIndex": 50,
+        "outputTruncated": false
+      },
+      "pythonLine": 3,
+      "old": "    val nativeRestoreEvents = remember { NativeRestoreEvents() }\n",
+      "new": "    val nativeRestoreEvents = remember { NativeRestoreEvents() }\n    var nativeRestoreDeadline by remember { mutableStateOf<Job?>(null) }\n",
+      "count": 1,
+      "beforeFragmentSha256": "89cdda608d55b8c4da99d0d198680a2e8c80eb609cc1b7c745d008985bb1e47a",
+      "afterFragmentSha256": "b4c9d03203aedff3eb41d72dfbe361d72783f49f408e28f02c3301a65acd3888"
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-5883380e-5a6a-4750-bb02-6912561428df",
+        "itemIndex": 50,
+        "outputTruncated": false
+      },
+      "pythonLine": 7,
+      "old": "            currentVisibleInsets.let {MapCameraPadding(it.top,it.left,it.bottom,it.right)})\n",
+      "new": "            currentVisibleInsets.let {MapCameraPadding(it.top,it.left,it.bottom,it.right)},\n            map.cameraState.padding.toMapCameraPadding())\n",
+      "count": 1,
+      "beforeFragmentSha256": "b4c9d03203aedff3eb41d72dfbe361d72783f49f408e28f02c3301a65acd3888",
+      "afterFragmentSha256": "ea80db1b8851f3cc52f7ac5cb464ead8eeae4d7f9beff395fde0eddb666726f2"
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-5883380e-5a6a-4750-bb02-6912561428df",
+        "itemIndex": 50,
+        "outputTruncated": false
+      },
+      "pythonLine": 11,
+      "old": "        nativeRestoration.cancel()\n        if (wasFailed)",
+      "new": "        nativeRestoration.cancel()\n        nativeRestoreDeadline?.cancel();nativeRestoreDeadline=null\n        if (wasFailed)",
+      "count": 1,
+      "beforeFragmentSha256": "ea80db1b8851f3cc52f7ac5cb464ead8eeae4d7f9beff395fde0eddb666726f2",
+      "afterFragmentSha256": "118aa2a623ce9df9344195206fe59c5d59d250a5ea024e4063b664c75919fb09"
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-5883380e-5a6a-4750-bb02-6912561428df",
+        "itemIndex": 50,
+        "outputTruncated": false
+      },
+      "pythonLine": 15,
+      "old": "        if (!nativeRestoration.compatible(context)) {nativeRestoration.cancel();return true}\n        if (nativeRestoration.observe(nativeRestoreEvents)) return true\n",
+      "new": "        if (!nativeRestoration.compatible(context)) {cancelNativeRestoration();return true}\n        if (nativeRestoration.observe(nativeRestoreEvents)) {\n            nativeRestoreDeadline?.cancel();nativeRestoreDeadline=null;return true\n        }\n",
+      "count": 1,
+      "beforeFragmentSha256": "118aa2a623ce9df9344195206fe59c5d59d250a5ea024e4063b664c75919fb09",
+      "afterFragmentSha256": "62ec54a5dc981f497ea31190b97c7090a1e3c25f4ad8f93d4786d4678ce42111"
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-5883380e-5a6a-4750-bb02-6912561428df",
+        "itemIndex": 50,
+        "outputTruncated": false
+      },
+      "pythonLine": 22,
+      "old": "            nativeRestoration.submitted(nativeRestoreEvents.fence(System.currentTimeMillis()))\n",
+      "new": "            val boundary=nativeRestoreEvents.fence(System.currentTimeMillis())\n            nativeRestoration.submitted(boundary)\n",
+      "count": 1,
+      "beforeFragmentSha256": "62ec54a5dc981f497ea31190b97c7090a1e3c25f4ad8f93d4786d4678ce42111",
+      "afterFragmentSha256": "a97cb2658022d13ef1bb8c1479955af5a6cc9c5c9c02e77122524d51e90905c1"
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-5883380e-5a6a-4750-bb02-6912561428df",
+        "itemIndex": 50,
+        "outputTruncated": false
+      },
+      "pythonLine": 26,
+      "old": "                nativeRestoration.exactNoOp();return true\n            }\n",
+      "new": "                nativeRestoration.exactNoOp();return true\n            }\n            // A single native application must finish or fail; never leave restoration pending silently.\n            nativeRestoreDeadline=callbackScope.launch {\n                delay(10_000)\n                if (alive && sdkMap === map && nativeRestoration.isAwaiting(boundary)) {\n                    if (resourceFailure != null || terrainControlFailed || poseContext()!=context || newerCameraIntention())\n                        cancelNativeRestoration()\n                    else {\n                        nativeRestoration.fail();readyPublished=false\n                        diagnosticCallback(MapRenderDiagnostic.CAMERA_RESTORE_FAILED)\n                        statusCallback(MapRenderStatus.Failed(MapFailureReason.CAMERA_RESTORE))\n                    }\n                }\n            }\n",
+      "count": 1,
+      "beforeFragmentSha256": "a97cb2658022d13ef1bb8c1479955af5a6cc9c5c9c02e77122524d51e90905c1",
+      "afterFragmentSha256": "23851ad696865ae4a4b104e664b25fb0ff076204879bcfbb9345a97cd9e90a73"
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-b4e82de0-1947-488d-b42d-7b1c779fc41a",
+        "itemIndex": 71,
+        "outputTruncated": false
+      },
+      "pythonLine": 9,
+      "old": "resourceFailure != null || terrainControlFailed || acknowledgedRelief != requestedRelief ||",
+      "new": "resourceFailure != null || terrainControlFailed || acknowledgedRelief?.let {reliefMatches(it,requestedRelief)} != true ||",
+      "count": 1,
+      "beforeFragmentSha256": "23851ad696865ae4a4b104e664b25fb0ff076204879bcfbb9345a97cd9e90a73",
+      "afterFragmentSha256": "fa892b52ae131792a36aa34ce18daf76dc912d9e36042f102149d38fce2d51fd"
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-b4e82de0-1947-488d-b42d-7b1c779fc41a",
+        "itemIndex": 71,
+        "outputTruncated": false
+      },
+      "pythonLine": 9,
+      "old": "    fun rejectTerrainControl(diagnostic: MapRenderDiagnostic) {\n        closeFrameFit(resourceFailed = true)\n",
+      "new": "    fun rejectTerrainControl(diagnostic: MapRenderDiagnostic) {\n        closeFrameFit(resourceFailed = true)\n        nativeRestoration.cancel();nativeRestoreDeadline?.cancel();nativeRestoreDeadline=null\n",
+      "count": 1,
+      "beforeFragmentSha256": "fa892b52ae131792a36aa34ce18daf76dc912d9e36042f102149d38fce2d51fd",
+      "afterFragmentSha256": "3f6b46cc9f122931539e54ef5ab2f870c052c42df966cebf34c41065dbb3c0b1"
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-97983012-e420-4167-8e82-93210c52d540",
+        "itemIndex": 84,
+        "outputTruncated": false
+      },
+      "pythonLine": 3,
+      "old": "            map.setCamera(free)\n            if (unchangedBefore",
+      "new": "            map.setCamera(free)\n            if (resourceFailure != null || terrainControlFailed || !alive || sdkMap !== map ||\n                !nativeRestoration.isAwaiting(boundary)) return false\n            if (poseContext()!=context) {\n                nativeRestoration.fail()\n                diagnosticCallback(MapRenderDiagnostic.CAMERA_RESTORE_FAILED)\n                statusCallback(MapRenderStatus.Failed(MapFailureReason.CAMERA_RESTORE));return false\n            }\n            if (unchangedBefore",
+      "count": 1,
+      "beforeFragmentSha256": "3f6b46cc9f122931539e54ef5ab2f870c052c42df966cebf34c41065dbb3c0b1",
+      "afterFragmentSha256": "63e96236322f3aada9f1f2b6b7e268633e553c648f8daef5e273d5349f249a09"
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-97983012-e420-4167-8e82-93210c52d540",
+        "itemIndex": 84,
+        "outputTruncated": false
+      },
+      "pythonLine": 13,
+      "old": "        } catch (_: RuntimeException) {\n            nativeRestoration.fail()\n            diagnosticCallback(MapRenderDiagnostic.CAMERA_RESTORE_FAILED)\n            statusCallback(MapRenderStatus.Failed(MapFailureReason.CAMERA_RESTORE))\n        }\n",
+      "new": "        } catch (_: RuntimeException) {\n            if (resourceFailure == null && !terrainControlFailed && alive && sdkMap === map) {\n                nativeRestoration.fail()\n                diagnosticCallback(MapRenderDiagnostic.CAMERA_RESTORE_FAILED)\n                statusCallback(MapRenderStatus.Failed(MapFailureReason.CAMERA_RESTORE))\n            } else nativeRestoration.cancel()\n        }\n",
+      "count": 1,
+      "beforeFragmentSha256": "63e96236322f3aada9f1f2b6b7e268633e553c648f8daef5e273d5349f249a09",
+      "afterFragmentSha256": "c8e7dd2a5bbf9b62b518849471499a1d9385ffecc937f0bba4832ed45da0e444"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+@@ -58,2 +58,3 @@
+     private val fieldDao = mockk<com.forestry.counter.data.local.dao.FieldDao>(relaxed = true)
++    private val cartographicMeasurementDao = mockk<com.forestry.counter.data.local.dao.CartographicMeasurementDao>(relaxed = true)
+     private var heightCapturePurgeCount = 0
+@@ -88,2 +89,3 @@
+         fieldDao = fieldDao,
++        cartographicMeasurementDao = cartographicMeasurementDao,
+         clearHeightReferenceCaptures = { heightCapturePurgeCount++ },
+@@ -112,2 +114,4 @@
+         coVerify(exactly = 1) { fieldDao.deleteSites() }
++        coVerify(exactly = 1) { cartographicMeasurementDao.deleteAll() }
++        coVerify(exactly = 1) { cartographicMeasurementDao.deleteStoreIdentity() }
+         // Les 11 entités cœur métier (Vague C) : suppression physique via hardDeleteAll.

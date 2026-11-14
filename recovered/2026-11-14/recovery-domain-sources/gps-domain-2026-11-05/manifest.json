@@ -1,0 +1,364 @@
+{
+  "events": [
+    {
+      "source": "trace-domain-initial2.json",
+      "thread": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+      "turn": "01a1ad12-efee-71e2-a6fc-0979e55f0d91",
+      "turnStartedAt": "2026-11-05T18:57:42+00:00",
+      "item": "exec-c175d08a-a8c9-4fa6-bb6a-35934d6edf6c",
+      "itemIndex": 7,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt",
+      "operation": "add",
+      "literalSha256": "94f84080101f1945076ed1472d463a350749c4d5debc19fe9d19da5e8ead0b93",
+      "literalTruncated": false,
+      "eventId": "trace-domain-initial2-007-SegmentedTraceRecorder.kt",
+      "literalArtifact": "events/trace-domain-initial2-007-SegmentedTraceRecorder.kt.literal",
+      "resultSha256": "94f84080101f1945076ed1472d463a350749c4d5debc19fe9d19da5e8ead0b93",
+      "resultArtifact": "versions/trace-domain-initial2-007-SegmentedTraceRecorder.kt/app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt"
+    },
+    {
+      "source": "trace-domain-initial2.json",
+      "thread": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+      "turn": "01a1ad12-efee-71e2-a6fc-0979e55f0d91",
+      "turnStartedAt": "2026-11-05T18:57:42+00:00",
+      "item": "exec-c175d08a-a8c9-4fa6-bb6a-35934d6edf6c",
+      "itemIndex": 7,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/SphericalTraceDistance.kt",
+      "operation": "add",
+      "literalSha256": "2e16c7da0d5fed6f4abd3b0937e998d13c655b2d5d6acc5e99af729e1189cc7f",
+      "literalTruncated": false,
+      "eventId": "trace-domain-initial2-007-SphericalTraceDistance.kt",
+      "literalArtifact": "events/trace-domain-initial2-007-SphericalTraceDistance.kt.literal",
+      "resultSha256": "2e16c7da0d5fed6f4abd3b0937e998d13c655b2d5d6acc5e99af729e1189cc7f",
+      "resultArtifact": "versions/trace-domain-initial2-007-SphericalTraceDistance.kt/app/src/main/java/com/forestry/counter/domain/location/trace/SphericalTraceDistance.kt"
+    },
+    {
+      "source": "trace-domain-initial2.json",
+      "thread": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+      "turn": "01a1ad12-efee-71e2-a6fc-0979e55f0d91",
+      "turnStartedAt": "2026-11-05T18:57:42+00:00",
+      "item": "exec-c175d08a-a8c9-4fa6-bb6a-35934d6edf6c",
+      "itemIndex": 7,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt",
+      "operation": "add",
+      "literalSha256": "334aad41a39a56c05028fbcaa3aefe3f9742bae493eeef6bd0ada77320a4e30c",
+      "literalTruncated": false,
+      "eventId": "trace-domain-initial2-007-TraceCaptureModels.kt",
+      "literalArtifact": "events/trace-domain-initial2-007-TraceCaptureModels.kt.literal",
+      "resultSha256": "334aad41a39a56c05028fbcaa3aefe3f9742bae493eeef6bd0ada77320a4e30c",
+      "resultArtifact": "versions/trace-domain-initial2-007-TraceCaptureModels.kt/app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt"
+    },
+    {
+      "source": "trace-domain-initial2.json",
+      "thread": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+      "turn": "01a1ad12-efee-71e2-a6fc-0979e55f0d91",
+      "turnStartedAt": "2026-11-05T18:57:42+00:00",
+      "item": "exec-d7aeb5ed-7ab9-46c2-a1b9-9d2353ec5c2d",
+      "itemIndex": 11,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt",
+      "operation": "update",
+      "literalSha256": "2285f36a7f534c7d85d9729be1bd86fcff4f9cea85193d3c49f423edbdf9e097",
+      "literalTruncated": false,
+      "eventId": "trace-domain-initial2-011-SegmentedTraceRecorder.kt",
+      "literalArtifact": "events/trace-domain-initial2-011-SegmentedTraceRecorder.kt.patch",
+      "predecessorSha256": "94f84080101f1945076ed1472d463a350749c4d5debc19fe9d19da5e8ead0b93",
+      "contextMatches": [
+        {
+          "header": "@@ -120,4 +120,4 @@",
+          "matchedOldLine": 120,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "resultSha256": "ddb498640e759b6325092f0e89cae6983c1ca8be0596274e4299807f199c2aa0",
+      "resultArtifact": "versions/trace-domain-initial2-011-SegmentedTraceRecorder.kt/app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt"
+    },
+    {
+      "source": "trace-domain-initial2.json",
+      "thread": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+      "turn": "01a1ad12-efee-71e2-a6fc-0979e55f0d91",
+      "turnStartedAt": "2026-11-05T18:57:42+00:00",
+      "item": "exec-d7aeb5ed-7ab9-46c2-a1b9-9d2353ec5c2d",
+      "itemIndex": 11,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt",
+      "operation": "update",
+      "literalSha256": "07a7c68e81e189bf593981bbc8aa2d0ae1fd378f3a9d0c8f5128ade6df5d4d20",
+      "literalTruncated": false,
+      "eventId": "trace-domain-initial2-011-TraceCaptureModels.kt",
+      "literalArtifact": "events/trace-domain-initial2-011-TraceCaptureModels.kt.patch",
+      "predecessorSha256": "334aad41a39a56c05028fbcaa3aefe3f9742bae493eeef6bd0ada77320a4e30c",
+      "contextMatches": [
+        {
+          "header": "@@ -52,3 +52,3 @@",
+          "matchedOldLine": 52,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "resultSha256": "191e0dc975a1ea0fa136897de88684b12de15a527efa164c756e768ef845a81c",
+      "resultArtifact": "versions/trace-domain-initial2-011-TraceCaptureModels.kt/app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt"
+    },
+    {
+      "source": "trace-domain-initial2.json",
+      "thread": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+      "turn": "01a1ad12-efee-71e2-a6fc-0979e55f0d91",
+      "turnStartedAt": "2026-11-05T18:57:42+00:00",
+      "item": "exec-d7aeb5ed-7ab9-46c2-a1b9-9d2353ec5c2d",
+      "itemIndex": 11,
+      "path": "app/src/test/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorderTest.kt",
+      "operation": "add",
+      "literalSha256": "3361449e9cede34e4808b452a505f2d238e4b579ed039dd73ef9d68aefd25b9a",
+      "literalTruncated": false,
+      "eventId": "trace-domain-initial2-011-SegmentedTraceRecorderTest.kt",
+      "literalArtifact": "events/trace-domain-initial2-011-SegmentedTraceRecorderTest.kt.literal",
+      "resultSha256": "3361449e9cede34e4808b452a505f2d238e4b579ed039dd73ef9d68aefd25b9a",
+      "resultArtifact": "versions/trace-domain-initial2-011-SegmentedTraceRecorderTest.kt/app/src/test/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorderTest.kt"
+    },
+    {
+      "source": "trace-domain-initial2.json",
+      "thread": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+      "turn": "01a1ad12-efee-71e2-a6fc-0979e55f0d91",
+      "turnStartedAt": "2026-11-05T18:57:42+00:00",
+      "item": "exec-a5596272-21f6-46ca-ad6a-329962392943",
+      "itemIndex": 19,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt",
+      "operation": "update",
+      "literalSha256": "03c7ab0b89f8ef228462d31b1a3be0c35ef93b55fc28610c84cc3520c1a1ff03",
+      "literalTruncated": false,
+      "eventId": "trace-domain-initial2-019-SegmentedTraceRecorder.kt",
+      "literalArtifact": "events/trace-domain-initial2-019-SegmentedTraceRecorder.kt.patch",
+      "predecessorSha256": "ddb498640e759b6325092f0e89cae6983c1ca8be0596274e4299807f199c2aa0",
+      "contextMatches": [
+        {
+          "header": "@@ -110,4 +110,8 @@",
+          "matchedOldLine": 110,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -158,2 +162,3 @@",
+          "matchedOldLine": 162,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "resultSha256": "15013522811583aab869d75638bc8cf3efc36767f1d25c4cb102e8b1aa14b1e9",
+      "resultArtifact": "versions/trace-domain-initial2-019-SegmentedTraceRecorder.kt/app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt"
+    },
+    {
+      "source": "trace-domain-initial2.json",
+      "thread": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+      "turn": "01a1ad12-efee-71e2-a6fc-0979e55f0d91",
+      "turnStartedAt": "2026-11-05T18:57:42+00:00",
+      "item": "exec-a5596272-21f6-46ca-ad6a-329962392943",
+      "itemIndex": 19,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt",
+      "operation": "update",
+      "literalSha256": "927ab0b68a35e2cd14720b4145039b96d3ebd1f80eac04c02fcc58ea2143d1cf",
+      "literalTruncated": false,
+      "eventId": "trace-domain-initial2-019-TraceCaptureModels.kt",
+      "literalArtifact": "events/trace-domain-initial2-019-TraceCaptureModels.kt.patch",
+      "predecessorSha256": "191e0dc975a1ea0fa136897de88684b12de15a527efa164c756e768ef845a81c",
+      "contextMatches": [
+        {
+          "header": "@@ -45,3 +45,3 @@",
+          "matchedOldLine": 45,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "resultSha256": "0ef81ffbe08704488af9b5af12fcd1a13fcc7078bfe5593121455117bc1b9f81",
+      "resultArtifact": "versions/trace-domain-initial2-019-TraceCaptureModels.kt/app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt"
+    },
+    {
+      "source": "trace-domain-initial2.json",
+      "thread": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+      "turn": "01a1ad12-efee-71e2-a6fc-0979e55f0d91",
+      "turnStartedAt": "2026-11-05T18:57:42+00:00",
+      "item": "exec-a5596272-21f6-46ca-ad6a-329962392943",
+      "itemIndex": 19,
+      "path": "app/src/test/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorderTest.kt",
+      "operation": "update",
+      "literalSha256": "f0b511ab4d4335469ca9f54017fdf100730554393a9387c6c783795e1824287e",
+      "literalTruncated": false,
+      "eventId": "trace-domain-initial2-019-SegmentedTraceRecorderTest.kt",
+      "literalArtifact": "events/trace-domain-initial2-019-SegmentedTraceRecorderTest.kt.patch",
+      "predecessorSha256": "3361449e9cede34e4808b452a505f2d238e4b579ed039dd73ef9d68aefd25b9a",
+      "contextMatches": [
+        {
+          "header": "@@ -168,2 +168,13 @@",
+          "matchedOldLine": 168,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "resultSha256": "6e613dc612282240c373ddb644a5e67c9a1a4f94731ef615b9b8a2b87014b320",
+      "resultArtifact": "versions/trace-domain-initial2-019-SegmentedTraceRecorderTest.kt/app/src/test/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorderTest.kt"
+    },
+    {
+      "source": "trace-domain-initial2.json",
+      "thread": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+      "turn": "01a1ad12-efee-71e2-a6fc-0979e55f0d91",
+      "turnStartedAt": "2026-11-05T18:57:42+00:00",
+      "item": "exec-5ccce18b-a86c-44a1-843b-0eb50d6ab9c8",
+      "itemIndex": 23,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt",
+      "operation": "update",
+      "literalSha256": "48e49e27a4ca9619719ab2046433242312b1801ab4227cf07ede80c9656c3f49",
+      "literalTruncated": false,
+      "eventId": "trace-domain-initial2-023-SegmentedTraceRecorder.kt",
+      "literalArtifact": "events/trace-domain-initial2-023-SegmentedTraceRecorder.kt.patch",
+      "predecessorSha256": "15013522811583aab869d75638bc8cf3efc36767f1d25c4cb102e8b1aa14b1e9",
+      "contextMatches": [
+        {
+          "header": "@@ -199,3 +199,3 @@",
+          "matchedOldLine": 199,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "resultSha256": "5cf2128f4364d54d9abb9d06cada522bae144b834abea7b3e27be0fb15f47dc0",
+      "resultArtifact": "versions/trace-domain-initial2-023-SegmentedTraceRecorder.kt/app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt"
+    },
+    {
+      "source": "trace-domain-initial2.json",
+      "thread": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+      "turn": "01a1ad12-efee-71e2-a6fc-0979e55f0d91",
+      "turnStartedAt": "2026-11-05T18:57:42+00:00",
+      "item": "exec-5ccce18b-a86c-44a1-843b-0eb50d6ab9c8",
+      "itemIndex": 23,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt",
+      "operation": "update",
+      "literalSha256": "028db6bf5ce89523ef6d51b4ccaa73d3395f676d75c55e213b37f78bc8c24c96",
+      "literalTruncated": false,
+      "eventId": "trace-domain-initial2-023-TraceCaptureModels.kt",
+      "literalArtifact": "events/trace-domain-initial2-023-TraceCaptureModels.kt.patch",
+      "predecessorSha256": "0ef81ffbe08704488af9b5af12fcd1a13fcc7078bfe5593121455117bc1b9f81",
+      "contextMatches": [
+        {
+          "header": "@@ -79,2 +79,3 @@",
+          "matchedOldLine": 79,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "resultSha256": "ab3cf03365650e4d6980d52eb8a24b97ddedb86c2b26966f09583a60536de445",
+      "resultArtifact": "versions/trace-domain-initial2-023-TraceCaptureModels.kt/app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt"
+    },
+    {
+      "source": "trace-domain-initial2.json",
+      "thread": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+      "turn": "01a1ad12-efee-71e2-a6fc-0979e55f0d91",
+      "turnStartedAt": "2026-11-05T18:57:42+00:00",
+      "item": "exec-5ccce18b-a86c-44a1-843b-0eb50d6ab9c8",
+      "itemIndex": 23,
+      "path": "app/src/test/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorderTest.kt",
+      "operation": "update",
+      "literalSha256": "173138ecac89b09c1bf984174fadc72a5ffe872b5fa091381100a16a803aafef",
+      "literalTruncated": false,
+      "eventId": "trace-domain-initial2-023-SegmentedTraceRecorderTest.kt",
+      "literalArtifact": "events/trace-domain-initial2-023-SegmentedTraceRecorderTest.kt.patch",
+      "predecessorSha256": "6e613dc612282240c373ddb644a5e67c9a1a4f94731ef615b9b8a2b87014b320",
+      "contextMatches": [
+        {
+          "header": "@@ -128,2 +128,4 @@",
+          "matchedOldLine": 128,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "resultSha256": "f95f389cefe0a346976ea92626178ca23066c2863ebba70e0c5f82a5ad8604aa",
+      "resultArtifact": "versions/trace-domain-initial2-023-SegmentedTraceRecorderTest.kt/app/src/test/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorderTest.kt"
+    }
+  ],
+  "latestRecovered": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt",
+      "sha256": "5cf2128f4364d54d9abb9d06cada522bae144b834abea7b3e27be0fb15f47dc0",
+      "lines": 207,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt",
+      "provenance": [
+        "trace-domain-initial2-007-SegmentedTraceRecorder.kt",
+        "trace-domain-initial2-011-SegmentedTraceRecorder.kt",
+        "trace-domain-initial2-019-SegmentedTraceRecorder.kt",
+        "trace-domain-initial2-023-SegmentedTraceRecorder.kt"
+      ],
+      "temporalScope": "latest available source event in the 2026-11-05 trace-domain thread; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/SphericalTraceDistance.kt",
+      "sha256": "2e16c7da0d5fed6f4abd3b0937e998d13c655b2d5d6acc5e99af729e1189cc7f",
+      "lines": 32,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/domain/location/trace/SphericalTraceDistance.kt",
+      "provenance": [
+        "trace-domain-initial2-007-SphericalTraceDistance.kt"
+      ],
+      "temporalScope": "latest available source event in the 2026-11-05 trace-domain thread; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt",
+      "sha256": "ab3cf03365650e4d6980d52eb8a24b97ddedb86c2b26966f09583a60536de445",
+      "lines": 97,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt",
+      "provenance": [
+        "trace-domain-initial2-007-TraceCaptureModels.kt",
+        "trace-domain-initial2-011-TraceCaptureModels.kt",
+        "trace-domain-initial2-019-TraceCaptureModels.kt",
+        "trace-domain-initial2-023-TraceCaptureModels.kt"
+      ],
+      "temporalScope": "latest available source event in the 2026-11-05 trace-domain thread; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorderTest.kt",
+      "sha256": "f95f389cefe0a346976ea92626178ca23066c2863ebba70e0c5f82a5ad8604aa",
+      "lines": 243,
+      "artifact": "recovered/app/src/test/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorderTest.kt",
+      "provenance": [
+        "trace-domain-initial2-011-SegmentedTraceRecorderTest.kt",
+        "trace-domain-initial2-019-SegmentedTraceRecorderTest.kt",
+        "trace-domain-initial2-023-SegmentedTraceRecorderTest.kt"
+      ],
+      "temporalScope": "latest available source event in the 2026-11-05 trace-domain thread; not asserted final 2026-11-13"
+    }
+  ],
+  "independentReadChecks": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt",
+      "observation": "../observed-complete/root0007-read-34/app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt",
+      "completeObservation": true,
+      "sha256": "334aad41a39a56c05028fbcaa3aefe3f9742bae493eeef6bd0ada77320a4e30c",
+      "matchingVersionEvents": [
+        "trace-domain-initial2-007-TraceCaptureModels.kt"
+      ],
+      "matchesLatest": false,
+      "passed": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/SphericalTraceDistance.kt",
+      "observation": "../observed-complete/manual-calculation-read-14/app/src/main/java/com/forestry/counter/domain/location/trace/SphericalTraceDistance.kt",
+      "completeObservation": true,
+      "sha256": "2e16c7da0d5fed6f4abd3b0937e998d13c655b2d5d6acc5e99af729e1189cc7f",
+      "matchingVersionEvents": [
+        "trace-domain-initial2-007-SphericalTraceDistance.kt"
+      ],
+      "matchesLatest": true,
+      "passed": true
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt",
+      "observation": "../fragments/root0007-read-46-SegmentedTraceRecorder.kt.fragment",
+      "completeObservation": false,
+      "sha256": "7b1ad986930a0618e8a1c5efa2c231c31a7f713caf42743e752c7fe96f60ba81",
+      "matchingVersionEvents": [
+        "trace-domain-initial2-007-SegmentedTraceRecorder.kt",
+        "trace-domain-initial2-011-SegmentedTraceRecorder.kt",
+        "trace-domain-initial2-019-SegmentedTraceRecorder.kt",
+        "trace-domain-initial2-023-SegmentedTraceRecorder.kt"
+      ],
+      "matchesLatest": true,
+      "passed": true
+    }
+  ],
+  "patch": {
+    "artifact": "patches/gps-domain-recovered-2026-11-05.patch",
+    "sha256": "5f800c3a15c4d9dca4d8b9ca5f7a80c44e3eeded7a52a808d99b53029dc8bbb3",
+    "scope": "four source/test files created in the 2026-11-05 trace-domain thread",
+    "readOnlyGitApplyCheck": {
+      "repository": "/workspace/recovery-geosylva",
+      "exitCode": 0,
+      "applied": false
+    }
+  },
+  "execution": "No historical command executed, no repository modified, no build/test/ADB/push run."
+}

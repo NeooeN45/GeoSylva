@@ -1,0 +1,8 @@
+@@ -35,2 +35,3 @@
+         const val M2 = "m2"
++        const val ARE = "a"
+         const val HA = "ha"
+@@ -75,2 +76,3 @@
+         UnitDef(Code.M2, "m²", "mètre carré", Dimension.AREA, 1.0, Code.M2, "Unité de surface de référence"),
++        UnitDef(Code.ARE, "a", "are", Dimension.AREA, 100.0, Code.M2),
+         UnitDef(Code.HA, "ha", "hectare", Dimension.AREA, 10_000.0, Code.M2, "Surface forestière"),

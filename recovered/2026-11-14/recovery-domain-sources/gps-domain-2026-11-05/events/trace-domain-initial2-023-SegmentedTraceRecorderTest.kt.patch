@@ -1,0 +1,5 @@
+@@ -128,2 +128,4 @@
+         assertEquals(TraceRejectionReason.MOCK_POSITION, mock.reason)
++        val altitude = recorder.accept(token, fix(13).copy(altitudeM = Double.NaN), at(13)) as TraceFixResult.Rejected
++        assertEquals(TraceRejectionReason.INVALID_ALTITUDE, altitude.reason)
+     }

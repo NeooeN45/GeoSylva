@@ -1,0 +1,5 @@
+@@ -192,3 +192,3 @@
+     private fun saved(row: CartographicMeasurementEntity, scope: MapDataScope): SavedCartographicMeasurement {
+-        if (row.geometryJson.length > MAX_GEOMETRY_CHARACTERS || row.name?.let { it.length > MAX_NAME_LENGTH || it.any(Char::isISOControl) } == true ||
++        if (row.geometryJson.length > MAX_GEOMETRY_CHARACTERS || row.name?.let { it.length > MAX_NAME_LENGTH || it.any { char -> char.isISOControl() } } == true ||
+             row.methodId.length > 128 || row.payloadSha256 != payloadHash(row) ||

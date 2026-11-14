@@ -1,0 +1,14 @@
+@@ -54,2 +54,3 @@
+     private val fieldDao: com.forestry.counter.data.local.dao.FieldDao,
++    private val cartographicMeasurementDao: com.forestry.counter.data.local.dao.CartographicMeasurementDao,
+     private val clearHeightReferenceCaptures: suspend () -> Unit = {},
+@@ -75,2 +76,4 @@
+         operationDao.runJournalTransaction {
++            cartographicMeasurementDao.deleteAll()
++            cartographicMeasurementDao.deleteStoreIdentity()
+             fieldDao.deleteChunks()
+@@ -132,3 +135,3 @@
+         /** Nombre de DAOs purgés par le use case (pour vérification en test). */
+-        const val DAO_COUNT = 18
++        const val DAO_COUNT = 19
+         private const val PHOTOS_DIR_NAME = "photos"

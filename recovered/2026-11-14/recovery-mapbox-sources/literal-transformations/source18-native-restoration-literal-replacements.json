@@ -1,0 +1,146 @@
+{
+  "inventoryOnlyNotExecutionOrder": true,
+  "namedNeedleAndOldArgumentsRemainInRawEvidence": true,
+  "replaceCalls": [
+    {
+      "old": "RESOURCE_FAILURE, CAMERA_FIT_FAILED, READY,",
+      "new": "RESOURCE_FAILURE, CAMERA_FIT_FAILED, CAMERA_RESTORE_FAILED, READY,",
+      "count": null,
+      "pythonLine": 6,
+      "pythonColumn": 28
+    },
+    {
+      "old": "import androidx.compose.runtime.snapshotFlow\n",
+      "new": "",
+      "count": null,
+      "pythonLine": 17,
+      "pythonColumn": 44
+    },
+    {
+      "old": "    // The host's saved observedCamera is the sole restoration authority; native MapEffect\n    // applies that retained bootstrap camera once before loading the style.\n",
+      "new": "    // The host's observed camera is the sole saved authority. Its optional same-observation\n    // physical witness is consumed once after resources; the logical seed locates the DEM first.\n",
+      "count": null,
+      "pythonLine": 18,
+      "pythonColumn": 2
+    },
+    {
+      "old": "    var lastTerrainRequest by remember { mutableStateOf<MapRelief?>(null) }\n",
+      "new": "    var lastTerrainRequest by remember { mutableStateOf<MapRelief?>(null) }\n    val nativeRestoration = remember { MapNativeCameraRestoration(initialCamera) }\n    val nativeRestoreEvents = remember { NativeRestoreEvents() }\n    val nativePoseStyle = remember(style.id,style.document,style.demSourceUrl) { nativePoseStyleKey(style) }\n\n    fun poseContext(): MapNativeCameraContext? = runCatching {\n        val map = sdkMap ?: return null\n        val view = sdkMapView ?: return null\n        val size = map.getSize()\n        if (view.width <= 0 || view.height <= 0 || size.width.toDouble() != view.width.toDouble() ||\n            size.height.toDouble() != view.height.toDouble()) return null\n        MapNativeCameraContext(nativePoseStyle,currentScene.scopeId,requestedRelief,view.width,view.height,\n            map.getMapOptions().pixelRatio.toDouble(),map.cameraState.verticalFov,map.getCenterAltitudeMode().name,\n            currentVisibleInsets.let {MapCameraPadding(it.top,it.left,it.bottom,it.right)})\n    }.getOrNull()\n\n    fun observedCamera(): MapCameraPosition? {\n        if (nativeRestoration.pending || nativeRestoration.failed) return null\n        val map = sdkMap ?: return null\n        val logical = map.cameraState.toMapCameraPosition()\n        if (!nativeRestoreEvents.readyForPose() || !resourceCycle.isComplete(resourceGeneration) ||\n            resourceFailure != null || terrainControlFailed || acknowledgedRelief != requestedRelief ||\n            map.style?.let {it.isStyleLoaded() && currentStyle.matchesNativeStyleUri(it.styleURI)} != true) return logical\n        val context = poseContext() ?: return logical\n        val pose = runCatching {\n            val free = map.getFreeCameraOptions()\n            val p = free.position ?: return logical\n            val q = free.orientation ?: return logical\n            MapNativeCameraPose(logical,context,p.x,p.y,p.z,q.x,q.y,q.z,q.w)\n        }.getOrNull() ?: return logical\n        return if (logical == map.cameraState.toMapCameraPosition() && context == poseContext())\n            logical.copy(nativePose=pose) else logical\n    }\n\n    fun publishObservedCamera() { observedCamera()?.let(cameraCallback) }\n    fun cancelNativeRestoration() {\n        val wasFailed = nativeRestoration.failed\n        nativeRestoration.cancel()\n        if (wasFailed) {readyPublished=false;statusCallback(MapRenderStatus.Loading(currentStyle.id))}\n    }\n    fun newerCameraIntention(): Boolean =\n        currentCameraCommand?.id?.let {it != consumedPointId && it != issuedPointCommandId} == true ||\n        currentFrameCommand?.id?.let {it != consumedFrameId && it != issuedFrameCommandId} == true\n\n    fun restoreNativePose(): Boolean {\n        if (newerCameraIntention()) cancelNativeRestoration()\n        if (nativeRestoration.failed) {\n            diagnosticCallback(MapRenderDiagnostic.CAMERA_RESTORE_FAILED)\n            statusCallback(MapRenderStatus.Failed(MapFailureReason.CAMERA_RESTORE));return false\n        }\n        if (!nativeRestoration.pending) return true\n        val map = sdkMap ?: return false\n        val context = poseContext() ?: return false\n        if (!nativeRestoration.compatible(context)) {nativeRestoration.cancel();return true}\n        if (nativeRestoration.observe(nativeRestoreEvents)) return true\n        if (!nativeRestoreEvents.readyForPose()) return false\n        val pose = nativeRestoration.proposal(context) ?: return false\n        fun samePhysicalPose(): Boolean {\n            val free=map.getFreeCameraOptions();val p=free.position;val q=free.orientation\n            return p != null && q != null && p.x==pose.x && p.y==pose.y && p.z==pose.z &&\n                q.x==pose.qx && q.y==pose.qy && q.z==pose.qz && q.w==pose.qw &&\n                map.cameraState.padding.toMapCameraPadding()==pose.camera.padding && poseContext()==context\n        }\n        try {\n            val unchangedBefore=samePhysicalPose()\n            val beforeCameraSequence=nativeRestoreEvents.cameraSequence\n            nativeRestoration.submitted(nativeRestoreEvents.fence(System.currentTimeMillis()))\n            val free=map.getFreeCameraOptions()\n            free.position=com.mapbox.maps.Vec3(pose.x,pose.y,pose.z)\n            free.orientation=com.mapbox.maps.Vec4(pose.qx,pose.qy,pose.qz,pose.qw)\n            // The geographic seed loaded this region's DEM. Restore this physical observation once,\n            // with unchanged size/FOV/padding/terrain, not by reapplying the lossy CameraOptions.\n            map.setCamera(free)\n            if (unchangedBefore && nativeRestoreEvents.cameraSequence==beforeCameraSequence && samePhysicalPose()) {\n                nativeRestoration.exactNoOp();return true\n            }\n        } catch (_: RuntimeException) {\n            nativeRestoration.fail()\n            diagnosticCallback(MapRenderDiagnostic.CAMERA_RESTORE_FAILED)\n            statusCallback(MapRenderStatus.Failed(MapFailureReason.CAMERA_RESTORE))\n        }\n        return false\n    }\n",
+      "count": 1,
+      "pythonLine": 23,
+      "pythonColumn": 2
+    },
+    {
+      "old": "        cameraCallback(actual)\n",
+      "new": "        publishObservedCamera()\n",
+      "count": 1,
+      "pythonLine": 108,
+      "pythonColumn": 2
+    },
+    {
+      "old": "    fun cameraUserGesture() {\n        if (!alive) return\n",
+      "new": "    fun cameraUserGesture() {\n        if (!alive) return\n        cancelNativeRestoration()\n",
+      "count": 1,
+      "pythonLine": 111,
+      "pythonColumn": 2
+    },
+    {
+      "old": "        if (command.id == consumedPointId || command.id == issuedPointCommandId) return\n",
+      "new": "        if (command.id == consumedPointId || command.id == issuedPointCommandId) return\n        cancelNativeRestoration()\n",
+      "count": 1,
+      "pythonLine": 117,
+      "pythonColumn": 2
+    },
+    {
+      "old": "        if (command.id == consumedFrameId || command.id == issuedFrameCommandId) return\n",
+      "new": "        if (command.id == consumedFrameId || command.id == issuedFrameCommandId) return\n        cancelNativeRestoration()\n",
+      "count": 1,
+      "pythonLine": 121,
+      "pythonColumn": 2
+    },
+    {
+      "old": "        resourceCycle.recordTerrainApplication(resourceGeneration, System.currentTimeMillis(), changed = true)\n",
+      "new": "        val terrainAppliedAtMs=System.currentTimeMillis()\n        nativeRestoreEvents.resourcesAfterMs=terrainAppliedAtMs\n        resourceCycle.recordTerrainApplication(resourceGeneration, terrainAppliedAtMs, changed = true)\n",
+      "count": 1,
+      "pythonLine": 125,
+      "pythonColumn": 2
+    },
+    {
+      "old": "            else -> {\n                diagnosticCallback(MapRenderDiagnostic.READY)\n",
+      "new": "            else -> {\n                if (!restoreNativePose()) return\n                diagnosticCallback(MapRenderDiagnostic.READY)\n",
+      "count": 1,
+      "pythonLine": 130,
+      "pythonColumn": 2
+    },
+    {
+      "old": "                publishReticle()\n            }\n        }\n    }\n\n    LaunchedEffect(sdkMap, relief)",
+      "new": "                publishReticle()\n                publishObservedCamera()\n            }\n        }\n    }\n\n    LaunchedEffect(sdkMap, relief)",
+      "count": 1,
+      "pythonLine": 136,
+      "pythonColumn": 2
+    },
+    {
+      "old": "        closeFrameFit(resourceFailed = true)\n        if (error.type",
+      "new": "        closeFrameFit(resourceFailed = true)\n        nativeRestoration.cancel()\n        if (error.type",
+      "count": 1,
+      "pythonLine": 166,
+      "pythonColumn": 2
+    },
+    {
+      "old": "            map.setCamera(initialCamera.toCameraOptions())\n",
+      "new": "            val seed=initialCamera.toCameraOptions().toBuilder()\n            initialCamera.nativePose?.takeIf {it.belongsTo(initialCamera)}?.let {seed.verticalFov(it.context.verticalFov)}\n            map.setCamera(seed.build())\n",
+      "count": 1,
+      "pythonLine": 170,
+      "pythonColumn": 2
+    },
+    {
+      "old": "                    val sequence = cameraGate.nextNativeIdleSequence()\n",
+      "new": "                    val sequence = cameraGate.nextNativeIdleSequence()\n                    nativeRestoreEvents.idleSequence=sequence\n                    nativeRestoreEvents.idleAtMs=event.timestamp.time\n",
+      "count": 1,
+      "pythonLine": 175,
+      "pythonColumn": 2
+    },
+    {
+      "old": "                    if (alive && sdkMap === map) cameraGate.captureNativeCamera(event.cameraState.toMapCameraPosition())\n",
+      "new": "                    if (alive && sdkMap === map) {\n                        nativeRestoreEvents.cameraAtMs=event.timestamp.time\n                        nativeRestoreEvents.cameraSequence++\n                        cameraGate.captureNativeCamera(event.cameraState.toMapCameraPosition())\n                    }\n",
+      "count": 1,
+      "pythonLine": 180,
+      "pythonColumn": 2
+    },
+    {
+      "old": "                map.subscribeRenderFrameFinished { event -> dispatch {\n                    acknowledgeRelief()\n",
+      "new": "                map.subscribeRenderFrameFinished { event ->\n                    if (event.renderMode == com.mapbox.maps.RenderModeType.FULL) {\n                        nativeRestoreEvents.fullSequence++\n                        nativeRestoreEvents.fullAtMs=event.timeInterval.begin.time\n                    }\n                    dispatch {\n                    acknowledgeRelief()\n",
+      "count": 1,
+      "pythonLine": 187,
+      "pythonColumn": 2
+    },
+    {
+      "old": "                } },\n                map.subscribeCameraChangedCoalesced { dispatch { observeCameraCommand(); publishReticle(); publishViewport() } },\n",
+      "new": "                } },\n                map.subscribeCameraChangedCoalesced { dispatch {\n                    observeCameraCommand();publishObservedCamera();publishReticle();publishViewport()\n                } },\n",
+      "count": 1,
+      "pythonLine": 197,
+      "pythonColumn": 2
+    },
+    {
+      "old": "            resourceCycle.beginStyleLoad(resourceGeneration, System.currentTimeMillis())\n",
+      "new": "            val styleStartedAtMs=System.currentTimeMillis()\n            nativeRestoreEvents.resourcesAfterMs=styleStartedAtMs\n            resourceCycle.beginStyleLoad(resourceGeneration, styleStartedAtMs)\n",
+      "count": 1,
+      "pythonLine": 204,
+      "pythonColumn": 2
+    },
+    {
+      "old": "CAMERA_BOUNDS, TERRAIN_CONTROL, CAMERA_FIT,",
+      "new": "CAMERA_BOUNDS, TERRAIN_CONTROL, CAMERA_FIT, CAMERA_RESTORE,",
+      "count": null,
+      "pythonLine": 6,
+      "pythonColumn": 28
+    },
+    {
+      "old": "    val padding: MapCameraPadding = MapCameraPadding(),\n",
+      "new": "    val padding: MapCameraPadding = MapCameraPadding(),\n    /** Optional same-observation physical witness, consumed only during native recreation. */\n    val nativePose: MapNativeCameraPose? = null,\n",
+      "count": 1,
+      "pythonLine": 6,
+      "pythonColumn": 28
+    }
+  ]
+}

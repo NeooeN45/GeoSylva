@@ -1,0 +1,19 @@
+{
+  "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormattingTest.kt",
+  "sha256": "6835634982eec5a522cd3c8eed77c014a63f93eae9dc07ddc79119ee8779a423",
+  "classification": "full_add_exact",
+  "chain": [
+    {
+      "history_file": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "item": "exec-dae909d1-8074-4780-b92b-218b032ddbda",
+      "item_index": 67,
+      "turn_started_at": 1793981184,
+      "turn_completed_at": 1793981946,
+      "kind": "add",
+      "diff_sha256": "6835634982eec5a522cd3c8eed77c014a63f93eae9dc07ddc79119ee8779a423"
+    }
+  ],
+  "limitation": "Observed exact add and listed diffs only. This does not establish absence of intervening changes or a complete November source tree."
+}

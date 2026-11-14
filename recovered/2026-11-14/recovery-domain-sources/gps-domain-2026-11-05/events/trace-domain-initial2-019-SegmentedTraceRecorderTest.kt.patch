@@ -1,0 +1,14 @@
+@@ -168,2 +168,13 @@
+ 
++    @Test fun delayedFixFromBeforeARejectedObservationCannotPretendRecovery() {
++        val recorder = SegmentedTraceRecorder("session", policy())
++        val token = recorder.start(at(10))!!
++        recorder.accept(token, fix(10), at(10))
++        recorder.accept(token, fix(12, accuracy = 25.0), at(12))
++        val delayed = recorder.accept(token, fix(11), at(13)) as TraceFixResult.Ignored
++        assertEquals(TraceIgnoredReason.OUT_OF_ORDER_FIX, delayed.reason)
++        assertEquals(TraceCapturePhase.WAITING_FOR_QUALITY, delayed.snapshot.phase)
++        assertEquals(1, delayed.snapshot.acceptedPointCount)
++    }
++
+     @Test fun longObservationGapSplitsButDoesNotPretendItsCauseIsKnown() {

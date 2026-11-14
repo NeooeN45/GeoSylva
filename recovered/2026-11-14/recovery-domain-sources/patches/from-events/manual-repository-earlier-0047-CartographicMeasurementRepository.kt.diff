@@ -1,0 +1,8 @@
+@@ -20,2 +20,3 @@
+     val points: List<CartographicCoordinate>,
++    val sourceMeasurementId: String? = null,
+ )
+@@ -35,2 +36,3 @@
+     val coordinateReferenceSystem: String = "EPSG:4326",
++    val sourceMeasurementId: String? = null,
+ )

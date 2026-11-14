@@ -59,11 +59,18 @@ def main() -> None:
         if row['kind'] == 'incomplete-code-fragment':
             check(relative.parts[0] == 'FRAGMENTS_INCOMPLETE' and row['completeSource'] is False,
                   f'Incomplete fragment mislabeled: {relative}')
-            fragment = json.loads(data)
-            check(fragment.get('complete', fragment.get('completeSource', False)) is False,
-                  f'Fragment asserts completeness: {relative}')
-            check(len(fragment['lines']) == row['codeLinesObserved'],
-                  f'Fragment observed-line count mismatch: {relative}')
+            if row.get('fragmentFormat') == 'text':
+                data.decode('utf-8')
+                check(len(data.splitlines()) == row['codeLinesObserved'],
+                      f'Text fragment line count mismatch: {relative}')
+                check(row['compilableAsSource'] is False,
+                      f'Text fragment marked compilable: {relative}')
+            else:
+                fragment = json.loads(data)
+                check(fragment.get('complete', fragment.get('completeSource', False)) is False,
+                      f'Fragment asserts completeness: {relative}')
+                check(len(fragment['lines']) == row['codeLinesObserved'],
+                      f'Fragment observed-line count mismatch: {relative}')
         for reference in row.get('proofReferences', []):
             proof_name = reference.get('proofPath')
             if proof_name is None:
@@ -88,6 +95,53 @@ def main() -> None:
     scan = json.loads((root / manifest['currentSecretScanReport']).read_bytes())
     check(scan['filesScanned'] == len(rows) and scan['findings'] == [],
           'Secret scan record is missing, stale, or has findings.')
+    catalogue_path = manifest.get('currentSourceCatalogue')
+    distinct_paths = distinct_versions = None
+    if catalogue_path:
+        catalogue = json.loads((root / catalogue_path).read_bytes())
+        if catalogue.get('schema') == 'geosylva.complete-source-catalogue.v2':
+            distinct_paths = len(catalogue['paths'])
+            distinct_versions = 0
+            source_artifacts = set()
+            for group in catalogue['paths']:
+                check(not Path(group['sourcePath']).is_absolute(), 'Technical source path is absolute.')
+                shas = set()
+                for artifact in group['artifacts']:
+                    row = by_path.get(artifact['backupPath'])
+                    check(row is not None and row['kind'] == 'complete-source'
+                          and row['sha256'] == artifact['sha256'], 'Source catalogue artifact mismatch.')
+                    source_artifacts.add(artifact['backupPath'])
+                    shas.add(artifact['sha256'])
+                check(group['artifactCount'] == len(group['artifacts'])
+                      and group['distinctByteVersionCount'] == len(shas), 'Source catalogue group count mismatch.')
+                distinct_versions += len(shas)
+            for artifact in catalogue['standaloneCompleteSources']:
+                row = by_path.get(artifact['backupPath'])
+                check(row is not None and row['kind'] == 'complete-source'
+                      and row['sha256'] == artifact['sha256'], 'Standalone source catalogue mismatch.')
+                source_artifacts.add(artifact['backupPath'])
+            check(len(source_artifacts) == kinds['complete-source'] == catalogue['completeSourceArtifactCount'],
+                  'Catalogue complete artifact count mismatch.')
+            check(distinct_paths == catalogue['distinctTechnicalSourcePathCount']
+                  == manifest['distinctCompleteSourcePathCount'], 'Distinct technical source path count mismatch.')
+            check(distinct_versions == catalogue['distinctTechnicalSourceByteVersionCount']
+                  == manifest['distinctCompleteSourceVersionCount'], 'Distinct byte version count mismatch.')
+            for alias in catalogue['latestRecoveredAliases']:
+                source = by_path.get(alias['path'])
+                target = by_path.get(alias['aliasesSourceVersionPath'])
+                check(source is not None and target is not None
+                      and source['sha256'] == target['sha256'] == alias['sha256'],
+                      'Latest recovered alias differs from its preserved source state.')
+    fragment_index_path = manifest.get('currentIncompleteFragmentIndex')
+    if fragment_index_path:
+        fragment_index = json.loads((root / fragment_index_path).read_bytes())
+        indexed = {row['path']: row for row in fragment_index['fragments']}
+        check(len(indexed) == kinds['incomplete-code-fragment'], 'Incomplete fragment index count mismatch.')
+        for path, entry in indexed.items():
+            row = by_path.get(path)
+            check(row is not None and row['kind'] == 'incomplete-code-fragment'
+                  and row['sha256'] == entry['sha256'] and entry['completeSource'] is False,
+                  'Incomplete fragment index entry mismatch.')
     baseline_files = 0
     if args.baseline_commit:
         def baseline_file(name: str) -> bytes:
@@ -109,6 +163,8 @@ def main() -> None:
         'proofHashReferencesVerified': reference_count, 'kindCounts': dict(kinds),
         'baselinePayloadEntriesPreserved': baseline_files,
         'baselinePreservationChecked': bool(args.baseline_commit),
+        'distinctTechnicalSourcePaths': distinct_paths,
+        'distinctTechnicalSourceByteVersions': distinct_versions,
         'manifestSha256': sha((root / 'MANIFEST.json').read_bytes()),
         'qualification': 'Backup integrity only; no application execution or network.',
     }, ensure_ascii=False, indent=2))

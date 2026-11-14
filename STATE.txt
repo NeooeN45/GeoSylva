@@ -1,50 +1,48 @@
-ÉTAT DU CHECKPOINT GÉOSYLVA — CHECKPOINT 3 DU 14 NOVEMBRE 2026
+ÉTAT DU CHECKPOINT GÉOSYLVA — CHECKPOINT 4 DU 14 NOVEMBRE 2026
 
-Ce dépôt conserve une récupération partielle des travaux du 13 novembre 2026,
-entreprise depuis une base du 19 octobre 2026. Il contient 128 variantes de
-sources complètes correspondant à 54 chemins techniques distincts. Le catalogue
-workspace couvre 82 variantes sur 30 chemins ; le moteur Mapbox, 13 variantes
-sur 9 chemins. SOURCE_CATALOGUE.checkpoint3.json détaille chemins et variantes.
+Récupération partielle des travaux de novembre, entreprise depuis une ancienne
+base du 19 octobre. Ce dépôt conserve 246 artefacts de sources complètes,
+dont 81 chemins techniques distincts et 211 versions de code distinctes
+par chemin et SHA256. 1 source complète de consultation reste séparée : son
+chemin de module n'est pas établi par la preuve. Les copies de synthèse latest
+recovered sont identifiées comme alias d'états déjà conservés ; elles ne créent
+pas de versions de code distinctes. SOURCE_CATALOGUE.checkpoint4.json détaille
+ces comptes, les variantes, les alias et les références de source historiques.
 
-Les 117 pièces du checkpoint2 et les 41 pièces initiales restent identiques
-octet pour octet. Ce lot ajoute 67 variantes de sources complètes, de nouvelles
-preuves et changements enregistrés. Une preuve source actualisée reçoit un
-nouveau nom si ses octets changent ; aucune preuve antérieure n'est écrasée.
-Les versions issues d'additions, lectures complètes, lectures superposées,
-chaînes observées et échanges entre branches gardent leurs provenances séparées.
+Les 280 pièces du checkpoint3 restent identiques octet pour octet. Ce lot ajoute
+212 pièces. Les preuves modifiées reçoivent un nom checkpoint4/SHA distinct.
+Le manifeste compte 19 patches complets, 78 changements par fichier en hunks,
+140 preuves/provenances et 9 fragments explicitement incomplets, hors compte complet.
 
-MapCameraFitRefinement source20 et source21 sont désormais complets, avec
-SHA256 historiques concordants. MapCameraState et MapResourceCycle initiaux,
-MapCameraGestures source18 et les autres modèles réellement inventoriés sont
-préservés ; leurs versions initiales ne valent pas une certification des dernières
-versions de novembre. Aucun artefact supposé ou source absente n'est inventé.
+MapCameraCommandGate et MapCameraState disposent de variantes complètes datées
+et de hashes historiques concordants. SharedMapboxCanvas source18, source20,
+source21 puis final après P2v2 sont complets avec leurs SHA256 historiques.
+Les anciens fragments restent des preuves incomplètes antérieures ; le JSON
+complet de lignes est une preuve séparée et ne compte pas comme source Kotlin.
+MapRechercheScreen est complet uniquement jusqu'à la chaîne base/opérations
+observées indiquée dans ses preuves ; les événements ultérieurs manquants
+n'ont pas été inventés. Le patch destination41c correspond au SHA historique,
+sans établir les octets complets de sa source de base ou candidate.
 
-Le manifeste compte 14 patches complets, 42 changements par fichier
-en hunks enregistrés, 91 preuves/provenances et 5 JSON de code incomplet.
-FRAGMENTS_INCOMPLETE/INDEX.checkpoint3.json distingue les cinq fragments et
-leurs trous ; ils sont exclus des 128 variantes complètes. SharedMapboxCanvas,
-MapCameraCommandGate, MapRechercheScreen et AuxiliaryPanels restent incomplets
-selon les preuves. FieldJournalScreen complet manque encore ; ses préfixes sont
-exclus. Le test ergonomique composé ne possède pas un hash historique complet
-confirmé. Les hashes de copies/reconstructions exactes et les hashes historiques
-indépendants restent distingués dans MANIFEST.json.
+Les états domain/data de mesures manuelles du 6 novembre, la transition
+d'autorité du 7 novembre et les sources GPS du 5 novembre restent distincts.
+Les dépendances d'autorité et prérequis Room/privacy absents sont signalés.
+Les changements enregistrés complets sans base disponible restent des hunks.
+Les fragments JSON/texte et préfixes de TraceWorkspace restent incomplets.
 
-Les vérifications de copie, provenance SHA256, XML et restauration d'archives
-ne sont ni une compilation, ni une exécution Android/JVM, ni une qualification
-d'APK. Aucun dépôt applicatif actif n'a été modifié par cette copie. Aucune
-commande historique n'a été exécutée et aucune application n'a été recodée.
+Aucune restauration finale du 13 novembre, compilation, exécution Android/JVM,
+validation visuelle ou qualification d'APK n'est revendiquée. Aucun dépôt actif
+n'a été modifié par cette copie, aucune commande historique entière exécutée
+et aucune application recodée. Le scan courant est SECRET_SCAN.checkpoint4.json.
 Transcriptions, réponses API, métadonnées brutes non publiques, scripts de
 récupération/extraction, clés, tokens, configurations locales, données clients
-et personnelles, .env et local.properties restent exclus. Le scan courant
-est consigné dans SECRET_SCAN.checkpoint3.json sans affichage de valeurs.
+et personnelles, .env et local.properties sont exclus.
 
 PUBLICATION AUTORISÉE : branche backup/geosylva-recovery-2026-11-14 du dépôt
-PUBLIC NeooeN45/GeoSylva, choisie explicitement par l'utilisateur. La destination
-enregistrée est inchangée et main du dépôt applicatif reste hors des pushes.
-Le checkpoint2 a été publié et vérifié par l'opérateur, selon son reçu hors
-dépôt checkpoint2-remote-verification.json. Ce checkpoint3 est préparé localement ;
-aucun push du nouveau lot n'est présumé avant son reçu d'égalité HEAD/hash distant.
+PUBLIC NeooeN45/GeoSylva. Destination enregistrée et plan inchangés ; main du
+dépôt applicatif reste hors des pushes. Le checkpoint3 a été poussé et vérifié
+par l'opérateur. Ce checkpoint4 est strictement local jusqu'à son propre reçu
+d'égalité du HEAD et du hash distant. Aucun push de ce nouveau lot n'est présumé.
 
-Les archives zip et bundle autonomes et leur rapport de restauration local
-sont produits hors dépôt dans outputs/2026-11-14/geosylva-backup-checkpoints.
-Les archives précédentes restent associées à leurs propres commits.
+Zip, bundle et rapport de restauration sont générés hors dépôt dans
+outputs/2026-11-14/geosylva-backup-checkpoints, avec leurs SHA256 et commit.

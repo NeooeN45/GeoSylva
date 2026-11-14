@@ -1,0 +1,599 @@
+diff --git a/app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt b/app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt
+@@ -0,0 +1,207 @@
++package com.forestry.counter.domain.location.trace
++
++/**
++ * Thread-safe, Android-free capture state machine. The host supplies qualified access,
++ * lifecycle subscriptions and a monotonic clock; this class never requests GPS or writes
++ * files. Persist immutable snapshots through the same authorized repository as the map.
++ *
++ * Callback tokens must be bound when subscribing, never read afresh inside a callback.
++ * Pause/stop invalidate them. Resume always starts another portion on the first fix.
++ */
++class SegmentedTraceRecorder(
++    val sessionId: String,
++    private val policy: TraceCapturePolicy,
++) {
++    init { require(sessionId.isNotBlank()) }
++
++    private var phase = TraceCapturePhase.PREPARING
++    private var generation = 0L
++    private var requestStartedNanos = 0L
++    private var lastCommandNanos = 0L
++    private var intervalStartedNanos: Long? = null
++    private var accumulatedElapsedNanos = 0L
++    private var pauseStartedNanos: Long? = null
++    private var lastObservedFixNanos: Long? = null
++    private var lastQualifiedFixNanos: Long? = null
++    private var pendingStart = TraceBreakReason.INITIAL
++    private var startsNewPortion = true
++    private var portions = emptyList<TracePortion>()
++    private var events = emptyList<TraceCaptureEvent>()
++    private var lastReceivedFix: TraceFix? = null
++    private var waitingReason: TraceRejectionReason? = null
++
++    /** Repeated start is idempotent; a stopped session must be resumed explicitly. */
++    @Synchronized
++    fun start(nowNanos: Long): TraceCaptureToken? {
++        checkClock(nowNanos)
++        if (phase == TraceCapturePhase.RECORDING || phase == TraceCapturePhase.WAITING_FOR_QUALITY) return token()
++        if (phase != TraceCapturePhase.PREPARING) return null
++        intervalStartedNanos = nowNanos
++        beginRequest(nowNanos)
++        events = events + TraceCaptureEvent(TraceEventType.STARTED, nowNanos)
++        return token()
++    }
++
++    @Synchronized
++    fun pause(nowNanos: Long): TraceCaptureSnapshot {
++        checkClock(nowNanos)
++        if (phase == TraceCapturePhase.RECORDING || phase == TraceCapturePhase.WAITING_FOR_QUALITY) {
++            generation++
++            phase = TraceCapturePhase.MANUALLY_PAUSED
++            pauseStartedNanos = nowNanos
++            waitingReason = null
++            events = events + TraceCaptureEvent(TraceEventType.PAUSED, nowNanos)
++        }
++        return snapshotAt(nowNanos)
++    }
++
++    /** Includes manual pause time, excludes the time spent in stopped draft review. */
++    @Synchronized
++    fun resume(nowNanos: Long): TraceCaptureToken? {
++        checkClock(nowNanos)
++        if (phase == TraceCapturePhase.RECORDING || phase == TraceCapturePhase.WAITING_FOR_QUALITY) return token()
++        if (phase != TraceCapturePhase.MANUALLY_PAUSED && phase != TraceCapturePhase.STOPPED_DRAFT) return null
++        pendingStart = if (phase == TraceCapturePhase.MANUALLY_PAUSED)
++            TraceBreakReason.MANUAL_RESUME else TraceBreakReason.REVIEW_RESUME
++        if (phase == TraceCapturePhase.STOPPED_DRAFT) intervalStartedNanos = nowNanos
++        startsNewPortion = true
++        pauseStartedNanos = null
++        beginRequest(nowNanos)
++        events = events + TraceCaptureEvent(TraceEventType.RESUMED, nowNanos)
++        return token()
++    }
++
++    @Synchronized
++    fun stop(nowNanos: Long): TraceCaptureSnapshot {
++        checkClock(nowNanos)
++        if (phase != TraceCapturePhase.STOPPED_DRAFT && phase != TraceCapturePhase.PREPARING) {
++            accumulatedElapsedNanos = elapsedAt(nowNanos)
++            intervalStartedNanos = null
++            pauseStartedNanos = null
++            generation++
++            phase = TraceCapturePhase.STOPPED_DRAFT
++            waitingReason = null
++            events = events + TraceCaptureEvent(TraceEventType.STOPPED, nowNanos)
++        }
++        return snapshotAt(nowNanos)
++    }
++
++    /** Also used for a no-fix timeout/provider loss; retaining a token does not bypass pause. */
++    @Synchronized
++    fun reportUnavailable(
++        callbackToken: TraceCaptureToken,
++        nowNanos: Long,
++        reason: TraceRejectionReason = TraceRejectionReason.SOURCE_UNAVAILABLE,
++    ): TraceFixResult {
++        checkClock(nowNanos)
++        if (!acceptsToken(callbackToken)) return ignored(TraceIgnoredReason.OBSOLETE_CALLBACK, nowNanos)
++        return reject(reason, nowNanos)
++    }
++
++    @Synchronized
++    fun accept(callbackToken: TraceCaptureToken, fix: TraceFix, nowNanos: Long): TraceFixResult {
++        checkClock(nowNanos)
++        if (!acceptsToken(callbackToken)) return ignored(TraceIgnoredReason.OBSOLETE_CALLBACK, nowNanos)
++        // An older or duplicate callback cannot invalidate a more recent qualified position.
++        if (fix.fixElapsedRealtimeNanos > 0 &&
++            lastObservedFixNanos?.let { fix.fixElapsedRealtimeNanos <= it } == true)
++            return ignored(TraceIgnoredReason.OUT_OF_ORDER_FIX, nowNanos)
++
++        lastReceivedFix = fix
++        // Remember a plausible observation time even if its coordinate/accuracy is
++        // rejected: an older delayed fix must not masquerade as quality recovery.
++        if (fix.fixElapsedRealtimeNanos > 0 &&
++            fix.fixElapsedRealtimeNanos in requestStartedNanos..nowNanos)
++            lastObservedFixNanos = fix.fixElapsedRealtimeNanos
++        rejectionOf(fix, nowNanos)?.let { return reject(it, nowNanos) }
++        if (portions.sumOf { it.points.size } >= policy.maximumAcceptedPoints)
++            return reject(TraceRejectionReason.CAPACITY_REACHED, nowNanos)
++
++        val previousQualified = lastQualifiedFixNanos
++        if (!startsNewPortion && previousQualified != null &&
++            fix.fixElapsedRealtimeNanos - previousQualified > policy.maximumObservationGapNanos) {
++            startsNewPortion = true
++            pendingStart = TraceBreakReason.OBSERVATION_GAP
++            // Detection time is known; the cause and exact onset of the gap are not.
++            events = events + TraceCaptureEvent(TraceEventType.OBSERVATION_GAP, nowNanos)
++        }
++        lastQualifiedFixNanos = fix.fixElapsedRealtimeNanos
++        if (!startsNewPortion) {
++            val previous = portions.last().points.last()
++            val distance = requireNotNull(SphericalTraceDistance.betweenM(previous, fix))
++            if (distance < policy.minimumPointDistanceM)
++                return ignored(TraceIgnoredReason.BELOW_MINIMUM_DISTANCE, nowNanos)
++            val last = portions.last()
++            portions = portions.dropLast(1) + last.copy(points = last.points + fix, lengthM = last.lengthM + distance)
++        } else {
++            portions = portions + TracePortion("$sessionId:portion:${portions.size + 1}", pendingStart, listOf(fix), 0.0)
++            startsNewPortion = false
++        }
++        phase = TraceCapturePhase.RECORDING
++        waitingReason = null
++        return TraceFixResult.Accepted(snapshotAt(nowNanos))
++    }
++
++    @Synchronized
++    fun snapshot(nowNanos: Long): TraceCaptureSnapshot {
++        checkClock(nowNanos)
++        return snapshotAt(nowNanos)
++    }
++
++    private fun beginRequest(nowNanos: Long) {
++        generation++
++        requestStartedNanos = nowNanos
++        lastObservedFixNanos = null
++        lastQualifiedFixNanos = null
++        lastReceivedFix = null
++        waitingReason = null
++        phase = TraceCapturePhase.RECORDING
++    }
++
++    private fun rejectionOf(fix: TraceFix, nowNanos: Long): TraceRejectionReason? = when {
++        !SphericalTraceDistance.isValidCoordinate(fix.latitude, fix.longitude) -> TraceRejectionReason.INVALID_COORDINATES
++        fix.altitudeM?.isFinite() == false -> TraceRejectionReason.INVALID_ALTITUDE
++        fix.isMock -> TraceRejectionReason.MOCK_POSITION
++        fix.horizontalAccuracyM == null -> TraceRejectionReason.MISSING_ACCURACY
++        !fix.horizontalAccuracyM.isFinite() || fix.horizontalAccuracyM <= 0 -> TraceRejectionReason.INVALID_ACCURACY
++        fix.horizontalAccuracyM > policy.maximumHorizontalAccuracyM -> TraceRejectionReason.INSUFFICIENT_ACCURACY
++        fix.fixElapsedRealtimeNanos <= 0 -> TraceRejectionReason.MISSING_FIX_TIME
++        fix.fixElapsedRealtimeNanos > nowNanos -> TraceRejectionReason.FUTURE_FIX
++        fix.fixElapsedRealtimeNanos < requestStartedNanos -> TraceRejectionReason.CACHED_BEFORE_REQUEST
++        nowNanos - fix.fixElapsedRealtimeNanos > policy.maximumFixAgeNanos -> TraceRejectionReason.STALE_FIX
++        else -> null
++    }
++
++    private fun reject(reason: TraceRejectionReason, nowNanos: Long): TraceFixResult.Rejected {
++        if (phase != TraceCapturePhase.WAITING_FOR_QUALITY) {
++            events = events + TraceCaptureEvent(TraceEventType.QUALITY_WAIT, nowNanos, reason)
++            if (portions.isNotEmpty() && !startsNewPortion) {
++                startsNewPortion = true
++                pendingStart = TraceBreakReason.QUALITY_RECOVERY
++            }
++        }
++        phase = TraceCapturePhase.WAITING_FOR_QUALITY
++        waitingReason = reason
++        return TraceFixResult.Rejected(reason, snapshotAt(nowNanos))
++    }
++
++    private fun acceptsToken(value: TraceCaptureToken): Boolean = value == token() &&
++        (phase == TraceCapturePhase.RECORDING || phase == TraceCapturePhase.WAITING_FOR_QUALITY)
++
++    private fun ignored(reason: TraceIgnoredReason, nowNanos: Long) =
++        TraceFixResult.Ignored(reason, snapshotAt(nowNanos))
++
++    private fun token() = TraceCaptureToken(sessionId, generation)
++    private fun elapsedAt(nowNanos: Long) = accumulatedElapsedNanos +
++        (intervalStartedNanos?.let { nowNanos - it } ?: 0L)
++
++    private fun snapshotAt(nowNanos: Long) = TraceCaptureSnapshot(
++        sessionId, phase, generation, portions, events, lastReceivedFix, waitingReason,
++        elapsedAt(nowNanos), pauseStartedNanos?.let { nowNanos - it }, policy,
++    )
++
++    private fun checkClock(nowNanos: Long) {
++        require(nowNanos >= lastCommandNanos) { "A trace uses one nondecreasing elapsed-time clock" }
++        lastCommandNanos = nowNanos
++    }
++}
+diff --git a/app/src/main/java/com/forestry/counter/domain/location/trace/SphericalTraceDistance.kt b/app/src/main/java/com/forestry/counter/domain/location/trace/SphericalTraceDistance.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/domain/location/trace/SphericalTraceDistance.kt
+@@ -0,0 +1,32 @@
++package com.forestry.counter.domain.location.trace
++
++import kotlin.math.atan2
++import kotlin.math.cos
++import kotlin.math.sin
++import kotlin.math.sqrt
++
++/**
++ * Great-circle horizontal distance on the IUGG mean-radius sphere (6,371,008.8 m).
++ * Versioned approximation, NOT an ellipsoidal survey or a terrain/slope distance.
++ * Altitude and GPS accuracy are deliberately not converted into length/uncertainty.
++ */
++object SphericalTraceDistance {
++    const val METHOD_ID = "iugg-mean-sphere-haversine-open-portions-v1"
++    const val EARTH_RADIUS_M = 6_371_008.8
++
++    fun isValidCoordinate(latitude: Double, longitude: Double): Boolean =
++        latitude.isFinite() && longitude.isFinite() &&
++            latitude in -90.0..90.0 && longitude in -180.0..180.0
++
++    fun betweenM(from: TraceFix, to: TraceFix): Double? {
++        if (!isValidCoordinate(from.latitude, from.longitude) ||
++            !isValidCoordinate(to.latitude, to.longitude)) return null
++        val latitude1 = Math.toRadians(from.latitude)
++        val latitude2 = Math.toRadians(to.latitude)
++        val halfLat = Math.toRadians(to.latitude - from.latitude) / 2
++        val halfLon = Math.toRadians(to.longitude - from.longitude) / 2
++        val a = (sin(halfLat) * sin(halfLat) +
++            cos(latitude1) * cos(latitude2) * sin(halfLon) * sin(halfLon)).coerceIn(0.0, 1.0)
++        return EARTH_RADIUS_M * 2 * atan2(sqrt(a), sqrt(1 - a))
++    }
++}
+diff --git a/app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt b/app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt
+@@ -0,0 +1,97 @@
++package com.forestry.counter.domain.location.trace
++
++/** All elapsed times use the same Android elapsedRealtimeNanos clock domain. */
++data class TraceFix(
++    val latitude: Double,
++    val longitude: Double,
++    val horizontalAccuracyM: Double?,
++    val fixElapsedRealtimeNanos: Long,
++    val source: TracePositionSource,
++    val provider: String? = null,
++    val fixTimestampMillis: Long? = null,
++    val altitudeM: Double? = null,
++    val isMock: Boolean = false,
++)
++
++enum class TracePositionSource { PHONE_LOCATION, EXTERNAL_GNSS }
++
++/** Configuration supplied by the host, not a certified forestry protocol. */
++data class TraceCapturePolicy(
++    val maximumHorizontalAccuracyM: Double,
++    val maximumFixAgeNanos: Long,
++    val minimumPointDistanceM: Double,
++    val maximumObservationGapNanos: Long,
++    val maximumAcceptedPoints: Int = 50_000,
++) {
++    init {
++        require(maximumHorizontalAccuracyM.isFinite() && maximumHorizontalAccuracyM > 0)
++        require(maximumFixAgeNanos > 0)
++        require(minimumPointDistanceM.isFinite() && minimumPointDistanceM >= 0)
++        require(maximumObservationGapNanos > 0)
++        require(maximumAcceptedPoints > 0)
++    }
++}
++
++data class TraceCaptureToken(val sessionId: String, val generation: Long)
++
++enum class TraceCapturePhase {
++    PREPARING, RECORDING, WAITING_FOR_QUALITY, MANUALLY_PAUSED, STOPPED_DRAFT,
++}
++
++enum class TraceBreakReason {
++    INITIAL, QUALITY_RECOVERY, MANUAL_RESUME, REVIEW_RESUME, OBSERVATION_GAP,
++}
++
++enum class TraceRejectionReason {
++    INVALID_COORDINATES, INVALID_ALTITUDE, MISSING_ACCURACY, INVALID_ACCURACY, INSUFFICIENT_ACCURACY,
++    MISSING_FIX_TIME, FUTURE_FIX, STALE_FIX, CACHED_BEFORE_REQUEST, MOCK_POSITION,
++    SOURCE_UNAVAILABLE, CAPACITY_REACHED,
++}
++
++enum class TraceIgnoredReason { OBSOLETE_CALLBACK, OUT_OF_ORDER_FIX, BELOW_MINIMUM_DISTANCE }
++
++enum class TraceEventType { STARTED, QUALITY_WAIT, OBSERVATION_GAP, PAUSED, RESUMED, STOPPED }
++
++data class TraceCaptureEvent(
++    val type: TraceEventType,
++    val elapsedRealtimeNanos: Long,
++    val rejectionReason: TraceRejectionReason? = null,
++)
++
++data class TracePortion(
++    val id: String,
++    val startReason: TraceBreakReason,
++    val points: List<TraceFix>,
++    /** Horizontal spherical lengths within this portion only; never closes the line. */
++    val lengthM: Double,
++)
++
++data class TraceCaptureSnapshot(
++    val sessionId: String,
++    val phase: TraceCapturePhase,
++    val generation: Long,
++    val portions: List<TracePortion>,
++    val events: List<TraceCaptureEvent>,
++    /** May be rejected/invalid. It is NOT necessarily the current drawable position. */
++    val lastReceivedFix: TraceFix?,
++    val waitingReason: TraceRejectionReason?,
++    val sessionElapsedNanos: Long,
++    val currentManualPauseElapsedNanos: Long?,
++    val capturePolicy: TraceCapturePolicy,
++    val calculationMethod: String = SphericalTraceDistance.METHOD_ID,
++) {
++    val acceptedPointCount: Int get() = portions.sumOf { it.points.size }
++    val lengthM: Double get() = portions.sumOf { it.lengthM }
++    val lastAcceptedFix: TraceFix? get() = portions.lastOrNull()?.points?.lastOrNull()
++    /** A final pause without a resumed portion is not an extra spatial gap. */
++    val betweenPortionsGapCount: Int get() = (portions.size - 1).coerceAtLeast(0)
++    /** A fix accuracy is not the uncertainty of an entire trace. */
++    val overallTraceUncertaintyM: Double? get() = null
++}
++
++sealed interface TraceFixResult {
++    val snapshot: TraceCaptureSnapshot
++    data class Accepted(override val snapshot: TraceCaptureSnapshot) : TraceFixResult
++    data class Rejected(val reason: TraceRejectionReason, override val snapshot: TraceCaptureSnapshot) : TraceFixResult
++    data class Ignored(val reason: TraceIgnoredReason, override val snapshot: TraceCaptureSnapshot) : TraceFixResult
++}
+diff --git a/app/src/test/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorderTest.kt b/app/src/test/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorderTest.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/test/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorderTest.kt
+@@ -0,0 +1,243 @@
++package com.forestry.counter.domain.location.trace
++
++import org.junit.Assert.*
++import org.junit.Test
++
++class SegmentedTraceRecorderTest {
++    private val second = 1_000_000_000L
++    private fun at(seconds: Long) = seconds * second
++    private fun policy(minimumDistanceM: Double = 0.0, capacity: Int = 50_000) = TraceCapturePolicy(
++        maximumHorizontalAccuracyM = 10.0,
++        maximumFixAgeNanos = at(2),
++        minimumPointDistanceM = minimumDistanceM,
++        maximumObservationGapNanos = at(5),
++        maximumAcceptedPoints = capacity,
++    )
++    private fun fix(seconds: Long, longitude: Double = 0.0, accuracy: Double? = 4.0) = TraceFix(
++        latitude = 0.0, longitude = longitude, horizontalAccuracyM = accuracy,
++        fixElapsedRealtimeNanos = at(seconds), source = TracePositionSource.PHONE_LOCATION,
++        provider = "fused", fixTimestampMillis = 1_700_000_000_000L,
++    )
++    private fun accepted(result: TraceFixResult) = (result as TraceFixResult.Accepted).snapshot
++
++    @Test fun twoPointsGiveOneOpenSegmentAndNeverItsReturnLeg() {
++        val recorder = SegmentedTraceRecorder("session", policy())
++        val token = recorder.start(at(10))!!
++        val first = accepted(recorder.accept(token, fix(10), at(10)))
++        assertEquals(1, first.acceptedPointCount)
++        assertEquals(0.0, first.lengthM, 0.0)
++        val secondPoint = accepted(recorder.accept(token, fix(11, longitude = 0.001), at(11)))
++        val analytic = SphericalTraceDistance.EARTH_RADIUS_M * Math.toRadians(0.001)
++        assertEquals(analytic, secondPoint.lengthM, 1e-8)
++        assertEquals(1, secondPoint.portions.size)
++        assertNull(secondPoint.overallTraceUncertaintyM)
++    }
++
++    @Test fun rejectedPositionStartsNewPortionWithoutMeasuringTheGap() {
++        val recorder = SegmentedTraceRecorder("session", policy())
++        val token = recorder.start(at(10))!!
++        recorder.accept(token, fix(10), at(10))
++        val before = accepted(recorder.accept(token, fix(11, 0.001), at(11)))
++        val rejected = recorder.accept(token, fix(12, 1.0, accuracy = 25.0), at(12)) as TraceFixResult.Rejected
++        assertEquals(TraceCapturePhase.WAITING_FOR_QUALITY, rejected.snapshot.phase)
++        assertEquals(before.lengthM, rejected.snapshot.lengthM, 0.0)
++        assertEquals(2, rejected.snapshot.acceptedPointCount)
++        assertEquals(25.0, rejected.snapshot.lastReceivedFix!!.horizontalAccuracyM!!, 0.0)
++        assertEquals(4.0, rejected.snapshot.lastAcceptedFix!!.horizontalAccuracyM!!, 0.0)
++        val resumed = accepted(recorder.accept(token, fix(13, 1.0), at(13)))
++        assertEquals(before.lengthM, resumed.lengthM, 0.0)
++        assertEquals(2, resumed.portions.size)
++        assertEquals(TraceBreakReason.QUALITY_RECOVERY, resumed.portions[1].startReason)
++        val last = accepted(recorder.accept(token, fix(14, 1.001), at(14)))
++        assertEquals(before.lengthM * 2, last.lengthM, 1e-8)
++        assertEquals(1, last.betweenPortionsGapCount)
++    }
++
++    @Test fun manualPauseCannotResumeFromAnyOldCallbackEvenWithGoodQuality() {
++        val recorder = SegmentedTraceRecorder("session", policy())
++        val oldToken = recorder.start(at(10))!!
++        recorder.accept(oldToken, fix(10), at(10))
++        recorder.pause(at(11))
++        val during = recorder.accept(oldToken, fix(12), at(12)) as TraceFixResult.Ignored
++        assertEquals(TraceIgnoredReason.OBSOLETE_CALLBACK, during.reason)
++        assertEquals(TraceCapturePhase.MANUALLY_PAUSED, during.snapshot.phase)
++        assertEquals(1, during.snapshot.acceptedPointCount)
++        assertNull(recorder.start(at(13)))
++        val freshToken = recorder.resume(at(14))!!
++        assertNotEquals(oldToken, freshToken)
++        assertTrue(recorder.accept(oldToken, fix(15), at(15)) is TraceFixResult.Ignored)
++        val resumed = accepted(recorder.accept(freshToken, fix(16, 1.0), at(16)))
++        assertEquals(2, resumed.portions.size)
++        assertEquals(TraceBreakReason.MANUAL_RESUME, resumed.portions[1].startReason)
++        assertEquals(0.0, resumed.lengthM, 0.0)
++    }
++
++    @Test fun stoppedCallbacksAndOtherSessionCallbacksCannotChangePoints() {
++        val recorder = SegmentedTraceRecorder("one", policy())
++        val token = recorder.start(at(10))!!
++        recorder.accept(token, fix(10), at(10))
++        assertTrue(recorder.accept(token.copy(sessionId = "two"), fix(11), at(11)) is TraceFixResult.Ignored)
++        recorder.stop(at(12))
++        assertTrue(recorder.accept(token, fix(13), at(13)) is TraceFixResult.Ignored)
++        assertEquals(1, recorder.snapshot(at(14)).acceptedPointCount)
++        assertEquals(TraceCapturePhase.STOPPED_DRAFT, recorder.snapshot(at(14)).phase)
++    }
++
++    @Test fun sessionDurationIncludesPauseButExcludesStoppedReviewAndRepeatedCommands() {
++        val recorder = SegmentedTraceRecorder("session", policy())
++        recorder.start(at(10))
++        recorder.pause(at(20))
++        val paused = recorder.pause(at(25))
++        assertEquals(at(15), paused.sessionElapsedNanos)
++        assertEquals(at(5), paused.currentManualPauseElapsedNanos)
++        assertEquals(1, paused.events.count { it.type == TraceEventType.PAUSED })
++        assertEquals(at(20), recorder.stop(at(30)).sessionElapsedNanos)
++        assertEquals(at(20), recorder.stop(at(80)).sessionElapsedNanos)
++        val token = recorder.resume(at(100))!!
++        val resumed = accepted(recorder.accept(token, fix(101), at(101)))
++        assertEquals(at(21), resumed.sessionElapsedNanos)
++        assertNull(resumed.currentManualPauseElapsedNanos)
++        assertEquals(TraceBreakReason.REVIEW_RESUME, resumed.portions.single().startReason)
++    }
++
++    @Test fun finalManualPauseIsNotAnotherMissingSpatialPassage() {
++        val recorder = SegmentedTraceRecorder("session", policy())
++        val token = recorder.start(at(10))!!
++        recorder.accept(token, fix(10), at(10))
++        recorder.pause(at(11))
++        assertEquals(0, recorder.stop(at(12)).betweenPortionsGapCount)
++    }
++
++    @Test fun missingZeroNegativeNonFiniteAndPoorAccuracyAreExplicitlyRejected() {
++        listOf(null, 0.0, -1.0, Double.NaN, Double.POSITIVE_INFINITY, 10.01).forEach { accuracy ->
++            val recorder = SegmentedTraceRecorder("session", policy())
++            val token = recorder.start(at(10))!!
++            val result = recorder.accept(token, fix(10, accuracy = accuracy), at(10)) as TraceFixResult.Rejected
++            assertEquals(0, result.snapshot.acceptedPointCount)
++            assertNull(result.snapshot.lastAcceptedFix)
++        }
++    }
++
++    @Test fun freshBoundaryAccuracyIsAllowedButCoordinatesAndMockAreNot() {
++        val recorder = SegmentedTraceRecorder("session", policy())
++        val token = recorder.start(at(10))!!
++        assertTrue(recorder.accept(token, fix(10, accuracy = 10.0), at(10)) is TraceFixResult.Accepted)
++        val invalid = recorder.accept(token, fix(11).copy(latitude = Double.NaN), at(11)) as TraceFixResult.Rejected
++        assertEquals(TraceRejectionReason.INVALID_COORDINATES, invalid.reason)
++        val mock = recorder.accept(token, fix(12).copy(isMock = true), at(12)) as TraceFixResult.Rejected
++        assertEquals(TraceRejectionReason.MOCK_POSITION, mock.reason)
++        val altitude = recorder.accept(token, fix(13).copy(altitudeM = Double.NaN), at(13)) as TraceFixResult.Rejected
++        assertEquals(TraceRejectionReason.INVALID_ALTITUDE, altitude.reason)
++    }
++
++    @Test fun freshnessUsesRealFixMonotonicTimeNotWallTimestamp() {
++        val recorder = SegmentedTraceRecorder("session", policy())
++        val token = recorder.start(at(10))!!
++        val cached = recorder.accept(token, fix(9), at(10)) as TraceFixResult.Rejected
++        assertEquals(TraceRejectionReason.CACHED_BEFORE_REQUEST, cached.reason)
++        val stale = recorder.accept(token, fix(10), at(13)) as TraceFixResult.Rejected
++        assertEquals(TraceRejectionReason.STALE_FIX, stale.reason)
++        assertTrue(recorder.accept(token, fix(14).copy(fixTimestampMillis = null), at(14)) is TraceFixResult.Accepted)
++        val future = recorder.accept(token, fix(16), at(15)) as TraceFixResult.Rejected
++        assertEquals(TraceRejectionReason.FUTURE_FIX, future.reason)
++        val zero = recorder.accept(token, fix(16).copy(fixElapsedRealtimeNanos = 0), at(16)) as TraceFixResult.Rejected
++        assertEquals(TraceRejectionReason.MISSING_FIX_TIME, zero.reason)
++    }
++
++    @Test fun resumeRejectsCachedPositionsFromBeforeTheNewRequest() {
++        val recorder = SegmentedTraceRecorder("session", policy())
++        val firstToken = recorder.start(at(10))!!
++        recorder.accept(firstToken, fix(10), at(10))
++        recorder.pause(at(11))
++        val resumed = recorder.resume(at(20))!!
++        val cached = recorder.accept(resumed, fix(19), at(20)) as TraceFixResult.Rejected
++        assertEquals(TraceRejectionReason.CACHED_BEFORE_REQUEST, cached.reason)
++        assertEquals(1, cached.snapshot.portions.size)
++        assertEquals(2, accepted(recorder.accept(resumed, fix(21), at(21))).portions.size)
++    }
++
++    @Test fun duplicateAndOutOfOrderCallbacksDoNotCreatePointsOrQualityGaps() {
++        val recorder = SegmentedTraceRecorder("session", policy())
++        val token = recorder.start(at(10))!!
++        recorder.accept(token, fix(10), at(10))
++        recorder.accept(token, fix(11, 0.001), at(11))
++        val duplicate = recorder.accept(token, fix(11, accuracy = null), at(12)) as TraceFixResult.Ignored
++        assertEquals(TraceIgnoredReason.OUT_OF_ORDER_FIX, duplicate.reason)
++        assertEquals(TraceCapturePhase.RECORDING, duplicate.snapshot.phase)
++        assertEquals(2, duplicate.snapshot.acceptedPointCount)
++        assertEquals(1, accepted(recorder.accept(token, fix(13, 0.002), at(13))).portions.size)
++    }
++
++    @Test fun delayedFixFromBeforeARejectedObservationCannotPretendRecovery() {
++        val recorder = SegmentedTraceRecorder("session", policy())
++        val token = recorder.start(at(10))!!
++        recorder.accept(token, fix(10), at(10))
++        recorder.accept(token, fix(12, accuracy = 25.0), at(12))
++        val delayed = recorder.accept(token, fix(11), at(13)) as TraceFixResult.Ignored
++        assertEquals(TraceIgnoredReason.OUT_OF_ORDER_FIX, delayed.reason)
++        assertEquals(TraceCapturePhase.WAITING_FOR_QUALITY, delayed.snapshot.phase)
++        assertEquals(1, delayed.snapshot.acceptedPointCount)
++    }
++
++    @Test fun longObservationGapSplitsButDoesNotPretendItsCauseIsKnown() {
++        val recorder = SegmentedTraceRecorder("session", policy())
++        val token = recorder.start(at(10))!!
++        recorder.accept(token, fix(10), at(10))
++        val result = accepted(recorder.accept(token, fix(16, 1.0), at(16)))
++        assertEquals(2, result.portions.size)
++        assertEquals(0.0, result.lengthM, 0.0)
++        assertEquals(TraceBreakReason.OBSERVATION_GAP, result.portions[1].startReason)
++        val event = result.events.last()
++        assertEquals(TraceEventType.OBSERVATION_GAP, event.type)
++        assertNull(event.rejectionReason)
++    }
++
++    @Test fun healthyStationaryFixesDoNotCreateFalseGapFromDistanceThinning() {
++        val recorder = SegmentedTraceRecorder("session", policy(minimumDistanceM = 3.0))
++        val token = recorder.start(at(10))!!
++        recorder.accept(token, fix(10), at(10))
++        (11L..20L).forEach {
++            val result = recorder.accept(token, fix(it), at(it)) as TraceFixResult.Ignored
++            assertEquals(TraceIgnoredReason.BELOW_MINIMUM_DISTANCE, result.reason)
++        }
++        val moved = accepted(recorder.accept(token, fix(21, 0.001), at(21)))
++        assertEquals(1, moved.portions.size)
++        assertEquals(2, moved.acceptedPointCount)
++    }
++
++    @Test fun noFixTimeoutSplitsAndManualPauseStillWins() {
++        val recorder = SegmentedTraceRecorder("session", policy())
++        val token = recorder.start(at(10))!!
++        recorder.accept(token, fix(10), at(10))
++        val timeout = recorder.reportUnavailable(token, at(20)) as TraceFixResult.Rejected
++        assertEquals(TraceRejectionReason.SOURCE_UNAVAILABLE, timeout.reason)
++        recorder.pause(at(21))
++        assertTrue(recorder.reportUnavailable(token, at(22)) is TraceFixResult.Ignored)
++        assertEquals(TraceCapturePhase.MANUALLY_PAUSED, recorder.snapshot(at(22)).phase)
++    }
++
++    @Test fun repeatedStartDoesNotEraseAcceptedPointsOrChangeToken() {
++        val recorder = SegmentedTraceRecorder("session", policy())
++        val token = recorder.start(at(10))!!
++        recorder.accept(token, fix(10), at(10))
++        assertEquals(token, recorder.start(at(11)))
++        assertEquals(1, recorder.snapshot(at(11)).acceptedPointCount)
++    }
++
++    @Test fun capacityIsAnExplicitRejectionNotSilentDataLoss() {
++        val recorder = SegmentedTraceRecorder("session", policy(capacity = 1))
++        val token = recorder.start(at(10))!!
++        recorder.accept(token, fix(10), at(10))
++        val result = recorder.accept(token, fix(11), at(11)) as TraceFixResult.Rejected
++        assertEquals(TraceRejectionReason.CAPACITY_REACHED, result.reason)
++        assertEquals(1, result.snapshot.acceptedPointCount)
++    }
++
++    @Test fun distanceHandlesDatelineAndPolesWithoutChangingTheModel() {
++        val equatorial = SphericalTraceDistance.betweenM(fix(10, 179.999), fix(11, -179.999))!!
++        assertEquals(SphericalTraceDistance.EARTH_RADIUS_M * Math.toRadians(0.002), equatorial, 1e-6)
++        val pole = fix(10).copy(latitude = 90.0)
++        assertEquals(0.0, SphericalTraceDistance.betweenM(pole, pole.copy(longitude = 180.0))!!, 1e-6)
++        assertNull(SphericalTraceDistance.betweenM(fix(10).copy(longitude = 181.0), fix(11)))
++    }
++}

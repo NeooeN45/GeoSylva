@@ -1,0 +1,18 @@
+@@ -47,3 +47,3 @@
+         val snapshot = reads.capture()
+-        val epoch = db.woodDataGate.capture()
++        val epoch = runCatching { db.woodDataGate.capture() }.getOrElse { fail(CartographicStoreError.ACCESS_CHANGED) }
+         db.woodDataGate.withAccess(epoch) {
+@@ -74,2 +74,3 @@
+     override suspend fun save(input: CartographicMeasurementInput, access: CartographicMeasurementAccess): CartographicStoreResult<SavedCartographicMeasurement> = result {
++        current(access)
+         canonicalId(input.id)
+@@ -109,2 +110,3 @@
+     override suspend fun read(id: String, access: CartographicMeasurementAccess): CartographicStoreResult<SavedCartographicMeasurement> = result {
++        current(access)
+         canonicalId(id)
+@@ -188,3 +190,3 @@
+         val kind = try { CartographicMeasureKind.valueOf(row.kind) } catch (_: IllegalArgumentException) { fail(CartographicStoreError.CORRUPT) }
+-        if (points.size < if (kind == CartographicMeasureKind.DISTANCE) 2 else 3 || points.any { !CartographicMeasureCalculator.isValidCoordinate(it) }) fail(CartographicStoreError.CORRUPT)
++        if (points.size < (if (kind == CartographicMeasureKind.DISTANCE) 2 else 3) || points.any { !CartographicMeasureCalculator.isValidCoordinate(it) }) fail(CartographicStoreError.CORRUPT)
+         return SavedCartographicMeasurement(row.id, scope, row.name, kind, points.toList(), row.valueSi,

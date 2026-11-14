@@ -1,0 +1,4 @@
+@@ -11,2 +11,3 @@
+             db.execSQL("CREATE INDEX IF NOT EXISTS index_cartographic_measurements_ownerKey_scopeKind_scopeId_recordedAt ON cartographic_measurements(ownerKey,scopeKind,scopeId,recordedAt)")
++            db.execSQL("CREATE TABLE IF NOT EXISTS cartographic_store_identity (singletonId INTEGER NOT NULL PRIMARY KEY, localId TEXT NOT NULL)")
+         }

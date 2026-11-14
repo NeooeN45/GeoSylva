@@ -1,0 +1,32 @@
+@@ -116,2 +116,31 @@
+ 
++    @Test fun plot_parent_changes_and_foreign_account_ownership_are_revalidated() = runBlocking {
++        val sql = db.openHelper.writableDatabase
++        for (id in listOf("TEST-parcel-A", "TEST-parcel-B")) {
++            sql.execSQL("INSERT INTO parcelles(parcelleId,name,createdAt,updatedAt) VALUES(?, 'TEST parcel',10,20)", arrayOf(id))
++        }
++        sql.execSQL("INSERT INTO placettes(placetteId,parcelleOwnerId,createdAt,updatedAt) VALUES('TEST-plot','TEST-parcel-A',10,20)")
++        val plot = success(repository.captureAccess(MapDataScope.Plot("TEST-plot")))
++        val saved = success(repository.save(input(), plot))
++        val parent = success(repository.captureAccess(MapDataScope.Parcel("TEST-parcel-A")))
++        failure(CartographicStoreError.UNAVAILABLE, repository.read(saved.id, parent))
++        sql.execSQL("UPDATE placettes SET parcelleOwnerId='TEST-parcel-B' WHERE placetteId='TEST-plot'")
++        failure(CartographicStoreError.ACCESS_CHANGED, repository.read(saved.id, plot))
++        val moved = success(repository.captureAccess(MapDataScope.Plot("TEST-plot")))
++        assertNotEquals(plot.restorationKey, moved.restorationKey)
++        sql.execSQL("INSERT INTO parcel_sync_queue(accountId,parcelId,operation,operationId,state,retryCount,queuedAt,nextAttemptAt) VALUES('TEST-owner','TEST-parcel-B','UPSERT','TEST-operation','SYNCED',0,10,10)")
++        identity.login("TEST-other-account")
++        failure(CartographicStoreError.UNAVAILABLE, repository.captureAccess(MapDataScope.Parcel("TEST-parcel-B")))
++        failure(CartographicStoreError.UNAVAILABLE, repository.captureAccess(MapDataScope.Plot("TEST-plot")))
++    }
++
++    @Test fun account_change_during_insert_rolls_back_instead_of_publishing_a_success() = runBlocking {
++        val changing = CartographicMeasurementRepositoryImpl(db, identity, BusinessReadAccess(identity, db.parcelSyncDao()),
++            clock = { identity.login("TEST-account-changed-during-write"); 1_234L })
++        val original = success(changing.captureAccess(MapDataScope.Free))
++        val request = input()
++        failure(CartographicStoreError.ACCESS_CHANGED, changing.save(request, original))
++        assertNull(db.cartographicMeasurementDao().byId(request.id))
++    }
++
+     @Test fun purge_revokes_pending_access_and_rotates_restoration_partition() = runBlocking {

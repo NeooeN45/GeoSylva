@@ -1,0 +1,4 @@
+@@ -913,2 +913,3 @@
+         CartographicMeasurementMigrations.MIGRATION_47_48,
++        CartographicWorkspaceMigrations.MIGRATION_48_49,
+     )

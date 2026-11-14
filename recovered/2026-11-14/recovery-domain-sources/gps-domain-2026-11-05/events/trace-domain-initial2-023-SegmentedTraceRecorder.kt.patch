@@ -1,0 +1,5 @@
+@@ -199,3 +199,3 @@
+         sessionId, phase, generation, portions, events, lastReceivedFix, waitingReason,
+-        elapsedAt(nowNanos), pauseStartedNanos?.let { nowNanos - it },
++        elapsedAt(nowNanos), pauseStartedNanos?.let { nowNanos - it }, policy,
+     )

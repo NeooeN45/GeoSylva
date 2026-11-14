@@ -1,0 +1,54 @@
+@@ -7,2 +7,3 @@
+ import com.forestry.counter.data.repository.CartographicMeasurementRepositoryImpl
++import com.forestry.counter.data.local.entity.GroupEntity
+ import com.forestry.counter.data.sync.hierarchy.BusinessReadAccess
+@@ -116,2 +117,49 @@
+ 
++    @Test fun legacy_group_forests_retain_owned_measurements_and_deny_deleted_or_foreign_scopes() = runBlocking {
++        val groupId = "TEST-owned-legacy-group"
++        db.groupDao().insertGroup(GroupEntity(groupId, "TEST historical forest group"))
++        db.openHelper.writableDatabase.execSQL("INSERT INTO hierarchy_sync_associations(forestId,accountId,apiOrigin,activatedAt) VALUES(?, 'TEST-owner', 'https://fixture.example.invalid',10)", arrayOf(groupId))
++        identity.login("TEST-owner")
++        val owned = success(repository.captureAccess(MapDataScope.Forest(groupId)))
++        val saved = success(repository.save(input("TEST group measurement"), owned))
++        assertEquals("LEGACY_FOREST_GROUP", db.cartographicMeasurementDao().byId(saved.id)?.scopeKind)
++        assertEquals(listOf(saved), success(repository.list(owned)))
++        assertEquals(saved, success(repository.read(saved.id, owned)))
++
++        identity.login("TEST-other-owner")
++        failure(CartographicStoreError.UNAVAILABLE, repository.captureAccess(MapDataScope.Forest(groupId)))
++        identity.login("TEST-owner")
++        val refreshed = success(repository.captureAccess(MapDataScope.Forest(groupId)))
++        assertEquals(saved, success(repository.read(saved.id, refreshed)))
++        db.groupDao().deleteGroupById(groupId)
++        failure(CartographicStoreError.UNAVAILABLE, repository.read(saved.id, refreshed))
++        failure(CartographicStoreError.UNAVAILABLE, repository.captureAccess(MapDataScope.Forest(groupId)))
++        assertNotNull(db.cartographicMeasurementDao().byId(saved.id))
++    }
++
++    @Test fun canonical_forest_identity_never_adopts_a_same_named_legacy_group_bucket() = runBlocking {
++        val sharedId = "TEST-colliding-forest-group-id"
++        db.groupDao().insertGroup(GroupEntity(sharedId, "TEST original group"))
++        val legacy = success(repository.captureAccess(MapDataScope.Forest(sharedId)))
++        val oldRecord = success(repository.save(input("TEST legacy snapshot"), legacy))
++        db.openHelper.writableDatabase.execSQL("INSERT INTO forets(foretId,nom,proprietaireNom,createdAt,updatedAt) VALUES(?, 'TEST canonical forest','TEST owner',10,20)", arrayOf(sharedId))
++        failure(CartographicStoreError.ACCESS_CHANGED, repository.read(oldRecord.id, legacy))
++        val canonical = success(repository.captureAccess(MapDataScope.Forest(sharedId)))
++        assertNotEquals(legacy.restorationKey, canonical.restorationKey)
++        assertTrue(success(repository.list(canonical)).isEmpty())
++        failure(CartographicStoreError.UNAVAILABLE, repository.read(oldRecord.id, canonical))
++        val canonicalRecord = success(repository.save(input("TEST canonical snapshot"), canonical))
++        assertEquals("FOREST", db.cartographicMeasurementDao().byId(canonicalRecord.id)?.scopeKind)
++
++        // A known deleted canonical identity cannot expose a group hidden by it.
++        db.foretDao().delete(sharedId, 50)
++        failure(CartographicStoreError.UNAVAILABLE, repository.captureAccess(MapDataScope.Forest(sharedId)))
++        // Dedicated test DB only: remove that canonical identity entirely.
++        db.openHelper.writableDatabase.execSQL("DELETE FROM forets WHERE foretId=?", arrayOf(sharedId))
++        val legacyAgain = success(repository.captureAccess(MapDataScope.Forest(sharedId)))
++        assertEquals(listOf(oldRecord), success(repository.list(legacyAgain)))
++        failure(CartographicStoreError.UNAVAILABLE, repository.read(canonicalRecord.id, legacyAgain))
++        assertEquals(oldRecord, success(repository.read(oldRecord.id, legacyAgain)))
++    }
++
+     @Test fun plot_parent_changes_and_foreign_account_ownership_are_revalidated() = runBlocking {

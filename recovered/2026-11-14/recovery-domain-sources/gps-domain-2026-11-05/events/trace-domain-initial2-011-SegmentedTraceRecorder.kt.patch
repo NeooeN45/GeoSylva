@@ -1,0 +1,7 @@
+@@ -120,4 +120,4 @@
+             pendingStart = TraceBreakReason.OBSERVATION_GAP
+-            events = events + TraceCaptureEvent(TraceEventType.QUALITY_WAIT, nowNanos,
+-                TraceRejectionReason.SOURCE_UNAVAILABLE)
++            // Detection time is known; the cause and exact onset of the gap are not.
++            events = events + TraceCaptureEvent(TraceEventType.OBSERVATION_GAP, nowNanos)
+         }

@@ -1,0 +1,6 @@
+@@ -25 +25,5 @@
+ )
++
++/** Per-store non-credential identity; renewed by full local-data erasure. */
++@Entity(tableName = "cartographic_store_identity")
++data class CartographicStoreIdentityEntity(@PrimaryKey val singletonId: Int = 1, val localId: String)

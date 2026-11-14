@@ -1,0 +1,13 @@
+SOURCE18 MapboxMap argument gap916..971 resolved without invented lines.
+The older observed block has55 lines, but the current block has56. The attribution ornament changed from2 lines to3.
+SOURCE18 attribution965..967 is observed directly at SOURCE21 lines999..1001; its added middle line966 is:
+                .size(24.dp).background(Color.Black.copy(alpha = .55f),CircleShape).padding(3.dp),
+The surrounding two attribution lines also change; this was not an isolated unknown blank or closure.
+Listeners come from layers-attributes-batch11 turn01a1b5c2-5636-70e4-ab31-4fcbaa86754b item41.
+Current ornaments come from camera-review21-earlier1 turn01a1d7b0-e5cd-7334-9288-cbfb905f2745 item27.
+Whole-source SHA chain strictly matched:
+SOURCE18 9494f4966e11708bb5da720e12d3252149e0f7210b4020c8b4014beede3b1070
+SOURCE20 fc95c9399ecdc80f0149fa4542c4273edec767794c9bb9bee3d79eb939c76c88
+SOURCE21 9674c133d7f0dd18194897055ca89dab9890edbad144c0233c33aedaf14d0e30
+FINAL P2v2 98209439aafde4330257f71ee7755cc90fbd2e79d13e75dc41aaa2f07c569926
+No historical command executed; no application source invented; no Gradle/ADB/tests/push.

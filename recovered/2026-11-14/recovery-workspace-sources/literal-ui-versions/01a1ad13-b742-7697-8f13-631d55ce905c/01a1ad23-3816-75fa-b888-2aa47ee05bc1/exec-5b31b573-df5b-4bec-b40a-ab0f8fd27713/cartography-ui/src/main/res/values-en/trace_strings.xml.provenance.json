@@ -1,0 +1,32 @@
+{
+  "path": "cartography-ui/src/main/res/values-en/trace_strings.xml",
+  "version_file": "literal-ui-versions/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad23-3816-75fa-b888-2aa47ee05bc1/exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713/cartography-ui/src/main/res/values-en/trace_strings.xml",
+  "sha256": "371bac50f123e268c75a2d8f4c5775d62b756ca76843db60e611f37c04578495",
+  "classification": "full_literal_heredoc_exact",
+  "provenance": {
+    "history_file": "trace-ui-earlier.json",
+    "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+    "turn": "01a1ad23-3816-75fa-b888-2aa47ee05bc1",
+    "item": "exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713",
+    "item_index": 41,
+    "turn_started_at": 1793906129,
+    "turn_completed_at": 1793906493
+  },
+  "chain": [
+    {
+      "kind": "complete_literal_heredoc",
+      "provenance": {
+        "history_file": "trace-ui-earlier.json",
+        "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "turn": "01a1ad23-3816-75fa-b888-2aa47ee05bc1",
+        "item": "exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713",
+        "item_index": 41,
+        "turn_started_at": 1793906129,
+        "turn_completed_at": 1793906493
+      },
+      "sha256": "371bac50f123e268c75a2d8f4c5775d62b756ca76843db60e611f37c04578495"
+    }
+  ],
+  "bytes": 4127,
+  "line_count": 63
+}

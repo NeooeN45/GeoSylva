@@ -1,0 +1,1308 @@
+{
+  "scope": "literal domain/data/manual-measure recovery; no build, ADB, repository edit, or historical command execution",
+  "base": {
+    "path": "/workspace/recovery-geosylva",
+    "commit": "36d1515",
+    "access": "read_only"
+  },
+  "readSeeds": [
+    {
+      "eventId": "manual-calculation-read-1-MapMeasureTools.kt",
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "item": "exec-ed888513-668e-42f6-a96f-236330f0971b",
+      "itemIndex": 1,
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapMeasureTools.kt",
+      "sha256": "22980fb492c4e1835f834aefcea3fc1cca2a62165d62a72e032d2d90637faa2a",
+      "boundary": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/MapMeasureToolsTest.kt",
+      "artifact": "readings/manual-calculation-read-1-MapMeasureTools.kt/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapMeasureTools.kt"
+    },
+    {
+      "eventId": "manual-calculation-read-12-MapMeasureToolsTest.kt",
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "item": "exec-d8643694-b2ca-47e7-83e2-2e70a28581bc",
+      "itemIndex": 12,
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/MapMeasureToolsTest.kt",
+      "sha256": "e5c2a9a32eb0586f78375bf5a981bcea3ea02d7d4d160e8512571dc623d628ab",
+      "boundary": "CubageInputAdmissibility.kt",
+      "artifact": "readings/manual-calculation-read-12-MapMeasureToolsTest.kt/app/src/test/java/com/forestry/counter/presentation/screens/forestry/MapMeasureToolsTest.kt"
+    }
+  ],
+  "events": [
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "turnStartedAt": "2026-11-06T16:06:24+00:00",
+      "item": "exec-65e72173-e267-4fd8-b178-fdbb9651ef2b",
+      "itemIndex": 21,
+      "path": "app/src/main/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculator.kt",
+      "operation": "add",
+      "literalSha256": "3a756bd4289ee36013cebcd36a8777858c24add0bf8931393e0c315c850bccb7",
+      "literalChars": 9902,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-calculation-latest-0021-CartographicMeasureCalculator.kt",
+      "literalArtifact": "events/manual-calculation-latest-0021-CartographicMeasureCalculator.kt.literal",
+      "reconstruction": "literal_add",
+      "resultSha256": "3a756bd4289ee36013cebcd36a8777858c24add0bf8931393e0c315c850bccb7",
+      "resultArtifact": "versions/manual-calculation-latest-0021-CartographicMeasureCalculator.kt/app/src/main/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculator.kt"
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "turnStartedAt": "2026-11-06T16:06:24+00:00",
+      "item": "exec-76542006-99ca-4f7e-8215-87f7ec9bc0e0",
+      "itemIndex": 28,
+      "path": "app/src/test/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculatorTest.kt",
+      "operation": "add",
+      "literalSha256": "bd58778639acc4e7d7e396921269229183bfe02b8169b547c9b6a9de627ca2d6",
+      "literalChars": 8876,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-calculation-latest-0028-CartographicMeasureCalculatorTest.kt",
+      "literalArtifact": "events/manual-calculation-latest-0028-CartographicMeasureCalculatorTest.kt.literal",
+      "reconstruction": "literal_add",
+      "resultSha256": "bd58778639acc4e7d7e396921269229183bfe02b8169b547c9b6a9de627ca2d6",
+      "resultArtifact": "versions/manual-calculation-latest-0028-CartographicMeasureCalculatorTest.kt/app/src/test/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculatorTest.kt"
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "turnStartedAt": "2026-11-06T16:06:24+00:00",
+      "item": "exec-ba69fdc5-db42-49bf-84a8-79cb554cc08a",
+      "itemIndex": 37,
+      "path": "app/src/main/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculator.kt",
+      "operation": "update",
+      "literalSha256": "c68b60d377c2e41bb7cd81bf11d152165f3652bab7e41437f074f56b4771e56b",
+      "literalChars": 575,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-calculation-latest-0037-CartographicMeasureCalculator.kt",
+      "literalArtifact": "events/manual-calculation-latest-0037-CartographicMeasureCalculator.kt.patch",
+      "predecessorSha256": "3a756bd4289ee36013cebcd36a8777858c24add0bf8931393e0c315c850bccb7",
+      "contextMatches": [
+        {
+          "header": "@@ -15,2 +15,3 @@",
+          "matchedOldLine": 15,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -54,2 +55,4 @@",
+          "matchedOldLine": 55,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -65,2 +68,3 @@",
+          "matchedOldLine": 68,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "12c13ca3dbbe206fdd80fed80540c9c1c02339813aa4d6cf74bdc7efffedf2f5",
+      "resultArtifact": "versions/manual-calculation-latest-0037-CartographicMeasureCalculator.kt/app/src/main/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculator.kt"
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "turnStartedAt": "2026-11-06T16:06:24+00:00",
+      "item": "exec-ba69fdc5-db42-49bf-84a8-79cb554cc08a",
+      "itemIndex": 37,
+      "path": "app/src/test/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculatorTest.kt",
+      "operation": "update",
+      "literalSha256": "549a949b1d0f07bf2ca73276a27e4b87ed210d73d955d37882ded5d6d9dd142a",
+      "literalChars": 694,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-calculation-latest-0037-CartographicMeasureCalculatorTest.kt",
+      "literalArtifact": "events/manual-calculation-latest-0037-CartographicMeasureCalculatorTest.kt.patch",
+      "predecessorSha256": "bd58778639acc4e7d7e396921269229183bfe02b8169b547c9b6a9de627ca2d6",
+      "contextMatches": [
+        {
+          "header": "@@ -8,2 +8,12 @@",
+          "matchedOldLine": 8,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "d161994421300435ba779910c0ee0cfaf1e12edec820407a2b0bb398f176ccec",
+      "resultArtifact": "versions/manual-calculation-latest-0037-CartographicMeasureCalculatorTest.kt/app/src/test/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculatorTest.kt"
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "turnStartedAt": "2026-11-06T16:06:24+00:00",
+      "item": "exec-e069f3ca-53f6-428d-804d-125a3437f0bb",
+      "itemIndex": 43,
+      "path": "app/src/main/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculator.kt",
+      "operation": "update",
+      "literalSha256": "b71388ba713257620f0ab4631a3cb5229d3dbf0b250ee7cc6a8c890985de3f2a",
+      "literalChars": 1575,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-calculation-latest-0043-CartographicMeasureCalculator.kt",
+      "literalArtifact": "events/manual-calculation-latest-0043-CartographicMeasureCalculator.kt.patch",
+      "predecessorSha256": "12c13ca3dbbe206fdd80fed80540c9c1c02339813aa4d6cf74bdc7efffedf2f5",
+      "contextMatches": [
+        {
+          "header": "@@ -2,2 +2,3 @@",
+          "matchedOldLine": 2,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -181,31 +182,4 @@",
+          "matchedOldLine": 182,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "1a0a07e83fb4653c733c19494cf0f8b739bfa94a1fd8ef924ef8a3d93da93f5d",
+      "resultArtifact": "versions/manual-calculation-latest-0043-CartographicMeasureCalculator.kt/app/src/main/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculator.kt"
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "turnStartedAt": "2026-11-06T16:06:24+00:00",
+      "item": "exec-e069f3ca-53f6-428d-804d-125a3437f0bb",
+      "itemIndex": 43,
+      "path": "app/src/main/java/com/forestry/counter/domain/geometry/PlanarSegmentIntersection.kt",
+      "operation": "add",
+      "literalSha256": "9a31e408ef5937321f721ef7ef7d73445ad5f22a42709bcf6fc4966afa7aa853",
+      "literalChars": 1796,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-calculation-latest-0043-PlanarSegmentIntersection.kt",
+      "literalArtifact": "events/manual-calculation-latest-0043-PlanarSegmentIntersection.kt.literal",
+      "reconstruction": "literal_add",
+      "resultSha256": "9a31e408ef5937321f721ef7ef7d73445ad5f22a42709bcf6fc4966afa7aa853",
+      "resultArtifact": "versions/manual-calculation-latest-0043-PlanarSegmentIntersection.kt/app/src/main/java/com/forestry/counter/domain/geometry/PlanarSegmentIntersection.kt"
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "turnStartedAt": "2026-11-06T16:06:24+00:00",
+      "item": "exec-e069f3ca-53f6-428d-804d-125a3437f0bb",
+      "itemIndex": 43,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/ParcelGeometry.kt",
+      "operation": "update",
+      "literalSha256": "455ad0b96f906ead2da5d31d9f8de71e83d369e447358cd5c1e4fb6f8238777f",
+      "literalChars": 1674,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-calculation-latest-0043-ParcelGeometry.kt",
+      "literalArtifact": "events/manual-calculation-latest-0043-ParcelGeometry.kt.patch",
+      "predecessorSha256": "6ec4a53afe09157f8c13f93889e5cfd1ce8bb55b51a3e2d45abdb4ec74ff3cd7",
+      "contextMatches": [
+        {
+          "header": "@@ -2,2 +2,3 @@",
+          "matchedOldLine": 2,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -341,8 +342,4 @@",
+          "matchedOldLine": 342,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -355,11 +352,5 @@",
+          "matchedOldLine": 352,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "bfc75968cd7b81d3b5129fc2d89d9ffda532095044368bd88b6182ed4ae8c103",
+      "resultArtifact": "versions/manual-calculation-latest-0043-ParcelGeometry.kt/app/src/main/java/com/forestry/counter/domain/location/ParcelGeometry.kt"
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "turnStartedAt": "2026-11-06T16:06:24+00:00",
+      "item": "exec-f24009ee-d8b2-42de-9a13-66fa624f7c89",
+      "itemIndex": 60,
+      "path": "app/src/main/java/com/forestry/counter/domain/calculation/UnitCatalog.kt",
+      "operation": "update",
+      "literalSha256": "0a6d95d8da6382c8dab30e3337b8f8d2eb22179326e92938e8237a92a8b2e001",
+      "literalChars": 407,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-calculation-latest-0060-UnitCatalog.kt",
+      "literalArtifact": "events/manual-calculation-latest-0060-UnitCatalog.kt.patch",
+      "predecessorSha256": "be7826169808a74bd9ab041238a42b7cee3542bbee889294f7d14eb3e730f969",
+      "contextMatches": [
+        {
+          "header": "@@ -35,2 +35,3 @@",
+          "matchedOldLine": 35,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -75,2 +76,3 @@",
+          "matchedOldLine": 76,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "72b2fda369c04857d176f287fb18f2f5748e7875e97b1ffe48127af3fb241e31",
+      "resultArtifact": "versions/manual-calculation-latest-0060-UnitCatalog.kt/app/src/main/java/com/forestry/counter/domain/calculation/UnitCatalog.kt"
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "turnStartedAt": "2026-11-06T16:06:24+00:00",
+      "item": "exec-f24009ee-d8b2-42de-9a13-66fa624f7c89",
+      "itemIndex": 60,
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormatting.kt",
+      "operation": "add",
+      "literalSha256": "4cde886a11ed1c3774422c6dd4881a825514ae9c99134dadcc6827a02fe1c5e8",
+      "literalChars": 2963,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-calculation-latest-0060-ManualMeasureFormatting.kt",
+      "literalArtifact": "events/manual-calculation-latest-0060-ManualMeasureFormatting.kt.literal",
+      "reconstruction": "literal_add",
+      "resultSha256": "4cde886a11ed1c3774422c6dd4881a825514ae9c99134dadcc6827a02fe1c5e8",
+      "resultArtifact": "versions/manual-calculation-latest-0060-ManualMeasureFormatting.kt/app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormatting.kt"
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "turnStartedAt": "2026-11-06T16:06:24+00:00",
+      "item": "exec-f24009ee-d8b2-42de-9a13-66fa624f7c89",
+      "itemIndex": 60,
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapMeasureTools.kt",
+      "operation": "update",
+      "literalSha256": "8edc2571c02dc48f41f7b44688e2c28de66e24f5f36d6162cfdb10fa589bcec3",
+      "literalChars": 2526,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-calculation-latest-0060-MapMeasureTools.kt",
+      "literalArtifact": "events/manual-calculation-latest-0060-MapMeasureTools.kt.patch",
+      "predecessorSha256": "22980fb492c4e1835f834aefcea3fc1cca2a62165d62a72e032d2d90637faa2a",
+      "contextMatches": [
+        {
+          "header": "@@ -7,3 +7,6 @@",
+          "matchedOldLine": 7,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -32,34 +35,16 @@",
+          "matchedOldLine": 35,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "9e1dfb96cac00b5ee31ed6f1a6dc20d8c43fa522ec2682297e719288b29503b5",
+      "resultArtifact": "versions/manual-calculation-latest-0060-MapMeasureTools.kt/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapMeasureTools.kt"
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "turnStartedAt": "2026-11-06T16:06:24+00:00",
+      "item": "exec-f24009ee-d8b2-42de-9a13-66fa624f7c89",
+      "itemIndex": 60,
+      "path": "app/src/test/java/com/forestry/counter/domain/calculation/UnitConverterTest.kt",
+      "operation": "update",
+      "literalSha256": "d15f3b05b2ee4efc162f5040581613b6cdef446d38d76bf5bf8d1b4df66d2256",
+      "literalChars": 638,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-calculation-latest-0060-UnitConverterTest.kt",
+      "literalArtifact": "events/manual-calculation-latest-0060-UnitConverterTest.kt.patch",
+      "predecessorSha256": "c9d7060b897dd8551e16f8d2c4f3983bb5cadf2983ce64f2db809906b128f59c",
+      "contextMatches": [
+        {
+          "header": "@@ -41,2 +41,11 @@",
+          "matchedOldLine": 41,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "ecb31f300e6dbf54d84ca0889065cc4c8ff110ce7af0e78e5448aa45726f9a21",
+      "resultArtifact": "versions/manual-calculation-latest-0060-UnitConverterTest.kt/app/src/test/java/com/forestry/counter/domain/calculation/UnitConverterTest.kt"
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "turnStartedAt": "2026-11-06T16:06:24+00:00",
+      "item": "exec-dae909d1-8074-4780-b92b-218b032ddbda",
+      "itemIndex": 67,
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapMeasureTools.kt",
+      "operation": "update",
+      "literalSha256": "05dd380378bec45407b5589d4447b38e61d4f0b703eb7e113fe714c1caa1305f",
+      "literalChars": 322,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-calculation-latest-0067-MapMeasureTools.kt",
+      "literalArtifact": "events/manual-calculation-latest-0067-MapMeasureTools.kt.patch",
+      "predecessorSha256": "9e1dfb96cac00b5ee31ed6f1a6dc20d8c43fa522ec2682297e719288b29503b5",
+      "contextMatches": [
+        {
+          "header": "@@ -47,2 +47,3 @@",
+          "matchedOldLine": 47,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "b831e775e319a6bcff8a71dcaa4cb5dba2599f3adf3d07616f5d70d50798e9d1",
+      "resultArtifact": "versions/manual-calculation-latest-0067-MapMeasureTools.kt/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapMeasureTools.kt"
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "turnStartedAt": "2026-11-06T16:06:24+00:00",
+      "item": "exec-dae909d1-8074-4780-b92b-218b032ddbda",
+      "itemIndex": 67,
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormattingTest.kt",
+      "operation": "add",
+      "literalSha256": "6835634982eec5a522cd3c8eed77c014a63f93eae9dc07ddc79119ee8779a423",
+      "literalChars": 5210,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-calculation-latest-0067-ManualMeasureFormattingTest.kt",
+      "literalArtifact": "events/manual-calculation-latest-0067-ManualMeasureFormattingTest.kt.literal",
+      "reconstruction": "literal_add",
+      "resultSha256": "6835634982eec5a522cd3c8eed77c014a63f93eae9dc07ddc79119ee8779a423",
+      "resultArtifact": "versions/manual-calculation-latest-0067-ManualMeasureFormattingTest.kt/app/src/test/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormattingTest.kt"
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "turnStartedAt": "2026-11-06T16:06:24+00:00",
+      "item": "exec-dae909d1-8074-4780-b92b-218b032ddbda",
+      "itemIndex": 67,
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/MapMeasureToolsTest.kt",
+      "operation": "update",
+      "literalSha256": "34e76256d851acbb8755765e4119108520aa6cc51e61003836c3ce5f8f146fa7",
+      "literalChars": 694,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-calculation-latest-0067-MapMeasureToolsTest.kt",
+      "literalArtifact": "events/manual-calculation-latest-0067-MapMeasureToolsTest.kt.patch",
+      "predecessorSha256": "e5c2a9a32eb0586f78375bf5a981bcea3ea02d7d4d160e8512571dc623d628ab",
+      "contextMatches": [
+        {
+          "header": "@@ -9,2 +9,12 @@",
+          "matchedOldLine": 9,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "86c5138473edc3c62740e47646ac530fa3f47b0228b3f1194e277428b3797bd3",
+      "resultArtifact": "versions/manual-calculation-latest-0067-MapMeasureToolsTest.kt/app/src/test/java/com/forestry/counter/presentation/screens/forestry/MapMeasureToolsTest.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-73c0ae88-6300-42d2-9bcc-aa900f7da8c4",
+      "itemIndex": 22,
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicMeasurementMigrations.kt",
+      "operation": "add",
+      "literalSha256": "ce57fd236c1271269f5ad3b395eef29ce25bb7c6663d13663e6736bcb63c6836",
+      "literalChars": 971,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0022-CartographicMeasurementMigrations.kt",
+      "literalArtifact": "events/manual-repository-earlier-0022-CartographicMeasurementMigrations.kt.literal",
+      "reconstruction": "literal_add",
+      "resultSha256": "ce57fd236c1271269f5ad3b395eef29ce25bb7c6663d13663e6736bcb63c6836",
+      "resultArtifact": "versions/manual-repository-earlier-0022-CartographicMeasurementMigrations.kt/app/src/main/java/com/forestry/counter/data/local/CartographicMeasurementMigrations.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-73c0ae88-6300-42d2-9bcc-aa900f7da8c4",
+      "itemIndex": 22,
+      "path": "app/src/main/java/com/forestry/counter/data/local/dao/CartographicMeasurementDao.kt",
+      "operation": "add",
+      "literalSha256": "557798863542d020890c8eaaa73ba47a61dca820513aae3480dfa18340f1d8f0",
+      "literalChars": 1293,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0022-CartographicMeasurementDao.kt",
+      "literalArtifact": "events/manual-repository-earlier-0022-CartographicMeasurementDao.kt.literal",
+      "reconstruction": "literal_add",
+      "resultSha256": "557798863542d020890c8eaaa73ba47a61dca820513aae3480dfa18340f1d8f0",
+      "resultArtifact": "versions/manual-repository-earlier-0022-CartographicMeasurementDao.kt/app/src/main/java/com/forestry/counter/data/local/dao/CartographicMeasurementDao.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-73c0ae88-6300-42d2-9bcc-aa900f7da8c4",
+      "itemIndex": 22,
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicMeasurementEntity.kt",
+      "operation": "add",
+      "literalSha256": "56121fadd3605bbc6160e930a0f1070a53221956d2b02deb5fcd45db08b86c84",
+      "literalChars": 726,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0022-CartographicMeasurementEntity.kt",
+      "literalArtifact": "events/manual-repository-earlier-0022-CartographicMeasurementEntity.kt.literal",
+      "reconstruction": "literal_add",
+      "resultSha256": "56121fadd3605bbc6160e930a0f1070a53221956d2b02deb5fcd45db08b86c84",
+      "resultArtifact": "versions/manual-repository-earlier-0022-CartographicMeasurementEntity.kt/app/src/main/java/com/forestry/counter/data/local/entity/CartographicMeasurementEntity.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-73c0ae88-6300-42d2-9bcc-aa900f7da8c4",
+      "itemIndex": 22,
+      "path": "app/src/main/java/com/forestry/counter/domain/repository/CartographicMeasurementRepository.kt",
+      "operation": "add",
+      "literalSha256": "5a8621334a581567cd71ab428fa1b4562b0387ddf32a36f479c0d51081c3b32e",
+      "literalChars": 2265,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0022-CartographicMeasurementRepository.kt",
+      "literalArtifact": "events/manual-repository-earlier-0022-CartographicMeasurementRepository.kt.literal",
+      "reconstruction": "literal_add",
+      "resultSha256": "5a8621334a581567cd71ab428fa1b4562b0387ddf32a36f479c0d51081c3b32e",
+      "resultArtifact": "versions/manual-repository-earlier-0022-CartographicMeasurementRepository.kt/app/src/main/java/com/forestry/counter/domain/repository/CartographicMeasurementRepository.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-cc8eeb7c-6a97-4b31-82a7-bd82d3a186d6",
+      "itemIndex": 38,
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicMeasurementMigrations.kt",
+      "operation": "update",
+      "literalSha256": "f2bf8c3a5a96e950b773fbaa480ca59db9bb8173521e1abeefdef70c622c268d",
+      "literalChars": 369,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0038-CartographicMeasurementMigrations.kt",
+      "literalArtifact": "events/manual-repository-earlier-0038-CartographicMeasurementMigrations.kt.patch",
+      "predecessorSha256": "ce57fd236c1271269f5ad3b395eef29ce25bb7c6663d13663e6736bcb63c6836",
+      "contextMatches": [
+        {
+          "header": "@@ -11,2 +11,3 @@",
+          "matchedOldLine": 11,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "8557ebb1cab5532ad42b2506bb7c83740cac321827c27b4d955f1de29a34a05a",
+      "resultArtifact": "versions/manual-repository-earlier-0038-CartographicMeasurementMigrations.kt/app/src/main/java/com/forestry/counter/data/local/CartographicMeasurementMigrations.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-cc8eeb7c-6a97-4b31-82a7-bd82d3a186d6",
+      "itemIndex": 38,
+      "path": "app/src/main/java/com/forestry/counter/data/local/dao/CartographicMeasurementDao.kt",
+      "operation": "update",
+      "literalSha256": "7d5e360b3817500640eb5e21e64799c535a7f0d1f3743d991db734be44bdabbe",
+      "literalChars": 634,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0038-CartographicMeasurementDao.kt",
+      "literalArtifact": "events/manual-repository-earlier-0038-CartographicMeasurementDao.kt.patch",
+      "predecessorSha256": "557798863542d020890c8eaaa73ba47a61dca820513aae3480dfa18340f1d8f0",
+      "contextMatches": [
+        {
+          "header": "@@ -7,2 +7,3 @@",
+          "matchedOldLine": 7,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -26,2 +27,11 @@",
+          "matchedOldLine": 27,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "4f91e5568ef54d787b41a653f54355c140aa9b137cb9779740828d8718a08f5c",
+      "resultArtifact": "versions/manual-repository-earlier-0038-CartographicMeasurementDao.kt/app/src/main/java/com/forestry/counter/data/local/dao/CartographicMeasurementDao.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-cc8eeb7c-6a97-4b31-82a7-bd82d3a186d6",
+      "itemIndex": 38,
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicMeasurementEntity.kt",
+      "operation": "update",
+      "literalSha256": "51d11cfa272bceca07ec6a5898aa84083cbb7a02c58fcafe3e56ca919dce9805",
+      "literalChars": 255,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0038-CartographicMeasurementEntity.kt",
+      "literalArtifact": "events/manual-repository-earlier-0038-CartographicMeasurementEntity.kt.patch",
+      "predecessorSha256": "56121fadd3605bbc6160e930a0f1070a53221956d2b02deb5fcd45db08b86c84",
+      "contextMatches": [
+        {
+          "header": "@@ -25 +25,5 @@",
+          "matchedOldLine": 25,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "c55b18209b03c04ddcb1ebcb43a5bf815a022d9d05b1bdf8c95f369f06c60665",
+      "resultArtifact": "versions/manual-repository-earlier-0038-CartographicMeasurementEntity.kt/app/src/main/java/com/forestry/counter/data/local/entity/CartographicMeasurementEntity.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-cc8eeb7c-6a97-4b31-82a7-bd82d3a186d6",
+      "itemIndex": 38,
+      "path": "app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt",
+      "operation": "add",
+      "literalSha256": "e264a62c71d2f0393960dce8e0448a29a256e96b4f6361e08a0762b15ca5cc55",
+      "literalChars": 12766,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0038-CartographicMeasurementRepositoryImpl.kt",
+      "literalArtifact": "events/manual-repository-earlier-0038-CartographicMeasurementRepositoryImpl.kt.literal",
+      "reconstruction": "literal_add",
+      "resultSha256": "e264a62c71d2f0393960dce8e0448a29a256e96b4f6361e08a0762b15ca5cc55",
+      "resultArtifact": "versions/manual-repository-earlier-0038-CartographicMeasurementRepositoryImpl.kt/app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-cc8eeb7c-6a97-4b31-82a7-bd82d3a186d6",
+      "itemIndex": 38,
+      "path": "app/src/main/java/com/forestry/counter/domain/repository/CartographicMeasurementRepository.kt",
+      "operation": "update",
+      "literalSha256": "f588732b6abd86bbead23ea0a0e49c8e1671db34304a672d71ed9c68d42717ee",
+      "literalChars": 175,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0038-CartographicMeasurementRepository.kt",
+      "literalArtifact": "events/manual-repository-earlier-0038-CartographicMeasurementRepository.kt.patch",
+      "predecessorSha256": "5a8621334a581567cd71ab428fa1b4562b0387ddf32a36f479c0d51081c3b32e",
+      "contextMatches": [
+        {
+          "header": "@@ -11,2 +11,4 @@",
+          "matchedOldLine": 11,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "6175a9a11be1da9040563a1468f26ea4da8c7f0a72f3d0b0b62bbf403de54017",
+      "resultArtifact": "versions/manual-repository-earlier-0038-CartographicMeasurementRepository.kt/app/src/main/java/com/forestry/counter/domain/repository/CartographicMeasurementRepository.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-5ed9eafe-8cd6-4f43-95d7-5353509ebc6a",
+      "itemIndex": 41,
+      "path": "app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+      "operation": "update",
+      "literalSha256": "c780ccc5147b8989e5c3c29b7feeeeb17cc31fa7611da370188a851c37a413ae",
+      "literalChars": 136,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0041-DatabaseMigrations.kt",
+      "literalArtifact": "events/manual-repository-earlier-0041-DatabaseMigrations.kt.patch",
+      "predecessorSha256": "9b8dd6f0f2560e3ffda8a2975885781958f708cf4deaa1eb755831f661aa1eb4",
+      "reconstruction": "blocked",
+      "reason": "@@ -912,2 +912,3 @@: expected unique full context, found 0"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-5ed9eafe-8cd6-4f43-95d7-5353509ebc6a",
+      "itemIndex": 41,
+      "path": "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+      "operation": "update",
+      "literalSha256": "5cf992c001d3d8a257ead9b8cdfca9f52df72f53021b84be8a697136892a0ef3",
+      "literalChars": 631,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0041-ForestryDatabase.kt",
+      "literalArtifact": "events/manual-repository-earlier-0041-ForestryDatabase.kt.patch",
+      "predecessorSha256": "5b18251f5541a9c895cdfac593a386d9f4f2a86e3f2102521b8573b03710e13f",
+      "reconstruction": "blocked",
+      "reason": "@@ -148,3 +150,3 @@: expected unique full context, found 0"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-5ed9eafe-8cd6-4f43-95d7-5353509ebc6a",
+      "itemIndex": 41,
+      "path": "app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt",
+      "operation": "update",
+      "literalSha256": "9f297a0c00c41fa8055b737457d4556a0d830cd10231c4b1a7c678e3fee4c040",
+      "literalChars": 1393,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0041-CartographicMeasurementRepositoryImpl.kt",
+      "literalArtifact": "events/manual-repository-earlier-0041-CartographicMeasurementRepositoryImpl.kt.patch",
+      "predecessorSha256": "e264a62c71d2f0393960dce8e0448a29a256e96b4f6361e08a0762b15ca5cc55",
+      "contextMatches": [
+        {
+          "header": "@@ -47,3 +47,3 @@",
+          "matchedOldLine": 47,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -74,2 +74,3 @@",
+          "matchedOldLine": 74,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -109,2 +110,3 @@",
+          "matchedOldLine": 110,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -188,3 +190,3 @@",
+          "matchedOldLine": 190,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "aa52c70b4ac791781838b1da0d880949922536181fff85439264433616bfd063",
+      "resultArtifact": "versions/manual-repository-earlier-0041-CartographicMeasurementRepositoryImpl.kt/app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-5ed9eafe-8cd6-4f43-95d7-5353509ebc6a",
+      "itemIndex": 41,
+      "path": "app/src/main/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCase.kt",
+      "operation": "update",
+      "literalSha256": "75e8011bae77438af7fa797e14a095e326ba31d8a197dc8c75365d728009a229",
+      "literalChars": 712,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0041-DeleteAllUserDataUseCase.kt",
+      "literalArtifact": "events/manual-repository-earlier-0041-DeleteAllUserDataUseCase.kt.patch",
+      "predecessorSha256": "17088abdc27f011b2cc6df3f706bae2e45dcd7bd382e62095c4ca55227c5875b",
+      "reconstruction": "blocked",
+      "reason": "@@ -54,2 +54,3 @@: expected unique full context, found 0"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-5ed9eafe-8cd6-4f43-95d7-5353509ebc6a",
+      "itemIndex": 41,
+      "path": "app/src/test/java/com/forestry/counter/domain/usecase/privacy/DeleteAllUserDataUseCaseTest.kt",
+      "operation": "update",
+      "literalSha256": "6fc6990008f02c03aba53e82c8ba7acb07f7248d0b57d80aeb57a4842e298621",
+      "literalChars": 803,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0041-DeleteAllUserDataUseCaseTest.kt",
+      "literalArtifact": "events/manual-repository-earlier-0041-DeleteAllUserDataUseCaseTest.kt.patch",
+      "predecessorSha256": "5cf9be190266845feddffe447028fbc5b405b268a937795c4fda288682b0f4fd",
+      "reconstruction": "blocked",
+      "reason": "@@ -58,2 +58,3 @@: expected unique full context, found 0"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-0ece97cb-e45e-4c6c-9c50-327a10313876",
+      "itemIndex": 47,
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicMeasurementMigrations.kt",
+      "operation": "update",
+      "literalSha256": "7c503a14098c9fa30bb4edbfd3f0b5d4ba450ea7d158a735f26e40185eae6aad",
+      "literalChars": 1051,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0047-CartographicMeasurementMigrations.kt",
+      "literalArtifact": "events/manual-repository-earlier-0047-CartographicMeasurementMigrations.kt.patch",
+      "predecessorSha256": "8557ebb1cab5532ad42b2506bb7c83740cac321827c27b4d955f1de29a34a05a",
+      "contextMatches": [
+        {
+          "header": "@@ -9,3 +9,3 @@",
+          "matchedOldLine": 9,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "dc34d6866ca82897d411faf8356604885d4b1bc6b5acd072c2e882dc009d94d8",
+      "resultArtifact": "versions/manual-repository-earlier-0047-CartographicMeasurementMigrations.kt/app/src/main/java/com/forestry/counter/data/local/CartographicMeasurementMigrations.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-0ece97cb-e45e-4c6c-9c50-327a10313876",
+      "itemIndex": 47,
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicMeasurementEntity.kt",
+      "operation": "update",
+      "literalSha256": "e162ff317a55800bd2275f9f628d3413f754fa8b3c86b1dbe6989e098efef2e6",
+      "literalChars": 99,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0047-CartographicMeasurementEntity.kt",
+      "literalArtifact": "events/manual-repository-earlier-0047-CartographicMeasurementEntity.kt.patch",
+      "predecessorSha256": "c55b18209b03c04ddcb1ebcb43a5bf815a022d9d05b1bdf8c95f369f06c60665",
+      "contextMatches": [
+        {
+          "header": "@@ -24,2 +24,3 @@",
+          "matchedOldLine": 24,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "c21ee79ec1307989d3651306fc9cc8900532aed0dcb6d59e640976366b90df44",
+      "resultArtifact": "versions/manual-repository-earlier-0047-CartographicMeasurementEntity.kt/app/src/main/java/com/forestry/counter/data/local/entity/CartographicMeasurementEntity.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-0ece97cb-e45e-4c6c-9c50-327a10313876",
+      "itemIndex": 47,
+      "path": "app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt",
+      "operation": "update",
+      "literalSha256": "6f77319d3e3ab167d88529a02d810be624599c507046b1d6e4015932770fc1ca",
+      "literalChars": 3588,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0047-CartographicMeasurementRepositoryImpl.kt",
+      "literalArtifact": "events/manual-repository-earlier-0047-CartographicMeasurementRepositoryImpl.kt.patch",
+      "predecessorSha256": "aa52c70b4ac791781838b1da0d880949922536181fff85439264433616bfd063",
+      "contextMatches": [
+        {
+          "header": "@@ -54,2 +54,3 @@",
+          "matchedOldLine": 54,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -76,2 +77,6 @@",
+          "matchedOldLine": 77,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -84,2 +89,7 @@",
+          "matchedOldLine": 89,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -88,3 +98,4 @@",
+          "matchedOldLine": 98,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -96,3 +107,3 @@",
+          "matchedOldLine": 107,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -181,3 +192,4 @@",
+          "matchedOldLine": 192,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -192,3 +204,5 @@",
+          "matchedOldLine": 204,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -197,3 +211,3 @@",
+          "matchedOldLine": 211,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -218,3 +232,3 @@",
+          "matchedOldLine": 232,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "b093e9c717c7c15a1dcf233413749f2c3eeb77ae3f35c79ab45d437079eb1739",
+      "resultArtifact": "versions/manual-repository-earlier-0047-CartographicMeasurementRepositoryImpl.kt/app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-0ece97cb-e45e-4c6c-9c50-327a10313876",
+      "itemIndex": 47,
+      "path": "app/src/main/java/com/forestry/counter/domain/repository/CartographicMeasurementRepository.kt",
+      "operation": "update",
+      "literalSha256": "a66fff07bcb4bef068e56d4e23749aeb723c3cfe9c307ec83f51e0ae316618b5",
+      "literalChars": 239,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0047-CartographicMeasurementRepository.kt",
+      "literalArtifact": "events/manual-repository-earlier-0047-CartographicMeasurementRepository.kt.patch",
+      "predecessorSha256": "6175a9a11be1da9040563a1468f26ea4da8c7f0a72f3d0b0b62bbf403de54017",
+      "contextMatches": [
+        {
+          "header": "@@ -20,2 +20,3 @@",
+          "matchedOldLine": 20,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -35,2 +36,3 @@",
+          "matchedOldLine": 36,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "f6176047a783998f25a2f91edb8e0dbaa001d71811a6523ed9b183b76a79bca8",
+      "resultArtifact": "versions/manual-repository-earlier-0047-CartographicMeasurementRepository.kt/app/src/main/java/com/forestry/counter/domain/repository/CartographicMeasurementRepository.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-8c6cf0eb-b1b5-4054-b627-8c9231753baa",
+      "itemIndex": 49,
+      "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicMeasurementRepositoryRoomTest.kt",
+      "operation": "add",
+      "literalSha256": "597c83eeb9a6744fb2d266ac877ae0314a814f9c8086dfdb1507ab43c564ec71",
+      "literalChars": 8591,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0049-CartographicMeasurementRepositoryRoomTest.kt",
+      "literalArtifact": "events/manual-repository-earlier-0049-CartographicMeasurementRepositoryRoomTest.kt.literal",
+      "reconstruction": "literal_add",
+      "resultSha256": "597c83eeb9a6744fb2d266ac877ae0314a814f9c8086dfdb1507ab43c564ec71",
+      "resultArtifact": "versions/manual-repository-earlier-0049-CartographicMeasurementRepositoryRoomTest.kt/app/src/androidTest/java/com/forestry/counter/data/local/CartographicMeasurementRepositoryRoomTest.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-8c6cf0eb-b1b5-4054-b627-8c9231753baa",
+      "itemIndex": 49,
+      "path": "app/src/androidTest/java/com/forestry/counter/data/local/Migration47To48Test.kt",
+      "operation": "add",
+      "literalSha256": "a94a54bc198c8dac9db3b90ac32173a5c265c574e0fbb99aecd0a2e5d54b0bff",
+      "literalChars": 2434,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0049-Migration47To48Test.kt",
+      "literalArtifact": "events/manual-repository-earlier-0049-Migration47To48Test.kt.literal",
+      "reconstruction": "literal_add",
+      "resultSha256": "a94a54bc198c8dac9db3b90ac32173a5c265c574e0fbb99aecd0a2e5d54b0bff",
+      "resultArtifact": "versions/manual-repository-earlier-0049-Migration47To48Test.kt/app/src/androidTest/java/com/forestry/counter/data/local/Migration47To48Test.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-1d4f98c3-9bea-4ded-aae4-22dc1ee0d3ca",
+      "itemIndex": 55,
+      "path": "app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt",
+      "operation": "update",
+      "literalSha256": "f24635156fe3c9eb74b0e6f1bd7428515627a249f98bfdcacbe43e2c2edf60d2",
+      "literalChars": 533,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0055-CartographicMeasurementRepositoryImpl.kt",
+      "literalArtifact": "events/manual-repository-earlier-0055-CartographicMeasurementRepositoryImpl.kt.patch",
+      "predecessorSha256": "b093e9c717c7c15a1dcf233413749f2c3eeb77ae3f35c79ab45d437079eb1739",
+      "contextMatches": [
+        {
+          "header": "@@ -192,3 +192,3 @@",
+          "matchedOldLine": 192,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "58d3a8a4209c87b9bc51f12c2edfc6f0d0ff9f93867a7c58ab5c0f7675b11f2f",
+      "resultArtifact": "versions/manual-repository-earlier-0055-CartographicMeasurementRepositoryImpl.kt/app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-64575ed7-6631-4794-a0ba-d45a952ad842",
+      "itemIndex": 57,
+      "path": "app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt",
+      "operation": "update",
+      "literalSha256": "32282f70eb19c845d3ce2220dca271717075c2be8a9c42292c5f452782edc561",
+      "literalChars": 978,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0057-CartographicMeasurementRepositoryImpl.kt",
+      "literalArtifact": "events/manual-repository-earlier-0057-CartographicMeasurementRepositoryImpl.kt.patch",
+      "predecessorSha256": "58d3a8a4209c87b9bc51f12c2edfc6f0d0ff9f93867a7c58ab5c0f7675b11f2f",
+      "contextMatches": [
+        {
+          "header": "@@ -48,3 +48,3 @@",
+          "matchedOldLine": 48,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -61,3 +61,9 @@",
+          "matchedOldLine": 61,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -214,3 +220,3 @@",
+          "matchedOldLine": 220,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "510d384c9547fcbf346c47f793e9c60dccf0976357b276aa467e6a5710588aa8",
+      "resultArtifact": "versions/manual-repository-earlier-0057-CartographicMeasurementRepositoryImpl.kt/app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt"
+    },
+    {
+      "source": "manual-repository-earlier.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b19d-ddb3-7698-b628-80f3047f2681",
+      "turnStartedAt": "2026-11-06T16:07:55+00:00",
+      "item": "exec-59a75beb-b526-46e7-a539-9480adf9a59f",
+      "itemIndex": 69,
+      "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicMeasurementRepositoryRoomTest.kt",
+      "operation": "update",
+      "literalSha256": "96a6da1637890c2a4a288c5e75ac988afaa980ebb0505e9c531c77ced670a1d5",
+      "literalChars": 2380,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-earlier-0069-CartographicMeasurementRepositoryRoomTest.kt",
+      "literalArtifact": "events/manual-repository-earlier-0069-CartographicMeasurementRepositoryRoomTest.kt.patch",
+      "predecessorSha256": "597c83eeb9a6744fb2d266ac877ae0314a814f9c8086dfdb1507ab43c564ec71",
+      "contextMatches": [
+        {
+          "header": "@@ -116,2 +116,31 @@",
+          "matchedOldLine": 116,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "ddd6d6e7d640574ddb38c5ecc438921eeff52c9189cff132e7f8992b866624e4",
+      "resultArtifact": "versions/manual-repository-earlier-0069-CartographicMeasurementRepositoryRoomTest.kt/app/src/androidTest/java/com/forestry/counter/data/local/CartographicMeasurementRepositoryRoomTest.kt"
+    },
+    {
+      "source": "manual-repository-latest.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b1d4-e351-7656-88a0-7f335be3d65d",
+      "turnStartedAt": "2026-11-06T17:08:01+00:00",
+      "item": "exec-84112829-8cda-4385-9adc-ee0d22874487",
+      "itemIndex": 14,
+      "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicMeasurementRepositoryRoomTest.kt",
+      "operation": "update",
+      "literalSha256": "86bbe4db7a25694b738eb2bc84f14e492a636e769d6806c37b9f87150cc9f141",
+      "literalChars": 3980,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-latest-0014-CartographicMeasurementRepositoryRoomTest.kt",
+      "literalArtifact": "events/manual-repository-latest-0014-CartographicMeasurementRepositoryRoomTest.kt.patch",
+      "predecessorSha256": "ddd6d6e7d640574ddb38c5ecc438921eeff52c9189cff132e7f8992b866624e4",
+      "contextMatches": [
+        {
+          "header": "@@ -7,2 +7,3 @@",
+          "matchedOldLine": 7,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -116,2 +117,49 @@",
+          "matchedOldLine": 117,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "a6d319d3f345a89e007d4ad68e5683c3aac464380b11260ac672a90943ef0e49",
+      "resultArtifact": "versions/manual-repository-latest-0014-CartographicMeasurementRepositoryRoomTest.kt/app/src/androidTest/java/com/forestry/counter/data/local/CartographicMeasurementRepositoryRoomTest.kt"
+    },
+    {
+      "source": "manual-repository-latest.json",
+      "thread": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+      "turn": "01a1b1d4-e351-7656-88a0-7f335be3d65d",
+      "turnStartedAt": "2026-11-06T17:08:01+00:00",
+      "item": "exec-84112829-8cda-4385-9adc-ee0d22874487",
+      "itemIndex": 14,
+      "path": "app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt",
+      "operation": "update",
+      "literalSha256": "7b22ceabad1e6911df41e0df899d9710e9f2e505d240e12510aaf28f36228d08",
+      "literalChars": 1600,
+      "status": "completed",
+      "literalTruncated": false,
+      "eventId": "manual-repository-latest-0014-CartographicMeasurementRepositoryImpl.kt",
+      "literalArtifact": "events/manual-repository-latest-0014-CartographicMeasurementRepositoryImpl.kt.patch",
+      "predecessorSha256": "510d384c9547fcbf346c47f793e9c60dccf0976357b276aa467e6a5710588aa8",
+      "contextMatches": [
+        {
+          "header": "@@ -77,3 +77,4 @@",
+          "matchedOldLine": 77,
+          "method": "declared_line_and_exact_context"
+        },
+        {
+          "header": "@@ -182,4 +183,14 @@",
+          "matchedOldLine": 183,
+          "method": "declared_line_and_exact_context"
+        }
+      ],
+      "reconstruction": "exact_context_patch",
+      "resultSha256": "bd8ddc6575f591c12507894fbe4b74f189a008c8fc235e1f46c207f99bae5dba",
+      "resultArtifact": "versions/manual-repository-latest-0014-CartographicMeasurementRepositoryImpl.kt/app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt"
+    }
+  ],
+  "latestRecovered": [
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/data/local/CartographicMeasurementRepositoryRoomTest.kt",
+      "sha256": "a6d319d3f345a89e007d4ad68e5683c3aac464380b11260ac672a90943ef0e49",
+      "lines": 216,
+      "artifact": "recovered/app/src/androidTest/java/com/forestry/counter/data/local/CartographicMeasurementRepositoryRoomTest.kt",
+      "provenance": [
+        "manual-repository-earlier-0049-CartographicMeasurementRepositoryRoomTest.kt",
+        "manual-repository-earlier-0069-CartographicMeasurementRepositoryRoomTest.kt",
+        "manual-repository-latest-0014-CartographicMeasurementRepositoryRoomTest.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/androidTest/java/com/forestry/counter/data/local/Migration47To48Test.kt",
+      "sha256": "a94a54bc198c8dac9db3b90ac32173a5c265c574e0fbb99aecd0a2e5d54b0bff",
+      "lines": 41,
+      "artifact": "recovered/app/src/androidTest/java/com/forestry/counter/data/local/Migration47To48Test.kt",
+      "provenance": [
+        "manual-repository-earlier-0049-Migration47To48Test.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicMeasurementMigrations.kt",
+      "sha256": "dc34d6866ca82897d411faf8356604885d4b1bc6b5acd072c2e882dc009d94d8",
+      "lines": 15,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/local/CartographicMeasurementMigrations.kt",
+      "provenance": [
+        "manual-repository-earlier-0022-CartographicMeasurementMigrations.kt",
+        "manual-repository-earlier-0038-CartographicMeasurementMigrations.kt",
+        "manual-repository-earlier-0047-CartographicMeasurementMigrations.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/dao/CartographicMeasurementDao.kt",
+      "sha256": "4f91e5568ef54d787b41a653f54355c140aa9b137cb9779740828d8718a08f5c",
+      "lines": 39,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/local/dao/CartographicMeasurementDao.kt",
+      "provenance": [
+        "manual-repository-earlier-0022-CartographicMeasurementDao.kt",
+        "manual-repository-earlier-0038-CartographicMeasurementDao.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/local/entity/CartographicMeasurementEntity.kt",
+      "sha256": "c21ee79ec1307989d3651306fc9cc8900532aed0dcb6d59e640976366b90df44",
+      "lines": 30,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/local/entity/CartographicMeasurementEntity.kt",
+      "provenance": [
+        "manual-repository-earlier-0022-CartographicMeasurementEntity.kt",
+        "manual-repository-earlier-0038-CartographicMeasurementEntity.kt",
+        "manual-repository-earlier-0047-CartographicMeasurementEntity.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt",
+      "sha256": "bd8ddc6575f591c12507894fbe4b74f189a008c8fc235e1f46c207f99bae5dba",
+      "lines": 256,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt",
+      "provenance": [
+        "manual-repository-earlier-0038-CartographicMeasurementRepositoryImpl.kt",
+        "manual-repository-earlier-0041-CartographicMeasurementRepositoryImpl.kt",
+        "manual-repository-earlier-0047-CartographicMeasurementRepositoryImpl.kt",
+        "manual-repository-earlier-0055-CartographicMeasurementRepositoryImpl.kt",
+        "manual-repository-earlier-0057-CartographicMeasurementRepositoryImpl.kt",
+        "manual-repository-latest-0014-CartographicMeasurementRepositoryImpl.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/calculation/UnitCatalog.kt",
+      "sha256": "72b2fda369c04857d176f287fb18f2f5748e7875e97b1ffe48127af3fb241e31",
+      "lines": 104,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/domain/calculation/UnitCatalog.kt",
+      "provenance": [
+        {
+          "baseCommit": "36d1515",
+          "sha256": "be7826169808a74bd9ab041238a42b7cee3542bbee889294f7d14eb3e730f969"
+        },
+        "manual-calculation-latest-0060-UnitCatalog.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculator.kt",
+      "sha256": "1a0a07e83fb4653c733c19494cf0f8b739bfa94a1fd8ef924ef8a3d93da93f5d",
+      "lines": 199,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculator.kt",
+      "provenance": [
+        "manual-calculation-latest-0021-CartographicMeasureCalculator.kt",
+        "manual-calculation-latest-0037-CartographicMeasureCalculator.kt",
+        "manual-calculation-latest-0043-CartographicMeasureCalculator.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/geometry/PlanarSegmentIntersection.kt",
+      "sha256": "9a31e408ef5937321f721ef7ef7d73445ad5f22a42709bcf6fc4966afa7aa853",
+      "lines": 40,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/domain/geometry/PlanarSegmentIntersection.kt",
+      "provenance": [
+        "manual-calculation-latest-0043-PlanarSegmentIntersection.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/ParcelGeometry.kt",
+      "sha256": "bfc75968cd7b81d3b5129fc2d89d9ffda532095044368bd88b6182ed4ae8c103",
+      "lines": 455,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/domain/location/ParcelGeometry.kt",
+      "provenance": [
+        {
+          "baseCommit": "36d1515",
+          "sha256": "6ec4a53afe09157f8c13f93889e5cfd1ce8bb55b51a3e2d45abdb4ec74ff3cd7"
+        },
+        "manual-calculation-latest-0043-ParcelGeometry.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/repository/CartographicMeasurementRepository.kt",
+      "sha256": "f6176047a783998f25a2f91edb8e0dbaa001d71811a6523ed9b183b76a79bca8",
+      "lines": 57,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/domain/repository/CartographicMeasurementRepository.kt",
+      "provenance": [
+        "manual-repository-earlier-0022-CartographicMeasurementRepository.kt",
+        "manual-repository-earlier-0038-CartographicMeasurementRepository.kt",
+        "manual-repository-earlier-0047-CartographicMeasurementRepository.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormatting.kt",
+      "sha256": "4cde886a11ed1c3774422c6dd4881a825514ae9c99134dadcc6827a02fe1c5e8",
+      "lines": 58,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormatting.kt",
+      "provenance": [
+        "manual-calculation-latest-0060-ManualMeasureFormatting.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapMeasureTools.kt",
+      "sha256": "b831e775e319a6bcff8a71dcaa4cb5dba2599f3adf3d07616f5d70d50798e9d1",
+      "lines": 51,
+      "artifact": "recovered/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapMeasureTools.kt",
+      "provenance": [
+        "manual-calculation-read-1-MapMeasureTools.kt",
+        "manual-calculation-latest-0060-MapMeasureTools.kt",
+        "manual-calculation-latest-0067-MapMeasureTools.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/calculation/UnitConverterTest.kt",
+      "sha256": "ecb31f300e6dbf54d84ca0889065cc4c8ff110ce7af0e78e5448aa45726f9a21",
+      "lines": 225,
+      "artifact": "recovered/app/src/test/java/com/forestry/counter/domain/calculation/UnitConverterTest.kt",
+      "provenance": [
+        {
+          "baseCommit": "36d1515",
+          "sha256": "c9d7060b897dd8551e16f8d2c4f3983bb5cadf2983ce64f2db809906b128f59c"
+        },
+        "manual-calculation-latest-0060-UnitConverterTest.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculatorTest.kt",
+      "sha256": "d161994421300435ba779910c0ee0cfaf1e12edec820407a2b0bb398f176ccec",
+      "lines": 187,
+      "artifact": "recovered/app/src/test/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculatorTest.kt",
+      "provenance": [
+        "manual-calculation-latest-0028-CartographicMeasureCalculatorTest.kt",
+        "manual-calculation-latest-0037-CartographicMeasureCalculatorTest.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormattingTest.kt",
+      "sha256": "6835634982eec5a522cd3c8eed77c014a63f93eae9dc07ddc79119ee8779a423",
+      "lines": 98,
+      "artifact": "recovered/app/src/test/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormattingTest.kt",
+      "provenance": [
+        "manual-calculation-latest-0067-ManualMeasureFormattingTest.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/MapMeasureToolsTest.kt",
+      "sha256": "86c5138473edc3c62740e47646ac530fa3f47b0228b3f1194e277428b3797bd3",
+      "lines": 40,
+      "artifact": "recovered/app/src/test/java/com/forestry/counter/presentation/screens/forestry/MapMeasureToolsTest.kt",
+      "provenance": [
+        "manual-calculation-read-12-MapMeasureToolsTest.kt",
+        "manual-calculation-latest-0067-MapMeasureToolsTest.kt"
+      ],
+      "unappliedEvents": [],
+      "temporalScope": "latest recovered event in manual-measure threads of 2026-11-06; not asserted final 2026-11-13"
+    }
+  ],
+  "blockedEvents": [
+    "manual-repository-earlier-0041-DatabaseMigrations.kt",
+    "manual-repository-earlier-0041-ForestryDatabase.kt",
+    "manual-repository-earlier-0041-DeleteAllUserDataUseCase.kt",
+    "manual-repository-earlier-0041-DeleteAllUserDataUseCaseTest.kt"
+  ]
+}

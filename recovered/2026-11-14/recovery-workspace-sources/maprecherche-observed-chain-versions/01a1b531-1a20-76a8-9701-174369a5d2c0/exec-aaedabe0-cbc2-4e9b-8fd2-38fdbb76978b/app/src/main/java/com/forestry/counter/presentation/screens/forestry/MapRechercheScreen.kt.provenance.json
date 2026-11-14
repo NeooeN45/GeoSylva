@@ -1,0 +1,2472 @@
+{
+  "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+  "version_file": "maprecherche-observed-chain-versions/01a1b531-1a20-76a8-9701-174369a5d2c0/exec-aaedabe0-cbc2-4e9b-8fd2-38fdbb76978b/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+  "sha256": "736047631fe51ed0c7a09ac797e56fe6fe7b1babbeec88ab34e45135fbb9d7b8",
+  "classification": "complete_reconstruction_from_base_and_observed_literal_commands",
+  "line_count": 729,
+  "provenance": {
+    "history_file": "root0002-commands20k.json",
+    "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+    "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+    "item": "exec-aaedabe0-cbc2-4e9b-8fd2-38fdbb76978b",
+    "item_index": 586,
+    "turn_started_at": 1794041256,
+    "turn_completed_at": 1794075423
+  },
+  "chain": [
+    {
+      "kind": "read_only_git_base",
+      "commit": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+      "path": "/workspace/recovery-geosylva/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "sha256": "a0a1d359ab53d2301a16635686daf5863a4df17b1f4bb68e6b9bc7a2f00582f4"
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "root-older-batch-0048.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1a60d-86d5-7452-9906-a92aaf9d888f",
+        "item": "exec-407169b3-9373-42f9-86ef-f0ed7f9e2e7b",
+        "item_index": 20,
+        "turn_started_at": 1793787267,
+        "turn_completed_at": 1793787902
+      },
+      "script_sha256": "28a76ff5e04b2e8c7d7102a2795ec983f2852292d63a3b65bd78c92387f886ae",
+      "before_sha256": "a0a1d359ab53d2301a16635686daf5863a4df17b1f4bb68e6b9bc7a2f00582f4",
+      "after_sha256": "0bd5da4fd8c135565e325f014f349771ff7e0747863dadb5ce0d534c10a4766b",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 36,
+          "old": "var tappedTree by remember {",
+          "new": "var tappedTree by remember(parcelleId) {",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 36,
+          "old": "DisposableEffect(Unit) { onDispose { treeNavigator.stopNavigation() } }",
+          "new": "DisposableEffect(treeNavigator, parcelleId) { onDispose { treeNavigator.stopNavigation() } }\n    // The repository/filters own visibility; obsolete selections cannot remain active.\n    val visibleTreeIds = remember(filteredGeoTiges) {\n        filteredGeoTiges.map { it.first.id to it.first.parcelleId }.toSet()\n    }\n    val visibleTappedTree = tappedTree?.takeIf { (it.tigeId to it.parcelleId) in visibleTreeIds }\n    LaunchedEffect(visibleTreeIds, parcelleId) {\n        if (tappedTree != null && visibleTappedTree == null) tappedTree = null\n        treeNavigator.state.value.target?.let { target ->\n            if (filteredGeoTiges.none { it.first.id == target.tigeId }) treeNavigator.stopNavigation()\n        }\n    }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 36,
+          "old": "            tappedTree = tappedTree,",
+          "new": "            tappedTree = visibleTappedTree,",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 48,
+          "old": "            onStartNavigation = { info ->\n                treeNavigator.startNavigation(",
+          "new": "            onStartNavigation = start@ { info ->\n                // Re-resolve against currently visible repository data, not the rendered snapshot.\n                val current = filteredGeoTiges.firstOrNull {\n                    it.first.id == info.tigeId && it.first.parcelleId == info.parcelleId\n                } ?: run { tappedTree = null; return@start }\n                val (tree, lon, lat) = current\n                if (!lon.isFinite() || lon !in -180.0..180.0 ||\n                    !lat.isFinite() || lat !in -90.0..90.0) {\n                    tappedTree = null\n                    return@start\n                }\n                treeNavigator.startNavigation(",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 61,
+          "old": "                        tigeId = \"\", essenceName = info.essenceName, essenceCode = info.essenceCode,\n                        diamCm = info.diamCm ?: 0.0, hauteurM = info.hauteurM, lat = info.lat, lon = info.lon,",
+          "new": "                        tigeId = tree.id,\n                        essenceName = essenceMap[tree.essenceCode.uppercase()]?.name ?: tree.essenceCode,\n                        essenceCode = tree.essenceCode, diamCm = tree.diamCm,\n                        hauteurM = tree.hauteurM, lat = lat, lon = lon,",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "root-older-batch-0048.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1a619-4633-749f-b6c7-8dccaa8428b5",
+        "item": "exec-a45b53e4-1061-415a-8d27-cd534e725cc6",
+        "item_index": 24,
+        "turn_started_at": 1793788036,
+        "turn_completed_at": 1793789480
+      },
+      "script_sha256": "c82a267a3fc74ba019250bb48f90e0b91f7345815de97ad975579e2ad42093ab",
+      "before_sha256": "0bd5da4fd8c135565e325f014f349771ff7e0747863dadb5ce0d534c10a4766b",
+      "after_sha256": "607ba9db8523fe20b062d37637fc430e1f22fbc839b54f9da1ff6fd575e0f0b6",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 18,
+          "old": "import kotlinx.coroutines.flow.combine\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 18,
+          "old": "import kotlinx.coroutines.flow.flatMapLatest\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 19,
+          "old": "import com.forestry.counter.domain.model.Tige",
+          "new": "import com.forestry.counter.domain.usecase.maps.MapDataScope\nimport com.forestry.counter.domain.usecase.maps.MapTreeContent\nimport com.forestry.counter.domain.usecase.maps.ObserveMapTrees\nimport com.forestry.counter.domain.model.Tige",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 20,
+          "old": "        MapNoGpsMessage(\n            total",
+          "new": "        if (mapContent is MapTreeContent.Loading) {\n            CircularProgressIndicator(Modifier.align(Alignment.Center))\n        }\n        if (mapContent is MapTreeContent.Unavailable) {\n            Surface(Modifier.align(Alignment.Center).padding(Space.md)) {\n                Column(Modifier.padding(Space.md), horizontalAlignment = Alignment.CenterHorizontally) {\n                    Text(stringResource(R.string.map_tree_data_unavailable))\n                    if (mapContent.reason == MapTreeContent.Reason.DATA_READ) {\n                        androidx.compose.material3.TextButton(onClick = { dataRetry++ }) {\n                            Text(stringResource(R.string.retry))\n                        }\n                    }\n                }\n            }\n        }\n        if (mapContent is MapTreeContent.Ready) MapNoGpsMessage(\n            total",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "root-older-batch-0048.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1a619-4633-749f-b6c7-8dccaa8428b5",
+        "item": "exec-989a53b8-94d3-42aa-ba47-0252a60bba1a",
+        "item_index": 32,
+        "turn_started_at": 1793788036,
+        "turn_completed_at": 1793789480
+      },
+      "script_sha256": "eaaf04d76f22ab7a73608526ba00c779e7323ca3d2c3c713a28b16b69252a93f",
+      "before_sha256": "607ba9db8523fe20b062d37637fc430e1f22fbc839b54f9da1ff6fd575e0f0b6",
+      "after_sha256": "46555daffc9ab2813286879e3e5d5627979f2bec1fa085f667973cb484ccf4bd",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 6,
+          "old": "import androidx.compose.runtime.rememberCoroutineScope\n",
+          "new": "import androidx.compose.runtime.rememberCoroutineScope\nimport androidx.compose.runtime.rememberUpdatedState\n",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 12,
+          "old": "    var mapReady by remember",
+          "new": "    // Deferred style callbacks must use the current context's data, never their old closure.\n    val renderCurrentTrees by rememberUpdatedState<(Style) -> Unit>({ style ->\n        renderTigesOnMap(style, filteredGeoTiges, essenceMap, essenceColors)\n    })\n\n    var mapReady by remember",
+          "matching_occurrences_before": 1,
+          "count_argument": 1
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 14,
+          "old": "renderTigesOnMap(style, filteredGeoTiges, essenceMap, essenceColors)",
+          "new": "renderCurrentTrees(style)",
+          "matching_occurrences_before": 3,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 15,
+          "old": "    val visibleTappedTree = tappedTree?.takeIf { (it.tigeId to it.parcelleId) in visibleTreeIds }\n",
+          "new": "    val visibleTappedTree = tappedTree?.takeIf { (it.tigeId to it.parcelleId) in visibleTreeIds }\n    val handleCurrentTreeTap by rememberUpdatedState<(TappedTreeInfo) -> Unit>({ info ->\n        if ((info.tigeId to info.parcelleId) in visibleTreeIds) tappedTree = info\n    })\n",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 15,
+          "old": "attachTigeTapInfo(map, context) { info -> tappedTree = info }",
+          "new": "attachTigeTapInfo(map, context) { info -> handleCurrentTreeTap(info) }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "root-older-batch-0048.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1a619-4633-749f-b6c7-8dccaa8428b5",
+        "item": "exec-91386926-26f8-4102-bc42-509101665be3",
+        "item_index": 78,
+        "turn_started_at": 1793788036,
+        "turn_completed_at": 1793789480
+      },
+      "script_sha256": "5e30e04c4beec326a62626026323a752a21c0a1805d16e50003f00d745cd5c51",
+      "before_sha256": "46555daffc9ab2813286879e3e5d5627979f2bec1fa085f667973cb484ccf4bd",
+      "after_sha256": "6730db6ecc47807344e851bd05acf62b2e55d31cf98a7b91f40a8cec1b0be84c",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 10,
+          "old": "import androidx.compose.runtime.getValue\n",
+          "new": "import androidx.compose.runtime.getValue\nimport androidx.compose.runtime.key\n",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 10,
+          "old": "    val collectedContent by mapContentFlow.collectAsStateWithLifecycle<MapTreeContent>(\n        initialValue = MapTreeContent.Loading(mapScope),\n    )",
+          "new": "    val collectedContent by key(mapContentFlow) {\n        mapContentFlow.collectAsStateWithLifecycle<MapTreeContent>(initialValue = MapTreeContent.Loading(mapScope))\n    }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "root0007-commands20k.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1ad12-44db-7277-9120-277722007c21",
+        "item": "exec-d9d02805-d97a-4736-a6a1-70829a0d84a8",
+        "item_index": 107,
+        "turn_started_at": 1793905018,
+        "turn_completed_at": 1793911533
+      },
+      "script_sha256": "54a2982997eb18622f4ebf0e82d76b2f61f008ebdb91f92833ebc9580136f2f5",
+      "before_sha256": "6730db6ecc47807344e851bd05acf62b2e55d31cf98a7b91f40a8cec1b0be84c",
+      "after_sha256": "c5a6f070e52e425eb79cb4ac6a9b2d47971a36cd379af0734525f5aa7deb8280",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 16,
+          "old": "private const val TAG = \"MapRechercheScreen\"",
+          "new": "import androidx.compose.foundation.layout.PaddingValues\nimport androidx.compose.runtime.mutableLongStateOf\nimport androidx.compose.ui.platform.LocalDensity\nimport com.forestry.counter.BuildConfig\nimport com.forestry.counter.presentation.components.maps.MapboxRenderStatusOverlay\nimport com.forestry.counter.presentation.components.maps.rememberMapPhoneLocation\nimport com.quintessences.geosylva.cartography.mapbox.*\nimport com.mapbox.geojson.Point\nimport java.util.UUID\nimport java.util.concurrent.atomic.AtomicLong\n\nprivate const val TAG = \"MapRechercheScreen\"",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 20,
+          "old": " * Reprend le moteur de rendu MapLibre existant (fiable, ce n'est pas lui\n * qui posait problème) mais avec une interface entièrement repensée : une",
+          "new": " * Utilise le moteur Mapbox commun aux cartes et des données déjà autorisées.\n * Conserve les outils et les routes existants pendant l’intégration : une",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 24,
+          "old": "mutableStateOf<com.mapbox.mapboxsdk.geometry.LatLngBounds?>(null)",
+          "new": "mutableStateOf<MapBounds?>(null)",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 25,
+          "old": "if (lon != null && lat != null) Triple(t, lon, lat) else null",
+          "new": "if (lon != null && lat != null && lon.isFinite() && lat.isFinite() && lon in -180.0..180.0 && lat in -90.0..90.0) Triple(t, lon, lat) else null",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 26,
+          "old": "(t.precisionM ?: Double.MAX_VALUE) <= mapReliableGpsThresholdM.toDouble()",
+          "new": "t.precisionM?.let { it.isFinite() && it >= 0 && it <= mapReliableGpsThresholdM.toDouble() } == true",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 38,
+          "old": "    var tigeTapAttached by remember { mutableStateOf(false) }\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 38,
+          "old": "    var is3DActive by remember { mutableStateOf(false) }\n",
+          "new": "    val is3DActive = camera.pitch > 1.0\n",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 38,
+          "old": "    var gpsAccuracyM by remember { mutableStateOf<Float?>(null) }\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 39,
+          "old": "List<LatLng>",
+          "new": "List<MeasurePoint>",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 136,
+          "old": "mapLibreMap?.let { it.animateCameraSmooth(CameraUpdateFactory.zoomIn()) }",
+          "new": "requestCamera(camera.copy(zoom = (camera.zoom + 1).coerceAtMost(22.0)))",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 137,
+          "old": "mapLibreMap?.let { it.animateCameraSmooth(CameraUpdateFactory.zoomOut()) }",
+          "new": "requestCamera(camera.copy(zoom = (camera.zoom - 1).coerceAtLeast(0.0)))",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 143,
+          "old": "                val map = mapLibreMap ?: return@MapOfflineRegionsSheet\n                val bounds = map.projection.visibleRegion.latLngBounds",
+          "new": "                val currentViewport = viewport ?: return@MapOfflineRegionsSheet\n                val bounds = currentViewport.bounds",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 144,
+          "old": "map.cameraPosition.zoom.toInt()",
+          "new": "camera.zoom.toInt()",
+          "matching_occurrences_before": 4,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 145,
+          "old": "bounds.southWest.latitude",
+          "new": "bounds.south",
+          "matching_occurrences_before": 2,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 145,
+          "old": "bounds.northEast.latitude",
+          "new": "bounds.north",
+          "matching_occurrences_before": 2,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 145,
+          "old": "bounds.southWest.longitude",
+          "new": "bounds.west",
+          "matching_occurrences_before": 2,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 145,
+          "old": "bounds.northEast.longitude",
+          "new": "bounds.east",
+          "matching_occurrences_before": 2,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 146,
+          "old": "                val map = mapLibreMap\n                if (bounds != null && map != null) {",
+          "new": "                if (bounds != null) {",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "root0007-commands20k.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1ad12-44db-7277-9120-277722007c21",
+        "item": "exec-7dec8cfa-dff0-480b-88c9-c93ece62a44c",
+        "item_index": 136,
+        "turn_started_at": 1793905018,
+        "turn_completed_at": 1793911533
+      },
+      "script_sha256": "b331f221a64248e0e3d0549cbb98134ca8beff9ed53a176cf4bad6ead1540dbb",
+      "before_sha256": "c5a6f070e52e425eb79cb4ac6a9b2d47971a36cd379af0734525f5aa7deb8280",
+      "after_sha256": "920f742688d80f1debd9c7573b2aa4c74eb30fc8f64ede8d8fb040b7b46eb2d5",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 3,
+          "old": "import kotlinx.coroutines.flow.flowOf",
+          "new": "import kotlinx.coroutines.flow.first\nimport kotlinx.coroutines.flow.flowOf",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 4,
+          "old": "    var layerLoadState by remember(mapLastLayerKey)",
+          "new": "    var layerLoadState by remember(mapScope)",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 5,
+          "old": "var selectedStyle by remember(mapScope, mapLastLayerKey)",
+          "new": "var selectedStyle by remember(mapScope)",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 6,
+          "old": "    fun switchLayer(index: Int) { applyLayerDecision(layerLoadState.request(index)) }",
+          "new": "    var layerChoiceMade by remember(mapScope) { mutableStateOf(false) }\n    LaunchedEffect(mapScope) {\n        val stored = MapSourcePolicy.resolveLayerKey(preferencesManager.mapLastLayerKey.first())\n        if (!layerChoiceMade) {\n            val index = MAP_LAYERS.indexOfFirst { it.key == stored }.takeIf { it >= 0 } ?: initialLayerIdx\n            layerLoadState = MapLayerLoadState(index)\n            selectedStyle = layerStyle(index)\n        }\n    }\n    fun switchLayer(index: Int) {\n        layerChoiceMade = true\n        applyLayerDecision(layerLoadState.request(index))\n    }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 19,
+          "old": "                            applyLayerDecision(layerLoadState.succeed(request.id))\n                            scope.launch { preferencesManager.setMapLastLayerKey(selectedStyle.id) }",
+          "new": "                            val loadedStyleId = status.styleId\n                            applyLayerDecision(layerLoadState.succeed(request.id))\n                            scope.launch { preferencesManager.setMapLastLayerKey(loadedStyleId) }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 22,
+          "old": "    var renderStatus by remember(mapScope)",
+          "new": "    var overlayFailed by remember(mapScope) { mutableStateOf(false) }\n    var renderStatus by remember(mapScope)",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 23,
+          "old": "                onCameraChanged = { camera = it },",
+          "new": "                onOverlayStatusChanged = { overlayFailed = it is MapOverlayStatus.Failed },\n                onCameraChanged = { camera = it },",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 25,
+          "old": "        MapboxRenderStatusOverlay(renderStatus, ::retryLayer,",
+          "new": "        MapboxRenderStatusOverlay(if (overlayFailed) MapRenderStatus.Failed(MapFailureReason.SOURCE) else renderStatus, ::retryLayer,",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 28,
+          "old": "import android.content.Context\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 28,
+          "old": "import android.net.ConnectivityManager\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 28,
+          "old": "import android.net.NetworkCapabilities\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 28,
+          "old": "import android.util.Log\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 28,
+          "old": "import androidx.compose.foundation.Image\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 28,
+          "old": "import androidx.compose.ui.layout.ContentScale\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 28,
+          "old": "import androidx.compose.ui.platform.LocalLifecycleOwner\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 28,
+          "old": "import androidx.compose.ui.res.painterResource\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 28,
+          "old": "import androidx.compose.ui.viewinterop.AndroidView\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 28,
+          "old": "import androidx.lifecycle.Lifecycle\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 28,
+          "old": "import androidx.lifecycle.LifecycleEventObserver\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 28,
+          "old": "import androidx.compose.runtime.mutableLongStateOf\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 28,
+          "old": "import kotlinx.coroutines.isActive\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 29,
+          "old": "private const val TAG = \"MapRechercheScreen\"\n\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "root0007-commands20k.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1ad12-44db-7277-9120-277722007c21",
+        "item": "exec-84fcf304-9020-43f5-96cc-8bf5812526dd",
+        "item_index": 210,
+        "turn_started_at": 1793905018,
+        "turn_completed_at": 1793911533
+      },
+      "script_sha256": "ba33ebd7dae5e25b5651ddfdbcbbdaa03c6c59c264de24458a97c27aaa1a8340",
+      "before_sha256": "920f742688d80f1debd9c7573b2aa4c74eb30fc8f64ede8d8fb040b7b46eb2d5",
+      "after_sha256": "0c970a90d1b190fe9d27610660d0491adc327e16301a5d4093caa945de888cde",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 3,
+          "old": "import androidx.compose.runtime.setValue",
+          "new": "import androidx.compose.runtime.saveable.rememberSaveable\nimport androidx.compose.runtime.setValue",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 4,
+          "old": "import androidx.compose.ui.graphics.Color",
+          "new": "import androidx.compose.ui.input.pointer.PointerEventPass\nimport androidx.compose.ui.input.pointer.pointerInput\nimport androidx.compose.ui.graphics.Color",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 5,
+          "old": "var camera by remember(mapScope) { mutableStateOf",
+          "new": "var camera by rememberSaveable(mapScope.toString(), stateSaver = MapCameraPositionSaver) { mutableStateOf",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 6,
+          "old": "it.accuracy >= 0",
+          "new": "it.accuracy > 0",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 6,
+          "old": "it.isFinite() && it >= 0 && it <= mapReliableGpsThresholdM",
+          "new": "it.isFinite() && it > 0 && it <= mapReliableGpsThresholdM",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 7,
+          "old": "        decision.requestToStart?.let { selectedStyle = layerStyle(it.layerIndex) }",
+          "new": "        if (decision.requestToStart != null) selectedStyle = layerStyle(decision.requestToStart.layerIndex)\n        else if (!decision.state.isLoading && decision.state.failedIndex != null) {\n            selectedStyle = layerStyle(decision.state.activeIndex)\n        }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 11,
+          "old": "val scene = remember(projection, phonePosition)",
+          "new": "val scene = remember(projection, phonePosition, measureActive, showMeasureSaveDialog)",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 12,
+          "old": "    var framedContext by remember(mapScope) { mutableStateOf(false) }\n    LaunchedEffect(mapContent, displayedGeoTiges)",
+          "new": "    var framedContext by rememberSaveable(mapScope.toString()) { mutableStateOf(false) }\n    var initialFrameRequested by remember(mapScope) { mutableStateOf(false) }\n    LaunchedEffect(mapContent, displayedGeoTiges, phonePosition)",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 15,
+          "old": "if (!framedContext && mapContent is MapTreeContent.Ready && displayedGeoTiges.isNotEmpty()) {",
+          "new": "if (!framedContext && !initialFrameRequested && mapContent is MapTreeContent.Ready && !measureActive && displayedGeoTiges.isNotEmpty()) {",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 16,
+          "old": "            framedContext = true\n        }\n    }\n    LaunchedEffect(layerLoadState",
+          "new": "            initialFrameRequested = true\n        } else if (!framedContext && !initialFrameRequested && mapContent is MapTreeContent.Ready && !measureActive && phonePosition != null) {\n            requestCamera(camera.copy(longitude = phonePosition.longitude, latitude = phonePosition.latitude, zoom = 13.0))\n            initialFrameRequested = true\n        }\n    }\n    LaunchedEffect(layerLoadState",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 23,
+          "old": "                modifier = Modifier.fillMaxSize(),\n                onOverlayStatusChanged",
+          "new": "                modifier = Modifier.fillMaxSize().pointerInput(mapScope) {\n                    awaitPointerEventScope {\n                        while (true) {\n                            val event = awaitPointerEvent(PointerEventPass.Final)\n                            if (event.changes.any { it.pressed && it.position != it.previousPosition }) {\n                                framedContext = true\n                                frameCommand = null\n                                cameraCommand = null\n                            }\n                        }\n                    }\n                },\n                onOverlayStatusChanged",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 36,
+          "old": "onCommandConsumed = { if (cameraCommand?.id == it) cameraCommand = null },",
+          "new": "onCommandConsumed = {\n                    if (cameraCommand?.id == it) { cameraCommand = null; framedContext = true }\n                },",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 39,
+          "old": "onFrameCommandConsumed = { if (frameCommand?.id == it) frameCommand = null },",
+          "new": "onFrameCommandConsumed = {\n                    if (frameCommand?.id == it) { frameCommand = null; framedContext = true }\n                },\n                onCoordinateTap = { coordinate ->\n                    if (measureActive) {\n                        if (!showMeasureSaveDialog) measurePoints = measurePoints + MeasurePoint(coordinate.latitude, coordinate.longitude)\n                        true\n                    } else false\n                },",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 48,
+          "old": "                    if (measureActive) measurePoints = measurePoints + MeasurePoint(tap.coordinate.latitude, tap.coordinate.longitude)\n                    else tap.featureKey?.let { key ->",
+          "new": "                    if (!measureActive && !showMeasureSaveDialog) tap.featureKey?.let { key ->",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "root0007-commands20k.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1ad12-44db-7277-9120-277722007c21",
+        "item": "exec-1cf5c166-b788-4ddc-a7e9-d4c888377e4b",
+        "item_index": 240,
+        "turn_started_at": 1793905018,
+        "turn_completed_at": 1793911533
+      },
+      "script_sha256": "d3d147335162cd91c2773489ba8d633556cf8178a72730527c92eaf8d39d45e6",
+      "before_sha256": "0c970a90d1b190fe9d27610660d0491adc327e16301a5d4093caa945de888cde",
+      "after_sha256": "1e13f05c1cc7f46dbbfa4746d8d3a2adea0db9ee109c22484954637c5558d1f7",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 3,
+          "old": "import com.forestry.counter.presentation.components.maps.rememberMapPhoneLocation",
+          "new": "import com.forestry.counter.presentation.components.maps.rememberMapPhoneLocation\nimport com.forestry.counter.presentation.components.maps.rememberMapNetworkAvailable\nimport com.forestry.counter.presentation.components.maps.MapboxLocalVectorStyle\nimport com.forestry.counter.presentation.components.maps.MapLocalModeBadge",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 7,
+          "old": "    val density = LocalDensity.current.density",
+          "new": "    val networkAvailable = rememberMapNetworkAvailable()\n    val density = LocalDensity.current.density",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 8,
+          "old": "    fun switchLayer(index: Int) {\n        layerChoiceMade = true\n        applyLayerDecision(layerLoadState.request(index))\n    }",
+          "new": "    fun switchLayer(index: Int) {\n        layerChoiceMade = true\n        if (!networkAvailable) {\n            // Remember the requested background without pretending its remote resources loaded.\n            layerLoadState = MapLayerLoadState(index)\n            selectedStyle = layerStyle(index)\n            showLayerPicker = false\n        } else applyLayerDecision(layerLoadState.request(index))\n    }\n    val localVectorMode = !networkAvailable && selectedStyle.id != MapSourcePolicy.LOCAL_LAYER_KEY\n    val renderedStyle = if (localVectorMode) MapboxLocalVectorStyle else selectedStyle\n    LaunchedEffect(networkAvailable) {\n        if (!networkAvailable && layerLoadState.isLoading) {\n            val index = layerLoadState.displayedIndex\n            layerLoadState = MapLayerLoadState(index)\n            selectedStyle = layerStyle(index)\n        }\n    }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 26,
+          "old": "style = selectedStyle, initialCamera = camera",
+          "new": "style = renderedStyle, initialCamera = camera",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 27,
+          "old": "relief = MapRelief(enabled = selectedStyle.demSourceUrl != null)",
+          "new": "relief = MapRelief(enabled = renderedStyle.demSourceUrl != null)",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 28,
+          "old": "status.styleId == selectedStyle.id",
+          "new": "status.styleId == renderedStyle.id",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 29,
+          "old": "                            scope.launch { preferencesManager.setMapLastLayerKey(loadedStyleId) }",
+          "new": "                            if (!localVectorMode) scope.launch { preferencesManager.setMapLastLayerKey(loadedStyleId) }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 30,
+          "old": "        // ── Bouton retour minimal ──",
+          "new": "        if (localVectorMode) MapLocalModeBadge(\n            Modifier.align(Alignment.TopCenter).padding(top = 60.dp, start = 60.dp, end = 60.dp))\n\n        // ── Bouton retour minimal ──",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "workspace-host-earlier.json",
+        "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+        "turn": "01a1b019-343f-7713-9676-05ad9526b21e",
+        "item": "exec-bda86e74-c633-4b5f-8bf3-407247451dcb",
+        "item_index": 45,
+        "turn_started_at": 1793955804,
+        "turn_completed_at": 1793956731
+      },
+      "script_sha256": "0c56b07900dcb950f938a7d33c9b256d3f1d1b13e9520c55a4823c93ff3e8c2e",
+      "before_sha256": "1e13f05c1cc7f46dbbfa4746d8d3a2adea0db9ee109c22484954637c5558d1f7",
+      "after_sha256": "dd1863f03f25920a5615d11b230d858ca495e0b5fc157b56be007faf01505f5e",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 3,
+          "old": "import androidx.activity.compose.rememberLauncherForActivityResult",
+          "new": "import androidx.activity.compose.BackHandler\nimport androidx.activity.compose.rememberLauncherForActivityResult",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 4,
+          "old": "import androidx.compose.foundation.layout.Box\n",
+          "new": "import androidx.compose.foundation.layout.Box\nimport androidx.compose.foundation.layout.BoxWithConstraints\nimport androidx.compose.foundation.layout.WindowInsets\nimport androidx.compose.foundation.layout.asPaddingValues\nimport androidx.compose.foundation.layout.navigationBars\nimport androidx.compose.foundation.layout.statusBarsPadding\nimport androidx.compose.foundation.rememberScrollState\nimport androidx.compose.foundation.verticalScroll\n",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 5,
+          "old": "import androidx.compose.material3.Text\n",
+          "new": "import androidx.compose.material3.Text\nimport androidx.compose.material3.AlertDialog\nimport androidx.compose.material3.TextButton\nimport androidx.compose.material3.Switch\nimport androidx.compose.material3.Slider\n",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 6,
+          "old": "import kotlinx.coroutines.flow.first",
+          "new": "import kotlinx.coroutines.flow.catch\nimport kotlinx.coroutines.flow.first",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 7,
+          "old": "import com.forestry.counter.presentation.components.maps.MapLocalModeBadge",
+          "new": "import com.forestry.counter.presentation.components.maps.MapLocalModeBadge\nimport com.forestry.counter.presentation.components.maps.MapCatalogThumbnail\nimport com.quintessences.geosylva.cartography.ui.*",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 8,
+          "old": "    var hiddenEssences by remember { mutableStateOf(emptySet<String>()) }\n    val filteredGeoTiges = remember(displayedGeoTiges, hiddenEssences) {\n        if (hiddenEssences.isEmpty()) displayedGeoTiges",
+          "new": "    var hiddenEssences by remember(mapScope) { mutableStateOf(emptySet<String>()) }\n    var treesVisible by rememberSaveable(mapScope.toString()) { mutableStateOf(true) }\n    var measurementVisible by rememberSaveable(mapScope.toString()) { mutableStateOf(true) }\n    val filteredGeoTiges = remember(displayedGeoTiges, hiddenEssences, treesVisible) {\n        if (!treesVisible) emptyList()\n        else if (hiddenEssences.isEmpty()) displayedGeoTiges",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 9,
+          "old": "    var showLayerPicker by remember { mutableStateOf(false) }",
+          "new": "    var workspacePanel by remember(mapScope) { mutableStateOf<MapPanel?>(null) }\n    var showTools by remember(mapScope) { mutableStateOf(false) }\n    var showPlaceSearch by remember(mapScope) { mutableStateOf(false) }\n    var selectedPlaceLabel by remember(mapScope) { mutableStateOf<String?>(null) }\n    var workspaceHelp by remember { mutableStateOf<MapHelp?>(null) }\n    var workspaceMessage by remember { mutableStateOf<Int?>(null) }\n    var requestedRelief by remember(mapScope) { mutableStateOf(MapRelief(enabled = true)) }\n    var appliedRelief by remember(mapScope) { mutableStateOf(MapRelief()) }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 17,
+          "old": "    val is3DActive = camera.pitch > 1.0\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 17,
+          "old": "    var toolbarExpanded by remember { mutableStateOf(false) }\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 18,
+          "old": "    fun toggle3D() { requestCamera(camera.copy(pitch = if (is3DActive) 0.0 else 55.0)) }\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 19,
+          "old": "        if (!decision.state.isLoading && decision.state.failedIndex == null) showLayerPicker = false\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 20,
+          "old": "            showLayerPicker = false\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 21,
+          "old": "        measurePoints, measureMode, measureColor, visibleTappedTree?.tigeId, visibleTappedTree?.parcelleId) {",
+          "new": "        measurePoints, measurementVisible, measureMode, measureColor, visibleTappedTree?.tigeId, visibleTappedTree?.parcelleId) {",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 22,
+          "old": "essenceMap, essenceColors, camera.zoom, measurePoints, measureMode, measureColor.toArgb(),",
+          "new": "essenceMap, essenceColors, camera.zoom, if (measurementVisible) measurePoints else emptyList(), measureMode, measureColor.toArgb(),",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 39,
+          "old": "    Box(modifier = modifier.fillMaxSize()) {\n        key(mapScope, retryGeneration) {",
+          "new": "    val isFreeMap = mapScope == MapDataScope.Free\n    val parcelNameFlow = remember(mapScope, parcelleRepository) {\n        if (mapScope is MapDataScope.Parcel && parcelleRepository != null) {\n            parcelleRepository.getParcelleById(mapScope.id).catch { emit(null) }\n        } else flowOf(null)\n    }\n    val namedParcel by parcelNameFlow.collectAsStateWithLifecycle(initialValue = null)\n    val contextTitle = when (mapScope) {\n        MapDataScope.Free -> selectedPlaceLabel ?: stringResource(R.string.workspace_explore)\n        MapDataScope.AllForests -> stringResource(R.string.recherche_scope_all)\n        is MapDataScope.Parcel -> namedParcel?.takeIf { it.id == mapScope.id }?.name\n            ?.takeIf(String::isNotBlank) ?: stringResource(R.string.workspace_parcel)\n        is MapDataScope.Forest -> stringResource(R.string.workspace_forest)\n        is MapDataScope.Plot -> stringResource(R.string.workspace_plot)\n        MapDataScope.Invalid -> stringResource(R.string.map_tree_data_unavailable)\n    }\n    val contextSubtitle = if (isFreeMap) null else stringResource(R.string.workspace_tree_count, filteredGeoTiges.size)\n    val configured = BuildConfig.MAPBOX_PUBLIC_ACCESS_TOKEN.startsWith(\"pk.\")\n    val baseChoices = MAP_LAYERS.map { layer ->\n        MapBasemapChoice(layer.key, stringResource(layer.labelResId),\n            when {\n                layer.key.startsWith(\"MAPBOX_\") -> \"Mapbox\"\n                layer.key == \"ORTHO_IGN\" -> \"IGN · BD ORTHO®\"\n                else -> stringResource(R.string.workspace_on_device)\n            }, availability = when {\n                !configured -> MapChoiceAvailability.CONFIGURATION_REQUIRED\n                layer.key == MapSourcePolicy.LOCAL_LAYER_KEY && !hasOfflineTilesState -> MapChoiceAvailability.DATA_REQUIRED\n                else -> MapChoiceAvailability.AVAILABLE\n            })\n    }\n    val treeLayerTitle = stringResource(R.string.workspace_tree_layer)\n    val measureLayerTitle = stringResource(R.string.workspace_measure_layer)\n    val layerDetailsLabel = stringResource(R.string.workspace_layer_details)\n    val workspaceLayers = buildList {\n        if (!isFreeMap) add(MapLayerChoice(\"LOCAL_TREES\", treeLayerTitle,\n            onMap = true, visible = treesVisible,\n            availability = if (geoTiges.isEmpty()) MapChoiceAvailability.DATA_REQUIRED else MapChoiceAvailability.AVAILABLE,\n            detailActionLabel = layerDetailsLabel))\n        add(MapLayerChoice(\"LOCAL_MEASUREMENTS\", measureLayerTitle,\n            onMap = true, visible = measurementVisible && measurePoints.isNotEmpty(),\n            availability = if (measurePoints.isEmpty()) MapChoiceAvailability.DATA_REQUIRED else MapChoiceAvailability.AVAILABLE,\n            detailActionLabel = layerDetailsLabel))\n    }\n    val reliefControlsEnabled = workspaceControlsEnabled(renderStatus, renderedStyle.id,\n        localVectorMode, renderedStyle.demSourceUrl != null, overlayFailed)\n    val workspaceState = MapWorkspaceState(\n        contextTitle = contextTitle, contextSubtitle = contextSubtitle,\n        presentation = if (isFreeMap) MapPresentation.FREE else MapPresentation.TERRAIN,\n        basemaps = baseChoices, selectedBasemapId = acknowledgedWorkspaceBasemapId(renderStatus, renderedStyle.id, localVectorMode),\n        layers = workspaceLayers, panel = workspacePanel,\n        pitchDegrees = camera.pitch, verticalExaggeration = appliedRelief.exaggeration,\n        controlsEnabled = reliefControlsEnabled,\n        controlsUnavailableReason = stringResource(if (localVectorMode || renderedStyle.demSourceUrl == null)\n            R.string.workspace_relief_unavailable else R.string.workspace_wait_for_map),\n        taskBarVisible = !measureActive && !showMeasureSheet,\n        selectedTask = if (showLegend) MapTask.SURVEYS else null,\n        locationEnabled = !hasLocationPermission || phonePosition != null,\n        contextActionLabel = if (isFreeMap) stringResource(R.string.workspace_explore) else null,\n    )\n    fun openMeasurements(saved: Boolean = false) {\n        workspacePanel = null\n        showLegend = false\n        measurementVisible = true\n        showSavedMeasuresPanel = saved\n        showMeasureSheet = true\n    }\n    val workspaceActions = object : MapWorkspaceActions {\n        override fun onBack() = onNavigateBack()\n        override fun onChooseContext() { if (isFreeMap) showPlaceSearch = true }\n        override fun onPanelChanged(panel: MapPanel?) {\n            workspacePanel = panel\n            if (panel != null) { showLegend = false; tappedTree = null }\n        }\n        override fun onLocate() {\n            if (!hasLocationPermission) locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)\n            else phonePosition?.let { requestCamera(camera.copy(longitude = it.longitude, latitude = it.latitude, zoom = 18.0)) }\n        }\n        override fun onTask(task: MapTask) {\n            workspacePanel = null\n            when (task) {\n                MapTask.SURVEYS -> {\n                    treesVisible = true\n                    if (essenceCounts.isNotEmpty()) showLegend = !showLegend\n                    else workspaceMessage = R.string.workspace_no_relevés\n                }\n                MapTask.MEASURE -> openMeasurements()\n                MapTask.TOOLS -> { showLegend = false; showTools = true }\n            }\n        }\n        override fun onSelectBasemap(id: String) {\n            val choice = baseChoices.firstOrNull { it.id == id } ?: return\n            if (choice.availability == MapChoiceAvailability.AVAILABLE) {\n                val index = MAP_LAYERS.indexOfFirst { it.key == id }\n                if (index >= 0) switchLayer(index)\n            } else workspaceMessage = if (choice.availability == MapChoiceAvailability.CONFIGURATION_REQUIRED)\n                R.string.workspace_configuration_required else R.string.workspace_local_data_required\n        }\n        override fun onToggleLayer(id: String, visible: Boolean) {\n            when (id) {\n                \"LOCAL_TREES\" -> treesVisible = visible\n                \"LOCAL_MEASUREMENTS\" -> {\n                    measurementVisible = visible\n                    if (!visible) { measureActive = false; showMeasureSheet = false }\n                }\n            }\n        }\n        override fun onAddLayer(id: String) { onLayerDetails(id) }\n        override fun onLayerDetails(id: String) {\n            workspaceMessage = when (id) {\n                \"LOCAL_TREES\" -> R.string.workspace_trees_source\n                \"LOCAL_MEASUREMENTS\" -> R.string.workspace_measure_source\n                else -> return\n            }\n        }\n        override fun onPitchChange(degrees: Double) {\n            if (reliefControlsEnabled) requestCamera(camera.copy(pitch = degrees.coerceIn(0.0, 60.0)))\n        }\n        override fun onExaggerationChange(exaggeration: Double) {\n            if (reliefControlsEnabled) requestedRelief = requestedRelief.copy(exaggeration = exaggeration.coerceIn(1.0, 3.0))\n        }\n        override fun onFlatView(flat: Boolean) {\n            if (reliefControlsEnabled) requestCamera(camera.copy(pitch = if (flat) 0.0 else 45.0))\n        }\n        override fun onExplain(help: MapHelp) { workspaceHelp = help }\n    }\n    BackHandler(enabled = showLegend) { showLegend = false }\n    MapWorkspace(state = workspaceState, actions = workspaceActions, modifier = modifier,\n        thumbnail = { preview, thumbnailModifier -> MapCatalogThumbnail(preview, thumbnailModifier) }) {\n        BoxWithConstraints(Modifier.fillMaxSize()) {\n        val ornamentsBottom = when {\n            workspacePanel != null -> maxHeight * if (LocalDensity.current.fontScale > 1.1f) 0.82f else 0.58f\n            showMeasureSheet -> 330.dp\n            measureActive -> 84.dp\n            else -> 112.dp\n        } + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + 8.dp\n        key(mapScope, retryGeneration) {",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 175,
+          "old": "relief = MapRelief(enabled = renderedStyle.demSourceUrl != null),",
+          "new": "relief = requestedRelief.copy(enabled = renderedStyle.demSourceUrl != null),",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 176,
+          "old": "contentPadding = PaddingValues(start = 12.dp, top = 68.dp, end = 12.dp,\n                    bottom = if (showMeasureSheet) 330.dp else 80.dp),",
+          "new": "contentPadding = PaddingValues(start = 12.dp, top = 156.dp, end = 12.dp, bottom = ornamentsBottom),",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 177,
+          "old": "                onCameraChanged = { camera = it },",
+          "new": "                onCameraChanged = { camera = it },\n                onReliefChanged = { appliedRelief = it },",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 178,
+          "old": "Modifier.align(Alignment.TopCenter).padding(top = 60.dp, start = 60.dp, end = 60.dp))",
+          "new": "Modifier.align(Alignment.TopCenter).statusBarsPadding().padding(top = 132.dp, start = 16.dp, end = 16.dp))",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 179,
+          "old": "            tappedTree = visibleTappedTree,",
+          "new": "            tappedTree = visibleTappedTree.takeIf { workspacePanel == null },",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 180,
+          "old": "            dismissed = dismissedGpsBanner,",
+          "new": "            dismissed = dismissedGpsBanner || workspacePanel != null,",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 181,
+          "old": "modifier = Modifier.align(Alignment.TopCenter).padding(top = Touch.fieldPrimary + Space.xl",
+          "new": "modifier = Modifier.align(Alignment.TopCenter).statusBarsPadding().padding(top = 136.dp",
+          "matching_occurrences_before": 3,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 182,
+          "old": "if (mapContent is MapTreeContent.Ready) MapNoGpsMessage(",
+          "new": "if (mapContent is MapTreeContent.Ready && !dismissedGpsBanner && workspacePanel == null) MapNoGpsMessage(",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 183,
+          "old": "is MapMeasurePanelEvent.SetActive -> measureActive = event.active",
+          "new": "is MapMeasurePanelEvent.SetActive -> { measureActive = event.active; if (event.active) measurementVisible = true }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 184,
+          "old": "measureMode = event.mode; measurePoints = event.points; showSavedMeasuresPanel = false",
+          "new": "measureMode = event.mode; measurePoints = event.points; measurementVisible = true; showSavedMeasuresPanel = false",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 186,
+          "old": "    }\n\n\n    if (showOfflineSheet)",
+          "new": "        }\n    }\n\n    if (showOfflineSheet)",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 188,
+          "old": "workspace_no_relevés",
+          "new": "workspace_no_releves",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 237,
+          "old": "    if (showOfflineSheet) {",
+          "new": "    if (showLegend) AlertDialog(\n        onDismissRequest = { showLegend = false },\n        title = { Text(stringResource(R.string.workspace_tree_layer)) },\n        text = {\n            Column(Modifier.verticalScroll(rememberScrollState())) {\n                MapLegendPanel(visible = true, essenceColors = essenceColors, essenceCounts = essenceCounts,\n                    hiddenEssences = hiddenEssences, essenceMap = essenceMap,\n                    onToggleEssence = { code, hide -> hiddenEssences = if (hide) hiddenEssences + code else hiddenEssences - code })\n            }\n        },\n        confirmButton = { TextButton(onClick = { showLegend = false }) { Text(stringResource(R.string.cd_close)) } },\n    )\n    if (showTools) MapWorkspaceTools(\n        onDismiss = { showTools = false },\n        onGpsPrecision = { showGpsPrecisionDialog = true },\n        onOffline = { offlineRegions = offlineTileManager.listRegions(); showOfflineSheet = true },\n        onEssences = { treesVisible = true; showLegend = true },\n        onSavedMeasures = { openMeasurements(saved = true) },\n        onZoomIn = { requestCamera(camera.copy(zoom = (camera.zoom + 1).coerceAtMost(22.0))) },\n        onZoomOut = { requestCamera(camera.copy(zoom = (camera.zoom - 1).coerceAtLeast(0.0))) },\n        canZoomIn = camera.zoom < 22.0, canZoomOut = camera.zoom > 0.0,\n        showEssences = !isFreeMap && essenceCounts.isNotEmpty(),\n    )\n    if (showPlaceSearch) MapWorkspacePlaceSearch(\n        onDismiss = { showPlaceSearch = false },\n        onSelect = { place ->\n            selectedPlaceLabel = place.label\n            showPlaceSearch = false\n            requestCamera(camera.copy(longitude = place.point.longitude, latitude = place.point.latitude, zoom = 15.0))\n        },\n    )\n    workspaceHelp?.let { help ->\n        val displayedBasemap = MAP_LAYERS.firstOrNull {\n            it.key == acknowledgedWorkspaceBasemapId(renderStatus, renderedStyle.id, localVectorMode)\n        }\n        MapWorkspaceSourceDetails(help = help, basemap = displayedBasemap,\n            onDismiss = { workspaceHelp = null })\n    }\n    workspaceMessage?.let { message -> AlertDialog(\n        onDismissRequest = { workspaceMessage = null },\n        title = { Text(stringResource(R.string.workspace_information)) },\n        text = { Text(stringResource(message)) },\n        confirmButton = { TextButton(onClick = { workspaceMessage = null }) { Text(stringResource(R.string.ok)) } },\n    ) }\n\n    if (showOfflineSheet) {",
+          "matching_occurrences_before": 1,
+          "count_argument": 1
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "workspace-host-earlier.json",
+        "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+        "turn": "01a1b019-343f-7713-9676-05ad9526b21e",
+        "item": "exec-63e02806-a6c3-4255-b628-88dbea34612d",
+        "item_index": 55,
+        "turn_started_at": 1793955804,
+        "turn_completed_at": 1793956731
+      },
+      "script_sha256": "162c727f7cd696595d53538dc7a049c75e2820ceee5cd371a1fa35f870f1d207",
+      "before_sha256": "dd1863f03f25920a5615d11b230d858ca495e0b5fc157b56be007faf01505f5e",
+      "after_sha256": "301568655a3a5ba27f95806547c5d9dab5ad9ba33cdd563c5dfc5d5f9fe3636b",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 3,
+          "old": "import kotlinx.coroutines.flow.catch",
+          "new": "import kotlinx.coroutines.flow.emitAll\nimport kotlinx.coroutines.flow.flow\nimport kotlinx.coroutines.flow.catch",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 4,
+          "old": "            parcelleRepository.getParcelleById(mapScope.id).catch { emit(null) }",
+          "new": "            flow { emitAll(parcelleRepository.getParcelleById(mapScope.id)) }.catch { emit(null) }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 5,
+          "old": "            selectedStyle = layerStyle(decision.state.activeIndex)\n",
+          "new": "            selectedStyle = layerStyle(decision.state.activeIndex)\n            workspaceMessage = R.string.workspace_basemap_failed\n",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 6,
+          "old": "        showSavedMeasuresPanel = saved\n        showMeasureSheet = true",
+          "new": "        measureActive = true\n        showSavedMeasuresPanel = saved\n        showMeasureSheet = true",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 7,
+          "old": "    BackHandler(enabled = showLegend) { showLegend = false }",
+          "new": "    BackHandler(enabled = measureActive && !showMeasureSheet && workspacePanel == null) { measureActive = false }\n    BackHandler(enabled = showLegend) { showLegend = false }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.animation.AnimatedVisibility\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.animation.core.tween\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.animation.fadeIn\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.animation.fadeOut\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.animation.slideInVertically\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.animation.slideOutVertically\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.material.icons.automirrored.filled.ArrowBack\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.material.icons.filled.Add\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.material.icons.filled.Close\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.material.icons.filled.CloudDownload\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.material.icons.filled.Remove\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.material.icons.automirrored.filled.FormatListBulleted\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.material.icons.filled.GpsFixed\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.material.icons.filled.Layers\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.material.icons.filled.Menu\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.material3.IconButton\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.runtime.getValue\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import androidx.compose.runtime.setValue\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import com.forestry.counter.domain.model.Tige\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import com.forestry.counter.presentation.theme.GpsBon\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import com.forestry.counter.presentation.theme.GpsExcellent\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import com.forestry.counter.presentation.theme.GpsMauvais\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import com.forestry.counter.presentation.theme.GpsModere\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 34,
+          "old": "import com.forestry.counter.presentation.theme.Motion\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "workspace-host-latest.json",
+        "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+        "turn": "01a1b027-9ccd-74c8-af2d-b32550033bef",
+        "item": "exec-f3a8c84d-be1f-4e73-bab1-df686fa043e6",
+        "item_index": 4,
+        "turn_started_at": 1793956748,
+        "turn_completed_at": 1793956954
+      },
+      "script_sha256": "c6311a2b6174f2ec62bba5619fea087ce35b0834fbfd997cd76fba73268e0c52",
+      "before_sha256": "301568655a3a5ba27f95806547c5d9dab5ad9ba33cdd563c5dfc5d5f9fe3636b",
+      "after_sha256": "ffd0c7a66c0d2839df0d8ddb9cbf03ac1f4524f521a98e2548e6725a7c84cdb3",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 3,
+          "old": "import androidx.compose.runtime.Composable",
+          "new": "import androidx.compose.runtime.getValue\nimport androidx.compose.runtime.setValue\nimport androidx.compose.runtime.Composable",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 4,
+          "old": "import androidx.compose.material.icons.filled.LocationOn",
+          "new": "import androidx.compose.material.icons.filled.Close\nimport androidx.compose.material.icons.filled.LocationOn",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 5,
+          "old": "import androidx.compose.foundation.layout.navigationBars\n",
+          "new": "import androidx.compose.foundation.layout.navigationBars\nimport androidx.compose.foundation.layout.navigationBarsPadding\n",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 6,
+          "old": "import androidx.compose.ui.platform.LocalDensity",
+          "new": "import androidx.compose.ui.platform.LocalConfiguration\nimport androidx.compose.ui.platform.LocalDensity",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 8,
+          "old": "import kotlinx.coroutines.flow.emitAll\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 8,
+          "old": "import kotlinx.coroutines.flow.flow\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 8,
+          "old": "import kotlinx.coroutines.flow.catch\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 11,
+          "old": "        is MapDataScope.Parcel -> namedParcel?.takeIf { it.id == mapScope.id }?.name\n            ?.takeIf(String::isNotBlank) ?: stringResource(R.string.workspace_parcel)",
+          "new": "        is MapDataScope.Parcel -> stringResource(R.string.workspace_parcel)",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 12,
+          "old": "val contextSubtitle = if (isFreeMap) null else",
+          "new": "val contextSubtitle = if (isFreeMap || mapContent !is MapTreeContent.Ready) null else",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 13,
+          "old": "        taskBarVisible = !measureActive && !showMeasureSheet,",
+          "new": "        taskBarVisible = !measureActive && !showMeasureSheet,\n        chromeVisible = !measureActive && !showMeasureSheet,",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 14,
+          "old": "workspacePanel != null -> maxHeight * if (LocalDensity.current.fontScale > 1.1f) 0.82f else 0.58f",
+          "new": "workspacePanel != null -> maxHeight * if (LocalDensity.current.fontScale > 1.1f || LocalConfiguration.current.screenHeightDp < 500) 0.82f else 0.58f",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 15,
+          "old": "modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = Space.lg),",
+          "new": "modifier = Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(horizontal = Space.md, vertical = Space.lg),",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 16,
+          "old": "modifier = Modifier.height(Touch.fieldPrimary),",
+          "new": "modifier = Modifier.weight(1f).height(Touch.fieldPrimary),",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 32,
+          "old": "                if (liveResult != null) {\n                    Surface(",
+          "new": "                Surface(\n                    onClick = { measureActive = false },\n                    color = MaterialTheme.colorScheme.surfaceContainerHigh,\n                    shape = GsShape.pill,\n                    shadowElevation = Elevation.overlay,\n                    modifier = Modifier.size(Touch.fieldPrimary),\n                ) {\n                    Box(contentAlignment = Alignment.Center) {\n                        Icon(Icons.Default.Close, contentDescription = stringResource(R.string.workspace_close_measure))\n                    }\n                }\n                if (liveResult != null) {\n                    Surface(",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 33,
+          "old": "        showEssences = !isFreeMap && essenceCounts.isNotEmpty(),",
+          "new": "        showEssences = !isFreeMap && essenceCounts.isNotEmpty(),\n        onMeasure = { openMeasurements() },",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "strict_observed_file_diff",
+      "provenance": {
+        "history_file": "root0005-full.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b027-5d92-742a-aa52-581268052fac",
+        "item": "exec-1c95eaa6-d1d8-4fcb-a27a-0d55bd17baad",
+        "item_index": 118,
+        "turn_started_at": 1793956732,
+        "turn_completed_at": 1793961934
+      },
+      "before_sha256": "ffd0c7a66c0d2839df0d8ddb9cbf03ac1f4524f521a98e2548e6725a7c84cdb3",
+      "after_sha256": "9233c24eab08f0321f8cc4fd5483fa8f95cd93650deb739790aef041ad16165f",
+      "diff_sha256": "a94cb355c35a13596a334aeb8bdf17d7d693a5f2791873f89b52d0417e85cf47",
+      "diff": "@@ -390,2 +390,3 @@\n         localVectorMode, renderedStyle.demSourceUrl != null, overlayFailed)\n+    var compassTop by remember { mutableStateOf(156.dp) }\n     val workspaceState = MapWorkspaceState(\n@@ -475,2 +476,3 @@\n     MapWorkspace(state = workspaceState, actions = workspaceActions, modifier = modifier,\n+        onCompassTopChanged = { compassTop = it },\n         thumbnail = { preview, thumbnailModifier -> MapCatalogThumbnail(preview, thumbnailModifier) }) {\n@@ -489,3 +491,3 @@\n                     relief = requestedRelief.copy(enabled = renderedStyle.demSourceUrl != null),\n-                    contentPadding = PaddingValues(start = 12.dp, top = 156.dp, end = 12.dp, bottom = ornamentsBottom),\n+                    contentPadding = PaddingValues(start = 12.dp, top = compassTop, end = 12.dp, bottom = ornamentsBottom),\n                     modifier = Modifier.fillMaxSize().pointerInput(mapScope) {\n"
+    },
+    {
+      "kind": "strict_observed_file_diff",
+      "provenance": {
+        "history_file": "root0005-full.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b027-5d92-742a-aa52-581268052fac",
+        "item": "exec-2c52a85e-fba4-49b8-bf3c-d69fae7f022f",
+        "item_index": 121,
+        "turn_started_at": 1793956732,
+        "turn_completed_at": 1793961934
+      },
+      "before_sha256": "9233c24eab08f0321f8cc4fd5483fa8f95cd93650deb739790aef041ad16165f",
+      "after_sha256": "885be10abd07c98dff43b9897515651bef385eb3150867d732fa7add8064c9f2",
+      "diff_sha256": "f6a68d6be9469f75b4ba250f57319b5c581a58e85e33571d2784befc53cc5683",
+      "diff": "@@ -480,3 +480,3 @@\n             val ornamentsBottom = when {\n-                workspacePanel != null -> maxHeight * if (LocalDensity.current.fontScale > 1.1f || LocalConfiguration.current.screenHeightDp < 500) 0.82f else 0.58f\n+                workspacePanel != null -> mapWorkspacePanelHeight(maxHeight, LocalDensity.current.fontScale)\n                 showMeasureSheet -> 330.dp\n"
+    },
+    {
+      "kind": "strict_observed_file_diff",
+      "provenance": {
+        "history_file": "root0004-full.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b086-572e-70de-80f1-01c0c04a76e8",
+        "item": "exec-04cbfa17-1252-448c-8af3-0fe43174ebf9",
+        "item_index": 20,
+        "turn_started_at": 1793962956,
+        "turn_completed_at": 1793965038
+      },
+      "before_sha256": "885be10abd07c98dff43b9897515651bef385eb3150867d732fa7add8064c9f2",
+      "after_sha256": "b990a3b767cdee896054565fc4f79987bfeb723e5fc15e83e6bb164bd4ea5c64",
+      "diff_sha256": "49f1f298f2b4bf467cf8eacb5e73ad8e38b9fce65f083ff3de547dddb37bcff9",
+      "diff": "@@ -490,2 +490,3 @@\n                     frameCommand = frameCommand, overlays = scene,\n+                    scaleBarVisible = workspacePanel == null,\n                     relief = requestedRelief.copy(enabled = renderedStyle.demSourceUrl != null),\n"
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "root0003-full.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+        "item": "exec-b3fff8b9-2aef-4899-8d17-cb6e6222bf99",
+        "item_index": 114,
+        "turn_started_at": 1793981109,
+        "turn_completed_at": 1793987989
+      },
+      "script_sha256": "ef41f6da7338e71bff13f84112fc6f2603a4154f13777d9d38bb134840275c32",
+      "before_sha256": "b990a3b767cdee896054565fc4f79987bfeb723e5fc15e83e6bb164bd4ea5c64",
+      "after_sha256": "8a651ef4a16ff97f63693e653aa3565014c04b3d3680eadc4ddc0d4340000de3",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 4,
+          "old": "import androidx.lifecycle.compose.collectAsStateWithLifecycle",
+          "new": "import androidx.lifecycle.compose.collectAsStateWithLifecycle\nimport androidx.lifecycle.createSavedStateHandle\nimport androidx.lifecycle.viewmodel.compose.viewModel\nimport androidx.lifecycle.viewmodel.initializer\nimport androidx.lifecycle.viewmodel.viewModelFactory\nimport com.forestry.counter.domain.repository.CartographicMeasurementRepository\nimport com.forestry.counter.domain.calculation.cartography.CartographicMeasureKind\nimport com.quintessences.geosylva.cartography.ui.measurement.MeasurePanel",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 5,
+          "old": "    preferencesManager: UserPreferencesManager,",
+          "new": "    preferencesManager: UserPreferencesManager,\n    measurementRepository: CartographicMeasurementRepository,",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 16,
+          "old": "    var dataRetry by remember(mapScope)",
+          "new": "    val manualModel = viewModel<MapManualMeasureViewModel>(\n        key = \"manual-map-measure-$parcelleId\",\n        factory = remember(measurementRepository, mapScope) { viewModelFactory {\n            initializer { MapManualMeasureViewModel(measurementRepository, mapScope, createSavedStateHandle()) }\n        } },\n    )\n    val manual by manualModel.state.collectAsStateWithLifecycle()\n    var dataRetry by remember(mapScope)",
+          "matching_occurrences_before": 1,
+          "count_argument": 1
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 17,
+          "old": "    var showMeasureSheet by remember { mutableStateOf(false) }\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 32,
+          "old": "taskBarVisible = !measureActive && !showMeasureSheet,",
+          "new": "taskBarVisible = !measureActive,",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 33,
+          "old": "chromeVisible = !measureActive && !showMeasureSheet,",
+          "new": "chromeVisible = !measureActive,",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 43,
+          "old": "if (!visible) { measureActive = false; showMeasureSheet = false }",
+          "new": "if (!visible) manualModel.leave()",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 44,
+          "old": "    BackHandler(enabled = measureActive && !showMeasureSheet && workspacePanel == null) { measureActive = false }\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 55,
+          "old": "            val ornamentsBottom = when {\n                workspacePanel != null -> mapWorkspacePanelHeight(maxHeight, LocalDensity.current.fontScale)\n                showMeasureSheet -> 330.dp\n                measureActive -> 84.dp\n                else -> 112.dp\n            } + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + 8.dp",
+          "new": "            val ornamentsBottom = if (measureActive) measurePanelHeight + 8.dp else (\n                if (workspacePanel != null) mapWorkspacePanelHeight(maxHeight, LocalDensity.current.fontScale) else 112.dp\n            ) + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + 8.dp",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 56,
+          "old": "scaleBarVisible = workspacePanel == null,",
+          "new": "scaleBarVisible = workspacePanel == null && (!measureActive ||\n                        manual.panel == MeasurePanel.COLLAPSED && manual.auxiliary == ManualMeasureAuxiliary.NONE),",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 57,
+          "old": "if (!showMeasureSaveDialog) measurePoints = measurePoints + MeasurePoint(coordinate.latitude, coordinate.longitude)",
+          "new": "manualModel.addPoint(coordinate.latitude, coordinate.longitude)",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "strict_observed_file_diff",
+      "provenance": {
+        "history_file": "root0003-full.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+        "item": "exec-f1800299-5987-4b79-bb1b-d8ee4849383c",
+        "item_index": 133,
+        "turn_started_at": 1793981109,
+        "turn_completed_at": 1793987989
+      },
+      "before_sha256": "8a651ef4a16ff97f63693e653aa3565014c04b3d3680eadc4ddc0d4340000de3",
+      "after_sha256": "21b41e1746590aade101b22473d48bb9b29ea45b8078c5c73d633e02d468cbdc",
+      "diff_sha256": "7ebd67e93eeec04bd3ab6a4c8ac612162f31dfbfd4bd67ee777a058f34754f52",
+      "diff": "@@ -657,3 +657,3 @@\n             }\n-            if (mapContent is MapTreeContent.Ready && !dismissedGpsBanner && workspacePanel == null) MapNoGpsMessage(\n+            if (mapContent is MapTreeContent.Ready && !measureActive && !dismissedGpsBanner && workspacePanel == null) MapNoGpsMessage(\n                 total = total, withGps = withGps, geoTigesSize = geoTiges.size,\n"
+    },
+    {
+      "kind": "strict_observed_file_diff",
+      "provenance": {
+        "history_file": "root0003-full.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+        "item": "exec-84169b7b-8cee-4341-972b-b06d8e9cb229",
+        "item_index": 220,
+        "turn_started_at": 1793981109,
+        "turn_completed_at": 1793987989
+      },
+      "before_sha256": "21b41e1746590aade101b22473d48bb9b29ea45b8078c5c73d633e02d468cbdc",
+      "after_sha256": "109abac01893ce8717154dc87d8736bddf20fdabef545d8015d2526c6d56a89d",
+      "diff_sha256": "321a205bc132a5fcd6daccfae12828c30f5283f7d7dce640124692e46beb281f",
+      "diff": "@@ -664,3 +664,3 @@\n             if (measureActive) MapManualMeasureUi(\n-                state = manual, model = manualModel, contextLabel = contextTitle,\n+                unverifiedState = manual, model = manualModel, contextLabel = contextTitle,\n                 locationEnabled = !hasLocationPermission || phonePosition != null,\n"
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "root0002-commands20k.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+        "item": "exec-6a1e8378-5fa9-4989-9ce4-0dbaa8078006",
+        "item_index": 301,
+        "turn_started_at": 1794041256,
+        "turn_completed_at": 1794075423
+      },
+      "script_sha256": "c9296ca73914731667c792bf3927868d242e909bc798ddff2557cb5ec81aa40a",
+      "before_sha256": "109abac01893ce8717154dc87d8736bddf20fdabef545d8015d2526c6d56a89d",
+      "after_sha256": "3417724ee959d05c2981855942a616b6693f028ffefabb1042966fca15ef6d5d",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 3,
+          "old": "import androidx.compose.runtime.getValue",
+          "new": "import androidx.compose.runtime.SideEffect\nimport androidx.compose.runtime.produceState\nimport androidx.compose.runtime.getValue",
+          "matching_occurrences_before": 1,
+          "count_argument": 1
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 4,
+          "old": "import androidx.compose.foundation.layout.height",
+          "new": "import androidx.compose.ui.layout.onSizeChanged\nimport androidx.compose.foundation.layout.height",
+          "matching_occurrences_before": 1,
+          "count_argument": 1
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 5,
+          "old": "import com.forestry.counter.domain.repository.CartographicMeasurementRepository",
+          "new": "import com.forestry.counter.domain.repository.CartographicLayerRepository\nimport com.forestry.counter.presentation.screens.forestry.layers.*\nimport com.forestry.counter.presentation.screens.forestry.trace.*\nimport com.forestry.counter.presentation.screens.packs.offline.*\nimport com.quintessences.geosylva.cartography.ui.trees.*\nimport com.quintessences.geosylva.cartography.ui.trace.TraceScreen\nimport com.forestry.counter.domain.repository.CartographicMeasurementRepository",
+          "matching_occurrences_before": 1,
+          "count_argument": 1
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 12,
+          "old": "import kotlinx.coroutines.delay",
+          "new": "import kotlinx.coroutines.Dispatchers\nimport kotlinx.coroutines.withContext\nimport kotlinx.coroutines.delay",
+          "matching_occurrences_before": 1,
+          "count_argument": 1
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 13,
+          "old": "    measurementRepository: CartographicMeasurementRepository,",
+          "new": "    measurementRepository: CartographicMeasurementRepository,\n    layerRepository: CartographicLayerRepository,\n    traceController: MapTraceController,\n    offlineController: OfflineMapPackController,",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 18,
+          "old": "    val manual by manualModel.state.collectAsStateWithLifecycle()",
+          "new": "    val manual by manualModel.state.collectAsStateWithLifecycle()\n    val layerModel = viewModel<MapLayerViewModel>(key = \"map-layers-$parcelleId\",\n        factory = remember(layerRepository) { viewModelFactory { initializer { MapLayerViewModel(layerRepository) } } })\n    val layerState by layerModel.state.collectAsStateWithLifecycle()\n    val traceState by traceController.state.collectAsStateWithLifecycle()\n    val traceActive = traceState.visible && traceState.scope == mapScope\n    val sourceActive = traceController.currentSourceToken() != null\n    val tracePhone by traceController.currentPhoneLocation.collectAsStateWithLifecycle()\n    LaunchedEffect(mapScope) { layerModel.bind(mapScope); traceController.contextChanged(mapScope) }\n",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 60,
+          "old": "val phonePosition = rememberMapPhoneLocation(hasLocationPermission)",
+          "new": "val standardPhonePosition = rememberMapPhoneLocation(hasLocationPermission && !sourceActive && !treeUi.state.guidance.active)\n    val guidancePhonePosition = treeUi.guidanceMap?.takeIf { it.userPositionIsCurrent }?.let { fix ->\n        if (fix.userLatitude == null || fix.userLongitude == null) null else android.location.Location(\"tree-guidance\").apply {\n            latitude = fix.userLatitude; longitude = fix.userLongitude\n            treeUi.state.guidance.phoneAccuracyM?.let { accuracy = it.toFloat() }\n        }\n    }\n    val phonePosition = if (sourceActive) tracePhone else guidancePhonePosition ?: standardPhonePosition",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 70,
+          "old": "val localVectorMode = !networkAvailable && selectedStyle.id != MapSourcePolicy.LOCAL_LAYER_KEY",
+          "new": "val localVectorMode = false",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 71,
+          "old": "val renderedStyle = if (localVectorMode) MapboxLocalVectorStyle else selectedStyle",
+          "new": "val renderedStyle = selectedStyle",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 72,
+          "old": "visibleTappedTree?.tigeId, visibleTappedTree?.parcelleId",
+          "new": "selectedTree?.treeId, selectedTree?.parcelId",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 73,
+          "old": "visibleTappedTree?.let { MapTreeIdentity(it.tigeId, it.parcelleId) }",
+          "new": "selectedTree?.let { MapTreeIdentity(it.treeId, it.parcelId) }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 100,
+          "old": "layers = workspaceLayers, panel = workspacePanel,",
+          "new": "layers = workspaceLayers + importedChoices, panel = workspacePanel,",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 101,
+          "old": "taskBarVisible = !measureActive,",
+          "new": "taskBarVisible = !measureActive && !traceActive && !layerState.visible && !treePanelActive && viewPack == null,",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 102,
+          "old": "chromeVisible = !measureActive,",
+          "new": "chromeVisible = !measureActive && !traceActive && !layerState.visible,",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 103,
+          "old": "selectedTask = if (showLegend) MapTask.SURVEYS else null,",
+          "new": "selectedTask = if (treePanelActive) MapTask.SURVEYS else null,",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 104,
+          "old": "        showLegend = false\n        measurementVisible = true",
+          "new": "        treeUi.dispatch(TreeWorkspaceAction.Close)\n        layerModel.onClose()\n        treeNavigator.stopNavigation()\n        traceController.hide()\n        measurementVisible = true",
+          "matching_occurrences_before": 1,
+          "count_argument": 1
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 105,
+          "old": "if (panel != null) { showLegend = false; tappedTree = null }",
+          "new": "if (panel != null) { treeUi.dispatch(TreeWorkspaceAction.Close) }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 108,
+          "old": "\"LOCAL_TREES\" -> treesVisible = visible",
+          "new": "\"LOCAL_TREES\" -> treesVisible = visible",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 109,
+          "old": "                    if (!visible) manualModel.leave()\n                }\n            }",
+          "new": "                    if (!visible) manualModel.leave()\n                }\n                else -> if (id.startsWith(\"imported:\")) layerModel.setLayerVisible(id.removePrefix(\"imported:\"), visible)\n            }",
+          "matching_occurrences_before": 1,
+          "count_argument": 1
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 110,
+          "old": "        override fun onAddLayer(id: String) { onLayerDetails(id) }",
+          "new": "        override fun onAddLayer(id: String) { workspacePanel = null; layerModel.open(mapScope) }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 111,
+          "old": "        override fun onLayerDetails(id: String) {\n            workspaceMessage",
+          "new": "        override fun onLayerDetails(id: String) {\n            if (id == \"IMPORT_LAYER\" || id.startsWith(\"imported:\")) {\n                workspacePanel = null; layerModel.open(mapScope)\n                if (id.startsWith(\"imported:\")) layerModel.onOpenLayer(id.removePrefix(\"imported:\"))\n                return\n            }\n            workspaceMessage",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 118,
+          "old": "    BackHandler(enabled = showLegend) { showLegend = false }",
+          "new": "    BackHandler(enabled = treePanelActive) { treeUi.dispatch(TreeWorkspaceAction.Close) }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 119,
+          "old": "val ornamentsBottom = if (measureActive) measurePanelHeight + 8.dp else (",
+          "new": "val ornamentsBottom = if (traceActive) tracePadding.calculateBottomPadding() else if (layerState.visible) layerPanelHeight + 8.dp\n                else if (treePanelActive) treePanelHeight + 8.dp else if (viewPack != null) offlinePanelHeight + 8.dp\n                else if (measureActive) measurePanelHeight + 8.dp else (",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 122,
+          "old": "scaleBarVisible = workspacePanel == null && (!measureActive ||",
+          "new": "scaleBarVisible = !traceActive && !layerState.visible && !treePanelActive && viewPack == null && workspacePanel == null && (!measureActive ||",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 123,
+          "old": "top = compassTop, end = 12.dp, bottom = ornamentsBottom",
+          "new": "top = if (traceActive) tracePadding.calculateTopPadding() else compassTop, end = 12.dp, bottom = ornamentsBottom",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 184,
+          "old": "onGpsPrecision = { showGpsPrecisionDialog = true },",
+          "new": "onGpsPrecision = { workspacePanel = null; treeUi.openAccuracy() },",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 185,
+          "old": "onOffline = { offlineRegions = offlineTileManager.listRegions(); showOfflineSheet = true },",
+          "new": "onOffline = {\n            val view = viewport\n            val styleUri = renderedStyle.document.takeIf { it.startsWith(\"mapbox://styles/\") }\n            if (view == null || styleUri == null) workspaceMessage = R.string.root_workspace_offline_style_required\n            else {\n                val ring = listOf(Point.fromLngLat(view.bounds.west, view.bounds.south), Point.fromLngLat(view.bounds.east, view.bounds.south),\n                    Point.fromLngLat(view.bounds.east, view.bounds.north), Point.fromLngLat(view.bounds.west, view.bounds.north),\n                    Point.fromLngLat(view.bounds.west, view.bounds.south))\n                val z = kotlin.math.floor(view.camera.zoom).toInt().coerceIn(0, 22)\n                viewPack = OfflineViewPackDraft(name = contextTitle, geometryJson = com.mapbox.geojson.Polygon.fromLngLats(listOf(ring)).toJson(),\n                    minZoom = z, maxZoom = (z + 3).coerceAtMost(22), pixelRatio = density, styleUri = styleUri,\n                    reliefSource = renderedStyle.demSourceUrl, initiallyRelief = requestedRelief.enabled)\n            }\n        },",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 199,
+          "old": "onEssences = { treesVisible = true; showLegend = true },",
+          "new": "onEssences = { workspacePanel = null; treesVisible = true; treeUi.openSpecies() },",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 200,
+          "old": "        onMeasure = { openMeasurements() },",
+          "new": "        onMeasure = { openMeasurements() },\n        onImportLayer = { manualModel.leave(); treeUi.dispatch(TreeWorkspaceAction.Close); workspacePanel = null; layerModel.open(mapScope) },\n        onTrace = { manualModel.leave(); layerModel.onClose(); treeUi.dispatch(TreeWorkspaceAction.Close); treeNavigator.stopNavigation(); workspacePanel = null; traceController.open(mapScope) },",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 207,
+          "old": "with(LocalDensityCaptured(density)) { it.height.toDp() }",
+          "new": "(it.height / density).dp",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 208,
+          "old": "import androidx.compose.foundation.layout.height\n",
+          "new": "import androidx.compose.foundation.layout.height\nimport androidx.compose.foundation.layout.heightIn\n",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "root0002-commands20k.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+        "item": "exec-0cef8c98-4a36-479a-a41d-ff958f168243",
+        "item_index": 361,
+        "turn_started_at": 1794041256,
+        "turn_completed_at": 1794075423
+      },
+      "script_sha256": "47539218f7cdfbcb82c036a48255a4ecb9eace4ad0385a64d169b4cf93dbcad1",
+      "before_sha256": "3417724ee959d05c2981855942a616b6693f028ffefabb1042966fca15ef6d5d",
+      "after_sha256": "20ae88c81b6402a6c0c65d0f9f288be85ae9eab6def5e3e148f54d76498ec527",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 9,
+          "old": "chromeVisible = !measureActive && !traceActive && !layerState.visible,",
+          "new": "chromeVisible = !measureActive && !traceActive && !layerState.visible && viewPack == null,",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 10,
+          "old": "        workspacePanel = null\n        treeUi.dispatch(TreeWorkspaceAction.Close)",
+          "new": "        workspacePanel = null\n        viewPack = null\n        treeUi.dispatch(TreeWorkspaceAction.Close)",
+          "matching_occurrences_before": 1,
+          "count_argument": 1
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 11,
+          "old": "    BackHandler(enabled = treePanelActive)",
+          "new": "    BackHandler(enabled = viewPack != null) { viewPack = null }\n    BackHandler(enabled = treePanelActive)",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 12,
+          "old": "onImportLayer = { manualModel.leave();",
+          "new": "onImportLayer = { viewPack = null; manualModel.leave();",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 13,
+          "old": "onTrace = { manualModel.leave();",
+          "new": "onTrace = { viewPack = null; manualModel.leave();",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 14,
+          "old": "val styleUri = renderedStyle.document.takeIf { it.startsWith(\"mapbox://styles/\") }",
+          "new": "val styleUri = renderedStyle.document.takeIf { it.startsWith(\"mapbox://styles/\") &&\n                (renderStatus as? MapRenderStatus.Ready)?.styleId == renderedStyle.id }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 15,
+          "old": "val traceFeatures = remember(traceSnapshot, traceState.selectedPortionId)",
+          "new": "val traceFeatures = remember(traceSnapshot?.portions, traceSnapshot?.phase, traceState.selectedPortionId)",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 16,
+          "old": "    var offlineRegions by remember { mutableStateOf(offlineTileManager.listRegions()) }\n    var showOfflineSheet by remember { mutableStateOf(false) }\n    var offlineEstimate by remember { mutableStateOf<Pair<Long, Long>?>(null) }\n    var pendingDownloadBounds by remember { mutableStateOf<MapBounds?>(null) }\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 21,
+          "old": "            offlineRegions = offlineTileManager.listRegions()\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 22,
+          "old": "    var showLegend by remember { mutableStateOf(false) }\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 22,
+          "old": "    var showGpsPrecisionDialog by remember { mutableStateOf(false) }\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 22,
+          "old": "    var tappedTree by remember(parcelleId) { mutableStateOf<TappedTreeInfo?>(null) }\n",
+          "new": "",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 23,
+          "old": "MapTask.TOOLS -> { showLegend = false; showTools = true }",
+          "new": "MapTask.TOOLS -> { showTools = true }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "root0002-commands20k.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+        "item": "exec-231e057a-ea7f-411f-8738-5c3d04feb171",
+        "item_index": 399,
+        "turn_started_at": 1794041256,
+        "turn_completed_at": 1794075423
+      },
+      "script_sha256": "3782410443823b2a63c03836f3386d116f0bc57933b2ee23c4f1bf29f0add735",
+      "before_sha256": "20ae88c81b6402a6c0c65d0f9f288be85ae9eab6def5e3e148f54d76498ec527",
+      "after_sha256": "37c10a8a84ce9d8b0fdec034ec523d7ba1f01ab854f594c100b6476843158927",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 3,
+          "old": "import com.quintessences.geosylva.cartography.ui.trace.TraceScreen",
+          "new": "import com.quintessences.geosylva.cartography.ui.source.MapSourceLayerUi\nimport com.quintessences.geosylva.cartography.ui.trace.TraceScreen",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 4,
+          "old": "    var measurementVisible by rememberSaveable(mapScope.toString()) { mutableStateOf(true) }",
+          "new": "    var measurementVisible by rememberSaveable(mapScope.toString()) { mutableStateOf(true) }\n    var traceVisible by rememberSaveable(mapScope.toString()) { mutableStateOf(true) }\n    var treeOpacity by rememberSaveable(mapScope.toString()) { mutableStateOf(1f) }\n    var measureOpacity by rememberSaveable(mapScope.toString()) { mutableStateOf(1f) }\n    var traceOpacity by rememberSaveable(mapScope.toString()) { mutableStateOf(1f) }\n    var sourceLayerId by remember(mapScope) { mutableStateOf<String?>(null) }\n    var sourcePanelHeight by remember { mutableStateOf(0.dp) }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 11,
+          "old": "val scene = remember(projection, phonePosition, importedFeatures, traceFeatures, guidanceFeatures, layerState.renders)",
+          "new": "val scene = remember(projection, phonePosition, importedFeatures, traceFeatures, guidanceFeatures, layerState.renders, treeOpacity, measureOpacity, traceVisible, traceOpacity)",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 12,
+          "old": "        val features = projection.scene.features + importedFeatures + traceFeatures + guidanceFeatures + listOfNotNull(locationFeature)",
+          "new": "        val local = projection.scene.features.map { feature ->\n            val opacity = if (feature.key.layerId.startsWith(\"terrain-measure\")) measureOpacity else treeOpacity\n            feature.copy(style = feature.style.copy(opacity = opacity.toDouble()))\n        }\n        val traces = if (!traceVisible) emptyList() else traceFeatures.map { it.copy(style = it.style.copy(opacity = traceOpacity.toDouble())) }\n        val features = local + importedFeatures + traces + guidanceFeatures + listOfNotNull(locationFeature)",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 18,
+          "old": "        layers = workspaceLayers + importedChoices, panel = workspacePanel,",
+          "new": "        layers = workspaceLayers + importedChoices + listOf(MapLayerChoice(\"GPS_TRACES\", stringResource(R.string.root_workspace_trace),\n            onMap = true, visible = traceVisible, availability = if (traceSnapshot == null) MapChoiceAvailability.DATA_REQUIRED else MapChoiceAvailability.AVAILABLE,\n            detailActionLabel = layerDetailsLabel)), panel = workspacePanel,",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 21,
+          "old": "                \"LOCAL_TREES\" -> treesVisible = visible",
+          "new": "                \"LOCAL_TREES\" -> treesVisible = visible\n                \"GPS_TRACES\" -> traceVisible = visible",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 30,
+          "old": "override fun onExplain(help: MapHelp) { workspaceHelp = help }",
+          "new": "override fun onExplain(help: MapHelp) { sourceLayerId = null; workspaceHelp = help }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 31,
+          "old": "val ornamentsBottom = if (traceActive)",
+          "new": "val ornamentsBottom = if (workspaceHelp != null) sourcePanelHeight + 8.dp else if (traceActive)",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 32,
+          "old": "scaleBarVisible = !traceActive &&",
+          "new": "scaleBarVisible = workspaceHelp == null && !traceActive &&",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 58,
+          "old": "        MapWorkspaceSourceDetails(help = help, basemap = displayedBasemap,\n            onDismiss = { workspaceHelp = null })",
+          "new": "        val layer = sourceLayerId?.let { id -> MapSourceLayerUi(\n            id = id,\n            title = stringResource(if (id == \"LOCAL_TREES\") R.string.workspace_tree_layer else if (id == \"GPS_TRACES\") R.string.root_workspace_trace else R.string.workspace_measure_layer),\n            previewKey = MapPreviewKey(if (id == \"LOCAL_TREES\") \"LOCAL_TREES\" else \"LOCAL_MEASUREMENTS\"),\n            visible = when (id) { \"LOCAL_TREES\" -> treesVisible; \"GPS_TRACES\" -> traceVisible; else -> measurementVisible },\n            opacity = when (id) { \"LOCAL_TREES\" -> treeOpacity; \"GPS_TRACES\" -> traceOpacity; else -> measureOpacity },\n            legendLabel = stringResource(if (id == \"LOCAL_TREES\") R.string.workspace_tree_layer else if (id == \"GPS_TRACES\") R.string.root_workspace_trace else R.string.workspace_measure_layer),\n            legendColorHex = if (id == \"LOCAL_TREES\") \"#176F39\" else \"#176BDF\",\n            origin = \"Géosylva\", distribution = stringResource(R.string.workspace_on_device),\n            note = stringResource(if (id == \"LOCAL_TREES\") R.string.workspace_trees_source else R.string.workspace_measure_source)) }\n        MapWorkspaceSourceDetails(help = help, basemap = displayedBasemap, layer = layer,\n            onPanelHeightChanged = { sourcePanelHeight = it },\n            onLayerVisibilityChanged = { visible -> when (sourceLayerId) {\n                \"LOCAL_TREES\" -> treesVisible = visible\n                \"GPS_TRACES\" -> traceVisible = visible\n                else -> measurementVisible = visible\n            } },\n            onLayerOpacityChanged = { opacity -> if (opacity.isFinite() && opacity in 0f..1f) when (sourceLayerId) {\n                \"LOCAL_TREES\" -> treeOpacity = opacity\n                \"GPS_TRACES\" -> traceOpacity = opacity\n                else -> measureOpacity = opacity\n            } },\n            onDismiss = { workspaceHelp = null; sourceLayerId = null })",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "root0002-commands20k.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+        "item": "exec-306d98a0-6291-43de-a12e-7a318c488688",
+        "item_index": 438,
+        "turn_started_at": 1794041256,
+        "turn_completed_at": 1794075423
+      },
+      "script_sha256": "e361f84206d89702ff45cffac8bf812537e60e2a5f6c6342a73cd47822ad5697",
+      "before_sha256": "37c10a8a84ce9d8b0fdec034ec523d7ba1f01ab854f594c100b6476843158927",
+      "after_sha256": "56c198eb4d62b6fc79d1be85301c3035430c69c6db33f657b88a8ca655c9d58a",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 2,
+          "old": "    val sourceActive = traceController.currentSourceToken() != null",
+          "new": "    val sourceActive by traceController.sourceActive.collectAsStateWithLifecycle()",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "root0002-commands20k.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+        "item": "exec-2426c126-1b8e-4ddd-946b-00d3117400a0",
+        "item_index": 478,
+        "turn_started_at": 1794041256,
+        "turn_completed_at": 1794075423
+      },
+      "script_sha256": "21b72e68f86cc6b9ac4feeaf5d3854ddc3995b90fca3549fc5af6e4ff3ab2e5d",
+      "before_sha256": "56c198eb4d62b6fc79d1be85301c3035430c69c6db33f657b88a8ca655c9d58a",
+      "after_sha256": "1caba1238574a0a546c36fcf937c3c2d27808cbffa1f7922c1744fae99d98345",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 13,
+          "old": "            if (view == null || styleUri == null) workspaceMessage = R.string.root_workspace_offline_style_required\n            else {\n                val ring = listOf(Point.fromLngLat(view.bounds.west, view.bounds.south), Point.fromLngLat(view.bounds.east, view.bounds.south),\n                    Point.fromLngLat(view.bounds.east, view.bounds.north), Point.fromLngLat(view.bounds.west, view.bounds.north),\n                    Point.fromLngLat(view.bounds.west, view.bounds.south))",
+          "new": "            val footprint = view?.visibleFootprint\n            if (view == null || styleUri == null || footprint == null) workspaceMessage = R.string.root_workspace_offline_style_required\n            else {\n                // Freeze the exposed map surface, using native pixel-to-surface rays.\n                // Covered panels and sky never become an invented download rectangle.\n                val ring = footprint.map { Point.fromLngLat(it.longitude, it.latitude) }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "root0002-commands20k.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+        "item": "exec-7b9b698d-e05c-4121-af30-a9da0c2f65cf",
+        "item_index": 534,
+        "turn_started_at": 1794041256,
+        "turn_completed_at": 1794075423
+      },
+      "script_sha256": "230fd4868a68d32f42a77e3f377245ab78c0226cfe0cef5246e634680d33b2c4",
+      "before_sha256": "1caba1238574a0a546c36fcf937c3c2d27808cbffa1f7922c1744fae99d98345",
+      "after_sha256": "61f10c6c4163726722f91dc4ea073fdda0d4cb11b49f67089d243b89cb01b697",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 2,
+          "old": "val footprint = view?.visibleFootprint",
+          "new": "val footprint = com.forestry.counter.presentation.screens.packs.offline.downloadableViewportRing(view?.visibleFootprint)",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        },
+        {
+          "kind": "literal_replace",
+          "script_line": 2,
+          "old": "val ring = footprint.map { Point.fromLngLat(it.longitude, it.latitude) }",
+          "new": "val ring = footprint",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    },
+    {
+      "kind": "whitelisted_observed_string_ast",
+      "provenance": {
+        "history_file": "root0002-commands20k.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+        "item": "exec-aaedabe0-cbc2-4e9b-8fd2-38fdbb76978b",
+        "item_index": 586,
+        "turn_started_at": 1794041256,
+        "turn_completed_at": 1794075423
+      },
+      "script_sha256": "9ca661d3c80859b490b9f01ceb15a7549ca6c62429f8c52174efd38442c0214b",
+      "before_sha256": "61f10c6c4163726722f91dc4ea073fdda0d4cb11b49f67089d243b89cb01b697",
+      "after_sha256": "736047631fe51ed0c7a09ac797e56fe6fe7b1babbeec88ab34e45135fbb9d7b8",
+      "operations": [
+        {
+          "kind": "literal_replace",
+          "script_line": 16,
+          "old": "override fun onExplain(help: MapHelp) { sourceLayerId = null; workspaceHelp = help }",
+          "new": "override fun onExplain(help: MapHelp) { workspacePanel = null; sourceLayerId = null; workspaceHelp = help }",
+          "matching_occurrences_before": 1,
+          "count_argument": null
+        }
+      ],
+      "no_historical_shell_or_whole_script_execution": true
+    }
+  ],
+  "historical_read_checks_so_far": [
+    {
+      "kind": "historical_wc_match",
+      "line_count": 1083,
+      "history_file": "root0007-full10k.json",
+      "item_index": 24
+    },
+    {
+      "kind": "exact_historical_read_match",
+      "source_line_start": 180,
+      "source_line_end": 197,
+      "line_count": 18,
+      "provenance": {
+        "history_file": "root0007-full10k.json",
+        "item_index": 98,
+        "output_line_start": 1
+      },
+      "sha256": "51b7a06304f19bf6043db6401d9e8a48f332d8f4a58755a1b71674c6edfce407"
+    },
+    {
+      "kind": "exact_historical_read_match",
+      "source_line_start": 390,
+      "source_line_end": 405,
+      "line_count": 16,
+      "provenance": {
+        "history_file": "root0007-full10k.json",
+        "item_index": 98,
+        "output_line_start": 19
+      },
+      "sha256": "a6cd76164f063f92d2f05fdef690621818d9bd1c7b2bdbaeb85ba033d98d713a"
+    },
+    {
+      "kind": "exact_historical_read_match",
+      "source_line_start": 859,
+      "source_line_end": 894,
+      "line_count": 36,
+      "provenance": {
+        "history_file": "root0007-full10k.json",
+        "item_index": 98,
+        "output_line_start": 35
+      },
+      "sha256": "f0346fcfacac207ac3ba944a360b589d8e452c43c07347d75d823e788a547d4a"
+    },
+    {
+      "kind": "exact_historical_line_map_match",
+      "known_line_count": 732,
+      "observed_eof_line": 887,
+      "line_map": "initial-maprecherche-known-lines.json",
+      "conflicts": 0
+    },
+    {
+      "kind": "exact_historical_read_match",
+      "source_line_start": 345,
+      "source_line_end": 640,
+      "line_count": 296,
+      "provenance": {
+        "history_file": "workspace-host-earlier.json",
+        "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+        "turn": "01a1b019-343f-7713-9676-05ad9526b21e",
+        "turn_started_at": 1793955804,
+        "item": "exec-a9208567-422c-434a-a683-40bd2fa3a98f",
+        "item_index": 47,
+        "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+        "source_line_start": 345,
+        "source_line_end": 640,
+        "output_line_start": 1,
+        "output_line_end": 296,
+        "classification": "exact_read_fragment",
+        "boundary_basis": "first command sed 345,640; exact 296 lines",
+        "version_file": "reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-a9208567-422c-434a-a683-40bd2fa3a98f/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-345-640.txt",
+        "sha256": "fd773a55f3de7a05ad54873584939c25df23dc9e5ba3c058d78b1795a3835ad3",
+        "bytes": 16962,
+        "original_output_truncated": true
+      },
+      "sha256": "fd773a55f3de7a05ad54873584939c25df23dc9e5ba3c058d78b1795a3835ad3"
+    },
+    {
+      "kind": "exact_historical_read_match",
+      "source_line_start": 720,
+      "source_line_end": 776,
+      "line_count": 57,
+      "provenance": {
+        "history_file": "workspace-host-earlier.json",
+        "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+        "turn": "01a1b019-343f-7713-9676-05ad9526b21e",
+        "turn_started_at": 1793955804,
+        "item": "exec-a9208567-422c-434a-a683-40bd2fa3a98f",
+        "item_index": 47,
+        "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+        "source_line_start": 720,
+        "source_line_end": 776,
+        "output_line_start": 297,
+        "output_line_end": 353,
+        "classification": "exact_read_fragment",
+        "boundary_basis": "second command sed 720,900 begins after 296 lines; final partial line excluded",
+        "version_file": "reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b019-343f-7713-9676-05ad9526b21e/exec-a9208567-422c-434a-a683-40bd2fa3a98f/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-720-776.txt",
+        "sha256": "9f2086893ac5065f043ecf860f8396cbc89f58c1e8d0185f3f8ebf35b6122d61",
+        "bytes": 3016,
+        "original_output_truncated": true
+      },
+      "sha256": "9f2086893ac5065f043ecf860f8396cbc89f58c1e8d0185f3f8ebf35b6122d61"
+    },
+    {
+      "kind": "exact_historical_read_match",
+      "source_line_start": 1,
+      "source_line_end": 115,
+      "line_count": 115,
+      "provenance": {
+        "history_file": "workspace-host-latest.json",
+        "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+        "turn": "01a1b027-9ccd-74c8-af2d-b32550033bef",
+        "turn_started_at": 1793956748,
+        "item": "exec-6675dc5f-48e4-4c95-a9de-80c702af2be9",
+        "item_index": 1,
+        "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+        "source_line_start": 1,
+        "source_line_end": 115,
+        "output_line_start": 6,
+        "output_line_end": 120,
+        "classification": "exact_read_fragment",
+        "boundary_basis": "five observed rg matches, then declared sed 1,115",
+        "version_file": "reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-6675dc5f-48e4-4c95-a9de-80c702af2be9/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-1-115.txt",
+        "sha256": "e0286ec947ee6766f0f95fba8a0512bde2157732d3491a036562a00465281e41",
+        "bytes": 5658,
+        "original_output_truncated": false
+      },
+      "sha256": "e0286ec947ee6766f0f95fba8a0512bde2157732d3491a036562a00465281e41"
+    },
+    {
+      "kind": "exact_historical_read_match",
+      "source_line_start": 440,
+      "source_line_end": 505,
+      "line_count": 66,
+      "provenance": {
+        "history_file": "workspace-host-latest.json",
+        "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+        "turn": "01a1b027-9ccd-74c8-af2d-b32550033bef",
+        "turn_started_at": 1793956748,
+        "item": "exec-f4410843-049a-425d-b1c7-c5558a0e4a40",
+        "item_index": 9,
+        "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+        "source_line_start": 440,
+        "source_line_end": 505,
+        "output_line_start": 2,
+        "output_line_end": 67,
+        "classification": "exact_read_fragment",
+        "boundary_basis": "one observed git numstat line, then declared sed 440,505",
+        "version_file": "reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-f4410843-049a-425d-b1c7-c5558a0e4a40/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-440-505.txt",
+        "sha256": "663808768fb3e28e7e6d5089b906d91b39a75016a9cff57423cd13b3c5cf0822",
+        "bytes": 3903,
+        "original_output_truncated": false
+      },
+      "sha256": "663808768fb3e28e7e6d5089b906d91b39a75016a9cff57423cd13b3c5cf0822"
+    },
+    {
+      "kind": "exact_historical_read_match",
+      "source_line_start": 640,
+      "source_line_end": 770,
+      "line_count": 131,
+      "provenance": {
+        "history_file": "workspace-host-latest.json",
+        "thread": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+        "turn": "01a1b027-9ccd-74c8-af2d-b32550033bef",
+        "turn_started_at": 1793956748,
+        "item": "exec-f4410843-049a-425d-b1c7-c5558a0e4a40",
+        "item_index": 9,
+        "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+        "source_line_start": 640,
+        "source_line_end": 770,
+        "output_line_start": 68,
+        "output_line_end": 198,
+        "classification": "exact_read_fragment",
+        "boundary_basis": "one git numstat + 66 prior lines, then declared sed 640,770",
+        "version_file": "reads/01a1b019-2ab8-7655-a156-23d7bfc2804f/01a1b027-9ccd-74c8-af2d-b32550033bef/exec-f4410843-049a-425d-b1c7-c5558a0e4a40/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-640-770.txt",
+        "sha256": "4bbf965f340074a6f716052ee269d97993eb8fb3e83b2a36ee981a6714ca2dd5",
+        "bytes": 7709,
+        "original_output_truncated": false
+      },
+      "sha256": "4bbf965f340074a6f716052ee269d97993eb8fb3e83b2a36ee981a6714ca2dd5"
+    },
+    {
+      "kind": "exact_historical_read_match",
+      "source_line_start": 378,
+      "source_line_end": 415,
+      "line_count": 38,
+      "provenance": {
+        "history_file": "root0004-full.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b086-572e-70de-80f1-01c0c04a76e8",
+        "turn_started_at": 1793962956,
+        "item": "exec-36b31750-f5db-4991-923b-8b530adcc400",
+        "item_index": 84,
+        "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+        "source_line_start": 378,
+        "source_line_end": 415,
+        "output_line_start": 1,
+        "output_line_end": 38,
+        "classification": "exact_read_fragment",
+        "boundary_basis": "first command sed378,415 supplies 38 lines before six build log lines",
+        "version_file": "reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-36b31750-f5db-4991-923b-8b530adcc400/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-378-415.txt",
+        "sha256": "68acde6c3ff8d53a20134a05d6d02a1ef483ef40b520ef5836de87e204e36a15",
+        "bytes": 2387,
+        "original_output_truncated": false
+      },
+      "sha256": "68acde6c3ff8d53a20134a05d6d02a1ef483ef40b520ef5836de87e204e36a15"
+    },
+    {
+      "kind": "exact_historical_line_map_match",
+      "known_line_count": 438,
+      "observed_eof_line": 860,
+      "line_map": "root0003-initial-maprecherche-known-lines.json",
+      "conflicts": 0
+    },
+    {
+      "kind": "exact_historical_read_match",
+      "source_line_start": 440,
+      "source_line_end": 478,
+      "line_count": 39,
+      "provenance": {
+        "history_file": "root0003-full.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+        "turn_started_at": 1793981109,
+        "item": "exec-e1ceab6f-e189-4575-9388-d2fa7aa6a9dc",
+        "item_index": 123,
+        "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+        "source_line_start": 440,
+        "source_line_end": 478,
+        "output_line_start": 9,
+        "output_line_end": 47,
+        "classification": "exact_read_fragment",
+        "boundary_basis": "eight observed rg matches; then declared sed440,478; state is after manual integration command114",
+        "version_file": "reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-e1ceab6f-e189-4575-9388-d2fa7aa6a9dc/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-440-478.txt",
+        "sha256": "1c10ff22679acbec5d025849928c6a2024db415c5e87b35ea2d3394a6e8f5fff",
+        "bytes": 1961,
+        "original_output_truncated": false
+      },
+      "sha256": "1c10ff22679acbec5d025849928c6a2024db415c5e87b35ea2d3394a6e8f5fff"
+    },
+    {
+      "kind": "exact_historical_read_match",
+      "source_line_start": 645,
+      "source_line_end": 680,
+      "line_count": 36,
+      "provenance": {
+        "history_file": "root0003-full.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+        "turn_started_at": 1793981109,
+        "item": "exec-e1ceab6f-e189-4575-9388-d2fa7aa6a9dc",
+        "item_index": 123,
+        "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+        "source_line_start": 645,
+        "source_line_end": 680,
+        "output_line_start": 48,
+        "output_line_end": 83,
+        "classification": "exact_read_fragment",
+        "boundary_basis": "eight rg matches + 39 previous lines, then declared sed645,680 before database rg matches; state is after command114",
+        "version_file": "reads/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-e1ceab6f-e189-4575-9388-d2fa7aa6a9dc/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt.lines-645-680.txt",
+        "sha256": "23565aa7c96b2ddfa940e817dfa1ccacd359a90adffed46d778e086212409a64",
+        "bytes": 1933,
+        "original_output_truncated": false
+      },
+      "sha256": "23565aa7c96b2ddfa940e817dfa1ccacd359a90adffed46d778e086212409a64"
+    }
+  ]
+}

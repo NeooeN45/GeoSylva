@@ -1,0 +1,110 @@
+{
+  "source": "root0002-commands20k.json",
+  "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+  "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+  "turnStartedAtUnix": 1794041256,
+  "item": "exec-d9c5dd3d-8844-4e26-8f07-222d19027637",
+  "itemIndex": 154,
+  "path": "app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt",
+  "historicalCommandSha256": "6b1e61667372edd60b87b2f4c41c6e485f6ab529be41db1d36e8ea507e87469f",
+  "historicalPythonBodySha256": "98db3e60fcffab207f16124ee32763b18afe7af013324fedbc4824a4fbc216af",
+  "predecessorSha256": "bd8ddc6575f591c12507894fbe4b74f189a008c8fc235e1f46c207f99bae5dba",
+  "sha256": "8f3dbfdc40c68bb8259e1fa00bbaf71cc3c045c4707e7c6729730e237628846e",
+  "predecessor": "recovered/app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt",
+  "artifact": "temporal/2026-11-07-root0002-item154/app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt",
+  "patch": "patches/2026-11-07-shared-authority-repository.patch",
+  "declarativeOperations": [
+    {
+      "operation": "literal_string_replace",
+      "old": "import androidx.room.withTransaction\n",
+      "new": "",
+      "matches": 1
+    },
+    {
+      "operation": "literal_string_replace",
+      "old": "import com.forestry.counter.data.local.entity.CartographicStoreIdentityEntity\n",
+      "new": "",
+      "matches": 1
+    },
+    {
+      "operation": "literal_string_replace",
+      "old": "import kotlinx.coroutines.flow.combine\n",
+      "new": "",
+      "matches": 1
+    },
+    {
+      "operation": "literal_string_replace",
+      "old": "import com.forestry.counter.data.local.ForestryDatabase\n",
+      "new": "import com.forestry.counter.data.local.ForestryDatabase\nimport com.forestry.counter.data.cartography.CartographicScopeAuthority\nimport com.forestry.counter.data.cartography.CartographicAuthorityFailure\n",
+      "matches": 1
+    },
+    {
+      "operation": "literal_string_replace",
+      "old": "/** One encrypted local store",
+      "new": "private typealias Access = CartographicScopeAuthority.Token\n\n/** One encrypted local store",
+      "matches": 1
+    },
+    {
+      "operation": "literal_string_replace",
+      "old": "    private val clock: () -> Long = System::currentTimeMillis,\n",
+      "new": "    private val clock: () -> Long = System::currentTimeMillis,\n    private val authority: CartographicScopeAuthority = CartographicScopeAuthority(db, identity, reads),\n",
+      "matches": 1
+    },
+    {
+      "operation": "literal_anchor_index",
+      "anchor": "    private val owner = Any()",
+      "start": 0,
+      "result": 1530
+    },
+    {
+      "operation": "literal_anchor_index",
+      "anchor": "    override suspend fun save(",
+      "start": 1530,
+      "result": 4540
+    },
+    {
+      "operation": "literal_string_slice",
+      "start": null,
+      "end": 1530
+    },
+    {
+      "operation": "literal_string_slice",
+      "start": 4540,
+      "end": null
+    },
+    {
+      "operation": "literal_anchor_index",
+      "anchor": "    private suspend fun <T> transaction(",
+      "start": 0,
+      "result": 5209
+    },
+    {
+      "operation": "literal_anchor_index",
+      "anchor": "    private fun requireOwned(",
+      "start": 5209,
+      "result": 8520
+    },
+    {
+      "operation": "literal_string_slice",
+      "start": null,
+      "end": 5209
+    },
+    {
+      "operation": "literal_string_slice",
+      "start": 8520,
+      "end": null
+    },
+    {
+      "operation": "literal_string_replace",
+      "old": "        catch (failure: StoreFailure) { CartographicStoreResult.Failure(failure.reason) }",
+      "new": "        catch (failure: StoreFailure) { CartographicStoreResult.Failure(failure.reason) }\n        catch (failure: CartographicAuthorityFailure) { CartographicStoreResult.Failure(failure.reason) }",
+      "matches": 1
+    }
+  ],
+  "method": "Restricted AST interpretation of literal replace/index/slice/concatenation; no historical command executed.",
+  "limits": [
+    "Version is distinct from the 2026-11-06 predecessor.",
+    "CartographicScopeAuthority and CartographicAuthorityFailure are required dependencies.",
+    "Not asserted final 2026-11-13; no build or tests run."
+  ]
+}

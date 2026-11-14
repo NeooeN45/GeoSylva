@@ -1,0 +1,38 @@
+@@ -2,2 +2,3 @@
+ 
++import com.forestry.counter.domain.geometry.PlanarSegmentIntersection
+ import kotlin.math.abs
+@@ -181,31 +182,4 @@
+ 
+-    private fun orientation(a: XY, b: XY, c: XY): Int {
+-        val left = (b.x - a.x) * (c.y - a.y)
+-        val right = (b.y - a.y) * (c.x - a.x)
+-        val cross = left - right
+-        val tolerance = max(1.0, abs(left) + abs(right)) * 1e-12
+-        return when {
+-            cross > tolerance -> 1
+-            cross < -tolerance -> -1
+-            else -> 0
+-        }
+-    }
+-
+-    private fun onSegment(a: XY, b: XY, p: XY): Boolean =
+-        p.x >= minOf(a.x, b.x) - 1e-7 && p.x <= maxOf(a.x, b.x) + 1e-7 &&
+-            p.y >= minOf(a.y, b.y) - 1e-7 && p.y <= maxOf(a.y, b.y) + 1e-7
+-
+-    private fun intersects(a: XY, b: XY, c: XY, d: XY): Boolean {
+-        if (maxOf(a.x, b.x) < minOf(c.x, d.x) - 1e-7 ||
+-            maxOf(c.x, d.x) < minOf(a.x, b.x) - 1e-7 ||
+-            maxOf(a.y, b.y) < minOf(c.y, d.y) - 1e-7 ||
+-            maxOf(c.y, d.y) < minOf(a.y, b.y) - 1e-7) return false
+-        val abc = orientation(a, b, c)
+-        val abd = orientation(a, b, d)
+-        val cda = orientation(c, d, a)
+-        val cdb = orientation(c, d, b)
+-        return abc * abd < 0 && cda * cdb < 0 ||
+-            abc == 0 && onSegment(a, b, c) || abd == 0 && onSegment(a, b, d) ||
+-            cda == 0 && onSegment(c, d, a) || cdb == 0 && onSegment(c, d, b)
+-    }
++    private fun intersects(a: XY, b: XY, c: XY, d: XY): Boolean =
++        PlanarSegmentIntersection.intersects(a.x, a.y, b.x, b.y, c.x, c.y, d.x, d.y)
+ 

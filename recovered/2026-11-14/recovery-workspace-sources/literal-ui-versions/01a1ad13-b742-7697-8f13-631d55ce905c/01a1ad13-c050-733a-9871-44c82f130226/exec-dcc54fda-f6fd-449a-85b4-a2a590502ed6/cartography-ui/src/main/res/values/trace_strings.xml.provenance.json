@@ -1,0 +1,48 @@
+{
+  "path": "cartography-ui/src/main/res/values/trace_strings.xml",
+  "version_file": "literal-ui-versions/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-ui/src/main/res/values/trace_strings.xml",
+  "sha256": "a2cb53496537eb82499c6d7e5185db27ca42586ae74064911eba31594ad90ed6",
+  "classification": "full_literal_heredoc_exact",
+  "provenance": {
+    "history_file": "trace-ui-initial-next.json",
+    "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+    "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+    "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+    "item_index": 9,
+    "turn_started_at": 1793905115,
+    "turn_completed_at": 1793905568
+  },
+  "chain": [
+    {
+      "kind": "complete_literal_heredoc",
+      "provenance": {
+        "history_file": "trace-ui-initial-next.json",
+        "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+        "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+        "item_index": 9,
+        "turn_started_at": 1793905115,
+        "turn_completed_at": 1793905568
+      },
+      "original_path": "cartography-mapbox/src/main/res/values/trace_strings.xml",
+      "sha256": "a2cb53496537eb82499c6d7e5185db27ca42586ae74064911eba31594ad90ed6"
+    },
+    {
+      "kind": "literal_move_without_byte_change",
+      "provenance": {
+        "history_file": "trace-ui-initial-next.json",
+        "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+        "item": "exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687",
+        "item_index": 13,
+        "turn_started_at": 1793905115,
+        "turn_completed_at": 1793905568
+      },
+      "from": "cartography-mapbox/src/main/res/values/trace_strings.xml",
+      "to": "cartography-ui/src/main/res/values/trace_strings.xml",
+      "move_declaration_complete_in_command_prefix": true
+    }
+  ],
+  "bytes": 4190,
+  "line_count": 62
+}

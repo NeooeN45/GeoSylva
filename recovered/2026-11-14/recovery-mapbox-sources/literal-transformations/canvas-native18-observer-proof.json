@@ -1,0 +1,170 @@
+{
+  "historicalCommandsExecuted": false,
+  "literalStringOperationsOnly": true,
+  "baseLineRange": [
+    857,
+    936
+  ],
+  "derivedLineRange": [
+    972,
+    1073
+  ],
+  "directTailRange": [
+    1070,
+    1110
+  ],
+  "directOverlapMatches": true,
+  "derivedSha256": "e7cfd12a14195710c2fa3cb8601cab1eea8ef4b2517c4570b2bd7208fc940cca",
+  "steps": [
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-93bfabb4-44cc-457c-9a92-b43c0939dc4e",
+        "itemIndex": 42,
+        "outputTruncated": false
+      },
+      "pythonLine": 170,
+      "old": "            map.setCamera(initialCamera.toCameraOptions())\n",
+      "new": "            val seed=initialCamera.toCameraOptions().toBuilder()\n            initialCamera.nativePose?.takeIf {it.belongsTo(initialCamera)}?.let {seed.verticalFov(it.context.verticalFov)}\n            map.setCamera(seed.build())\n",
+      "count": 1
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-93bfabb4-44cc-457c-9a92-b43c0939dc4e",
+        "itemIndex": 42,
+        "outputTruncated": false
+      },
+      "pythonLine": 175,
+      "old": "                    val sequence = cameraGate.nextNativeIdleSequence()\n",
+      "new": "                    val sequence = cameraGate.nextNativeIdleSequence()\n                    nativeRestoreEvents.idleSequence=sequence\n                    nativeRestoreEvents.idleAtMs=event.timestamp.time\n",
+      "count": 1
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-93bfabb4-44cc-457c-9a92-b43c0939dc4e",
+        "itemIndex": 42,
+        "outputTruncated": false
+      },
+      "pythonLine": 180,
+      "old": "                    if (alive && sdkMap === map) cameraGate.captureNativeCamera(event.cameraState.toMapCameraPosition())\n",
+      "new": "                    if (alive && sdkMap === map) {\n                        nativeRestoreEvents.cameraAtMs=event.timestamp.time\n                        nativeRestoreEvents.cameraSequence++\n                        cameraGate.captureNativeCamera(event.cameraState.toMapCameraPosition())\n                    }\n",
+      "count": 1
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-93bfabb4-44cc-457c-9a92-b43c0939dc4e",
+        "itemIndex": 42,
+        "outputTruncated": false
+      },
+      "pythonLine": 187,
+      "old": "                map.subscribeRenderFrameFinished { event -> dispatch {\n                    acknowledgeRelief()\n",
+      "new": "                map.subscribeRenderFrameFinished { event ->\n                    if (event.renderMode == com.mapbox.maps.RenderModeType.FULL) {\n                        nativeRestoreEvents.fullSequence++\n                        nativeRestoreEvents.fullAtMs=event.timeInterval.begin.time\n                    }\n                    dispatch {\n                    acknowledgeRelief()\n",
+      "count": 1
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-93bfabb4-44cc-457c-9a92-b43c0939dc4e",
+        "itemIndex": 42,
+        "outputTruncated": false
+      },
+      "pythonLine": 197,
+      "old": "                } },\n                map.subscribeCameraChangedCoalesced { dispatch { observeCameraCommand(); publishReticle(); publishViewport() } },\n",
+      "new": "                } },\n                map.subscribeCameraChangedCoalesced { dispatch {\n                    observeCameraCommand();publishObservedCamera();publishReticle();publishViewport()\n                } },\n",
+      "count": 1
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-93bfabb4-44cc-457c-9a92-b43c0939dc4e",
+        "itemIndex": 42,
+        "outputTruncated": false
+      },
+      "pythonLine": 204,
+      "old": "            resourceCycle.beginStyleLoad(resourceGeneration, System.currentTimeMillis())\n",
+      "new": "            val styleStartedAtMs=System.currentTimeMillis()\n            nativeRestoreEvents.resourcesAfterMs=styleStartedAtMs\n            resourceCycle.beginStyleLoad(resourceGeneration, styleStartedAtMs)\n",
+      "count": 1
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-5883380e-5a6a-4750-bb02-6912561428df",
+        "itemIndex": 50,
+        "outputTruncated": false
+      },
+      "pythonLine": 48,
+      "old": "                mapView.removeOnLayoutChangeListener(layoutListener)\n",
+      "new": "                nativeRestoreDeadline?.cancel();nativeRestoration.cancel()\n                mapView.removeOnLayoutChangeListener(layoutListener)\n",
+      "count": 1
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-97983012-e420-4167-8e82-93210c52d540",
+        "itemIndex": 84,
+        "outputTruncated": false
+      },
+      "pythonLine": 26,
+      "old": "                    nativeRestoreEvents.idleSequence=sequence\n                    nativeRestoreEvents.idleAtMs=event.timestamp.time\n",
+      "new": "                    if (alive && sdkMap === map) {\n                        nativeRestoreEvents.idleSequence=sequence\n                        nativeRestoreEvents.idleAtMs=event.timestamp.time\n                    }\n",
+      "count": 1
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-97983012-e420-4167-8e82-93210c52d540",
+        "itemIndex": 84,
+        "outputTruncated": false
+      },
+      "pythonLine": 33,
+      "old": "                    if (event.renderMode == com.mapbox.maps.RenderModeType.FULL) {\n",
+      "new": "                    if (alive && sdkMap === map && event.renderMode == com.mapbox.maps.RenderModeType.FULL) {\n",
+      "count": 1
+    },
+    {
+      "provenance": {
+        "historyFile": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "threadId": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "turnId": "01a1d5d7-846d-7581-805d-9a166ffeda15",
+        "turnStartedUTC": "2026-11-13T16:57:14+00:00",
+        "itemId": "exec-41fbd26d-a599-4c7e-a0f6-200c4b77b641",
+        "itemIndex": 91,
+        "outputTruncated": null
+      },
+      "pythonLine": 2,
+      "old": "            initialCamera.nativePose?.takeIf {it.belongsTo(initialCamera)}?.let {seed.verticalFov(it.context.verticalFov)}\n",
+      "new": "            initialCamera.nativePose?.takeIf {it.belongsTo(initialCamera)}?.let {\n                if (map.cameraState.verticalFov != it.context.verticalFov) seed.verticalFov(it.context.verticalFov)\n            }\n",
+      "count": 1
+    }
+  ]
+}

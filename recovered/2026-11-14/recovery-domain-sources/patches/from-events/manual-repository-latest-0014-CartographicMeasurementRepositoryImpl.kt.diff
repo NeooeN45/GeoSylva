@@ -1,0 +1,23 @@
+@@ -77,3 +77,4 @@
+             db.parcelSyncDao().observeBusinessReadOwners(), db.parcelSyncDao().observeBusinessReadParcelParents()) { _, _, _, _, _ -> Unit }
+-        return combine(authority, db.foretDao().getAll(), db.parcelleDao().getAllParcelles(), dao.observePlotParents()) { _, _, _, _ -> Unit }
++        return combine(authority, db.foretDao().getAll(), db.parcelleDao().getAllParcelles(),
++            dao.observePlotParents(), db.groupDao().getAllGroups()) { _, _, _, _, _ -> Unit }
+     }
+@@ -182,4 +183,14 @@
+             is MapDataScope.Forest -> {
+-                if (db.foretDao().getById(scope.id) == null || !reads.canReadForest(scope.id, snapshot)) fail(CartographicStoreError.UNAVAILABLE)
+-                Binding("FOREST", scope.id)
++                // Existing forest pickers also address historical GroupEntity IDs.
++                // Persist their kind separately: a later canonical forest with the
++                // same ID must never acquire that group's measurement snapshots.
++                val canonical = db.foretDao().getByIdAny(scope.id)
++                if (!reads.canReadForest(scope.id, snapshot)) fail(CartographicStoreError.UNAVAILABLE)
++                if (canonical != null) {
++                    if (canonical.deletedAt != null) fail(CartographicStoreError.UNAVAILABLE)
++                    Binding("FOREST", scope.id)
++                } else {
++                    if (db.groupDao().getGroupById(scope.id) == null) fail(CartographicStoreError.UNAVAILABLE)
++                    Binding("LEGACY_FOREST_GROUP", scope.id)
++                }
+             }

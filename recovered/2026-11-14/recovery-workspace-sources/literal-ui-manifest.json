@@ -1,0 +1,391 @@
+{
+  "entries": [
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "version_file": "literal-ui-versions/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "sha256": "cbd0f7bb82f436bba3901a7e3c69dc052f8820e7d2f0f89e9bfdb6ed219b9d2d",
+      "classification": "full_literal_heredoc_exact",
+      "provenance": {
+        "history_file": "trace-ui-initial-next.json",
+        "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+        "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+        "item_index": 9,
+        "turn_started_at": 1793905115,
+        "turn_completed_at": 1793905568
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_heredoc",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+            "item_index": 9,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "original_path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+          "sha256": "cbd0f7bb82f436bba3901a7e3c69dc052f8820e7d2f0f89e9bfdb6ed219b9d2d"
+        },
+        {
+          "kind": "literal_move_without_byte_change",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687",
+            "item_index": 13,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "from": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+          "to": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+          "move_declaration_complete_in_command_prefix": true
+        }
+      ],
+      "bytes": 2415,
+      "line_count": 61
+    },
+    {
+      "path": "cartography-ui/src/main/res/values/trace_strings.xml",
+      "version_file": "literal-ui-versions/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-ui/src/main/res/values/trace_strings.xml",
+      "sha256": "a2cb53496537eb82499c6d7e5185db27ca42586ae74064911eba31594ad90ed6",
+      "classification": "full_literal_heredoc_exact",
+      "provenance": {
+        "history_file": "trace-ui-initial-next.json",
+        "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+        "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+        "item_index": 9,
+        "turn_started_at": 1793905115,
+        "turn_completed_at": 1793905568
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_heredoc",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+            "item_index": 9,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "original_path": "cartography-mapbox/src/main/res/values/trace_strings.xml",
+          "sha256": "a2cb53496537eb82499c6d7e5185db27ca42586ae74064911eba31594ad90ed6"
+        },
+        {
+          "kind": "literal_move_without_byte_change",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687",
+            "item_index": 13,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "from": "cartography-mapbox/src/main/res/values/trace_strings.xml",
+          "to": "cartography-ui/src/main/res/values/trace_strings.xml",
+          "move_declaration_complete_in_command_prefix": true
+        }
+      ],
+      "bytes": 4190,
+      "line_count": 62
+    },
+    {
+      "path": "cartography-ui/src/main/res/values/trace_strings.xml",
+      "version_file": "literal-ui-versions/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-5b1ea7c6-c02f-4380-a474-3ab5666e5bae/cartography-ui/src/main/res/values/trace_strings.xml",
+      "sha256": "6f90b71ea7ac290551e6947cd933fc8401cbe8d0991636f2b032fe31b467549a",
+      "classification": "full_reconstruction_from_observed_literal_commands",
+      "provenance": {
+        "history_file": "trace-ui-initial-next.json",
+        "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+        "item": "exec-5b1ea7c6-c02f-4380-a474-3ab5666e5bae",
+        "item_index": 21,
+        "turn_started_at": 1793905115,
+        "turn_completed_at": 1793905568
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_heredoc",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+            "item_index": 9,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "original_path": "cartography-mapbox/src/main/res/values/trace_strings.xml",
+          "sha256": "a2cb53496537eb82499c6d7e5185db27ca42586ae74064911eba31594ad90ed6"
+        },
+        {
+          "kind": "literal_move_without_byte_change",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687",
+            "item_index": 13,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "from": "cartography-mapbox/src/main/res/values/trace_strings.xml",
+          "to": "cartography-ui/src/main/res/values/trace_strings.xml",
+          "move_declaration_complete_in_command_prefix": true
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-5b1ea7c6-c02f-4380-a474-3ab5666e5bae",
+            "item_index": 21,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "script_sha256": "c04db1933ba586f9fbe3fb710631047afa16f3766822a087db410dcdec5b0aae",
+          "before_sha256": "a2cb53496537eb82499c6d7e5185db27ca42586ae74064911eba31594ad90ed6",
+          "after_sha256": "6f90b71ea7ac290551e6947cd933fc8401cbe8d0991636f2b032fe31b467549a",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 8,
+              "old": "<string name=\"gs_trace_gap_excluded\">",
+              "new": "<string name=\"gs_trace_gaps_unknown\">Passages non relevés : non renseignés</string>\n    <string name=\"gs_trace_gap_excluded\">",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        }
+      ],
+      "bytes": 4280,
+      "line_count": 63
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/trace_strings.xml",
+      "version_file": "literal-ui-versions/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad23-3816-75fa-b888-2aa47ee05bc1/exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713/cartography-ui/src/main/res/values-en/trace_strings.xml",
+      "sha256": "371bac50f123e268c75a2d8f4c5775d62b756ca76843db60e611f37c04578495",
+      "classification": "full_literal_heredoc_exact",
+      "provenance": {
+        "history_file": "trace-ui-earlier.json",
+        "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "turn": "01a1ad23-3816-75fa-b888-2aa47ee05bc1",
+        "item": "exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713",
+        "item_index": 41,
+        "turn_started_at": 1793906129,
+        "turn_completed_at": 1793906493
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_heredoc",
+          "provenance": {
+            "history_file": "trace-ui-earlier.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad23-3816-75fa-b888-2aa47ee05bc1",
+            "item": "exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713",
+            "item_index": 41,
+            "turn_started_at": 1793906129,
+            "turn_completed_at": 1793906493
+          },
+          "sha256": "371bac50f123e268c75a2d8f4c5775d62b756ca76843db60e611f37c04578495"
+        }
+      ],
+      "bytes": 4127,
+      "line_count": 63
+    }
+  ],
+  "fragments": [
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt",
+      "version_file": "literal-ui-fragments/01a1ad13-c050-733a-9871-44c82f130226/exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt.lines-1-330.txt",
+      "sha256": "76f2589add8c0ec5b4d00d57283b0dbf372e20df91b6cc511e5b059cf9fc97bf",
+      "classification": "exact_literal_command_prefix_only",
+      "source_line_start": 1,
+      "source_line_end": 330,
+      "discarded_partial_last_line": "private fun DataRow(label: String, value: String, help: TraceHelp,",
+      "provenance": {
+        "history_file": "trace-ui-initial-next.json",
+        "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+        "item": "exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687",
+        "item_index": 13,
+        "turn_started_at": 1793905115,
+        "turn_completed_at": 1793905568
+      },
+      "limitation": "Command is cut at20000 characters before heredoc EOF. This is not a complete Kotlin source."
+    }
+  ],
+  "heads": [
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "version_file": "literal-ui-versions/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "sha256": "cbd0f7bb82f436bba3901a7e3c69dc052f8820e7d2f0f89e9bfdb6ed219b9d2d",
+      "classification": "full_literal_heredoc_exact",
+      "provenance": {
+        "history_file": "trace-ui-initial-next.json",
+        "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+        "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+        "item_index": 9,
+        "turn_started_at": 1793905115,
+        "turn_completed_at": 1793905568
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_heredoc",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+            "item_index": 9,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "original_path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+          "sha256": "cbd0f7bb82f436bba3901a7e3c69dc052f8820e7d2f0f89e9bfdb6ed219b9d2d"
+        },
+        {
+          "kind": "literal_move_without_byte_change",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687",
+            "item_index": 13,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "from": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+          "to": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+          "move_declaration_complete_in_command_prefix": true
+        }
+      ],
+      "bytes": 2415,
+      "line_count": 61
+    },
+    {
+      "path": "cartography-ui/src/main/res/values/trace_strings.xml",
+      "version_file": "literal-ui-versions/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-5b1ea7c6-c02f-4380-a474-3ab5666e5bae/cartography-ui/src/main/res/values/trace_strings.xml",
+      "sha256": "6f90b71ea7ac290551e6947cd933fc8401cbe8d0991636f2b032fe31b467549a",
+      "classification": "full_reconstruction_from_observed_literal_commands",
+      "provenance": {
+        "history_file": "trace-ui-initial-next.json",
+        "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+        "item": "exec-5b1ea7c6-c02f-4380-a474-3ab5666e5bae",
+        "item_index": 21,
+        "turn_started_at": 1793905115,
+        "turn_completed_at": 1793905568
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_heredoc",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+            "item_index": 9,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "original_path": "cartography-mapbox/src/main/res/values/trace_strings.xml",
+          "sha256": "a2cb53496537eb82499c6d7e5185db27ca42586ae74064911eba31594ad90ed6"
+        },
+        {
+          "kind": "literal_move_without_byte_change",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687",
+            "item_index": 13,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "from": "cartography-mapbox/src/main/res/values/trace_strings.xml",
+          "to": "cartography-ui/src/main/res/values/trace_strings.xml",
+          "move_declaration_complete_in_command_prefix": true
+        },
+        {
+          "kind": "whitelisted_observed_string_ast",
+          "provenance": {
+            "history_file": "trace-ui-initial-next.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+            "item": "exec-5b1ea7c6-c02f-4380-a474-3ab5666e5bae",
+            "item_index": 21,
+            "turn_started_at": 1793905115,
+            "turn_completed_at": 1793905568
+          },
+          "script_sha256": "c04db1933ba586f9fbe3fb710631047afa16f3766822a087db410dcdec5b0aae",
+          "before_sha256": "a2cb53496537eb82499c6d7e5185db27ca42586ae74064911eba31594ad90ed6",
+          "after_sha256": "6f90b71ea7ac290551e6947cd933fc8401cbe8d0991636f2b032fe31b467549a",
+          "operations": [
+            {
+              "kind": "literal_replace",
+              "script_line": 8,
+              "old": "<string name=\"gs_trace_gap_excluded\">",
+              "new": "<string name=\"gs_trace_gaps_unknown\">Passages non relevés : non renseignés</string>\n    <string name=\"gs_trace_gap_excluded\">",
+              "matching_occurrences_before": 1,
+              "count_argument": null
+            }
+          ],
+          "historical_script_executed": false
+        }
+      ],
+      "bytes": 4280,
+      "line_count": 63
+    },
+    {
+      "path": "cartography-ui/src/main/res/values-en/trace_strings.xml",
+      "version_file": "literal-ui-versions/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad23-3816-75fa-b888-2aa47ee05bc1/exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713/cartography-ui/src/main/res/values-en/trace_strings.xml",
+      "sha256": "371bac50f123e268c75a2d8f4c5775d62b756ca76843db60e611f37c04578495",
+      "classification": "full_literal_heredoc_exact",
+      "provenance": {
+        "history_file": "trace-ui-earlier.json",
+        "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "turn": "01a1ad23-3816-75fa-b888-2aa47ee05bc1",
+        "item": "exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713",
+        "item_index": 41,
+        "turn_started_at": 1793906129,
+        "turn_completed_at": 1793906493
+      },
+      "chain": [
+        {
+          "kind": "complete_literal_heredoc",
+          "provenance": {
+            "history_file": "trace-ui-earlier.json",
+            "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+            "turn": "01a1ad23-3816-75fa-b888-2aa47ee05bc1",
+            "item": "exec-5b31b573-df5b-4bec-b40a-ab0f8fd27713",
+            "item_index": 41,
+            "turn_started_at": 1793906129,
+            "turn_completed_at": 1793906493
+          },
+          "sha256": "371bac50f123e268c75a2d8f4c5775d62b756ca76843db60e611f37c04578495"
+        }
+      ],
+      "bytes": 4127,
+      "line_count": 63
+    }
+  ],
+  "checks": [
+    {
+      "kind": "xml_keys_and_format_parameters_match",
+      "resource_keys": 61,
+      "fr_en_match": true
+    }
+  ],
+  "limitation": "Complete literal files and their explicit updates only. TraceWorkspace.kt remains a separate incomplete prefix until its tail is recovered."
+}

@@ -1,0 +1,16 @@
+@@ -7,2 +7,3 @@
+ import com.forestry.counter.data.local.entity.CartographicMeasurementEntity
++import com.forestry.counter.data.local.entity.CartographicStoreIdentityEntity
+ import kotlinx.coroutines.flow.Flow
+@@ -26,2 +27,11 @@
+     suspend fun deleteAll()
++
++    @Query("SELECT * FROM cartographic_store_identity WHERE singletonId = 1")
++    suspend fun storeIdentity(): CartographicStoreIdentityEntity?
++
++    @Insert(onConflict = OnConflictStrategy.IGNORE)
++    suspend fun insertStoreIdentity(row: CartographicStoreIdentityEntity)
++
++    @Query("DELETE FROM cartographic_store_identity")
++    suspend fun deleteStoreIdentity()
+ }

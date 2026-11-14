@@ -1,0 +1,13 @@
+@@ -8,2 +8,12 @@
+ class CartographicMeasureCalculatorTest {
++    @Test fun `oversized input is rejected before traversing coordinates or copying geometry`() {
++        val points = object : AbstractList<CartographicCoordinate>() {
++            override val size = CartographicMeasureCalculator.MAX_POINTS + 1
++            override fun get(index: Int): CartographicCoordinate = error("Oversized input must not be traversed")
++        }
++        for (kind in CartographicMeasureKind.entries) {
++            assertUnavailable(kind, points, CartographicMeasureIssue.TOO_MANY_POINTS)
++        }
++    }
++
+     @Test fun `distance sums open consecutive legs instead of closing or measuring chord`() {

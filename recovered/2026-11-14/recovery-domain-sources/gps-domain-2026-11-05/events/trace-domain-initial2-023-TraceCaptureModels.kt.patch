@@ -1,0 +1,4 @@
+@@ -79,2 +79,3 @@
+     val currentManualPauseElapsedNanos: Long?,
++    val capturePolicy: TraceCapturePolicy,
+     val calculationMethod: String = SphericalTraceDistance.METHOD_ID,

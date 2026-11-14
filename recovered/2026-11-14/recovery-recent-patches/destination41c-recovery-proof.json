@@ -1,0 +1,24 @@
+{
+  "schema": "geosylva.exact-destination41c-recovery.v1",
+  "sourcePath": "app/src/main/java/com/forestry/counter/presentation/screens/maps/MapsJourneyContent.kt",
+  "patchFile": "patches/destination41c-source21.patch",
+  "patchSha256": "f720b9eb9c0804fd6a4460afcb94c4515a4d16eb29ff3fb4117c3871baf63422",
+  "patchBytes": 1501,
+  "patchComplete": true,
+  "completeSourceRecoveredHere": false,
+  "expectedBaseSourceSha256": "7ebba41fedd22cf2c0c0adbf5774345491eba3e415f4f4c09faaf518e2d347d4",
+  "expectedCandidateSourceSha256": "fafa29f05d837fb376c4fea2a66d35f3f4f470a635c3eed281a3d81a0ace7062",
+  "temporalScope": "Source21 attempt1 -> attempt2. This is the final additional destination41C shortcut, after the compiled attempt1 and before the interrupted attempt2 full checks.",
+  "provenance": {
+    "historyFile": "maps20-visual-review-latest.json",
+    "turn": "01a1d7bc-dffb-7138-8f01-9dd7b6aed6c8",
+    "item": 24,
+    "commandOutputTruncated": false,
+    "historicalPatchPath": "/workspace/outputs/2026-11-13/reprise-geosylva/maps20-visual-review/destination41c-candidate21/destination41c-source21.patch"
+  },
+  "verification": "The complete printed patch matches the original SHA256. Base and candidate whole-source SHA values are recorded expectations; whole-source bytes are not reconstructed by this extractor.",
+  "implementationScope": "One condition/action in the existing search TextButton. Origin mapPick unchanged; destination IDLE closes the search through existing onBack, then uses the existing long-press selection.",
+  "historicalCommandsExecuted": false,
+  "activeRepositoriesModified": false,
+  "currentBuildOrAndroidRun": false
+}

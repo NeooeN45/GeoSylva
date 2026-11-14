@@ -1,0 +1,178 @@
+{
+  "checks": [
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "item": "exec-0f65122d-eadc-4021-9006-e15132fc4d36",
+      "itemIndex": 14,
+      "turnStartedAtUnix": 1793981184,
+      "path": "app/src/main/java/com/forestry/counter/domain/calculation/UnitCatalog.kt",
+      "check": "full_historical_read_equals_base_36d1515",
+      "sha256": "be7826169808a74bd9ab041238a42b7cee3542bbee889294f7d14eb3e730f969",
+      "passed": true
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "item": "exec-0f65122d-eadc-4021-9006-e15132fc4d36",
+      "itemIndex": 14,
+      "turnStartedAtUnix": 1793981184,
+      "path": "app/src/main/java/com/forestry/counter/domain/calculation/UnitConverter.kt",
+      "check": "full_historical_read_equals_base_36d1515",
+      "sha256": "defa85f31586c7d190fd01422c1b31bd65cabbf258c79a107c8644116ec49446",
+      "passed": true
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "item": "exec-40def374-05cf-4351-9d33-2664f105cd9b",
+      "itemIndex": 51,
+      "turnStartedAtUnix": 1793981184,
+      "path": "app/src/test/java/com/forestry/counter/domain/calculation/UnitConverterTest.kt",
+      "check": "full_historical_read_equals_base_36d1515",
+      "sha256": "c9d7060b897dd8551e16f8d2c4f3983bb5cadf2983ce64f2db809906b128f59c",
+      "passed": true
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "item": "exec-654ee9ee-ed17-4537-b6ce-8541216cbbc8",
+      "itemIndex": 30,
+      "turnStartedAtUnix": 1793981184,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/ParcelGeometry.kt",
+      "check": "historical_range_equals_base_36d1515",
+      "startLine": 1,
+      "endLine": 260,
+      "sha256": "17e1ed69c2f899a1201d386328bf51bba50c9ebebc48bf4000299e0935090317",
+      "passed": true,
+      "limit": "unread lines retain exact baseline content; no historical full-file hash found"
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "item": "exec-f0830731-b623-41c2-aee4-df06c629793e",
+      "itemIndex": 32,
+      "turnStartedAtUnix": 1793981184,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/ParcelGeometry.kt",
+      "check": "historical_range_equals_base_36d1515",
+      "startLine": 320,
+      "endLine": 510,
+      "sha256": "1b59c39fac0f1e96a7eccde0f2a8654599636260f800336c975790a063491c2d",
+      "passed": true,
+      "limit": "unread lines retain exact baseline content; no historical full-file hash found"
+    },
+    {
+      "source": "root0003-full.json",
+      "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+      "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+      "item": "exec-e7be9a6d-39be-4f52-b55f-4bfa236d08bf",
+      "itemIndex": 529,
+      "turnStartedAtUnix": 1793981109,
+      "path": "app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt",
+      "check": "final_recovered_prefix_equals_independent_root_read",
+      "startLine": 1,
+      "endLine": 190,
+      "sha256": "b9b4874da9529cef2e7b2af2440c2ba95d74a52da312b11769cf368c07e1d833",
+      "passed": true
+    },
+    {
+      "source": "root0003-full.json",
+      "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+      "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+      "item": "exec-532246b6-c68d-457b-b81b-717879fcdaa6",
+      "itemIndex": 153,
+      "turnStartedAtUnix": 1793981109,
+      "path": "app/src/main/java/com/forestry/counter/data/local/CartographicMeasurementMigrations.kt",
+      "check": "final_recovered_file_equals_independent_root_read",
+      "sha256": "dc34d6866ca82897d411faf8356604885d4b1bc6b5acd072c2e882dc009d94d8",
+      "passed": true
+    }
+  ],
+  "observedSources": [
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "item": "exec-0f65122d-eadc-4021-9006-e15132fc4d36",
+      "itemIndex": 14,
+      "turnStartedAtUnix": 1793981184,
+      "path": "app/src/main/java/com/forestry/counter/domain/calculation/UnitCatalog.kt",
+      "sha256": "be7826169808a74bd9ab041238a42b7cee3542bbee889294f7d14eb3e730f969",
+      "complete": true,
+      "artifact": "observed-complete/manual-calculation-read-14/app/src/main/java/com/forestry/counter/domain/calculation/UnitCatalog.kt",
+      "boundary": "sequential package declarations; sed ranges exceed file lengths"
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "item": "exec-0f65122d-eadc-4021-9006-e15132fc4d36",
+      "itemIndex": 14,
+      "turnStartedAtUnix": 1793981184,
+      "path": "app/src/main/java/com/forestry/counter/domain/calculation/UnitConverter.kt",
+      "sha256": "defa85f31586c7d190fd01422c1b31bd65cabbf258c79a107c8644116ec49446",
+      "complete": true,
+      "artifact": "observed-complete/manual-calculation-read-14/app/src/main/java/com/forestry/counter/domain/calculation/UnitConverter.kt",
+      "boundary": "sequential package declarations; sed ranges exceed file lengths"
+    },
+    {
+      "source": "manual-calculation-latest.json",
+      "thread": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+      "turn": "01a1b19c-793c-7551-b97a-baf14bcc49b1",
+      "item": "exec-0f65122d-eadc-4021-9006-e15132fc4d36",
+      "itemIndex": 14,
+      "turnStartedAtUnix": 1793981184,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/SphericalTraceDistance.kt",
+      "sha256": "2e16c7da0d5fed6f4abd3b0937e998d13c655b2d5d6acc5e99af729e1189cc7f",
+      "complete": true,
+      "artifact": "observed-complete/manual-calculation-read-14/app/src/main/java/com/forestry/counter/domain/location/trace/SphericalTraceDistance.kt",
+      "boundary": "sequential package declarations; sed ranges exceed file lengths"
+    },
+    {
+      "source": "root0007-full10k.json",
+      "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+      "turn": "01a1ad12-44db-7277-9120-277722007c21",
+      "item": "exec-f21c6b86-539a-4702-8f84-9851636ab2aa",
+      "itemIndex": 34,
+      "turnStartedAtUnix": 1793905018,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt",
+      "sha256": "334aad41a39a56c05028fbcaa3aefe3f9742bae493eeef6bd0ada77320a4e30c",
+      "complete": true,
+      "artifact": "observed-complete/root0007-read-34/app/src/main/java/com/forestry/counter/domain/location/trace/TraceCaptureModels.kt",
+      "boundary": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/EssenceSessionSelection.kt",
+      "temporalLimit": "observed 2026-11-05; not asserted final 2026-11-13"
+    },
+    {
+      "source": "root0007-full10k.json",
+      "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+      "turn": "01a1ad12-44db-7277-9120-277722007c21",
+      "item": "exec-742dcd9e-4476-4d5f-948e-69b787b5881e",
+      "itemIndex": 46,
+      "turnStartedAtUnix": 1793905018,
+      "path": "app/src/main/java/com/forestry/counter/domain/location/trace/SegmentedTraceRecorder.kt",
+      "sha256": "7b1ad986930a0618e8a1c5efa2c231c31a7f713caf42743e752c7fe96f60ba81",
+      "complete": false,
+      "artifact": "fragments/root0007-read-46-SegmentedTraceRecorder.kt.fragment",
+      "startLine": 1,
+      "sourceOutputTruncated": true,
+      "limit": "cut at the output limit inside accept(); never a complete source file"
+    }
+  ],
+  "patch": {
+    "artifact": "patches/manual-measure-recovered-through-2026-11-06.patch",
+    "sha256": "260126ed244440aee004659d966d8adaa663cad4280fa96431131f104a264cb7",
+    "againstBaseCommit": "36d1515",
+    "scope": "source recovery through the manual-measure threads of 2026-11-06; excludes blocked registration/privacy prerequisites",
+    "readOnlyGitApplyCheck": {
+      "repository": "/workspace/recovery-geosylva",
+      "exitCode": 0,
+      "applied": false
+    }
+  },
+  "execution": "No builds, tests, ADB, repository writes, or historical commands were run."
+}

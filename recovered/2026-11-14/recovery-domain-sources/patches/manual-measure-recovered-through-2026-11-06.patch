@@ -1,0 +1,1499 @@
+diff --git a/app/src/androidTest/java/com/forestry/counter/data/local/CartographicMeasurementRepositoryRoomTest.kt b/app/src/androidTest/java/com/forestry/counter/data/local/CartographicMeasurementRepositoryRoomTest.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/androidTest/java/com/forestry/counter/data/local/CartographicMeasurementRepositoryRoomTest.kt
+@@ -0,0 +1,216 @@
++package com.forestry.counter.data.local
++
++import androidx.room.Room
++import androidx.room.withTransaction
++import androidx.test.ext.junit.runners.AndroidJUnit4
++import androidx.test.platform.app.InstrumentationRegistry
++import com.forestry.counter.data.repository.CartographicMeasurementRepositoryImpl
++import com.forestry.counter.data.local.entity.GroupEntity
++import com.forestry.counter.data.sync.hierarchy.BusinessReadAccess
++import com.forestry.counter.domain.calculation.cartography.*
++import com.forestry.counter.domain.repository.*
++import com.forestry.counter.domain.usecase.maps.MapDataScope
++import java.util.UUID
++import kotlinx.coroutines.runBlocking
++import org.junit.*
++import org.junit.Assert.*
++import org.junit.runner.RunWith
++
++/** Real encrypted Room, synthetic coordinates/identity and a dedicated disposable DB only. */
++@RunWith(AndroidJUnit4::class)
++class CartographicMeasurementRepositoryRoomTest {
++    private val context = InstrumentationRegistry.getInstrumentation().targetContext
++    private lateinit var db: ForestryDatabase
++    private lateinit var identity: BusinessReadIdentityFixture
++    private lateinit var repository: CartographicMeasurementRepositoryImpl
++    private lateinit var access: CartographicMeasurementAccess
++
++    @Before fun setup() = runBlocking {
++        context.deleteDatabase(DB)
++        net.sqlcipher.database.SQLiteDatabase.loadLibs(context)
++        identity = BusinessReadIdentityFixture()
++        db = open()
++        repository = repo()
++        access = success(repository.captureAccess(MapDataScope.Free))
++    }
++    @After fun cleanup() { db.close(); context.deleteDatabase(DB) }
++    private fun open() = Room.databaseBuilder(context, ForestryDatabase::class.java, DB)
++        .openHelperFactory(net.sqlcipher.database.SupportFactory("TEST-only-cartographic-store".toByteArray()))
++        .addMigrations(*DatabaseMigrations.ALL).build()
++    private fun repo() = CartographicMeasurementRepositoryImpl(db, identity, BusinessReadAccess(identity, db.parcelSyncDao()), clock = { 1_234L })
++    private fun input(name: String? = null) = CartographicMeasurementInput(UUID.randomUUID().toString(), name,
++        CartographicMeasureKind.DISTANCE, listOf(CartographicCoordinate(45.0, 5.0), CartographicCoordinate(45.001, 5.001)))
++    private fun <T> success(result: CartographicStoreResult<T>): T = when (result) {
++        is CartographicStoreResult.Success -> result.value
++        is CartographicStoreResult.Failure -> throw AssertionError("Unexpected ${result.reason}")
++    }
++    private fun failure(expected: CartographicStoreError, result: CartographicStoreResult<*>) {
++        assertEquals(CartographicStoreResult.Failure(expected), result)
++    }
++
++    @Test fun encrypted_reopen_retries_and_unicode_names_preserve_one_immutable_snapshot() = runBlocking {
++        val request = input("  TEST / nord \"chêne\"  ")
++        val saved = success(repository.save(request, access))
++        assertEquals("TEST / nord \"chêne\"", saved.name)
++        assertEquals(1_234L, saved.recordedAt)
++        assertTrue(saved.valueSi > 0)
++        assertEquals(saved, success(repository.save(request, access)))
++        val originalKey = access.restorationKey
++        db.close(); db = open(); repository = repo()
++        access = success(repository.captureAccess(MapDataScope.Free))
++        assertEquals(originalKey, access.restorationKey)
++        assertEquals(saved, success(repository.read(saved.id, access)))
++        assertEquals(listOf(saved), success(repository.list(access)))
++    }
++
++    @Test fun duplicate_id_cannot_replace_geometry_name_or_copy_provenance() = runBlocking {
++        val request = input("TEST original")
++        val saved = success(repository.save(request, access))
++        failure(CartographicStoreError.CONFLICT, repository.save(request.copy(name = "TEST overwrite"), access))
++        failure(CartographicStoreError.CONFLICT, repository.save(request.copy(points = listOf(CartographicCoordinate(45.0, 5.0), CartographicCoordinate(45.002, 5.0))), access))
++        val copy = success(repository.save(input("TEST copy").copy(sourceMeasurementId = saved.id), access))
++        assertEquals(saved.id, copy.sourceMeasurementId)
++        assertEquals("manual_map_copy", copy.source)
++        assertEquals(saved, success(repository.read(saved.id, access)))
++        failure(CartographicStoreError.INVALID_INPUT, repository.save(request.copy(sourceMeasurementId = request.id), access))
++    }
++
++    @Test fun invalid_geometries_and_oversized_input_never_become_saved_zeroes() = runBlocking {
++        val request = input()
++        failure(CartographicStoreError.INVALID_INPUT, repository.save(request.copy(points = listOf(CartographicCoordinate(Double.NaN, 5.0), CartographicCoordinate(45.0, 5.0))), access))
++        failure(CartographicStoreError.INVALID_INPUT, repository.save(request.copy(kind = CartographicMeasureKind.AREA,
++            points = listOf(CartographicCoordinate(45.0, 5.0), CartographicCoordinate(45.001, 5.001), CartographicCoordinate(45.0, 5.001), CartographicCoordinate(45.001, 5.0))), access))
++        failure(CartographicStoreError.INVALID_INPUT, repository.save(request.copy(points = List(CartographicMeasureCalculator.MAX_POINTS + 1) { CartographicCoordinate(45.0, 5.0) }), access))
++        assertTrue(success(repository.list(access)).isEmpty())
++    }
++
++    @Test fun local_account_and_scope_partitions_cannot_read_or_replay_each_other() = runBlocking {
++        val request = input("TEST local")
++        val local = success(repository.save(request, access))
++        val previous = access
++        identity.login("TEST-account-A")
++        failure(CartographicStoreError.ACCESS_CHANGED, repository.save(input(), previous))
++        access = success(repository.captureAccess(MapDataScope.Free))
++        assertFalse(access.localDevice)
++        assertNotEquals(previous.restorationKey, access.restorationKey)
++        assertTrue(success(repository.list(access)).isEmpty())
++        failure(CartographicStoreError.UNAVAILABLE, repository.read(local.id, access))
++        failure(CartographicStoreError.UNAVAILABLE, repository.save(input().copy(sourceMeasurementId = local.id), access))
++        val own = success(repository.save(input(), access))
++        val otherScope = success(repository.captureAccess(MapDataScope.AllForests))
++        failure(CartographicStoreError.UNAVAILABLE, repository.read(own.id, otherScope))
++        identity.login("TEST-account-B")
++        val b = success(repository.captureAccess(MapDataScope.Free))
++        failure(CartographicStoreError.UNAVAILABLE, repository.read(own.id, b))
++    }
++
++    @Test fun deleted_context_is_unavailable_and_never_reassigned_to_free_map() = runBlocking {
++        db.openHelper.writableDatabase.execSQL("INSERT INTO forets(foretId,nom,proprietaireNom,createdAt,updatedAt) VALUES('TEST-forest','TEST forest','TEST owner',10,20)")
++        val forest = success(repository.captureAccess(MapDataScope.Forest("TEST-forest")))
++        val saved = success(repository.save(input(), forest))
++        failure(CartographicStoreError.UNAVAILABLE, repository.read(saved.id, access))
++        db.foretDao().delete("TEST-forest", 50)
++        failure(CartographicStoreError.UNAVAILABLE, repository.read(saved.id, forest))
++        failure(CartographicStoreError.UNAVAILABLE, repository.captureAccess(MapDataScope.Forest("TEST-forest")))
++        assertTrue(success(repository.list(access)).isEmpty())
++    }
++
++    @Test fun legacy_group_forests_retain_owned_measurements_and_deny_deleted_or_foreign_scopes() = runBlocking {
++        val groupId = "TEST-owned-legacy-group"
++        db.groupDao().insertGroup(GroupEntity(groupId, "TEST historical forest group"))
++        db.openHelper.writableDatabase.execSQL("INSERT INTO hierarchy_sync_associations(forestId,accountId,apiOrigin,activatedAt) VALUES(?, 'TEST-owner', 'https://fixture.example.invalid',10)", arrayOf(groupId))
++        identity.login("TEST-owner")
++        val owned = success(repository.captureAccess(MapDataScope.Forest(groupId)))
++        val saved = success(repository.save(input("TEST group measurement"), owned))
++        assertEquals("LEGACY_FOREST_GROUP", db.cartographicMeasurementDao().byId(saved.id)?.scopeKind)
++        assertEquals(listOf(saved), success(repository.list(owned)))
++        assertEquals(saved, success(repository.read(saved.id, owned)))
++
++        identity.login("TEST-other-owner")
++        failure(CartographicStoreError.UNAVAILABLE, repository.captureAccess(MapDataScope.Forest(groupId)))
++        identity.login("TEST-owner")
++        val refreshed = success(repository.captureAccess(MapDataScope.Forest(groupId)))
++        assertEquals(saved, success(repository.read(saved.id, refreshed)))
++        db.groupDao().deleteGroupById(groupId)
++        failure(CartographicStoreError.UNAVAILABLE, repository.read(saved.id, refreshed))
++        failure(CartographicStoreError.UNAVAILABLE, repository.captureAccess(MapDataScope.Forest(groupId)))
++        assertNotNull(db.cartographicMeasurementDao().byId(saved.id))
++    }
++
++    @Test fun canonical_forest_identity_never_adopts_a_same_named_legacy_group_bucket() = runBlocking {
++        val sharedId = "TEST-colliding-forest-group-id"
++        db.groupDao().insertGroup(GroupEntity(sharedId, "TEST original group"))
++        val legacy = success(repository.captureAccess(MapDataScope.Forest(sharedId)))
++        val oldRecord = success(repository.save(input("TEST legacy snapshot"), legacy))
++        db.openHelper.writableDatabase.execSQL("INSERT INTO forets(foretId,nom,proprietaireNom,createdAt,updatedAt) VALUES(?, 'TEST canonical forest','TEST owner',10,20)", arrayOf(sharedId))
++        failure(CartographicStoreError.ACCESS_CHANGED, repository.read(oldRecord.id, legacy))
++        val canonical = success(repository.captureAccess(MapDataScope.Forest(sharedId)))
++        assertNotEquals(legacy.restorationKey, canonical.restorationKey)
++        assertTrue(success(repository.list(canonical)).isEmpty())
++        failure(CartographicStoreError.UNAVAILABLE, repository.read(oldRecord.id, canonical))
++        val canonicalRecord = success(repository.save(input("TEST canonical snapshot"), canonical))
++        assertEquals("FOREST", db.cartographicMeasurementDao().byId(canonicalRecord.id)?.scopeKind)
++
++        // A known deleted canonical identity cannot expose a group hidden by it.
++        db.foretDao().delete(sharedId, 50)
++        failure(CartographicStoreError.UNAVAILABLE, repository.captureAccess(MapDataScope.Forest(sharedId)))
++        // Dedicated test DB only: remove that canonical identity entirely.
++        db.openHelper.writableDatabase.execSQL("DELETE FROM forets WHERE foretId=?", arrayOf(sharedId))
++        val legacyAgain = success(repository.captureAccess(MapDataScope.Forest(sharedId)))
++        assertEquals(listOf(oldRecord), success(repository.list(legacyAgain)))
++        failure(CartographicStoreError.UNAVAILABLE, repository.read(canonicalRecord.id, legacyAgain))
++        assertEquals(oldRecord, success(repository.read(oldRecord.id, legacyAgain)))
++    }
++
++    @Test fun plot_parent_changes_and_foreign_account_ownership_are_revalidated() = runBlocking {
++        val sql = db.openHelper.writableDatabase
++        for (id in listOf("TEST-parcel-A", "TEST-parcel-B")) {
++            sql.execSQL("INSERT INTO parcelles(parcelleId,name,createdAt,updatedAt) VALUES(?, 'TEST parcel',10,20)", arrayOf(id))
++        }
++        sql.execSQL("INSERT INTO placettes(placetteId,parcelleOwnerId,createdAt,updatedAt) VALUES('TEST-plot','TEST-parcel-A',10,20)")
++        val plot = success(repository.captureAccess(MapDataScope.Plot("TEST-plot")))
++        val saved = success(repository.save(input(), plot))
++        val parent = success(repository.captureAccess(MapDataScope.Parcel("TEST-parcel-A")))
++        failure(CartographicStoreError.UNAVAILABLE, repository.read(saved.id, parent))
++        sql.execSQL("UPDATE placettes SET parcelleOwnerId='TEST-parcel-B' WHERE placetteId='TEST-plot'")
++        failure(CartographicStoreError.ACCESS_CHANGED, repository.read(saved.id, plot))
++        val moved = success(repository.captureAccess(MapDataScope.Plot("TEST-plot")))
++        assertNotEquals(plot.restorationKey, moved.restorationKey)
++        sql.execSQL("INSERT INTO parcel_sync_queue(accountId,parcelId,operation,operationId,state,retryCount,queuedAt,nextAttemptAt) VALUES('TEST-owner','TEST-parcel-B','UPSERT','TEST-operation','SYNCED',0,10,10)")
++        identity.login("TEST-other-account")
++        failure(CartographicStoreError.UNAVAILABLE, repository.captureAccess(MapDataScope.Parcel("TEST-parcel-B")))
++        failure(CartographicStoreError.UNAVAILABLE, repository.captureAccess(MapDataScope.Plot("TEST-plot")))
++    }
++
++    @Test fun account_change_during_insert_rolls_back_instead_of_publishing_a_success() = runBlocking {
++        val changing = CartographicMeasurementRepositoryImpl(db, identity, BusinessReadAccess(identity, db.parcelSyncDao()),
++            clock = { identity.login("TEST-account-changed-during-write"); 1_234L })
++        val original = success(changing.captureAccess(MapDataScope.Free))
++        val request = input()
++        failure(CartographicStoreError.ACCESS_CHANGED, changing.save(request, original))
++        assertNull(db.cartographicMeasurementDao().byId(request.id))
++    }
++
++    @Test fun purge_revokes_pending_access_and_rotates_restoration_partition() = runBlocking {
++        success(repository.save(input(), access))
++        val old = access
++        db.woodDataGate.purge { db.withTransaction {
++            db.cartographicMeasurementDao().deleteAll()
++            db.cartographicMeasurementDao().deleteStoreIdentity()
++        } }
++        assertFalse(repository.isCurrent(old))
++        failure(CartographicStoreError.ACCESS_CHANGED, repository.save(input(), old))
++        access = success(repository.captureAccess(MapDataScope.Free))
++        assertNotEquals(old.restorationKey, access.restorationKey)
++        assertTrue(success(repository.list(access)).isEmpty())
++    }
++
++    @Test fun corrupt_geometry_is_an_explicit_failure_instead_of_an_empty_or_zero_measurement() = runBlocking {
++        val saved = success(repository.save(input(), access))
++        db.openHelper.writableDatabase.execSQL("UPDATE cartographic_measurements SET geometryJson='TEST corrupt' WHERE id=?", arrayOf(saved.id))
++        failure(CartographicStoreError.CORRUPT, repository.read(saved.id, access))
++        failure(CartographicStoreError.CORRUPT, repository.list(access))
++    }
++
++    companion object { private const val DB = "TEST-cartographic-measurement-repository.db" }
++}
+diff --git a/app/src/androidTest/java/com/forestry/counter/data/local/Migration47To48Test.kt b/app/src/androidTest/java/com/forestry/counter/data/local/Migration47To48Test.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/androidTest/java/com/forestry/counter/data/local/Migration47To48Test.kt
+@@ -0,0 +1,41 @@
++package com.forestry.counter.data.local
++
++import androidx.room.Room
++import androidx.room.testing.MigrationTestHelper
++import androidx.test.ext.junit.runners.AndroidJUnit4
++import androidx.test.platform.app.InstrumentationRegistry
++import org.junit.Assert.*
++import org.junit.Test
++import org.junit.runner.RunWith
++
++@RunWith(AndroidJUnit4::class)
++class Migration47To48Test {
++    @Test fun encrypted_migration_preserves_existing_snapshots_without_claiming_historical_measurements() {
++        val instrumentation = InstrumentationRegistry.getInstrumentation()
++        val context = instrumentation.targetContext
++        val name = "TEST-cartographic-47-48.db"
++        context.deleteDatabase(name)
++        net.sqlcipher.database.SQLiteDatabase.loadLibs(context)
++        fun factory() = net.sqlcipher.database.SupportFactory("TEST-only-cartographic-migration".toByteArray(), null, false)
++        try {
++            val helper = MigrationTestHelper(instrumentation, "com.forestry.counter.data.local.ForestryDatabase", factory())
++            helper.createDatabase(name, 47).use { db ->
++                db.execSQL("INSERT INTO field_entries(id,ownerKey,targetKind,targetId,payload,sha256,recordedAt,author) VALUES('TEST-old','LOCAL','FOREST','TEST-forest','TEST unchanged old bytes','TEST hash',10,'anonymous')")
++            }
++            helper.runMigrationsAndValidate(name, 48, true, CartographicMeasurementMigrations.MIGRATION_47_48).use { db ->
++                db.query("SELECT payload, sha256 FROM field_entries WHERE id='TEST-old'").use {
++                    assertTrue(it.moveToFirst())
++                    assertEquals("TEST unchanged old bytes", it.getString(0))
++                    assertEquals("TEST hash", it.getString(1))
++                }
++                for (table in listOf("cartographic_measurements", "cartographic_store_identity")) {
++                    db.query("SELECT count(*) FROM $table").use { assertTrue(it.moveToFirst()); assertEquals(0, it.getInt(0)) }
++                }
++                db.query("PRAGMA foreign_key_check").use { assertFalse(it.moveToFirst()) }
++            }
++            val room = Room.databaseBuilder(context, ForestryDatabase::class.java, name)
++                .openHelperFactory(factory()).addMigrations(*DatabaseMigrations.ALL).build()
++            try { assertEquals(48, room.openHelper.writableDatabase.version) } finally { room.close() }
++        } finally { context.deleteDatabase(name) }
++    }
++}
+diff --git a/app/src/main/java/com/forestry/counter/data/local/CartographicMeasurementMigrations.kt b/app/src/main/java/com/forestry/counter/data/local/CartographicMeasurementMigrations.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/local/CartographicMeasurementMigrations.kt
+@@ -0,0 +1,15 @@
++package com.forestry.counter.data.local
++
++import androidx.room.migration.Migration
++import androidx.sqlite.db.SupportSQLiteDatabase
++
++object CartographicMeasurementMigrations {
++    /** Additive: historical measurement JSON files and all existing tables remain untouched. */
++    val MIGRATION_47_48 = object : Migration(47, 48) {
++        override fun migrate(db: SupportSQLiteDatabase) {
++            db.execSQL("CREATE TABLE IF NOT EXISTS cartographic_measurements (id TEXT NOT NULL PRIMARY KEY, ownerKey TEXT NOT NULL, scopeKind TEXT NOT NULL, scopeId TEXT NOT NULL, name TEXT, kind TEXT NOT NULL, geometryJson TEXT NOT NULL, valueSi REAL NOT NULL, methodId TEXT NOT NULL, methodVersion INTEGER NOT NULL, recordedAt INTEGER NOT NULL, payloadSha256 TEXT NOT NULL, sourceMeasurementId TEXT)")
++            db.execSQL("CREATE INDEX IF NOT EXISTS index_cartographic_measurements_ownerKey_scopeKind_scopeId_recordedAt ON cartographic_measurements(ownerKey,scopeKind,scopeId,recordedAt)")
++            db.execSQL("CREATE TABLE IF NOT EXISTS cartographic_store_identity (singletonId INTEGER NOT NULL PRIMARY KEY, localId TEXT NOT NULL)")
++        }
++    }
++}
+diff --git a/app/src/main/java/com/forestry/counter/data/local/dao/CartographicMeasurementDao.kt b/app/src/main/java/com/forestry/counter/data/local/dao/CartographicMeasurementDao.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/local/dao/CartographicMeasurementDao.kt
+@@ -0,0 +1,39 @@
++package com.forestry.counter.data.local.dao
++
++import androidx.room.Dao
++import androidx.room.Insert
++import androidx.room.OnConflictStrategy
++import androidx.room.Query
++import com.forestry.counter.data.local.entity.CartographicMeasurementEntity
++import com.forestry.counter.data.local.entity.CartographicStoreIdentityEntity
++import kotlinx.coroutines.flow.Flow
++
++@Dao
++interface CartographicMeasurementDao {
++    @Insert(onConflict = OnConflictStrategy.ABORT)
++    suspend fun insert(row: CartographicMeasurementEntity)
++
++    @Query("SELECT * FROM cartographic_measurements WHERE id = :id")
++    suspend fun byId(id: String): CartographicMeasurementEntity?
++
++    @Query("SELECT * FROM cartographic_measurements WHERE ownerKey = :ownerKey AND scopeKind = :scopeKind AND scopeId = :scopeId ORDER BY recordedAt DESC, id ASC")
++    suspend fun inScope(ownerKey: String, scopeKind: String, scopeId: String): List<CartographicMeasurementEntity>
++
++    /** Authority wake-up signals only; callers revalidate the original captured access. */
++    @Query("SELECT placetteId, parcelleOwnerId, deletedAt FROM placettes ORDER BY placetteId")
++    fun observePlotParents(): Flow<List<CartographicPlotParent>>
++
++    @Query("DELETE FROM cartographic_measurements")
++    suspend fun deleteAll()
++
++    @Query("SELECT * FROM cartographic_store_identity WHERE singletonId = 1")
++    suspend fun storeIdentity(): CartographicStoreIdentityEntity?
++
++    @Insert(onConflict = OnConflictStrategy.IGNORE)
++    suspend fun insertStoreIdentity(row: CartographicStoreIdentityEntity)
++
++    @Query("DELETE FROM cartographic_store_identity")
++    suspend fun deleteStoreIdentity()
++}
++
++data class CartographicPlotParent(val placetteId: String, val parcelleOwnerId: String, val deletedAt: Long?)
+diff --git a/app/src/main/java/com/forestry/counter/data/local/entity/CartographicMeasurementEntity.kt b/app/src/main/java/com/forestry/counter/data/local/entity/CartographicMeasurementEntity.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/local/entity/CartographicMeasurementEntity.kt
+@@ -0,0 +1,30 @@
++package com.forestry.counter.data.local.entity
++
++import androidx.room.Entity
++import androidx.room.Index
++import androidx.room.PrimaryKey
++
++/** Personal, immutable map geometry, distinct from tree-observation measurements. */
++@Entity(
++    tableName = "cartographic_measurements",
++    indices = [Index(value = ["ownerKey", "scopeKind", "scopeId", "recordedAt"])],
++)
++data class CartographicMeasurementEntity(
++    @PrimaryKey val id: String,
++    val ownerKey: String,
++    val scopeKind: String,
++    val scopeId: String,
++    val name: String?,
++    val kind: String,
++    val geometryJson: String,
++    val valueSi: Double,
++    val methodId: String,
++    val methodVersion: Int,
++    val recordedAt: Long,
++    val payloadSha256: String,
++    val sourceMeasurementId: String? = null,
++)
++
++/** Per-store non-credential identity; renewed by full local-data erasure. */
++@Entity(tableName = "cartographic_store_identity")
++data class CartographicStoreIdentityEntity(@PrimaryKey val singletonId: Int = 1, val localId: String)
+diff --git a/app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt b/app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt
+@@ -0,0 +1,256 @@
++package com.forestry.counter.data.repository
++
++import androidx.room.withTransaction
++import com.forestry.counter.data.local.ForestryDatabase
++import com.forestry.counter.data.local.entity.CartographicMeasurementEntity
++import com.forestry.counter.data.local.entity.CartographicStoreIdentityEntity
++import com.forestry.counter.data.sync.hierarchy.BusinessReadAccess
++import com.forestry.counter.domain.calculation.cartography.*
++import com.forestry.counter.domain.repository.*
++import com.forestry.counter.domain.usecase.maps.MapDataScope
++import java.security.MessageDigest
++import java.util.UUID
++import kotlinx.coroutines.CancellationException
++import kotlinx.coroutines.Dispatchers
++import kotlinx.coroutines.flow.Flow
++import kotlinx.coroutines.flow.combine
++import kotlinx.coroutines.withContext
++import kotlinx.serialization.Serializable
++import kotlinx.serialization.decodeFromString
++import kotlinx.serialization.encodeToString
++import kotlinx.serialization.json.Json
++
++/** One encrypted local store for every map host; no profession grants authority. */
++class CartographicMeasurementRepositoryImpl(
++    private val db: ForestryDatabase,
++    private val identity: IdentityRepository,
++    private val reads: BusinessReadAccess,
++    private val clock: () -> Long = System::currentTimeMillis,
++) : CartographicMeasurementRepository {
++    private val dao = db.cartographicMeasurementDao()
++    private val owner = Any()
++    private val json = Json { encodeDefaults = true }
++    private data class Binding(val kind: String, val id: String, val parents: List<String?> = emptyList())
++    private class Access(
++        val owner: Any,
++        val snapshot: BusinessReadAccess.AccessSnapshot,
++        val epoch: Long,
++        override val scope: MapDataScope,
++        val binding: Binding,
++        override val restorationKey: String,
++    ) : CartographicMeasurementAccess {
++        val ownerKey = snapshot.accountId?.let { "ACCOUNT:$it" } ?: "LOCAL"
++        override val localDevice get() = snapshot.accountId == null
++    }
++
++    override suspend fun captureAccess(scope: MapDataScope): CartographicStoreResult<CartographicMeasurementAccess> = result {
++        val snapshot = reads.capture()
++        val epoch = runCatching { db.woodDataGate.capture() }.getOrElse { fail(CartographicStoreError.ACCESS_CHANGED) }
++        val captured = try { db.woodDataGate.withAccess(epoch) {
++            db.withTransaction {
++                if (!reads.revalidate(snapshot)) fail(CartographicStoreError.ACCESS_CHANGED)
++                val binding = binding(scope, snapshot)
++                if (dao.storeIdentity() == null) dao.insertStoreIdentity(CartographicStoreIdentityEntity(localId = UUID.randomUUID().toString()))
++                val store = dao.storeIdentity() ?: fail(CartographicStoreError.IO)
++                if (runCatching { UUID.fromString(store.localId).toString() }.getOrNull() != store.localId) fail(CartographicStoreError.CORRUPT)
++                val ownerKey = snapshot.accountId?.let { "ACCOUNT:$it" } ?: "LOCAL"
++                val fingerprint = hash(json.encodeToString(listOf(store.localId, ownerKey, binding.kind, binding.id) + binding.parents))
++                Access(owner, snapshot, epoch, scope, binding, fingerprint).also {
++                    if (!reads.revalidate(snapshot) || !isCurrent(it)) fail(CartographicStoreError.ACCESS_CHANGED)
++                }
++            }
++        } } catch (cancelled: CancellationException) { throw cancelled }
++        catch (failure: Exception) {
++            if (!db.woodDataGate.isCurrent(epoch) || !reads.isCurrent(snapshot)) fail(CartographicStoreError.ACCESS_CHANGED)
++            throw failure
++        }
++        current(captured)
++        captured
++    }
++
++    override fun isCurrent(access: CartographicMeasurementAccess): Boolean = (access as? Access)?.let {
++        it.owner === owner && db.woodDataGate.isCurrent(it.epoch) && reads.isCurrent(it.snapshot)
++    } == true
++
++    override fun accessChanges(): Flow<Unit> {
++        val authority = combine(identity.session, identity.sessionGeneration, db.woodDataGate.state,
++            db.parcelSyncDao().observeBusinessReadOwners(), db.parcelSyncDao().observeBusinessReadParcelParents()) { _, _, _, _, _ -> Unit }
++        return combine(authority, db.foretDao().getAll(), db.parcelleDao().getAllParcelles(),
++            dao.observePlotParents(), db.groupDao().getAllGroups()) { _, _, _, _, _ -> Unit }
++    }
++
++    override suspend fun save(input: CartographicMeasurementInput, access: CartographicMeasurementAccess): CartographicStoreResult<SavedCartographicMeasurement> = result {
++        current(access)
++        canonicalId(input.id)
++        input.sourceMeasurementId?.let {
++            canonicalId(it)
++            if (it == input.id) fail(CartographicStoreError.INVALID_INPUT)
++        }
++        if (input.points.size > CartographicMeasureCalculator.MAX_POINTS) fail(CartographicStoreError.INVALID_INPUT)
++        val points = input.points.toList()
++        val name = input.name?.trim()?.takeIf { it.isNotEmpty() }
++        if (name != null && (name.length > MAX_NAME_LENGTH || name.any { it.isISOControl() })) fail(CartographicStoreError.INVALID_INPUT)
++        val calculation = CartographicMeasureCalculator.calculate(input.kind, points) as? CartographicMeasureResult.Available
++            ?: fail(CartographicStoreError.INVALID_INPUT)
++        val geometry = json.encodeToString(Geometry(points = points.map { Coordinate(it.latitude, it.longitude) }))
++        transaction(access, mutation = true) { a ->
++            input.sourceMeasurementId?.let { id ->
++                val original = dao.byId(id) ?: fail(CartographicStoreError.UNAVAILABLE)
++                requireOwned(original, a)
++                saved(original, a.scope)
++            }
++            val previous = dao.byId(input.id)
++            if (previous != null) {
++                requireOwned(previous, a)
++                if (previous.name != name || previous.kind != input.kind.name || previous.geometryJson != geometry ||
++                    previous.valueSi != calculation.valueSi || previous.methodId != calculation.methodId || previous.methodVersion != calculation.methodVersion ||
++                    previous.sourceMeasurementId != input.sourceMeasurementId) {
++                    fail(CartographicStoreError.CONFLICT)
++                }
++                saved(previous, a.scope)
++            } else {
++                val now = clock().takeIf { it > 0 } ?: fail(CartographicStoreError.IO)
++                val row = CartographicMeasurementEntity(input.id, a.ownerKey, a.binding.kind, a.binding.id,
++                    name, input.kind.name, geometry, calculation.valueSi, calculation.methodId,
++                    calculation.methodVersion, now, "", input.sourceMeasurementId)
++                dao.insert(row.copy(payloadSha256 = payloadHash(row)))
++                val readBack = dao.byId(input.id) ?: fail(CartographicStoreError.IO)
++                requireOwned(readBack, a)
++                saved(readBack, a.scope)
++            }
++        }
++    }
++
++    override suspend fun list(access: CartographicMeasurementAccess): CartographicStoreResult<List<SavedCartographicMeasurement>> = result {
++        transaction(access) { a -> dao.inScope(a.ownerKey, a.binding.kind, a.binding.id).map { saved(it, a.scope) } }
++    }
++
++    override suspend fun read(id: String, access: CartographicMeasurementAccess): CartographicStoreResult<SavedCartographicMeasurement> = result {
++        current(access)
++        canonicalId(id)
++        transaction(access) { a ->
++            val row = dao.byId(id) ?: fail(CartographicStoreError.UNAVAILABLE)
++            requireOwned(row, a)
++            saved(row, a.scope)
++        }
++    }
++
++    private suspend fun <T> transaction(access: CartographicMeasurementAccess, mutation: Boolean = false, block: suspend (Access) -> T): T {
++        val a = current(access)
++        var committed = false
++        try {
++            val value = db.woodDataGate.withAccess(a.epoch) {
++                db.withTransaction {
++                    validate(a)
++                    val value = block(a)
++                    validate(a)
++                    value
++                }.also { committed = mutation }
++            }
++            current(a)
++            return value
++        } catch (cancelled: CancellationException) { throw cancelled }
++        catch (failure: Exception) {
++            if (committed) fail(CartographicStoreError.UNKNOWN_RESULT)
++            if (!isCurrent(a)) fail(CartographicStoreError.ACCESS_CHANGED)
++            throw failure
++        }
++    }
++
++    private fun current(access: CartographicMeasurementAccess): Access {
++        if (!isCurrent(access)) fail(CartographicStoreError.ACCESS_CHANGED)
++        return access as Access
++    }
++
++    private suspend fun validate(a: Access) {
++        current(a)
++        if (!reads.revalidate(a.snapshot)) fail(CartographicStoreError.ACCESS_CHANGED)
++        if (binding(a.scope, a.snapshot) != a.binding) fail(CartographicStoreError.ACCESS_CHANGED)
++        current(a)
++    }
++
++    private suspend fun binding(scope: MapDataScope, snapshot: BusinessReadAccess.AccessSnapshot): Binding {
++        suspend fun parcel(id: String): List<String?> {
++            val p = db.parcelleDao().getParcelleById(id) ?: fail(CartographicStoreError.UNAVAILABLE)
++            if (!reads.canReadParcelle(id, snapshot)) fail(CartographicStoreError.UNAVAILABLE)
++            if (p.foretId != null && db.foretDao().getById(p.foretId) == null) fail(CartographicStoreError.UNAVAILABLE)
++            return listOf(p.parcelleId, p.foretId, p.forestOwnerId)
++        }
++        return when (scope) {
++            MapDataScope.Free -> Binding("FREE", "")
++            MapDataScope.AllForests -> Binding("ALL_FORESTS", "")
++            MapDataScope.Invalid -> fail(CartographicStoreError.INVALID_INPUT)
++            is MapDataScope.Forest -> {
++                // Existing forest pickers also address historical GroupEntity IDs.
++                // Persist their kind separately: a later canonical forest with the
++                // same ID must never acquire that group's measurement snapshots.
++                val canonical = db.foretDao().getByIdAny(scope.id)
++                if (!reads.canReadForest(scope.id, snapshot)) fail(CartographicStoreError.UNAVAILABLE)
++                if (canonical != null) {
++                    if (canonical.deletedAt != null) fail(CartographicStoreError.UNAVAILABLE)
++                    Binding("FOREST", scope.id)
++                } else {
++                    if (db.groupDao().getGroupById(scope.id) == null) fail(CartographicStoreError.UNAVAILABLE)
++                    Binding("LEGACY_FOREST_GROUP", scope.id)
++                }
++            }
++            is MapDataScope.Parcel -> Binding("PARCEL", scope.id, parcel(scope.id))
++            is MapDataScope.Plot -> {
++                val p = db.placetteDao().getPlacetteById(scope.id) ?: fail(CartographicStoreError.UNAVAILABLE)
++                Binding("PLOT", scope.id, parcel(p.parcelleOwnerId))
++            }
++        }
++    }
++
++    private fun requireOwned(row: CartographicMeasurementEntity, access: Access) {
++        if (row.ownerKey != access.ownerKey || row.scopeKind != access.binding.kind || row.scopeId != access.binding.id) fail(CartographicStoreError.UNAVAILABLE)
++    }
++
++    private fun saved(row: CartographicMeasurementEntity, scope: MapDataScope): SavedCartographicMeasurement {
++        if (row.geometryJson.length > MAX_GEOMETRY_CHARACTERS || row.name?.let { it.length > MAX_NAME_LENGTH || it.any { char -> char.isISOControl() } } == true ||
++            row.methodId.length > 128 || row.payloadSha256 != payloadHash(row) ||
++            !row.valueSi.isFinite() || row.valueSi <= 0 || row.recordedAt <= 0 || row.methodVersion < 1 || row.methodId.isBlank()) {
++            fail(CartographicStoreError.CORRUPT)
++        }
++        val geometry = try { json.decodeFromString<Geometry>(row.geometryJson) } catch (_: Exception) { fail(CartographicStoreError.CORRUPT) }
++        if (geometry.crs != "EPSG:4326" || geometry.coordinateOrder != "latitude_longitude" || geometry.version != 1 ||
++            geometry.points.size > CartographicMeasureCalculator.MAX_POINTS) fail(CartographicStoreError.CORRUPT)
++        val points = geometry.points.map { CartographicCoordinate(it.latitude, it.longitude) }
++        val kind = try { CartographicMeasureKind.valueOf(row.kind) } catch (_: IllegalArgumentException) { fail(CartographicStoreError.CORRUPT) }
++        if (points.size < (if (kind == CartographicMeasureKind.DISTANCE) 2 else 3) || points.any { !CartographicMeasureCalculator.isValidCoordinate(it) }) fail(CartographicStoreError.CORRUPT)
++        return SavedCartographicMeasurement(row.id, scope, row.name, kind, points.toList(), row.valueSi,
++            row.methodId, row.methodVersion, row.recordedAt,
++            source = if (row.sourceMeasurementId == null) "manual_map" else "manual_map_copy",
++            sourceMeasurementId = row.sourceMeasurementId)
++    }
++
++    private fun payloadHash(row: CartographicMeasurementEntity): String = hash(json.encodeToString(Integrity(
++        row.id, row.ownerKey, row.scopeKind, row.scopeId, row.name, row.kind, row.geometryJson,
++        row.valueSi, row.methodId, row.methodVersion, row.recordedAt, row.sourceMeasurementId)))
++
++    private fun canonicalId(id: String) {
++        if (id.length != 36 || runCatching { UUID.fromString(id).toString() }.getOrNull() != id) fail(CartographicStoreError.INVALID_INPUT)
++    }
++
++    private suspend fun <T> result(block: suspend () -> T): CartographicStoreResult<T> = withContext(Dispatchers.IO) {
++        try { CartographicStoreResult.Success(block()) }
++        catch (cancelled: CancellationException) { throw cancelled }
++        catch (failure: StoreFailure) { CartographicStoreResult.Failure(failure.reason) }
++        catch (_: Exception) { CartographicStoreResult.Failure(CartographicStoreError.IO) }
++    }
++
++    private fun hash(value: String): String = MessageDigest.getInstance("SHA-256").digest(value.toByteArray(Charsets.UTF_8)).joinToString("") { "%02x".format(it) }
++    private fun fail(reason: CartographicStoreError): Nothing = throw StoreFailure(reason)
++    private class StoreFailure(val reason: CartographicStoreError) : RuntimeException()
++    @Serializable private data class Coordinate(val latitude: Double, val longitude: Double)
++    @Serializable private data class Geometry(val points: List<Coordinate>, val version: Int = 1,
++        val crs: String = "EPSG:4326", val coordinateOrder: String = "latitude_longitude")
++    @Serializable private data class Integrity(val id: String, val ownerKey: String, val scopeKind: String,
++        val scopeId: String, val name: String?, val kind: String, val geometryJson: String, val valueSi: Double,
++        val methodId: String, val methodVersion: Int, val recordedAt: Long, val sourceMeasurementId: String?)
++
++    companion object {
++        const val MAX_NAME_LENGTH = 160
++        private const val MAX_GEOMETRY_CHARACTERS = 256_000
++    }
++}
+diff --git a/app/src/main/java/com/forestry/counter/domain/calculation/UnitCatalog.kt b/app/src/main/java/com/forestry/counter/domain/calculation/UnitCatalog.kt
+--- a/app/src/main/java/com/forestry/counter/domain/calculation/UnitCatalog.kt
++++ b/app/src/main/java/com/forestry/counter/domain/calculation/UnitCatalog.kt
+@@ -33,6 +33,7 @@
+         const val KM = "km"
+         // Area (base: m2)
+         const val M2 = "m2"
++        const val ARE = "a"
+         const val HA = "ha"
+         const val KM2 = "km2"
+         // Volume (base: m3)
+@@ -73,6 +74,7 @@
+         UnitDef(Code.KM, "km", "kilomètre", Dimension.LENGTH, 1000.0, Code.M),
+         // Area (base: m2)
+         UnitDef(Code.M2, "m²", "mètre carré", Dimension.AREA, 1.0, Code.M2, "Unité de surface de référence"),
++        UnitDef(Code.ARE, "a", "are", Dimension.AREA, 100.0, Code.M2),
+         UnitDef(Code.HA, "ha", "hectare", Dimension.AREA, 10_000.0, Code.M2, "Surface forestière"),
+         UnitDef(Code.KM2, "km²", "kilomètre carré", Dimension.AREA, 1_000_000.0, Code.M2),
+         // Volume (base: m3)
+diff --git a/app/src/main/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculator.kt b/app/src/main/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculator.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculator.kt
+@@ -0,0 +1,199 @@
++package com.forestry.counter.domain.calculation.cartography
++
++import com.forestry.counter.domain.geometry.PlanarSegmentIntersection
++import kotlin.math.abs
++import kotlin.math.atan2
++import kotlin.math.cos
++import kotlin.math.max
++import kotlin.math.sin
++import kotlin.math.sqrt
++
++/** WGS84 angular coordinates, explicitly latitude then longitude (not GeoJSON order). */
++data class CartographicCoordinate(val latitude: Double, val longitude: Double)
++
++enum class CartographicMeasureKind { DISTANCE, AREA }
++
++enum class CartographicMeasureIssue {
++    TOO_MANY_POINTS,
++    NOT_ENOUGH_POINTS,
++    INVALID_COORDINATE,
++    DUPLICATE_VERTEX,
++    DEGENERATE_GEOMETRY,
++    SELF_INTERSECTION,
++    OUTSIDE_LOCAL_AREA_DOMAIN,
++    NUMERIC_FAILURE,
++}
++
++sealed interface CartographicMeasureResult {
++    /** valueSi is metres for DISTANCE and square metres for AREA; never rounded. */
++    data class Available(
++        val kind: CartographicMeasureKind,
++        val valueSi: Double,
++        val pointCount: Int,
++        val methodId: String,
++        val methodVersion: Int,
++        /** Open consecutive legs only, in metres; empty for an area. */
++        val segmentLengthsM: List<Double> = emptyList(),
++    ) : CartographicMeasureResult
++
++    data class Unavailable(val issue: CartographicMeasureIssue) : CartographicMeasureResult
++}
++
++/**
++ * Shared calculation for manually drawn map measurements. It neither reads a map
++ * nor accesses GPS, altitude, a business scope, a saved file or a display unit.
++ *
++ * Distance sums open Haversine legs on the historical 6,371,000 m sphere. Area is
++ * an equirectangular local-plane shoelace approximation, with mean vertex latitude
++ * as the standard parallel and the first point as a numerical XY origin. Neither
++ * method is an ellipsoidal survey, cadastral area or slope-corrected ground result.
++ *
++ * The area envelope (10 km from the first vertex, |latitude| <= 80 degrees) is a
++ * conservative technical acceptance limit, NOT a validated precision guarantee.
++ * Area precision remains unqualified even inside that envelope. Numeric tolerances
++ * below only handle floating-point degeneracies; they are not physical uncertainty.
++ */
++object CartographicMeasureCalculator {
++    /** Bounds the quadratic polygon-simplicity check before copying or computing geometry. */
++    const val MAX_POINTS = 1_000
++    const val EARTH_RADIUS_M = 6_371_000.0
++    const val MAX_LOCAL_AREA_RADIUS_M = 10_000.0
++    const val MAX_LOCAL_AREA_ABSOLUTE_LATITUDE = 80.0
++    const val DISTANCE_METHOD_ID = "sphere-haversine-polyline"
++    const val AREA_METHOD_ID = "local-equirectangular-shoelace"
++    const val METHOD_VERSION = 1
++
++    fun calculate(
++        kind: CartographicMeasureKind,
++        points: List<CartographicCoordinate>,
++    ): CartographicMeasureResult {
++        if (points.size > MAX_POINTS) return unavailable(CartographicMeasureIssue.TOO_MANY_POINTS)
++        // A caller mutating its own collection cannot alter a returned calculation.
++        val snapshot = points.toList()
++        if (snapshot.any { !isValidCoordinate(it) }) return unavailable(CartographicMeasureIssue.INVALID_COORDINATE)
++        if (snapshot.size < if (kind == CartographicMeasureKind.DISTANCE) 2 else 3) {
++            return unavailable(CartographicMeasureIssue.NOT_ENOUGH_POINTS)
++        }
++        return when (kind) {
++            CartographicMeasureKind.DISTANCE -> distance(snapshot)
++            CartographicMeasureKind.AREA -> area(snapshot)
++        }
++    }
++
++    fun isValidCoordinate(point: CartographicCoordinate): Boolean =
++        point.latitude.isFinite() && point.longitude.isFinite() &&
++            point.latitude in -90.0..90.0 && point.longitude in -180.0..180.0
++
++    private fun distance(points: List<CartographicCoordinate>): CartographicMeasureResult {
++        if (points.zipWithNext().any { (a, b) -> positionKey(a) == positionKey(b) }) {
++            return unavailable(CartographicMeasureIssue.DUPLICATE_VERTEX)
++        }
++        // A-B-A is valid: non-consecutive repeated points represent a return leg.
++        val segments = points.zipWithNext().map { (a, b) -> betweenM(a, b) }
++        val value = compensatedSum(segments)
++        if (!value.isFinite() || segments.any { !it.isFinite() }) {
++            return unavailable(CartographicMeasureIssue.NUMERIC_FAILURE)
++        }
++        if (value <= 0.0) return unavailable(CartographicMeasureIssue.DEGENERATE_GEOMETRY)
++        return CartographicMeasureResult.Available(
++            CartographicMeasureKind.DISTANCE, value, points.size,
++            DISTANCE_METHOD_ID, METHOD_VERSION, segments,
++        )
++    }
++
++    private fun area(points: List<CartographicCoordinate>): CartographicMeasureResult {
++        // The editor supplies an open vertex list. Closing the ring is implicit;
++        // a repeated final/first point is not silently removed from user input.
++        if (points.map(::positionKey).toSet().size != points.size) {
++            return unavailable(CartographicMeasureIssue.DUPLICATE_VERTEX)
++        }
++        val origin = points.first()
++        if (points.any { abs(it.latitude) > MAX_LOCAL_AREA_ABSOLUTE_LATITUDE ||
++                betweenM(origin, it) > MAX_LOCAL_AREA_RADIUS_M }) {
++            return unavailable(CartographicMeasureIssue.OUTSIDE_LOCAL_AREA_DOMAIN)
++        }
++        val parallelLatitude = compensatedSum(points.map { it.latitude }) / points.size
++        val parallelCos = cos(Math.toRadians(parallelLatitude))
++        val projected = points.map {
++            XY(
++                Math.toRadians(longitudeDelta(it.longitude, origin.longitude)) * EARTH_RADIUS_M * parallelCos,
++                Math.toRadians(it.latitude - origin.latitude) * EARTH_RADIUS_M,
++            )
++        }
++        if (projected.any { !it.x.isFinite() || !it.y.isFinite() }) {
++            return unavailable(CartographicMeasureIssue.NUMERIC_FAILURE)
++        }
++        for (i in projected.indices) {
++            val nextI = (i + 1) % projected.size
++            for (j in i + 1 until projected.size) {
++                val nextJ = (j + 1) % projected.size
++                if (nextI == j || nextJ == i) continue // Adjacent edges share a permitted endpoint.
++                if (intersects(projected[i], projected[nextI], projected[j], projected[nextJ])) {
++                    return unavailable(CartographicMeasureIssue.SELF_INTERSECTION)
++                }
++            }
++        }
++        val twiceSignedArea = compensatedSum(projected.indices.map { i ->
++            val next = (i + 1) % projected.size
++            projected[i].x * projected[next].y - projected[next].x * projected[i].y
++        })
++        val value = abs(twiceSignedArea) / 2.0
++        if (!value.isFinite()) return unavailable(CartographicMeasureIssue.NUMERIC_FAILURE)
++        val extentX = projected.maxOf { it.x } - projected.minOf { it.x }
++        val extentY = projected.maxOf { it.y } - projected.minOf { it.y }
++        val numericAreaTolerance = max(1.0, extentX * extentY) * 1e-12
++        if (value <= numericAreaTolerance) return unavailable(CartographicMeasureIssue.DEGENERATE_GEOMETRY)
++        return CartographicMeasureResult.Available(
++            CartographicMeasureKind.AREA, value, points.size, AREA_METHOD_ID, METHOD_VERSION,
++        )
++    }
++
++    private fun betweenM(from: CartographicCoordinate, to: CartographicCoordinate): Double {
++        val fromLat = Math.toRadians(from.latitude)
++        val toLat = Math.toRadians(to.latitude)
++        val halfLat = Math.toRadians(to.latitude - from.latitude) / 2.0
++        val halfLon = Math.toRadians(longitudeDelta(to.longitude, from.longitude)) / 2.0
++        val a = (sin(halfLat) * sin(halfLat) + cos(fromLat) * cos(toLat) *
++            sin(halfLon) * sin(halfLon)).coerceIn(0.0, 1.0)
++        return EARTH_RADIUS_M * 2.0 * atan2(sqrt(a), sqrt(1.0 - a))
++    }
++
++    private fun longitudeDelta(value: Double, origin: Double): Double {
++        val delta = value - origin
++        return when {
++            delta > 180.0 -> delta - 360.0
++            delta < -180.0 -> delta + 360.0
++            else -> delta
++        }
++    }
++
++    private fun positionKey(point: CartographicCoordinate): Pair<Double, Double> {
++        val latitude = if (point.latitude == 0.0) 0.0 else point.latitude
++        val longitude = when {
++            abs(latitude) == 90.0 -> 0.0 // All longitudes name the same pole.
++            abs(point.longitude) == 180.0 -> -180.0
++            point.longitude == 0.0 -> 0.0
++            else -> point.longitude
++        }
++        return latitude to longitude
++    }
++
++    private data class XY(val x: Double, val y: Double)
++
++    private fun intersects(a: XY, b: XY, c: XY, d: XY): Boolean =
++        PlanarSegmentIntersection.intersects(a.x, a.y, b.x, b.y, c.x, c.y, d.x, d.y)
++
++    private fun compensatedSum(values: Iterable<Double>): Double {
++        var sum = 0.0
++        var correction = 0.0
++        for (value in values) {
++            val adjusted = value - correction
++            val next = sum + adjusted
++            correction = (next - sum) - adjusted
++            sum = next
++        }
++        return sum
++    }
++
++    private fun unavailable(issue: CartographicMeasureIssue) = CartographicMeasureResult.Unavailable(issue)
++}
+diff --git a/app/src/main/java/com/forestry/counter/domain/geometry/PlanarSegmentIntersection.kt b/app/src/main/java/com/forestry/counter/domain/geometry/PlanarSegmentIntersection.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/domain/geometry/PlanarSegmentIntersection.kt
+@@ -0,0 +1,40 @@
++package com.forestry.counter.domain.geometry
++
++import kotlin.math.abs
++import kotlin.math.max
++import kotlin.math.min
++
++/**
++ * Shared planar segment predicates for finite coordinates in one consistent frame.
++ * The relative floating-point tolerance is inherited from ParcelGeometry; it is
++ * not a distance buffer or a tolerance for measurement/GPS uncertainty.
++ * Primitive arguments avoid allocating four points in every quadratic edge check.
++ */
++internal object PlanarSegmentIntersection {
++    fun orientation(ax: Double, ay: Double, bx: Double, by: Double, cx: Double, cy: Double): Int {
++        val left = (bx - ax) * (cy - ay)
++        val right = (by - ay) * (cx - ax)
++        val cross = left - right
++        val error = 1e-14 * (abs(left) + abs(right))
++        return if (abs(cross) <= error) 0 else if (cross > 0.0) 1 else -1
++    }
++
++    fun intersects(
++        ax: Double, ay: Double, bx: Double, by: Double,
++        cx: Double, cy: Double, dx: Double, dy: Double,
++    ): Boolean {
++        val first = orientation(ax, ay, bx, by, cx, cy)
++        val second = orientation(ax, ay, bx, by, dx, dy)
++        val third = orientation(cx, cy, dx, dy, ax, ay)
++        val fourth = orientation(cx, cy, dx, dy, bx, by)
++        return (first * second < 0 && third * fourth < 0) ||
++            (first == 0 && onSegment(ax, ay, bx, by, cx, cy)) ||
++            (second == 0 && onSegment(ax, ay, bx, by, dx, dy)) ||
++            (third == 0 && onSegment(cx, cy, dx, dy, ax, ay)) ||
++            (fourth == 0 && onSegment(cx, cy, dx, dy, bx, by))
++    }
++
++    private fun onSegment(ax: Double, ay: Double, bx: Double, by: Double, px: Double, py: Double): Boolean =
++        px >= min(ax, bx) && px <= max(ax, bx) && py >= min(ay, by) && py <= max(ay, by) &&
++            orientation(ax, ay, bx, by, px, py) == 0
++}
+diff --git a/app/src/main/java/com/forestry/counter/domain/location/ParcelGeometry.kt b/app/src/main/java/com/forestry/counter/domain/location/ParcelGeometry.kt
+--- a/app/src/main/java/com/forestry/counter/domain/location/ParcelGeometry.kt
++++ b/app/src/main/java/com/forestry/counter/domain/location/ParcelGeometry.kt
+@@ -1,5 +1,6 @@
+ package com.forestry.counter.domain.location
+ 
++import com.forestry.counter.domain.geometry.PlanarSegmentIntersection
+ import java.math.BigDecimal
+ import kotlinx.serialization.json.Json
+ import kotlinx.serialization.json.JsonArray
+@@ -339,12 +340,8 @@
+             (b.longitude - a.longitude) * (c.latitude - a.latitude) -
+                 (b.latitude - a.latitude) * (c.longitude - a.longitude)
+ 
+-        private fun orientation(a: ParcelCoordinate, b: ParcelCoordinate, c: ParcelCoordinate): Int {
+-            val value = cross(a, b, c)
+-            val error = 1e-14 * (abs((b.longitude - a.longitude) * (c.latitude - a.latitude)) +
+-                abs((b.latitude - a.latitude) * (c.longitude - a.longitude)))
+-            return if (abs(value) <= error) 0 else if (value > 0.0) 1 else -1
+-        }
++        private fun orientation(a: ParcelCoordinate, b: ParcelCoordinate, c: ParcelCoordinate): Int =
++            PlanarSegmentIntersection.orientation(a.longitude, a.latitude, b.longitude, b.latitude, c.longitude, c.latitude)
+ 
+         private fun onSegment(a: ParcelCoordinate, b: ParcelCoordinate, point: ParcelCoordinate, tolerance: Double = 0.0): Boolean {
+             if (point.longitude < min(a.longitude, b.longitude) - tolerance || point.longitude > max(a.longitude, b.longitude) + tolerance ||
+@@ -353,15 +350,9 @@
+             else abs(cross(a, b, point)) <= tolerance * max(abs(b.longitude - a.longitude), abs(b.latitude - a.latitude))
+         }
+ 
+-        private fun intersects(a: ParcelCoordinate, b: ParcelCoordinate, c: ParcelCoordinate, d: ParcelCoordinate): Boolean {
+-            val first = orientation(a, b, c)
+-            val second = orientation(a, b, d)
+-            val third = orientation(c, d, a)
+-            val fourth = orientation(c, d, b)
+-            return (first * second < 0 && third * fourth < 0) ||
+-                (first == 0 && onSegment(a, b, c)) || (second == 0 && onSegment(a, b, d)) ||
+-                (third == 0 && onSegment(c, d, a)) || (fourth == 0 && onSegment(c, d, b))
+-        }
++        private fun intersects(a: ParcelCoordinate, b: ParcelCoordinate, c: ParcelCoordinate, d: ParcelCoordinate): Boolean =
++            PlanarSegmentIntersection.intersects(a.longitude, a.latitude, b.longitude, b.latitude,
++                c.longitude, c.latitude, d.longitude, d.latitude)
+ 
+         private fun ringsIntersect(first: List<ParcelCoordinate>, second: List<ParcelCoordinate>): Boolean {
+             for (a in 0 until first.lastIndex) for (b in 0 until second.lastIndex) {
+diff --git a/app/src/main/java/com/forestry/counter/domain/repository/CartographicMeasurementRepository.kt b/app/src/main/java/com/forestry/counter/domain/repository/CartographicMeasurementRepository.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/domain/repository/CartographicMeasurementRepository.kt
+@@ -0,0 +1,57 @@
++package com.forestry.counter.domain.repository
++
++import com.forestry.counter.domain.calculation.cartography.CartographicCoordinate
++import com.forestry.counter.domain.calculation.cartography.CartographicMeasureKind
++import com.forestry.counter.domain.usecase.maps.MapDataScope
++import kotlinx.coroutines.flow.Flow
++
++/** Opaque authority captured before editing; never replace it during a pending save. */
++interface CartographicMeasurementAccess {
++    val scope: MapDataScope
++    val localDevice: Boolean
++    /** Stable draft partition only; this fingerprint never authorizes a read or write. */
++    val restorationKey: String
++}
++
++data class CartographicMeasurementInput(
++    val id: String,
++    val name: String?,
++    val kind: CartographicMeasureKind,
++    val points: List<CartographicCoordinate>,
++    val sourceMeasurementId: String? = null,
++)
++
++/** Immutable cartographic snapshot; SI values are not terrain or cadastral certification. */
++data class SavedCartographicMeasurement(
++    val id: String,
++    val scope: MapDataScope,
++    val name: String?,
++    val kind: CartographicMeasureKind,
++    val points: List<CartographicCoordinate>,
++    val valueSi: Double,
++    val methodId: String,
++    val methodVersion: Int,
++    val recordedAt: Long,
++    val source: String = "manual_map",
++    val coordinateReferenceSystem: String = "EPSG:4326",
++    val sourceMeasurementId: String? = null,
++)
++
++enum class CartographicStoreError {
++    ACCESS_CHANGED, UNAVAILABLE, INVALID_INPUT, CONFLICT, IO, CORRUPT, UNKNOWN_RESULT,
++}
++
++sealed interface CartographicStoreResult<out T> {
++    data class Success<T>(val value: T) : CartographicStoreResult<T>
++    data class Failure(val reason: CartographicStoreError) : CartographicStoreResult<Nothing>
++}
++
++interface CartographicMeasurementRepository {
++    suspend fun captureAccess(scope: MapDataScope): CartographicStoreResult<CartographicMeasurementAccess>
++    /** Synchronous session/purge hint. Every I/O operation also revalidates the live scope. */
++    fun isCurrent(access: CartographicMeasurementAccess): Boolean
++    fun accessChanges(): Flow<Unit>
++    suspend fun save(input: CartographicMeasurementInput, access: CartographicMeasurementAccess): CartographicStoreResult<SavedCartographicMeasurement>
++    suspend fun list(access: CartographicMeasurementAccess): CartographicStoreResult<List<SavedCartographicMeasurement>>
++    suspend fun read(id: String, access: CartographicMeasurementAccess): CartographicStoreResult<SavedCartographicMeasurement>
++}
+diff --git a/app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormatting.kt b/app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormatting.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormatting.kt
+@@ -0,0 +1,58 @@
++package com.forestry.counter.presentation.screens.forestry
++
++import com.forestry.counter.domain.calculation.UnitCatalog
++import com.forestry.counter.domain.calculation.UnitConverter
++import com.forestry.counter.domain.calculation.cartography.CartographicMeasureKind
++import com.quintessences.geosylva.cartography.ui.measurement.MeasureDistanceUnit
++import com.quintessences.geosylva.cartography.ui.measurement.MeasureAreaUnit as WorkspaceMeasureAreaUnit
++import java.math.BigDecimal
++import java.math.RoundingMode
++import java.text.NumberFormat
++import java.util.Locale
++
++internal data class ManualMeasureFormattedValue(val number: String, val unit: String)
++
++/**
++ * One formatter for editor, collapsed result, save summary and unit preview.
++ * Always converts the full SI value through UnitCatalog; no rounded text is read
++ * back and no geometry, reference value, preference or saved record is changed.
++ * Display digits are presentation choices, never a physical accuracy claim.
++ */
++internal fun formatManualMeasure(
++    valueSi: Double,
++    kind: CartographicMeasureKind,
++    distanceUnit: MeasureDistanceUnit,
++    areaUnit: WorkspaceMeasureAreaUnit,
++    locale: Locale = Locale.getDefault(),
++): ManualMeasureFormattedValue? {
++    if (!valueSi.isFinite() || valueSi < 0.0) return null
++    val (targetCode, decimals) = when (kind) {
++        CartographicMeasureKind.DISTANCE -> when (distanceUnit) {
++            MeasureDistanceUnit.METRES -> UnitCatalog.Code.M to 1
++            MeasureDistanceUnit.KILOMETRES -> UnitCatalog.Code.KM to 3
++        }
++        CartographicMeasureKind.AREA -> when (areaUnit) {
++            WorkspaceMeasureAreaUnit.SQUARE_METRES -> UnitCatalog.Code.M2 to 1
++            WorkspaceMeasureAreaUnit.ARES -> UnitCatalog.Code.ARE to 2
++            WorkspaceMeasureAreaUnit.HECTARES -> UnitCatalog.Code.HA to 4
++        }
++    }
++    val referenceCode = if (kind == CartographicMeasureKind.DISTANCE) UnitCatalog.Code.M else UnitCatalog.Code.M2
++    val target = UnitCatalog.get(targetCode) ?: return null
++    // Normalize signed zero, which is not a distinct physical reference value.
++    val converted = UnitConverter.convert(if (valueSi == 0.0) 0.0 else valueSi, referenceCode, targetCode)
++    if (!converted.isFinite()) return null
++    val formatter = NumberFormat.getNumberInstance(locale).apply {
++        minimumFractionDigits = 0
++        maximumFractionDigits = decimals
++        roundingMode = RoundingMode.HALF_UP
++    }
++    val rounded = BigDecimal.valueOf(converted).setScale(decimals, RoundingMode.HALF_UP)
++    val number = if (valueSi > 0.0 && rounded.signum() == 0) {
++        // A positive result smaller than the display quantum must not become a
++        // fabricated zero. This also covers conversion underflow of tiny doubles.
++        val quantum = BigDecimal.ONE.movePointLeft(decimals).toDouble()
++        "< ${formatter.format(quantum)}"
++    } else formatter.format(converted)
++    return ManualMeasureFormattedValue(number, target.symbol)
++}
+diff --git a/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapMeasureTools.kt b/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapMeasureTools.kt
+--- a/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapMeasureTools.kt
++++ b/app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapMeasureTools.kt
+@@ -5,8 +5,18 @@
+ import com.forestry.counter.presentation.theme.MartelageEnlever
+ import com.forestry.counter.presentation.theme.SemanticError
+ import androidx.compose.ui.graphics.Color
+-import com.mapbox.mapboxsdk.geometry.LatLng
+-import kotlin.math.*
++import com.forestry.counter.domain.calculation.cartography.CartographicCoordinate
++import com.forestry.counter.domain.calculation.cartography.CartographicMeasureCalculator
++import com.forestry.counter.domain.calculation.cartography.CartographicMeasureKind
++import com.forestry.counter.domain.calculation.cartography.CartographicMeasureResult
++
++/**
++ * SDK-independent coordinate for the existing manual measurement editor.
++ * Constructor and historical JSON deliberately keep latitude then longitude;
++ * GeoJSON adapters must convert explicitly to longitude then latitude.
++ * Geometry/source validation remains the responsibility of the shared service.
++ */
++data class MeasurePoint(val latitude: Double, val longitude: Double)
+ 
+ enum class MeasureMode { DISTANCE, AREA }
+ enum class MeasureDistUnit { M, KM }
+@@ -23,36 +33,19 @@
+     Color(0xFF00BCD4)
+ )
+ 
+-internal fun haversineM(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+-    val R = 6_371_000.0
+-    val phi1 = Math.toRadians(lat1)
+-    val phi2 = Math.toRadians(lat2)
+-    val dPhi = Math.toRadians(lat2 - lat1)
+-    val dLambda = Math.toRadians(lon2 - lon1)
+-    val a = sin(dPhi / 2).pow(2) + cos(phi1) * cos(phi2) * sin(dLambda / 2).pow(2)
+-    return R * 2.0 * atan2(sqrt(a), sqrt(1.0 - a))
++/** Compatibility adapters only; all geometry validation/calculation lives in the domain service. */
++internal fun haversineM(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double =
++    measurePolylineM(listOf(MeasurePoint(lat1, lon1), MeasurePoint(lat2, lon2)))
++
++internal fun measurePolylineM(pts: List<MeasurePoint>): Double =
++    measureReference(pts, CartographicMeasureKind.DISTANCE)
++
++internal fun measureAreaM2(pts: List<MeasurePoint>): Double =
++    measureReference(pts, CartographicMeasureKind.AREA)
++
++private fun measureReference(pts: List<MeasurePoint>, kind: CartographicMeasureKind): Double {
++    if (pts.isEmpty()) return 0.0 // Historical empty-list contract; not a valid editor result.
++    if (pts.size > CartographicMeasureCalculator.MAX_POINTS) return Double.NaN
++    val result = CartographicMeasureCalculator.calculate(kind, pts.map { CartographicCoordinate(it.latitude, it.longitude) })
++    return (result as? CartographicMeasureResult.Available)?.valueSi ?: Double.NaN
+ }
+-
+-internal fun measurePolylineM(pts: List<LatLng>): Double =
+-    if (pts.size < 2) 0.0
+-    else pts.zipWithNext().sumOf { (a, b) -> haversineM(a.latitude, a.longitude, b.latitude, b.longitude) }
+-
+-internal fun measureAreaM2(pts: List<LatLng>): Double {
+-    if (pts.size < 3) return 0.0
+-    val R = 6_371_000.0
+-    val lat0 = pts[0].latitude
+-    val lon0 = pts[0].longitude
+-    val cLat = cos(Math.toRadians(lat0))
+-    val xy = pts.map { p ->
+-        Pair(
+-            Math.toRadians(p.longitude - lon0) * R * cLat,
+-            Math.toRadians(p.latitude - lat0) * R
+-        )
+-    }
+-    var s = 0.0
+-    xy.indices.forEach { i ->
+-        val j = (i + 1) % xy.size
+-        s += xy[i].first * xy[j].second - xy[j].first * xy[i].second
+-    }
+-    return abs(s) / 2.0
+-}
+diff --git a/app/src/test/java/com/forestry/counter/domain/calculation/UnitConverterTest.kt b/app/src/test/java/com/forestry/counter/domain/calculation/UnitConverterTest.kt
+--- a/app/src/test/java/com/forestry/counter/domain/calculation/UnitConverterTest.kt
++++ b/app/src/test/java/com/forestry/counter/domain/calculation/UnitConverterTest.kt
+@@ -39,6 +39,15 @@
+     // --- Conversions area ---
+ 
+     @Test
++    fun should_convert_ares_through_the_shared_area_reference() {
++        assertEquals(100.0, UnitConverter.convert(1.0, UnitCatalog.Code.ARE, UnitCatalog.Code.M2), 1e-9)
++        assertEquals(100.0, UnitConverter.convert(1.0, UnitCatalog.Code.HA, UnitCatalog.Code.ARE), 1e-9)
++        assertEquals(0.01, UnitConverter.convert(1.0, UnitCatalog.Code.ARE, UnitCatalog.Code.HA), 1e-12)
++        assertTrue(UnitConverter.areCompatible(UnitCatalog.Code.ARE, UnitCatalog.Code.M2))
++        assertEquals("a", UnitCatalog.get(UnitCatalog.Code.ARE)?.symbol)
++    }
++
++    @Test
+     fun should_convert_ha_to_m2() {
+         assertEquals(10_000.0, UnitConverter.convert(1.0, UnitCatalog.Code.HA, UnitCatalog.Code.M2), 1e-9)
+     }
+diff --git a/app/src/test/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculatorTest.kt b/app/src/test/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculatorTest.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/test/java/com/forestry/counter/domain/calculation/cartography/CartographicMeasureCalculatorTest.kt
+@@ -0,0 +1,187 @@
++package com.forestry.counter.domain.calculation.cartography
++
++import org.junit.Assert.assertEquals
++import org.junit.Assert.assertTrue
++import org.junit.Test
++import kotlin.math.PI
++
++class CartographicMeasureCalculatorTest {
++    @Test fun `oversized input is rejected before traversing coordinates or copying geometry`() {
++        val points = object : AbstractList<CartographicCoordinate>() {
++            override val size = CartographicMeasureCalculator.MAX_POINTS + 1
++            override fun get(index: Int): CartographicCoordinate = error("Oversized input must not be traversed")
++        }
++        for (kind in CartographicMeasureKind.entries) {
++            assertUnavailable(kind, points, CartographicMeasureIssue.TOO_MANY_POINTS)
++        }
++    }
++
++    @Test fun `distance sums open consecutive legs instead of closing or measuring chord`() {
++        val result = distance(p(0.0, 0.0), p(0.0, 0.001), p(0.001, 0.001))
++        assertEquals(222.389853, result.valueSi, 0.001)
++        assertEquals(2, result.segmentLengthsM.size)
++        assertEquals(result.valueSi, result.segmentLengthsM.sum(), 1e-9)
++        assertEquals(3, result.pointCount)
++        assertEquals(CartographicMeasureKind.DISTANCE, result.kind)
++        assertEquals(CartographicMeasureCalculator.DISTANCE_METHOD_ID, result.methodId)
++        assertEquals(1, result.methodVersion)
++    }
++
++    @Test fun `a return to an earlier vertex remains a valid return leg`() {
++        val result = distance(p(48.0, 2.0), p(48.0, 2.001), p(48.0, 2.0))
++        val outward = distance(p(48.0, 2.0), p(48.0, 2.001))
++        assertEquals(outward.valueSi * 2.0, result.valueSi, 1e-9)
++    }
++
++    @Test fun `consecutive duplicate vertices cannot create a valid measurement`() {
++        assertUnavailable(CartographicMeasureKind.DISTANCE,
++            listOf(p(48.0, 2.0), p(48.0, 2.0)), CartographicMeasureIssue.DUPLICATE_VERTEX)
++        assertUnavailable(CartographicMeasureKind.DISTANCE,
++            listOf(p(48.0, 2.0), p(48.0, 2.001), p(48.0, 2.001)), CartographicMeasureIssue.DUPLICATE_VERTEX)
++    }
++
++    @Test fun `dateline aliases and different longitudes at one pole are the same position`() {
++        listOf(
++            listOf(p(0.0, 180.0), p(0.0, -180.0)),
++            listOf(p(90.0, 25.0), p(90.0, -140.0)),
++            listOf(p(-90.0, -15.0), p(-90.0, 120.0)),
++            listOf(p(-0.0, 0.0), p(0.0, -0.0)),
++        ).forEach { points ->
++            assertUnavailable(CartographicMeasureKind.DISTANCE, points, CartographicMeasureIssue.DUPLICATE_VERTEX)
++        }
++    }
++
++    @Test fun `incomplete drafts are unavailable rather than fabricated zero results`() {
++        for (count in 0..1) assertUnavailable(CartographicMeasureKind.DISTANCE,
++            listOf(p(48.0, 2.0)).take(count), CartographicMeasureIssue.NOT_ENOUGH_POINTS)
++        for (count in 0..2) assertUnavailable(CartographicMeasureKind.AREA,
++            listOf(p(48.0, 2.0), p(48.0, 2.001)).take(count), CartographicMeasureIssue.NOT_ENOUGH_POINTS)
++    }
++
++    @Test fun `non finite and out of range coordinates fail explicitly`() {
++        val invalid = listOf(p(Double.NaN, 2.0), p(48.0, Double.POSITIVE_INFINITY),
++            p(90.1, 2.0), p(-90.1, 2.0), p(48.0, 180.1), p(48.0, -180.1))
++        for (point in invalid) {
++            for (kind in CartographicMeasureKind.entries) {
++                assertUnavailable(kind, listOf(p(48.0, 2.0), p(48.0, 2.001), point),
++                    CartographicMeasureIssue.INVALID_COORDINATE)
++            }
++        }
++    }
++
++    @Test fun `a short dateline crossing is a short open distance`() {
++        assertEquals(222.389853, distance(p(0.0, 179.999), p(0.0, -179.999)).valueSi, 0.001)
++    }
++
++    @Test fun `antipodal haversine remains finite at rounding boundaries`() {
++        for (latitude in listOf(-62.1, -15.6, 0.0, 37.8, 67.5)) {
++            val result = distance(p(latitude, 123.4), p(-latitude, -56.6))
++            assertTrue(result.valueSi.isFinite())
++            assertEquals(PI * CartographicMeasureCalculator.EARTH_RADIUS_M, result.valueSi, 0.5)
++        }
++    }
++
++    @Test fun `returned result is not affected by later draft list mutation`() {
++        val points = mutableListOf(p(0.0, 0.0), p(0.0, 0.001))
++        val result = calculate(CartographicMeasureKind.DISTANCE, points)
++        points.clear()
++        assertEquals(2, result.pointCount)
++        assertEquals(111.194927, result.valueSi, 0.001)
++        assertEquals(1, result.segmentLengthsM.size)
++    }
++
++    @Test fun `small square produces a horizontal local plane area with explicit method`() {
++        val result = calculate(CartographicMeasureKind.AREA, square())
++        assertEquals(12_364.31, result.valueSi, 0.1)
++        assertEquals(CartographicMeasureKind.AREA, result.kind)
++        assertEquals(4, result.pointCount)
++        assertTrue(result.segmentLengthsM.isEmpty())
++        assertEquals(CartographicMeasureCalculator.AREA_METHOD_ID, result.methodId)
++        assertEquals(1, result.methodVersion)
++    }
++
++    @Test fun `area is invariant to winding and first vertex inside its technical envelope`() {
++        val original = listOf(p(48.0, 2.0), p(48.0, 2.001), p(48.001, 2.001), p(48.001, 2.0))
++        val area = calculate(CartographicMeasureKind.AREA, original).valueSi
++        assertEquals(area, calculate(CartographicMeasureKind.AREA, original.reversed()).valueSi, 1e-6)
++        for (start in original.indices) {
++            val rotated = original.drop(start) + original.take(start)
++            assertEquals(area, calculate(CartographicMeasureKind.AREA, rotated).valueSi, 1e-6)
++        }
++    }
++
++    @Test fun `simple concave polygons are allowed`() {
++        val points = listOf(p(0.0, 0.0), p(0.0, 0.002), p(0.002, 0.002),
++            p(0.001, 0.001), p(0.002, 0.0))
++        val result = calculate(CartographicMeasureKind.AREA, points)
++        assertTrue(result.valueSi > 0.0)
++        assertEquals(5, result.pointCount)
++    }
++
++    @Test fun `collinear area drafts are unavailable`() {
++        assertUnavailable(CartographicMeasureKind.AREA,
++            listOf(p(48.0, 2.0), p(48.0, 2.001), p(48.0, 2.002)),
++            CartographicMeasureIssue.DEGENERATE_GEOMETRY)
++    }
++
++    @Test fun `closing or repeating an area vertex is not silently normalized`() {
++        assertUnavailable(CartographicMeasureKind.AREA, square() + square().first(),
++            CartographicMeasureIssue.DUPLICATE_VERTEX)
++        assertUnavailable(CartographicMeasureKind.AREA,
++            listOf(p(0.0, 0.0), p(0.0, 0.001), p(0.001, 0.001), p(0.0, 0.001)),
++            CartographicMeasureIssue.DUPLICATE_VERTEX)
++    }
++
++    @Test fun `bow tie is rejected before its cancelling signed area becomes zero`() {
++        assertUnavailable(CartographicMeasureKind.AREA,
++            listOf(p(0.0, 0.0), p(0.001, 0.001), p(0.0, 0.001), p(0.001, 0.0)),
++            CartographicMeasureIssue.SELF_INTERSECTION)
++    }
++
++    @Test fun `a vertex touching a non adjacent edge is rejected`() {
++        assertUnavailable(CartographicMeasureKind.AREA,
++            listOf(p(0.0, 0.0), p(0.0, 0.002), p(0.002, 0.002), p(0.0, 0.001), p(0.002, 0.0)),
++            CartographicMeasureIssue.SELF_INTERSECTION)
++    }
++
++    @Test fun `overlapping backtracking boundary edges are rejected`() {
++        assertUnavailable(CartographicMeasureKind.AREA,
++            listOf(p(0.0, 0.0), p(0.0, 0.002), p(0.0, 0.001), p(0.001, 0.001), p(0.001, 0.0)),
++            CartographicMeasureIssue.SELF_INTERSECTION)
++    }
++
++    @Test fun `area outside local radius is unavailable instead of using a worldwide shoelace`() {
++        assertUnavailable(CartographicMeasureKind.AREA,
++            listOf(p(48.0, 2.0), p(48.0, 2.2), p(48.01, 2.0)),
++            CartographicMeasureIssue.OUTSIDE_LOCAL_AREA_DOMAIN)
++    }
++
++    @Test fun `polar area is outside the local plane technical latitude envelope`() {
++        assertUnavailable(CartographicMeasureKind.AREA,
++            listOf(p(81.0, 2.0), p(81.0, 2.001), p(81.001, 2.0)),
++            CartographicMeasureIssue.OUTSIDE_LOCAL_AREA_DOMAIN)
++    }
++
++    @Test fun `small local area across the dateline uses the nearby longitude branch`() {
++        val across = listOf(p(0.0, 179.999), p(0.0, -179.999), p(0.001, -179.999), p(0.001, 179.999))
++        val equivalent = listOf(p(0.0, 0.0), p(0.0, 0.002), p(0.001, 0.002), p(0.001, 0.0))
++        assertEquals(calculate(CartographicMeasureKind.AREA, equivalent).valueSi,
++            calculate(CartographicMeasureKind.AREA, across).valueSi, 0.001)
++    }
++
++    private fun distance(vararg points: CartographicCoordinate) = calculate(CartographicMeasureKind.DISTANCE, points.toList())
++
++    private fun calculate(kind: CartographicMeasureKind, points: List<CartographicCoordinate>): CartographicMeasureResult.Available {
++        val result = CartographicMeasureCalculator.calculate(kind, points)
++        assertTrue("Expected an available measurement, got $result", result is CartographicMeasureResult.Available)
++        return result as CartographicMeasureResult.Available
++    }
++
++    private fun assertUnavailable(kind: CartographicMeasureKind, points: List<CartographicCoordinate>, issue: CartographicMeasureIssue) {
++        assertEquals(CartographicMeasureResult.Unavailable(issue), CartographicMeasureCalculator.calculate(kind, points))
++    }
++
++    private fun p(latitude: Double, longitude: Double) = CartographicCoordinate(latitude, longitude)
++
++    private fun square() = listOf(p(0.0, 0.0), p(0.0, 0.001), p(0.001, 0.001), p(0.001, 0.0))
++}
+diff --git a/app/src/test/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormattingTest.kt b/app/src/test/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormattingTest.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/test/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureFormattingTest.kt
+@@ -0,0 +1,98 @@
++package com.forestry.counter.presentation.screens.forestry
++
++import com.forestry.counter.domain.calculation.cartography.CartographicMeasureKind
++import com.quintessences.geosylva.cartography.ui.measurement.MeasureDistanceUnit
++import com.quintessences.geosylva.cartography.ui.measurement.MeasureAreaUnit as WorkspaceMeasureAreaUnit
++import org.junit.Assert.assertEquals
++import org.junit.Assert.assertNull
++import org.junit.Assert.assertTrue
++import org.junit.Test
++import java.util.Locale
++
++class ManualMeasureFormattingTest {
++    @Test fun `French and English use the requested locale without changing the reference value`() {
++        assertEquals(ManualMeasureFormattedValue("148,1", "m"), format(148.125, locale = Locale.FRANCE))
++        assertEquals(ManualMeasureFormattedValue("148.1", "m"), format(148.125, locale = Locale.US))
++    }
++
++    @Test fun `kilometres convert the full reference instead of an already rounded metre label`() {
++        val value = 123.456
++        assertEquals("123,5", format(value)?.number)
++        // Reusing 123.5 instead would incorrectly round this to 0.124 km.
++        assertEquals(ManualMeasureFormattedValue("0,123", "km"),
++            format(value, distance = MeasureDistanceUnit.KILOMETRES))
++        assertEquals("123,5", format(value)?.number)
++    }
++
++    @Test fun `area units all convert the same unrounded square metre reference`() {
++        assertEquals(ManualMeasureFormattedValue("42", "a"),
++            format(4_200.0, CartographicMeasureKind.AREA, area = WorkspaceMeasureAreaUnit.ARES))
++        assertEquals(ManualMeasureFormattedValue("0,42", "ha"),
++            format(4_200.0, CartographicMeasureKind.AREA, area = WorkspaceMeasureAreaUnit.HECTARES))
++        val squareMetres = format(4_200.0, CartographicMeasureKind.AREA, area = WorkspaceMeasureAreaUnit.SQUARE_METRES)
++        assertEquals("m²", squareMetres?.unit)
++        assertTrue(squareMetres?.number in setOf("4\u202F200", "4\u00A0200"))
++    }
++
++    @Test fun `unused area choice cannot change the active distance result`() {
++        val metres = format(148.0)
++        for (area in WorkspaceMeasureAreaUnit.entries) {
++            assertEquals(metres, format(148.0, area = area))
++        }
++    }
++
++    @Test fun `unused distance choice cannot change the active area result`() {
++        val hectares = format(4_200.0, CartographicMeasureKind.AREA)
++        for (distance in MeasureDistanceUnit.entries) {
++            assertEquals(hectares, format(4_200.0, CartographicMeasureKind.AREA, distance))
++        }
++    }
++
++    @Test fun `non finite and negative references are not formatted as usable results`() {
++        for (value in listOf(Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, -0.1)) {
++            for (kind in CartographicMeasureKind.entries) assertNull(format(value, kind))
++        }
++    }
++
++    @Test fun `positive results below the display quantum never become a false zero`() {
++        assertEquals(ManualMeasureFormattedValue("< 0,1", "m"), format(0.01))
++        assertEquals(ManualMeasureFormattedValue("< 0,001", "km"),
++            format(0.01, distance = MeasureDistanceUnit.KILOMETRES))
++        assertEquals(ManualMeasureFormattedValue("< 0,1", "m²"),
++            format(0.01, CartographicMeasureKind.AREA, area = WorkspaceMeasureAreaUnit.SQUARE_METRES))
++        assertEquals(ManualMeasureFormattedValue("< 0,01", "a"),
++            format(0.01, CartographicMeasureKind.AREA, area = WorkspaceMeasureAreaUnit.ARES))
++        assertEquals(ManualMeasureFormattedValue("< 0,0001", "ha"),
++            format(0.01, CartographicMeasureKind.AREA, area = WorkspaceMeasureAreaUnit.HECTARES))
++    }
++
++    @Test fun `conversion underflow still keeps a positive result distinct from zero`() {
++        assertEquals(ManualMeasureFormattedValue("< 0,001", "km"),
++            format(Double.MIN_VALUE, distance = MeasureDistanceUnit.KILOMETRES))
++    }
++
++    @Test fun `actual zero and signed zero are consistently displayed without an invented threshold`() {
++        assertEquals(ManualMeasureFormattedValue("0", "m"), format(0.0))
++        assertEquals(ManualMeasureFormattedValue("0", "m"), format(-0.0))
++    }
++
++    @Test fun `fraction limits are presentation choices rather than padded precision`() {
++        assertEquals("148", format(148.0)?.number)
++        assertEquals("148,1", format(148.123456)?.number)
++        assertEquals("1,235", format(1_234.567, distance = MeasureDistanceUnit.KILOMETRES)?.number)
++        assertEquals("12,3", format(12.3456, CartographicMeasureKind.AREA,
++            area = WorkspaceMeasureAreaUnit.SQUARE_METRES)?.number)
++        assertEquals("1,23", format(123.456, CartographicMeasureKind.AREA,
++            area = WorkspaceMeasureAreaUnit.ARES)?.number)
++        assertEquals("0,0123", format(123.456, CartographicMeasureKind.AREA,
++            area = WorkspaceMeasureAreaUnit.HECTARES)?.number)
++    }
++
++    private fun format(
++        value: Double,
++        kind: CartographicMeasureKind = CartographicMeasureKind.DISTANCE,
++        distance: MeasureDistanceUnit = MeasureDistanceUnit.METRES,
++        area: WorkspaceMeasureAreaUnit = WorkspaceMeasureAreaUnit.HECTARES,
++        locale: Locale = Locale.FRANCE,
++    ) = formatManualMeasure(value, kind, distance, area, locale)
++}
+diff --git a/app/src/test/java/com/forestry/counter/presentation/screens/forestry/MapMeasureToolsTest.kt b/app/src/test/java/com/forestry/counter/presentation/screens/forestry/MapMeasureToolsTest.kt
+new file mode 100644
+--- /dev/null
++++ b/app/src/test/java/com/forestry/counter/presentation/screens/forestry/MapMeasureToolsTest.kt
+@@ -0,0 +1,40 @@
++package com.forestry.counter.presentation.screens.forestry
++
++import org.junit.Assert.assertEquals
++import org.junit.Assert.assertTrue
++import org.junit.Test
++
++/** Protect SDK migration against latitude/longitude inversion and accidental line closure. */
++class MapMeasureToolsTest {
++    @Test
++    fun `compatibility wrappers keep empty zero but never hide invalid geometry behind zero`() {
++        assertEquals(0.0, measurePolylineM(emptyList()), 0.0)
++        assertEquals(0.0, measureAreaM2(emptyList()), 0.0)
++        assertTrue(measurePolylineM(listOf(MeasurePoint(0.0, 0.0))).isNaN())
++        assertTrue(measurePolylineM(listOf(MeasurePoint(0.0, 0.0), MeasurePoint(0.0, 0.0))).isNaN())
++        assertTrue(measureAreaM2(listOf(MeasurePoint(0.0, 0.0), MeasurePoint(0.001, 0.001),
++            MeasurePoint(0.0, 0.001), MeasurePoint(0.001, 0.0))).isNaN())
++    }
++
++    @Test
++    fun `two manual vertices measure an open line without a return leg`() {
++        val result = measurePolylineM(listOf(MeasurePoint(0.0, 0.0), MeasurePoint(0.0, 0.001)))
++        assertEquals(111.195, result, 0.01)
++    }
++
++    @Test
++    fun `latitude then longitude constructor preserves a short French latitude itinerary`() {
++        val points = listOf(MeasurePoint(48.0, 2.0), MeasurePoint(48.0, 2.001), MeasurePoint(48.001, 2.001))
++        // At48°N a0.001° eastward leg is about74m, followed by111m northwards.
++        // Swapping coordinates would give about222m; closure would exceed300m.
++        assertTrue(measurePolylineM(points) in 185.0..186.0)
++    }
++
++    @Test
++    fun `existing local area remains invariant to polygon traversal direction`() {
++        val square = listOf(MeasurePoint(0.0, 0.0), MeasurePoint(0.0, 0.001),
++            MeasurePoint(0.001, 0.001), MeasurePoint(0.001, 0.0))
++        assertEquals(12_364.31, measureAreaM2(square), 0.1)
++        assertEquals(measureAreaM2(square), measureAreaM2(square.reversed()), 0.01)
++    }
++}

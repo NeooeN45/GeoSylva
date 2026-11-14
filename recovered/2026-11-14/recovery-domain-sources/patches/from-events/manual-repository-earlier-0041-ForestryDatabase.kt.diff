@@ -1,0 +1,14 @@
+@@ -145,2 +145,4 @@
+         com.forestry.counter.data.local.entity.FieldReceiptCommandEntity::class,
++        com.forestry.counter.data.local.entity.CartographicMeasurementEntity::class,
++        com.forestry.counter.data.local.entity.CartographicStoreIdentityEntity::class,
+ 
+@@ -148,3 +150,3 @@
+     ],
+-    version = 47,
++    version = 48,
+     exportSchema = true
+@@ -153,2 +155,3 @@
+ abstract class ForestryDatabase : RoomDatabase() {
++    abstract fun cartographicMeasurementDao(): com.forestry.counter.data.local.dao.CartographicMeasurementDao
+     abstract fun receiptDao(): com.forestry.counter.data.local.dao.ReceiptDao

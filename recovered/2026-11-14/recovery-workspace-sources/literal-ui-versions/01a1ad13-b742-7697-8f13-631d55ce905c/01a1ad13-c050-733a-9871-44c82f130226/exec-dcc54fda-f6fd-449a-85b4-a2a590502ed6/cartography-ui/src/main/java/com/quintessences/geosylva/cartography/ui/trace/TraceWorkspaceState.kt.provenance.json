@@ -1,0 +1,48 @@
+{
+  "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+  "version_file": "literal-ui-versions/01a1ad13-b742-7697-8f13-631d55ce905c/01a1ad13-c050-733a-9871-44c82f130226/exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+  "sha256": "cbd0f7bb82f436bba3901a7e3c69dc052f8820e7d2f0f89e9bfdb6ed219b9d2d",
+  "classification": "full_literal_heredoc_exact",
+  "provenance": {
+    "history_file": "trace-ui-initial-next.json",
+    "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+    "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+    "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+    "item_index": 9,
+    "turn_started_at": 1793905115,
+    "turn_completed_at": 1793905568
+  },
+  "chain": [
+    {
+      "kind": "complete_literal_heredoc",
+      "provenance": {
+        "history_file": "trace-ui-initial-next.json",
+        "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+        "item": "exec-dcc54fda-f6fd-449a-85b4-a2a590502ed6",
+        "item_index": 9,
+        "turn_started_at": 1793905115,
+        "turn_completed_at": 1793905568
+      },
+      "original_path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "sha256": "cbd0f7bb82f436bba3901a7e3c69dc052f8820e7d2f0f89e9bfdb6ed219b9d2d"
+    },
+    {
+      "kind": "literal_move_without_byte_change",
+      "provenance": {
+        "history_file": "trace-ui-initial-next.json",
+        "thread": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "turn": "01a1ad13-c050-733a-9871-44c82f130226",
+        "item": "exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687",
+        "item_index": 13,
+        "turn_started_at": 1793905115,
+        "turn_completed_at": 1793905568
+      },
+      "from": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "to": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+      "move_declaration_complete_in_command_prefix": true
+    }
+  ],
+  "bytes": 2415,
+  "line_count": 61
+}

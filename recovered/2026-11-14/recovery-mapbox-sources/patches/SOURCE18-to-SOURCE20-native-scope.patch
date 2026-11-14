@@ -1,0 +1,26 @@
+--- a/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt
++++ b/cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/mapbox/SharedMapboxCanvas.kt
+@@ -51,6 +51,9 @@
+ import com.mapbox.maps.plugin.viewport.viewport
+ import com.mapbox.maps.plugin.DistanceUnits
+ import android.os.SystemClock
++import android.os.Looper
++import androidx.core.os.HandlerCompat
++import kotlinx.coroutines.android.asCoroutineDispatcher
+ import kotlinx.coroutines.Job
+ import kotlinx.coroutines.delay
+ import kotlinx.coroutines.awaitCancellation
+@@ -265,7 +268,12 @@
+     val mapInitOptions = remember(density) {
+         ComposeMapInitOptions(pixelRatio = density, antialiasingSampleCount = MAP_ANTIALIASING_SAMPLES)
+     }
+-    val callbackScope = rememberCoroutineScope()
++    // SDK callbacks and their uptime deadlines use the real async Main Looper, including
++    // under Compose tests. The remembered parent Job still cancels with this composition.
++    val nativeMainDispatcher = remember {
++        HandlerCompat.createAsync(Looper.getMainLooper()).asCoroutineDispatcher("Mapbox-native-main")
++    }
++    val callbackScope = rememberCoroutineScope { nativeMainDispatcher }
+     val overlayRenderer = remember { NativeMapOverlays() }
+     var querySerial by remember { mutableStateOf(0L) }
+     var pendingQuery by remember { mutableStateOf<Cancelable?>(null) }

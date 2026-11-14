@@ -1,0 +1,5 @@
+@@ -52,3 +52,3 @@
+ 
+-enum class TraceEventType { STARTED, QUALITY_WAIT, PAUSED, RESUMED, STOPPED }
++enum class TraceEventType { STARTED, QUALITY_WAIT, OBSERVATION_GAP, PAUSED, RESUMED, STOPPED }
+ 

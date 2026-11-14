@@ -1,0 +1,14 @@
+@@ -110,4 +110,8 @@
+         lastReceivedFix = fix
++        // Remember a plausible observation time even if its coordinate/accuracy is
++        // rejected: an older delayed fix must not masquerade as quality recovery.
++        if (fix.fixElapsedRealtimeNanos > 0 &&
++            fix.fixElapsedRealtimeNanos in requestStartedNanos..nowNanos)
++            lastObservedFixNanos = fix.fixElapsedRealtimeNanos
+         rejectionOf(fix, nowNanos)?.let { return reject(it, nowNanos) }
+-        lastObservedFixNanos = fix.fixElapsedRealtimeNanos
+         if (portions.sumOf { it.points.size } >= policy.maximumAcceptedPoints)
+@@ -158,2 +162,3 @@
+         !SphericalTraceDistance.isValidCoordinate(fix.latitude, fix.longitude) -> TraceRejectionReason.INVALID_COORDINATES
++        fix.altitudeM?.isFinite() == false -> TraceRejectionReason.INVALID_ALTITUDE
+         fix.isMock -> TraceRejectionReason.MOCK_POSITION

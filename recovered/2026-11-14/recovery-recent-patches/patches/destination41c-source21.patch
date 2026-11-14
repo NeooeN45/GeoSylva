@@ -1,0 +1,19 @@
+diff --git a/app/src/main/java/com/forestry/counter/presentation/screens/maps/MapsJourneyContent.kt b/app/src/main/java/com/forestry/counter/presentation/screens/maps/MapsJourneyContent.kt
+--- a/app/src/main/java/com/forestry/counter/presentation/screens/maps/MapsJourneyContent.kt
++++ b/app/src/main/java/com/forestry/counter/presentation/screens/maps/MapsJourneyContent.kt
+@@ -232,11 +232,14 @@
+                                     maxLines = 2, overflow = TextOverflow.Ellipsis)
+                                 MapsGuidanceInfo { details = true }
+                             }
+                         }
+                     } else if (state.searched) Text(stringResource(R.string.maps_no_results), Modifier.padding(16.dp))
+-                    if (state.choosingOrigin) TextButton(onClick = actions.mapPick, modifier = Modifier.padding(horizontal = 8.dp)) { Text(stringResource(R.string.maps_choose_on_map)) }
++                    if (state.choosingOrigin || !navigating) TextButton(
++                        onClick = if (state.choosingOrigin) actions.mapPick else onBack,
++                        modifier = Modifier.padding(horizontal = 8.dp),
++                    ) { Text(stringResource(R.string.maps_choose_on_map)) }
+                     if (state.results.isEmpty()) Text(stringResource(R.string.maps_search_privacy),
+                         Modifier.padding(horizontal = 16.dp, vertical = 6.dp), style = MaterialTheme.typography.labelSmall)
+                 }
+             }
+         }

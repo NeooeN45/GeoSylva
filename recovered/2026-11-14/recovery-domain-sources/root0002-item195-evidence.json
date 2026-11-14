@@ -1,0 +1,47 @@
+[
+  {
+    "source": "root0002-full250.json",
+    "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+    "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+    "turnStartedAtUnix": 1794041256,
+    "item": "exec-dde46b28-58bb-4c6d-9f9a-9c41a2282abd",
+    "itemIndex": 195,
+    "path": "app/src/main/java/com/forestry/counter/data/local/CartographicWorkspaceMigrations.kt",
+    "operation": "add",
+    "complete": false,
+    "sha256": "6c49ee50692359149c3296b083d53ec7b7aeefb4ae606b911f0fd9045ab232bc",
+    "chars": 250,
+    "artifact": "fragments/root0002-item195-CartographicWorkspaceMigrations.kt.literal.fragment",
+    "status": "literal_only_not_applied"
+  },
+  {
+    "source": "root0002-full250.json",
+    "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+    "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+    "turnStartedAtUnix": 1794041256,
+    "item": "exec-dde46b28-58bb-4c6d-9f9a-9c41a2282abd",
+    "itemIndex": 195,
+    "path": "app/src/main/java/com/forestry/counter/data/local/DatabaseMigrations.kt",
+    "operation": "update",
+    "complete": true,
+    "sha256": "a38bd6825a7c6e28cff2145e3fa1841355b8e29b38765f6955f94335cf73d05b",
+    "chars": 145,
+    "artifact": "events/root0002-item195-DatabaseMigrations.kt.patch",
+    "status": "literal_only_not_applied"
+  },
+  {
+    "source": "root0002-full250.json",
+    "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+    "turn": "01a1b531-1a20-76a8-9701-174369a5d2c0",
+    "turnStartedAtUnix": 1794041256,
+    "item": "exec-dde46b28-58bb-4c6d-9f9a-9c41a2282abd",
+    "itemIndex": 195,
+    "path": "app/src/main/java/com/forestry/counter/data/local/ForestryDatabase.kt",
+    "operation": "update",
+    "complete": false,
+    "sha256": "44afb97c88655cdf4c9fc350326196b2eacbb317f7ba7a1c4aebbbd5b9e9ca94",
+    "chars": 250,
+    "artifact": "fragments/root0002-item195-ForestryDatabase.kt.patch.fragment",
+    "status": "literal_only_not_applied"
+  }
+]

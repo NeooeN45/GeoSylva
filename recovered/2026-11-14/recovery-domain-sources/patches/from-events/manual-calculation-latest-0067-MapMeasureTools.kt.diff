@@ -1,0 +1,4 @@
+@@ -47,2 +47,3 @@
+     if (pts.isEmpty()) return 0.0 // Historical empty-list contract; not a valid editor result.
++    if (pts.size > CartographicMeasureCalculator.MAX_POINTS) return Double.NaN
+     val result = CartographicMeasureCalculator.calculate(kind, pts.map { CartographicCoordinate(it.latitude, it.longitude) })

@@ -1,0 +1,194 @@
+{
+  "schema": "geosylva.recent-history-recovery-summary.v1",
+  "createdUTC": "2026-11-14T12:38:25.935597+00:00",
+  "owner": "recovery_recent_patches",
+  "historicalCommandsExecuted": false,
+  "activeRepositoryModified": false,
+  "completeCandidate21Files": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
+      "source": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21/app/src/main/java/com/forestry/counter/presentation/screens/field/WorksiteDossierPresentation.kt",
+      "bytes": 17354,
+      "sha256": "6b4a90b1b8e56e2bcfa8372360254729e7ca9ab50bb3ea6797adf5c5617f4b5c",
+      "proof": "/workspace/outputs/2026-11-14/recovery-recent-patches/dossier-source21-recovery-proof.json",
+      "kind": "complete-recorded-final-candidate21",
+      "currentlyRebuiltOrNativeTested": false
+    },
+    {
+      "path": "app/src/main/res/values/strings_retained_workflows.xml",
+      "source": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21/app/src/main/res/values/strings_retained_workflows.xml",
+      "bytes": 6141,
+      "sha256": "7a48407db93a13989f97c7dc8152bf3b429175ffa5ce70ea03beb9e8b3ae38d2",
+      "proof": "/workspace/outputs/2026-11-14/recovery-recent-patches/journal-source21-recovery-proof.json",
+      "kind": "complete-recorded-final-candidate21",
+      "currentlyRebuiltOrNativeTested": false
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/field/RetainedJournalContent.kt",
+      "source": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-journal-candidate/app/src/main/java/com/forestry/counter/presentation/screens/field/RetainedJournalContent.kt",
+      "bytes": 21171,
+      "sha256": "92ec917fc20b9da997dfe2b359e7b86bed843edda9c806db3baaa31d5c0c100e",
+      "proof": "/workspace/outputs/2026-11-14/recovery-recent-patches/journal-source21-recovery-proof.json",
+      "kind": "complete-recorded-final-candidate21",
+      "currentlyRebuiltOrNativeTested": false
+    },
+    {
+      "path": "app/src/main/res/values/strings_business_polish12.xml",
+      "source": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-journal-candidate/app/src/main/res/values/strings_business_polish12.xml",
+      "bytes": 1146,
+      "sha256": "979ed1ce9e0176cc9595e38717afabd623c951839e5dbab844979f8d99eaf0d7",
+      "proof": "/workspace/outputs/2026-11-14/recovery-recent-patches/journal-source21-recovery-proof.json",
+      "kind": "complete-recorded-final-candidate21",
+      "currentlyRebuiltOrNativeTested": false
+    },
+    {
+      "path": "app/src/main/res/values-en/strings_business_polish12.xml",
+      "source": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-journal-candidate/app/src/main/res/values-en/strings_business_polish12.xml",
+      "bytes": 1081,
+      "sha256": "e855e5a8f39b7351ede3793aa84ff105be2b17d5c5571cfe8e1cad84ed3f1ddf",
+      "proof": "/workspace/outputs/2026-11-14/recovery-recent-patches/journal-source21-recovery-proof.json",
+      "kind": "complete-recorded-final-candidate21",
+      "currentlyRebuiltOrNativeTested": false
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/wood/PileMeasurementForm.kt",
+      "source": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-wood-candidate/app/src/main/java/com/forestry/counter/presentation/screens/wood/PileMeasurementForm.kt",
+      "bytes": 9598,
+      "sha256": "66bf14230bd6fc75e5adc21296e5ac84f6e1aa42d3f29b4dd1110518003d831b",
+      "proof": "/workspace/outputs/2026-11-14/recovery-recent-patches/wood-source21-recovery-proof.json",
+      "kind": "complete-recorded-final-candidate21",
+      "currentlyRebuiltOrNativeTested": false
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/wood/WoodFileCard.kt",
+      "source": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-wood-candidate/app/src/main/java/com/forestry/counter/presentation/screens/wood/WoodFileCard.kt",
+      "bytes": 14079,
+      "sha256": "c8a260d0fa492238b0a4c3615984b5811de8c8ae01fdfbe3cf49c888b7a0400f",
+      "proof": "/workspace/outputs/2026-11-14/recovery-recent-patches/wood-source21-recovery-proof.json",
+      "kind": "complete-recorded-final-candidate21",
+      "currentlyRebuiltOrNativeTested": false
+    },
+    {
+      "path": "app/src/main/res/values/strings_wood_presentation.xml",
+      "source": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-wood-candidate/app/src/main/res/values/strings_wood_presentation.xml",
+      "bytes": 432,
+      "sha256": "f13d8d8255c8aa710c34e15ef37c9254e05c89ca96ccc43b5c1e32b94155dfd4",
+      "proof": "/workspace/outputs/2026-11-14/recovery-recent-patches/wood-source21-recovery-proof.json",
+      "kind": "complete-recorded-final-candidate21",
+      "currentlyRebuiltOrNativeTested": false
+    },
+    {
+      "path": "app/src/main/res/values-en/strings_wood_presentation.xml",
+      "source": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-wood-candidate/app/src/main/res/values-en/strings_wood_presentation.xml",
+      "bytes": 424,
+      "sha256": "f909d20db3cbc31f63c320432323b448714c2e83417a4bc8012fbac4c63ce698",
+      "proof": "/workspace/outputs/2026-11-14/recovery-recent-patches/wood-source21-recovery-proof.json",
+      "kind": "complete-recorded-final-candidate21",
+      "currentlyRebuiltOrNativeTested": false
+    }
+  ],
+  "exactOriginalPatches": [
+    {
+      "file": "/workspace/outputs/2026-11-14/recovery-recent-patches/patches/CAM21-01-initial-recorded.patch",
+      "bytes": 4259,
+      "sha256": "6c8d607bf83901d2395a013ee53ecec4dce4b2a8b5f5c54801397785bc45a08e",
+      "matchesRecordedOriginalSha256": true
+    },
+    {
+      "file": "/workspace/outputs/2026-11-14/recovery-recent-patches/patches/CAM21-01-cancel-loading-v1.patch",
+      "bytes": 4894,
+      "sha256": "419dc7bf1ba92c51b66730e7a1eb5cbbf992811e97b608a2093231a9a92e2660",
+      "matchesRecordedOriginalSha256": true
+    },
+    {
+      "file": "/workspace/outputs/2026-11-14/recovery-recent-patches/patches/CAM21-01-cancel-loading-v2.patch",
+      "bytes": 5588,
+      "sha256": "80e97885830710b5dde9cbb73d3cd774da9f1ff2fed24db72f50d78422417a57",
+      "matchesRecordedOriginalSha256": true
+    },
+    {
+      "file": "/workspace/outputs/2026-11-14/recovery-recent-patches/patches/dossier21-candidate-recorded.patch",
+      "bytes": 3891,
+      "sha256": "668769e1efc169c186bfbbeb22f54bffa1d07d9a90e320879df0eba98a25ac14",
+      "matchesRecordedOriginalSha256": true
+    },
+    {
+      "file": "/workspace/outputs/2026-11-14/recovery-recent-patches/patches/candidate21-journal-recorded.patch",
+      "bytes": 30931,
+      "sha256": "7e6eb898a90f8ac7c0c52b1b85dcb01537bc671d1c1ec458028c18d0b8790ac4",
+      "matchesRecordedOriginalSha256": true
+    },
+    {
+      "file": "/workspace/outputs/2026-11-14/recovery-recent-patches/patches/candidate-wood-presentation21-v2.patch",
+      "bytes": 27254,
+      "sha256": "9cac632e8bc0effb465646b5e0081b51a927340278bb0f0503016d61382fba1d",
+      "matchesRecordedOriginalSha256": true
+    },
+    {
+      "file": "/workspace/outputs/2026-11-14/recovery-recent-patches/patches/candidate-wood-presentation21-v2-production.patch",
+      "bytes": 25580,
+      "sha256": "42882e7fc5418ac6ea8ef58f51d4a2d1ef0e24c377f7e145c368a30ecd2eb6f3",
+      "matchesRecordedOriginalSha256": true
+    },
+    {
+      "file": "/workspace/outputs/2026-11-14/recovery-recent-patches/patches/candidate-wood-presentation21-v2-ergonomics-method.patch",
+      "bytes": 1674,
+      "sha256": "74ff440eb4820bce2cdeaa6374390f2fcd4f76b035f80a0b029cce506fd1197b",
+      "matchesRecordedOriginalSha256": true
+    }
+  ],
+  "additionalCompleteMapTarget20Sources": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/navigation/JourneyNavigation.kt",
+      "source": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source20-map-target-candidate/app/src/main/java/com/forestry/counter/presentation/navigation/JourneyNavigation.kt",
+      "bytes": 2407,
+      "sha256": "2bad5fbbd28b99ef4621282194d74e69c978ff3b97bd39ac6bb03d53ad126e3c",
+      "kind": "complete-recorded-source20-map-target-candidate",
+      "fullSource21SnapshotHashMatched": false
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/navigation/MapAccessObservationRoute.kt",
+      "source": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source20-map-target-candidate/app/src/main/java/com/forestry/counter/presentation/navigation/MapAccessObservationRoute.kt",
+      "bytes": 3499,
+      "sha256": "879cd2303e13056be681b15670e830af0f58b53c434a20ba54151009da7a57f7",
+      "kind": "complete-recorded-source20-map-target-candidate",
+      "fullSource21SnapshotHashMatched": false
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/field/FieldMapContextScreen.kt",
+      "source": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source20-map-target-candidate/app/src/main/java/com/forestry/counter/presentation/screens/field/FieldMapContextScreen.kt",
+      "bytes": 12453,
+      "sha256": "9441ed747fa6c2eb3f769183f568656f7b92621f19f69bdd639c06926cc19c60",
+      "kind": "complete-recorded-source20-map-target-candidate",
+      "fullSource21SnapshotHashMatched": false
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/field/FieldMapContextViewModelTest.kt",
+      "source": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source20-map-target-candidate/app/src/test/java/com/forestry/counter/presentation/screens/field/FieldMapContextViewModelTest.kt",
+      "bytes": 13683,
+      "sha256": "8efdf263d7e773520b9ae272ad96fe7f5094e2ec0cd286b36cea261a4e2bb93d",
+      "kind": "complete-recorded-source20-map-target-candidate",
+      "fullSource21SnapshotHashMatched": false
+    }
+  ],
+  "composedErgonomicsTest": {
+    "path": "app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt",
+    "source": "/workspace/outputs/2026-11-14/recovery-recent-patches/complete-recorded/source21-composed-journal-wood/app/src/androidTest/java/com/forestry/counter/ui/RetainedBusinessErgonomicsUiTest.kt",
+    "sha256": "2e1d0513f528dfafb7fd0caee73d42e836731d83ae7ab931ed92736f5257ba76",
+    "bytes": 8964,
+    "compositionHunksAllMatched": true,
+    "fullSnapshotHashMatched": false
+  },
+  "knownMissing": [
+    "Full FieldJournalScreen.kt tail after original line250; same-file root21 loading guard must also be restored.",
+    "English strings_retained_workflows.xml full contents; its complete21 patch and expected SHA values are recovered.",
+    "SharedMapboxCanvas whole source remains incomplete here;438 exact original21 lines and completeP2V2 patch available, core recovery owned by sibling."
+  ],
+  "mergeRules": [
+    "Do not bulk-copy complete-recorded: it contains old/intermediate stages for provenance. Select exact entries from this manifest.",
+    "Use only final camera P2V2 on the recovered first-target-resource21 base; do not also apply its intermediate/v1.",
+    "Use wood combined V2 OR production+method V2, never all three.",
+    "The ergonomics test needs both independently changed methods; do not overwrite the composed version with a one-method candidate."
+  ],
+  "verificationLimits": "Recovery of recorded bytes and matching historical hashes is not a new build, test execution, pixel/S25 qualification or proof the whole project is restored."
+}

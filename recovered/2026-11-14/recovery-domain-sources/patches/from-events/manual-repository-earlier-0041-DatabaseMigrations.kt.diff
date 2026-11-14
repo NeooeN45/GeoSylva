@@ -1,0 +1,4 @@
+@@ -912,2 +912,3 @@
+         ControlBasisMigrations.MIGRATION_46_47,
++        CartographicMeasurementMigrations.MIGRATION_47_48,
+     )

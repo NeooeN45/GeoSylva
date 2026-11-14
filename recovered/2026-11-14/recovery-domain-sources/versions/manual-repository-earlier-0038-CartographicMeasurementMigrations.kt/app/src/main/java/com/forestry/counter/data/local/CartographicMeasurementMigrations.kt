@@ -1,0 +1,15 @@
+package com.forestry.counter.data.local
+
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+
+object CartographicMeasurementMigrations {
+    /** Additive: historical measurement JSON files and all existing tables remain untouched. */
+    val MIGRATION_47_48 = object : Migration(47, 48) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("CREATE TABLE IF NOT EXISTS cartographic_measurements (id TEXT NOT NULL PRIMARY KEY, ownerKey TEXT NOT NULL, scopeKind TEXT NOT NULL, scopeId TEXT NOT NULL, name TEXT, kind TEXT NOT NULL, geometryJson TEXT NOT NULL, valueSi REAL NOT NULL, methodId TEXT NOT NULL, methodVersion INTEGER NOT NULL, recordedAt INTEGER NOT NULL, payloadSha256 TEXT NOT NULL)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_cartographic_measurements_ownerKey_scopeKind_scopeId_recordedAt ON cartographic_measurements(ownerKey,scopeKind,scopeId,recordedAt)")
+            db.execSQL("CREATE TABLE IF NOT EXISTS cartographic_store_identity (singletonId INTEGER NOT NULL PRIMARY KEY, localId TEXT NOT NULL)")
+        }
+    }
+}

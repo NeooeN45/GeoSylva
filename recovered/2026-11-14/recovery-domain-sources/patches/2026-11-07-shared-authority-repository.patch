@@ -1,0 +1,176 @@
+--- a/app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt
++++ b/app/src/main/java/com/forestry/counter/data/repository/CartographicMeasurementRepositoryImpl.kt
+@@ -1,9 +1,9 @@
+ package com.forestry.counter.data.repository
+ 
+-import androidx.room.withTransaction
+ import com.forestry.counter.data.local.ForestryDatabase
++import com.forestry.counter.data.cartography.CartographicScopeAuthority
++import com.forestry.counter.data.cartography.CartographicAuthorityFailure
+ import com.forestry.counter.data.local.entity.CartographicMeasurementEntity
+-import com.forestry.counter.data.local.entity.CartographicStoreIdentityEntity
+ import com.forestry.counter.data.sync.hierarchy.BusinessReadAccess
+ import com.forestry.counter.domain.calculation.cartography.*
+ import com.forestry.counter.domain.repository.*
+@@ -13,12 +13,13 @@
+ import kotlinx.coroutines.CancellationException
+ import kotlinx.coroutines.Dispatchers
+ import kotlinx.coroutines.flow.Flow
+-import kotlinx.coroutines.flow.combine
+ import kotlinx.coroutines.withContext
+ import kotlinx.serialization.Serializable
+ import kotlinx.serialization.decodeFromString
+ import kotlinx.serialization.encodeToString
+ import kotlinx.serialization.json.Json
++
++private typealias Access = CartographicScopeAuthority.Token
+ 
+ /** One encrypted local store for every map host; no profession grants authority. */
+ class CartographicMeasurementRepositoryImpl(
+@@ -26,58 +27,18 @@
+     private val identity: IdentityRepository,
+     private val reads: BusinessReadAccess,
+     private val clock: () -> Long = System::currentTimeMillis,
++    private val authority: CartographicScopeAuthority = CartographicScopeAuthority(db, identity, reads),
+ ) : CartographicMeasurementRepository {
+     private val dao = db.cartographicMeasurementDao()
+-    private val owner = Any()
+     private val json = Json { encodeDefaults = true }
+-    private data class Binding(val kind: String, val id: String, val parents: List<String?> = emptyList())
+-    private class Access(
+-        val owner: Any,
+-        val snapshot: BusinessReadAccess.AccessSnapshot,
+-        val epoch: Long,
+-        override val scope: MapDataScope,
+-        val binding: Binding,
+-        override val restorationKey: String,
+-    ) : CartographicMeasurementAccess {
+-        val ownerKey = snapshot.accountId?.let { "ACCOUNT:$it" } ?: "LOCAL"
+-        override val localDevice get() = snapshot.accountId == null
+-    }
+ 
+-    override suspend fun captureAccess(scope: MapDataScope): CartographicStoreResult<CartographicMeasurementAccess> = result {
+-        val snapshot = reads.capture()
+-        val epoch = runCatching { db.woodDataGate.capture() }.getOrElse { fail(CartographicStoreError.ACCESS_CHANGED) }
+-        val captured = try { db.woodDataGate.withAccess(epoch) {
+-            db.withTransaction {
+-                if (!reads.revalidate(snapshot)) fail(CartographicStoreError.ACCESS_CHANGED)
+-                val binding = binding(scope, snapshot)
+-                if (dao.storeIdentity() == null) dao.insertStoreIdentity(CartographicStoreIdentityEntity(localId = UUID.randomUUID().toString()))
+-                val store = dao.storeIdentity() ?: fail(CartographicStoreError.IO)
+-                if (runCatching { UUID.fromString(store.localId).toString() }.getOrNull() != store.localId) fail(CartographicStoreError.CORRUPT)
+-                val ownerKey = snapshot.accountId?.let { "ACCOUNT:$it" } ?: "LOCAL"
+-                val fingerprint = hash(json.encodeToString(listOf(store.localId, ownerKey, binding.kind, binding.id) + binding.parents))
+-                Access(owner, snapshot, epoch, scope, binding, fingerprint).also {
+-                    if (!reads.revalidate(snapshot) || !isCurrent(it)) fail(CartographicStoreError.ACCESS_CHANGED)
+-                }
+-            }
+-        } } catch (cancelled: CancellationException) { throw cancelled }
+-        catch (failure: Exception) {
+-            if (!db.woodDataGate.isCurrent(epoch) || !reads.isCurrent(snapshot)) fail(CartographicStoreError.ACCESS_CHANGED)
+-            throw failure
+-        }
+-        current(captured)
+-        captured
+-    }
++    override suspend fun captureAccess(scope: MapDataScope): CartographicStoreResult<CartographicMeasurementAccess> =
++        authority.capture(scope)
+ 
+-    override fun isCurrent(access: CartographicMeasurementAccess): Boolean = (access as? Access)?.let {
+-        it.owner === owner && db.woodDataGate.isCurrent(it.epoch) && reads.isCurrent(it.snapshot)
+-    } == true
++    override fun isCurrent(access: CartographicMeasurementAccess): Boolean =
++        (access as? Access)?.let(authority::isCurrent) == true
+ 
+-    override fun accessChanges(): Flow<Unit> {
+-        val authority = combine(identity.session, identity.sessionGeneration, db.woodDataGate.state,
+-            db.parcelSyncDao().observeBusinessReadOwners(), db.parcelSyncDao().observeBusinessReadParcelParents()) { _, _, _, _, _ -> Unit }
+-        return combine(authority, db.foretDao().getAll(), db.parcelleDao().getAllParcelles(),
+-            dao.observePlotParents(), db.groupDao().getAllGroups()) { _, _, _, _, _ -> Unit }
+-    }
++    override fun accessChanges(): Flow<Unit> = authority.accessChanges()
+ 
+     override suspend fun save(input: CartographicMeasurementInput, access: CartographicMeasurementAccess): CartographicStoreResult<SavedCartographicMeasurement> = result {
+         current(access)
+@@ -135,71 +96,12 @@
+         }
+     }
+ 
+-    private suspend fun <T> transaction(access: CartographicMeasurementAccess, mutation: Boolean = false, block: suspend (Access) -> T): T {
+-        val a = current(access)
+-        var committed = false
+-        try {
+-            val value = db.woodDataGate.withAccess(a.epoch) {
+-                db.withTransaction {
+-                    validate(a)
+-                    val value = block(a)
+-                    validate(a)
+-                    value
+-                }.also { committed = mutation }
+-            }
+-            current(a)
+-            return value
+-        } catch (cancelled: CancellationException) { throw cancelled }
+-        catch (failure: Exception) {
+-            if (committed) fail(CartographicStoreError.UNKNOWN_RESULT)
+-            if (!isCurrent(a)) fail(CartographicStoreError.ACCESS_CHANGED)
+-            throw failure
+-        }
+-    }
++    private suspend fun <T> transaction(access: CartographicMeasurementAccess, mutation: Boolean = false,
++        block: suspend (Access) -> T): T = authority.transaction(current(access), mutation, block)
+ 
+     private fun current(access: CartographicMeasurementAccess): Access {
+         if (!isCurrent(access)) fail(CartographicStoreError.ACCESS_CHANGED)
+         return access as Access
+-    }
+-
+-    private suspend fun validate(a: Access) {
+-        current(a)
+-        if (!reads.revalidate(a.snapshot)) fail(CartographicStoreError.ACCESS_CHANGED)
+-        if (binding(a.scope, a.snapshot) != a.binding) fail(CartographicStoreError.ACCESS_CHANGED)
+-        current(a)
+-    }
+-
+-    private suspend fun binding(scope: MapDataScope, snapshot: BusinessReadAccess.AccessSnapshot): Binding {
+-        suspend fun parcel(id: String): List<String?> {
+-            val p = db.parcelleDao().getParcelleById(id) ?: fail(CartographicStoreError.UNAVAILABLE)
+-            if (!reads.canReadParcelle(id, snapshot)) fail(CartographicStoreError.UNAVAILABLE)
+-            if (p.foretId != null && db.foretDao().getById(p.foretId) == null) fail(CartographicStoreError.UNAVAILABLE)
+-            return listOf(p.parcelleId, p.foretId, p.forestOwnerId)
+-        }
+-        return when (scope) {
+-            MapDataScope.Free -> Binding("FREE", "")
+-            MapDataScope.AllForests -> Binding("ALL_FORESTS", "")
+-            MapDataScope.Invalid -> fail(CartographicStoreError.INVALID_INPUT)
+-            is MapDataScope.Forest -> {
+-                // Existing forest pickers also address historical GroupEntity IDs.
+-                // Persist their kind separately: a later canonical forest with the
+-                // same ID must never acquire that group's measurement snapshots.
+-                val canonical = db.foretDao().getByIdAny(scope.id)
+-                if (!reads.canReadForest(scope.id, snapshot)) fail(CartographicStoreError.UNAVAILABLE)
+-                if (canonical != null) {
+-                    if (canonical.deletedAt != null) fail(CartographicStoreError.UNAVAILABLE)
+-                    Binding("FOREST", scope.id)
+-                } else {
+-                    if (db.groupDao().getGroupById(scope.id) == null) fail(CartographicStoreError.UNAVAILABLE)
+-                    Binding("LEGACY_FOREST_GROUP", scope.id)
+-                }
+-            }
+-            is MapDataScope.Parcel -> Binding("PARCEL", scope.id, parcel(scope.id))
+-            is MapDataScope.Plot -> {
+-                val p = db.placetteDao().getPlacetteById(scope.id) ?: fail(CartographicStoreError.UNAVAILABLE)
+-                Binding("PLOT", scope.id, parcel(p.parcelleOwnerId))
+-            }
+-        }
+     }
+ 
+     private fun requireOwned(row: CartographicMeasurementEntity, access: Access) {
+@@ -236,6 +138,7 @@
+         try { CartographicStoreResult.Success(block()) }
+         catch (cancelled: CancellationException) { throw cancelled }
+         catch (failure: StoreFailure) { CartographicStoreResult.Failure(failure.reason) }
++        catch (failure: CartographicAuthorityFailure) { CartographicStoreResult.Failure(failure.reason) }
+         catch (_: Exception) { CartographicStoreResult.Failure(CartographicStoreError.IO) }
+     }
+ 
