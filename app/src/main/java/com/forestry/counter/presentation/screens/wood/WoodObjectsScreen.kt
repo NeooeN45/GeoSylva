@@ -28,6 +28,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.forestry.counter.R
+import com.forestry.counter.presentation.screens.field.RetainedHelp
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.Alignment
 import com.forestry.counter.domain.repository.*
 import com.forestry.counter.domain.wood.*
 import com.forestry.counter.presentation.theme.GsShape
@@ -234,6 +237,10 @@ internal fun WoodObjectsContent(vm: WoodObjectsViewModel, onBack: () -> Unit, on
 
 @Composable
 private fun WoodForm(form: WoodManualForm, enabled: Boolean, change: (WoodManualForm.() -> WoodManualForm) -> Unit) {
+    if (form.kind == WoodObjectKind.PILE && !form.identityOnly && !form.newWithMeasurement) {
+        PileMeasurementForm(form, enabled, change)
+        return
+    }
     Column(verticalArrangement = Arrangement.spacedBy(Space.md)) {
         if (form.identityOnly || form.newWithMeasurement) {
             Field(form.name, R.string.wo_name, "wood_name", enabled, 200) { change { copy(name = it) } }
@@ -353,7 +360,7 @@ internal fun canEdit(measurement: RawWoodMeasurement): Boolean {
     }
 }
 
-private fun rawValues(measurement: RawWoodMeasurement): List<Pair<Int, String?>> {
+internal fun rawValues(measurement: RawWoodMeasurement): List<Pair<Int, String?>> {
     fun RawWoodDimension?.display() = this?.let { listOfNotNull(it.rawText, it.unit).joinToString(" ") }
     return when (measurement) {
         is RawWoodMeasurement.Pile -> listOf(R.string.wo_length to measurement.length.display(), R.string.wo_depth to measurement.width.display(),
@@ -365,14 +372,30 @@ private fun rawValues(measurement: RawWoodMeasurement): List<Pair<Int, String?>>
 }
 
 @Composable
-private fun Calculation(raw: RawWoodObservation) {
+internal fun Calculation(raw: RawWoodObservation, compactPresentation: Boolean = false) {
     val locale = LocalConfiguration.current.locales[0]
     when (val calculation = remember(raw) { WoodObservationCalculator.calculate(raw) }) {
         is WoodObservationCalculation.Calculated -> {
-            Text(stringResource(if (raw.measurement.kind == WoodObjectKind.PILE) R.string.wo_apparent else R.string.wo_calculated), style = MaterialTheme.typography.labelLarge)
-            Text(stringResource(R.string.wo_volume, NumberFormat.getNumberInstance(locale).apply { maximumFractionDigits = 3 }.format(calculation.result.volumeM3)),
-                style = MaterialTheme.typography.headlineSmall)
-            Text(stringResource(R.string.wo_no_payable), style = MaterialTheme.typography.bodySmall)
+            val label = stringResource(if (raw.measurement.kind == WoodObjectKind.PILE) {
+                if (compactPresentation) R.string.retained_apparent_volume else R.string.wo_apparent
+            } else R.string.wo_calculated)
+            val volume = stringResource(R.string.wo_volume, NumberFormat.getNumberInstance(locale).apply { maximumFractionDigits = 3 }.format(calculation.result.volumeM3))
+            if (compactPresentation) {
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        Text(label, style = MaterialTheme.typography.bodySmall)
+                        Text(volume, style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.primary, modifier = Modifier.testTag("wood_calculated_value"))
+                    }
+                    RetainedHelp(label, stringResource(R.string.wo_no_payable), Modifier.testTag("wood_calculation_reserve_help"))
+                }
+                Text(stringResource(R.string.retained_calculation_reserve_short), style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.testTag("wood_calculation_essential_reserve"))
+            } else {
+                Text(label, style = MaterialTheme.typography.labelLarge)
+                Text(volume, style = MaterialTheme.typography.headlineSmall)
+                Text(stringResource(R.string.wo_no_payable), style = MaterialTheme.typography.bodySmall)
+            }
         }
         is WoodObservationCalculation.Uncalculable -> {
             Text(stringResource(R.string.wo_no_calculation), style = MaterialTheme.typography.titleSmall)

@@ -1,0 +1,121 @@
+{
+  "schema": "geosylva.wood-field-integration-boundaries.v1",
+  "classification": "CURRENT_INTEGRATION_WITH_EXPLICIT_PENDING_HISTORICAL_COMPONENTS",
+  "status": "ATOMIC_SOURCE_MOVES_COMPLETE_NO_SOURCE_LOSS",
+  "pending": [
+    {
+      "originalPath": "app/src/main/java/com/forestry/counter/presentation/screens/wood/WoodFileCard.kt",
+      "preservedPath": "docs/recovery/pending-integration/app/src/main/java/com/forestry/counter/presentation/screens/wood/WoodFileCard.kt.source",
+      "sha256": "c8a260d0fa492238b0a4c3615984b5811de8c8ae01fdfbe3cf49c888b7a0400f",
+      "bytes": 14079,
+      "compiled": false,
+      "countedAsIntegratedMockup": false
+    },
+    {
+      "originalPath": "app/src/main/java/com/forestry/counter/presentation/screens/field/RetainedJournalContent.kt",
+      "preservedPath": "docs/recovery/pending-integration/app/src/main/java/com/forestry/counter/presentation/screens/field/RetainedJournalContent.kt.source",
+      "sha256": "92ec917fc20b9da997dfe2b359e7b86bed843edda9c806db3baaa31d5c0c100e",
+      "bytes": 21171,
+      "compiled": false,
+      "countedAsIntegratedMockup": false
+    }
+  ],
+  "activeChanges": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/field/RetainedScreenComponents.kt",
+      "sha256": "8800b543313b6c71fdfd509554beea0521c8df30c118f3e05822617d92b02733",
+      "classification": "EXACT_COMPLETE_CAT_SOURCE",
+      "provenance": {
+        "historyFile": "wood-ui21-initial.json",
+        "turn": "01a1d75a-3251-7217-a8e3-7d72762db72f",
+        "item": 32,
+        "command": "cat RetainedScreenComponents.kt",
+        "outputTruncated": false
+      }
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/wood/WoodObjectsScreen.kt",
+      "beforeSha256": "39ada6797e40a0b8d3be26b7c9b29db3a263e46449fc9c198e76fbce66baa3de",
+      "sha256": "9cdc73a2215db9c8fce29a038ba9e5126a273951f48ce1fa495a3e950bb06eb1",
+      "classification": "CURRENT_CONDITIONAL_INTEGRATION_OF_LITERAL_SOURCES",
+      "provenance": {
+        "calculationAndRawValues": {
+          "historyFile": "wood-ui21-initial.json",
+          "item": 32,
+          "numberedLines": "372..430",
+          "outputTruncated": false
+        },
+        "pileFormRoute": {
+          "historyFile": "maquettes-audit-initial10k.json",
+          "item": 95,
+          "selectedCompleteFunctionPrefix": true
+        },
+        "imports": "new current integration only"
+      }
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/field/JournalPresentation.kt",
+      "sha256": "a1068bce66d17ac8b2da20a16ae1e0697f43575cee2e7cd061ab2d6132af8329",
+      "classification": "EXACT_LITERAL_PURE_HELPERS_EXTRACTED_WITH_NEW_FILE_HEADER",
+      "sourcePath": "docs/recovery/pending-integration/app/src/main/java/com/forestry/counter/presentation/screens/field/RetainedJournalContent.kt.source"
+    }
+  ],
+  "missingContracts": [
+    "FieldStockAssessment.kt complete body (read prefix available; correctionProblem tail truncated).",
+    "FieldControlBasisModels.kt / FieldStockSnapshot / frozen control source contracts: no complete current source selected.",
+    "FieldRepository.stockSnapshot/control-bases transactional read and capture behavior, absent from current repository contract/implementation.",
+    "WoodObjectsState.stock/stockError/stockWritable and coherent repository-backed producer/selectLedger.",
+    "FieldJournalState.controlAssessments and current FieldEntryCard assessed-control/showPhotos/showHeader API.",
+    "FieldQuantityEditor and fieldQuantityPalette complete compatible presentation chain; stockDate formatter used by pending journal details."
+  ],
+  "linkage": {
+    "WoodFileCard": "No main caller found before isolation.",
+    "RetainedJournalContent": "No main caller found outside this own file. Pure helpers have existing JVM tests and are retained separately.",
+    "PileMeasurementForm": "Now called by WoodForm for measurement-only pile forms, reusing actual WoodManualForm callbacks and WoodObservationCalculator; identity-only/new-with-measurement paths stay on their existing form."
+  },
+  "tests": {
+    "assertionsRemoved": false,
+    "testsModified": false,
+    "jvmPureHelpersRetained": "RetainedJournalPresentationTest continues to target preserved real date/correction helpers.",
+    "androidDependenciesStillUnresolved": [
+      "RetainedBusinessErgonomicsUiTest: JournalEntryDates",
+      "RetainedBusinessErgonomicsUiTest: JournalHistory",
+      "RetainedBusinessErgonomicsUiTest: FieldQuantityEditor",
+      "French native test window helper in existing instrumentation context"
+    ],
+    "execution": "No build/ADB/tests run by this bounded integration."
+  },
+  "notClaimed": [
+    "Complete November13 repository recovered",
+    "Pending journal/stock cards integrated",
+    "Pixel fidelity or device qualification",
+    "Any stock formula fabricated to make compilation pass"
+  ],
+  "recoveryEvidence": {
+    "completeCommonSource": {
+      "history": "wood-ui21-initial.json",
+      "turn": "01a1d75a-3251-7217-a8e3-7d72762db72f",
+      "item": 32,
+      "selectedSegment": "last complete cat RetainedScreenComponents.kt; output not truncated"
+    },
+    "incompleteStockDomain": {
+      "history": "root-older-batch-0069.json",
+      "turn": "01a19ce6-2247-71a8-b15d-324c6ac98b1a",
+      "item": 7,
+      "outputTruncated": true,
+      "maximumCharacters": 20000,
+      "lastObservedCode": "correctionProblem begins, ends at incomplete token va",
+      "wholeFileNotSelected": true
+    },
+    "journalRecoveryAttempt": {
+      "script": "recovery-recent-patches/recover_field_journal_complete.py",
+      "expectedWholeSource20Sha256": "ca7a448258f582bd055e9d994b2d1a489d00c7c6fc3f217130c46dcf831db8da",
+      "result": "No unique hash-authenticated complete assembly; zero matches. No source written by this failed assembly."
+    },
+    "activeRepositoryContractAtReview": {
+      "path": "app/src/main/java/com/forestry/counter/domain/repository/FieldRepository.kt",
+      "sha256": "ddaf3cd21cbead168280da9d1fff4928f55598ae4b094412e39f3959fe86891a",
+      "stockSnapshotOrControlBasesRead": "Absent"
+    }
+  }
+}
