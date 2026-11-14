@@ -1,0 +1,11 @@
+<resources>
+    <string name="mapbox_satellite">Satellite Mapbox</string>
+    <string name="mapbox_plan">Plan Mapbox</string>
+    <string name="mapbox_topographic">Topographie Mapbox</string>
+    <string name="mapbox_satellite_labels">Satellite légendé Mapbox</string>
+    <string name="mapbox_loading">Chargement de la carte…</string>
+    <string name="mapbox_configuration_required">La configuration Mapbox est nécessaire pour afficher la carte.</string>
+    <string name="mapbox_render_unavailable">La carte ne peut pas être chargée. Vérifiez la connexion ou les ressources disponibles hors connexion.</string>
+    <string name="mapbox_position_unavailable">Position actuelle indisponible</string>
+    <string name="mapbox_local_mode_title">Hors connexion</string>
+</resources>

@@ -1,22 +1,9 @@
 package com.forestry.counter.presentation.screens.forestry
 
-import android.content.ComponentCallbacks
-import android.content.Context
-import android.content.res.Configuration
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Typeface
-import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkCapabilities
-import android.os.Handler
-import android.os.Looper
-import android.view.Gravity
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,18 +14,16 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CenterFocusStrong
 import androidx.compose.material.icons.filled.Layers
 import androidx.compose.material.icons.filled.Remove
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
@@ -47,96 +32,74 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.compose.ui.unit.Dp
+import com.forestry.counter.BuildConfig
 import com.forestry.counter.R
-import com.forestry.counter.domain.location.MapLibreHttpConfig
-import com.forestry.counter.domain.location.MapSourcePolicy
+import com.forestry.counter.domain.geo.GeoImportCoordinatePolicy
 import com.forestry.counter.domain.location.ParcelBounds
 import com.forestry.counter.domain.location.ParcelCoordinate
 import com.forestry.counter.domain.location.ParcelGeometry
 import com.forestry.counter.domain.location.SamplingFootprint
-import com.forestry.counter.network.SecureHttpClient
+import com.forestry.counter.domain.location.PlotBoundaryDifference
+import com.forestry.counter.domain.location.PlotOutsidePreview
+import com.forestry.counter.domain.location.PlotOutsidePreviewFailure
+import com.forestry.counter.presentation.components.maps.MapboxRenderStatusOverlay
+import com.forestry.counter.presentation.components.maps.MapOfflineConnectivityBadge
+import com.forestry.counter.presentation.components.maps.rememberMapNetworkAvailable
 import com.mapbox.geojson.Feature
 import com.mapbox.geojson.FeatureCollection
+import com.mapbox.geojson.Geometry
 import com.mapbox.geojson.MultiPolygon
 import com.mapbox.geojson.Point
 import com.mapbox.geojson.Polygon
-import com.mapbox.mapboxsdk.Mapbox
-import com.mapbox.mapboxsdk.camera.CameraPosition
-import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
-import com.mapbox.mapboxsdk.geometry.LatLng
-import com.mapbox.mapboxsdk.geometry.LatLngBounds
-import com.mapbox.mapboxsdk.maps.MapView
-import com.mapbox.mapboxsdk.maps.MapboxMap
-import com.mapbox.mapboxsdk.maps.MapboxMapOptions
-import com.mapbox.mapboxsdk.maps.Style
-import com.mapbox.mapboxsdk.style.expressions.Expression
-import com.mapbox.mapboxsdk.style.layers.CircleLayer
-import com.mapbox.mapboxsdk.style.layers.FillLayer
-import com.mapbox.mapboxsdk.style.layers.LineLayer
-import com.mapbox.mapboxsdk.style.layers.PropertyFactory
-import com.mapbox.mapboxsdk.style.layers.RasterLayer
-import com.mapbox.mapboxsdk.style.layers.SymbolLayer
-import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
-import com.mapbox.mapboxsdk.style.sources.RasterSource
-import com.mapbox.mapboxsdk.style.sources.TileSet
-import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.util.concurrent.TimeUnit
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.math.ceil
-import kotlin.math.cos
-import kotlin.math.floor
-import kotlin.math.ln
-import kotlin.math.roundToInt
-import kotlin.math.tan
+import com.quintessences.geosylva.cartography.mapbox.MapCameraCommand
+import com.quintessences.geosylva.cartography.mapbox.MapCameraFitCommand
+import com.quintessences.geosylva.cartography.mapbox.MapCameraPosition
+import com.quintessences.geosylva.cartography.mapbox.MapRelief
+import com.quintessences.geosylva.cartography.mapbox.MapCameraPositionSaver
+import com.quintessences.geosylva.cartography.mapbox.MapCoordinate
+import com.quintessences.geosylva.cartography.mapbox.MapFeatureKey
+import com.quintessences.geosylva.cartography.mapbox.MapFailureReason
+import com.quintessences.geosylva.cartography.mapbox.MapOverlayFeature
+import com.quintessences.geosylva.cartography.mapbox.MapOverlayScene
+import com.quintessences.geosylva.cartography.mapbox.MapOverlayStyle
+import com.quintessences.geosylva.cartography.mapbox.MapOverlayLabelBadge
+import com.quintessences.geosylva.cartography.mapbox.MapOverlayFillPattern
+import com.quintessences.geosylva.cartography.mapbox.MapOverlayStatus
+import com.quintessences.geosylva.cartography.mapbox.MapRenderStatus
+import com.quintessences.geosylva.cartography.mapbox.MapboxStyles
+import com.quintessences.geosylva.cartography.mapbox.SharedMapboxCanvas
+import java.util.UUID
+import java.util.concurrent.atomic.AtomicLong
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.Request
-import okhttp3.Response
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.jsonObject
 
-private const val SELECTION_STYLE = """{
-  "version": 8,
-  "name": "Sélection géographique",
-  "sources": {},
-  "layers": [{"id":"background","type":"background","paint":{"background-color":"#EAF2EE"}}]
-}"""
-private const val PARCEL_SOURCE = "selection-parcels"
-private const val PARCEL_LABEL_SOURCE = "selection-parcel-labels"
-private const val PARENT_SOURCE = "selection-parent"
-private const val POINT_SOURCE = "selection-plot-points"
-private const val FOOTPRINT_SOURCE = "selection-plot-footprints"
-private const val GRID_SOURCE = "selection-grid-cells"
-private const val PHOTO_SOURCE = "selection-ign-orthophoto"
-private const val PHOTO_LAYER = "selection-ign-orthophoto-layer"
-private const val EMPTY_COLLECTION = """{"type":"FeatureCollection","features":[]}"""
-
-private enum class SelectionPhotoState { LOCAL, OFFLINE, LOADING, AVAILABLE, UNAVAILABLE }
+private const val SELECTION_PARCELS = "selection-parcels"
+private const val SELECTION_LABELS = "selection-parcel-labels"
+private const val SELECTION_PARENT = "selection-parent"
+private const val SELECTION_POINTS = "selection-plot-points"
+private const val SELECTION_FOOTPRINTS = "selection-plot-footprints"
+private const val SELECTION_GRID = "selection-grid-cells"
 
 /**
- * Reusable renderer for a single source parcel, its boundary and plot centres.
+ * Shared Mapbox renderer for forest/parcel selection and plot planning.
  *
- * The parent supplies qualified vector data and persists the selection. A map
- * click returns a coordinate, never a guessed parcel or automatic GPS fix.
- * Viewport notifications occur only after the camera stops; changing the
- * selected feature leaves the user's camera untouched. Labels use Android
- * bitmaps, so this local style requires neither remote glyphs nor sprites.
- * IGN orthophotography is an optional qualified online background, not an
- * offline parcel pack, terrain measurement or source of access rights.
+ * The parent supplies already authorised WGS84 vector data and persists choices.
+ * Taps return a coordinate, never an inferred parcel, fix or access right. Only
+ * native camera-idle bounds trigger viewport queries; selecting another feature
+ * does not frame it. Camera framing is explicit and independent of style/data.
+ * Satellite/plan remain requested when connectivity is absent. The shared SDK
+ * resolves prepared resources from its cache/TileStore. Connectivity never proves
+ * resource readiness or completeness of an offline pack.
  */
 @Composable
 fun GeographicSelectionMap(
@@ -150,397 +113,348 @@ fun GeographicSelectionMap(
     parcelGeometry: ParcelGeometry? = null,
     plotFootprints: List<SamplingFootprint> = emptyList(),
     gridCells: List<ParcelGeometry> = emptyList(),
+    plotPointIds: List<String> = emptyList(),
+    selectedPlotId: String? = null,
+    onPlotSelected: (String) -> Unit = {},
+    controlsTopPadding: Dp = 12.dp,
+    /** Hosts with a visible creation sheet hide the native scale; attribution remains visible. */
+    scaleBarVisible: Boolean = true,
+    onMapRenderStatusChanged: (MapRenderStatus) -> Unit = {},
+    onMapOverlayStatusChanged: (MapOverlayStatus) -> Unit = {},
+    onOutsidePreviewChanged: (PlotOutsidePreview) -> Unit = {},
 ) {
-    val context = LocalContext.current
-    val lifecycleOwner = LocalLifecycleOwner.current
+    val density = LocalDensity.current
     val latestClick by rememberUpdatedState(onMapClick)
+    val latestPlotSelected by rememberUpdatedState(onPlotSelected)
     val latestViewport by rememberUpdatedState(onViewportChanged)
-    val latestSelection by rememberUpdatedState(selectedFeatureId)
-    var readyMap by remember { mutableStateOf<MapboxMap?>(null) }
-    var renderFailed by remember { mutableStateOf(false) }
-    var savedLatitude by rememberSaveable { mutableStateOf(46.6) }
-    var savedLongitude by rememberSaveable { mutableStateOf(2.4) }
-    var savedZoom by rememberSaveable { mutableStateOf(4.0) }
-    var savedPadding by rememberSaveable { mutableStateOf(CameraPosition.DEFAULT.padding?.copyOf()) }
-    var hasSavedCamera by rememberSaveable { mutableStateOf(false) }
+    val latestRenderStatus by rememberUpdatedState(onMapRenderStatusChanged)
+    val latestOverlayStatus by rememberUpdatedState(onMapOverlayStatusChanged)
+    val latestOutsidePreview by rememberUpdatedState(onOutsidePreviewChanged)
+    val sceneScope = rememberSaveable { "geographic-selection-${UUID.randomUUID()}" }
+    val sequence = remember { AtomicLong() }
+    var retry by remember { mutableStateOf(0) }
+    var preferSatellite by rememberSaveable { mutableStateOf(true) }
+    var savedCamera by rememberSaveable(stateSaver = MapCameraPositionSaver) {
+        mutableStateOf(MapCameraPosition(2.4, 46.6, 4.0))
+    }
     var framedBoundsKey by rememberSaveable { mutableStateOf<String?>(null) }
-    var preferPhoto by rememberSaveable { mutableStateOf(true) }
-    var photoUsable by remember { mutableStateOf(false) }
-    var photoState by remember { mutableStateOf(SelectionPhotoState.LOCAL) }
-    var cameraTile by remember { mutableStateOf(selectionPhotoTile(savedLatitude, savedLongitude, savedZoom)) }
-    val hasInternet by rememberSelectionInternet(context)
-    val parcelImageIds = remember { mutableSetOf<String>() }
-    val pointImageIds = remember { mutableSetOf<String>() }
+    var cameraCommand by remember { mutableStateOf<MapCameraCommand?>(null) }
+    // Keep an unconsumed initial frame across rotation while the SDK is loading.
+    var pendingFrameId by rememberSaveable { mutableStateOf<String?>(null) }
+    var pendingFrameBounds by rememberSaveable { mutableStateOf<DoubleArray?>(null) }
+    val requestedStyle = if (preferSatellite) MapboxStyles.Satellite else MapboxStyles.Plan
+    val networkAvailable = rememberMapNetworkAvailable()
+    // Connectivity is a hint. Keep the style so prepared TileStore/style-pack resources remain usable.
+    val style = requestedStyle
+    var renderStatus by remember(style, retry) { mutableStateOf<MapRenderStatus>(MapRenderStatus.Loading(style.id)) }
 
-    val renderData by produceState<Result<SelectionRenderData>?>(null, featureCollectionJson) {
+    val selectedFootprint = plotFootprints.getOrNull(plotPointIds.indexOf(selectedPlotId))
+    val outsideRequested = parcelGeometry != null && selectedFootprint?.crossesBoundary == true
+    val outsideToken = remember(parcelGeometry, selectedFootprint?.geometry, selectedPlotId, outsideRequested) { Any() }
+    val preparedOutside by produceState<OutsidePreparedSnapshot?>(null, outsideToken) {
         value = null
-        value = try {
-            Result.success(withContext(Dispatchers.Default) { selectionRenderData(featureCollectionJson) })
+        val parent = parcelGeometry
+        val footprint = selectedFootprint
+        val result = if (outsideRequested && parent != null && footprint != null) {
+            withContext(Dispatchers.Default) { PlotBoundaryDifference.outside(parent, footprint.geometry) }
+        } else PlotOutsidePreview.NotRequested
+        value = OutsidePreparedSnapshot(outsideToken, result)
+    }
+    // A former candidate's hatching is never displayed while a new candidate is calculated.
+    val outsideStatus = preparedOutside?.takeIf { it.token === outsideToken }?.result
+        ?: if (outsideRequested) PlotOutsidePreview.Computing else PlotOutsidePreview.NotRequested
+    val outsideGeometry = (outsideStatus as? PlotOutsidePreview.Available)?.geometry
+
+    // Clear displayed vectors while replacing the input snapshot. An invalid or
+    // cancelled parse must not keep vectors from an older authorised selection.
+    val inputSnapshot = remember(featureCollectionJson, selectedFeatureId, plotPoints, parcelGeometry, plotFootprints, gridCells, plotPointIds, selectedPlotId, outsideGeometry) { Any() }
+    val preparedData by produceState<SelectionPreparedSnapshot?>(null, inputSnapshot) {
+        value = null
+        val outcome: Result<List<MapOverlayFeature>> = try {
+            Result.success(withContext(Dispatchers.Default) {
+                geographicSelectionFeatures(featureCollectionJson, selectedFeatureId, plotPoints,
+                    parcelGeometry, plotFootprints, gridCells, plotPointIds, selectedPlotId, outsideGeometry)
+            })
         } catch (cancelled: CancellationException) {
             throw cancelled
         } catch (_: Exception) {
-            Result.failure(IllegalArgumentException("Invalid parcel display data"))
+            Result.failure(IllegalArgumentException("Invalid geographic selection display data"))
         }
+        value = SelectionPreparedSnapshot(inputSnapshot, outcome)
     }
-    val latestRenderData by rememberUpdatedState(renderData?.getOrNull())
-    val photoClient = remember(context) {
-        SecureHttpClient.createSecureClient(context).newBuilder()
-            .connectTimeout(8, TimeUnit.SECONDS)
-            .readTimeout(8, TimeUnit.SECONDS)
-            .callTimeout(12, TimeUnit.SECONDS)
-            .followRedirects(false)
-            .followSslRedirects(false)
-            .build()
+    // produceState restarts after composition: an input identity prevents its
+    // previous value being rendered for one frame in a new scope/selection.
+    val renderData = preparedData?.takeIf { it.inputSnapshot === inputSnapshot }?.outcome
+    val scene = remember(renderData, selectedFeatureId, selectedPlotId) {
+        val features = renderData?.getOrNull().orEmpty()
+        MapOverlayScene(
+            scopeId = sceneScope,
+            revision = sequence.incrementAndGet(),
+            features = features,
+            selectedKey = (selectedPlotId?.let { MapFeatureKey(SELECTION_POINTS, it) }
+                ?: selectedFeatureId?.let { MapFeatureKey(SELECTION_PARCELS, it) })
+                ?.takeIf { candidate -> features.any { it.key == candidate } },
+        )
     }
-    LaunchedEffect(readyMap, hasInternet, preferPhoto, cameraTile) {
-        if (readyMap == null || !hasInternet || !preferPhoto) {
-            photoUsable = false
-            photoState = if (!hasInternet) SelectionPhotoState.OFFLINE else SelectionPhotoState.LOCAL
-            return@LaunchedEffect
+    var lastAppliedScene by remember { mutableStateOf<MapOverlayStatus.Applied?>(null) }
+    val outsideDisplayStatus = when {
+        outsideStatus !is PlotOutsidePreview.Available -> outsideStatus
+        lastAppliedScene?.scopeId != scene.scopeId || lastAppliedScene?.revision != scene.revision ||
+            scene.features.none { it.key.layerId == "selection-plot-outside" } -> PlotOutsidePreview.Computing
+        (lastAppliedScene?.omittedPatternCount ?: 0) > 0 -> PlotOutsidePreview.Unavailable(PlotOutsidePreviewFailure.OPERATION_FAILED)
+        else -> outsideStatus
+    }
+    LaunchedEffect(outsideDisplayStatus, outsideToken, scene.revision) { latestOutsidePreview(outsideDisplayStatus) }
+
+    var overlayFailed by remember(scene, style, retry) { mutableStateOf(false) }
+
+    BoxWithConstraints(modifier) {
+        val widthPx = with(density) { maxWidth.toPx() }.toDouble()
+        val heightPx = with(density) { maxHeight.toPx() }.toDouble()
+        fun padding(dp: Int, size: Double, fraction: Double) =
+            with(density) { dp.dp.toPx() }.toDouble().let { requested ->
+                if (size.isFinite() && size > 0) requested.coerceAtMost(size * fraction) else requested
+            }
+        fun frame(bounds: ParcelBounds) {
+            pendingFrameBounds = doubleArrayOf(bounds.west, bounds.south, bounds.east, bounds.north)
+            pendingFrameId = UUID.randomUUID().toString()
         }
-        if (!photoUsable) photoState = SelectionPhotoState.LOADING
-        delay(300)
-        try {
-            photoClient.newCall(Request.Builder().url(cameraTile.url()).build()).awaitSelectionResponse().use { response ->
-                withContext(Dispatchers.IO) {
-                    val type = requireNotNull(response.body?.contentType())
-                    require(response.isSuccessful && type.type == "image" && type.subtype == "jpeg")
-                    val output = ByteArrayOutputStream()
-                    requireNotNull(response.body).byteStream().use { input ->
-                        val buffer = ByteArray(8192)
-                        while (true) {
-                            coroutineContext.ensureActive()
-                            val size = input.read(buffer)
-                            if (size < 0) break
-                            require(output.size() + size <= 2 * 1024 * 1024)
-                            output.write(buffer, 0, size)
-                        }
+        val frameCommand = remember(pendingFrameId, pendingFrameBounds, widthPx, heightPx, density, controlsTopPadding) {
+            val bounds = pendingFrameBounds
+            pendingFrameId?.takeIf { bounds != null }?.let { id ->
+                requireNotNull(bounds)
+                MapCameraFitCommand(
+                    id = id,
+                    coordinates = listOf(MapCoordinate(bounds[0], bounds[1]), MapCoordinate(bounds[2], bounds[3])),
+                    paddingTopPx = padding(maxOf(98, controlsTopPadding.value.toInt() + 12), heightPx, 0.5),
+                    paddingLeftPx = padding(28, widthPx, 0.15),
+                    paddingBottomPx = padding(62, heightPx, 0.2),
+                    paddingRightPx = padding(74, widthPx, 0.25),
+                )
+            }
+        }
+        LaunchedEffect(initialBounds, widthPx, heightPx) {
+            val bounds = initialBounds ?: return@LaunchedEffect
+            val boundsKey = "${bounds.west},${bounds.south},${bounds.east},${bounds.north}"
+            if (framedBoundsKey != boundsKey && widthPx.isFinite() && heightPx.isFinite() && widthPx > 0 && heightPx > 0) {
+                // A request is not an applied frame. Preserve a matching
+                // restored pending request until the native SDK consumes it.
+                if (pendingFrameId == null || pendingFrameBounds?.joinToString(",") != boundsKey) frame(bounds)
+            }
+        }
+        key(retry) {
+            SharedMapboxCanvas(
+                accessToken = BuildConfig.MAPBOX_PUBLIC_ACCESS_TOKEN,
+                style = style,
+                initialCamera = savedCamera,
+                relief = MapRelief(enabled = style.demSourceUrl != null),
+                modifier = Modifier.fillMaxSize(),
+                cameraCommand = cameraCommand,
+                frameCommand = frameCommand,
+                overlays = scene,
+                contentPadding = PaddingValues(start = 12.dp, top = controlsTopPadding, end = 72.dp, bottom = 12.dp),
+                scaleBarVisible = scaleBarVisible,
+                onCameraChanged = { savedCamera = it },
+                onMapTap = { tap ->
+                    val plotId = tap.featureKey?.takeIf { it.layerId == SELECTION_POINTS }?.featureId
+                    if (plotId != null && plotId in plotPointIds) latestPlotSelected(plotId)
+                    else latestClick(ParcelCoordinate(tap.coordinate.longitude, tap.coordinate.latitude))
+                },
+                onViewportChanged = { viewport ->
+                    val bounds = viewport.bounds
+                    if (bounds.west < bounds.east && bounds.south < bounds.north) {
+                        latestViewport(ParcelBounds(bounds.west, bounds.south, bounds.east, bounds.north), viewport.camera.zoom)
                     }
-                    val bytes = output.toByteArray()
-                    val dimensions = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-                    BitmapFactory.decodeByteArray(bytes, 0, bytes.size, dimensions)
-                    require(dimensions.outWidth == 256 && dimensions.outHeight == 256)
-                }
-            }
-            photoUsable = true
-            photoState = SelectionPhotoState.AVAILABLE
-        } catch (cancelled: CancellationException) {
-            throw cancelled
-        } catch (_: Exception) {
-            photoUsable = false
-            photoState = SelectionPhotoState.UNAVAILABLE
-        }
-    }
-
-    val mapView = remember(context, lifecycleOwner) {
-        try {
-            Mapbox.getInstance(context)
-            MapLibreHttpConfig.configure(context)
-            MapView(context, MapboxMapOptions.createFromAttributes(context).textureMode(true)).apply {
-                setBackgroundColor(android.graphics.Color.parseColor("#EAF2EE"))
-                onCreate(null)
-            }
-        } catch (_: Exception) {
-            renderFailed = true
-            null
-        }
-    }
-    val mapLifecycle = remember(mapView) { mapView?.let(::SelectionMapLifecycle) }
-    DisposableEffect(mapView, lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event -> mapLifecycle?.handle(event) }
-        val failureListener = MapView.OnDidFailLoadingMapListener {
-            if (mapLifecycle?.destroyed == false) {
-                if (readyMap != null) {
-                    photoUsable = false
-                    photoState = SelectionPhotoState.UNAVAILABLE
-                } else renderFailed = true
-            }
-        }
-        val memoryCallbacks = object : ComponentCallbacks {
-            override fun onConfigurationChanged(configuration: Configuration) = Unit
-            override fun onLowMemory() {
-                if (mapLifecycle?.destroyed == false) mapView?.onLowMemory()
-            }
-        }
-        mapView?.addOnDidFailLoadingMapListener(failureListener)
-        context.registerComponentCallbacks(memoryCallbacks)
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-            context.unregisterComponentCallbacks(memoryCallbacks)
-            mapView?.removeOnDidFailLoadingMapListener(failureListener)
-            readyMap = null
-            mapLifecycle?.destroy()
-            parcelImageIds.clear()
-            pointImageIds.clear()
-        }
-    }
-
-    LaunchedEffect(mapView) {
-        val view = mapView ?: return@LaunchedEffect
-        view.getMapAsync { map ->
-            if (mapLifecycle?.destroyed != false) return@getMapAsync
-            try {
-                map.uiSettings.apply {
-                    isRotateGesturesEnabled = false
-                    isTiltGesturesEnabled = false
-                    isCompassEnabled = false
-                    isZoomGesturesEnabled = true
-                    isScrollGesturesEnabled = true
-                    logoGravity = Gravity.TOP or Gravity.START
-                    attributionGravity = Gravity.TOP or Gravity.START
-                    val density = context.resources.displayMetrics.density
-                    setLogoMargins((8 * density).roundToInt(), (8 * density).roundToInt(), 0, 0)
-                    setAttributionMargins((8 * density).roundToInt(), (30 * density).roundToInt(), 0, 0)
-                }
-                map.setMinZoomPreference(2.0)
-                map.setMaxZoomPreference(22.0)
-                map.cameraPosition = CameraPosition.Builder()
-                    .target(LatLng(savedLatitude, savedLongitude))
-                    .zoom(savedZoom).padding(savedPadding?.copyOf()).build()
-                map.setStyle(Style.Builder().fromJson(SELECTION_STYLE)) { style ->
-                    if (mapLifecycle?.destroyed != false) return@setStyle
-                    try {
-                        addSelectionLayers(style)
-                        latestRenderData?.let { applySelectionData(style, it, parcelImageIds) }
-                        applySingleParcelSelection(style, latestSelection)
-                        val moveListener = MapboxMap.OnCameraMoveListener {
-                            val camera = map.cameraPosition
-                            camera.target?.let { target ->
-                                savedLatitude = target.latitude
-                                savedLongitude = target.longitude
-                            }
-                            savedZoom = camera.zoom
-                            savedPadding = camera.padding?.copyOf()
-                            hasSavedCamera = true
-                        }
-                        val idleListener = MapboxMap.OnCameraIdleListener {
-                            if (!mapLifecycle.destroyed) {
-                                moveListener.onCameraMove()
-                                cameraTile = selectionPhotoTile(savedLatitude, savedLongitude, savedZoom)
-                                val bounds = map.projection.visibleRegion.latLngBounds
-                                if (bounds.longitudeWest.isFinite() && bounds.longitudeWest in -180.0..180.0 &&
-                                    bounds.longitudeEast.isFinite() && bounds.longitudeEast in -180.0..180.0 &&
-                                    bounds.latitudeSouth.isFinite() && bounds.latitudeSouth in -90.0..90.0 &&
-                                    bounds.latitudeNorth.isFinite() && bounds.latitudeNorth in -90.0..90.0 &&
-                                    bounds.longitudeWest < bounds.longitudeEast && bounds.latitudeSouth < bounds.latitudeNorth
-                                ) {
-                                    latestViewport(ParcelBounds(bounds.longitudeWest, bounds.latitudeSouth, bounds.longitudeEast, bounds.latitudeNorth), savedZoom)
-                                }
-                            }
-                        }
-                        val clickListener = MapboxMap.OnMapClickListener { location ->
-                            if (!location.longitude.isFinite() || !location.latitude.isFinite() ||
-                                location.latitude !in -90.0..90.0
-                            ) return@OnMapClickListener false
-                            latestClick(ParcelCoordinate(wrappedSelectionLongitude(location.longitude), location.latitude))
-                            true
-                        }
-                        map.addOnCameraMoveListener(moveListener)
-                        map.addOnCameraIdleListener(idleListener)
-                        map.addOnMapClickListener(clickListener)
-                        mapLifecycle.beforeDestroy = {
-                            map.removeOnCameraMoveListener(moveListener)
-                            map.removeOnCameraIdleListener(idleListener)
-                            map.removeOnMapClickListener(clickListener)
-                        }
-                        readyMap = map
-                        view.post { if (!mapLifecycle.destroyed) idleListener.onCameraIdle() }
-                    } catch (_: Exception) {
-                        renderFailed = true
+                },
+                onCommandConsumed = { id -> if (cameraCommand?.id == id) cameraCommand = null },
+                onFrameCommandConsumed = { id ->
+                    if (pendingFrameId == id) {
+                        framedBoundsKey = pendingFrameBounds?.joinToString(",")
+                        pendingFrameId = null
+                        pendingFrameBounds = null
                     }
-                }
-            } catch (_: Exception) {
-                renderFailed = true
+                },
+                onStatusChanged = { renderStatus = it; latestRenderStatus(it) },
+                onOverlayStatusChanged = {
+                    overlayFailed = it is MapOverlayStatus.Failed
+                    lastAppliedScene = it as? MapOverlayStatus.Applied
+                    latestOverlayStatus(it)
+                },
+            )
+        }
+        MapboxRenderStatusOverlay(
+            status = if (overlayFailed) MapRenderStatus.Failed(MapFailureReason.SOURCE) else renderStatus,
+            onRetry = { retry++ },
+            modifier = Modifier.align(Alignment.Center),
+        )
+        if (!networkAvailable) MapOfflineConnectivityBadge(
+            Modifier.align(Alignment.TopStart).padding(start = 12.dp, top = 100.dp))
+        if (outsideDisplayStatus != PlotOutsidePreview.NotRequested) {
+            Surface(Modifier.align(Alignment.BottomCenter).padding(start = 12.dp, end = 12.dp, bottom = 48.dp).widthIn(max = 330.dp),
+                shape = RoundedCornerShape(14.dp), color = MaterialTheme.colorScheme.surface.copy(alpha = .97f)) {
+                Text(stringResource(when (outsideDisplayStatus) {
+                    is PlotOutsidePreview.Available -> R.string.fc_outside_preview_polygon
+                    PlotOutsidePreview.Empty -> R.string.fc_outside_preview_empty
+                    PlotOutsidePreview.Computing -> R.string.fc_outside_preview_loading
+                    else -> R.string.fc_outside_preview_unavailable
+                }), Modifier.padding(8.dp), style = MaterialTheme.typography.bodySmall)
             }
         }
-    }
-
-    LaunchedEffect(readyMap, initialBounds) {
-        val map = readyMap ?: return@LaunchedEffect
-        val bounds = initialBounds ?: return@LaunchedEffect
-        val key = "${bounds.west},${bounds.south},${bounds.east},${bounds.north}"
-        if (hasSavedCamera && framedBoundsKey == key) return@LaunchedEffect
-        mapView?.post {
-            if (mapLifecycle?.destroyed == false) {
-                try {
-                    map.moveCamera(selectionCamera(bounds, context.resources.displayMetrics.density, mapView.width, mapView.height))
-                    framedBoundsKey = key
-                    hasSavedCamera = true
-                } catch (_: Exception) {
-                    renderFailed = true
-                }
-            }
-        }
-    }
-    LaunchedEffect(readyMap, renderData) {
-        readyMap?.style?.let { style ->
-            try {
-                applySelectionData(style, renderData?.getOrNull() ?: emptySelectionData(), parcelImageIds)
-            } catch (_: Exception) {
-                renderFailed = true
-            }
-        }
-    }
-    LaunchedEffect(readyMap, selectedFeatureId, photoUsable) {
-        readyMap?.style?.let { style ->
-            try {
-                setSelectionPhoto(style, photoUsable)
-                applySingleParcelSelection(style, selectedFeatureId)
-            } catch (_: Exception) {
-                photoUsable = false
-                photoState = SelectionPhotoState.UNAVAILABLE
-            }
-        }
-    }
-    LaunchedEffect(readyMap, parcelGeometry, plotPoints, plotFootprints, gridCells) {
-        readyMap?.style?.let { style ->
-            try {
-                val parent = parcelGeometry?.let {
-                    FeatureCollection.fromFeatures(listOf(Feature.fromJson("""{"type":"Feature","properties":{},"geometry":${it.toGeoJson()}}""")))
-                } ?: FeatureCollection.fromJson(EMPTY_COLLECTION)
-                style.getSourceAs<GeoJsonSource>(PARENT_SOURCE)?.setGeoJson(parent)
-                require(plotPoints.size <= 500)
-                require(plotFootprints.size <= 500 && gridCells.size <= 500)
-                style.getSourceAs<GeoJsonSource>(FOOTPRINT_SOURCE)?.setGeoJson(FeatureCollection.fromFeatures(plotFootprints.map {
-                    Feature.fromJson("""{"type":"Feature","properties":{"boundary_warning":${it.crossesBoundary}},"geometry":${it.geometry.toGeoJson()}}""")
-                }))
-                style.getSourceAs<GeoJsonSource>(GRID_SOURCE)?.setGeoJson(FeatureCollection.fromFeatures(gridCells.map {
-                    Feature.fromJson("""{"type":"Feature","properties":{},"geometry":${it.toGeoJson()}}""")
-                }))
-                val images = linkedMapOf<String, Bitmap>()
-                val points = plotPoints.mapIndexed { index, coordinate ->
-                    require(coordinate.longitude.isFinite() && coordinate.longitude in -180.0..180.0 &&
-                        coordinate.latitude.isFinite() && coordinate.latitude in -90.0..90.0)
-                    val imageId = "plot-label-$index"
-                    images[imageId] = selectionLabelBitmap((index + 1).toString())
-                    Feature.fromGeometry(Point.fromLngLat(coordinate.longitude, coordinate.latitude)).apply {
-                        addStringProperty("label_image", imageId)
-                    }
-                }
-                replaceSelectionImages(style, images, pointImageIds)
-                style.getSourceAs<GeoJsonSource>(POINT_SOURCE)?.setGeoJson(FeatureCollection.fromFeatures(points))
-            } catch (_: Exception) {
-                renderFailed = true
-            }
-        }
-    }
-
-    Box(modifier) {
-        if (mapView != null) AndroidView(factory = { mapView }, modifier = Modifier.fillMaxSize())
-        if (renderFailed || renderData?.isFailure == true) {
+        if (renderData?.isFailure == true) {
             Surface(
                 modifier = Modifier.align(Alignment.Center).padding(16.dp),
                 shape = RoundedCornerShape(20.dp),
                 color = MaterialTheme.colorScheme.errorContainer,
             ) {
-                Text(stringResource(R.string.pack_map_render_failed), modifier = Modifier.padding(16.dp), color = MaterialTheme.colorScheme.onErrorContainer)
+                Text(stringResource(R.string.pack_map_render_failed), Modifier.padding(16.dp),
+                    color = MaterialTheme.colorScheme.onErrorContainer)
             }
-        } else if (readyMap == null) {
-            CircularProgressIndicator(Modifier.align(Alignment.Center))
-        } else {
-            Surface(
-                modifier = Modifier.align(Alignment.TopEnd).padding(12.dp),
-                shape = RoundedCornerShape(20.dp),
-                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.96f),
-                shadowElevation = 2.dp,
-            ) {
-                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                    IconButton(onClick = { readyMap?.animateCamera(CameraUpdateFactory.zoomIn(), 200) }, modifier = Modifier.size(48.dp)) {
-                        Icon(Icons.Default.Add, stringResource(R.string.pack_map_zoom_in))
-                    }
-                    IconButton(onClick = { readyMap?.animateCamera(CameraUpdateFactory.zoomOut(), 200) }, modifier = Modifier.size(48.dp)) {
-                        Icon(Icons.Default.Remove, stringResource(R.string.pack_map_zoom_out))
-                    }
-                    val recenterBounds = initialBounds ?: parcelGeometry?.bounds
-                    if (recenterBounds != null) {
-                        IconButton(
-                            onClick = {
-                                readyMap?.animateCamera(selectionCamera(recenterBounds, context.resources.displayMetrics.density, mapView?.width ?: 0, mapView?.height ?: 0), 300)
-                            },
-                            modifier = Modifier.size(48.dp),
-                        ) {
-                            Icon(Icons.Default.CenterFocusStrong, stringResource(R.string.geographic_map_recenter))
-                        }
+        }
+        Surface(
+            modifier = Modifier.align(Alignment.TopEnd).padding(top = controlsTopPadding, end = 12.dp),
+            shape = RoundedCornerShape(20.dp),
+            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.96f),
+            shadowElevation = 2.dp,
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                fun zoom(delta: Double) {
+                    cameraCommand = MapCameraCommand("selection-zoom-${sequence.incrementAndGet()}",
+                        savedCamera.copy(zoom = (savedCamera.zoom + delta).coerceIn(2.0, 22.0)))
+                }
+                IconButton(onClick = { zoom(1.0) }, modifier = Modifier.size(48.dp)) {
+                    Icon(Icons.Default.Add, stringResource(R.string.pack_map_zoom_in))
+                }
+                IconButton(onClick = { zoom(-1.0) }, modifier = Modifier.size(48.dp)) {
+                    Icon(Icons.Default.Remove, stringResource(R.string.pack_map_zoom_out))
+                }
+                val recenterBounds = initialBounds ?: parcelGeometry?.bounds
+                if (recenterBounds != null) {
+                    IconButton(onClick = { frame(recenterBounds) }, modifier = Modifier.size(48.dp)) {
+                        Icon(Icons.Default.CenterFocusStrong, stringResource(R.string.geographic_map_recenter))
                     }
                 }
             }
-            Surface(
-                modifier = Modifier.align(Alignment.TopStart).padding(start = 12.dp, top = 52.dp).widthIn(max = 210.dp),
-                shape = RoundedCornerShape(50),
-                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.96f),
-            ) {
-                TextButton(onClick = { preferPhoto = !preferPhoto }) {
-                    Icon(Icons.Default.Layers, null, Modifier.size(16.dp))
-                    val label = when (photoState) {
-                        SelectionPhotoState.AVAILABLE -> R.string.pack_map_photo_active
-                        SelectionPhotoState.LOADING -> R.string.pack_map_photo_loading
-                        SelectionPhotoState.OFFLINE -> R.string.pack_map_local_offline
-                        SelectionPhotoState.UNAVAILABLE -> R.string.pack_map_photo_unavailable
-                        SelectionPhotoState.LOCAL -> R.string.pack_map_local_selected
-                    }
-                    Text(stringResource(label), modifier = Modifier.padding(start = 6.dp), style = MaterialTheme.typography.labelSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                }
-            }
-            if (photoUsable) {
-                Surface(
-                    modifier = Modifier.align(Alignment.BottomStart).padding(8.dp).widthIn(max = 310.dp),
-                    shape = RoundedCornerShape(10.dp),
-                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.94f),
-                ) {
-                    Text(stringResource(R.string.pack_map_photo_attribution), modifier = Modifier.padding(horizontal = 8.dp, vertical = 5.dp), style = MaterialTheme.typography.labelSmall)
-                }
+        }
+        Surface(
+            modifier = Modifier.align(Alignment.TopStart).padding(start = 12.dp, top = controlsTopPadding).widthIn(max = 210.dp),
+            shape = RoundedCornerShape(50),
+            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.96f),
+        ) {
+            TextButton(onClick = { preferSatellite = !preferSatellite }) {
+                Icon(Icons.Default.Layers, null, Modifier.size(16.dp))
+                Text(stringResource(if (preferSatellite) R.string.map_layer_satellite else R.string.map_layer_carto),
+                    Modifier.padding(start = 6.dp), style = MaterialTheme.typography.labelSmall,
+                    maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }
     }
 }
 
-private data class SelectionRenderData(
-    val parcels: FeatureCollection,
-    val labels: FeatureCollection,
-    val images: Map<String, Bitmap>,
+private data class SelectionPreparedSnapshot(
+    val inputSnapshot: Any,
+    val outcome: Result<List<MapOverlayFeature>>,
 )
+private data class OutsidePreparedSnapshot(val token: Any, val result: PlotOutsidePreview)
 
-private fun emptySelectionData() = SelectionRenderData(
-    FeatureCollection.fromJson(EMPTY_COLLECTION), FeatureCollection.fromJson(EMPTY_COLLECTION), emptyMap(),
-)
-
-private fun selectionRenderData(raw: String): SelectionRenderData {
+/**
+ * Builds display-only features from the host's qualified data, preserving parcel
+ * identity and WGS84 geometry. No DAO, GPS, permission inference or reprojection.
+ * Plot numbering is presentation order, not a newly generated business identity.
+ */
+internal fun geographicSelectionFeatures(
+    raw: String,
+    selectedFeatureId: String?,
+    plotPoints: List<ParcelCoordinate>,
+    parcelGeometry: ParcelGeometry?,
+    plotFootprints: List<SamplingFootprint>,
+    gridCells: List<ParcelGeometry>,
+    plotPointIds: List<String> = emptyList(),
+    selectedPlotId: String? = null,
+    outsideFootprint: ParcelGeometry? = null,
+): List<MapOverlayFeature> {
     require(raw.length <= 4 * 1024 * 1024)
+    require(plotPointIds.isEmpty() || (plotPointIds.size == plotPoints.size && plotPointIds.distinct().size == plotPointIds.size))
+    require(plotPoints.size <= 500 && plotFootprints.size <= 500 && gridCells.size <= 500)
+    val root = Json.parseToJsonElement(raw).jsonObject
+    require(root["type"] == JsonPrimitive("FeatureCollection") && root["features"] is JsonArray)
+    GeoImportCoordinatePolicy.validateGeoJson(root)
     val collection = FeatureCollection.fromJson(raw)
-    val features = collection.features().orEmpty()
-    require(features.size <= 500)
+    val parcels = collection.features().orEmpty()
+    require(parcels.size <= 500)
     val ids = mutableSetOf<String>()
-    val labels = mutableListOf<Feature>()
-    val images = linkedMapOf<String, Bitmap>()
-    features.forEachIndexed { index, feature ->
-        require(feature.geometry() is Polygon || feature.geometry() is MultiPolygon)
-        val id = selectionStringProperty(feature, "parcel_id")
-        require(id != null && id.isNotBlank() && id.length <= 200 && ids.add(id))
-        val geometry = ParcelGeometry.fromGeoJson(requireNotNull(feature.geometry()).toJson())
+    val result = mutableListOf<MapOverlayFeature>()
+    val labels = mutableListOf<MapOverlayFeature>()
+    parcels.forEach { feature ->
+        val geometry = requireNotNull(feature.geometry())
+        require(geometry is Polygon || geometry is MultiPolygon)
+        val id = requireNotNull(selectionStringProperty(feature, "parcel_id"))
+        require(id.isNotBlank() && id.length <= 200 && ids.add(id))
+        // The strict domain parser rejects projected, non-finite or invalid data;
+        // its normalised geometry, not a guessed bounds rectangle, is rendered.
+        val parcel = ParcelGeometry.fromGeoJson(geometry.toJson())
+        val selected = id == selectedFeatureId
+        result += MapOverlayFeature(
+            key = MapFeatureKey(SELECTION_PARCELS, id), geometry = selectionGeometry(parcel),
+            style = MapOverlayStyle(colorHex = if (selected) "#117B43" else "#156579",
+                // The shared renderer adds 2px for selected identities.
+                lineWidth = if (selected) 2.0 else 1.8, fillOpacity = if (selected) 0.30 else 0.10,
+                strokeWidth = if (selected) 1.0 else 1.1),
+        )
         val name = (selectionStringProperty(feature, "parcel_label") ?: selectionStringProperty(feature, "label") ?: id).take(60)
-        val anchor = selectionLabelAnchor(geometry, feature)
-        if (anchor != null) {
-            val imageId = "parcel-label-$index"
-            images[imageId] = selectionLabelBitmap(name)
-            labels += Feature.fromGeometry(Point.fromLngLat(anchor.longitude, anchor.latitude)).apply {
-                addStringProperty("label_image", imageId)
-            }
+        selectionLabelAnchor(parcel, feature)?.let { point ->
+            labels += MapOverlayFeature(
+                key = MapFeatureKey(SELECTION_LABELS, id), geometry = Point.fromLngLat(point.longitude, point.latitude),
+                style = MapOverlayStyle(colorHex = "#103F35", pointRadius = 0.0, fillOpacity = 0.0),
+                label = name, selectable = false,
+            )
         }
     }
-    return SelectionRenderData(collection, FeatureCollection.fromFeatures(labels), images)
+    parcelGeometry?.let {
+        result += MapOverlayFeature(MapFeatureKey(SELECTION_PARENT, "parent"), selectionGeometry(it),
+            style = MapOverlayStyle(colorHex = "#0D754B", lineWidth = 3.5, fillOpacity = 0.18, strokeWidth = 1.25), selectable = false)
+    }
+    gridCells.forEachIndexed { index, geometry ->
+        result += MapOverlayFeature(MapFeatureKey(SELECTION_GRID, index.toString()), selectionGeometry(geometry),
+            style = MapOverlayStyle(colorHex = "#566A61", lineWidth = 1.0, fillOpacity = 0.0,
+                lineDashArray = listOf(3.0, 2.0)), selectable = false)
+    }
+    plotFootprints.forEachIndexed { index, footprint ->
+        result += MapOverlayFeature(MapFeatureKey(SELECTION_FOOTPRINTS, index.toString()), selectionGeometry(footprint.geometry),
+            style = MapOverlayStyle(colorHex = if (footprint.crossesBoundary) "#6560A5" else "#1E8A58",
+                lineWidth = 2.0, fillOpacity = 0.22), selectable = false)
+    }
+    result += labels
+    plotPoints.forEachIndexed { index, coordinate ->
+        result += MapOverlayFeature(MapFeatureKey(SELECTION_POINTS, plotPointIds.getOrNull(index) ?: index.toString()),
+            Point.fromLngLat(coordinate.longitude, coordinate.latitude),
+            style = MapOverlayStyle(colorHex = "#176CAA",
+                pointRadius = if (plotPointIds.getOrNull(index) == selectedPlotId) 10.0 else 7.0,
+                labelBadge = MapOverlayLabelBadge.CIRCLE),
+            label = (index + 1).toString(), selectable = plotPointIds.isNotEmpty())
+    }
+    if (outsideFootprint != null && selectedPlotId != null && selectedPlotId in plotPointIds) {
+        result += MapOverlayFeature(MapFeatureKey("selection-plot-outside", selectedPlotId), selectionGeometry(outsideFootprint),
+            MapOverlayStyle(colorHex = "#6560A5", lineWidth = 1.2, fillOpacity = .30,
+                fillPattern = MapOverlayFillPattern.HATCH), selectable = false)
+    }
+    return result
 }
+
+private fun selectionGeometry(geometry: ParcelGeometry): Geometry = requireNotNull(
+    Feature.fromJson("""{"type":"Feature","properties":{},"geometry":${geometry.toGeoJson()}}""").geometry(),
+)
 
 private fun selectionStringProperty(feature: Feature, key: String): String? = feature.getProperty(key)?.let { value ->
     if (value.isJsonPrimitive && value.asJsonPrimitive.isString) value.asString else null
 }
 
-/** Display anchor only; never persisted as a survey or navigation coordinate. */
+/** Display anchor only; never persisted as a survey/navigation coordinate. */
 private fun selectionLabelAnchor(geometry: ParcelGeometry, feature: Feature): ParcelCoordinate? {
     val bounds = geometry.bounds
     if (geometry.contains(bounds.center)) return bounds.center
     for (y in 1..7) for (x in 1..7) {
-        val point = ParcelCoordinate(bounds.west + (bounds.east - bounds.west) * x / 8, bounds.south + (bounds.north - bounds.south) * y / 8)
+        val point = ParcelCoordinate(bounds.west + (bounds.east - bounds.west) * x / 8,
+            bounds.south + (bounds.north - bounds.south) * y / 8)
         if (geometry.contains(point)) return point
     }
     val vertex = when (val polygon = feature.geometry()) {
@@ -549,204 +463,4 @@ private fun selectionLabelAnchor(geometry: ParcelGeometry, feature: Feature): Pa
         else -> null
     }
     return vertex?.let { ParcelCoordinate(it.longitude(), it.latitude()) }
-}
-
-private fun selectionLabelBitmap(name: String): Bitmap {
-    val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 15f
-        typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-    }
-    val metrics = paint.fontMetrics
-    val width = (ceil(paint.measureText(name)).toInt() + 12).coerceAtLeast(1)
-    val height = (ceil(metrics.descent - metrics.ascent).toInt() + 12).coerceAtLeast(1)
-    return Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).also { bitmap ->
-        val canvas = Canvas(bitmap)
-        val baseline = 6f - metrics.ascent
-        paint.style = Paint.Style.STROKE
-        paint.strokeWidth = 4f
-        paint.color = android.graphics.Color.parseColor("#103F35")
-        canvas.drawText(name, 6f, baseline, paint)
-        paint.style = Paint.Style.FILL
-        paint.color = android.graphics.Color.WHITE
-        canvas.drawText(name, 6f, baseline, paint)
-    }
-}
-
-private fun addSelectionLayers(style: Style) {
-    listOf(PARCEL_SOURCE, PARCEL_LABEL_SOURCE, PARENT_SOURCE, POINT_SOURCE, FOOTPRINT_SOURCE, GRID_SOURCE).forEach {
-        style.addSource(GeoJsonSource(it, EMPTY_COLLECTION))
-    }
-    style.addLayer(FillLayer("$PARCEL_SOURCE-fill", PARCEL_SOURCE).withProperties(PropertyFactory.fillColor("#328CA0"), PropertyFactory.fillOpacity(0.12f)))
-    style.addLayer(LineLayer("$PARCEL_SOURCE-halo", PARCEL_SOURCE).withProperties(PropertyFactory.lineColor("#FFFFFF"), PropertyFactory.lineWidth(4f), PropertyFactory.lineOpacity(0.8f)))
-    style.addLayer(LineLayer("$PARCEL_SOURCE-outline", PARCEL_SOURCE).withProperties(PropertyFactory.lineColor("#156579"), PropertyFactory.lineWidth(1.8f)))
-    style.addLayer(LineLayer("$PARCEL_SOURCE-selected", PARCEL_SOURCE).withFilter(Expression.literal(false)).withProperties(PropertyFactory.lineColor("#117B43"), PropertyFactory.lineWidth(4f)))
-    style.addLayer(FillLayer("$PARENT_SOURCE-fill", PARENT_SOURCE).withProperties(PropertyFactory.fillColor("#37A977"), PropertyFactory.fillOpacity(0.18f)))
-    style.addLayer(LineLayer("$PARENT_SOURCE-halo", PARENT_SOURCE).withProperties(PropertyFactory.lineColor("#FFFFFF"), PropertyFactory.lineWidth(6f), PropertyFactory.lineOpacity(0.9f)))
-    style.addLayer(LineLayer("$PARENT_SOURCE-outline", PARENT_SOURCE).withProperties(PropertyFactory.lineColor("#0D754B"), PropertyFactory.lineWidth(3.5f)))
-    style.addLayer(LineLayer("$GRID_SOURCE-outline", GRID_SOURCE).withProperties(
-        PropertyFactory.lineColor("#566A61"), PropertyFactory.lineWidth(1f), PropertyFactory.lineOpacity(0.7f),
-        PropertyFactory.lineDasharray(arrayOf(3f, 2f)),
-    ))
-    val footprintColor = Expression.switchCase(Expression.eq(Expression.get("boundary_warning"), Expression.literal(true)),
-        Expression.color(android.graphics.Color.parseColor("#C66C12")), Expression.color(android.graphics.Color.parseColor("#176CAA")))
-    style.addLayer(FillLayer("$FOOTPRINT_SOURCE-fill", FOOTPRINT_SOURCE).withProperties(
-        PropertyFactory.fillColor(footprintColor), PropertyFactory.fillOpacity(0.22f),
-    ))
-    style.addLayer(LineLayer("$FOOTPRINT_SOURCE-outline", FOOTPRINT_SOURCE).withProperties(
-        PropertyFactory.lineColor(footprintColor), PropertyFactory.lineWidth(2f),
-    ))
-    style.addLayer(SymbolLayer("$PARCEL_SOURCE-labels", PARCEL_LABEL_SOURCE).withProperties(
-        PropertyFactory.iconImage(Expression.get("label_image")), PropertyFactory.iconAllowOverlap(false), PropertyFactory.iconIgnorePlacement(false), PropertyFactory.iconPadding(4f),
-    ))
-    style.addLayer(CircleLayer("$POINT_SOURCE-circles", POINT_SOURCE).withProperties(
-        PropertyFactory.circleRadius(7f), PropertyFactory.circleColor("#176CAA"), PropertyFactory.circleStrokeColor("#FFFFFF"), PropertyFactory.circleStrokeWidth(3f),
-    ))
-    style.addLayer(SymbolLayer("$POINT_SOURCE-labels", POINT_SOURCE).withProperties(
-        PropertyFactory.iconImage(Expression.get("label_image")), PropertyFactory.iconAnchor(com.mapbox.mapboxsdk.style.layers.Property.ICON_ANCHOR_BOTTOM), PropertyFactory.iconOffset(arrayOf(0f, -10f)),
-        PropertyFactory.iconAllowOverlap(true), PropertyFactory.iconIgnorePlacement(true),
-    ))
-}
-
-private fun applySelectionData(style: Style, data: SelectionRenderData, previousImageIds: MutableSet<String>) {
-    replaceSelectionImages(style, data.images, previousImageIds)
-    style.getSourceAs<GeoJsonSource>(PARCEL_SOURCE)?.setGeoJson(data.parcels)
-    style.getSourceAs<GeoJsonSource>(PARCEL_LABEL_SOURCE)?.setGeoJson(data.labels)
-}
-
-private fun replaceSelectionImages(style: Style, images: Map<String, Bitmap>, previousImageIds: MutableSet<String>) {
-    (previousImageIds - images.keys).forEach { style.removeImage(it) }
-    if (images.isNotEmpty()) style.addImages(HashMap(images))
-    previousImageIds.clear()
-    previousImageIds.addAll(images.keys)
-}
-
-private fun applySingleParcelSelection(style: Style, id: String?) {
-    val selected = if (id == null) Expression.literal(false) else Expression.eq(Expression.get("parcel_id"), Expression.literal(id))
-    style.getLayerAs<LineLayer>("$PARCEL_SOURCE-selected")?.setFilter(selected)
-    style.getLayer("$PARCEL_SOURCE-fill")?.setProperties(
-        PropertyFactory.fillColor(Expression.switchCase(selected, Expression.color(android.graphics.Color.parseColor("#26A76A")), Expression.color(android.graphics.Color.parseColor("#328CA0")))),
-        PropertyFactory.fillOpacity(Expression.switchCase(selected, Expression.literal(0.3f), Expression.literal(0.1f))),
-    )
-}
-
-private fun setSelectionPhoto(style: Style, visible: Boolean) {
-    if (!visible) {
-        style.removeLayer(PHOTO_LAYER)
-        style.removeSource(PHOTO_SOURCE)
-    } else if (style.getLayer(PHOTO_LAYER) == null) {
-        val template = MapSourcePolicy.ORTHOPHOTO_TEMPLATE
-        require(MapSourcePolicy.isOnlineTemplateQualified(template))
-        val tiles = TileSet("2.1.0", template).apply {
-            minZoom = 0f
-            maxZoom = 19f
-            scheme = "xyz"
-            attribution = "<a href=\"https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_BD-ORTHO\">${MapSourcePolicy.ORTHOPHOTO_ATTRIBUTION}</a>"
-        }
-        style.addSource(RasterSource(PHOTO_SOURCE, tiles, 256))
-        style.addLayerAbove(RasterLayer(PHOTO_LAYER, PHOTO_SOURCE), "background")
-    }
-}
-
-private fun selectionCamera(bounds: ParcelBounds, density: Float, width: Int = 0, height: Int = 0): com.mapbox.mapboxsdk.camera.CameraUpdate {
-    // A compact plot form must still leave a positive map area at large font sizes.
-    fun padding(dp: Int, dimension: Int, fraction: Float): Int =
-        (dp * density).roundToInt().let { if (dimension > 0) it.coerceAtMost((dimension * fraction).roundToInt()) else it }
-    return CameraUpdateFactory.newLatLngBounds(
-        LatLngBounds.from(bounds.north, bounds.east, bounds.south, bounds.west),
-        padding(28, width, 0.15f), padding(98, height, 0.25f),
-        padding(74, width, 0.25f), padding(62, height, 0.2f),
-    )
-}
-
-private data class SelectionPhotoTile(val zoom: Int, val x: Int, val y: Int) {
-    fun url(): String = MapSourcePolicy.ORTHOPHOTO_TEMPLATE.replace("{z}", zoom.toString()).replace("{x}", x.toString()).replace("{y}", y.toString())
-}
-
-private fun selectionPhotoTile(latitude: Double, longitude: Double, zoom: Double): SelectionPhotoTile {
-    val level = floor(zoom).toInt().coerceIn(0, 19)
-    val count = 1 shl level
-    val radians = Math.toRadians(latitude.coerceIn(-85.05112878, 85.05112878))
-    val x = floor((wrappedSelectionLongitude(longitude) + 180) / 360 * count).toInt().coerceIn(0, count - 1)
-    val y = floor((1 - ln(tan(radians) + 1 / cos(radians)) / Math.PI) / 2 * count).toInt().coerceIn(0, count - 1)
-    return SelectionPhotoTile(level, x, y)
-}
-
-/** MapLibre permits world copies; this preserves the same physical longitude. */
-private fun wrappedSelectionLongitude(longitude: Double): Double = ((longitude + 180) % 360 + 360) % 360 - 180
-
-@Composable
-private fun rememberSelectionInternet(context: Context): State<Boolean> {
-    val manager = remember(context) { context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager }
-    fun connected(): Boolean = runCatching {
-        manager?.activeNetwork?.let { manager.getNetworkCapabilities(it) }?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
-    }.getOrDefault(false)
-    val connection = remember(manager) { mutableStateOf(connected()) }
-    DisposableEffect(manager) {
-        val handler = Handler(Looper.getMainLooper())
-        var active = true
-        val callback = object : ConnectivityManager.NetworkCallback() {
-            private fun update() { handler.post { if (active) connection.value = connected() } }
-            override fun onAvailable(network: Network) = update()
-            override fun onLost(network: Network) = update()
-            override fun onCapabilitiesChanged(network: Network, capabilities: NetworkCapabilities) = update()
-        }
-        val registered = runCatching { manager?.registerDefaultNetworkCallback(callback); manager != null }.getOrDefault(false)
-        onDispose {
-            active = false
-            handler.removeCallbacksAndMessages(null)
-            if (registered) runCatching { manager?.unregisterNetworkCallback(callback) }
-        }
-    }
-    return connection
-}
-
-@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
-private suspend fun Call.awaitSelectionResponse(): Response = suspendCancellableCoroutine { continuation ->
-    continuation.invokeOnCancellation { cancel() }
-    enqueue(object : Callback {
-        override fun onFailure(call: Call, error: IOException) {
-            if (continuation.isActive) continuation.resumeWithException(error)
-        }
-        override fun onResponse(call: Call, response: Response) {
-            continuation.resume(response) { response.close() }
-        }
-    })
-}
-
-private class SelectionMapLifecycle(private val view: MapView) {
-    var destroyed = false
-        private set
-    var beforeDestroy: (() -> Unit)? = null
-    private var started = false
-    private var resumed = false
-
-    fun handle(event: Lifecycle.Event) {
-        if (destroyed) return
-        when (event) {
-            Lifecycle.Event.ON_START -> if (!started) { view.onStart(); started = true }
-            Lifecycle.Event.ON_RESUME -> if (!resumed) { view.onResume(); resumed = true }
-            Lifecycle.Event.ON_PAUSE -> pause()
-            Lifecycle.Event.ON_STOP -> stop()
-            Lifecycle.Event.ON_DESTROY -> destroy()
-            else -> Unit
-        }
-    }
-
-    private fun pause() {
-        if (resumed) { view.onPause(); resumed = false }
-    }
-
-    private fun stop() {
-        pause()
-        if (started) { view.onStop(); started = false }
-    }
-
-    fun destroy() {
-        if (destroyed) return
-        beforeDestroy?.invoke()
-        beforeDestroy = null
-        stop()
-        destroyed = true
-        view.onDestroy()
-    }
 }

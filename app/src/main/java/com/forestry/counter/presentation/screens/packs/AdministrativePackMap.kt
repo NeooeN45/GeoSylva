@@ -43,7 +43,7 @@ import com.forestry.counter.BuildConfig
 import com.forestry.counter.R
 import com.forestry.counter.data.packs.AdministrativePackContent
 import com.forestry.counter.presentation.components.maps.MapboxRenderStatusOverlay
-import com.forestry.counter.presentation.components.maps.MapLocalModeBadge
+import com.forestry.counter.presentation.components.maps.MapOfflineConnectivityBadge
 import com.forestry.counter.presentation.components.maps.rememberMapNetworkAvailable
 import com.mapbox.geojson.Feature
 import com.mapbox.geojson.FeatureCollection
@@ -269,6 +269,9 @@ fun AdministrativePackMap(
                 onOverlayStatusChanged = {
                     latestOverlayStatus(it)
                     when (it) {
+                        // Enqueued data is not a rendered frame. Keep any failure
+                        // visible until the current scene is natively acknowledged.
+                        is MapOverlayStatus.Pending -> Unit
                         is MapOverlayStatus.Applied -> if (it.scopeId == scene.scopeId && it.revision == scene.revision) overlayFailed = false
                         is MapOverlayStatus.Failed -> overlayFailed = true
                     }
@@ -315,7 +318,7 @@ fun AdministrativePackMap(
                     }
                 }
             }
-            if (!networkAvailable) MapLocalModeBadge(
+            if (!networkAvailable) MapOfflineConnectivityBadge(
                 Modifier.align(Alignment.TopStart).padding(start = 12.dp, top = 56.dp + overlayTop))
             else if (!showSatellite) Surface(
                 modifier = Modifier.align(Alignment.TopStart).padding(start = 12.dp, top = 56.dp + overlayTop),

@@ -1,0 +1,11 @@
+<resources>
+    <string name="mapbox_satellite">Mapbox satellite</string>
+    <string name="mapbox_plan">Mapbox streets</string>
+    <string name="mapbox_topographic">Mapbox topography</string>
+    <string name="mapbox_satellite_labels">Mapbox satellite with labels</string>
+    <string name="mapbox_loading">Loading map…</string>
+    <string name="mapbox_configuration_required">Mapbox configuration is required to display the map.</string>
+    <string name="mapbox_render_unavailable">The map could not load. Check the connection or available offline resources.</string>
+    <string name="mapbox_position_unavailable">Current location unavailable</string>
+    <string name="mapbox_local_mode_title">Offline</string>
+</resources>

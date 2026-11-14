@@ -1,0 +1,99 @@
+{
+  "status": "Current compatible adoption plus compilation-blocker repairs; application build pending root coordination",
+  "claim": "Historical antecedents adopted for current development, not exact13Nov restoration",
+  "files": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/geo/GeoImportCoordinatePolicy.kt",
+      "beforeSha256": null,
+      "sha256": "adf66289ae6efb2e89205e4b39e74bbb1a35d0268179c0eac658dff3a150045d",
+      "classification": "COMPLETE_OBSERVED_READ_ADOPTED",
+      "source": {
+        "history": "root0023-full.json",
+        "item": "exec-d1e18c73-d7a6-4618-b4dc-1231372dfa0d",
+        "command": "/bin/bash -lc \"sed -n '1,148p' app/src/main/java/com/forestry/counter/domain/geo/GeoImportCoordinatePolicy.kt; rg -n 'featureCount|warnings|properties|geometry' app/src/main/java/com/forestry/counter/domain/geo/GeoImportCoordinatePolicy.kt | head -22\"",
+        "sourceSliceSha256": "adf66289ae6efb2e89205e4b39e74bbb1a35d0268179c0eac658dff3a150045d"
+      },
+      "changes": []
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/components/maps/MapNetworkAvailability.kt",
+      "beforeSha256": null,
+      "sha256": "728f9e6aa9a83e1723429c7e163f8ed3e74b9a287bc719d25c08681b72e18913",
+      "classification": "COMPLETE_OBSERVED_CAT_ADOPTED",
+      "source": {
+        "history": "layers-attributes-earlier5.json",
+        "item": "exec-2b729545-157c-47fd-a4ef-b64645c03535",
+        "sourceSliceSha256": "728f9e6aa9a83e1723429c7e163f8ed3e74b9a287bc719d25c08681b72e18913"
+      },
+      "changes": []
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/GeographicSelectionMap.kt",
+      "beforeSha256": "05f289acfffda76734663802145f1371d035388f440840b6044ff1b1722a5eb7",
+      "sha256": "747176ebc9a6eade3f31ba1ff588a6fa5785b59d8af227c4b45c8debeb72c138",
+      "classification": "OBSERVED_MAPBOX_ANTECEDENT_WITH_EXPLICIT_CURRENT_ADAPTATION",
+      "source": {
+        "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/later-versions/01a1d5d7-846d-7581-805d-9a166ffeda15/exec-b4e82de0-1947-488d-b42d-7b1c779fc41a/app/src/main/java/com/forestry/counter/presentation/screens/forestry/GeographicSelectionMap.kt",
+        "sha256": "452df52a0ed934cdcafdbcf6731be6a06c251dd9e17e56ceb89ff366293f1a7c"
+      },
+      "changes": [
+        "Use shared MapOfflineConnectivityBadge observed in latest helper",
+        "Retain requested Mapbox style offline instead of vector fallback, matching observed patch9 intent",
+        "All geometry/authority-facing inputs and stale snapshot guards retained"
+      ]
+    },
+    {
+      "path": "app/src/main/res/values/mapbox_strings.xml",
+      "sha256": "6dfd83766a5016b627adcbf7ed89b7cc3694e7ca9224766117bc8747832600af",
+      "classification": "OBSERVED_FR_STRINGS_WITH_OBSERVED_OFFLINE_LABEL_ADAPTATION",
+      "source": {
+        "history": "maquettes-audit-batch5.json",
+        "item": "exec-3b4db4a8-e2af-4b4d-941e-3e7748e63a7b"
+      }
+    },
+    {
+      "path": "app/src/main/res/values-en/mapbox_strings.xml",
+      "sha256": "a57c4244505c753c5b3e1273f21696cee96b10703a414eef1cf53ce861c805ce",
+      "classification": "NEW_EN_TRANSLATION_OF_RECOVERED_FR_KEYS",
+      "source": null
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/components/maps/MapPhoneLocation.kt",
+      "beforeSha256": null,
+      "sha256": "09a2484d72721237594e7b4aec58fed4cd60532c4d4b154dd5ed2d7e916d0dd8",
+      "classification": "COMPLETE_OBSERVED_CAT_ADOPTED",
+      "source": {
+        "history": "layers-attributes-earlier5.json",
+        "item": "exec-2b729545-157c-47fd-a4ef-b64645c03535",
+        "command": "/bin/bash -lc \"sed -n '1,100p' app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapLayerLoadState.kt\nsed -n '315,340p' app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt\ncat app/src/main/java/com/forestry/counter/presentation/components/maps/MapPhoneLocation.kt\ncat app/src/main/java/com/forestry/counter/presentation/components/maps/MapNetworkAvailability.kt\nrg -n 'DEFAULT_LAYER_KEY' app/src/main/java/com/forestry/counter/domain/location/MapSourcePolicy.kt\""
+      }
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/forestry/GeographicSelectionFeaturesTest.kt",
+      "beforeSha256": null,
+      "sha256": "e47a073e435905e5b191ef0828f1621ad72f14921c80b232c70fecc5b089673d",
+      "classification": "COMPLETE_OBSERVED_TEST_ADOPTED_NOT_EXECUTED",
+      "source": {
+        "artifact": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/versions/01a1b570-1e5c-7128-8841-d3fffab400ec/exec-f8948746-f010-4c14-ace0-d3d7bcc415d3/app/src/test/java/com/forestry/counter/presentation/screens/forestry/GeographicSelectionFeaturesTest.kt",
+        "sha256": "e47a073e435905e5b191ef0828f1621ad72f14921c80b232c70fecc5b089673d"
+      }
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/packs/AdministrativePackMap.kt",
+      "beforeSha256": "0d5cc4cfa0a2fd488bf602298742aad68f45cd62025f4086c6ed3384bffb9ee7",
+      "sha256": "bec297e81918f1f1e5af22a5d3dfe914c69961ca81450b924202188b3b36e4fe",
+      "classification": "CURRENT_CONTRACT_COMPATIBILITY_REPAIR",
+      "changes": [
+        "Use common MapOfflineConnectivityBadge",
+        "Handle Pending without clearing existing failure or emitting false Applied status"
+      ]
+    }
+  ],
+  "unverified": [
+    "Full application compilation coordinated by root",
+    "Native camera framing and rotated camera restore",
+    "Visual comparison against approved mockups and S25 Ultra tests",
+    "Four fc_outside_preview_* keys coordinated with map_ui_contracts agent",
+    "Seven GeographicSelectionFeaturesTest JVM cases added; not executed by this agent"
+  ]
+}
