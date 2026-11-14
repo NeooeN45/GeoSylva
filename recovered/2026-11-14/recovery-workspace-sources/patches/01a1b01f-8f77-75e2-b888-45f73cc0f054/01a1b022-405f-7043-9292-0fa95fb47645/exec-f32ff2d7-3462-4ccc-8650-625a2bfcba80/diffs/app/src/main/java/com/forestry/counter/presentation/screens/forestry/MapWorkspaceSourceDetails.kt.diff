@@ -1,0 +1,4 @@
+@@ -168,2 +168,2 @@
+ private const val SOURCE_IGN_ORTHO_URL = "https://geoservices.ign.fr/bdortho"
+-private const val SOURCE_OPEN_LICENSE_URL = "https://www.etalab.gouv.fr/licence-ouverte-open-licence/"
++private const val SOURCE_OPEN_LICENSE_URL = "https://www.data.gouv.fr/pages/legal/licences/etalab-2-0"

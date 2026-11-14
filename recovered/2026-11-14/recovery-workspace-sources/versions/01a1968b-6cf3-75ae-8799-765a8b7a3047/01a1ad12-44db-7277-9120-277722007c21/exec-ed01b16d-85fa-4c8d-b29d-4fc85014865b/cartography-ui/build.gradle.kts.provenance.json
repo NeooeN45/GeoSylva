@@ -1,0 +1,19 @@
+{
+  "path": "cartography-ui/build.gradle.kts",
+  "sha256": "9fc2044a5f643709bc7b8f33b83d0032d18eb8f36692e47193fd6d1e8c609f80",
+  "classification": "full_add_exact",
+  "chain": [
+    {
+      "history_file": "root0007-full10k.json",
+      "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+      "turn": "01a1ad12-44db-7277-9120-277722007c21",
+      "item": "exec-ed01b16d-85fa-4c8d-b29d-4fc85014865b",
+      "item_index": 49,
+      "turn_started_at": 1793905018,
+      "turn_completed_at": 1793911533,
+      "kind": "add",
+      "diff_sha256": "9fc2044a5f643709bc7b8f33b83d0032d18eb8f36692e47193fd6d1e8c609f80"
+    }
+  ],
+  "limitation": "Observed exact add and listed diffs only. This does not establish absence of intervening changes or a complete November source tree."
+}

@@ -1,0 +1,52 @@
+{
+  "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt",
+  "sha256": "cf212a23ba2a128a6a7c0e75acedcc9fedd624ece2329b08e4ec0c8d02332c74",
+  "classification": "full_reconstruction_from_observed_diffs",
+  "chain": [
+    {
+      "history_file": "root0003-full.json",
+      "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+      "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+      "item": "exec-e404b361-49e7-416b-ace6-5653a7e41e9a",
+      "item_index": 103,
+      "turn_started_at": 1793981109,
+      "turn_completed_at": 1793987989,
+      "kind": "add",
+      "diff_sha256": "7c8534821424c2b5cd7535c5c4fd768d20361618ca50450a5fb44f844bc6b2cc"
+    },
+    {
+      "history_file": "root0003-full.json",
+      "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+      "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+      "item": "exec-c5ef21b0-376e-4cad-b711-405bc6224745",
+      "item_index": 108,
+      "turn_started_at": 1793981109,
+      "turn_completed_at": 1793987989,
+      "kind": "update",
+      "diff_sha256": "e4076441d2a96f693aa37cb8ef7f1419e1f2e6800b3a4797950655dcf8b1a164"
+    },
+    {
+      "history_file": "root0003-full.json",
+      "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+      "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+      "item": "exec-f1800299-5987-4b79-bb1b-d8ee4849383c",
+      "item_index": 133,
+      "turn_started_at": 1793981109,
+      "turn_completed_at": 1793987989,
+      "kind": "update",
+      "diff_sha256": "8e10d2da54aab33de21796f728134e5e0777c09a1716a3b3145123517d094ad8"
+    },
+    {
+      "history_file": "root0003-full.json",
+      "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+      "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+      "item": "exec-84169b7b-8cee-4341-972b-b06d8e9cb229",
+      "item_index": 220,
+      "turn_started_at": 1793981109,
+      "turn_completed_at": 1793987989,
+      "kind": "update",
+      "diff_sha256": "9a811be5a2c42d71769d5d54129abefca20b5137843f3e4ae72ee32cfcd8bc33"
+    }
+  ],
+  "limitation": "Observed exact add and listed diffs only. This does not establish absence of intervening changes or a complete November source tree."
+}

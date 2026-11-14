@@ -1,0 +1,9 @@
+@@ -2,2 +2,4 @@
+     <string name="gs_map_layers">Couches</string>
++    <string name="gs_map_free">CARTE LIBRE</string>
++    <string name="gs_map_explore">Explorer un lieu</string>
+     <string name="gs_map_basemap">Fond</string>
+@@ -19,2 +21,3 @@
+     <string name="gs_map_add_layer">Ajouter %1$s</string>
++    <string name="gs_map_layer_availability">Disponibilité de %1$s</string>
+     <string name="gs_map_view">Vue</string>

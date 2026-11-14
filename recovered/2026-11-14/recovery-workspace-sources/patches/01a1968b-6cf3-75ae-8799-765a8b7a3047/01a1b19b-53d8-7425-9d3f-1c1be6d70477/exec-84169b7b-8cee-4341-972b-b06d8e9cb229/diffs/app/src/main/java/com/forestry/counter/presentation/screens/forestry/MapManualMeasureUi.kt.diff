@@ -1,0 +1,35 @@
+@@ -37,3 +37,3 @@
+ internal fun MapManualMeasureUi(
+-    state: ManualMeasureState,
++    unverifiedState: ManualMeasureState,
+     model: MapManualMeasureViewModel,
+@@ -46,2 +46,9 @@
+ ) {
++    // Keep private draft data in its bound controller while authority is checked,
++    // but never pass it to the presentation before the new capture succeeds.
++    val state = if (unverifiedState.ready) unverifiedState else ManualMeasureState(
++        active = unverifiedState.active, panel = unverifiedState.panel, saving = unverifiedState.saving,
++        error = unverifiedState.error, auxiliary = unverifiedState.auxiliary,
++        loadingSaved = unverifiedState.loadingSaved, savedError = unverifiedState.savedError,
++    )
+     val context = LocalContext.current
+@@ -55,2 +62,3 @@
+         state.calculating -> stringResource(R.string.manual_host_calculating)
++        state.points.size >= CartographicMeasureCalculator.MAX_POINTS -> stringResource(R.string.manual_host_point_limit)
+         state.result is CartographicMeasureResult.Unavailable -> issueText(state.result.issue)
+@@ -134,3 +142,9 @@
+         pointCountText = context.getString(R.string.manual_host_share_points, record.points.size),
+-        methodText = "${record.methodId} · v${record.methodVersion}",
++        methodText = buildString {
++            if (record.methodVersion == 1) when (record.methodId) {
++                CartographicMeasureCalculator.DISTANCE_METHOD_ID -> append(context.getString(R.string.manual_aux_distance_method) + "\n")
++                CartographicMeasureCalculator.AREA_METHOD_ID -> append(context.getString(R.string.manual_aux_area_method) + "\n")
++            }
++            append("${record.methodId} · v${record.methodVersion}")
++        },
+         sourceText = context.getString(R.string.manual_aux_manual_source),
+@@ -155,3 +169,3 @@
+                 context.getString(R.string.manual_host_share_points, record.points.size)) } else emptyList(),
+-            loading = state.loadingSaved || !state.ready,
++            loading = state.loadingSaved || !state.ready && state.error == null,
+             errorText = storeErrorText(state.savedError ?: if (!state.ready) state.error else null),

@@ -1,0 +1,9 @@
+@@ -2,2 +2,4 @@
+     <string name="gs_map_layers">Layers</string>
++    <string name="gs_map_free">FREE MAP</string>
++    <string name="gs_map_explore">Explore a place</string>
+     <string name="gs_map_basemap">Basemap</string>
+@@ -19,2 +21,3 @@
+     <string name="gs_map_add_layer">Add %1$s</string>
++    <string name="gs_map_layer_availability">Availability of %1$s</string>
+     <string name="gs_map_view">View</string>

@@ -1,0 +1,19 @@
+{
+  "path": "app/src/main/res/values/map_workspace_host_dialogs.xml",
+  "sha256": "e7ce1371bd4b4ae57c02b9aa1668b965223bdf5f0912396f139ea86e6caa60f8",
+  "classification": "full_add_exact",
+  "chain": [
+    {
+      "history_file": "workspace-search-tools-initial.json",
+      "thread": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
+      "turn": "01a1b01f-97b2-741c-94f8-fa9247eef839",
+      "item": "exec-0e98c790-e566-4e31-b1c1-d4c95b4ebb0f",
+      "item_index": 5,
+      "turn_started_at": 1793956223,
+      "turn_completed_at": 1793956385,
+      "kind": "add",
+      "diff_sha256": "e7ce1371bd4b4ae57c02b9aa1668b965223bdf5f0912396f139ea86e6caa60f8"
+    }
+  ],
+  "limitation": "Observed exact add and listed diffs only. This does not establish absence of intervening changes or a complete November source tree."
+}

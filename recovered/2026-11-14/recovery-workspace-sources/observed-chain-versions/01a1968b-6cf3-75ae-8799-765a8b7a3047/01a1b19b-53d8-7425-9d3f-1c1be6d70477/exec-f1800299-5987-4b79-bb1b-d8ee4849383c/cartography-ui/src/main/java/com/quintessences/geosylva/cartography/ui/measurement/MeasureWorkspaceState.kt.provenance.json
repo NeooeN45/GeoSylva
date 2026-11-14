@@ -1,0 +1,67 @@
+{
+  "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasureWorkspaceState.kt",
+  "version_file": "observed-chain-versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-f1800299-5987-4b79-bb1b-d8ee4849383c/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasureWorkspaceState.kt",
+  "sha256": "6b3aaffc6bcf3dbab938447d66aeca6dfa482ccb1478e266e12766ab673e4820",
+  "classification": "full_reconstruction_from_observed_chain",
+  "chain": [
+    {
+      "history_file": "workspace-ui-earlier.json",
+      "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+      "turn": "01a1b19c-a437-7792-962b-86ad02a981a9",
+      "item": "exec-27efb4dd-bf9b-4015-a40b-fa8c37e96039",
+      "item_index": 18,
+      "turn_started_at": 1793981195,
+      "turn_completed_at": 1793982251,
+      "kind": "add",
+      "diff_sha256": "5f38ad434807274a6c80b62e23a9cde6d23b19d7b4ff9a96fd6f208dd005deb7"
+    },
+    {
+      "history_file": "workspace-ui-earlier.json",
+      "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+      "turn": "01a1b19c-a437-7792-962b-86ad02a981a9",
+      "item": "exec-39bacf8d-1aec-4f6c-9950-175355a65ecd",
+      "item_index": 33,
+      "turn_started_at": 1793981195,
+      "turn_completed_at": 1793982251,
+      "kind": "update",
+      "diff_sha256": "d8e0a0bc36ed043b162960181aedfe8b9296ff7282d47747069ae0f5677d409b"
+    },
+    {
+      "kind": "strict_observed_diff",
+      "provenance": {
+        "history_file": "root0003-full.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+        "item": "exec-f1800299-5987-4b79-bb1b-d8ee4849383c",
+        "item_index": 133,
+        "turn_started_at": 1793981109,
+        "turn_completed_at": 1793987989,
+        "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasureWorkspaceState.kt",
+        "change_kind": "update",
+        "diff_truncated": false,
+        "evidence": "evidence/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-f1800299-5987-4b79-bb1b-d8ee4849383c",
+        "diff_file": "evidence/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-f1800299-5987-4b79-bb1b-d8ee4849383c/diffs/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasureWorkspaceState.kt.diff",
+        "diff_sha256": "b66d681dea12c2198d86a777005898ebafe8f10283871b5abbe605d683208a6f",
+        "classification": "exact_diff_base_unresolved"
+      },
+      "diff_sha256": "b66d681dea12c2198d86a777005898ebafe8f10283871b5abbe605d683208a6f"
+    }
+  ],
+  "provenance": {
+    "history_file": "root0003-full.json",
+    "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+    "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+    "item": "exec-f1800299-5987-4b79-bb1b-d8ee4849383c",
+    "item_index": 133,
+    "turn_started_at": 1793981109,
+    "turn_completed_at": 1793987989,
+    "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasureWorkspaceState.kt",
+    "change_kind": "update",
+    "diff_truncated": false,
+    "evidence": "evidence/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-f1800299-5987-4b79-bb1b-d8ee4849383c",
+    "diff_file": "evidence/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b19b-53d8-7425-9d3f-1c1be6d70477/exec-f1800299-5987-4b79-bb1b-d8ee4849383c/diffs/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasureWorkspaceState.kt.diff",
+    "diff_sha256": "b66d681dea12c2198d86a777005898ebafe8f10283871b5abbe605d683208a6f",
+    "classification": "exact_diff_base_unresolved"
+  },
+  "limitation": "This exact observed source chain is preserved separately. It does not establish absence of other intervening edits or a complete November tree."
+}

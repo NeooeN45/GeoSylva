@@ -1,0 +1,32 @@
+<resources>
+    <string name="gs_source_details">Source et détails</string>
+    <string name="gs_source_provider">Diffusion</string>
+    <string name="gs_source_product">Produit</string>
+    <string name="gs_source_location">Stockage</string>
+    <string name="gs_source_on_device">Sur ce téléphone</string>
+    <string name="gs_source_unavailable_title">Fond de carte</string>
+    <string name="gs_source_unavailable">Aucune source affichée confirmée.</string>
+    <string name="gs_source_ortho_dates">La date du catalogue ne date pas la photographie. Les prises de vue varient selon le lieu.</string>
+    <string name="gs_source_mapbox_attribution">Les fournisseurs et attributions du fond sont indiqués directement sur la carte.</string>
+    <string name="gs_source_mapbox_dates">La date locale des données n’est pas fournie ici. Le produit n’a pas une édition uniforme.</string>
+    <string name="gs_source_local_details">Données déjà conservées sur cet appareil. Vérifiez la couverture et les niveaux de zoom avant le départ ; ce fond ne constitue pas un pack complet.</string>
+    <string name="gs_source_official">Consulter la fiche officielle</string>
+    <string name="gs_source_open_license">Licence Ouverte 2.0</string>
+    <string name="gs_source_service_terms">Conditions du service Mapbox</string>
+    <string name="gs_source_relief_title">Données du relief</string>
+    <string name="gs_source_dem_details">Modèle numérique de terrain utilisé pour représenter le relief en 3D.</string>
+    <string name="gs_source_dem_unavailable">Aucune source de relief confirmée pour cette vue.</string>
+    <string name="gs_source_dem_accuracy">Ce rendu ne mesure ni l’altitude ni la pente sur le terrain. Sa précision locale n’est pas déterminée ici.</string>
+    <string name="gs_source_exaggeration_title">Échelle verticale</string>
+    <string name="gs_source_scale_label">Amplification du relief</string>
+    <string name="gs_source_scale_value">1× à 3×</string>
+    <string name="gs_source_scale_details">1× conserve les hauteurs du modèle ; 2× ou 3× les amplifie uniquement à l’écran.</string>
+    <string name="gs_source_camera_label">Inclinaison de la vue</string>
+    <string name="gs_source_camera_value">0° : vue verticale</string>
+    <string name="gs_source_camera_details">L’angle de caméra change le point de vue. Il ne donne pas la pente du terrain et ne modifie pas vos mesures.</string>
+    <string name="gs_source_relief_documentation">Documentation du relief</string>
+    <string name="gs_source_link_unavailable">Impossible d’ouvrir le navigateur sur cet appareil.</string>
+    <string name="gs_source_preview_title">Aperçus des couches</string>
+    <string name="gs_source_preview_credit">© IGN · BD ORTHO® · Licence Ouverte 2.0</string>
+    <string name="gs_source_preview_details">Photo illustrative du Vercors, avec tracés fictifs. Elle ne représente ni vos données ni une couche chargée. La date de prise de vue n’est pas déterminée ici ; la fiche IGN donne les informations de mise à jour. Les styles Mapbox sont illustrés par des schémas.</string>
+</resources>

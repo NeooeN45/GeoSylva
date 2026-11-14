@@ -1,0 +1,6 @@
+@@ -28,2 +28,5 @@
+     <string name="gs_source_link_unavailable">Impossible d’ouvrir le navigateur sur cet appareil.</string>
++    <string name="gs_source_preview_title">Aperçus des couches</string>
++    <string name="gs_source_preview_credit">© IGN · BD ORTHO® · Licence Ouverte 2.0</string>
++    <string name="gs_source_preview_details">Photo illustrative du Vercors, avec tracés fictifs. Elle ne représente ni vos données ni une couche chargée. La date de prise de vue n’est pas déterminée ici ; la fiche IGN donne les informations de mise à jour. Les styles Mapbox sont illustrés par des schémas.</string>
+ </resources>

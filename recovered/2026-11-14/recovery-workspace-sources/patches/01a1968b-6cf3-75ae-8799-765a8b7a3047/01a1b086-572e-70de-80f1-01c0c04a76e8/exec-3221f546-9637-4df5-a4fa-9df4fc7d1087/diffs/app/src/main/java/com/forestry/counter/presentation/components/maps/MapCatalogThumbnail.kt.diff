@@ -1,0 +1,14 @@
+@@ -12,2 +12,3 @@
+ import androidx.compose.ui.graphics.FilterQuality
++import androidx.compose.ui.graphics.ImageBitmap
+ import androidx.compose.ui.graphics.Path
+@@ -16,3 +17,3 @@
+ import androidx.compose.ui.layout.ContentScale
+-import androidx.compose.ui.res.painterResource
++import androidx.compose.ui.res.imageResource
+ import androidx.compose.ui.res.stringResource
+@@ -44,3 +45,3 @@
+     Box(modifier.semantics { contentDescription = description }) {
+-        Image(painterResource(R.drawable.gs_preview_ortho_vercors), contentDescription = null,
++        Image(ImageBitmap.imageResource(R.drawable.gs_preview_ortho_vercors), contentDescription = null,
+             modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop,

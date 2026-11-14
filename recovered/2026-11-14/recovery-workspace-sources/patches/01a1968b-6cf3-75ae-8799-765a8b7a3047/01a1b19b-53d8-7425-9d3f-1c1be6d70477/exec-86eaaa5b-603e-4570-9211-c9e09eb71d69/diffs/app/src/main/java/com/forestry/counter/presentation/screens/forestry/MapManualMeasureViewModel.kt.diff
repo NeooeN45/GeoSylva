@@ -1,0 +1,83 @@
+@@ -70,2 +70,4 @@
+     private var restored = false
++    private var navigationRevision = 0L
++    private var listRevision = 0L
+ 
+@@ -78,2 +80,3 @@
+     private suspend fun refreshAccess() {
++        navigationRevision++; listRevision++
+         access = null
+@@ -105,2 +108,3 @@
+     fun open(saved: Boolean = false) {
++        navigationRevision++
+         mutable.update { it.copy(active = true, panel = if (saved) MeasurePanel.COLLAPSED else MeasurePanel.EDITOR, savedNotice = false) }
+@@ -112,2 +116,3 @@
+         if (mutable.value.saving) return
++        navigationRevision++
+         mutable.update { it.copy(active = false, selected = null, auxiliary = ManualMeasureAuxiliary.NONE) }
+@@ -118,2 +123,3 @@
+         if (mutable.value.saving || mutable.value.panel == MeasurePanel.SAVE) return
++        navigationRevision++
+         mutable.update { it.copy(panel = panel, selected = null) }
+@@ -124,2 +130,3 @@
+         if (!editable() || mutable.value.mode == kind) return
++        navigationRevision++
+         // Separate drafts prevent a mode switch from silently erasing the other geometry.
+@@ -176,5 +183,6 @@
+         if (mutable.value.saving) return
++        navigationRevision++
+         mutable.update { it.copy(auxiliary = panel, copyConfirmation = false) }
+     }
+-    fun help(help: MeasureHelp) { mutable.update { it.copy(help = help, auxiliary = ManualMeasureAuxiliary.HELP) } }
++    fun help(help: MeasureHelp) { auxiliary(ManualMeasureAuxiliary.HELP); mutable.update { it.copy(help = help) } }
+ 
+@@ -182,2 +190,3 @@
+         if (current() == null || mutable.value.result !is CartographicMeasureResult.Available || mutable.value.saving) return
++        navigationRevision++
+         if (operationId == null) operationId = UUID.randomUUID().toString()
+@@ -236,2 +245,3 @@
+     fun openSaved() {
++        navigationRevision++
+         mutable.update { it.copy(auxiliary = ManualMeasureAuxiliary.SAVED, selected = null) }
+@@ -242,9 +252,11 @@
+     private suspend fun loadSaved(authority: CartographicMeasurementAccess, show: Boolean) {
+-        mutable.update { it.copy(loadingSaved = true, savedError = null) }
++        val ticket = ++listRevision
++        val navigation = navigationRevision
++        if (show) mutable.update { it.copy(loadingSaved = true, savedError = null) }
+         val result = repository.list(authority)
+-        if (!repository.isCurrent(authority) || access?.restorationKey != authority.restorationKey) return
++        if (ticket != listRevision || (show && navigation != navigationRevision) ||
++            !repository.isCurrent(authority) || access?.restorationKey != authority.restorationKey) return
+         mutable.update { s -> when (result) {
+-            is CartographicStoreResult.Success -> s.copy(loadingSaved = false, saved = result.value.toList(),
+-                auxiliary = if (show) ManualMeasureAuxiliary.SAVED else s.auxiliary)
+-            is CartographicStoreResult.Failure -> s.copy(loadingSaved = false, saved = emptyList(), savedError = result.reason)
++            is CartographicStoreResult.Success -> s.copy(loadingSaved = if (show) false else s.loadingSaved, saved = result.value.toList())
++            is CartographicStoreResult.Failure -> s.copy(loadingSaved = if (show) false else s.loadingSaved, saved = emptyList(), savedError = result.reason)
+         } }
+@@ -254,2 +266,3 @@
+         val authority = current() ?: return
++        val ticket = ++navigationRevision
+         mutable.update { it.copy(loadingSaved = true, selected = null, savedError = null, auxiliary = ManualMeasureAuxiliary.DETAIL) }
+@@ -257,3 +270,3 @@
+             val result = repository.read(id, authority)
+-            if (!repository.isCurrent(authority) || access?.restorationKey != authority.restorationKey) return@launch
++            if (ticket != navigationRevision || !repository.isCurrent(authority) || access?.restorationKey != authority.restorationKey) return@launch
+             mutable.update { when (result) {
+@@ -278,5 +291,6 @@
+         if (!editable()) return
++        val ticket = navigationRevision
+         viewModelScope.launch {
+             val result = repository.read(id, authority)
+-            if (!repository.isCurrent(authority) || access?.restorationKey != authority.restorationKey) return@launch
++            if (ticket != navigationRevision || !repository.isCurrent(authority) || access?.restorationKey != authority.restorationKey) return@launch
+             if (result is CartographicStoreResult.Success) {
+@@ -298,5 +312,6 @@
+         val id = mutable.value.selected?.id ?: return
++        val ticket = navigationRevision
+         viewModelScope.launch {
+             when (val result = repository.read(id, authority)) {
+-                is CartographicStoreResult.Success -> if (repository.isCurrent(authority) &&
++                is CartographicStoreResult.Success -> if (ticket == navigationRevision && repository.isCurrent(authority) &&
+                     access?.restorationKey == authority.restorationKey && mutable.value.selected?.id == id) action(result.value)

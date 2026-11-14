@@ -1,0 +1,4 @@
+@@ -13,2 +13,3 @@
+     val canUndo: Boolean = false,
++    val geometryEditable: Boolean = true,
+     val panel: MeasurePanel = MeasurePanel.EDITOR,

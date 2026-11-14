@@ -1,0 +1,19 @@
+{
+  "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt",
+  "sha256": "7c8534821424c2b5cd7535c5c4fd768d20361618ca50450a5fb44f844bc6b2cc",
+  "classification": "full_add_exact",
+  "chain": [
+    {
+      "history_file": "root0003-full.json",
+      "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+      "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+      "item": "exec-e404b361-49e7-416b-ace6-5653a7e41e9a",
+      "item_index": 103,
+      "turn_started_at": 1793981109,
+      "turn_completed_at": 1793987989,
+      "kind": "add",
+      "diff_sha256": "7c8534821424c2b5cd7535c5c4fd768d20361618ca50450a5fb44f844bc6b2cc"
+    }
+  ],
+  "limitation": "Observed exact add and listed diffs only. This does not establish absence of intervening changes or a complete November source tree."
+}

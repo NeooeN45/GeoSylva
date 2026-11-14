@@ -1,48 +1,50 @@
-ÉTAT DU CHECKPOINT GÉOSYLVA — CHECKPOINT 2 DU 14 NOVEMBRE 2026
+ÉTAT DU CHECKPOINT GÉOSYLVA — CHECKPOINT 3 DU 14 NOVEMBRE 2026
 
-Ce dépôt indépendant conserve une récupération partielle des travaux du
-13 novembre 2026, entreprise depuis une base du 19 octobre 2026. Ce checkpoint
-contient 61 fichiers sources complets (variantes historiques comprises),
-14 patches complets, 7 changements par fichier sous forme de hunks enregistrés,
-32 fichiers de preuves/provenance et 3 JSON de code incomplet séparés.
+Ce dépôt conserve une récupération partielle des travaux du 13 novembre 2026,
+entreprise depuis une base du 19 octobre 2026. Il contient 128 variantes de
+sources complètes correspondant à 54 chemins techniques distincts. Le catalogue
+workspace couvre 82 variantes sur 30 chemins ; le moteur Mapbox, 13 variantes
+sur 9 chemins. SOURCE_CATALOGUE.checkpoint3.json détaille chemins et variantes.
 
-Les 41 pièces du premier checkpoint restent identiques octet pour octet.
-Ce lot ajoute 33 sources complètes : 7 moteur Mapbox, 21 workspace (11 chemins
-de sources distincts), 4 candidats map-target20 et leur base18 complète.
-Les variantes source18/source20/source21, branches historiques, candidats et
-test ergonomique composé restent dans des chemins distincts. Le hash du test
-composé n'est pas un hash confirmé d'un snapshot historique complet.
+Les 117 pièces du checkpoint2 et les 41 pièces initiales restent identiques
+octet pour octet. Ce lot ajoute 67 variantes de sources complètes, de nouvelles
+preuves et changements enregistrés. Une preuve source actualisée reçoit un
+nouveau nom si ses octets changent ; aucune preuve antérieure n'est écrasée.
+Les versions issues d'additions, lectures complètes, lectures superposées,
+chaînes observées et échanges entre branches gardent leurs provenances séparées.
 
-FRAGMENTS_INCOMPLETE préserve uniquement trois JSON de lignes de code et
-provenance contrôlés : SharedMapboxCanvas source18, base des patches CAM21-01, et
-MapRechercheScreen initial. Ces fragments ne sont ni des sources complètes
-ni compilables. MapRechercheScreen compte 732 lignes connues et un manque
-de 595 à 749 ; les fichiers de caméra incomplets ne sont pas déclarés restaurés.
-Les préfixes FieldJournalScreen et fragments texte restent exclus.
+MapCameraFitRefinement source20 et source21 sont désormais complets, avec
+SHA256 historiques concordants. MapCameraState et MapResourceCycle initiaux,
+MapCameraGestures source18 et les autres modèles réellement inventoriés sont
+préservés ; leurs versions initiales ne valent pas une certification des dernières
+versions de novembre. Aucun artefact supposé ou source absente n'est inventé.
 
-MANIFEST.json indique chemins, tailles, SHA256 et provenance par fichier.
-Les hashes de copies ou de reconstructions exactes ne valent pas tous un hash
-historique indépendant : cette distinction est conservée dans chaque entrée.
-Les preuves originales peuvent décrire une étape antérieure de récupération.
-SECRET_SCAN.checkpoint2.json consigne le scan des 117 pièces, y compris toutes
-les chaînes JSON décodées. Aucune valeur de secret n'a été affichée.
+Le manifeste compte 14 patches complets, 42 changements par fichier
+en hunks enregistrés, 91 preuves/provenances et 5 JSON de code incomplet.
+FRAGMENTS_INCOMPLETE/INDEX.checkpoint3.json distingue les cinq fragments et
+leurs trous ; ils sont exclus des 128 variantes complètes. SharedMapboxCanvas,
+MapCameraCommandGate, MapRechercheScreen et AuxiliaryPanels restent incomplets
+selon les preuves. FieldJournalScreen complet manque encore ; ses préfixes sont
+exclus. Le test ergonomique composé ne possède pas un hash historique complet
+confirmé. Les hashes de copies/reconstructions exactes et les hashes historiques
+indépendants restent distingués dans MANIFEST.json.
 
-Ce dépôt n'est pas une restauration complète de l'application ni un APK
-qualifié. Aucune compilation, exécution Android/JVM ou qualification native
-n'est revendiquée. Aucun dépôt applicatif actif n'a été modifié par cette copie,
-aucune commande historique exécutée et aucune application recodée.
-Transcriptions, réponses API, clés, tokens, configurations locales, .env,
-local.properties, fichiers de données clients et données personnelles sont exclus.
+Les vérifications de copie, provenance SHA256, XML et restauration d'archives
+ne sont ni une compilation, ni une exécution Android/JVM, ni une qualification
+d'APK. Aucun dépôt applicatif actif n'a été modifié par cette copie. Aucune
+commande historique n'a été exécutée et aucune application n'a été recodée.
+Transcriptions, réponses API, métadonnées brutes non publiques, scripts de
+récupération/extraction, clés, tokens, configurations locales, données clients
+et personnelles, .env et local.properties restent exclus. Le scan courant
+est consigné dans SECRET_SCAN.checkpoint3.json sans affichage de valeurs.
 
-PUBLICATION AUTORISÉE : l'utilisateur a choisi explicitement la branche
-backup/geosylva-recovery-2026-11-14 du dépôt PUBLIC NeooeN45/GeoSylva.
-La destination enregistrée reste inchangée et main du dépôt applicatif reste
-hors du périmètre des pushes. Le checkpoint précédent a été poussé et vérifié
-par l'opérateur, selon le reçu checkpoint1-remote-verification.json hors dépôt.
-La préparation du checkpoint 2 est strictement locale ; aucun push de ce
-nouveau lot n'est présumé avant son propre reçu d'égalité HEAD/hash distant.
+PUBLICATION AUTORISÉE : branche backup/geosylva-recovery-2026-11-14 du dépôt
+PUBLIC NeooeN45/GeoSylva, choisie explicitement par l'utilisateur. La destination
+enregistrée est inchangée et main du dépôt applicatif reste hors des pushes.
+Le checkpoint2 a été publié et vérifié par l'opérateur, selon son reçu hors
+dépôt checkpoint2-remote-verification.json. Ce checkpoint3 est préparé localement ;
+aucun push du nouveau lot n'est présumé avant son reçu d'égalité HEAD/hash distant.
 
 Les archives zip et bundle autonomes et leur rapport de restauration local
-sont générés hors du dépôt, dans outputs/2026-11-14/geosylva-backup-checkpoints.
-Les archives précédentes conservent leur commit d'origine. Une archive située
-seulement sur la même machine ne remplace pas une copie distante vérifiée.
+sont produits hors dépôt dans outputs/2026-11-14/geosylva-backup-checkpoints.
+Les archives précédentes restent associées à leurs propres commits.

@@ -1,0 +1,14 @@
+@@ -41,4 +41,4 @@
+     locationEnabled: Boolean,
+-    onLayers: () -> Unit,
+-    onLocate: () -> Unit,
++    onOpenLayers: () -> Unit,
++    onLocateOnMap: () -> Unit,
+     onPanelHeightChanged: (Dp) -> Unit,
+@@ -69,4 +69,4 @@
+         override fun onExplain(help: MeasureHelp) = model.help(help)
+-        override fun onLayers() = onLayers()
+-        override fun onLocate() = onLocate()
++        override fun onLayers() = onOpenLayers()
++        override fun onLocate() = onLocateOnMap()
+         override fun onMenuAction(action: MeasureMenuAction) {

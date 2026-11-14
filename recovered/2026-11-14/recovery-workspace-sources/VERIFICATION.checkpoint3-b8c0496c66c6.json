@@ -1,0 +1,84 @@
+{
+  "verified_utc": "2026-11-14T13:09:28.505199+00:00",
+  "hash_references_checked": 191,
+  "complete_source_artifacts": 82,
+  "distinct_complete_source_paths": 30,
+  "xml_artifacts_parsed": 28,
+  "strict_patch_failures": 0,
+  "independent_read_checks": [
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceState.kt",
+      "history_file": "workspace-ui-earliest-next.json",
+      "item_index": 50,
+      "match": true,
+      "sha256": "efa4d2007ce0db180fe8221e01777b8a0559e2096525ed81f4346c595ea26365"
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt",
+      "history_file": "workspace-ui-earliest-next.json",
+      "item_index": 44,
+      "source_lines": [
+        80,
+        350
+      ],
+      "match": true
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/measurement/MeasurePanels.kt",
+      "history_file": "workspace-ui-latest.json",
+      "item_index": 8,
+      "source_lines": [
+        185,
+        245
+      ],
+      "match": true
+    }
+  ],
+  "initial_maprecherche_known_lines": {
+    "known_line_count": 732,
+    "gaps": [
+      [
+        595,
+        749
+      ]
+    ],
+    "conflict_count": 0
+  },
+  "additional_maprecherche_state_coverages": [
+    {
+      "classification": "partial_observed_line_map_only",
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt",
+      "history_file": "root0003-full.json",
+      "turn": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+      "state_boundary": "observed reads before manual integration command item114",
+      "known_line_count": 438,
+      "observed_eof_line": 860,
+      "gaps": [
+        [
+          264,
+          314
+        ],
+        [
+          338,
+          509
+        ],
+        [
+          533,
+          649
+        ],
+        [
+          763,
+          844
+        ]
+      ],
+      "conflict_count": 0
+    }
+  ],
+  "errors": [],
+  "limitations": [
+    "No historical command executed wholesale. Only literal transformations stated in sidecar provenance are reproduced.",
+    "No Gradle, Android, ADB, compilation, app test, network or git push run.",
+    "Generated hashes establish extracted byte identity, not agreement with an unavailable November source snapshot.",
+    "MapRechercheScreen and AuxiliaryPanels fragments remain incomplete and are never written as complete sources."
+  ]
+}

@@ -1,0 +1,7 @@
+@@ -5,4 +5,4 @@
+ 
+-/** Shared by the sheet and native ornaments; use the workspace's actual height. */
++/** Shared by the sheet and native ornaments; preserve more map space in the standard layout. */
+ fun mapWorkspacePanelHeight(availableHeight: Dp, fontScale: Float): Dp =
+-    availableHeight * if (fontScale > 1.1f || availableHeight < 500.dp) 0.82f else 0.58f
++    availableHeight * if (fontScale > 1.1f || availableHeight < 500.dp) 0.82f else 0.52f

@@ -1,0 +1,5 @@
+@@ -166,3 +166,3 @@
+         MeasureMode.AREA to stringResource(R.string.gs_measure_area)), state.mode,
+-        onSelected = actions::onModeChange)
++        enabled = state.geometryEditable && !state.saving, onSelected = actions::onModeChange)
+     ResultSummary(state, actions, includeMode = false)

@@ -1,0 +1,10 @@
+@@ -233,2 +233,3 @@
+     showEssences: Boolean = true,
++    onMeasure: (() -> Unit)? = null,
+ ) {
+@@ -251,2 +252,5 @@
+             }
++            onMeasure?.let { measure ->
++                WorkspaceTool(Icons.Default.Straighten, stringResource(R.string.measure_tool_title)) { open(measure) }
++            }
+             WorkspaceTool(Icons.Default.Straighten, stringResource(R.string.gs_workspace_tools_saved)) { open(onSavedMeasures) }

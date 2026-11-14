@@ -1,0 +1,88 @@
+@@ -57,2 +57,3 @@
+ import androidx.compose.runtime.Composable
++import androidx.compose.runtime.LaunchedEffect
+ import androidx.compose.runtime.getValue
+@@ -61,2 +62,3 @@
+ import androidx.compose.runtime.remember
++import androidx.compose.runtime.rememberUpdatedState
+ import androidx.compose.runtime.saveable.rememberSaveable
+@@ -68,2 +70,4 @@
+ import androidx.compose.ui.graphics.vector.ImageVector
++import androidx.compose.ui.layout.onGloballyPositioned
++import androidx.compose.ui.layout.positionInRoot
+ import androidx.compose.ui.platform.LocalDensity
+@@ -82,2 +86,3 @@
+ import androidx.compose.ui.unit.dp
++import androidx.compose.ui.unit.Dp
+ import androidx.compose.ui.unit.sp
+@@ -99,2 +104,4 @@
+     },
++    /** Actual native compass anchor, in dp from this workspace's top edge. */
++    onCompassTopChanged: (Dp) -> Unit = {},
+     canvas: @Composable BoxScope.() -> Unit,
+@@ -102,4 +109,12 @@
+     BackHandler(enabled = state.chromeVisible && state.panel != null) { actions.onPanelChanged(null) }
+-    val fontScale = LocalDensity.current.fontScale
+-    BoxWithConstraints(modifier.fillMaxSize()) {
++    val density = LocalDensity.current
++    var workspaceTop by remember { mutableFloatStateOf(Float.NaN) }
++    var compassTop by remember { mutableFloatStateOf(Float.NaN) }
++    val notifyCompassTop by rememberUpdatedState(onCompassTopChanged)
++    LaunchedEffect(workspaceTop, compassTop, density, state.chromeVisible) {
++        if (state.chromeVisible && workspaceTop.isFinite() && compassTop.isFinite()) {
++            notifyCompassTop(with(density) { (compassTop - workspaceTop).coerceAtLeast(0f).toDp() })
++        }
++    }
++    BoxWithConstraints(modifier.fillMaxSize().onGloballyPositioned { workspaceTop = it.positionInRoot().y }) {
+         canvas()
+@@ -113,17 +128,2 @@
+             else ContextCapsule(state, actions)
+-            if (state.panel == null && state.presentation == MapPresentation.FREE) {
+-                Surface(
+-                    onClick = actions::onLocate,
+-                    enabled = state.locationEnabled,
+-                    modifier = Modifier.align(Alignment.End).padding(top = 56.dp).size(MapUiTokens.touch),
+-                    shape = MapUiTokens.commandShape,
+-                    color = MapUiTokens.freeChrome,
+-                    contentColor = MapUiTokens.freeInk,
+-                    shadowElevation = MapUiTokens.elevation,
+-                ) {
+-                    Box(contentAlignment = Alignment.Center) {
+-                        Icon(Icons.Outlined.MyLocation, stringResource(R.string.gs_map_position))
+-                    }
+-                }
+-            }
+             if (state.panel == null && state.presentation == MapPresentation.TERRAIN) Surface(
+@@ -143,2 +143,21 @@
+             }
++            // Keep the native compass in its own measured slot. This also follows
++            // a wrapped place name, larger text, status insets and window changes.
++            Spacer(Modifier.align(Alignment.End).size(MapUiTokens.touch)
++                .onGloballyPositioned { compassTop = it.positionInRoot().y })
++            if (state.panel == null && state.presentation == MapPresentation.FREE) {
++                Surface(
++                    onClick = actions::onLocate,
++                    enabled = state.locationEnabled,
++                    modifier = Modifier.align(Alignment.End).size(MapUiTokens.touch),
++                    shape = MapUiTokens.commandShape,
++                    color = MapUiTokens.freeChrome,
++                    contentColor = MapUiTokens.freeInk,
++                    shadowElevation = MapUiTokens.elevation,
++                ) {
++                    Box(contentAlignment = Alignment.Center) {
++                        Icon(Icons.Outlined.MyLocation, stringResource(R.string.gs_map_position))
++                    }
++                }
++            }
+         }
+@@ -167,3 +186,3 @@
+         } else {
+-            val panelHeight = maxHeight * if (fontScale > 1.1f || maxHeight < 500.dp) 0.82f else 0.58f
++            val panelHeight = mapWorkspacePanelHeight(maxHeight, density.fontScale)
+             Surface(
+@@ -241,3 +260,4 @@
+                 horizontalArrangement = Arrangement.spacedBy(MapUiTokens.iconGap)) {
+-                Text(label, Modifier.weight(1f), fontSize = 16.sp,
++                Text(state.contextTitle.ifBlank { stringResource(R.string.gs_map_explore) },
++                    Modifier.weight(1f), fontSize = 16.sp,
+                     fontWeight = FontWeight.Medium)

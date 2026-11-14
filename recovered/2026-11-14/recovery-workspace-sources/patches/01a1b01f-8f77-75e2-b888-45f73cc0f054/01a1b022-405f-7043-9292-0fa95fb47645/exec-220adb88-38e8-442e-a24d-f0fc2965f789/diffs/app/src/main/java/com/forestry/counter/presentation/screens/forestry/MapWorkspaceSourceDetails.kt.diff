@@ -1,0 +1,15 @@
+@@ -111,6 +111,10 @@
+                 MapHelp.RELIEF_SOURCE -> {
+-                    SourceFact(stringResource(R.string.gs_source_provider), "Mapbox")
+-                    SourceFact(stringResource(R.string.gs_source_product), "Mapbox Terrain-DEM v1")
+-                    SourceNote(stringResource(R.string.gs_source_dem_details))
+-                    SourceNote(stringResource(R.string.gs_source_dem_accuracy))
++                    if (basemap?.key in MAPBOX_SOURCE_KEYS || basemap?.key == "ORTHO_IGN") {
++                        SourceFact(stringResource(R.string.gs_source_provider), "Mapbox")
++                        SourceFact(stringResource(R.string.gs_source_product), "Mapbox Terrain-DEM v1")
++                        SourceNote(stringResource(R.string.gs_source_dem_details))
++                        SourceNote(stringResource(R.string.gs_source_dem_accuracy))
++                    } else {
++                        SourceNote(stringResource(R.string.gs_source_dem_unavailable))
++                    }
+                     SourceLink(stringResource(R.string.gs_source_official)) { open(SOURCE_MAPBOX_DEM_URL) }

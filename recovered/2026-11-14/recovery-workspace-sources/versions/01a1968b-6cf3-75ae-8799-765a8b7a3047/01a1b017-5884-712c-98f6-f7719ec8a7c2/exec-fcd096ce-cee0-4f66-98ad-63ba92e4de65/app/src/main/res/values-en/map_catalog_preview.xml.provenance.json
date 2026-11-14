@@ -1,0 +1,19 @@
+{
+  "path": "app/src/main/res/values-en/map_catalog_preview.xml",
+  "sha256": "f4aff03f7fc267320994e338ecaa6a33a63525ea8aa5c0258b737dd30c85a139",
+  "classification": "full_add_exact",
+  "chain": [
+    {
+      "history_file": "root0006-full.json",
+      "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+      "turn": "01a1b017-5884-712c-98f6-f7719ec8a7c2",
+      "item": "exec-fcd096ce-cee0-4f66-98ad-63ba92e4de65",
+      "item_index": 35,
+      "turn_started_at": 1793955682,
+      "turn_completed_at": 1793956727,
+      "kind": "add",
+      "diff_sha256": "f4aff03f7fc267320994e338ecaa6a33a63525ea8aa5c0258b737dd30c85a139"
+    }
+  ],
+  "limitation": "Observed exact add and listed diffs only. This does not establish absence of intervening changes or a complete November source tree."
+}

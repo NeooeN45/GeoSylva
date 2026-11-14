@@ -1,0 +1,4 @@
+@@ -17,2 +17,3 @@
+     <string name="gs_source_dem_details">Digital elevation model used to represent terrain in 3D.</string>
++    <string name="gs_source_dem_unavailable">No confirmed terrain source for this view.</string>
+     <string name="gs_source_dem_accuracy">This view does not measure ground elevation or slope. Local accuracy is not determined here.</string>

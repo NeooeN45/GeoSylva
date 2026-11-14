@@ -1,0 +1,107 @@
+@@ -3,2 +3,5 @@
+ import androidx.compose.foundation.Canvas
++import androidx.compose.foundation.Image
++import androidx.compose.foundation.layout.Box
++import androidx.compose.foundation.layout.fillMaxSize
+ import androidx.compose.runtime.Composable
+@@ -8,4 +11,8 @@
+ import androidx.compose.ui.graphics.Color
++import androidx.compose.ui.graphics.FilterQuality
+ import androidx.compose.ui.graphics.Path
++import androidx.compose.ui.graphics.StrokeCap
+ import androidx.compose.ui.graphics.drawscope.Stroke
++import androidx.compose.ui.layout.ContentScale
++import androidx.compose.ui.res.painterResource
+ import androidx.compose.ui.res.stringResource
+@@ -17,6 +24,6 @@
+ /**
+- * Small cartographic illustrations, never screenshots of the user's location or
+- * evidence that a layer is loaded. No network, field coordinates, tile cache or
+- * additional MapView is needed for the catalog. The main canvas alone renders
+- * the actual geographic data and carries the provider's attribution.
++ * Offline catalog illustrations, never the user's data or evidence of availability.
++ * Layer/IGN previews use a licensed public IGN orthophoto with fictitious vectors.
++ * Mapbox style choices retain schematic illustrations, not redistributed SDK tiles.
++ * Provenance and license are available in Sources and details.
+  */
+@@ -24,2 +31,80 @@
+ internal fun MapCatalogThumbnail(key: MapPreviewKey, modifier: Modifier = Modifier) {
++    if (key.value in PHOTO_PREVIEW_KEYS) PhotographicLayerPreview(key, modifier)
++    else SchematicCatalogThumbnail(key, modifier)
++}
++
++private val PHOTO_PREVIEW_KEYS = setOf(
++    "ORTHO_IGN", "LOCAL_TREES", "LOCAL_MEASUREMENTS", "ILLUSTRATION_PARCELS",
++    "ILLUSTRATION_CADASTRE", "ILLUSTRATION_PUBLIC_FORESTS", "ILLUSTRATION_SLOPES",
++)
++
++@Composable
++private fun PhotographicLayerPreview(key: MapPreviewKey, modifier: Modifier) {
++    val description = stringResource(R.string.map_catalog_photo_illustration)
++    Box(modifier.semantics { contentDescription = description }) {
++        Image(painterResource(R.drawable.gs_preview_ortho_vercors), contentDescription = null,
++            modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop,
++            filterQuality = FilterQuality.High)
++        Canvas(Modifier.fillMaxSize()) {
++            val w = size.width
++            val h = size.height
++            fun outline(vararg vertices: Pair<Float, Float>) = Path().apply {
++                moveTo(vertices[0].first * w, vertices[0].second * h)
++                vertices.drop(1).forEach { lineTo(it.first * w, it.second * h) }
++                close()
++            }
++            val boundary = outline(.12f to .26f, .39f to .13f, .83f to .29f,
++                .89f to .7f, .57f to .88f, .19f to .72f)
++            val green = Color(0xFF9BE4B4)
++            when (key.value) {
++                "LOCAL_TREES" -> {
++                    drawPath(boundary, green.copy(alpha = .12f))
++                    drawPath(boundary, green.copy(alpha = .8f), style = Stroke(.8f * density))
++                    listOf(.32f to .61f, .48f to .35f, .7f to .57f).forEach { (x, y) ->
++                        val point = Offset(w * x, h * y)
++                        drawCircle(Color(0xFF102C27).copy(alpha = .4f), 4.4f * density, point)
++                        drawCircle(Color.White, 3.6f * density, point)
++                        drawCircle(Color(0xFF1675CC), 2.3f * density, point)
++                    }
++                }
++                "LOCAL_MEASUREMENTS" -> {
++                    val a = Offset(w * .17f, h * .77f)
++                    val b = Offset(w * .48f, h * .48f)
++                    val c = Offset(w * .84f, h * .22f)
++                    listOf(a to b, b to c).forEach { (from, to) ->
++                        drawLine(Color.White, from, to, 3.2f * density, StrokeCap.Round)
++                        drawLine(Color(0xFF2878C7), from, to, 1.8f * density, StrokeCap.Round)
++                    }
++                    listOf(a, b, c).forEach {
++                        drawCircle(Color.White, 3.2f * density, it)
++                        drawCircle(Color(0xFF246BB0), 1.8f * density, it)
++                    }
++                }
++                "ILLUSTRATION_CADASTRE" -> {
++                    drawPath(boundary, Color(0xFFF5E6BD), style = Stroke(1.1f * density))
++                    drawLine(Color(0xFFF5E6BD), Offset(w * .4f, h * .15f), Offset(w * .55f, h * .86f), density)
++                    drawLine(Color(0xFFF5E6BD), Offset(w * .14f, h * .5f), Offset(w * .88f, h * .5f), density)
++                }
++                "ILLUSTRATION_SLOPES" -> {
++                    repeat(5) { index ->
++                        val contour = Path().apply {
++                            moveTo(-w * .05f, h * (.15f + index * .17f))
++                            cubicTo(w * .3f, h * (index * .17f - .08f), w * .65f,
++                                h * (index * .17f + .5f), w * 1.05f, h * (index * .17f + .12f))
++                        }
++                        drawPath(contour, Color(0xFFEAE2CC).copy(alpha = .9f), style = Stroke(.8f * density))
++                    }
++                }
++                "ILLUSTRATION_PARCELS", "ILLUSTRATION_PUBLIC_FORESTS" -> {
++                    drawPath(boundary, green.copy(alpha = .2f))
++                    drawPath(boundary, Color(0xFF153F31).copy(alpha = .6f), style = Stroke(2.5f * density))
++                    drawPath(boundary, green, style = Stroke(1.3f * density))
++                }
++            }
++        }
++    }
++}
++
++@Composable
++private fun SchematicCatalogThumbnail(key: MapPreviewKey, modifier: Modifier) {
+     val description = stringResource(R.string.map_catalog_illustration)

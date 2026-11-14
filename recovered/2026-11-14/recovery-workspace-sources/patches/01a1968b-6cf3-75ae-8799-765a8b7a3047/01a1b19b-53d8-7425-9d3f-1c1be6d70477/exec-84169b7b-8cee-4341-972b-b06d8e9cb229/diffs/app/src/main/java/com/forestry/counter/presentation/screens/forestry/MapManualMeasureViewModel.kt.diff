@@ -1,0 +1,33 @@
+@@ -109,3 +109,4 @@
+         navigationRevision++
+-        mutable.update { it.copy(active = true, panel = if (saved) MeasurePanel.COLLAPSED else MeasurePanel.EDITOR, savedNotice = false) }
++        mutable.update { it.copy(active = true, panel = if (saved) MeasurePanel.COLLAPSED else MeasurePanel.EDITOR,
++            selected = null, loadingSaved = false, auxiliary = ManualMeasureAuxiliary.NONE, savedNotice = false) }
+         if (saved) openSaved()
+@@ -117,3 +118,3 @@
+         navigationRevision++
+-        mutable.update { it.copy(active = false, selected = null, auxiliary = ManualMeasureAuxiliary.NONE) }
++        mutable.update { it.copy(active = false, selected = null, loadingSaved = false, auxiliary = ManualMeasureAuxiliary.NONE) }
+         persistDrafts()
+@@ -124,3 +125,3 @@
+         navigationRevision++
+-        mutable.update { it.copy(panel = panel, selected = null) }
++        mutable.update { it.copy(panel = panel, selected = null, loadingSaved = false, auxiliary = ManualMeasureAuxiliary.NONE) }
+         persistDrafts()
+@@ -140,3 +141,3 @@
+         val point = CartographicCoordinate(latitude, longitude)
+-        if (!CartographicMeasureCalculator.isValidCoordinate(point) || s.points.size >= 1_000) return
++        if (!CartographicMeasureCalculator.isValidCoordinate(point) || s.points.size >= CartographicMeasureCalculator.MAX_POINTS) return
+         // A second tap at the same coordinate is not an additional vertex.
+@@ -184,3 +185,5 @@
+         navigationRevision++
+-        mutable.update { it.copy(auxiliary = panel, copyConfirmation = false) }
++        val keepSelection = panel in setOf(ManualMeasureAuxiliary.DETAIL, ManualMeasureAuxiliary.HELP, ManualMeasureAuxiliary.SHARE)
++        mutable.update { it.copy(auxiliary = panel, selected = if (keepSelection) it.selected else null,
++            loadingSaved = false, copyConfirmation = false) }
+     }
+@@ -373,3 +376,3 @@
+     private fun decode(raw: DoubleArray?): List<CartographicCoordinate> {
+-        if (raw == null || raw.size > 2_000 || raw.size % 2 != 0) return emptyList()
++        if (raw == null || raw.size > 2 * CartographicMeasureCalculator.MAX_POINTS || raw.size % 2 != 0) return emptyList()
+         return raw.toList().chunked(2).map { CartographicCoordinate(it[0], it[1]) }

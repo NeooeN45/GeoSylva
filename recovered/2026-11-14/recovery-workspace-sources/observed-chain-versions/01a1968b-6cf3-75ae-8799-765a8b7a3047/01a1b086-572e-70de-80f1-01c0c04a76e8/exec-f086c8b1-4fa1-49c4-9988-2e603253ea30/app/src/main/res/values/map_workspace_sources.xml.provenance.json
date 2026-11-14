@@ -1,0 +1,87 @@
+{
+  "path": "app/src/main/res/values/map_workspace_sources.xml",
+  "version_file": "observed-chain-versions/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f086c8b1-4fa1-49c4-9988-2e603253ea30/app/src/main/res/values/map_workspace_sources.xml",
+  "sha256": "b82d84116dd48277ef21ccaf7a3709c2a2b9f81d3c67be9665c0e3deed2eddef",
+  "classification": "full_reconstruction_from_observed_chain",
+  "chain": [
+    {
+      "history_file": "workspace-search-tools.json",
+      "thread": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
+      "turn": "01a1b022-405f-7043-9292-0fa95fb47645",
+      "item": "exec-79c0e888-8388-42c9-a891-957d4d256dfb",
+      "item_index": 10,
+      "turn_started_at": 1793956397,
+      "turn_completed_at": 1793956731,
+      "kind": "add",
+      "diff_sha256": "0c5863fe71b53ef3e67e3cc43c4e5e62eb80600140b6beab0b51ffb100bbee43"
+    },
+    {
+      "history_file": "workspace-search-tools.json",
+      "thread": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
+      "turn": "01a1b022-405f-7043-9292-0fa95fb47645",
+      "item": "exec-220adb88-38e8-442e-a24d-f0fc2965f789",
+      "item_index": 21,
+      "turn_started_at": 1793956397,
+      "turn_completed_at": 1793956731,
+      "kind": "update",
+      "diff_sha256": "b850f43e1d1cb692221458561cadf9f245bc5fa1699cae74564f90064a991acc"
+    },
+    {
+      "kind": "strict_observed_diff",
+      "provenance": {
+        "history_file": "root0004-full.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b086-572e-70de-80f1-01c0c04a76e8",
+        "item": "exec-f0d8a1a5-5d13-42b7-9927-dbb2526249a9",
+        "item_index": 49,
+        "turn_started_at": 1793962956,
+        "turn_completed_at": 1793965038,
+        "path": "app/src/main/res/values/map_workspace_sources.xml",
+        "change_kind": "update",
+        "diff_truncated": false,
+        "evidence": "evidence/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f0d8a1a5-5d13-42b7-9927-dbb2526249a9",
+        "diff_file": "evidence/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f0d8a1a5-5d13-42b7-9927-dbb2526249a9/diffs/app/src/main/res/values/map_workspace_sources.xml.diff",
+        "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "classification": "exact_diff_base_unresolved"
+      },
+      "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "strict_observed_diff",
+      "provenance": {
+        "history_file": "root0004-full.json",
+        "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "turn": "01a1b086-572e-70de-80f1-01c0c04a76e8",
+        "item": "exec-f086c8b1-4fa1-49c4-9988-2e603253ea30",
+        "item_index": 52,
+        "turn_started_at": 1793962956,
+        "turn_completed_at": 1793965038,
+        "path": "app/src/main/res/values/map_workspace_sources.xml",
+        "change_kind": "update",
+        "diff_truncated": false,
+        "evidence": "evidence/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f086c8b1-4fa1-49c4-9988-2e603253ea30",
+        "diff_file": "evidence/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f086c8b1-4fa1-49c4-9988-2e603253ea30/diffs/app/src/main/res/values/map_workspace_sources.xml.diff",
+        "diff_sha256": "57aef0d6b7c5ab87321559064c56461d8f721f86153ea96402d900da8cb80483",
+        "classification": "exact_diff_base_unresolved"
+      },
+      "diff_sha256": "57aef0d6b7c5ab87321559064c56461d8f721f86153ea96402d900da8cb80483"
+    }
+  ],
+  "provenance": {
+    "history_file": "root0004-full.json",
+    "thread": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+    "turn": "01a1b086-572e-70de-80f1-01c0c04a76e8",
+    "item": "exec-f086c8b1-4fa1-49c4-9988-2e603253ea30",
+    "item_index": 52,
+    "turn_started_at": 1793962956,
+    "turn_completed_at": 1793965038,
+    "path": "app/src/main/res/values/map_workspace_sources.xml",
+    "change_kind": "update",
+    "diff_truncated": false,
+    "evidence": "evidence/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f086c8b1-4fa1-49c4-9988-2e603253ea30",
+    "diff_file": "evidence/01a1968b-6cf3-75ae-8799-765a8b7a3047/01a1b086-572e-70de-80f1-01c0c04a76e8/exec-f086c8b1-4fa1-49c4-9988-2e603253ea30/diffs/app/src/main/res/values/map_workspace_sources.xml.diff",
+    "diff_sha256": "57aef0d6b7c5ab87321559064c56461d8f721f86153ea96402d900da8cb80483",
+    "classification": "exact_diff_base_unresolved"
+  },
+  "limitation": "This exact observed source chain is preserved separately. It does not establish absence of other intervening edits or a complete November tree."
+}

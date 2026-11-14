@@ -1,0 +1,19 @@
+{
+  "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+  "sha256": "1bcdaaa6805f9dd1ffae691f503cbff16691131b8cb941b499906c12d3728b62",
+  "classification": "full_add_exact",
+  "chain": [
+    {
+      "history_file": "workspace-search-tools.json",
+      "thread": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
+      "turn": "01a1b022-405f-7043-9292-0fa95fb47645",
+      "item": "exec-79c0e888-8388-42c9-a891-957d4d256dfb",
+      "item_index": 10,
+      "turn_started_at": 1793956397,
+      "turn_completed_at": 1793956731,
+      "kind": "add",
+      "diff_sha256": "1bcdaaa6805f9dd1ffae691f503cbff16691131b8cb941b499906c12d3728b62"
+    }
+  ],
+  "limitation": "Observed exact add and listed diffs only. This does not establish absence of intervening changes or a complete November source tree."
+}

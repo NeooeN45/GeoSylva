@@ -1,0 +1,48 @@
+@@ -23,2 +23,4 @@
+ import androidx.compose.foundation.rememberScrollState
++import androidx.compose.foundation.selection.selectable
++import androidx.compose.foundation.selection.selectableGroup
+ import androidx.compose.foundation.shape.CircleShape
+@@ -70,2 +72,5 @@
+ import androidx.compose.ui.semantics.Role
++import androidx.compose.ui.semantics.contentDescription
++import androidx.compose.ui.semantics.semantics
++import androidx.compose.ui.semantics.selected
+ import androidx.compose.ui.text.AnnotatedString
+@@ -96,3 +101,3 @@
+ ) {
+-    BackHandler(enabled = state.panel != null) { actions.onPanelChanged(null) }
++    BackHandler(enabled = state.chromeVisible && state.panel != null) { actions.onPanelChanged(null) }
+     val fontScale = LocalDensity.current.fontScale
+@@ -100,2 +105,3 @@
+         canvas()
++        if (!state.chromeVisible) return@BoxWithConstraints
+         Column(
+@@ -105,4 +111,5 @@
+         ) {
+-            ContextCapsule(state, actions)
+-            if (state.panel == null) Surface(
++            if (state.presentation == MapPresentation.FREE) FreeContextCapsule(state, actions)
++            else ContextCapsule(state, actions)
++            if (state.panel == null && state.presentation == MapPresentation.TERRAIN) Surface(
+                 onClick = { actions.onPanelChanged(MapPanel.LAYERS) },
+@@ -122,3 +129,5 @@
+         }
+-        if (state.panel == null) {
++        if (state.panel == null && state.presentation == MapPresentation.FREE) {
++            FreeMapCommands(state, actions, Modifier.align(Alignment.BottomStart))
++        } else if (state.panel == null) {
+             Column(
+@@ -130,2 +139,3 @@
+                     onClick = actions::onLocate,
++                    enabled = state.locationEnabled,
+                     modifier = Modifier.align(Alignment.End).size(MapUiTokens.positionSize),
+@@ -139,6 +149,6 @@
+                 }
+-                TaskBar(actions)
++                if (state.taskBarVisible) TaskBar(state.selectedTask, actions)
+             }
+         } else {
+-            val panelHeight = maxHeight * if (fontScale > 1.1f) 0.82f else 0.58f
++            val panelHeight = maxHeight * if (fontScale > 1.1f || maxHeight < 500.dp) 0.82f else 0.58f
+             Surface(

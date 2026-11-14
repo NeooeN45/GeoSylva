@@ -1,0 +1,4 @@
+@@ -17,2 +17,3 @@
+     <string name="gs_source_dem_details">Modèle numérique de terrain utilisé pour représenter le relief en 3D.</string>
++    <string name="gs_source_dem_unavailable">Aucune source de relief confirmée pour cette vue.</string>
+     <string name="gs_source_dem_accuracy">Ce rendu ne mesure ni l’altitude ni la pente sur le terrain. Sa précision locale n’est pas déterminée ici.</string>

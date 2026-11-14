@@ -1,0 +1,12 @@
+@@ -53,2 +53,3 @@
+         !state.ready -> storeErrorText(state.error) ?: stringResource(R.string.manual_host_preparing)
++        state.saveLocked -> stringResource(R.string.manual_host_unknown)
+         state.calculating -> stringResource(R.string.manual_host_calculating)
+@@ -86,2 +87,3 @@
+         if (state.points.isEmpty()) remove(MeasureMenuAction.CLEAR)
++        if (state.saveLocked) { remove(MeasureMenuAction.CLEAR); remove(MeasureMenuAction.COLOR) }
+     }
+@@ -94,2 +96,3 @@
+             canUndo = state.ready && state.points.isNotEmpty() && !state.saveLocked,
++            geometryEditable = state.ready && !state.saveLocked,
+             panel = state.panel, distanceUnit = state.distanceUnit, areaUnit = state.areaUnit,

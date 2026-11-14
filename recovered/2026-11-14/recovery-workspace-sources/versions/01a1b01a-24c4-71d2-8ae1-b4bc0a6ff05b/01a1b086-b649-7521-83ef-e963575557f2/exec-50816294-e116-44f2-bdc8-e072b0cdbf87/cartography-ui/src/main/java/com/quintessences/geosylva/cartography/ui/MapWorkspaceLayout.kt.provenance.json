@@ -1,0 +1,30 @@
+{
+  "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceLayout.kt",
+  "sha256": "f93ce1426139cbdd8392d16551d480d30a1de9209197bb2478b7250dde1d35ed",
+  "classification": "full_reconstruction_from_observed_diffs",
+  "chain": [
+    {
+      "history_file": "workspace-ui-initial-next.json",
+      "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+      "turn": "01a1b032-04b5-76ec-b659-a7e8c93efa45",
+      "item": "exec-d7da1c10-db9a-4f2e-b830-98bc2ec93d9c",
+      "item_index": 20,
+      "turn_started_at": 1793957430,
+      "turn_completed_at": 1793957782,
+      "kind": "add",
+      "diff_sha256": "da78600915866197d9c1f1c942b1ba29444736f966c9ab1de8ea57230d78f410"
+    },
+    {
+      "history_file": "workspace-ui-older.json",
+      "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+      "turn": "01a1b086-b649-7521-83ef-e963575557f2",
+      "item": "exec-50816294-e116-44f2-bdc8-e072b0cdbf87",
+      "item_index": 5,
+      "turn_started_at": 1793962981,
+      "turn_completed_at": 1793963020,
+      "kind": "update",
+      "diff_sha256": "3e59e1b14f8be559f4e2bbe4c0ceffeecb383b61eb062b2e640962073f550013"
+    }
+  ],
+  "limitation": "Observed exact add and listed diffs only. This does not establish absence of intervening changes or a complete November source tree."
+}

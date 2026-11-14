@@ -1,0 +1,30 @@
+<resources>
+    <string name="gs_map_layers">Layers</string>
+    <string name="gs_map_basemap">Basemap</string>
+    <string name="gs_map_relief">Terrain</string>
+    <string name="gs_map_close">Close</string>
+    <string name="gs_map_back">Back</string>
+    <string name="gs_map_choose_context">Choose the map area</string>
+    <string name="gs_map_position">My location</string>
+    <string name="gs_map_surveys">Surveys</string>
+    <string name="gs_map_measure">Measure</string>
+    <string name="gs_map_tools">Tools</string>
+    <string name="gs_map_search_basemap">Search basemaps</string>
+    <string name="gs_map_search_layer">Search layers</string>
+    <string name="gs_map_sources">Sources and details</string>
+    <string name="gs_map_selected">Selected</string>
+    <string name="gs_map_on_map">On the map</string>
+    <string name="gs_map_catalog">Catalog</string>
+    <string name="gs_map_no_results">No results</string>
+    <string name="gs_map_add_layer">Add %1$s</string>
+    <string name="gs_map_view">View</string>
+    <string name="gs_map_vertical_scale">Vertical scale</string>
+    <string name="gs_map_vertical_scale_help">About vertical scale</string>
+    <string name="gs_map_pitch">View pitch</string>
+    <string name="gs_map_terrain_data">Terrain data</string>
+    <string name="gs_map_controls_unavailable">These controls will be available when the map is ready.</string>
+    <string name="gs_map_needs_configuration">Setup required</string>
+    <string name="gs_map_needs_qualification">To be qualified</string>
+    <string name="gs_map_preview_unavailable">Preview unavailable</string>
+    <string name="gs_map_needs_data">No data loaded</string>
+</resources>

@@ -1,0 +1,6 @@
+@@ -28,2 +28,5 @@
+     <string name="gs_source_link_unavailable">Unable to open a browser on this device.</string>
++    <string name="gs_source_preview_title">Layer previews</string>
++    <string name="gs_source_preview_credit">© IGN · BD ORTHO® · Open Licence 2.0</string>
++    <string name="gs_source_preview_details">Illustrative Vercors photo with fictitious shapes. It represents neither your data nor a loaded layer. The capture date is not determined here; the IGN dataset page provides update information. Mapbox styles use schematic illustrations.</string>
+ </resources>

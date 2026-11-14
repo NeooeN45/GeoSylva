@@ -1,0 +1,23 @@
+@@ -14,4 +14,13 @@
+     val controlsUnavailableReason: String? = null,
++    val presentation: MapPresentation = MapPresentation.TERRAIN,
++    val selectedTask: MapTask? = MapTask.SURVEYS,
++    val taskBarVisible: Boolean = true,
++    val locationEnabled: Boolean = true,
++    /** Null means the contextual title is informational, not a selector. */
++    val contextActionLabel: String? = null,
++    /** A focused host tool can keep the same canvas without competing chrome. */
++    val chromeVisible: Boolean = true,
+ )
+ 
++enum class MapPresentation { TERRAIN, FREE }
+ enum class MapPanel { BASEMAPS, LAYERS, RELIEF }
+@@ -31,2 +40,4 @@
+     val availability: MapChoiceAvailability = MapChoiceAvailability.QUALIFICATION_PENDING,
++    /** Only set when the host can open the actual layer and its provenance. */
++    val detailActionLabel: String? = null,
+ )
+@@ -52,2 +63,3 @@
+     fun onAddLayer(id: String)
++    fun onLayerDetails(id: String) = Unit
+     fun onPitchChange(degrees: Double)

@@ -1,0 +1,5 @@
+@@ -447,2 +447,4 @@
+ private fun ReliefPanel(state: MapWorkspaceState, actions: MapWorkspaceActions) {
++    val verticalScaleLabel = stringResource(R.string.gs_map_vertical_scale)
++    val pitchLabel = stringResource(R.string.gs_map_pitch)
+     // Keep editing local until release. The label below remains SDK-confirmed;

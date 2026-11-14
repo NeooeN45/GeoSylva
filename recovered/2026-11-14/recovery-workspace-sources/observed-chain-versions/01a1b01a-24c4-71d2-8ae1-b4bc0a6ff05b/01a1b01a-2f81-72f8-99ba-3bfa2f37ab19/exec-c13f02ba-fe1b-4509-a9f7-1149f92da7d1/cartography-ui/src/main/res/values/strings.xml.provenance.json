@@ -1,0 +1,67 @@
+{
+  "path": "cartography-ui/src/main/res/values/strings.xml",
+  "version_file": "observed-chain-versions/01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b/01a1b01a-2f81-72f8-99ba-3bfa2f37ab19/exec-c13f02ba-fe1b-4509-a9f7-1149f92da7d1/cartography-ui/src/main/res/values/strings.xml",
+  "sha256": "0a56a82443100424ddbe3f2136f8e1df751032227dd22a05071caa49874bb4ed",
+  "classification": "full_reconstruction_from_observed_chain",
+  "chain": [
+    {
+      "kind": "full_read_exact",
+      "provenance": {
+        "history_file": "workspace-ui-earliest-next.json",
+        "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+        "turn": "01a1b01a-2f81-72f8-99ba-3bfa2f37ab19",
+        "turn_started_at": 1793955868,
+        "item": "exec-38ae375f-b189-4a1a-81a9-ecaf04ec0926",
+        "item_index": 0,
+        "path": "cartography-ui/src/main/res/values/strings.xml",
+        "source_line_start": 1,
+        "source_line_end": 30,
+        "output_line_start": 198,
+        "output_line_end": 227,
+        "classification": "full_read_exact",
+        "boundary_basis": "first complete resources block from explicitly named FR cat",
+        "version_file": "reads/01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b/01a1b01a-2f81-72f8-99ba-3bfa2f37ab19/exec-38ae375f-b189-4a1a-81a9-ecaf04ec0926/cartography-ui/src/main/res/values/strings.xml",
+        "sha256": "b1aedd6ee72e8386ac2c4ddf3501c4d7221164712c5d877690e44e721f95815a",
+        "bytes": 1771,
+        "original_output_truncated": false
+      }
+    },
+    {
+      "kind": "strict_observed_diff",
+      "provenance": {
+        "history_file": "workspace-ui-earliest-next.json",
+        "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+        "turn": "01a1b01a-2f81-72f8-99ba-3bfa2f37ab19",
+        "item": "exec-c13f02ba-fe1b-4509-a9f7-1149f92da7d1",
+        "item_index": 37,
+        "turn_started_at": 1793955868,
+        "turn_completed_at": 1793956731,
+        "path": "cartography-ui/src/main/res/values/strings.xml",
+        "change_kind": "update",
+        "diff_truncated": false,
+        "evidence": "evidence/01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b/01a1b01a-2f81-72f8-99ba-3bfa2f37ab19/exec-c13f02ba-fe1b-4509-a9f7-1149f92da7d1",
+        "diff_file": "evidence/01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b/01a1b01a-2f81-72f8-99ba-3bfa2f37ab19/exec-c13f02ba-fe1b-4509-a9f7-1149f92da7d1/diffs/cartography-ui/src/main/res/values/strings.xml.diff",
+        "diff_sha256": "3dd85a335d8d0f110e95f6ac89163f27cb4dabaebaca62c484b1ab96a526fce0",
+        "classification": "exact_diff_base_unresolved"
+      },
+      "diff_sha256": "3dd85a335d8d0f110e95f6ac89163f27cb4dabaebaca62c484b1ab96a526fce0"
+    }
+  ],
+  "provenance": {
+    "history_file": "workspace-ui-earliest-next.json",
+    "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+    "turn": "01a1b01a-2f81-72f8-99ba-3bfa2f37ab19",
+    "item": "exec-c13f02ba-fe1b-4509-a9f7-1149f92da7d1",
+    "item_index": 37,
+    "turn_started_at": 1793955868,
+    "turn_completed_at": 1793956731,
+    "path": "cartography-ui/src/main/res/values/strings.xml",
+    "change_kind": "update",
+    "diff_truncated": false,
+    "evidence": "evidence/01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b/01a1b01a-2f81-72f8-99ba-3bfa2f37ab19/exec-c13f02ba-fe1b-4509-a9f7-1149f92da7d1",
+    "diff_file": "evidence/01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b/01a1b01a-2f81-72f8-99ba-3bfa2f37ab19/exec-c13f02ba-fe1b-4509-a9f7-1149f92da7d1/diffs/cartography-ui/src/main/res/values/strings.xml.diff",
+    "diff_sha256": "3dd85a335d8d0f110e95f6ac89163f27cb4dabaebaca62c484b1ab96a526fce0",
+    "classification": "exact_diff_base_unresolved"
+  },
+  "limitation": "This exact observed source chain is preserved separately. It does not establish absence of other intervening edits or a complete November tree."
+}

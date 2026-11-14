@@ -1,0 +1,4 @@
+<resources>
+    <string name="map_catalog_illustration">Map illustration, without an actual location</string>
+    <string name="map_catalog_photo_illustration">Illustrative preview: IGN orthophoto in Vercors, fictitious shapes. This is not your data.</string>
+</resources>

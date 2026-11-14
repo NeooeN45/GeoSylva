@@ -1,0 +1,13 @@
+@@ -106,5 +106,5 @@
+             panel = state.panel, distanceUnit = state.distanceUnit, areaUnit = state.areaUnit,
+-            saveName = state.saveName, saving = state.saving, saveNameEditable = !state.saveLocked,
++            saveName = state.saveName, saving = state.saving, saveNameEditable = state.ready && !state.saveLocked,
+             saveError = storeErrorText(state.error), locationEnabled = locationEnabled,
+-            availableMenuActions = menu,
++            availableMenuActions = if (state.ready) menu else setOf(MeasureMenuAction.SAVED_MEASURES),
+         ), actions = actions, onPanelHeightChanged = onPanelHeightChanged, onCompassTopChanged = onCompassTopChanged,
+@@ -172,3 +172,3 @@
+             detail = detail, shareText = selected?.let(::summary) ?: if (state.ready) draftSummary(state) else null,
+-            actionsEnabled = state.ready && !state.saving, showLegacyNotice = true, helpText = helpText,
++            actionsEnabled = state.ready && !state.saving && !state.saveLocked, showLegacyNotice = true, helpText = helpText,
+         ),

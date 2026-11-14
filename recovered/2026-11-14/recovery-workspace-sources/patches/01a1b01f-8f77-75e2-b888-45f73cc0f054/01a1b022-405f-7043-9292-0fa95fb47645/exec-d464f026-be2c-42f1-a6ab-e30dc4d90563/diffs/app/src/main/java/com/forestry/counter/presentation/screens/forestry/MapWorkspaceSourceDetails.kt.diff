@@ -1,0 +1,5 @@
+@@ -111,3 +111,3 @@
+                 MapHelp.RELIEF_SOURCE -> {
+-                    if (basemap?.key in MAPBOX_SOURCE_KEYS || basemap?.key == "ORTHO_IGN") {
++                    if (basemap != null && (basemap.key in MAPBOX_SOURCE_KEYS || basemap.key == "ORTHO_IGN")) {
+                         SourceFact(stringResource(R.string.gs_source_provider), "Mapbox")

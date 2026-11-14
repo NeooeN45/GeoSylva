@@ -1,0 +1,4 @@
+@@ -23,2 +23,3 @@
+     implementation(libs.activity.compose)
++    implementation(libs.lifecycle.runtime.compose)
+     testImplementation(libs.junit)

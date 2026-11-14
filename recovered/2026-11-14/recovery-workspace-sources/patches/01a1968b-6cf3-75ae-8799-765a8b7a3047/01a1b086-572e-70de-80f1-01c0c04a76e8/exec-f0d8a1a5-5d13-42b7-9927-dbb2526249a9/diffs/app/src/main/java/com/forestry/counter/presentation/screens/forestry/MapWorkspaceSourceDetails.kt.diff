@@ -1,0 +1,11 @@
+@@ -129,2 +129,10 @@
+             }
++            if (help == MapHelp.BASEMAP_SOURCE) {
++                HorizontalDivider()
++                SourceFact(stringResource(R.string.gs_source_preview_title),
++                    stringResource(R.string.gs_source_preview_credit))
++                SourceNote(stringResource(R.string.gs_source_preview_details))
++                SourceLink(stringResource(R.string.gs_source_open_license)) { open(SOURCE_OPEN_LICENSE_URL) }
++                SourceLink(stringResource(R.string.gs_source_official)) { open(SOURCE_IGN_ORTHO_URL) }
++            }
+             if (linkUnavailable) {

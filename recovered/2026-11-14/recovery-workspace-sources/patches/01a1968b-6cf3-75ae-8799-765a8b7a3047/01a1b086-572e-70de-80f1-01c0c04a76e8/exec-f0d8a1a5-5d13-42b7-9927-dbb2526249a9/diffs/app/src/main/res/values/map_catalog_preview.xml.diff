@@ -1,0 +1,4 @@
+@@ -2,2 +2,3 @@
+     <string name="map_catalog_illustration">Illustration cartographique, sans position réelle</string>
++    <string name="map_catalog_photo_illustration">Aperçu illustratif : orthophotographie IGN au Vercors, tracés fictifs. Ce ne sont pas vos données.</string>
+ </resources>

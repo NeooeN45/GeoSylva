@@ -1,0 +1,18 @@
+@@ -322,2 +322,17 @@
+ 
++    fun withCurrentDraft(action: (ManualMeasureState) -> Unit) {
++        val authority = current() ?: return
++        val snapshot = mutable.value
++        val ticket = navigationRevision
++        if (snapshot.result !is CartographicMeasureResult.Available) return
++        viewModelScope.launch {
++            val checked = repository.captureAccess(scope)
++            if (checked is CartographicStoreResult.Success && repository.isCurrent(checked.value) &&
++                checked.value.restorationKey == authority.restorationKey && ticket == navigationRevision &&
++                current() != null && mutable.value.points == snapshot.points && mutable.value.mode == snapshot.mode) action(snapshot)
++        }
++    }
++
++    fun consumeSavedNotice() { mutable.update { it.copy(savedNotice = false) } }
++
+     private fun persistDrafts() {

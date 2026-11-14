@@ -1,0 +1,10 @@
+@@ -40,4 +40,2 @@
+     val availability: MapChoiceAvailability = MapChoiceAvailability.QUALIFICATION_PENDING,
+-    /** Only set when the host can open the actual layer and its provenance. */
+-    val detailActionLabel: String? = null,
+ )
+@@ -51,2 +49,4 @@
+     val availability: MapChoiceAvailability = MapChoiceAvailability.QUALIFICATION_PENDING,
++    /** Only set when the host can open the actual layer and its provenance. */
++    val detailActionLabel: String? = null,
+ )

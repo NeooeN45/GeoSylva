@@ -1,0 +1,5 @@
+@@ -451,3 +451,3 @@
+     // the draft is resynchronized only when that applied value changes.
+-    var exaggerationDraft by remember(state.verticalExaggeration) {
++    var exaggerationDraft by remember(state.verticalExaggeration, state.controlsEnabled) {
+         mutableFloatStateOf(state.verticalExaggeration.toFloat().coerceIn(1f, 3f))

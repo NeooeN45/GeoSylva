@@ -1,0 +1,26 @@
+@@ -12,3 +12,3 @@
+ import com.quintessences.geosylva.cartography.ui.measurement.MeasureHelp
+-import kotlinx.coroutines.CancellationException
++import kotlinx.coroutines.CoroutineDispatcher
+ import kotlinx.coroutines.Dispatchers
+@@ -60,2 +60,3 @@
+     private val savedState: SavedStateHandle = SavedStateHandle(),
++    private val calculationDispatcher: CoroutineDispatcher = Dispatchers.Default,
+ ) : ViewModel() {
+@@ -89,3 +90,3 @@
+                 val previousKey: String? = savedState[OWNER_KEY]
+-                if (previousKey != null && previousKey != next.restorationKey) forgetDrafts()
++                if (previousKey != next.restorationKey) forgetDrafts()
+                 access = next
+@@ -159,3 +160,3 @@
+         calculationJob = viewModelScope.launch {
+-            val result = withContext(Dispatchers.Default) { CartographicMeasureCalculator.calculate(snapshot.mode, snapshot.points) }
++            val result = withContext(calculationDispatcher) { CartographicMeasureCalculator.calculate(snapshot.mode, snapshot.points) }
+             if (ticket == calculationRevision && current() != null) mutable.update { it.copy(result = result, calculating = false) }
+@@ -266,3 +267,5 @@
+         if (mutable.value.selected == null || !editable()) return
+-        if (mutable.value.points.isNotEmpty()) mutable.update { it.copy(copyConfirmation = true) }
++        val s = mutable.value
++        val target = if (s.selected?.kind == CartographicMeasureKind.DISTANCE) s.distancePoints else s.areaPoints
++        if (target.isNotEmpty()) mutable.update { it.copy(copyConfirmation = true) }
+         else copySelected()

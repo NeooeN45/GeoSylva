@@ -1,0 +1,30 @@
+<resources>
+    <string name="manual_host_preparing">Vérification du contexte…</string>
+    <string name="manual_host_calculating">Calcul en cours…</string>
+    <string name="manual_host_working_copy">Copie de travail</string>
+    <string name="manual_host_saved">Mesure enregistrée sur ce téléphone.</string>
+    <string name="manual_host_share_points">%1$d points</string>
+    <string name="manual_host_draft">Mesure dessinée · Brouillon</string>
+    <string name="manual_host_share_limits">Calcul cartographique, sans correction de pente. Précision non déterminée ; aucune valeur cadastrale.</string>
+    <string name="manual_host_share_unavailable">Aucune application de partage disponible.</string>
+    <string name="manual_host_context_help">La mesure appartient au contexte ouvert, avec ses droits d’accès. Dessiner ne crée ni parcelle officielle ni droit de passage.</string>
+    <string name="manual_host_points_help">Chaque toucher sur la carte ajoute un sommet. La distance relie les points dans leur ordre ; la surface ferme le contour sans ajouter de sommet. Le GPS du téléphone n’est pas nécessaire.</string>
+    <string name="manual_host_units_help">Les unités changent uniquement l’affichage : 1 km = 1 000 m, 1 are = 100 m², 1 ha = 10 000 m². La valeur complète et les points sont conservés. Les décimales ne garantissent aucune précision.</string>
+    <string name="manual_host_storage_help">Le nom est facultatif et ne sert jamais de chemin de fichier. L’enregistrement conserve une mesure immuable dans la base locale, avec sa méthode et son contexte. Il ne signifie ni synchronisation, ni sauvegarde distante, ni conservation après désinstallation.</string>
+    <string name="manual_host_copy_title">Reprendre une copie ?</string>
+    <string name="manual_host_copy_body">Le brouillon non enregistré de ce mode sera remplacé. La mesure d’origine reste intacte.</string>
+    <string name="manual_host_copy_confirm">Reprendre la copie</string>
+    <string name="manual_host_access_changed">L’accès a changé. Vos données doivent être vérifiées avant de poursuivre.</string>
+    <string name="manual_host_unavailable">Ce contexte est indisponible pour les mesures enregistrées.</string>
+    <string name="manual_host_invalid">Vérifiez le nom et la géométrie de la mesure.</string>
+    <string name="manual_host_conflict">Cet enregistrement existe avec un autre contenu. Il n’a pas été écrasé.</string>
+    <string name="manual_host_io">Enregistrement impossible. Le nom et le tracé sont conservés ; réessayez.</string>
+    <string name="manual_host_corrupt">Cette mesure ne peut pas être lue correctement. Aucune valeur de remplacement n’est affichée.</string>
+    <string name="manual_host_unknown">Le résultat de l’enregistrement doit être vérifié. Réessayez avec les mêmes données pour éviter un doublon.</string>
+    <string name="manual_host_invalid_coordinate">Une position est invalide.</string>
+    <string name="manual_host_duplicate">Deux sommets se confondent. Retirez le point en double.</string>
+    <string name="manual_host_degenerate">Le tracé ne définit pas de mesure exploitable.</string>
+    <string name="manual_host_intersection">Le contour se croise. Corrigez les sommets avant d’enregistrer.</string>
+    <string name="manual_host_outside_domain">Ce contour dépasse les conditions du calcul local. Voir la méthode.</string>
+    <string name="manual_host_point_limit">La limite de 1 000 points est atteinte.</string>
+</resources>

@@ -1,0 +1,111 @@
+@@ -113,2 +113,17 @@
+             else ContextCapsule(state, actions)
++            if (state.panel == null && state.presentation == MapPresentation.FREE) {
++                Surface(
++                    onClick = actions::onLocate,
++                    enabled = state.locationEnabled,
++                    modifier = Modifier.align(Alignment.End).padding(top = 56.dp).size(MapUiTokens.touch),
++                    shape = MapUiTokens.commandShape,
++                    color = MapUiTokens.freeChrome,
++                    contentColor = MapUiTokens.freeInk,
++                    shadowElevation = MapUiTokens.elevation,
++                ) {
++                    Box(contentAlignment = Alignment.Center) {
++                        Icon(Icons.Outlined.MyLocation, stringResource(R.string.gs_map_position))
++                    }
++                }
++            }
+             if (state.panel == null && state.presentation == MapPresentation.TERRAIN) Surface(
+@@ -192,3 +207,7 @@
+             }
+-            Row(Modifier.weight(1f).clickable(role = Role.Button, onClick = actions::onChooseContext)
++            val contextAction = state.contextActionLabel
++            val contextModifier = if (contextAction != null) Modifier.clickable(
++                role = Role.Button, onClickLabel = contextAction, onClick = actions::onChooseContext,
++            ) else Modifier
++            Row(Modifier.weight(1f).then(contextModifier).padding(end = MapUiTokens.iconGap)
+                 .heightIn(min = MapUiTokens.touch), verticalAlignment = Alignment.CenterVertically) {
+@@ -196,3 +215,3 @@
+                     maxLines = 2, overflow = TextOverflow.Ellipsis)
+-                Icon(Icons.Outlined.ExpandMore, stringResource(R.string.gs_map_choose_context),
++                if (contextAction != null) Icon(Icons.Outlined.ExpandMore, null,
+                     tint = MapUiTokens.ink, modifier = Modifier.size(MapUiTokens.icon))
+@@ -203,2 +222,56 @@
+ 
++/** Reference 18B shares the canvas/panels, but gives Carte libre its quiet dark chrome. */
++@Composable
++private fun FreeContextCapsule(state: MapWorkspaceState, actions: MapWorkspaceActions) {
++    Text(stringResource(R.string.gs_map_free), color = MapUiTokens.freeInk,
++        fontSize = 13.sp, fontWeight = FontWeight.SemiBold, letterSpacing = 1.sp,
++        modifier = Modifier.padding(start = MapUiTokens.iconGap))
++    Surface(shape = MapUiTokens.toolbarShape, color = MapUiTokens.freeChrome,
++        contentColor = MapUiTokens.freeInk, shadowElevation = MapUiTokens.elevation,
++        modifier = Modifier.fillMaxWidth()) {
++        Row(Modifier.heightIn(min = MapUiTokens.touch), verticalAlignment = Alignment.CenterVertically) {
++            IconButton(onClick = actions::onBack, modifier = Modifier.size(MapUiTokens.touch)) {
++                Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.gs_map_back))
++            }
++            val label = state.contextActionLabel ?: stringResource(R.string.gs_map_explore)
++            Row(Modifier.weight(1f).heightIn(min = MapUiTokens.touch)
++                .clickable(role = Role.Button, onClickLabel = label, onClick = actions::onChooseContext)
++                .padding(end = MapUiTokens.commandPadding),
++                verticalAlignment = Alignment.CenterVertically,
++                horizontalArrangement = Arrangement.spacedBy(MapUiTokens.iconGap)) {
++                Text(label, Modifier.weight(1f), fontSize = 16.sp,
++                    fontWeight = FontWeight.Medium)
++                Icon(Icons.Outlined.Search, null, Modifier.size(MapUiTokens.icon))
++            }
++        }
++    }
++}
++
++@Composable
++private fun FreeMapCommands(state: MapWorkspaceState, actions: MapWorkspaceActions, modifier: Modifier) {
++    if (!state.taskBarVisible) return
++    Row(modifier.navigationBarsPadding()
++        .padding(horizontal = MapUiTokens.edge, vertical = MapUiTokens.bottomGap),
++        horizontalArrangement = Arrangement.spacedBy(MapUiTokens.iconGap),
++        verticalAlignment = Alignment.CenterVertically) {
++        Surface(onClick = { actions.onPanelChanged(MapPanel.LAYERS) },
++            shape = MapUiTokens.commandShape, color = MapUiTokens.freeChrome,
++            contentColor = MapUiTokens.freeInk, shadowElevation = MapUiTokens.elevation) {
++            Row(Modifier.heightIn(min = MapUiTokens.touch).padding(horizontal = MapUiTokens.commandPadding),
++                horizontalArrangement = Arrangement.spacedBy(MapUiTokens.iconGap),
++                verticalAlignment = Alignment.CenterVertically) {
++                Text(stringResource(R.string.gs_map_layers), fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
++                Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null, Modifier.size(MapUiTokens.icon))
++            }
++        }
++        Surface(onClick = { actions.onTask(MapTask.TOOLS) }, modifier = Modifier.size(MapUiTokens.touch),
++            shape = MapUiTokens.commandShape, color = MapUiTokens.freeChrome,
++            contentColor = MapUiTokens.freeInk, shadowElevation = MapUiTokens.elevation) {
++            Box(contentAlignment = Alignment.Center) {
++                Icon(Icons.Outlined.Tune, stringResource(R.string.gs_map_tools), Modifier.size(MapUiTokens.icon))
++            }
++        }
++    }
++}
++
+ private fun contextLabel(state: MapWorkspaceState): AnnotatedString = buildAnnotatedString {
+@@ -211,3 +284,3 @@
+ @Composable
+-private fun TaskBar(actions: MapWorkspaceActions) {
++private fun TaskBar(selectedTask: MapTask?, actions: MapWorkspaceActions) {
+     Surface(shape = MapUiTokens.toolbarShape, color = MapUiTokens.paper,
+@@ -216,9 +289,9 @@
+             TaskButton(Icons.Outlined.Assignment, stringResource(R.string.gs_map_surveys), Modifier.weight(1f),
+-                selected = true, onClick = { actions.onTask(MapTask.SURVEYS) })
++                selected = selectedTask == MapTask.SURVEYS, onClick = { actions.onTask(MapTask.SURVEYS) })
+             ToolbarDivider()
+             TaskButton(Icons.Outlined.Straighten, stringResource(R.string.gs_map_measure), Modifier.weight(1f),
+-                onClick = { actions.onTask(MapTask.MEASURE) })
++                selected = selectedTask == MapTask.MEASURE, onClick = { actions.onTask(MapTask.MEASURE) })
+             ToolbarDivider()
+             TaskButton(Icons.Outlined.Tune, stringResource(R.string.gs_map_tools), Modifier.weight(1f),
+-                onClick = { actions.onTask(MapTask.TOOLS) })
++                selected = selectedTask == MapTask.TOOLS, onClick = { actions.onTask(MapTask.TOOLS) })
+         }
+@@ -231,2 +304,3 @@
+         .background(if (selected) MapUiTokens.selected else Color.Transparent)
++        .semantics { this.selected = selected }
+         .clickable(role = Role.Button, onClick = onClick)

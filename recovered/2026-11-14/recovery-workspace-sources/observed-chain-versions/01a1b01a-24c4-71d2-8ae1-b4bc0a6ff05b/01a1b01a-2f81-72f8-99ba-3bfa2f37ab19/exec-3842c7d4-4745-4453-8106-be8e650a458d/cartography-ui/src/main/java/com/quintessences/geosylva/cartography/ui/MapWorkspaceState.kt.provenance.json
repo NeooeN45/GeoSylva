@@ -1,0 +1,67 @@
+{
+  "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceState.kt",
+  "version_file": "observed-chain-versions/01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b/01a1b01a-2f81-72f8-99ba-3bfa2f37ab19/exec-3842c7d4-4745-4453-8106-be8e650a458d/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceState.kt",
+  "sha256": "967d5f1105826d8d84dec24f5c8ab9769f659f63747e9295e773962c365c4f86",
+  "classification": "full_reconstruction_from_observed_chain",
+  "chain": [
+    {
+      "kind": "full_read_exact",
+      "provenance": {
+        "history_file": "workspace-ui-earliest-next.json",
+        "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+        "turn": "01a1b01a-2f81-72f8-99ba-3bfa2f37ab19",
+        "turn_started_at": 1793955868,
+        "item": "exec-38ae375f-b189-4a1a-81a9-ecaf04ec0926",
+        "item_index": 0,
+        "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceState.kt",
+        "source_line_start": 1,
+        "source_line_end": 57,
+        "output_line_start": 141,
+        "output_line_end": 197,
+        "classification": "full_read_exact",
+        "boundary_basis": "140 AGENTS lines, then complete cat before observed resources opening tag",
+        "version_file": "reads/01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b/01a1b01a-2f81-72f8-99ba-3bfa2f37ab19/exec-38ae375f-b189-4a1a-81a9-ecaf04ec0926/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceState.kt",
+        "sha256": "7d607a6f7f5ec5b0791116d16caccc127f069c6713caf37a4c2b8eae7ae7a553",
+        "bytes": 2087,
+        "original_output_truncated": false
+      }
+    },
+    {
+      "kind": "strict_observed_diff",
+      "provenance": {
+        "history_file": "workspace-ui-earliest-next.json",
+        "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+        "turn": "01a1b01a-2f81-72f8-99ba-3bfa2f37ab19",
+        "item": "exec-3842c7d4-4745-4453-8106-be8e650a458d",
+        "item_index": 26,
+        "turn_started_at": 1793955868,
+        "turn_completed_at": 1793956731,
+        "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceState.kt",
+        "change_kind": "update",
+        "diff_truncated": false,
+        "evidence": "evidence/01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b/01a1b01a-2f81-72f8-99ba-3bfa2f37ab19/exec-3842c7d4-4745-4453-8106-be8e650a458d",
+        "diff_file": "evidence/01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b/01a1b01a-2f81-72f8-99ba-3bfa2f37ab19/exec-3842c7d4-4745-4453-8106-be8e650a458d/diffs/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceState.kt.diff",
+        "diff_sha256": "897d4cfc5a53a25535952e480881885c8e1527050a3df71bdd19e40900861880",
+        "classification": "exact_diff_base_unresolved"
+      },
+      "diff_sha256": "897d4cfc5a53a25535952e480881885c8e1527050a3df71bdd19e40900861880"
+    }
+  ],
+  "provenance": {
+    "history_file": "workspace-ui-earliest-next.json",
+    "thread": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+    "turn": "01a1b01a-2f81-72f8-99ba-3bfa2f37ab19",
+    "item": "exec-3842c7d4-4745-4453-8106-be8e650a458d",
+    "item_index": 26,
+    "turn_started_at": 1793955868,
+    "turn_completed_at": 1793956731,
+    "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceState.kt",
+    "change_kind": "update",
+    "diff_truncated": false,
+    "evidence": "evidence/01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b/01a1b01a-2f81-72f8-99ba-3bfa2f37ab19/exec-3842c7d4-4745-4453-8106-be8e650a458d",
+    "diff_file": "evidence/01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b/01a1b01a-2f81-72f8-99ba-3bfa2f37ab19/exec-3842c7d4-4745-4453-8106-be8e650a458d/diffs/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceState.kt.diff",
+    "diff_sha256": "897d4cfc5a53a25535952e480881885c8e1527050a3df71bdd19e40900861880",
+    "classification": "exact_diff_base_unresolved"
+  },
+  "limitation": "This exact observed source chain is preserved separately. It does not establish absence of other intervening edits or a complete November tree."
+}

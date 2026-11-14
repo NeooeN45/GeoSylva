@@ -1,0 +1,15 @@
+<resources>
+    <string name="gs_workspace_search_title">Explorer un lieu</string>
+    <string name="gs_workspace_search_label">Adresse ou commune</string>
+    <string name="gs_workspace_search_action">Rechercher</string>
+    <string name="gs_workspace_search_loading">Recherche en cours</string>
+    <string name="gs_workspace_search_empty">Aucun résultat. Précisez l’adresse ou la commune.</string>
+    <string name="gs_workspace_search_invalid">Le résultat ne peut pas être affiché. Essayez une autre recherche.</string>
+    <string name="gs_workspace_search_source">Recherche en ligne · texte saisi envoyé à l’IGN.</string>
+    <string name="gs_workspace_tools_title">Outils de la carte</string>
+    <string name="gs_workspace_tools_gps">Position et précision GPS</string>
+    <string name="gs_workspace_tools_offline">Cartes hors connexion</string>
+    <string name="gs_workspace_tools_essences">Essences affichées</string>
+    <string name="gs_workspace_tools_saved">Mesures enregistrées</string>
+    <string name="gs_workspace_close">Fermer</string>
+</resources>
