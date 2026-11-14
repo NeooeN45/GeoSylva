@@ -1,0 +1,62 @@
+{
+  "schema": "geosylva.map-context-test-contract-repair.v1",
+  "status": "FIGE_FOR_PARENT_COORDINATED_BUILD",
+  "classifications": {
+    "MapContextFixture": "NEW_TEST_ONLY_FIXTURE_FOR_CURRENT_FIELD_REPOSITORY_NOT_RECOVERED_STOCK_JOURNEY_FIXTURE",
+    "FieldTargetChoice": "EXACT_OBSERVED_OPTIONAL_METADATA_CONTRACT_RESTORED"
+  },
+  "fixture": {
+    "path": "app/src/test/java/com/forestry/counter/presentation/screens/field/FieldMapContextViewModelTest.kt",
+    "testBodiesUnchanged": true,
+    "changesToExistingTests": "Imports plus the missing StockJourneyFixture name replaced by scoped MapContextFixture; all original assertions, tests, delays, and access-revocation cases remain intact.",
+    "testCount": 13,
+    "stockOrQuantityBehaviorAdded": false,
+    "writes": "Unexpected writes and journal/photo reads fail with AssertionError; appendAttempts and savedDraft remain observable for the original no-write assertions.",
+    "access": "Owner-bound epoch captures, current-site/archive writability, sites and overridden local-parcel reads."
+  },
+  "metadata": {
+    "path": "app/src/main/java/com/forestry/counter/domain/field/FieldModels.kt",
+    "newOptionalFields": [
+      "woodKind",
+      "woodTag",
+      "declaredSpecies",
+      "depotId",
+      "depotLabel"
+    ],
+    "default": "null for all five; old two-field JSON still decodes.",
+    "source": {
+      "historyFile": "arrival-symbol16-1.json",
+      "turn": "01a1d5c5-14f8-766b-bca9-16c8ce99a540",
+      "item": 29,
+      "outputTruncated": false,
+      "exactClassTextSha256": "90b17b0679959b788e71a05c75cb2822ed1d30493e0f7681a315c01b883a7318"
+    },
+    "noStockAPI": true
+  },
+  "retainedJournalPresentationTest": {
+    "path": "app/src/test/java/com/forestry/counter/presentation/screens/field/RetainedJournalPresentationTest.kt",
+    "unchanged": true,
+    "actualCompileError": "FieldTargetChoice.depotId/declaredSpecies were absent; parsedWoodIdentity and JournalPresentation do not need changes."
+  },
+  "files": [
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/field/FieldMapContextViewModelTest.kt",
+      "sha256": "d4799cefc5496608e740180c5b56cd248dfca122ad9f8bb648c17b6c9ef02426"
+    },
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/field/FieldModels.kt",
+      "sha256": "2da5686aed17472dea97d5481df4e57aa71bae422cbca39f9748fefbeb4cdb1f"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/screens/field/RetainedJournalPresentationTest.kt",
+      "sha256": "61ebe41b4c288c225e26514750f7230044e45e807e9ad8bed851fe015adeb73f"
+    }
+  ],
+  "validation": {
+    "literalMetadataClassMatchesHistory": true,
+    "allPriorTestBodiesPreserved": true,
+    "testsIgnoredOrAssertionsRemoved": false,
+    "buildExecuted": false,
+    "testsExecuted": false
+  }
+}

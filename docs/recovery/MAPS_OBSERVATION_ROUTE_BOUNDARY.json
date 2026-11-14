@@ -1,0 +1,35 @@
+{
+  "status": "Literal boundary restored and wired into actual composable; tests not executed by this agent",
+  "function": {
+    "classification": "COMPLETE_OBSERVED_FUNCTION_ADOPTED",
+    "history": "arrival-symbol16-1.json",
+    "item": "exec-79a1d91a-79d4-4081-9aed-8202a82beee6",
+    "readCommand": "/bin/bash -lc \"sed -n '110,148p' app/src/main/java/com/forestry/counter/domain/field/FieldModels.kt\nsed -n '485,515p' app/src/main/java/com/forestry/counter/presentation/navigation/ForestryFlowNavGraph.kt\nrg -n \\\"payload|FieldCodec|decodeFromString|encodeToString|digest|sha|contentHash|saveDraft|snapshot\\\" app/src/main/java/com/forestry/counter/data/repository/FieldRepositoryImpl.kt\"",
+    "literalSha256": "ab09a341186b57553a75547c3386aea00b723fa460de6e374b5cf2cb067f9362"
+  },
+  "currentImplementation": [
+    "The actual MapAccessObservationRoute validates the supplied MapsPlace through the shared parser before collecting profession or opening business context",
+    "Invalid label/coordinates lead to JourneyUnavailableScreen",
+    "No extra URI decoding; navigation supplies decoded parameter text and existing labels remain literal"
+  ],
+  "tests": {
+    "originalAssertions": "All preserved",
+    "additionalCases": [
+      "Null/blank/oversized/control-character labels",
+      "Missing latitude",
+      "Unicode labels and percent-encoded-looking text retained",
+      "500-character boundary accepted"
+    ],
+    "execution": "Pending root coordinated unit tests"
+  },
+  "files": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/navigation/MapAccessObservationRoute.kt",
+      "sha256": "f358abe467fb96bd8b7b85404845ff2f0fef9c4e37f78b6d111d1eb202c44ff2"
+    },
+    {
+      "path": "app/src/test/java/com/forestry/counter/presentation/navigation/MapsObservationRouteBoundaryTest.kt",
+      "sha256": "832110b45b1c47ac01e165192e30292bc17c7698b399697aaaece3e60a6b3c8a"
+    }
+  ]
+}

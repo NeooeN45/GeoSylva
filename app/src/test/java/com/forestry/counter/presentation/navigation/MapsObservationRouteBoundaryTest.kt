@@ -16,4 +16,15 @@ class MapsObservationRouteBoundaryTest {
         assertNull(parsedMapsObservationPlace("TEST\nprivate", "5", "45"))
         assertNull(parsedMapsObservationPlace("TEST", null, "45"))
     }
+    @Test fun `invalid labels cannot enter a business observation context`() {
+        listOf(null, "   ", "x".repeat(501), "TEST\rprivate", "TEST\u0000private").forEach { label ->
+            assertNull(parsedMapsObservationPlace(label, "5", "45"))
+        }
+        assertNull(parsedMapsObservationPlace("TEST", "5", null))
+    }
+    @Test fun `valid labels keep their accents and are not decoded a second time`() {
+        val label = "Accès nord · Forêt de Chizé · chemin %2F"
+        assertEquals(label, checkNotNull(parsedMapsObservationPlace(label, "-0.4", "46.1")).label)
+        assertNotNull(parsedMapsObservationPlace("x".repeat(500), "5", "45"))
+    }
 }

@@ -11,19 +11,22 @@ import com.forestry.counter.presentation.navigation.JourneyNavigation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import java.util.UUID
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FieldMapContextViewModelTest {
     private val dispatcher = StandardTestDispatcher()
     private val store = ViewModelStore()
-    private lateinit var fixture: StockJourneyFixture
+    private lateinit var fixture: MapContextFixture
     private val a = WorksiteParcel("GEOSYLVA", "A", "TEST parcel A", localParcelId = "TEST-local-A")
     private val b = WorksiteParcel("GEOSYLVA", "B", "TEST parcel B", localParcelId = "TEST-local-B")
-    @Before fun before() { Dispatchers.setMain(dispatcher); fixture = StockJourneyFixture() }
+    @Before fun before() { Dispatchers.setMain(dispatcher); fixture = MapContextFixture() }
     @After fun after() { store.clear(); Dispatchers.resetMain() }
     private fun model(siteId: String? = fixture.site.id, local: List<WorksiteParcel> = listOf(a, b), allowSites: Boolean = true, allowParcels: Boolean = true): FieldMapContextViewModel {
         val repository = object : FieldRepository by fixture { override suspend fun parcelChoices(access: FieldAccess) = local }
@@ -247,4 +250,60 @@ class FieldMapContextViewModelTest {
         } finally { gate.complete(Unit); runCurrent() }
     }
 
+}
+
+/** Read-only context fixture for the current FieldRepository; no stock model or quantity logic. */
+private class MapContextFixture : FieldRepository {
+    var site = SavedWorksite(UUID(0, 300).toString(), WorksiteForm(name = "TEST worksite"), 1, false)
+    val epoch = MutableStateFlow(0)
+    val appendAttempts = mutableListOf<String>()
+    var savedDraft: FieldDraft? = null
+        private set
+
+    private class Access(val owner: MapContextFixture, val epoch: Int) : FieldAccess
+    override suspend fun captureAccess(): FieldAccess = Access(this, epoch.value)
+    override fun isCurrent(access: FieldAccess): Boolean =
+        (access as? Access)?.let { it.owner === this && it.epoch == epoch.value } == true
+    override fun accessChanges() = epoch.map { Unit }
+    private fun requireAccess(access: FieldAccess) {
+        if (!isCurrent(access)) throw FieldException(FieldError.ACCESS_CHANGED)
+    }
+    override suspend fun sites(access: FieldAccess): List<SavedWorksite> {
+        requireAccess(access)
+        return listOf(site)
+    }
+    override suspend fun parcelChoices(access: FieldAccess): List<WorksiteParcel> {
+        requireAccess(access)
+        return emptyList()
+    }
+    override suspend fun writable(target: FieldTarget, access: FieldAccess): Boolean {
+        requireAccess(access)
+        return when (target.kind) {
+            FieldTargetKind.WORKSITE -> target.id == site.id && !site.archived
+            FieldTargetKind.PARCEL -> true
+            else -> false
+        }
+    }
+
+    // Every unexpected call fails the test; a context selector must not write or open a journal.
+    private fun unexpected(operation: String): Nothing = throw AssertionError("Unexpected map-context operation: $operation")
+    override suspend fun saveSite(id: String, form: WorksiteForm, revision: Int, archived: Boolean, access: FieldAccess): SavedWorksite = unexpected("saveSite")
+    override suspend fun woodChoices(access: FieldAccess): List<FieldTargetChoice> = unexpected("woodChoices")
+    override suspend fun link(site: String, target: FieldTarget, access: FieldAccess): Unit = unexpected("link")
+    override suspend fun linked(site: String, access: FieldAccess): List<FieldTargetChoice> = unexpected("linked")
+    override suspend fun title(target: FieldTarget, access: FieldAccess): String = unexpected("title")
+    override suspend fun measurements(target: FieldTarget, access: FieldAccess): WoodObjectDetails? = unexpected("measurements")
+    override suspend fun entries(target: FieldTarget, access: FieldAccess): List<FieldEntry> = unexpected("entries")
+    override suspend fun append(id: String, target: FieldTarget, form: FieldEntryForm, access: FieldAccess): FieldEntry {
+        appendAttempts += id
+        return unexpected("append")
+    }
+    override suspend fun loadDraft(target: FieldTarget, slot: String, access: FieldAccess): FieldDraft? = unexpected("loadDraft")
+    override suspend fun saveDraft(target: FieldTarget, slot: String, expected: Long?, content: String, access: FieldAccess): FieldDraft {
+        savedDraft = FieldDraft((expected ?: 0) + 1, content, 0L)
+        return unexpected("saveDraft")
+    }
+    override suspend fun deleteDraft(target: FieldTarget, slot: String, expected: Long, access: FieldAccess): Unit = unexpected("deleteDraft")
+    override suspend fun addPhoto(target: FieldTarget, bytes: ByteArray, mime: String, caption: String, access: FieldAccess): FieldPhoto = unexpected("addPhoto")
+    override suspend fun photo(id: String, target: FieldTarget, access: FieldAccess): Pair<FieldPhoto, ByteArray> = unexpected("photo")
 }

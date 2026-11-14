@@ -106,7 +106,12 @@ import kotlinx.serialization.json.Json
 @Serializable data class FieldEntry(val id: String, val target: FieldTarget, val form: FieldEntryForm, val recordedAt: Long, val author: String)
 data class FieldDraft(val revision: Long, val content: String, val updatedAt: Long)
 @Serializable data class FieldPhoto(val id: String, val caption: String, val mime: String, val bytes: Int, val sha256: String)
-@Serializable data class FieldTargetChoice(val target: FieldTarget, val label: String)
+/** Lightweight identity metadata only; no measurement history or stock is loaded. */
+@Serializable data class FieldTargetChoice(
+    val target: FieldTarget, val label: String,
+    val woodKind: String? = null, val woodTag: String? = null, val declaredSpecies: String? = null,
+    val depotId: String? = null, val depotLabel: String? = null,
+)
 
 object FieldCodec {
     val json = Json { encodeDefaults = true; ignoreUnknownKeys = false }

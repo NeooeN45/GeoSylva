@@ -30,6 +30,12 @@ import kotlinx.coroutines.flow.map
 
 private data class LoadedMapObservationProfession(val code: String?)
 
+internal fun parsedMapsObservationPlace(label: String?, longitude: String?, latitude: String?): com.forestry.counter.domain.maps.MapsPlace? = runCatching {
+    require(label != null && label.isNotBlank() && label.length <= 500 && label.none { it.isISOControl() })
+    com.forestry.counter.domain.maps.MapsPlace(label, com.forestry.counter.domain.maps.MapsPoint(
+        checkNotNull(longitude).toDouble(), checkNotNull(latitude).toDouble()))
+}.getOrNull()
+
 /** Route readiness is distinct from a loaded null/unknown profession. No repository is created here. */
 @Composable
 internal fun MapAccessObservationRoute(
@@ -39,6 +45,17 @@ internal fun MapAccessObservationRoute(
     onSelected: (FieldTarget) -> Unit,
     onBack: () -> Unit,
 ) {
+    // A MapsPlace validates its coordinates, but an external label can still be
+    // empty, oversized or contain controls. Apply the same navigation boundary
+    // before exposing any business context or accepting an access observation.
+    val validatedPlace = remember(place) {
+        parsedMapsObservationPlace(place.label, place.point.longitude.toString(), place.point.latitude.toString())
+    }
+    if (validatedPlace == null) {
+        BackHandler(onBack = onBack)
+        JourneyUnavailableScreen(onBack)
+        return
+    }
     val profession = remember(professionChanges) {
         professionChanges.map { LoadedMapObservationProfession(it) }
     }.collectAsStateWithLifecycle(initialValue = null)
@@ -58,7 +75,7 @@ internal fun MapAccessObservationRoute(
         JourneyUnavailableScreen(onBack)
     } else {
         val constraints = observationConstraints(loaded.code)
-        MapAccessObservationScreen(repository, place, constraints.allowWorksites, constraints.allowParcels,
+        MapAccessObservationScreen(repository, validatedPlace, constraints.allowWorksites, constraints.allowParcels,
             onSelected = { target ->
                 // Read the current collected value at callback time, including during recomposition.
                 if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED) &&

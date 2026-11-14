@@ -406,8 +406,9 @@ class MapLayerViewModelReconstructionTest {
             val attributes = feature.localAttributes.toMutableMap()
             val removed = feature.removedAttributes.toMutableSet()
             for (change in changes) {
-                if (change.value == null) { attributes.remove(change.field); removed += change.field }
-                else { attributes[change.field] = change.value; removed -= change.field }
+                val value = change.value
+                if (value == null) { attributes.remove(change.field); removed += change.field }
+                else { attributes[change.field] = value; removed -= change.field }
             }
             val next = old.copy(version = old.version + 1, features = old.features.map {
                 if (it.id == featureId) it.copy(version = it.version + 1, localAttributes = attributes, removedAttributes = removed) else it
