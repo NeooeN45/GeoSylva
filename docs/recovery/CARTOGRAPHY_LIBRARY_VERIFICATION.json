@@ -1,0 +1,27 @@
+{
+  "status": "CARTOGRAPHY_LIBRARIES_COMPILED_AND_RECOVERED_JVM_TESTS_PASS",
+  "sourceCommit": "2d2259f217a96f12a697ef45fbba85998c3931e9",
+  "task": ":cartography-mapbox:testDebugUnitTest",
+  "elapsedSeconds": 40.7,
+  "tests": {
+    "tests": 47,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "suites": 9,
+  "client": "Gradle8.2/JDK17; Android CLI build unavailable, documented attempt1",
+  "jdk": "17.0.20.1",
+  "gradle": "8.2",
+  "mapbox": "11.34.1",
+  "scope": "Recovered cartography-mapbox JVM tests; UI library compiled as dependency. App, visual comparison, device and production unqualified.",
+  "qualifications": [
+    "Only recovered JVM tests present in this checkout were run; historical117count is not claimed.",
+    "No full app build, visual/pixel match, emulator journey, S25Ultra test or production approval.",
+    "UI source-help resources include separately documented new copy; nominal layer annotation is separately reconstructed from its contract."
+  ],
+  "reports": {
+    "runner": "android-tooling/mapbox-module-test-attempt4.json",
+    "junit": "android-tooling/mapbox-module-test-attempt4-junit.json"
+  }
+}
