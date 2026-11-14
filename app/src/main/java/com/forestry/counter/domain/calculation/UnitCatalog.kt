@@ -33,6 +33,7 @@ object UnitCatalog {
         const val KM = "km"
         // Area (base: m2)
         const val M2 = "m2"
+        const val ARE = "a"
         const val HA = "ha"
         const val KM2 = "km2"
         // Volume (base: m3)
@@ -73,6 +74,7 @@ object UnitCatalog {
         UnitDef(Code.KM, "km", "kilomètre", Dimension.LENGTH, 1000.0, Code.M),
         // Area (base: m2)
         UnitDef(Code.M2, "m²", "mètre carré", Dimension.AREA, 1.0, Code.M2, "Unité de surface de référence"),
+        UnitDef(Code.ARE, "a", "are", Dimension.AREA, 100.0, Code.M2),
         UnitDef(Code.HA, "ha", "hectare", Dimension.AREA, 10_000.0, Code.M2, "Surface forestière"),
         UnitDef(Code.KM2, "km²", "kilomètre carré", Dimension.AREA, 1_000_000.0, Code.M2),
         // Volume (base: m3)

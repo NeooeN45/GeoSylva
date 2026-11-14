@@ -39,6 +39,15 @@ class UnitConverterTest {
     // --- Conversions area ---
 
     @Test
+    fun should_convert_ares_through_the_shared_area_reference() {
+        assertEquals(100.0, UnitConverter.convert(1.0, UnitCatalog.Code.ARE, UnitCatalog.Code.M2), 1e-9)
+        assertEquals(100.0, UnitConverter.convert(1.0, UnitCatalog.Code.HA, UnitCatalog.Code.ARE), 1e-9)
+        assertEquals(0.01, UnitConverter.convert(1.0, UnitCatalog.Code.ARE, UnitCatalog.Code.HA), 1e-12)
+        assertTrue(UnitConverter.areCompatible(UnitCatalog.Code.ARE, UnitCatalog.Code.M2))
+        assertEquals("a", UnitCatalog.get(UnitCatalog.Code.ARE)?.symbol)
+    }
+
+    @Test
     fun should_convert_ha_to_m2() {
         assertEquals(10_000.0, UnitConverter.convert(1.0, UnitCatalog.Code.HA, UnitCatalog.Code.M2), 1e-9)
     }

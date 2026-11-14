@@ -909,5 +909,8 @@ object DatabaseMigrations {
         WoodObjectMigrations.MIGRATION_43_44,
         FieldMigrations.MIGRATION_44_45,
         ReceiptMigrations.MIGRATION_45_46,
+        ControlBasisMigrations.MIGRATION_46_47,
+        CartographicMeasurementMigrations.MIGRATION_47_48,
+        CartographicWorkspaceMigrations.MIGRATION_48_49,
     )
 }

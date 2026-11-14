@@ -1,5 +1,6 @@
 package com.forestry.counter.domain.location
 
+import com.forestry.counter.domain.geometry.PlanarSegmentIntersection
 import java.math.BigDecimal
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
@@ -339,12 +340,8 @@ class ParcelGeometry private constructor(private val polygons: List<List<List<Pa
             (b.longitude - a.longitude) * (c.latitude - a.latitude) -
                 (b.latitude - a.latitude) * (c.longitude - a.longitude)
 
-        private fun orientation(a: ParcelCoordinate, b: ParcelCoordinate, c: ParcelCoordinate): Int {
-            val value = cross(a, b, c)
-            val error = 1e-14 * (abs((b.longitude - a.longitude) * (c.latitude - a.latitude)) +
-                abs((b.latitude - a.latitude) * (c.longitude - a.longitude)))
-            return if (abs(value) <= error) 0 else if (value > 0.0) 1 else -1
-        }
+        private fun orientation(a: ParcelCoordinate, b: ParcelCoordinate, c: ParcelCoordinate): Int =
+            PlanarSegmentIntersection.orientation(a.longitude, a.latitude, b.longitude, b.latitude, c.longitude, c.latitude)
 
         private fun onSegment(a: ParcelCoordinate, b: ParcelCoordinate, point: ParcelCoordinate, tolerance: Double = 0.0): Boolean {
             if (point.longitude < min(a.longitude, b.longitude) - tolerance || point.longitude > max(a.longitude, b.longitude) + tolerance ||
@@ -353,15 +350,9 @@ class ParcelGeometry private constructor(private val polygons: List<List<List<Pa
             else abs(cross(a, b, point)) <= tolerance * max(abs(b.longitude - a.longitude), abs(b.latitude - a.latitude))
         }
 
-        private fun intersects(a: ParcelCoordinate, b: ParcelCoordinate, c: ParcelCoordinate, d: ParcelCoordinate): Boolean {
-            val first = orientation(a, b, c)
-            val second = orientation(a, b, d)
-            val third = orientation(c, d, a)
-            val fourth = orientation(c, d, b)
-            return (first * second < 0 && third * fourth < 0) ||
-                (first == 0 && onSegment(a, b, c)) || (second == 0 && onSegment(a, b, d)) ||
-                (third == 0 && onSegment(c, d, a)) || (fourth == 0 && onSegment(c, d, b))
-        }
+        private fun intersects(a: ParcelCoordinate, b: ParcelCoordinate, c: ParcelCoordinate, d: ParcelCoordinate): Boolean =
+            PlanarSegmentIntersection.intersects(a.longitude, a.latitude, b.longitude, b.latitude,
+                c.longitude, c.latitude, d.longitude, d.latitude)
 
         private fun ringsIntersect(first: List<ParcelCoordinate>, second: List<ParcelCoordinate>): Boolean {
             for (a in 0 until first.lastIndex) for (b in 0 until second.lastIndex) {

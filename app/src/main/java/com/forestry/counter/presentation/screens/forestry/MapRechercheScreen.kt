@@ -1,71 +1,81 @@
 package com.forestry.counter.presentation.screens.forestry
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Remove
-import androidx.compose.material.icons.automirrored.filled.FormatListBulleted
-import androidx.compose.material.icons.filled.GpsFixed
-import androidx.compose.material.icons.filled.Layers
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Straighten
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Slider
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.produceState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.createSavedStateHandle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.forestry.counter.domain.repository.CartographicLayerRepository
+import com.forestry.counter.presentation.screens.forestry.layers.*
+import com.forestry.counter.presentation.screens.forestry.trace.*
+import com.forestry.counter.presentation.screens.packs.offline.*
+import com.quintessences.geosylva.cartography.ui.trees.*
+import com.quintessences.geosylva.cartography.ui.source.MapSourceLayerUi
+import com.quintessences.geosylva.cartography.ui.trace.TraceScreen
+import com.forestry.counter.domain.repository.CartographicMeasurementRepository
+import com.forestry.counter.domain.calculation.cartography.CartographicMeasureKind
+import com.quintessences.geosylva.cartography.ui.measurement.MeasurePanel
 import com.forestry.counter.R
 import com.forestry.counter.data.preferences.UserPreferencesManager
 import com.forestry.counter.domain.location.OfflineTileManager
@@ -74,53 +84,45 @@ import com.forestry.counter.domain.location.MapSourcePolicy
 import com.forestry.counter.domain.location.TreeNavigator
 import com.forestry.counter.domain.location.WktUtils
 import com.forestry.counter.domain.model.Essence
-import com.forestry.counter.domain.model.Tige
+import com.forestry.counter.domain.usecase.maps.MapDataScope
+import com.forestry.counter.domain.usecase.maps.MapTreeContent
+import com.forestry.counter.domain.usecase.maps.ObserveMapTrees
 import com.forestry.counter.domain.repository.EssenceRepository
 import com.forestry.counter.domain.repository.ParcelleRepository
 import com.forestry.counter.domain.repository.TigeRepository
 import com.forestry.counter.presentation.theme.Elevation
-import com.forestry.counter.presentation.theme.GpsBon
-import com.forestry.counter.presentation.theme.GpsExcellent
-import com.forestry.counter.presentation.theme.GpsMauvais
-import com.forestry.counter.presentation.theme.GpsModere
 import com.forestry.counter.presentation.theme.GsShape
-import com.forestry.counter.presentation.theme.Motion
 import com.forestry.counter.presentation.theme.Space
 import com.forestry.counter.presentation.theme.Touch
 import androidx.compose.ui.graphics.toArgb
-import com.mapbox.mapboxsdk.Mapbox
-import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
-import com.mapbox.mapboxsdk.geometry.LatLng
-import com.mapbox.mapboxsdk.maps.MapView
-import com.mapbox.mapboxsdk.maps.MapboxMap
-import com.mapbox.mapboxsdk.maps.Style
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-/** Repli local sans changer le choix utilisateur ni effacer les fichiers installés. */
-private fun hasLegacyMapInternet(context: Context): Boolean = runCatching {
-    val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
-    manager?.activeNetwork?.let { manager.getNetworkCapabilities(it) }
-        ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
-}.getOrDefault(false)
-
-private const val TAG = "MapRechercheScreen"
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import com.forestry.counter.BuildConfig
+import com.forestry.counter.presentation.components.maps.MapboxRenderStatusOverlay
+import com.forestry.counter.presentation.components.maps.rememberMapPhoneLocation
+import com.forestry.counter.presentation.components.maps.rememberMapNetworkAvailable
+import com.forestry.counter.presentation.components.maps.MapOfflineConnectivityBadge
+import com.forestry.counter.presentation.components.maps.MapCatalogThumbnail
+import com.quintessences.geosylva.cartography.ui.*
+import com.quintessences.geosylva.cartography.mapbox.*
+import com.mapbox.geojson.Point
+import java.util.UUID
+import java.util.concurrent.atomic.AtomicLong
 
 /**
- * Mode Recherche de l'onglet Carte — nouvelle base (esprit QField).
- *
- * Reprend le moteur de rendu MapLibre existant (fiable, ce n'est pas lui
- * qui posait problème) mais avec une interface entièrement repensée : une
- * seule barre d'outils flottante en bas, cibles tactiles 64dp, plus de
- * panneaux qui se chevauchent. V1 volontairement resserrée sur l'essentiel
- * (calques, mesure, légende, position, tiges géolocalisées, navigation
- * vers une tige) — tracé GPS de parcelle et shapefile reviendront sur
- * cette même base dans une passe dédiée plutôt que d'être portés tels
- * quels depuis l'ancien écran.
+ * Hôte commun Terrain, Carte libre et contextes parcellaires.
+ * Le moteur Mapbox, les panneaux et les outils partagent leurs contrôleurs
+ * de données autorisées : mesures, couches importées, tracés GPS, préparation
+ * hors ligne et navigation vers une tige. Chaque contexte conserve ses droits,
+ * ses brouillons et sa caméra ; aucun moteur distinct n'est créé par métier.
  */
 @Composable
 fun MapRechercheScreen(
@@ -129,31 +131,49 @@ fun MapRechercheScreen(
     essenceRepository: EssenceRepository? = null,
     parcelleRepository: ParcelleRepository? = null,
     preferencesManager: UserPreferencesManager,
+    measurementRepository: CartographicMeasurementRepository,
+    layerRepository: CartographicLayerRepository,
+    traceController: MapTraceController,
+    offlineController: OfflineMapPackController,
     offlineTileManager: OfflineTileManager? = null,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    // Register the screen fallback before every child/panel handler below.
+    // On a bare map, physical Back has the same destination as the visible arrow.
+    BackHandler(onBack = onNavigateBack)
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val tigesFlow = remember(tigeRepository, parcelleRepository, parcelleId) {
-        when {
-            parcelleId == "none" -> flowOf(emptyList<Tige>())
-            parcelleId == "all" -> tigeRepository.getAllTiges()
-            parcelleId.startsWith("forest_") -> {
-                val forestId = parcelleId.removePrefix("forest_")
-                if (parcelleRepository != null) {
-                    parcelleRepository.getParcellesByForest(forestId).flatMapLatest { parcelles ->
-                        if (parcelles.isEmpty()) flowOf(emptyList())
-                        else combine(parcelles.map { tigeRepository.getTigesByParcelle(it.id) }) { it.flatMap { l -> l } }
-                    }
-                } else flowOf(emptyList())
-            }
-            parcelleId.startsWith("placette_") -> tigeRepository.getTigesByPlacette(parcelleId.removePrefix("placette_"))
-            else -> tigeRepository.getTigesByParcelle(parcelleId)
-        }
+    val mapScope = remember(parcelleId) { MapDataScope.fromLegacyKey(parcelleId) }
+    val manualModel = viewModel<MapManualMeasureViewModel>(
+        key = "manual-map-measure-$parcelleId",
+        factory = remember(measurementRepository, mapScope) { viewModelFactory {
+            initializer { MapManualMeasureViewModel(measurementRepository, mapScope, createSavedStateHandle()) }
+        } },
+    )
+    val manual by manualModel.state.collectAsStateWithLifecycle()
+    val layerModel = viewModel<MapLayerViewModel>(key = "map-layers-$parcelleId",
+        factory = remember(layerRepository) { viewModelFactory { initializer { MapLayerViewModel(layerRepository) } } })
+    val layerState by layerModel.state.collectAsStateWithLifecycle()
+    val traceState by traceController.state.collectAsStateWithLifecycle()
+    val traceActive = traceState.visible && traceState.scope == mapScope
+    val sourceActive by traceController.sourceActive.collectAsStateWithLifecycle()
+    val tracePhone by traceController.currentPhoneLocation.collectAsStateWithLifecycle()
+    LaunchedEffect(mapScope) { layerModel.bind(mapScope); traceController.contextChanged(mapScope) }
+
+    var dataRetry by remember(mapScope) { mutableStateOf(0) }
+    val observeMapTrees = remember(tigeRepository, parcelleRepository) {
+        ObserveMapTrees(tigeRepository, parcelleRepository)
     }
-    val tiges by tigesFlow.collectAsStateWithLifecycle(initialValue = emptyList())
+    val mapContentFlow = remember(observeMapTrees, mapScope, dataRetry) { observeMapTrees(mapScope) }
+    val collectedContent by key(mapContentFlow) {
+        mapContentFlow.collectAsStateWithLifecycle<MapTreeContent>(initialValue = MapTreeContent.Loading(mapScope))
+    }
+    // collectAsState can retain the previous flow's last value until the next emission.
+    // A new context never displays that previous context's trees, even for one frame.
+    val mapContent = collectedContent.takeIf { it.scope == mapScope } ?: MapTreeContent.Loading(mapScope)
+    val tiges = (mapContent as? MapTreeContent.Ready)?.trees.orEmpty()
     val essencesFlow = remember(essenceRepository) { essenceRepository?.getAllEssences() ?: flowOf(emptyList<Essence>()) }
     val essences by essencesFlow.collectAsStateWithLifecycle(initialValue = emptyList())
     val essenceMap = remember(essences) { essences.associateBy { it.code.uppercase() } }
@@ -177,863 +197,543 @@ fun MapRechercheScreen(
         if (!hasLocationPermission) locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
-    remember(context) {
-        try { Mapbox.getInstance(context) } catch (e: Throwable) { Log.w(TAG, "Mapbox.getInstance failed", e) }
-        com.forestry.counter.domain.location.MapLibreHttpConfig.configure(context)
-        true
-    }
-
     @Suppress("NAME_SHADOWING")
     val offlineTileManager = offlineTileManager ?: remember(context) { OfflineTileManager(context) }
     val offlineProgress by offlineTileManager.downloadProgress.collectAsStateWithLifecycle()
     var hasOfflineTilesState by remember { mutableStateOf(offlineTileManager.hasOfflineTiles()) }
-    var offlineRegions by remember { mutableStateOf(offlineTileManager.listRegions()) }
-    var showOfflineSheet by remember { mutableStateOf(false) }
-    var offlineEstimate by remember { mutableStateOf<Pair<Long, Long>?>(null) }
-    var pendingDownloadBounds by remember { mutableStateOf<com.mapbox.mapboxsdk.geometry.LatLngBounds?>(null) }
     LaunchedEffect(offlineProgress) {
         if (offlineProgress?.isComplete == true && offlineProgress?.error == null) {
             hasOfflineTilesState = offlineTileManager.hasOfflineTiles()
-            offlineRegions = offlineTileManager.listRegions()
         }
     }
 
-    val geoTiges = remember(tiges) {
-        tiges.mapNotNull { t ->
-            val (lon, lat, _) = WktUtils.parsePointZ(t.gpsWkt)
-            if (lon != null && lat != null) Triple(t, lon, lat) else null
+    var treesVisible by rememberSaveable(mapScope.toString()) { mutableStateOf(true) }
+    var measurementVisible by rememberSaveable(mapScope.toString()) { mutableStateOf(true) }
+    var traceVisible by rememberSaveable(mapScope.toString()) { mutableStateOf(true) }
+    var treeOpacity by rememberSaveable(mapScope.toString()) { mutableStateOf(1f) }
+    var measureOpacity by rememberSaveable(mapScope.toString()) { mutableStateOf(1f) }
+    var traceOpacity by rememberSaveable(mapScope.toString()) { mutableStateOf(1f) }
+    var sourceLayerId by remember(mapScope) { mutableStateOf<String?>(null) }
+    var sourcePanelHeight by remember { mutableStateOf(0.dp) }
+    val treeNavigator = remember(context) { TreeNavigator(context) }
+    val treeUi = rememberMapTreeWorkspace(mapScope, mapContent, essences, treeNavigator,
+        mapOnlyReliableGps, mapReliableGpsThresholdM, hasLocationPermission,
+        onAccuracyFilterChanged = { scope.launch { preferencesManager.setMapOnlyReliableGps(it) } },
+        onAccuracyThresholdChanged = { scope.launch { preferencesManager.setMapReliableGpsThresholdM(it) } },
+        onRequestLocation = { locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION) },
+        onRetryRead = { dataRetry++ }, treesVisible = treesVisible)
+    val geoTiges = remember(tiges) { tiges.mapNotNull { t ->
+        val (lon, lat, _) = WktUtils.parsePointZ(t.gpsWkt)
+        if (lon != null && lat != null && lon.isFinite() && lat.isFinite() && lon in -180.0..180.0 && lat in -90.0..90.0)
+            Triple(t, lon, lat) else null
+    } }
+    val filteredGeoTiges = remember(treeUi.projection.visible) { treeUi.projection.visible.map { Triple(it.tree, it.longitude, it.latitude) } }
+    val displayedGeoTiges = filteredGeoTiges
+    val withGps = treeUi.projection.counts.shown
+    val total = treeUi.projection.counts.total
+    val essenceColors = treeUi.projection.species.associate { it.code to it.colorArgb }
+    val essenceCounts = treeUi.projection.species.associate { it.code to it.locatedCount }
+    val selectedTree = treeUi.state.record
+    val handleCurrentTreeTap by rememberUpdatedState<(TappedTreeInfo) -> Unit>({ treeUi.selectTree(it.tigeId, it.parcelleId) })
+    var treePanelHeight by remember { mutableStateOf(0.dp) }
+    var layerPanelHeight by remember { mutableStateOf(0.dp) }
+    var offlinePanelHeight by remember { mutableStateOf(0.dp) }
+    var tracePadding by remember { mutableStateOf(PaddingValues(12.dp)) }
+    var viewPack by remember(mapScope) { mutableStateOf<OfflineViewPackDraft?>(null) }
+    val treePanelActive = treeUi.state.panel != null && !manual.active && !traceActive && !layerState.visible && viewPack == null
+
+    val networkAvailable = rememberMapNetworkAvailable()
+    val density = LocalDensity.current.density
+    var camera by rememberSaveable(mapScope.toString(), stateSaver = MapCameraPositionSaver) {
+        mutableStateOf(MapCameraPosition(2.5, 46.6, 5.0, pitch = if (mapScope == MapDataScope.Free) 45.0 else 0.0))
+    }
+    var cameraCommand by remember(mapScope) { mutableStateOf<MapCameraCommand?>(null) }
+    var frameCommand by remember(mapScope) { mutableStateOf<MapCameraFitCommand?>(null) }
+    var viewport by remember(mapScope) { mutableStateOf<MapViewport?>(null) }
+    var overlayFailed by remember(mapScope) { mutableStateOf(false) }
+    var renderStatus by remember(mapScope) { mutableStateOf<MapRenderStatus>(MapRenderStatus.Loading("satellite")) }
+    var retryGeneration by remember { mutableStateOf(0) }
+    val standardPhonePosition = rememberMapPhoneLocation(hasLocationPermission && !sourceActive && !treeUi.state.guidance.active)
+    val guidancePhonePosition = treeUi.guidanceMap?.takeIf { it.userPositionIsCurrent }?.let { fix ->
+        if (fix.userLatitude == null || fix.userLongitude == null) null else android.location.Location("tree-guidance").apply {
+            latitude = fix.userLatitude; longitude = fix.userLongitude
+            treeUi.state.guidance.phoneAccuracyM?.let { accuracy = it.toFloat() }
         }
     }
-    val displayedGeoTiges = remember(geoTiges, mapOnlyReliableGps, mapReliableGpsThresholdM) {
-        if (!mapOnlyReliableGps) geoTiges
-        else geoTiges.filter { (t, _, _) -> (t.precisionM ?: Double.MAX_VALUE) <= mapReliableGpsThresholdM.toDouble() }
-    }
-    val withGps = displayedGeoTiges.size
-    val total = tiges.size
-
-    val essenceColors = remember(displayedGeoTiges) {
-        val map = mutableMapOf<String, Int>()
-        var idx = 0
-        displayedGeoTiges.forEach { (t, _, _) -> map.getOrPut(t.essenceCode.uppercase()) { ESSENCE_COLOR_PALETTE[idx++ % ESSENCE_COLOR_PALETTE.size] } }
-        map
-    }
-    val essenceCounts = remember(displayedGeoTiges) {
-        displayedGeoTiges.groupBy { it.first.essenceCode.uppercase() }.mapValues { it.value.size }
-    }
-    var hiddenEssences by remember { mutableStateOf(emptySet<String>()) }
-    val filteredGeoTiges = remember(displayedGeoTiges, hiddenEssences) {
-        if (hiddenEssences.isEmpty()) displayedGeoTiges
-        else displayedGeoTiges.filter { (t, _, _) -> t.essenceCode.uppercase() !in hiddenEssences }
-    }
-
-    var mapReady by remember { mutableStateOf(false) }
-    var mapLibreMap by remember { mutableStateOf<MapboxMap?>(null) }
-    // true quand le style actif utilise les ids stables "active_base"/
-    // "active_overlayN" (voir MapRenderers.kt) — condition nécessaire pour
-    // pouvoir passer par swapRasterLayer() au prochain changement de
-    // calque plutôt que par un setStyle() complet.
-    var activeStyleIsIncremental by remember { mutableStateOf(false) }
+    val phonePosition = if (sourceActive) tracePhone else guidancePhonePosition ?: standardPhonePosition
+    val gpsAccuracyM = phonePosition?.takeIf { it.hasAccuracy() && it.accuracy.isFinite() && it.accuracy > 0 }?.accuracy
     val initialLayerIdx = remember(mapLastLayerKey) { MAP_LAYERS.indexOfFirst { it.key == mapLastLayerKey }.takeIf { it >= 0 } ?: 0 }
-    var layerLoadState by remember(mapLastLayerKey) { mutableStateOf(MapLayerLoadState(initialLayerIdx)) }
+    var layerLoadState by remember(mapScope) { mutableStateOf(MapLayerLoadState(initialLayerIdx)) }
     val currentLayerIdx = layerLoadState.displayedIndex
-    var showLayerPicker by remember { mutableStateOf(false) }
-    var showLegend by remember { mutableStateOf(false) }
-    var tigeTapAttached by remember { mutableStateOf(false) }
-    var is3DActive by remember { mutableStateOf(false) }
-    var gpsAccuracyM by remember { mutableStateOf<Float?>(null) }
-    var showGpsPrecisionDialog by remember { mutableStateOf(false) }
-    var toolbarExpanded by remember { mutableStateOf(false) }
-    var showMeasureSheet by remember { mutableStateOf(false) }
-    var tappedTree by remember { mutableStateOf<TappedTreeInfo?>(null) }
+    var workspacePanel by remember(mapScope) { mutableStateOf<MapPanel?>(null) }
+    var showTools by remember(mapScope) { mutableStateOf(false) }
+    var toolsPanelHeight by remember { mutableStateOf(0.dp) }
+    var showPlaceSearch by remember(mapScope) { mutableStateOf(false) }
+    var selectedPlaceLabel by remember(mapScope) { mutableStateOf<String?>(null) }
+    var workspaceHelp by remember { mutableStateOf<MapHelp?>(null) }
+    var workspaceMessage by remember { mutableStateOf<Int?>(null) }
+    var requestedRelief by remember(mapScope) { mutableStateOf(MapRelief(enabled = true)) }
+    var appliedRelief by remember(mapScope) { mutableStateOf(MapRelief()) }
     var dismissedGpsBanner by remember { mutableStateOf(false) }
 
-    // ── Outil de mesure ──
-    val measureActiveState = remember { mutableStateOf(false) }
-    var measureActive by measureActiveState
-    val measurePointsState = remember { mutableStateOf<List<LatLng>>(emptyList()) }
-    var measurePoints by measurePointsState
-    var measureMode by remember { mutableStateOf(MeasureMode.DISTANCE) }
-    var measureDistUnit by remember { mutableStateOf(MeasureDistUnit.M) }
-    var measureAreaUnit by remember { mutableStateOf(MeasureAreaUnit.HA) }
-    var measureColor by remember { mutableStateOf(MEASURE_COLORS[0]) }
-    var showSavedMeasuresPanel by remember { mutableStateOf(false) }
-    var showMeasureSaveDialog by remember { mutableStateOf(false) }
-    var measureSaveName by remember { mutableStateOf("") }
+    // Only the authorised editor snapshot reaches the common map projection.
+    val measureActive = manual.active
+    val showMeasureSaveDialog = measureActive && manual.panel == MeasurePanel.SAVE
+    val viewingSaved = manual.auxiliary in setOf(ManualMeasureAuxiliary.DETAIL, ManualMeasureAuxiliary.HELP, ManualMeasureAuxiliary.SHARE)
+    val selectedMeasure = manual.selected?.takeIf { viewingSaved && manual.ready }
+    val measurePoints = if (!manual.ready) emptyList() else (selectedMeasure?.points ?: manual.points)
+        .map { MeasurePoint(it.latitude, it.longitude) }
+    val measureMode = if ((selectedMeasure?.kind ?: manual.mode) == CartographicMeasureKind.DISTANCE) MeasureMode.DISTANCE else MeasureMode.AREA
+    val measureColor = Color(manual.colorArgb)
+    var measurePanelHeight by remember { mutableStateOf(300.dp) }
 
-    val treeNavigator = remember(context) { TreeNavigator(context) }
-    val navState by treeNavigator.state.collectAsStateWithLifecycle()
-    DisposableEffect(Unit) { onDispose { treeNavigator.stopNavigation() } }
-
-    // Tracé GPS de parcelle : hors périmètre v1, tracer non-actif conservé pour
-    // satisfaire la signature partagée de MapRenderEffects.
-    val gpsTracer = remember(context) { com.forestry.counter.domain.location.GpsParcelTracer(context) }
-    val traceState by gpsTracer.state.collectAsStateWithLifecycle()
-
-    // vectorStyleSimple() (MapLayers.kt) renvoie une URL de style.json distante pour
-    // certains fonds de carte (Satellite/Streets/Dark) plutôt que du JSON inline —
-    // fromJson() sur une URL échoue silencieusement, d'où ce garde-fou.
-    fun styleBuilderFor(styleJson: String): Style.Builder =
-        if (styleJson.startsWith("http")) Style.Builder().fromUri(styleJson)
-        else Style.Builder().fromJson(styleJson)
-
-    fun toggle3D() {
-        val map = mapLibreMap ?: return
-        is3DActive = !is3DActive
-        val targetTilt = if (is3DActive) 55.0 else 0.0
-        val newPosition = com.mapbox.mapboxsdk.camera.CameraPosition.Builder(map.cameraPosition)
-            .tilt(targetTilt)
-            .build()
-        map.animateCameraSmooth(CameraUpdateFactory.newCameraPosition(newPosition))
+    fun requestCamera(position: MapCameraPosition) {
+        cameraCommand = MapCameraCommand(UUID.randomUUID().toString(), position)
     }
-
-    lateinit var startLayerRequest: (MapLayerLoadRequest) -> Unit
-
+    fun layerStyle(index: Int): MapboxStyleSpec {
+        val layer = MAP_LAYERS.getOrElse(index) { MAP_LAYERS.first() }
+        val inline = if (layer.key == MapSourcePolicy.LOCAL_LAYER_KEY)
+            offlineTileManager.buildOfflineStyle() else layer.styleJson
+        return MapboxStyleSpec(layer.key, inline, demSourceUrl =
+            if (layer.key == MapSourcePolicy.LOCAL_LAYER_KEY) null else "mapbox://mapbox.mapbox-terrain-dem-v1",
+            isPhotographic = layer.key in setOf("MAPBOX_SATELLITE", "MAPBOX_SATELLITE_LABELS", "ORTHO_IGN", "ORTHO_CADASTRE"),
+            backgroundIsDark = when (layer.key) {
+                "MAPBOX_PLAN", "MAPBOX_TOPO", MapSourcePolicy.LOCAL_LAYER_KEY -> false
+                "CARTO_DARK" -> true
+                else -> null
+            })
+    }
+    var selectedStyle by remember(mapScope) { mutableStateOf(layerStyle(initialLayerIdx)) }
     fun applyLayerDecision(decision: MapLayerLoadDecision) {
         layerLoadState = decision.state
-        val next = decision.requestToStart
-        if (next != null) {
-            startLayerRequest(next)
-        } else if (!decision.state.isLoading && decision.state.failedIndex == null) {
-            showLayerPicker = false
+        if (decision.requestToStart != null) selectedStyle = layerStyle(decision.requestToStart.layerIndex)
+        else if (!decision.state.isLoading && decision.state.failedIndex != null) {
+            selectedStyle = layerStyle(decision.state.activeIndex)
+            workspaceMessage = R.string.workspace_basemap_failed
         }
     }
-
-    startLayerRequest = start@ { request ->
-        val map = mapLibreMap
-        if (map == null) {
-            applyLayerDecision(layerLoadState.fail(request.id))
-            return@start
-        }
-        val layer = MAP_LAYERS.getOrElse(request.layerIndex) { MAP_LAYERS[0] }
-        val isOfflineSpecial = layer.key == "OFFLINE_LOCAL" && offlineTileManager.hasOfflineTiles()
-        val useLocalBackground = !hasLegacyMapInternet(context)
-        scope.launch { preferencesManager.setMapLastLayerKey(layer.key) }
-
-        // Chemin rapide : le style actif utilise déjà les ids stables
-        // "active_base"/"active_overlayN" et le nouveau calque est un
-        // raster simple — on remplace juste la source/couche active, sans
-        // recharger tout le style (voir swapRasterLayer, MapRenderers.kt).
-        // Bien plus fiable qu'un setStyle() complet à chaque changement.
-        if (activeStyleIsIncremental && !layer.isVector && !isOfflineSpecial && !useLocalBackground && layer.tileUrls.isNotEmpty()) {
-            val style = map.style
-            if (style != null) {
-                try {
-                    swapRasterLayer(
-                        style = style,
-                        baseTileUrl = layer.tileUrls[0],
-                        overlayTileUrls = layer.tileUrls.drop(1),
-                        attribution = layer.attribution,
-                        maxZoom = layer.rasterMaxZoom,
-                    )
-                    renderTigesOnMap(style, filteredGeoTiges, essenceMap, essenceColors)
-                    // Le composant de localisation garde une référence interne
-                    // au Style — la mutation directe (add/removeSource/Layer)
-                    // sans passer par un setStyle() complet peut l'invalider
-                    // silencieusement (observé : LocationComponentNotInitializedException
-                    // en boucle après un changement de calque incrémental).
-                    // Réactivation défensive à chaque changement.
-                    enableLocationComponent(map, style, context)
-                    applyLayerDecision(layerLoadState.succeed(request.id))
-                    return@start
-                } catch (e: Throwable) {
-                    Log.w(TAG, "Incremental layer swap failed, falling back to full reload", e)
-                    // tombe dans le repli setStyle() complet ci-dessous
-                }
-            }
-        }
-
-        // Repli setStyle() complet — vectoriel (MapTiler), hors-ligne, ou
-        // échec du chemin rapide. Les calques raster utilisent ici aussi
-        // les ids "active_base"/"active_overlayN" (activeStyleJsonFor)
-        // pour que le PROCHAIN changement de calque puisse, lui, emprunter
-        // le chemin rapide.
-        val styleJson = when {
-            isOfflineSpecial -> offlineTileManager.buildOfflineStyle(offlineTileManager.downloadedLayerCount().coerceAtLeast(1))
-            useLocalBackground -> offlineLocalStyle("Local — réseau indisponible")
-            layer.isVector -> layer.styleJson
-            else -> activeStyleJsonFor(layer)
-        }
-        try {
-            map.setStyle(styleBuilderFor(styleJson)) { style ->
-                activeStyleIsIncremental = !isOfflineSpecial && !layer.isVector
-                enableLocationComponent(map, style, context)
-                renderTigesOnMap(style, filteredGeoTiges, essenceMap, essenceColors)
-                applyLayerDecision(layerLoadState.succeed(request.id))
-            }
-        } catch (e: Throwable) {
-            Log.w(TAG, "Style switch failed", e)
-            applyLayerDecision(layerLoadState.fail(request.id))
+    var layerChoiceMade by remember(mapScope) { mutableStateOf(false) }
+    LaunchedEffect(mapScope) {
+        val stored = MapSourcePolicy.resolveLayerKey(preferencesManager.mapLastLayerKey.first())
+        if (!layerChoiceMade) {
+            val index = MAP_LAYERS.indexOfFirst { it.key == stored }.takeIf { it >= 0 } ?: initialLayerIdx
+            layerLoadState = MapLayerLoadState(index)
+            selectedStyle = layerStyle(index)
         }
     }
-
     fun switchLayer(index: Int) {
-        applyLayerDecision(layerLoadState.request(index))
+        layerChoiceMade = true
+        if (!networkAvailable) {
+            // Remember the requested background without pretending its remote resources loaded.
+            layerLoadState = MapLayerLoadState(index)
+            selectedStyle = layerStyle(index)
+        } else applyLayerDecision(layerLoadState.request(index))
     }
-
+    val localVectorMode = false
+    val renderedStyle = selectedStyle
+    LaunchedEffect(networkAvailable) {
+        if (!networkAvailable && layerLoadState.isLoading) {
+            val index = layerLoadState.displayedIndex
+            layerLoadState = MapLayerLoadState(index)
+            selectedStyle = layerStyle(index)
+        }
+    }
     fun retryLayer() {
+        retryGeneration++
         applyLayerDecision(layerLoadState.retry())
     }
-
-    LaunchedEffect(layerLoadState.loadingRequest?.id) {
-        val request = layerLoadState.loadingRequest ?: return@LaunchedEffect
-        delay(20_000)
-        if (layerLoadState.loadingRequest?.id == request.id) {
-            Log.w(TAG, "Map style load timed out for ${MAP_LAYERS.getOrNull(request.layerIndex)?.key}")
-            applyLayerDecision(layerLoadState.fail(request.id))
+    val sceneRevision = remember { AtomicLong(0) }
+    val projection = remember(mapScope, filteredGeoTiges, essenceMap, essenceColors, camera.zoom.toInt(),
+        measurePoints, measurementVisible, measureMode, measureColor, selectedTree?.treeId, selectedTree?.parcelId) {
+        buildTerrainMapProjection(mapScope.toString(), sceneRevision.incrementAndGet(), filteredGeoTiges,
+            essenceMap, essenceColors, camera.zoom, if (measurementVisible) measurePoints else emptyList(), measureMode, measureColor.toArgb(),
+            selectedTree?.let { MapTreeIdentity(it.treeId, it.parcelId) })
+    }
+    val layerProjection by produceState<Pair<List<LayerRenderSnapshot>, List<MapOverlayFeature>>?>(null, mapScope, layerState.renders) {
+        val requested = layerState.renders
+        value = requested to withContext(Dispatchers.Default) { buildLayerMapFeatures(requested) }
+    }
+    val importedFeatures = layerProjection?.takeIf { it.first == layerState.renders }?.second.orEmpty()
+    val traceSnapshot = traceState.snapshot.takeIf { traceState.authorised && traceState.scope == mapScope }
+    val traceFeatures = remember(traceSnapshot?.portions, traceSnapshot?.phase, traceState.selectedPortionId) { buildTraceMapFeatures(traceSnapshot, traceState.selectedPortionId) }
+    val guidanceFeatures = remember(treeUi.guidanceMap) { buildTreeGuidanceFeatures(treeUi.guidanceMap) }
+    val scene = remember(projection, phonePosition, importedFeatures, traceFeatures, guidanceFeatures, layerState.renders, treeOpacity, measureOpacity, traceVisible, traceOpacity) {
+        val locationFeature = phonePosition?.let {
+            runCatching { MapOverlayFeature(MapFeatureKey("device-position", "current"), Point.fromLngLat(it.longitude, it.latitude),
+                MapOverlayStyle(colorHex = "#176BDF", pointRadius = 7.0), selectable = false) }.getOrNull()
+        }
+        val local = projection.scene.features.map { feature ->
+            val opacity = if (feature.key.layerId.startsWith("terrain-measure")) measureOpacity else treeOpacity
+            feature.copy(style = feature.style.copy(opacity = opacity.toDouble()))
+        }
+        val traces = if (!traceVisible) emptyList() else traceFeatures.map { it.copy(style = it.style.copy(opacity = traceOpacity.toDouble())) }
+        val features = local + importedFeatures + traces + guidanceFeatures + listOfNotNull(locationFeature)
+        val selected = selectedLayerMapKey(layerState.renders, importedFeatures) ?: projection.scene.selectedKey
+        MapOverlayScene(projection.scene.scopeId, sceneRevision.incrementAndGet(), features, selected)
+    }
+    val currentProjection by rememberUpdatedState(projection)
+    var framedContext by rememberSaveable(mapScope.toString()) { mutableStateOf(false) }
+    var initialFrameRequested by remember(mapScope) { mutableStateOf(false) }
+    LaunchedEffect(mapContent, displayedGeoTiges, phonePosition) {
+        if (!framedContext && !initialFrameRequested && mapContent is MapTreeContent.Ready && !measureActive && displayedGeoTiges.isNotEmpty()) {
+            frameCommand = MapCameraFitCommand(UUID.randomUUID().toString(),
+                displayedGeoTiges.map { MapCoordinate(it.second, it.third) },
+                paddingTopPx = 100.0 * density, paddingBottomPx = 130.0 * density,
+                paddingLeftPx = 55.0 * density, paddingRightPx = 55.0 * density)
+            initialFrameRequested = true
+        } else if (!framedContext && !initialFrameRequested && mapContent is MapTreeContent.Ready && !measureActive && phonePosition != null) {
+            requestCamera(camera.copy(longitude = phonePosition.longitude, latitude = phonePosition.latitude, zoom = 13.0))
+            initialFrameRequested = true
         }
     }
+    LaunchedEffect(layerLoadState.loadingRequest?.id) {
+        val request = layerLoadState.loadingRequest ?: return@LaunchedEffect
+        delay(25_000)
+        if (layerLoadState.loadingRequest?.id == request.id) applyLayerDecision(layerLoadState.fail(request.id))
+    }
 
-    Box(modifier = modifier.fillMaxSize()) {
-        // ── Carte MapLibre ──
-        val lifecycleOwner = LocalLifecycleOwner.current
-        var mapError by remember { mutableStateOf(false) }
-        val mapView = remember {
-            try {
-                MapView(context).apply {
-                    // Filet de sécurité : sur certains rendus GPU (notamment
-                    // l'émulateur), la couche "background" du style ne peint
-                    // pas toujours de façon fiable les zones sans tuile —
-                    // observé concrètement hors couverture IGN (France), où
-                    // l'écran reste noir au lieu du beige clair attendu.
-                    // Fixer la couleur de fond de la vue elle-même garantit
-                    // qu'aucun trou de rendu ne retombe sur le noir par défaut
-                    // de la surface GL.
-                    setBackgroundColor(android.graphics.Color.parseColor("#EFF5EC"))
-                }
-            } catch (e: Throwable) { mapError = true; null }
+    val isFreeMap = mapScope == MapDataScope.Free
+    val contextTitle = when (mapScope) {
+        MapDataScope.Free -> selectedPlaceLabel ?: stringResource(R.string.workspace_explore)
+        MapDataScope.AllForests -> stringResource(R.string.recherche_scope_all)
+        is MapDataScope.Parcel -> stringResource(R.string.workspace_parcel)
+        is MapDataScope.Forest -> stringResource(R.string.workspace_forest)
+        is MapDataScope.Plot -> stringResource(R.string.workspace_plot)
+        MapDataScope.Invalid -> stringResource(R.string.map_tree_data_unavailable)
+    }
+    val contextSubtitle = if (isFreeMap || mapContent !is MapTreeContent.Ready) null else stringResource(R.string.workspace_tree_count, filteredGeoTiges.size)
+    val configured = BuildConfig.MAPBOX_PUBLIC_ACCESS_TOKEN.startsWith("pk.")
+    val baseChoices = MAP_LAYERS.map { layer ->
+        MapBasemapChoice(layer.key, stringResource(layer.labelResId),
+            when {
+                layer.key.startsWith("MAPBOX_") -> "Mapbox"
+                layer.key == "ORTHO_IGN" -> "IGN · BD ORTHO®"
+                else -> stringResource(R.string.workspace_on_device)
+            }, availability = when {
+                !configured -> MapChoiceAvailability.CONFIGURATION_REQUIRED
+                layer.key == MapSourcePolicy.LOCAL_LAYER_KEY && !hasOfflineTilesState -> MapChoiceAvailability.DATA_REQUIRED
+                else -> MapChoiceAvailability.AVAILABLE
+            })
+    }
+    val treeLayerTitle = stringResource(R.string.workspace_tree_layer)
+    val measureLayerTitle = stringResource(R.string.workspace_measure_layer)
+    val layerDetailsLabel = stringResource(R.string.workspace_layer_details)
+    val workspaceLayers = buildList {
+        if (!isFreeMap) add(MapLayerChoice("LOCAL_TREES", treeLayerTitle,
+            onMap = true, visible = treesVisible,
+            availability = if (geoTiges.isEmpty()) MapChoiceAvailability.DATA_REQUIRED else MapChoiceAvailability.AVAILABLE,
+            detailActionLabel = layerDetailsLabel))
+        add(MapLayerChoice("LOCAL_MEASUREMENTS", measureLayerTitle,
+            onMap = true, visible = measurementVisible && measurePoints.isNotEmpty(),
+            availability = if (measurePoints.isEmpty()) MapChoiceAvailability.DATA_REQUIRED else MapChoiceAvailability.AVAILABLE,
+            detailActionLabel = layerDetailsLabel))
+    }
+    val importedChoices = layerState.ui.layers.map { layer -> MapLayerChoice("imported:${layer.id}", layer.name,
+        onMap = true, visible = layer.visible, availability = MapChoiceAvailability.AVAILABLE,
+        detailActionLabel = layerDetailsLabel) } + MapLayerChoice("IMPORT_LAYER", stringResource(R.string.root_workspace_import_layer),
+        onMap = false, visible = false, availability = MapChoiceAvailability.AVAILABLE)
+    val reliefControlsEnabled = workspaceControlsEnabled(renderStatus, renderedStyle.id,
+        localVectorMode, renderedStyle.demSourceUrl != null, overlayFailed)
+    var compassTop by remember { mutableStateOf(156.dp) }
+    val workspaceState = MapWorkspaceState(
+        contextTitle = contextTitle, contextSubtitle = contextSubtitle,
+        presentation = if (isFreeMap) MapPresentation.FREE else MapPresentation.TERRAIN,
+        basemaps = baseChoices, selectedBasemapId = acknowledgedWorkspaceBasemapId(renderStatus, renderedStyle.id, localVectorMode),
+        layers = workspaceLayers + importedChoices + listOf(MapLayerChoice("GPS_TRACES", stringResource(R.string.root_workspace_trace),
+            onMap = true, visible = traceVisible, availability = if (traceSnapshot == null) MapChoiceAvailability.DATA_REQUIRED else MapChoiceAvailability.AVAILABLE,
+            detailActionLabel = layerDetailsLabel)), panel = workspacePanel,
+        pitchDegrees = camera.pitch, verticalExaggeration = appliedRelief.exaggeration,
+        controlsEnabled = reliefControlsEnabled,
+        controlsUnavailableReason = stringResource(if (localVectorMode || renderedStyle.demSourceUrl == null)
+            R.string.workspace_relief_unavailable else R.string.workspace_wait_for_map),
+        taskBarVisible = !measureActive && !traceActive && !layerState.visible && !treePanelActive && viewPack == null,
+        chromeVisible = !measureActive && !traceActive && !layerState.visible && viewPack == null,
+        selectedTask = if (treePanelActive) MapTask.SURVEYS else null,
+        locationEnabled = !hasLocationPermission || phonePosition != null,
+        contextActionLabel = if (isFreeMap) stringResource(R.string.workspace_explore) else null,
+    )
+    fun openMeasurements(saved: Boolean = false) {
+        workspacePanel = null
+        viewPack = null
+        treeUi.dispatch(TreeWorkspaceAction.Close)
+        layerModel.onClose()
+        treeNavigator.stopNavigation()
+        traceController.hide()
+        measurementVisible = true
+        manualModel.open(saved)
+    }
+    val workspaceActions = object : MapWorkspaceActions {
+        override fun onBack() = onNavigateBack()
+        override fun onChooseContext() { if (isFreeMap) showPlaceSearch = true }
+        override fun onPanelChanged(panel: MapPanel?) {
+            workspacePanel = panel
+            if (panel != null) { treeUi.dispatch(TreeWorkspaceAction.Close) }
         }
-
-        DisposableEffect(mapView) {
-            val listener = MapView.OnDidFailLoadingMapListener {
-                val request = layerLoadState.loadingRequest ?: return@OnDidFailLoadingMapListener
-                Log.w(TAG, "MapLibre reported a style loading failure for ${MAP_LAYERS.getOrNull(request.layerIndex)?.key}")
-                applyLayerDecision(layerLoadState.fail(request.id))
+        override fun onLocate() {
+            if (!hasLocationPermission) locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            else phonePosition?.let { requestCamera(camera.copy(longitude = it.longitude, latitude = it.latitude, zoom = 18.0)) }
+        }
+        override fun onTask(task: MapTask) {
+            workspacePanel = null
+            when (task) {
+                MapTask.SURVEYS -> { treesVisible = true; treeUi.openRecords() }
+                MapTask.MEASURE -> openMeasurements()
+                MapTask.TOOLS -> { showTools = true }
             }
-            mapView?.addOnDidFailLoadingMapListener(listener)
-            onDispose { mapView?.removeOnDidFailLoadingMapListener(listener) }
         }
-
-        if (mapView != null && !mapError) {
-            DisposableEffect(lifecycleOwner) {
-                val observer = LifecycleEventObserver { _, event ->
-                    try {
-                        when (event) {
-                            Lifecycle.Event.ON_START -> mapView.onStart()
-                            Lifecycle.Event.ON_RESUME -> mapView.onResume()
-                            Lifecycle.Event.ON_PAUSE -> mapView.onPause()
-                            Lifecycle.Event.ON_STOP -> mapView.onStop()
-                            Lifecycle.Event.ON_DESTROY -> mapView.onDestroy()
-                            else -> {}
+        override fun onSelectBasemap(id: String) {
+            val choice = baseChoices.firstOrNull { it.id == id } ?: return
+            if (choice.availability == MapChoiceAvailability.AVAILABLE) {
+                val index = MAP_LAYERS.indexOfFirst { it.key == id }
+                if (index >= 0) switchLayer(index)
+            } else workspaceMessage = if (choice.availability == MapChoiceAvailability.CONFIGURATION_REQUIRED)
+                R.string.workspace_configuration_required else R.string.workspace_local_data_required
+        }
+        override fun onToggleLayer(id: String, visible: Boolean) {
+            when (id) {
+                "LOCAL_TREES" -> treesVisible = visible
+                "GPS_TRACES" -> traceVisible = visible
+                "LOCAL_MEASUREMENTS" -> {
+                    measurementVisible = visible
+                    if (!visible) manualModel.leave()
+                }
+                else -> if (id.startsWith("imported:")) layerModel.setLayerVisible(id.removePrefix("imported:"), visible)
+            }
+        }
+        override fun onAddLayer(id: String) { workspacePanel = null; layerModel.open(mapScope) }
+        override fun onLayerDetails(id: String) {
+            if (id == "IMPORT_LAYER" || id.startsWith("imported:")) {
+                workspacePanel = null; layerModel.open(mapScope)
+                if (id.startsWith("imported:")) layerModel.onOpenLayer(id.removePrefix("imported:"))
+                return
+            }
+            if (id in setOf("LOCAL_TREES", "LOCAL_MEASUREMENTS", "GPS_TRACES")) {
+                workspacePanel = null
+                sourceLayerId = id
+                workspaceHelp = MapHelp.BASEMAP_SOURCE
+            }
+        }
+        override fun onPitchChange(degrees: Double) {
+            if (reliefControlsEnabled) requestCamera(camera.copy(pitch = degrees.coerceIn(0.0, 60.0)))
+        }
+        override fun onExaggerationChange(exaggeration: Double) {
+            if (reliefControlsEnabled) requestedRelief = requestedRelief.copy(exaggeration = exaggeration.coerceIn(1.0, 3.0))
+        }
+        override fun onFlatView(flat: Boolean) {
+            if (reliefControlsEnabled) requestCamera(camera.copy(pitch = if (flat) 0.0 else 45.0))
+        }
+        override fun onExplain(help: MapHelp) { workspacePanel = null; sourceLayerId = null; workspaceHelp = help }
+    }
+    BackHandler(enabled = viewPack != null) { viewPack = null }
+    BackHandler(enabled = treePanelActive) { treeUi.dispatch(TreeWorkspaceAction.Close) }
+    MapWorkspace(state = workspaceState, actions = workspaceActions, modifier = modifier,
+        onCompassTopChanged = { compassTop = it },
+        thumbnail = { preview, thumbnailModifier -> MapCatalogThumbnail(preview, thumbnailModifier) }) {
+        BoxWithConstraints(Modifier.fillMaxSize()) {
+            val panelOrnamentsBottom = if (workspaceHelp != null) sourcePanelHeight + 8.dp else if (traceActive) tracePadding.calculateBottomPadding() else if (layerState.visible) layerPanelHeight + 8.dp
+                else if (treePanelActive) treePanelHeight + 8.dp else if (viewPack != null) offlinePanelHeight + 8.dp
+                else if (measureActive) measurePanelHeight + 8.dp else (
+                if (workspacePanel != null) mapWorkspacePanelHeight(maxHeight, LocalDensity.current.fontScale) else 112.dp
+            ) + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + 8.dp
+            // Outils owns a ModalBottomSheet window; use its measured full height,
+            // not a screen percentage or a smaller content-only Column.
+            val ornamentsBottom = if (showTools) maxOf(panelOrnamentsBottom, toolsPanelHeight + 8.dp) else panelOrnamentsBottom
+            key(mapScope, retryGeneration) {
+                SharedMapboxCanvas(
+                    accessToken = BuildConfig.MAPBOX_PUBLIC_ACCESS_TOKEN,
+                    style = renderedStyle, initialCamera = camera, cameraCommand = cameraCommand,
+                    frameCommand = frameCommand, overlays = scene,
+                    scaleBarVisible = !showTools && workspaceHelp == null && !traceActive && !layerState.visible && !treePanelActive && viewPack == null && workspacePanel == null && (!measureActive ||
+                        manual.panel == MeasurePanel.COLLAPSED && manual.auxiliary == ManualMeasureAuxiliary.NONE),
+                    relief = requestedRelief.copy(enabled = renderedStyle.demSourceUrl != null),
+                    contentPadding = PaddingValues(start = 12.dp, top = if (traceActive) tracePadding.calculateTopPadding() else compassTop, end = 12.dp, bottom = ornamentsBottom),
+                    modifier = Modifier.fillMaxSize().pointerInput(mapScope) {
+                        awaitPointerEventScope {
+                            while (true) {
+                                val event = awaitPointerEvent(PointerEventPass.Final)
+                                if (event.changes.any { it.pressed && it.position != it.previousPosition }) {
+                                    framedContext = true
+                                    frameCommand = null
+                                    cameraCommand = null
+                                }
+                            }
                         }
-                    } catch (e: Throwable) { Log.w(TAG, "mapView lifecycle event failed", e) }
-                }
-                lifecycleOwner.lifecycle.addObserver(observer)
-                onDispose {
-                    lifecycleOwner.lifecycle.removeObserver(observer)
-                    // Désactive le LocationComponent (coupe son écouteur de
-                    // capteur boussole) AVANT de détruire la vue — sinon un
-                    // événement capteur en vol peut retomber sur un Style
-                    // déjà invalidé et planter l'app (IllegalStateException
-                    // MapLibre "newer style is loading/has loaded").
-                    try { mapLibreMap?.locationComponent?.isLocationComponentEnabled = false } catch (e: Throwable) { Log.w(TAG, "locationComponent disable failed", e) }
-                    mapReady = false
-                    mapLibreMap = null
-                    try { mapView.onDestroy() } catch (e: Throwable) { Log.w(TAG, "mapView.onDestroy failed", e) }
-                }
-            }
-
-            AndroidView(
-                factory = {
-                    mapView.apply {
-                        try {
-                            onCreate(null)
-                            getMapAsync { map ->
-                                try {
-                                    val selectedLayer = MAP_LAYERS.getOrElse(currentLayerIdx) { MAP_LAYERS[0] }
-                                    val initIsOfflineSpecial = selectedLayer.key == "OFFLINE_LOCAL" && offlineTileManager.hasOfflineTiles()
-                                    val initStyleJson = when {
-                                        initIsOfflineSpecial -> offlineTileManager.buildOfflineStyle(offlineTileManager.downloadedLayerCount().coerceAtLeast(1))
-                                        !hasLegacyMapInternet(context) -> offlineLocalStyle("Local — réseau indisponible")
-                                        selectedLayer.isVector -> selectedLayer.styleJson
-                                        // Ids stables "active_base"/"active_overlayN" dès le premier
-                                        // chargement, pour que le premier changement de calque puisse
-                                        // déjà emprunter le remplacement incrémental (swapRasterLayer).
-                                        else -> activeStyleJsonFor(selectedLayer)
-                                    }
-                                    map.setStyle(styleBuilderFor(initStyleJson)) { style ->
-                                        mapLibreMap = map
-                                        mapReady = true
-                                        activeStyleIsIncremental = !initIsOfflineSpecial && !selectedLayer.isVector
-                                        enableLocationComponent(map, style, context)
-                                        renderTigesOnMap(style, filteredGeoTiges, essenceMap, essenceColors)
-                                        if (!tigeTapAttached) {
-                                            map.addOnMapClickListener { latLng ->
-                                                if (measureActiveState.value) {
-                                                    measurePointsState.value = measurePointsState.value + latLng
-                                                    true
-                                                } else false
-                                            }
-                                            attachTigeTapInfo(map, context) { info -> tappedTree = info }
-                                            tigeTapAttached = true
-                                        }
-                                    }
-                                    map.uiSettings.apply {
-                                        isCompassEnabled = true
-                                        // Par défaut la boussole se place en haut à droite,
-                                        // exactement derrière la pastille de qualité GPS
-                                        // (elle aussi TopEnd) — déplacée en bas à droite,
-                                        // zone libre de tout autre contrôle flottant.
-                                        compassGravity = android.view.Gravity.BOTTOM or android.view.Gravity.END
-                                        setCompassMargins(0, 0, 16, 16)
-                                        isRotateGesturesEnabled = true
-                                        isZoomGesturesEnabled = true
-                                        isScrollGesturesEnabled = true
-                                        isTiltGesturesEnabled = true
-                                        setAttributionMargins(16, 0, 0, 16)
-                                    }
-                                } catch (e: Throwable) {
-                                    Log.w(TAG, "map style setup failed, fallback", e)
-                                    map.setStyle(Style.Builder().fromJson(offlineLocalStyle("Offline fallback"))) { style ->
-                                        mapLibreMap = map
-                                        mapReady = true
-                                        enableLocationComponent(map, style, context)
+                    },
+                    onOverlayStatusChanged = { overlayFailed = it is MapOverlayStatus.Failed },
+                    onCameraChanged = { camera = it },
+                    onReliefChanged = { appliedRelief = it },
+                    onViewportChanged = { viewport = it },
+                    onCommandConsumed = {
+                        if (cameraCommand?.id == it) { cameraCommand = null; framedContext = true }
+                    },
+                    onFrameCommandConsumed = {
+                        if (frameCommand?.id == it) { frameCommand = null; framedContext = true }
+                    },
+                    onCoordinateTap = { coordinate ->
+                        if (measureActive) {
+                            manualModel.addPoint(coordinate.latitude, coordinate.longitude)
+                            true
+                        } else false
+                    },
+                    onMapTap = { tap ->
+                        val key = tap.featureKey
+                        if (!measureActive && key != null) {
+                            if (traceActive && key.layerId.startsWith("gps-trace")) traceController.selectPortion(key.featureId)
+                            else if (!traceActive) {
+                                val imported = layerFeatureIdentity(key)
+                                if (imported != null) { workspacePanel = null; layerModel.onFeatureSelected(imported.layerId, imported.featureId) }
+                                else {
+                                    currentProjection.treesByKey[key]?.let { handleCurrentTreeTap(it) }
+                                    currentProjection.clustersByKey[key]?.let { members ->
+                                        frameCommand = MapCameraFitCommand(UUID.randomUUID().toString(), members,
+                                            paddingTopPx = 100.0 * density, paddingBottomPx = 130.0 * density,
+                                            paddingLeftPx = 55.0 * density, paddingRightPx = 55.0 * density)
                                     }
                                 }
                             }
-                        } catch (e: Throwable) { Log.w(TAG, "map style setup failed", e) }
-                    }
-                },
-                modifier = Modifier.fillMaxSize(),
-            )
-        } else {
-            // Fallback si le SDK carte échoue à s'initialiser.
-            Image(
-                painter = painterResource(id = R.drawable.forest_background),
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop,
-            )
-        }
+                        }
+                    },
+                    onStatusChanged = { status ->
+                        renderStatus = status
+                        layerLoadState.loadingRequest?.let { request ->
+                            if (status is MapRenderStatus.Ready && status.styleId == renderedStyle.id) {
+                                val loadedStyleId = status.styleId
+                                applyLayerDecision(layerLoadState.succeed(request.id))
+                                if (!localVectorMode) scope.launch { preferencesManager.setMapLastLayerKey(loadedStyleId) }
+                            } else if (status is MapRenderStatus.Failed) applyLayerDecision(layerLoadState.fail(request.id))
+                        }
+                    },
+                )
+            }
+            MapboxRenderStatusOverlay(if (overlayFailed) MapRenderStatus.Failed(MapFailureReason.SOURCE) else renderStatus, ::retryLayer,
+                Modifier.align(Alignment.Center).padding(Space.md))
 
-        MapRenderEffects(
-            mapLibreMap = mapLibreMap,
-            mapReady = mapReady,
-            hasLocationPermission = hasLocationPermission,
-            displayedGeoTiges = displayedGeoTiges,
-            filteredGeoTiges = filteredGeoTiges,
-            geoTiges = geoTiges,
-            essenceColors = essenceColors,
-            essenceMap = essenceMap,
-            traceState = traceState,
-            gpsTracer = gpsTracer,
-            measurePoints = measurePoints,
-            measureMode = measureMode,
-            measureColor = measureColor,
-        )
+            if (!networkAvailable) MapOfflineConnectivityBadge(
+                Modifier.align(Alignment.TopCenter).statusBarsPadding().padding(top = 132.dp, start = 16.dp, end = 16.dp))
 
-        // Sonde légère de la précision GPS courante (mêmes seuils que
-        // GpsAverager.GpsQuality) — alimente la pastille de fiabilité en
-        // haut à droite et la couleur de pulsation du puck. Pas de second
-        // listener de localisation en parallèle de celui de MapLibre.
-        //
-        // Un repli automatique de calque (hors couverture IGN → calque
-        // mondial) avait été tenté ici, mais déclenchait un second
-        // setStyle() en pleine phase de chargement du calque initial : les
-        // deux transitions de style se chevauchaient et le rendu composait
-        // des tuiles des deux styles à la fois (par ex. relief sombre et
-        // OSM couleur dans des quadrants différents de l'écran) — un bug
-        // bien plus gênant que celui qu'il tentait de corriger. Retiré :
-        // mieux vaut un unique changement de style explicite (choix de
-        // l'utilisateur) qu'une bascule automatique qui peut entrer en
-        // course avec le chargement en cours.
-        LaunchedEffect(mapReady, hasLocationPermission) {
-            if (!mapReady || !hasLocationPermission) return@LaunchedEffect
-            var lastColor: Int? = null
-            while (isActive) {
-                val map = mapLibreMap
-                if (map != null) {
-                    try {
-                        val accuracy = map.locationComponent.lastKnownLocation?.accuracy
-                        // Ne pas écraser la dernière précision connue par un null
-                        // transitoire (le composant peut renvoyer une position
-                        // nulle entre deux fix) — sinon la pastille clignote au
-                        // gris "inconnu" en boucle, donnant une impression de
-                        // signal peu fiable alors que le GPS fonctionne.
-                        if (accuracy != null) {
-                            gpsAccuracyM = accuracy
-                            val color = when {
-                                accuracy <= 3f -> GpsExcellent
-                                accuracy <= 6f -> GpsBon
-                                accuracy <= 12f -> GpsModere
-                                else -> GpsMauvais
-                            }
-                            if (color.toArgb() != lastColor) {
-                                val options = map.locationComponent.locationComponentOptions
-                                    .toBuilder()
-                                    .pulseColor(color.toArgb())
-                                    .build()
-                                map.locationComponent.applyStyle(options)
-                                lastColor = color.toArgb()
+            if (mapContent is MapTreeContent.Loading) {
+                CircularProgressIndicator(Modifier.align(Alignment.Center))
+            }
+            if (mapContent is MapTreeContent.Unavailable) {
+                Surface(Modifier.align(Alignment.Center).padding(Space.md)) {
+                    Column(Modifier.padding(Space.md), horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(stringResource(R.string.map_tree_data_unavailable))
+                        if (mapContent.reason == MapTreeContent.Reason.DATA_READ) {
+                            androidx.compose.material3.TextButton(onClick = { dataRetry++ }) {
+                                Text(stringResource(R.string.retry))
                             }
                         }
-                    } catch (e: Throwable) { Log.w(TAG, "puck accuracy recolor failed", e) }
-                }
-                kotlinx.coroutines.delay(1000)
-            }
-        }
-
-        // ── Bouton retour minimal ──
-        Surface(
-            onClick = onNavigateBack,
-            shape = androidx.compose.foundation.shape.CircleShape,
-            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
-            shadowElevation = Elevation.overlay,
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(Space.sm)
-                .size(Touch.min),
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                Icon(
-                    Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = stringResource(R.string.back),
-                    modifier = Modifier.size(Space.md),
-                )
-            }
-        }
-
-        if (offlineProgress != null && offlineProgress?.isComplete != true) {
-            Surface(
-                shape = androidx.compose.foundation.shape.CircleShape,
-                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
-                shadowElevation = Elevation.overlay,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .padding(top = Space.sm, start = Touch.min + Space.md),
-            ) {
-                CircularProgressIndicator(modifier = Modifier.size(Touch.min).padding(Space.xs))
-            }
-        }
-
-        // ── Pastille de fiabilité GPS ──
-        val gpsQualityColor = when {
-            gpsAccuracyM == null -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
-            gpsAccuracyM!! <= 6f -> GpsExcellent
-            gpsAccuracyM!! <= 12f -> GpsModere
-            else -> GpsMauvais
-        }
-        Surface(
-            onClick = { showGpsPrecisionDialog = true },
-            shape = androidx.compose.foundation.shape.CircleShape,
-            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
-            shadowElevation = Elevation.overlay,
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(Space.sm)
-                .size(Touch.min),
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                Box(
-                    modifier = Modifier
-                        .size(Space.sm)
-                        .background(gpsQualityColor, androidx.compose.foundation.shape.CircleShape),
-                )
-            }
-        }
-
-        if (showGpsPrecisionDialog) {
-            val qualityLabel = when {
-                gpsAccuracyM == null -> stringResource(R.string.gps_quality_unknown)
-                gpsAccuracyM!! <= 3f -> stringResource(R.string.gps_quality_excellent)
-                gpsAccuracyM!! <= 6f -> stringResource(R.string.gps_quality_good)
-                gpsAccuracyM!! <= 12f -> stringResource(R.string.gps_quality_moderate)
-                else -> stringResource(R.string.gps_quality_poor)
-            }
-            androidx.compose.material3.AlertDialog(
-                onDismissRequest = { showGpsPrecisionDialog = false },
-                title = { Text(stringResource(R.string.gps_precision_dialog_title)) },
-                text = {
-                    Text(
-                        if (gpsAccuracyM != null) {
-                            stringResource(R.string.gps_precision_dialog_body, qualityLabel, gpsAccuracyM!!)
-                        } else {
-                            stringResource(R.string.gps_precision_dialog_unknown)
-                        }
-                    )
-                },
-                confirmButton = {
-                    androidx.compose.material3.TextButton(onClick = { showGpsPrecisionDialog = false }) {
-                        Text(stringResource(R.string.ok))
                     }
-                },
+                }
+            }
+            if (measureActive) MapManualMeasureUi(
+                unverifiedState = manual, model = manualModel, contextLabel = contextTitle,
+                locationEnabled = !hasLocationPermission || phonePosition != null,
+                onOpenLayers = { manualModel.leave(); workspacePanel = MapPanel.LAYERS },
+                onLocateOnMap = { workspaceActions.onLocate() },
+                onPanelHeightChanged = { measurePanelHeight = it },
+                onCompassTopChanged = { compassTop = it },
             )
-        }
 
-        MapLayerPicker(
-            visible = showLayerPicker,
-            loadState = layerLoadState,
-            hasOfflineTilesState = hasOfflineTilesState,
-            offlineTileManager = offlineTileManager,
-            onLayerSelected = { index -> switchLayer(index) },
-            onRetry = { retryLayer() },
-            onDismiss = { showLayerPicker = false },
-            is3DActive = is3DActive,
-            onToggle3D = { toggle3D() },
-        )
-
-        MapLegendPanel(
-            visible = showLegend,
-            essenceColors = essenceColors,
-            essenceCounts = essenceCounts,
-            hiddenEssences = hiddenEssences,
-            essenceMap = essenceMap,
-            onToggleEssence = { code, hide -> hiddenEssences = if (hide) hiddenEssences + code else hiddenEssences - code },
-            modifier = Modifier.align(Alignment.TopEnd).padding(top = Touch.fieldPrimary + Space.xl, end = Space.sm),
-        )
-
-        MapGpsWarningBanner(
-            geoTiges = geoTiges,
-            dismissed = dismissedGpsBanner,
-            onDismiss = { dismissedGpsBanner = true },
-            modifier = Modifier.align(Alignment.TopCenter).padding(top = Touch.fieldPrimary + Space.xl),
-        )
-
-        MapTigeInfoPanel(
-            tappedTree = tappedTree,
-            navActive = navState.isActive,
-            hasLocationPermission = hasLocationPermission,
-            onRequestPermission = { locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION) },
-            onStartNavigation = { info ->
-                treeNavigator.startNavigation(
-                    TreeNavigator.Target(
-                        tigeId = "", essenceName = info.essenceName, essenceCode = info.essenceCode,
-                        diamCm = info.diamCm ?: 0.0, hauteurM = info.hauteurM, lat = info.lat, lon = info.lon,
-                    )
-                )
-                tappedTree = null
-            },
-            onDismiss = { tappedTree = null },
-            modifier = Modifier.align(Alignment.TopCenter).padding(top = Touch.fieldPrimary + Space.xl, start = Space.md, end = Space.md),
-        )
-
-        MapNavigationOverlay(
-            navState = navState,
-            onStopNavigation = { treeNavigator.stopNavigation() },
-            modifier = Modifier.align(Alignment.TopCenter).padding(top = Touch.fieldPrimary + Space.xl, start = Space.md, end = Space.md),
-        )
-
-        MapOfflineProgressBar(
-            progress = offlineProgress,
-            onClearProgress = { offlineTileManager.clearProgress() },
-            modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(horizontal = Space.md, vertical = Touch.fieldPrimary + Space.xl),
-        )
-
-        MapNoGpsMessage(
-            total = total, withGps = withGps, geoTigesSize = geoTiges.size,
-            mapOnlyReliableGps = mapOnlyReliableGps, mapReliableGpsThresholdM = mapReliableGpsThresholdM,
-            onDismiss = { dismissedGpsBanner = true },
-            modifier = Modifier.align(Alignment.Center).padding(Space.xl),
-        )
-        // ── Tiroir de mesure (visibilité pilotée par showMeasureSheet, pas
-        // par measureActive — voir MapMeasurePanel) ──
-        MapMeasurePanel(
-            state = MapMeasurePanelState(
-                isActive = measureActive, points = measurePoints, mode = measureMode,
-                distUnit = measureDistUnit, areaUnit = measureAreaUnit, color = measureColor,
-                showSavedPanel = showSavedMeasuresPanel,
-            ),
-            sheetVisible = showMeasureSheet,
-            context = context,
-            onEvent = { event ->
-                when (event) {
-                    is MapMeasurePanelEvent.SetActive -> measureActive = event.active
-                    is MapMeasurePanelEvent.SetPoints -> measurePoints = event.points
-                    is MapMeasurePanelEvent.SetMode -> measureMode = event.mode
-                    is MapMeasurePanelEvent.SetDistUnit -> measureDistUnit = event.unit
-                    is MapMeasurePanelEvent.SetAreaUnit -> measureAreaUnit = event.unit
-                    is MapMeasurePanelEvent.SetColor -> measureColor = event.color
-                    MapMeasurePanelEvent.ToggleSavedPanel -> showSavedMeasuresPanel = !showSavedMeasuresPanel
-                    MapMeasurePanelEvent.SaveRequest -> { measureSaveName = ""; showMeasureSaveDialog = true }
-                    is MapMeasurePanelEvent.LoadSavedMeasure -> {
-                        measureMode = event.mode; measurePoints = event.points; showSavedMeasuresPanel = false
-                    }
-                }
-            },
-            onRequestHideSheet = { showMeasureSheet = false },
-        )
-
-        // ── Contrôles flottants pendant une mesure en cours, tiroir fermé :
-        // rouvrir (avec résultat en direct) + enregistrer directement ──
-        if (measureActive && !showMeasureSheet) {
-            Row(
-                modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = Space.lg),
-                horizontalArrangement = Arrangement.spacedBy(Space.sm),
-            ) {
-                val liveResult = remember(measurePoints, measureMode, measureDistUnit, measureAreaUnit) {
-                    when {
-                        measureMode == MeasureMode.DISTANCE && measurePoints.size >= 2 -> {
-                            val d = measurePolylineM(measurePoints)
-                            if (d >= 1000.0) String.format(java.util.Locale.getDefault(), "%.2f km", d / 1000.0)
-                            else String.format(java.util.Locale.getDefault(), "%.0f m", d)
-                        }
-                        measureMode == MeasureMode.AREA && measurePoints.size >= 3 -> {
-                            String.format(java.util.Locale.getDefault(), "%.4f ha", measureAreaM2(measurePoints) / 10_000.0)
-                        }
-                        else -> null
-                    }
-                }
-                Surface(
-                    onClick = { showMeasureSheet = true },
-                    color = measureColor,
-                    shape = GsShape.pill,
-                    shadowElevation = Elevation.overlay,
-                    modifier = Modifier.height(Touch.fieldPrimary),
-                ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = Space.md),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(Space.xs),
-                    ) {
-                        Icon(Icons.Default.Straighten, contentDescription = stringResource(R.string.measure_reopen_panel), tint = Color.White)
-                        Text(
-                            liveResult ?: stringResource(R.string.measure_tap_hint),
-                            style = MaterialTheme.typography.labelLarge,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White,
-                        )
-                    }
-                }
-                if (liveResult != null) {
-                    Surface(
-                        onClick = { measureSaveName = ""; showMeasureSaveDialog = true },
-                        color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        shape = GsShape.pill,
-                        shadowElevation = Elevation.overlay,
-                        modifier = Modifier.size(Touch.fieldPrimary),
-                    ) {
-                        Box(contentAlignment = Alignment.Center) {
-                            Icon(Icons.Default.LocationOn, contentDescription = stringResource(R.string.measure_save_floating))
-                        }
-                    }
-                }
-            }
-        }
-
-        // ── Zoom +/- à gauche, centré verticalement ──
-        Column(
-            modifier = Modifier.align(Alignment.CenterStart).padding(start = Space.sm),
-            verticalArrangement = Arrangement.spacedBy(Space.xs),
-        ) {
-            Surface(
-                onClick = { mapLibreMap?.let { it.animateCameraSmooth(CameraUpdateFactory.zoomIn()) } },
-                color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.92f),
-                shape = androidx.compose.foundation.shape.CircleShape,
-                shadowElevation = Elevation.overlay,
-                modifier = Modifier.size(Touch.field),
-            ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Icon(Icons.Default.Add, contentDescription = stringResource(R.string.cd_zoom_in))
-                }
-            }
-            Surface(
-                onClick = { mapLibreMap?.let { it.animateCameraSmooth(CameraUpdateFactory.zoomOut()) } },
-                color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.92f),
-                shape = androidx.compose.foundation.shape.CircleShape,
-                shadowElevation = Elevation.overlay,
-                modifier = Modifier.size(Touch.field),
-            ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Icon(Icons.Default.Remove, contentDescription = stringResource(R.string.cd_zoom_out))
-                }
-            }
-        }
-
-        // ── Barre d'outils verticale, ancrée à droite, repliable ──
-        RechercheToolbar(
-            expanded = toolbarExpanded,
-            onToggleExpanded = { toolbarExpanded = !toolbarExpanded },
-            measureActive = measureActive,
-            layersActive = showLayerPicker,
-            legendActive = showLegend,
-            hasGeoTiges = displayedGeoTiges.isNotEmpty(),
-            onToggleMeasure = {
-                if (measureActive) {
-                    measureActive = false
-                    showMeasureSheet = false
-                    measurePoints = emptyList()
-                } else {
-                    measureActive = true
-                    showMeasureSheet = true
-                }
-            },
-            onToggleLayers = { showLayerPicker = !showLayerPicker; if (showLayerPicker) showLegend = false },
-            onToggleLegend = { showLegend = !showLegend; if (showLegend) showLayerPicker = false },
-            onLocate = {
-                val map = mapLibreMap ?: return@RechercheToolbar
-                if (!hasLocationPermission) {
-                    locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-                    return@RechercheToolbar
-                }
-                try {
-                    val loc = map.locationComponent.lastKnownLocation
-                    if (loc != null) {
-                        map.animateCameraSmooth(CameraUpdateFactory.newLatLngZoom(LatLng(loc.latitude, loc.longitude), 18.0))
-                    }
-                } catch (e: Throwable) { Log.w(TAG, "animateCamera to GPS location failed", e) }
-            },
-            onDownloadOffline = { offlineRegions = offlineTileManager.listRegions(); showOfflineSheet = true },
-            modifier = Modifier.align(Alignment.CenterEnd).padding(end = Space.sm),
-        )
-    }
-
-    if (showOfflineSheet) {
-        MapOfflineRegionsSheet(
-            regions = offlineRegions,
-            estimate = offlineEstimate,
-            downloadAvailable = MAP_LAYERS.getOrElse(currentLayerIdx) { MAP_LAYERS[0] }
-                .tileUrls.let { templates ->
-                    templates.isNotEmpty() && templates.all { OfflineTilePolicy.validateTemplate(it) == null }
+            if (treePanelActive) TreeWorkspacePanel(treeUi.state, treeUi.dispatch,
+                Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(horizontal = 12.dp),
+                onHeightChanged = { treePanelHeight = it })
+            MapLayerHost(layerModel, Modifier.align(Alignment.BottomCenter).fillMaxWidth(),
+                onPanelHeightChanged = { layerPanelHeight = it })
+            if (traceActive) MapTraceHost(traceController, mapScope, contextTitle,
+                onClose = { }, onLayers = { traceController.hide(); workspacePanel = MapPanel.LAYERS },
+                onFrame = {
+                    val coordinates = traceSnapshot?.portions.orEmpty().flatMap { it.points }.map { MapCoordinate(it.longitude, it.latitude) }
+                    if (coordinates.isNotEmpty()) frameCommand = MapCameraFitCommand(UUID.randomUUID().toString(), coordinates,
+                        paddingTopPx = 130.0 * density, paddingBottomPx = tracePadding.calculateBottomPadding().value * density + 40.0,
+                        paddingLeftPx = 32.0 * density, paddingRightPx = 72.0 * density)
                 },
-            onRequestDownloadCurrentView = {
-                val map = mapLibreMap ?: return@MapOfflineRegionsSheet
-                val bounds = map.projection.visibleRegion.latLngBounds
-                val layer = MAP_LAYERS.getOrElse(currentLayerIdx) { MAP_LAYERS[0] }
-                val minZoom = map.cameraPosition.zoom.toInt().coerceAtLeast(8)
-                val maxZoom = (map.cameraPosition.zoom.toInt() + 4).coerceAtMost(17)
-                pendingDownloadBounds = bounds
-                offlineEstimate = offlineTileManager.estimateDownload(
-                    latSouth = bounds.southWest.latitude, latNorth = bounds.northEast.latitude,
-                    lonWest = bounds.southWest.longitude, lonEast = bounds.northEast.longitude,
-                    minZoom = minZoom, maxZoom = maxZoom, layerCount = layer.tileUrls.size.coerceAtLeast(1),
-                )
-            },
-            onConfirmDownload = {
-                val bounds = pendingDownloadBounds
-                val layer = MAP_LAYERS.getOrElse(currentLayerIdx) { MAP_LAYERS[0] }
-                val map = mapLibreMap
-                if (bounds != null && map != null) {
-                    val minZoom = map.cameraPosition.zoom.toInt().coerceAtLeast(8)
-                    val maxZoom = (map.cameraPosition.zoom.toInt() + 4).coerceAtMost(17)
-                    offlineTileManager.downloadRegion(
-                        name = "$parcelleId · ${MAP_LAYERS.getOrElse(currentLayerIdx) { MAP_LAYERS[0] }.key}",
-                        latSouth = bounds.southWest.latitude, latNorth = bounds.northEast.latitude,
-                        lonWest = bounds.southWest.longitude, lonEast = bounds.northEast.longitude,
-                        tileUrlTemplates = layer.tileUrls,
-                        minZoom = minZoom, maxZoom = maxZoom,
-                    )
-                }
-                offlineEstimate = null
-                pendingDownloadBounds = null
-                showOfflineSheet = false
-            },
-            onCancelEstimate = { offlineEstimate = null; pendingDownloadBounds = null },
-            onDeleteRegion = { id ->
-                offlineTileManager.deleteRegion(id)
-                offlineRegions = offlineTileManager.listRegions()
-                hasOfflineTilesState = offlineTileManager.hasOfflineTiles()
-            },
-            onDismiss = { showOfflineSheet = false },
-        )
-    }
-
-    MapMeasureSaveDialog(
-        visible = showMeasureSaveDialog,
-        measureMode = measureMode,
-        measurePoints = measurePoints,
-        measureSaveName = measureSaveName,
-        onMeasureSaveNameChange = { measureSaveName = it },
-        onDismiss = { showMeasureSaveDialog = false },
-        context = context,
-    )
-}
-
-/**
- * Barre d'outils verticale du mode Recherche, ancrée à droite : un bouton
- * principal toujours visible qui déplie/replie les 4 autres — gagne de la
- * place sur un écran désormais plein écran (plus de bottom nav dessous).
- */
-@Composable
-private fun RechercheToolbar(
-    expanded: Boolean,
-    onToggleExpanded: () -> Unit,
-    measureActive: Boolean,
-    layersActive: Boolean,
-    legendActive: Boolean,
-    hasGeoTiges: Boolean,
-    onToggleMeasure: () -> Unit,
-    onToggleLayers: () -> Unit,
-    onToggleLegend: () -> Unit,
-    onLocate: () -> Unit,
-    onDownloadOffline: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(Space.xs),
-    ) {
-        androidx.compose.animation.AnimatedVisibility(
-            visible = expanded,
-            enter = androidx.compose.animation.expandVertically(tween(Motion.NORMAL)) + fadeIn(tween(Motion.NORMAL)),
-            exit = androidx.compose.animation.shrinkVertically(tween(Motion.FAST)) + fadeOut(tween(Motion.FAST)),
-        ) {
-            Surface(
-                color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.96f),
-                shape = GsShape.pill,
-                shadowElevation = Elevation.overlay,
-            ) {
-                Column(
-                    modifier = Modifier.padding(Space.xs),
-                    verticalArrangement = Arrangement.spacedBy(Space.xs),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    RechercheToolbarButton(Icons.Default.Layers, stringResource(R.string.map_style), layersActive, onToggleLayers)
-                    RechercheToolbarButton(Icons.Default.Straighten, stringResource(R.string.measure_tool_title), measureActive, onToggleMeasure)
-                    RechercheToolbarButton(Icons.AutoMirrored.Filled.FormatListBulleted, stringResource(R.string.map_legend), legendActive, onToggleLegend, enabled = hasGeoTiges)
-                    RechercheToolbarButton(Icons.Default.GpsFixed, stringResource(R.string.map_my_location), false, onLocate)
-                    RechercheToolbarButton(Icons.Default.CloudDownload, stringResource(R.string.offline_download), false, onDownloadOffline)
+                onRequestPermissions = { locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION) },
+                previewLocation = standardPhonePosition,
+                canvas = { padding -> SideEffect { tracePadding = padding } })
+            viewPack?.let { draft ->
+                Surface(Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(horizontal = 12.dp)
+                    .onSizeChanged { offlinePanelHeight = (it.height / density).dp },
+                    shape = androidx.compose.foundation.shape.RoundedCornerShape(26.dp)) {
+                    OfflineViewPackPreparation(offlineController, mapScope, draft, onDismiss = { viewPack = null },
+                        modifier = Modifier.heightIn(max = maxHeight * 0.58f).verticalScroll(rememberScrollState()).padding(16.dp))
                 }
             }
         }
-        Surface(
-            onClick = onToggleExpanded,
-            modifier = Modifier.size(Touch.fieldPrimary),
-            shape = GsShape.pill,
-            color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.96f),
-            shadowElevation = Elevation.overlay,
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                Icon(
-                    if (expanded) Icons.Default.Close else Icons.Default.Menu,
-                    contentDescription = stringResource(if (expanded) R.string.cd_close else R.string.map_toolbar_expand),
-                )
-            }
-        }
     }
-}
 
-@Composable
-private fun RechercheToolbarButton(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    contentDescription: String,
-    active: Boolean,
-    onClick: () -> Unit,
-    enabled: Boolean = true,
-) {
-    Surface(
-        onClick = onClick,
-        enabled = enabled,
-        modifier = Modifier.size(Touch.fieldPrimary),
-        shape = GsShape.pill,
-        color = if (active) MaterialTheme.colorScheme.primary else Color.Transparent,
-        contentColor = when {
-            active -> MaterialTheme.colorScheme.onPrimary
-            enabled -> MaterialTheme.colorScheme.onSurface
-            else -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+    if (showTools) MapWorkspaceTools(
+        onDismiss = { showTools = false },
+        onPanelHeightChanged = { toolsPanelHeight = it },
+        onGpsPrecision = { workspacePanel = null; treeUi.openAccuracy() },
+        onOffline = {
+            val view = viewport
+            val styleUri = renderedStyle.document.takeIf { it.startsWith("mapbox://styles/") &&
+                (renderStatus as? MapRenderStatus.Ready)?.styleId == renderedStyle.id }
+            val footprint = com.forestry.counter.presentation.screens.packs.offline.downloadableViewportRing(view?.visibleFootprint)
+            if (view == null || styleUri == null || footprint == null) workspaceMessage = R.string.root_workspace_offline_style_required
+            else {
+                // Freeze the exposed map surface, using native pixel-to-surface rays.
+                // Covered panels and sky never become an invented download rectangle.
+                val ring = footprint
+                val z = kotlin.math.floor(view.camera.zoom).toInt().coerceIn(0, 22)
+                viewPack = OfflineViewPackDraft(name = contextTitle, geometryJson = com.mapbox.geojson.Polygon.fromLngLats(listOf(ring)).toJson(),
+                    minZoom = z, maxZoom = (z + 3).coerceAtMost(22), pixelRatio = density, styleUri = styleUri,
+                    reliefSource = renderedStyle.demSourceUrl, initiallyRelief = requestedRelief.enabled)
+            }
         },
-    ) {
-        Box(contentAlignment = Alignment.Center) {
-            Icon(icon, contentDescription = contentDescription)
+        onEssences = { workspacePanel = null; treesVisible = true; treeUi.openSpecies() },
+        onSavedMeasures = { openMeasurements(saved = true) },
+        onZoomIn = { requestCamera(camera.copy(zoom = (camera.zoom + 1).coerceAtMost(22.0))) },
+        onZoomOut = { requestCamera(camera.copy(zoom = (camera.zoom - 1).coerceAtLeast(0.0))) },
+        canZoomIn = camera.zoom < 22.0, canZoomOut = camera.zoom > 0.0,
+        showEssences = !isFreeMap && essenceCounts.isNotEmpty(),
+        onMeasure = { openMeasurements() },
+        onImportLayer = { viewPack = null; manualModel.leave(); treeUi.dispatch(TreeWorkspaceAction.Close); workspacePanel = null; layerModel.open(mapScope) },
+        onTrace = { viewPack = null; manualModel.leave(); layerModel.onClose(); treeUi.dispatch(TreeWorkspaceAction.Close); treeNavigator.stopNavigation(); workspacePanel = null; traceController.open(mapScope) },
+    )
+    if (showPlaceSearch) MapWorkspacePlaceSearch(
+        onDismiss = { showPlaceSearch = false },
+        onSelect = { place ->
+            selectedPlaceLabel = place.label
+            showPlaceSearch = false
+            requestCamera(camera.copy(longitude = place.point.longitude, latitude = place.point.latitude, zoom = 15.0))
+        },
+    )
+    workspaceHelp?.let { help ->
+        val displayedBasemap = MAP_LAYERS.firstOrNull {
+            it.key == acknowledgedWorkspaceBasemapId(renderStatus, renderedStyle.id, localVectorMode)
         }
+        val layer = sourceLayerId?.let { id -> MapSourceLayerUi(
+            id = id,
+            title = stringResource(if (id == "LOCAL_TREES") R.string.workspace_tree_layer else if (id == "GPS_TRACES") R.string.root_workspace_trace else R.string.workspace_measure_layer),
+            previewKey = MapPreviewKey(if (id == "LOCAL_TREES") "LOCAL_TREES" else "LOCAL_MEASUREMENTS"),
+            visible = when (id) { "LOCAL_TREES" -> treesVisible; "GPS_TRACES" -> traceVisible; else -> measurementVisible },
+            opacity = when (id) { "LOCAL_TREES" -> treeOpacity; "GPS_TRACES" -> traceOpacity; else -> measureOpacity },
+            legendLabel = stringResource(if (id == "LOCAL_TREES") R.string.workspace_tree_layer else if (id == "GPS_TRACES") R.string.root_workspace_trace else R.string.workspace_measure_layer),
+            legendColorHex = if (id == "LOCAL_TREES") "#176F39" else "#176BDF",
+            origin = "Géosylva", distribution = stringResource(R.string.workspace_on_device),
+            note = stringResource(when (id) { "LOCAL_TREES" -> R.string.workspace_trees_source; "GPS_TRACES" -> R.string.root_workspace_trace_source; else -> R.string.workspace_measure_source })) }
+        MapWorkspaceSourceDetails(help = help, basemap = displayedBasemap, layer = layer,
+            onPanelHeightChanged = { sourcePanelHeight = it },
+            onLayerVisibilityChanged = { visible -> when (sourceLayerId) {
+                "LOCAL_TREES" -> treesVisible = visible
+                "GPS_TRACES" -> traceVisible = visible
+                else -> measurementVisible = visible
+            } },
+            onLayerOpacityChanged = { opacity -> if (opacity.isFinite() && opacity in 0f..1f) when (sourceLayerId) {
+                "LOCAL_TREES" -> treeOpacity = opacity
+                "GPS_TRACES" -> traceOpacity = opacity
+                else -> measureOpacity = opacity
+            } },
+            onDismiss = { workspaceHelp = null; sourceLayerId = null })
     }
+    workspaceMessage?.let { message -> AlertDialog(
+        onDismissRequest = { workspaceMessage = null },
+        title = { Text(stringResource(R.string.workspace_information)) },
+        text = { Text(stringResource(message)) },
+        confirmButton = { TextButton(onClick = { workspaceMessage = null }) { Text(stringResource(R.string.ok)) } },
+    ) }
+
+    if (viewPack != null) OfflinePackDialogs(offlineController)
 }

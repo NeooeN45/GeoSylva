@@ -1,0 +1,5 @@
+<resources>
+    <string name="map_catalog_mapbox_preview">Mapbox preview in the Vercors. Plan uses a Streets 2D illustration; satellite, satellite streets and topo use their corresponding styles. © Mapbox, © OpenStreetMap. These are not your data.</string>
+    <string name="map_catalog_mapbox_credit">Static Images API previews: © Mapbox, © OpenStreetMap. Public location in the Vercors, without user objects. Plan: illustrative Streets 2D preview of Standard. The other three images use their corresponding styles.</string>
+    <string name="map_catalog_mapbox_details">Images downloaded on 7 November 2026 to illustrate the catalogue. This is the download date, not the imagery capture date. A thumbnail does not confirm map loading or offline availability.</string>
+</resources>

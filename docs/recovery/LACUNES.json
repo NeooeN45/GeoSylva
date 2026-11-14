@@ -1,0 +1,181 @@
+{
+  "status": [
+    "NON_COMPILÉ",
+    "NON_COMPLET_13NOV"
+  ],
+  "conflicts_omitted": [],
+  "known_gaps": [
+    {
+      "owner": "domain",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/data/local/entity/FieldControlBasisEntity.kt",
+        "reason": "Room47 required entity; path observed in historical staging inventory; source body absent."
+      }
+    },
+    {
+      "owner": "domain",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/data/local/dao/FieldControlBasisDao.kt",
+        "reason": "Room47 required DAO; path observed in historical staging inventory; source body absent."
+      }
+    },
+    {
+      "owner": "domain",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/domain/field/ControlBasisModels.kt",
+        "reason": "Observed Room47 business contract introduction; body absent."
+      }
+    },
+    {
+      "owner": "domain",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/data/preferences/UserPreferences.kt",
+        "reason": "clearHeightReferenceCaptures must be wired to the actual historical implementation; partial reference only in this lane."
+      }
+    },
+    {
+      "owner": "mapbox",
+      "detail": {
+        "sourcePath": "cartography-mapbox/src/test/java/com/quintessences/geosylva/cartography/mapbox/MapCameraCommandGateTest.kt",
+        "reason": "Only earlier complete variants currently recovered by module expansion; the inline-readback-era final test file is not yet fully verified. Do not substitute an older test as final."
+      }
+    },
+    {
+      "owner": "mapbox",
+      "detail": true
+    },
+    {
+      "owner": "workspace",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt",
+        "selection": "gap_do_not_replace_with_earlier_or_partial_variant",
+        "reason": "Complete6nov baseline exists, but later7nov source changes and BackTools/modal-bars changes are not yet fully reconciled."
+      }
+    },
+    {
+      "owner": "workspace",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt",
+        "selection": "gap_do_not_replace_with_earlier_or_partial_variant",
+        "reason": "Complete6nov baseline exists; newer7nov API with layer/height/visibility/opacity parameters remains unreconciled."
+      }
+    },
+    {
+      "owner": "workspace",
+      "detail": {
+        "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureAuxiliaryPanels.kt",
+        "selection": "gap_do_not_replace_with_earlier_or_partial_variant",
+        "reason": "Only partial source reads and later diff; complete body missing."
+      }
+    },
+    {
+      "owner": "workspace",
+      "detail": {
+        "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt",
+        "selection": "gap_do_not_replace_with_earlier_or_partial_variant",
+        "reason": "Initial literal330/507lines; tail331–507 missing, never fill from a different variant."
+      }
+    },
+    {
+      "owner": "workspace",
+      "detail": {
+        "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt",
+        "selection": "gap_do_not_replace_with_earlier_or_partial_variant",
+        "reason": "Complete6nov assembled baseline available, but later compact/touch/opacity changes still under reconciliation; omitted from this first selection."
+      }
+    },
+    {
+      "owner": "workspace",
+      "detail": {
+        "path": "app/src/main/res/drawable-nodpi/gs_preview_ortho_vercors.jpg",
+        "selection": "gap_do_not_replace_with_earlier_or_partial_variant",
+        "reason": "Binary image bytes unavailable; source references it. No replacement illustration generated."
+      }
+    },
+    {
+      "owner": "workspace",
+      "detail": {
+        "old_path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt",
+        "destination": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt",
+        "old_path_action": "omit_legacy_source_from_active_assembly",
+        "evidence": "root0007 item48 exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a; trace-ui-initial-next item13 exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687",
+        "destination_may_still_be_gap": true
+      }
+    },
+    {
+      "owner": "workspace",
+      "detail": {
+        "old_path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceState.kt",
+        "destination": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspaceState.kt",
+        "old_path_action": "omit_legacy_source_from_active_assembly",
+        "evidence": "root0007 item48 exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a; trace-ui-initial-next item13 exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687",
+        "destination_may_still_be_gap": true
+      }
+    },
+    {
+      "owner": "workspace",
+      "detail": {
+        "old_path": "cartography-mapbox/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+        "destination": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspaceState.kt",
+        "old_path_action": "omit_legacy_source_from_active_assembly",
+        "evidence": "root0007 item48 exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a; trace-ui-initial-next item13 exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687",
+        "destination_may_still_be_gap": true
+      }
+    },
+    {
+      "owner": "workspace",
+      "detail": {
+        "old_path": "cartography-mapbox/src/main/res/values/strings.xml",
+        "destination": "cartography-ui/src/main/res/values/strings.xml",
+        "old_path_action": "omit_legacy_source_from_active_assembly",
+        "evidence": "root0007 item48 exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a; trace-ui-initial-next item13 exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687",
+        "destination_may_still_be_gap": true
+      }
+    },
+    {
+      "owner": "workspace",
+      "detail": {
+        "old_path": "cartography-mapbox/src/main/res/values-en/strings.xml",
+        "destination": "cartography-ui/src/main/res/values-en/strings.xml",
+        "old_path_action": "omit_legacy_source_from_active_assembly",
+        "evidence": "root0007 item48 exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a; trace-ui-initial-next item13 exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687",
+        "destination_may_still_be_gap": true
+      }
+    },
+    {
+      "owner": "workspace",
+      "detail": {
+        "old_path": "cartography-mapbox/src/main/res/values/trace_strings.xml",
+        "destination": "cartography-ui/src/main/res/values/trace_strings.xml",
+        "old_path_action": "omit_legacy_source_from_active_assembly",
+        "evidence": "root0007 item48 exec-aa75fee9-603a-4a7b-b77d-f3cc7d65948a; trace-ui-initial-next item13 exec-e1a3750a-bb0f-497b-a2dc-3adebb5b0687",
+        "destination_may_still_be_gap": true
+      }
+    },
+    {
+      "owner": "workspace",
+      "detail": "This is a partial source assembly, not a complete13nov tree or a compilable app claim."
+    },
+    {
+      "owner": "workspace",
+      "detail": "No generated replacement or functional adaptation is included."
+    },
+    {
+      "owner": "workspace",
+      "detail": "Known missing dependencies remain explicit gaps."
+    },
+    {
+      "owner": "recent",
+      "detail": "Full FieldJournalScreen.kt tail after original line250; same-file root21 loading guard must also be restored."
+    },
+    {
+      "owner": "recent",
+      "detail": "English strings_retained_workflows.xml full contents; its complete21 patch and expected SHA values are recovered."
+    },
+    {
+      "owner": "recent",
+      "detail": "SharedMapboxCanvas whole source remains incomplete here;438 exact original21 lines and completeP2V2 patch available, core recovery owned by sibling."
+    }
+  ],
+  "baseline_files_not_in_selection": "Remain at36d1515; absence of a selection does not prove the13Nov state."
+}

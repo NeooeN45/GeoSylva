@@ -1,0 +1,15 @@
+<resources>
+    <string name="gs_workspace_search_title">Explore a place</string>
+    <string name="gs_workspace_search_label">Address or town</string>
+    <string name="gs_workspace_search_action">Search</string>
+    <string name="gs_workspace_search_loading">Searching</string>
+    <string name="gs_workspace_search_empty">No results. Add details to the address or town.</string>
+    <string name="gs_workspace_search_invalid">This result cannot be displayed. Try another search.</string>
+    <string name="gs_workspace_search_source">Online search · entered text is sent to IGN.</string>
+    <string name="gs_workspace_tools_title">Map tools</string>
+    <string name="gs_workspace_tools_gps">Position and GPS accuracy</string>
+    <string name="gs_workspace_tools_offline">Offline maps</string>
+    <string name="gs_workspace_tools_essences">Visible species</string>
+    <string name="gs_workspace_tools_saved">Saved measurements</string>
+    <string name="gs_workspace_close">Close</string>
+</resources>

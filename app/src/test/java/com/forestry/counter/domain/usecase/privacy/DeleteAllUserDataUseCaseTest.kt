@@ -20,6 +20,15 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -56,10 +65,21 @@ class DeleteAllUserDataUseCaseTest {
     private val woodObjectDao = mockk<com.forestry.counter.data.local.dao.WoodObjectDao>(relaxed = true)
     private val woodDepotDao = mockk<com.forestry.counter.data.local.dao.WoodDepotDao>(relaxed = true)
     private val fieldDao = mockk<com.forestry.counter.data.local.dao.FieldDao>(relaxed = true)
+    private val cartographicMeasurementDao = mockk<com.forestry.counter.data.local.dao.CartographicMeasurementDao>(relaxed = true)
+    private val cartographicLayerDao = mockk<com.forestry.counter.data.local.dao.CartographicLayerDao>(relaxed = true)
+    private val cartographicTraceDao = mockk<com.forestry.counter.data.local.dao.CartographicTraceDao>(relaxed = true)
+    private val offlineMapPackDao = mockk<com.forestry.counter.data.local.dao.OfflineMapPackDao>(relaxed = true)
+    private var heightCapturePurgeCount = 0
+    private val woodDataGate = com.forestry.counter.data.repository.WoodDataAccessGate()
+    private var stopCartographicWork: suspend () -> Unit = {}
+    private var resumeCartographicWork: suspend () -> Unit = {}
+    private var resumeCartographicWorkCount = 0
+    private var purgeMapboxRegions: suspend (List<String>) -> Unit = {}
 
     init {
         every { context.filesDir } answers { privateFiles.root }
         every { context.cacheDir } answers { privateFiles.root }
+        every { context.getExternalFilesDir("backups") } returns null
         coEvery { operationDao.runJournalTransaction(any()) } coAnswers { firstArg<suspend () -> Unit>().invoke() }
     }
 
@@ -82,8 +102,16 @@ class DeleteAllUserDataUseCaseTest {
         hierarchySyncDao = hierarchySyncDao,
         woodDepotDao = woodDepotDao,
         woodObjectDao = woodObjectDao,
-        woodDataGate = com.forestry.counter.data.repository.WoodDataAccessGate(),
+        woodDataGate = woodDataGate,
         fieldDao = fieldDao,
+        cartographicMeasurementDao = cartographicMeasurementDao,
+        cartographicLayerDao = cartographicLayerDao,
+        cartographicTraceDao = cartographicTraceDao,
+        offlineMapPackDao = offlineMapPackDao,
+        stopCartographicWork = { stopCartographicWork() },
+        resumeCartographicWork = { resumeCartographicWorkCount++; resumeCartographicWork() },
+        purgeMapboxRegions = { ids -> purgeMapboxRegions(ids) },
+        clearHeightReferenceCaptures = { heightCapturePurgeCount++ },
     )
 
     @Test
@@ -107,6 +135,12 @@ class DeleteAllUserDataUseCaseTest {
         coVerify(exactly = 1) { fieldDao.deleteEntries() }
         coVerify(exactly = 1) { fieldDao.deleteLinks() }
         coVerify(exactly = 1) { fieldDao.deleteSites() }
+        coVerify(exactly = 1) { cartographicLayerDao.deleteAllOperations() }
+        coVerify(exactly = 1) { cartographicLayerDao.deleteAll() }
+        coVerify(exactly = 1) { cartographicTraceDao.deleteAll() }
+        coVerify(exactly = 1) { offlineMapPackDao.deleteAll() }
+        coVerify(exactly = 1) { cartographicMeasurementDao.deleteAll() }
+        coVerify(exactly = 1) { cartographicMeasurementDao.deleteStoreIdentity() }
         // Les 11 entités cœur métier (Vague C) : suppression physique via hardDeleteAll.
         coVerify(exactly = 1) { foretDao.hardDeleteAll() }
         coVerify(exactly = 1) { parcelleDao.hardDeleteAll() }
@@ -121,6 +155,7 @@ class DeleteAllUserDataUseCaseTest {
         coVerify(exactly = 1) { observationFloreDao.hardDeleteAll() }
         // IbpEvaluation : pas de colonne deletedAt (hors Vague C), deleteAll reste physique.
         coVerify(exactly = 1) { ibpEvaluationDao.deleteAll() }
+        assertEquals(1, heightCapturePurgeCount)
     }
 
     @Test
@@ -161,10 +196,184 @@ class DeleteAllUserDataUseCaseTest {
             val failure = runCatching { useCase.execute() }.exceptionOrNull()
             assertEquals("fixture-transaction-failure", failure?.message)
             assertTrue(photo.exists())
+            assertEquals(0, heightCapturePurgeCount)
             coVerify(exactly = 0) { tigeDao.hardDeleteAll() }
             coVerify(exactly = 0) { placetteDao.hardDeleteAll() }
         } finally {
             directory.deleteRecursively()
         }
     }
+
+    @Test
+    fun should_remove_local_backup_copies_containing_height_evidence() = runTest {
+        val internal = privateFiles.newFolder("internal")
+        val external = privateFiles.newFolder("external-backups")
+        every { context.filesDir } returns internal
+        every { context.getExternalFilesDir(null) } returns null
+        every { context.getExternalFilesDir("backups") } returns external
+        val internalBackup = File(internal, "backups/test.zip").also {
+            it.parentFile.mkdirs(); it.writeText("fixture")
+        }
+        val externalBackup = File(external, "test.zip").also { it.writeText("fixture") }
+
+        useCase.execute()
+
+        assertFalse(internalBackup.exists())
+        assertFalse(externalBackup.exists())
+        assertEquals(1, heightCapturePurgeCount)
+    }
+
+    @Test
+    fun purge_waits_for_cartographic_cleanup_before_reading_regions_or_deleting_sql() = runTest {
+        every { context.getExternalFilesDir(null) } returns null
+        val cleanupStarted = CompletableDeferred<Unit>()
+        val cleanupReleased = CompletableDeferred<Unit>()
+        stopCartographicWork = { cleanupStarted.complete(Unit); cleanupReleased.await() }
+        val execution = async { useCase.execute() }
+        try {
+            withContext(Dispatchers.IO) { withTimeout(5_000) { cleanupStarted.await() } }
+            coVerify(exactly = 0) { offlineMapPackDao.allForPurge() }
+            coVerify(exactly = 0) { operationDao.runJournalTransaction(any()) }
+            assertEquals(0, heightCapturePurgeCount)
+            cleanupReleased.complete(Unit)
+            assertEquals(DeleteAllUserDataUseCase.DAO_COUNT, execution.await())
+            coVerify(exactly = 1) { offlineMapPackDao.allForPurge() }
+        } finally {
+            cleanupReleased.complete(Unit)
+        }
+    }
+
+    @Test
+    fun only_registered_regions_are_removed_under_the_gate_before_the_sql_transaction() = runTest {
+        val externalPhotos = privateFiles.newFolder("completion-photos")
+        val externalBackups = privateFiles.newFolder("completion-backups")
+        every { context.getExternalFilesDir(null) } returns externalPhotos
+        every { context.getExternalFilesDir("backups") } returns externalBackups
+        val privateArtifacts = listOf(
+            File(externalPhotos, "photos/test.txt"),
+            File(privateFiles.root, "field_capture/test.txt"),
+            File(privateFiles.root, "martelage_reports/test.pdf"),
+            File(privateFiles.root, "backups/test.zip"),
+            File(externalBackups, "test.zip"),
+        ).onEach { file -> file.parentFile.mkdirs(); file.writeText("TEST-only private artifact") }
+        val ids = listOf("TEST-owned-region-one", "TEST-owned-region-two")
+        val rows = ids.map { id -> mockk<com.forestry.counter.data.local.entity.OfflineMapPackEntity> {
+            every { nativeRegionId } returns id
+        } }
+        val order = mutableListOf<String>()
+        stopCartographicWork = { order += "joined" }
+        coEvery { offlineMapPackDao.allForPurge() } coAnswers {
+            assertEquals(1, woodDataGate.state.value.pendingPurges)
+            order += "registry"
+            rows
+        }
+        purgeMapboxRegions = { registered ->
+            assertEquals(ids, registered)
+            assertEquals(1, woodDataGate.state.value.pendingPurges)
+            order += "native"
+        }
+        coEvery { operationDao.runJournalTransaction(any()) } coAnswers {
+            order += "sql"
+            firstArg<suspend () -> Unit>().invoke()
+        }
+        coEvery { offlineMapPackDao.deleteAll() } coAnswers { order += "delete-registry" }
+        resumeCartographicWork = {
+            assertTrue(privateArtifacts.none { it.exists() })
+            assertEquals(1, heightCapturePurgeCount)
+            assertEquals(0, woodDataGate.state.value.pendingPurges)
+            order += "resumed"
+        }
+
+        useCase.execute()
+
+        assertEquals(listOf("joined", "registry", "native", "sql", "delete-registry", "resumed"), order)
+        assertEquals(1, resumeCartographicWorkCount)
+        assertEquals(0, woodDataGate.state.value.pendingPurges)
+    }
+
+    @Test
+    fun partial_native_failure_preserves_the_registry_and_files_for_an_explicit_retry() = runTest {
+        val external = privateFiles.newFolder("native-failure-photos")
+        val photo = File(external, "photos/fixture.txt").also {
+            it.parentFile.mkdirs(); it.writeText("TEST-only photo")
+        }
+        every { context.getExternalFilesDir(null) } returns external
+        val ids = listOf("TEST-owned-region-already-removed", "TEST-owned-region-failed")
+        val rows = ids.map { id -> mockk<com.forestry.counter.data.local.entity.OfflineMapPackEntity> {
+            every { nativeRegionId } returns id
+        } }
+        coEvery { offlineMapPackDao.allForPurge() } returns rows
+        val attempts = mutableListOf<List<String>>()
+        purgeMapboxRegions = { registered ->
+            attempts += registered.toList()
+            if (attempts.size == 1) throw IllegalStateException("TEST-native-second-region-failed")
+        }
+
+        val failure = runCatching { useCase.execute() }.exceptionOrNull()
+
+        assertEquals("TEST-native-second-region-failed", failure?.message)
+        assertTrue(photo.exists())
+        assertEquals(0, heightCapturePurgeCount)
+        assertEquals(1, resumeCartographicWorkCount)
+        assertEquals(0, woodDataGate.state.value.pendingPurges)
+        coVerify(exactly = 0) { operationDao.runJournalTransaction(any()) }
+        coVerify(exactly = 0) { offlineMapPackDao.deleteAll() }
+        coVerify(exactly = 0) { cartographicMeasurementDao.deleteStoreIdentity() }
+
+        assertEquals(DeleteAllUserDataUseCase.DAO_COUNT, useCase.execute())
+
+        assertEquals(listOf(ids, ids), attempts)
+        assertFalse(photo.exists())
+        coVerify(exactly = 1) { offlineMapPackDao.deleteAll() }
+        assertEquals(1, heightCapturePurgeCount)
+        assertEquals(2, resumeCartographicWorkCount)
+    }
+
+    @Test
+    fun failed_cartographic_stop_still_reopens_admission_without_starting_the_purge() = runTest {
+        stopCartographicWork = { throw IllegalStateException("TEST-stop-failed") }
+
+        val failure = runCatching { useCase.execute() }.exceptionOrNull()
+
+        assertEquals("TEST-stop-failed", failure?.message)
+        assertEquals(1, resumeCartographicWorkCount)
+        assertEquals(0, woodDataGate.state.value.pendingPurges)
+        coVerify(exactly = 0) { offlineMapPackDao.allForPurge() }
+        coVerify(exactly = 0) { operationDao.runJournalTransaction(any()) }
+    }
+
+    @Test
+    fun cancelling_only_the_purge_child_waits_for_the_non_cancellable_admission_resume() = runTest {
+        val stopStarted = CompletableDeferred<Unit>()
+        val resumeStarted = CompletableDeferred<Unit>()
+        val allowResume = CompletableDeferred<Unit>()
+        var resumeFinished = false
+        stopCartographicWork = { stopStarted.complete(Unit); awaitCancellation() }
+        resumeCartographicWork = {
+            assertTrue(currentCoroutineContext().isActive)
+            resumeStarted.complete(Unit)
+            allowResume.await()
+            resumeFinished = true
+        }
+        val execution = launch { useCase.execute() }
+        try {
+            withContext(Dispatchers.IO) { withTimeout(5_000) { stopStarted.await() } }
+            execution.cancel()
+            withContext(Dispatchers.IO) { withTimeout(5_000) { resumeStarted.await() } }
+            assertFalse(execution.isCompleted)
+            assertFalse(resumeFinished)
+            coVerify(exactly = 0) { offlineMapPackDao.allForPurge() }
+            coVerify(exactly = 0) { operationDao.runJournalTransaction(any()) }
+            allowResume.complete(Unit)
+            execution.join()
+            assertTrue(execution.isCancelled)
+            assertTrue(resumeFinished)
+            assertEquals(1, resumeCartographicWorkCount)
+        } finally {
+            allowResume.complete(Unit)
+            execution.cancel()
+            execution.join()
+        }
+    }
+
 }

@@ -1,0 +1,15 @@
+<resources>
+    <string name="retained_worksite_map">Carte du chantier</string>
+    <string name="retained_access_observation">Constat d’accès</string>
+    <string name="retained_choose_parcel_map">Choisir une parcelle liée pour ouvrir sa carte.</string>
+    <string name="retained_choose_access_target">Choisir le carnet qui conservera ce constat. Le formulaire commun s’ouvrira avant tout enregistrement.</string>
+    <string name="retained_no_local_parcel">Carte indisponible : aucune parcelle locale accessible n’est liée à ce dossier. Les références du chantier restent conservées.</string>
+    <string name="retained_no_access_target">Aucun chantier ou parcelle accessible en écriture dans ce parcours. Aucun constat n’a été créé.</string>
+    <string name="retained_unmapped_references">%1$d référence(s) sans parcelle locale accessible.</string>
+    <string name="retained_parcel_context">Carnet de parcelle</string>
+    <string name="retained_maps_coordinates">Point Maps · longitude %1$s · latitude %2$s</string>
+    <string name="retained_access_context_help">Ce point sera proposé dans le texte du formulaire, visible et modifiable. Il ne certifie ni chemin, ni droit de passage, ni position GPS de l’observateur.</string>
+    <string name="retained_maps_access_context">Point choisi dans Maps : %1$s
+Longitude : %2$s · latitude : %3$s
+Constat à compléter ; ce point ne certifie ni autorisation ni praticabilité.</string>
+</resources>

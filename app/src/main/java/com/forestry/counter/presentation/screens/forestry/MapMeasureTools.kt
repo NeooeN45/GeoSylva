@@ -5,8 +5,18 @@ import com.forestry.counter.presentation.theme.EssenceResineux
 import com.forestry.counter.presentation.theme.MartelageEnlever
 import com.forestry.counter.presentation.theme.SemanticError
 import androidx.compose.ui.graphics.Color
-import com.mapbox.mapboxsdk.geometry.LatLng
-import kotlin.math.*
+import com.forestry.counter.domain.calculation.cartography.CartographicCoordinate
+import com.forestry.counter.domain.calculation.cartography.CartographicMeasureCalculator
+import com.forestry.counter.domain.calculation.cartography.CartographicMeasureKind
+import com.forestry.counter.domain.calculation.cartography.CartographicMeasureResult
+
+/**
+ * SDK-independent coordinate for the existing manual measurement editor.
+ * Constructor and historical JSON deliberately keep latitude then longitude;
+ * GeoJSON adapters must convert explicitly to longitude then latitude.
+ * Geometry/source validation remains the responsibility of the shared service.
+ */
+data class MeasurePoint(val latitude: Double, val longitude: Double)
 
 enum class MeasureMode { DISTANCE, AREA }
 enum class MeasureDistUnit { M, KM }
@@ -23,36 +33,19 @@ internal val MEASURE_COLORS = listOf(
     Color(0xFF00BCD4)
 )
 
-internal fun haversineM(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
-    val R = 6_371_000.0
-    val phi1 = Math.toRadians(lat1)
-    val phi2 = Math.toRadians(lat2)
-    val dPhi = Math.toRadians(lat2 - lat1)
-    val dLambda = Math.toRadians(lon2 - lon1)
-    val a = sin(dPhi / 2).pow(2) + cos(phi1) * cos(phi2) * sin(dLambda / 2).pow(2)
-    return R * 2.0 * atan2(sqrt(a), sqrt(1.0 - a))
-}
+/** Compatibility adapters only; all geometry validation/calculation lives in the domain service. */
+internal fun haversineM(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double =
+    measurePolylineM(listOf(MeasurePoint(lat1, lon1), MeasurePoint(lat2, lon2)))
 
-internal fun measurePolylineM(pts: List<LatLng>): Double =
-    if (pts.size < 2) 0.0
-    else pts.zipWithNext().sumOf { (a, b) -> haversineM(a.latitude, a.longitude, b.latitude, b.longitude) }
+internal fun measurePolylineM(pts: List<MeasurePoint>): Double =
+    measureReference(pts, CartographicMeasureKind.DISTANCE)
 
-internal fun measureAreaM2(pts: List<LatLng>): Double {
-    if (pts.size < 3) return 0.0
-    val R = 6_371_000.0
-    val lat0 = pts[0].latitude
-    val lon0 = pts[0].longitude
-    val cLat = cos(Math.toRadians(lat0))
-    val xy = pts.map { p ->
-        Pair(
-            Math.toRadians(p.longitude - lon0) * R * cLat,
-            Math.toRadians(p.latitude - lat0) * R
-        )
-    }
-    var s = 0.0
-    xy.indices.forEach { i ->
-        val j = (i + 1) % xy.size
-        s += xy[i].first * xy[j].second - xy[j].first * xy[i].second
-    }
-    return abs(s) / 2.0
+internal fun measureAreaM2(pts: List<MeasurePoint>): Double =
+    measureReference(pts, CartographicMeasureKind.AREA)
+
+private fun measureReference(pts: List<MeasurePoint>, kind: CartographicMeasureKind): Double {
+    if (pts.isEmpty()) return 0.0 // Historical empty-list contract; not a valid editor result.
+    if (pts.size > CartographicMeasureCalculator.MAX_POINTS) return Double.NaN
+    val result = CartographicMeasureCalculator.calculate(kind, pts.map { CartographicCoordinate(it.latitude, it.longitude) })
+    return (result as? CartographicMeasureResult.Available)?.valueSi ?: Double.NaN
 }

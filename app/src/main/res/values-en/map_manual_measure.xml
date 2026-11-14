@@ -1,0 +1,30 @@
+<resources>
+    <string name="manual_host_preparing">Checking context…</string>
+    <string name="manual_host_calculating">Calculating…</string>
+    <string name="manual_host_working_copy">Working copy</string>
+    <string name="manual_host_saved">Measurement saved on this phone.</string>
+    <string name="manual_host_share_points">%1$d points</string>
+    <string name="manual_host_draft">Drawn measurement · Draft</string>
+    <string name="manual_host_share_limits">Map calculation without slope correction. Accuracy undetermined; no cadastral status.</string>
+    <string name="manual_host_share_unavailable">No sharing application is available.</string>
+    <string name="manual_host_context_help">The measurement belongs to the open context and its access rights. Drawing creates neither an official parcel nor a right of way.</string>
+    <string name="manual_host_points_help">Each map tap adds a vertex. Distance joins points in order; area closes the boundary without adding a vertex. Phone GPS is not required.</string>
+    <string name="manual_host_units_help">Units only change the display: 1 km = 1,000 m, 1 are = 100 m², 1 ha = 10,000 m². Full values and points are retained. Decimal places do not guarantee accuracy.</string>
+    <string name="manual_host_storage_help">The name is optional and is never used as a file path. Saving retains an immutable measurement in the local database, with its method and context. It does not mean synchronization, remote backup, or retention after uninstalling.</string>
+    <string name="manual_host_copy_title">Resume a copy?</string>
+    <string name="manual_host_copy_body">The unsaved draft for this mode will be replaced. The original measurement stays intact.</string>
+    <string name="manual_host_copy_confirm">Resume copy</string>
+    <string name="manual_host_access_changed">Access has changed. Your data must be checked before continuing.</string>
+    <string name="manual_host_unavailable">This context is unavailable for saved measurements.</string>
+    <string name="manual_host_invalid">Check the measurement name and geometry.</string>
+    <string name="manual_host_conflict">This record already exists with different content. It was not overwritten.</string>
+    <string name="manual_host_io">Could not save. The name and drawing are retained; try again.</string>
+    <string name="manual_host_corrupt">This measurement cannot be read correctly. No replacement value is displayed.</string>
+    <string name="manual_host_unknown">The save outcome needs checking. Retry with the same data to avoid a duplicate.</string>
+    <string name="manual_host_invalid_coordinate">A position is invalid.</string>
+    <string name="manual_host_duplicate">Two vertices coincide. Remove the duplicate point.</string>
+    <string name="manual_host_degenerate">The drawing does not define a usable measurement.</string>
+    <string name="manual_host_intersection">The boundary crosses itself. Correct the vertices before saving.</string>
+    <string name="manual_host_outside_domain">This boundary exceeds the local calculation conditions. See the method.</string>
+    <string name="manual_host_point_limit">The limit of 1,000 points has been reached.</string>
+</resources>

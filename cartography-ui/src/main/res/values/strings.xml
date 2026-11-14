@@ -1,0 +1,33 @@
+<resources>
+    <string name="gs_map_layers">Couches</string>
+    <string name="gs_map_free">CARTE LIBRE</string>
+    <string name="gs_map_explore">Explorer un lieu</string>
+    <string name="gs_map_basemap">Fond</string>
+    <string name="gs_map_relief">Relief</string>
+    <string name="gs_map_close">Fermer</string>
+    <string name="gs_map_back">Retour</string>
+    <string name="gs_map_choose_context">Choisir le périmètre</string>
+    <string name="gs_map_position">Ma position</string>
+    <string name="gs_map_surveys">Relevés</string>
+    <string name="gs_map_measure">Mesurer</string>
+    <string name="gs_map_tools">Outils</string>
+    <string name="gs_map_search_basemap">Rechercher un fond</string>
+    <string name="gs_map_search_layer">Rechercher une couche</string>
+    <string name="gs_map_sources">Sources et détails</string>
+    <string name="gs_map_selected">Sélectionné</string>
+    <string name="gs_map_on_map">Sur la carte</string>
+    <string name="gs_map_catalog">Catalogue</string>
+    <string name="gs_map_no_results">Aucun résultat</string>
+    <string name="gs_map_add_layer">Ajouter %1$s</string>
+    <string name="gs_map_layer_availability">Disponibilité de %1$s</string>
+    <string name="gs_map_view">Vue</string>
+    <string name="gs_map_vertical_scale">Échelle verticale</string>
+    <string name="gs_map_vertical_scale_help">Comprendre l’échelle verticale</string>
+    <string name="gs_map_pitch">Inclinaison de la vue</string>
+    <string name="gs_map_terrain_data">Données du relief</string>
+    <string name="gs_map_controls_unavailable">Les réglages seront disponibles lorsque la carte sera prête.</string>
+    <string name="gs_map_needs_configuration">À configurer</string>
+    <string name="gs_map_needs_qualification">À qualifier</string>
+    <string name="gs_map_preview_unavailable">Aperçu non disponible</string>
+    <string name="gs_map_needs_data">Aucune donnée chargée</string>
+</resources>

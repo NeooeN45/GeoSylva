@@ -15,6 +15,7 @@ import com.forestry.counter.data.local.dao.PlacetteDao
 import com.forestry.counter.data.local.dao.RipisylveDao
 import com.forestry.counter.data.local.dao.StationDao
 import com.forestry.counter.data.local.dao.TigeDao
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -52,6 +53,14 @@ class DeleteAllUserDataUseCase(
     private val woodDataGate: com.forestry.counter.data.repository.WoodDataAccessGate,
     private val woodDepotDao: com.forestry.counter.data.local.dao.WoodDepotDao,
     private val fieldDao: com.forestry.counter.data.local.dao.FieldDao,
+    private val cartographicMeasurementDao: com.forestry.counter.data.local.dao.CartographicMeasurementDao,
+    private val cartographicLayerDao: com.forestry.counter.data.local.dao.CartographicLayerDao,
+    private val cartographicTraceDao: com.forestry.counter.data.local.dao.CartographicTraceDao,
+    private val offlineMapPackDao: com.forestry.counter.data.local.dao.OfflineMapPackDao,
+    private val stopCartographicWork: suspend () -> Unit = {},
+    private val resumeCartographicWork: suspend () -> Unit = {},
+    private val purgeMapboxRegions: suspend (List<String>) -> Unit = {},
+    private val clearHeightReferenceCaptures: suspend () -> Unit = {},
 ) {
 
     /**
@@ -68,10 +77,25 @@ class DeleteAllUserDataUseCase(
      * Vague C) : son `deleteAll` reste une suppression physique `DELETE FROM`,
      * il n'y a donc pas de `hardDeleteAll` à appeler.
      */
-    suspend fun execute(): Int = withContext(Dispatchers.IO) { woodDataGate.purge {
+    suspend fun execute(): Int = withContext(Dispatchers.IO) {
+        // Join writers before taking the gate; a writer must never wait for a gate
+        // held by its own purge coordinator.
+        try {
+        stopCartographicWork()
+        woodDataGate.purge {
+        val nativeRegions = offlineMapPackDao.allForPurge().map { it.nativeRegionId }
+        // Retain the registry on native failure so the explicit retry still knows
+        // which regions it must remove. Shared unrelated resources are untouched.
+        purgeMapboxRegions(nativeRegions)
         // The only authorized physical removal of retained operation snapshots.
         // Pending deletes and retries survive ordinary business deletes and logout.
         operationDao.runJournalTransaction {
+            cartographicLayerDao.deleteAllOperations()
+            cartographicLayerDao.deleteAll()
+            cartographicTraceDao.deleteAll()
+            offlineMapPackDao.deleteAll()
+            cartographicMeasurementDao.deleteAll()
+            cartographicMeasurementDao.deleteStoreIdentity()
             fieldDao.deleteChunks()
             fieldDao.deletePhotos()
             fieldDao.deleteDrafts()
@@ -104,13 +128,24 @@ class DeleteAllUserDataUseCase(
             alerteSanitaireDao.hardDeleteAll()
             observationFloreDao.hardDeleteAll()
         }
+        clearHeightReferenceCaptures()
         deleteAllPhotos()
         val captures = File(context.cacheDir, "field_capture")
         check(!captures.exists() || captures.deleteRecursively()) { "LOCAL_CAPTURE_PURGE_FAILED" }
         val reports = File(context.filesDir, "martelage_reports")
         check(!reports.exists() || reports.deleteRecursively()) { "LOCAL_REPORT_PURGE_FAILED" }
+        val backups = listOfNotNull(File(context.filesDir, "backups"), context.getExternalFilesDir("backups"))
+        backups.forEach { directory ->
+            check(!directory.exists() || directory.deleteRecursively()) { "LOCAL_BACKUP_PURGE_FAILED" }
+        }
         DAO_COUNT
-    } }
+        }
+        } finally {
+            // Admission stays closed through native removal and the entire SQL purge,
+            // including cancellation/error; reopening never restarts capture/downloads.
+            withContext(NonCancellable) { resumeCartographicWork() }
+        }
+    }
 
     /**
      * Supprime récursivement le dossier des photos de diagnostic.
@@ -124,7 +159,7 @@ class DeleteAllUserDataUseCase(
 
     companion object {
         /** Nombre de DAOs purgés par le use case (pour vérification en test). */
-        const val DAO_COUNT = 18
+        const val DAO_COUNT = 22
         private const val PHOTOS_DIR_NAME = "photos"
     }
 }

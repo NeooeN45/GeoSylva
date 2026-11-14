@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wood_presentation_length">Longueur</string>
+    <string name="wood_presentation_depth">Profondeur</string>
+    <string name="wood_presentation_mean_height">Hauteur moyenne</string>
+    <string name="wood_presentation_no_control">Aucun contrôle</string>
+    <string name="wood_presentation_no_initial_stock">Aucun stock initial enregistré.</string>
+</resources>

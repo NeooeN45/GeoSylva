@@ -1,0 +1,15 @@
+<resources>
+    <string name="retained_worksite_map">Worksite map</string>
+    <string name="retained_access_observation">Access observation</string>
+    <string name="retained_choose_parcel_map">Choose a linked parcel to open its map.</string>
+    <string name="retained_choose_access_target">Choose the journal that will keep this observation. The common form opens before any entry is recorded.</string>
+    <string name="retained_no_local_parcel">Map unavailable: this file has no linked accessible local parcel. Its references are preserved.</string>
+    <string name="retained_no_access_target">No worksite or parcel is writable in this journey. No observation has been created.</string>
+    <string name="retained_unmapped_references">%1$d reference(s) without an accessible local parcel.</string>
+    <string name="retained_parcel_context">Parcel journal</string>
+    <string name="retained_maps_coordinates">Maps point · longitude %1$s · latitude %2$s</string>
+    <string name="retained_access_context_help">This point will be proposed in the visible, editable form text. It certifies neither a path, a right of way nor the observer’s GPS position.</string>
+    <string name="retained_maps_access_context">Point chosen in Maps: %1$s
+Longitude: %2$s · latitude: %3$s
+Complete the observation; this point certifies neither permission nor accessibility.</string>
+</resources>

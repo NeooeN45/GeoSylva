@@ -135,6 +135,7 @@ import com.forestry.counter.data.local.dao.ProjectDao
         com.forestry.counter.data.local.entity.FieldWorksiteEntity::class,
         com.forestry.counter.data.local.entity.FieldSiteLinkEntity::class,
         com.forestry.counter.data.local.entity.FieldEntryEntity::class,
+        com.forestry.counter.data.local.entity.FieldControlBasisEntity::class,
         com.forestry.counter.data.local.entity.FieldDraftEntity::class,
         com.forestry.counter.data.local.entity.FieldPhotoEntity::class,
         com.forestry.counter.data.local.entity.FieldPhotoChunkEntity::class,
@@ -142,16 +143,28 @@ import com.forestry.counter.data.local.dao.ProjectDao
         com.forestry.counter.data.local.entity.FieldReceiptVersionEntity::class,
         com.forestry.counter.data.local.entity.FieldReceiptCreditEntity::class,
         com.forestry.counter.data.local.entity.FieldReceiptCommandEntity::class,
+        com.forestry.counter.data.local.entity.CartographicMeasurementEntity::class,
+        com.forestry.counter.data.local.entity.CartographicStoreIdentityEntity::class,
+        com.forestry.counter.data.local.entity.CartographicLayerEntity::class,
+        com.forestry.counter.data.local.entity.CartographicLayerOperationEntity::class,
+        com.forestry.counter.data.local.entity.OfflineMapPackEntity::class,
+        com.forestry.counter.data.local.entity.CartographicTraceEntity::class,
+        com.forestry.counter.data.local.entity.CartographicTraceJournalEntity::class,
 
         ProjectForestCrossRef::class
     ],
-    version = 46,
+    version = 49,
     exportSchema = true
 )
 @TypeConverters(EnumConverters::class)
 abstract class ForestryDatabase : RoomDatabase() {
+    abstract fun cartographicMeasurementDao(): com.forestry.counter.data.local.dao.CartographicMeasurementDao
+    abstract fun cartographicLayerDao(): com.forestry.counter.data.local.dao.CartographicLayerDao
+    abstract fun offlineMapPackDao(): com.forestry.counter.data.local.dao.OfflineMapPackDao
+    abstract fun cartographicTraceDao(): com.forestry.counter.data.local.dao.CartographicTraceDao
     abstract fun receiptDao(): com.forestry.counter.data.local.dao.ReceiptDao
     abstract fun fieldDao(): com.forestry.counter.data.local.dao.FieldDao
+    abstract fun fieldControlBasisDao(): com.forestry.counter.data.local.dao.FieldControlBasisDao
     val woodDataGate = com.forestry.counter.data.repository.WoodDataAccessGate()
     abstract fun woodObjectDao(): com.forestry.counter.data.local.dao.WoodObjectDao
     abstract fun woodDepotDao(): com.forestry.counter.data.local.dao.WoodDepotDao
