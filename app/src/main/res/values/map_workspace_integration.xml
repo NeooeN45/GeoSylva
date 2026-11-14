@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fc_outside_preview_polygon">La zone hors parcelle est surlignée.</string>
+    <string name="fc_outside_preview_empty">Aucune partie hors du contour enregistré.</string>
+    <string name="fc_outside_preview_loading">Calcul de la partie hors parcelle…</string>
+    <string name="fc_outside_preview_unavailable">Aperçu de bordure indisponible.</string>
+    <string name="map_tree_data_unavailable">Données du relevé indisponibles.</string>
+    <string name="root_workspace_import_layer">Importer une couche</string>
+    <string name="root_workspace_trace">Tracé GPS</string>
+    <string name="root_workspace_offline_style_required">Attendez le chargement de la carte pour préparer cette zone.</string>
+    <string name="root_workspace_trace_source">Positions enregistrées par le téléphone. Les interruptions restent séparées ; la longueur exclut les passages non relevés.</string>
+    <string name="maps_rate_limit">Service momentanément sollicité. Réessayez dans un instant.</string>
+    <string name="maps_network_error">Recherche indisponible. Vérifiez la connexion.</string>
+</resources>

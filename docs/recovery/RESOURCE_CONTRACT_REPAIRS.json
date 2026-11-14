@@ -1,0 +1,34 @@
+{
+  "newCopy": {
+    "keys": [
+      "fc_outside_preview_polygon",
+      "fc_outside_preview_empty",
+      "fc_outside_preview_loading",
+      "fc_outside_preview_unavailable",
+      "map_tree_data_unavailable",
+      "root_workspace_import_layer",
+      "root_workspace_trace",
+      "root_workspace_offline_style_required",
+      "root_workspace_trace_source",
+      "maps_rate_limit",
+      "maps_network_error"
+    ],
+    "classification": "New concise FR/EN copy for existing UI contracts, not recovered original wording"
+  },
+  "pendingSources": [
+    {
+      "originalPath": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/CarteModeArtwork.kt",
+      "preservedPath": "docs/recovery/pending-integration/app/src/main/java/com/forestry/counter/presentation/screens/forestry/CarteModeArtwork.kt.source",
+      "sha256": "77d57d28eb4a6d2832d8b53008394d18a809b75c54d4dffb3fd1158e1f185ff5",
+      "reason": "Unused artwork helper requires missing approved binary carte_modes_artwork_21.png. No main/test call to rememberCarteModeArtwork found. Preserve exact helper outside compilation until approved artwork and selector integration are restored.",
+      "missingAssetSha256": "6b7a6297993de06ce84ffe47136f4f5e9aafe2e698a88e34b362f0d476bda5d3",
+      "status": "NOT_INTEGRATED_NOT_PIXEL_QUALIFIED"
+    }
+  ],
+  "removedUnusedLegacy": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/domain/location/MapLibreHttpConfig.kt",
+      "reason": "Only self references remain after Mapbox port; no legacy SDK dependency is reintroduced."
+    }
+  ]
+}

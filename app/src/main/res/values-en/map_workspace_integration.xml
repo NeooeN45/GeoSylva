@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fc_outside_preview_polygon">The area outside the parcel is highlighted.</string>
+    <string name="fc_outside_preview_empty">No area outside the recorded boundary.</string>
+    <string name="fc_outside_preview_loading">Calculating the area outside the parcel…</string>
+    <string name="fc_outside_preview_unavailable">Boundary preview unavailable.</string>
+    <string name="map_tree_data_unavailable">Survey data unavailable.</string>
+    <string name="root_workspace_import_layer">Import a layer</string>
+    <string name="root_workspace_trace">GPS track</string>
+    <string name="root_workspace_offline_style_required">Wait for the map to load before preparing this area.</string>
+    <string name="root_workspace_trace_source">Positions recorded by the phone. Gaps remain separate; length excludes unrecorded sections.</string>
+    <string name="maps_rate_limit">Service temporarily busy. Try again shortly.</string>
+    <string name="maps_network_error">Search unavailable. Check the connection.</string>
+</resources>
