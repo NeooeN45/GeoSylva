@@ -1,0 +1,93 @@
+{
+  "date": "2026-11-14",
+  "file": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt",
+  "classification": "mixed_exact_recovered_ranges_and_new_helpers",
+  "variant": "ui9-draft-and-observed-source",
+  "choice": "Contrats actuels MapTraceHost/TraceWorkspaceState identiques : six écrans, 18 actions, nameEditable et canvas avec PaddingValues. UI9 conserve les pieds de sauvegarde/détails et les adaptations grande police observés.",
+  "manifest": "/workspace/outputs/2026-11-14/recovery-workspace-sources/trace-workspace-fragments-manifest.json",
+  "manifestSha256": "70274a28f5eccbe0e1bb226e586be72cba6d0f29d24dd3ecb73f2d56842e8159",
+  "recovered": {
+    "lines": 505,
+    "ranges": [
+      {
+        "historicalLines": [
+          1,
+          470
+        ],
+        "destinationLines": [
+          1,
+          470
+        ],
+        "sha256": "966bc217176ffa13fc1e318f5dfef6c5259af5c426b472c2c58b0e8ea3431bfd"
+      },
+      {
+        "historicalLines": [
+          514,
+          548
+        ],
+        "destinationLines": [
+          547,
+          581
+        ],
+        "sha256": "0a74e529cee47ab99cfbba127e1de5cb2cdbecf725e68a190140e6e4f00a87b1"
+      }
+    ],
+    "verification": "SHA256 des deux fragments conformes au manifeste ; plages conservées octet pour octet dans le fichier final."
+  },
+  "newCode": {
+    "lines": [
+      471,
+      546
+    ],
+    "lineCount": 76,
+    "replacesMissingHistoricalLines": [
+      471,
+      513
+    ],
+    "helpers": [
+      "fin de panelTitle",
+      "displayName",
+      "actionLabel",
+      "actionIcon",
+      "points",
+      "portions",
+      "gaps",
+      "début de portionsAndGaps"
+    ],
+    "classification": "Nouveau code de reconstruction explicitement balisé ; aucune récupération exacte revendiquée pour ces 43 lignes perdues."
+  },
+  "api": [
+    "TraceWorkspace(state: TraceWorkspaceState, actions: TraceWorkspaceActions, modifier: Modifier = Modifier, canvas: @Composable BoxScope.(PaddingValues) -> Unit)",
+    "TracePanel(state: TraceWorkspaceState, actions: TraceWorkspaceActions, modifier: Modifier = Modifier)"
+  ],
+  "behavior": [
+    "Les quatre callbacks existants sont délégués à l’hôte ; aucune capture, sauvegarde, permission ou navigation inventée.",
+    "Actions désactivées pendant saving et hors allowedActions ; retour de SAVE via CANCEL_SAVE ; nom contrôlé par saving/nameEditable.",
+    "Six titres et 18 libellés/icônes exhaustifs sans action de repli.",
+    "Noms vides affichés sans nom ; comptes absents/négatifs affichés inconnus, sans les remplacer par zéro.",
+    "Longueur, précision, position, interruptions et durées proviennent exclusivement de l’état fourni ; aucune précision globale calculée.",
+    "Insets du canvas fondés sur la hauteur réelle du panneau ; pieds UI9 et états sauvegarde/détails conservés."
+  ],
+  "validation": {
+    "status": "static_checks_passed",
+    "resources": {
+      "referencedCount": 66,
+      "localesChecked": [
+        "fr (values)",
+        "en (values-en)"
+      ],
+      "missing": [],
+      "formatArguments": "Trois chaînes formatées et quatre pluriels conformes aux arguments fournis."
+    },
+    "contracts": "Deux fonctions publiques, types/énumérations et quatre callbacks conformes ; actionLabel/actionIcon exhaustifs ; blocs Kotlin équilibrés.",
+    "build": "Non exécuté : compilation coordonnée par l’agent principal.",
+    "runtime": "Aucun test de rendu Compose, interaction Android, IME, accessibilité ou GPS exécuté dans cette sous-tâche.",
+    "pureTests": "Aucun test pur ajouté : les helpers nouveaux sont des correspondances Compose/ressources ; contrôles statiques d’intégration effectués."
+  },
+  "remainingGaps": [
+    "Les 43 lignes historiques absentes ne sont pas retrouvées ; le SHA256 historique complet reste non vérifiable.",
+    "La compilation et les essais visuels/gestuels sont à confirmer par la validation coordonnée."
+  ],
+  "finalLineCount": 581,
+  "finalSha256": "f3c9003d73f61b5017e5daa799e74b9b94d4a03c55f2eeaeef500347df1f781b"
+}

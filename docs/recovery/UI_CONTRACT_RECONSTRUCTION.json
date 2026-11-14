@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "date": "2026-11-14",
+  "purpose": "Make three missing UI contracts available for current application integration",
+  "files": [
+    {
+      "path": "app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt",
+      "sha256": "99f496a549bfef0f7c0352f9ed49b6f96a4627fbaf9765d39c32b5caf4669f90",
+      "classification": "EXPLICITLY_ADOPTED_HISTORICAL_ANTECEDENT_FOR_NEW_INTEGRATION",
+      "source": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/versions/01a1b570-1e5c-7128-8841-d3fffab400ec/exec-e726ca9c-8642-474c-9d0a-5d163317a11a/app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt",
+      "historicalFinal13NovHashVerified": false,
+      "changesFromAntecedent": []
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/forestry/ForestryMapLayout.kt",
+      "sha256": "e98ca703ef5feb343d703a4722fa156aaf654b1749e1d0aee3787b317b16f0d9",
+      "classification": "EXPLICITLY_ADOPTED_HISTORICAL_ANTECEDENT_FOR_NEW_INTEGRATION",
+      "source": "/workspace/outputs/2026-11-14/recovery-tree-parcel-sources/versions/01a1b570-1e5c-7128-8841-d3fffab400ec/exec-e92dc7d9-284c-426a-9683-f29d0ea1cfc6/cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/forestry/ForestryMapLayout.kt",
+      "historicalFinal13NovHashVerified": false,
+      "changesFromAntecedent": []
+    },
+    {
+      "path": "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trees/TreeWorkspacePanel.kt",
+      "sha256": "4649bdefaf52aff936316c2a7a37363ddd23068b62f6193b451a1da21dcd0b71",
+      "classification": "NEW_COMPATIBLE_RECONSTRUCTION_FROM_LITERAL_FRAGMENTS_AND_CURRENT_CONTRACTS",
+      "historicalFinal13NovHashVerified": false,
+      "sources": [
+        "trees-filters-batch11.json/exec-8bac388e-2ae3-42c1-855e-d6d5f0aaf53b",
+        "trees-filters-batch11.json/exec-12ae02c4-474c-4381-9842-fe2001282663",
+        "trees-filters-batch7.json/exec-e9854aed-1f79-4a1e-86f4-fa9218ca33df",
+        "trees-filters-batch6.json/exec-e56dc14f-34f6-4417-ab5e-7d10fad6375f",
+        "trees-filters-batch7.json/exec-ab851eeb-fad5-44c8-8891-ac443dbc6278"
+      ],
+      "newHelpers": [
+        "StatusCard completion",
+        "compassLabel"
+      ],
+      "notes": [
+        "Chip body independently observed in batch7 exec-f21ea9c6-41a1-4037-bb33-8ad024de419d",
+        "No sensor acquisition or data persistence is performed by this shared panel",
+        "Shell quoting decoded with shlex after closing the truncated outer quote; original command not executed"
+      ]
+    }
+  ],
+  "notClaimed": [
+    "Exact final13Nov snapshot",
+    "Compiled or device tested",
+    "Pixel parity verified"
+  ],
+  "dependencies": [
+    "GeographicSelectionMap must expose current plot selection/status/outside-preview callbacks",
+    "Existing app and cartography-ui resource names must pass AAPT/Kotlin build"
+  ],
+  "scope": "Only these3UI files and this provenance document",
+  "staticChecks": {
+    "app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt": {
+      "referencedStringCount": 63,
+      "missingStrings": []
+    },
+    "cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trees/TreeWorkspacePanel.kt": {
+      "referencedStringCount": 76,
+      "missingStrings": []
+    },
+    "noBuildOrDeviceTestExecuted": true
+  }
+}
