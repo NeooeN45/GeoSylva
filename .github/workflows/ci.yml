@@ -15,6 +15,8 @@ permissions:
   contents: read
 env:
   GEOSYLVA_BUILD_ID: ${{ github.sha }}
+  # Kotlin reste in-process : un seul heap pour Gradle et le compilateur.
+  GEOSYLVA_CI_GRADLE_JVMARGS: -Xmx6g -Dfile.encoding=UTF-8
 
 jobs:
   lint:
@@ -36,7 +38,7 @@ jobs:
           cache: gradle
 
       - name: Run Android Lint
-        run: ./gradlew lint --stacktrace
+        run: ./gradlew --no-daemon --max-workers=1 "-Dorg.gradle.jvmargs=$GEOSYLVA_CI_GRADLE_JVMARGS" lint --stacktrace
 
       - name: Upload lint report
         if: always()
@@ -45,10 +47,18 @@ jobs:
           name: lint-report
           path: app/build/reports/lint-results*.html
 
-  unit-tests:
-    name: Unit Tests
+  unit-test-variants:
+    name: Unit Tests (${{ matrix.variant }})
     timeout-minutes: 30
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - variant: debug
+            tasks: testDebugUnitTest :capsule-verifier:test
+          - variant: release
+            tasks: testReleaseUnitTest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with: {persist-credentials: false}
@@ -64,23 +74,42 @@ jobs:
           cache: gradle
 
       - name: Run unit tests
-        run: ./gradlew test --stacktrace
+        run: ./gradlew --no-daemon --max-workers=1 "-Dorg.gradle.jvmargs=$GEOSYLVA_CI_GRADLE_JVMARGS" ${{ matrix.tasks }} --stacktrace
 
       - name: Upload test report
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: unit-test-report
+          name: unit-test-report-${{ matrix.variant }}
           path: |
             app/build/reports/tests/
+            cartography-mapbox/build/reports/tests/
+            cartography-ui/build/reports/tests/
+            cartography-preview/build/reports/tests/
             capsule-verifier/build/reports/tests/
+            **/build/test-results/test*UnitTest/TEST-*.xml
+            capsule-verifier/build/test-results/test/TEST-*.xml
 
       - name: Upload coverage report
         if: success()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: coverage-report
+          name: coverage-report-${{ matrix.variant }}
           path: app/build/reports/coverage/
+
+  # Conserve le nom du contrôle existant pour les protections de branche.
+  # Le succès exige les deux variantes ; aucun échec n'est ignoré.
+  unit-tests:
+    name: Unit Tests
+    if: always()
+    needs: [ unit-test-variants ]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require every test variant
+        env:
+          VARIANT_RESULT: ${{ needs.unit-test-variants.result }}
+        run: test "$VARIANT_RESULT" = "success"
 
   build:
     name: Build Debug APK
@@ -102,7 +131,7 @@ jobs:
           cache: gradle
 
       - name: Build debug APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: ./gradlew --no-daemon --max-workers=1 "-Dorg.gradle.jvmargs=$GEOSYLVA_CI_GRADLE_JVMARGS" assembleDebug --stacktrace
 
       - name: Upload debug APK
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -133,7 +162,7 @@ jobs:
       # Exécute R8 et la réduction des ressources de la vraie variante de
       # livraison. Le bundle reste volontairement non signé dans la CI.
       - name: Build unsigned release bundle
-        run: ./gradlew bundleRelease --stacktrace
+        run: ./gradlew --no-daemon --max-workers=1 "-Dorg.gradle.jvmargs=$GEOSYLVA_CI_GRADLE_JVMARGS" bundleRelease --stacktrace
 
   quality-gate:
     name: Quality Gate

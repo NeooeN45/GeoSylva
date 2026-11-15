@@ -89,7 +89,34 @@ Distinguer les essais locaux exécutés, les essais matériels et ce qui reste �
 vérifier. Mettre à jour les consignes ou l'état du projet quand le comportement
 change ; ne pas transformer un ancien bilan en preuve d'un nouveau passage.
 
-Le nettoyage local et la rédaction du bilan ne déclenchent aucune publication.
-Avant un push ou une fusion, vérifier la branche cible, le diff, les contrôles et
-l'autorisation de la session en cours. Ce document n'autorise pas de lui-même une
-mise en production ni des messages envoyés à d'autres personnes.
+## Sauvegarde obligatoire à la fin de chaque session
+
+Règle demandée par le Fondateur le 15 novembre 2026 : **à la fin de chaque
+session, pousser le travail sur une branche distante datée**. Un commit ou
+un bundle conservé uniquement dans l'environnement de travail ne suffit pas.
+
+1. Examiner `git status --short`, y compris les fichiers applicatifs non suivis,
+   et enregistrer le travail dans des commits sur une branche dédiée. Un lot
+   incomplet peut être sauvegardé, avec son état de validation indiqué ; cela
+   ne le rend pas livrable. Les secrets, configurations personnelles, bases
+   utilisateur, APK et sorties de build restent hors du dépôt source.
+2. Vérifier l'URL du distant GitHub avec `git remote -v`. Dans le workspace de
+   récupération, `origin` est une copie locale et le distant GitHub s'appelle
+   `github` ; dans un clone normal, son nom peut être `origin`.
+3. Créer une référence de sauvegarde unique, par exemple
+   `backup/geosylva-AAAA-MM-JJ-HHMMSSZ`, horodatée en UTC. Pousser explicitement
+   `HEAD` vers cette référence distante, sans `--force`, sans réécriture
+   d'historique et sans réutilisation destructive d'une ancienne sauvegarde.
+4. Relire la référence distante avec `git ls-remote` et vérifier que son SHA
+   correspond à `git rev-parse HEAD`. Inscrire dans le bilan de session le nom
+   de branche, l'URL, le SHA et les vérifications réussies ou encore en échec.
+5. Si le push est refusé ou impossible, produire un bundle local comme recours,
+   consigner le blocage et signaler explicitement que la sauvegarde distante
+   n'est pas réalisée. Ne pas présenter cette situation comme protégée hors
+   de l'environnement.
+
+Cette instruction autorise la sauvegarde sur une branche datée en fin de
+session. **Les changements destinés à `main` passent par une demande de fusion :
+aucun push direct ni contournement de sa protection.** Une sauvegarde ne vaut
+ni fusion, ni acceptation de la CI, ni mise en production. Les messages à
+d'autres personnes et les déploiements restent soumis à leurs autorisations.

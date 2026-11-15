@@ -517,5 +517,42 @@
     "settingsModified": false,
     "assertionWeakened": false
   },
-  "sourceChangeNotes": "Production and JVM inputs unchanged since full-gates3; only Android gesture test harness and documentation evolved. A fingerprint marked inputsUnchanged=false in native-gesture2-build reflects documentation edits during that build; later targeted assemblies record stable inputs."
+  "sourceChangeNotes": "Production and JVM inputs unchanged since full-gates3; only Android gesture test harness and documentation evolved. A fingerprint marked inputsUnchanged=false in native-gesture2-build reflects documentation edits during that build; later targeted assemblies record stable inputs.",
+  "postPublicationCi": {
+    "initialCommit": "488aae439e7b352bebc0bff1e458dd230430b19a",
+    "initialRun": "https://github.com/NeooeN45/GeoSylva/actions/runs/43709887359",
+    "initialJobs": {
+      "Lint": "success",
+      "Unit Tests": "failure",
+      "Build Debug APK": "skipped",
+      "Release Bundle Verification": "skipped",
+      "Quality Gate": "failure",
+      "Repository security (main and backup)": "success"
+    },
+    "failure": "compileReleaseKotlin: OutOfMemoryError: Java heap space; Gradle heap3GiB; Kotlin compiler in-process",
+    "dependabot": {
+      "run": "https://github.com/NeooeN45/GeoSylva/actions/runs/43709991539",
+      "status": "failure",
+      "cause": "private_source_authentication_failure for Mapbox Maven registry",
+      "requiredDependabotSecret": "MAPBOX_DOWNLOADS_TOKEN",
+      "requiredMapboxScope": "Downloads:Read",
+      "secretValueRecorded": false,
+      "configurationRequiresAuthorizedMergeAndFounderSettings": true
+    },
+    "repair": {
+      "branch": "ci/fiabilisation-memoire-2026-11-15",
+      "status": "PENDING_REMOTE_CI",
+      "localDefaultHeapGiB": 4,
+      "ciHeapGiB": 6,
+      "gradleWorkers": 1,
+      "kotlinStrategy": "in-process",
+      "variantIsolation": "Separate runners for debug and release; fail-fast=false",
+      "retainedTests": "All Android JVM debug/release tasks and capsule-verifier:test",
+      "existingAggregateChecksPreserved": [
+        "Unit Tests",
+        "Quality Gate"
+      ],
+      "functionalApplicationChanges": false
+    }
+  }
 }
