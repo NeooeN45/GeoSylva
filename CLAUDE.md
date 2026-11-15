@@ -2,6 +2,20 @@
 
 > Règles locales pour les agents IA travaillant sur ce dépôt.
 
+## Reprise actuelle — 15 novembre 2026
+
+Lire `AGENTS.md`, puis `docs/developpement/REPRISE_AGENTS.md` et
+`docs/production/ETAT_LIVRAISON_3_1.json`. Les consignes et résultats anciens
+restent datés. Version 3.0.0 de construction, Room 49 et moteur Mapbox commun ;
+production 3.1 visée au 28 février 2027. L'utilisateur autorise la mise à jour
+des sources sur le dépôt public après validation ; conserver les secrets et les
+fichiers de configuration personnels hors Git.
+
+Les composants sous `docs/recovery/pending-integration/` sont des sources
+préservées, pas des fonctions livrées. Un build, un test JVM, une capture Android
+et une recette physique S25 sont quatre preuves distinctes.
+
+
 ---
 
 ## 1. Ce qu'est ce dépôt
@@ -72,8 +86,10 @@ sourcés via `SylvicultureDatabase` (28 essences, coefficients Vallet et
 al. 2006, *Revue Forestière Française* LVIII(5):481-496) — l'alias
 historique `ABAL`→`ABBA` (Sapin pectiné) garantit que le code métier
 hérité profite bien des coefficients sourcés plutôt que du repli
-générique. Le repli générique reste marqué « ⚠ non sourcé » et ne doit
-servir que pour les essences absentes de la base.
+générique. Un repli générique non qualifié ne doit pas activer un résultat destiné au terrain
+ou aux exports. Une citation dans un calculateur historique ne qualifie pas à elle
+seule son domaine, ses mesures et son essence. La Synthèse et les exports des
+relevés actuels partagent leur politique d’indisponibilité ; préserver ce garde-fou.
 
 ## 5. Conventions
 
@@ -87,8 +103,8 @@ servir que pour les essences absentes de la base.
   `docs/VOLUME_CALCULATION_NEXT_GEN.md` — c'est un document de vision
   (4458 lignes), pas un plan d'implémentation immédiat : introduire les
   nouvelles stratégies de façon additive (pattern Strategy), sans
-  jamais remplacer les calculateurs existants qui fonctionnent déjà en
-  production.
+  préserver les calculs existants vérifiés, leurs tests et les archives figées ;
+  qualifier séparément toute activation dans un parcours utilisateur.
 
 ## 6. Rappel final
 

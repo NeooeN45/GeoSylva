@@ -5,8 +5,8 @@
 ### Application Android professionnelle d'inventaire forestier et de martelage
 
 **Conçue par des forestiers, pour les forestiers.**
-Inventaire terrain, martelage, cartographie et synthèse dendrométrique —
-entièrement hors-ligne.
+Inventaire terrain, martelage, cartographie et synthèse dendrométrique,
+avec préparation des données pour le terrain hors connexion.
 
 [![Version](https://img.shields.io/badge/version-3.0-green?style=for-the-badge)](CHANGELOG.md)
 [![Android](https://img.shields.io/badge/Android-8.0%2B-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com)
@@ -27,6 +27,25 @@ entièrement hors-ligne.
 
 ---
 
+## État pour les essais locaux
+
+**3.0.0 est la version de construction ; 3.1 est la version de production visée au 28 février 2027.**
+Le code courant utilise Room 49 et le moteur Mapbox commun aux cartes intégrées.
+Le [bilan du 15 novembre](docs/developpement/VALIDATION_STABILISATION_2026-11-15.md)
+décrit les builds, tests et limites du lot courant. Il ne qualifie pas encore le
+S25 Ultra ni la conformité visuelle des 100 maquettes. La
+[preuve du 14 novembre](docs/recovery/APPLICATION_VALIDATION_2026-11-14.json)
+est conservée comme référence historique.
+
+- [Installer, configurer et tester sous Windows ou Linux](docs/developpement/ESSAIS_LOCAUX.md)
+- [Reprendre le dépôt avec Claude ou Flable](docs/developpement/REPRISE_AGENTS.md)
+- [État de livraison et fonctions encore à raccorder](docs/production/ETAT_LIVRAISON_3_1.json)
+- [Suivi des maquettes, Technicien et Conducteur](docs/developpement/SUIVI_INTEGRATION_MAQUETTES.md)
+
+Les relevés restent locaux. Les fonds cartographiques et les données nécessaires
+au terrain doivent être préparés avant la journée sans connexion.
+
+
 ## Aperçu
 
 <p align="center">
@@ -37,12 +56,13 @@ entièrement hors-ligne.
 <!-- <p align="center"><img src="docs/assets/geosylva-hero.png" alt="GeoSylva — inventaire terrain et cartographie" width="800"></p> -->
 
 ```
-Terrain : saisie tiges → GPS auto → clinomètre → cubage (7 méthodes)
+Terrain : saisie tiges → position → clinomètre → cubage selon méthode qualifiée
 Bureau  : synthèse dendrométrique → martelage → export PDF / Shapefile / GeoJSON
 ```
 
 **Conçue par des forestiers, pour les forestiers.** Inventaire terrain,
-martelage, cartographie et synthèse dendrométrique — entièrement hors-ligne.
+martelage, cartographie et synthèse dendrométrique, avec saisies locales et
+préparation des fonds cartographiques pour le terrain.
 
 ---
 
@@ -58,11 +78,11 @@ martelage.
 | Problème terrain | Solution GeoSylva |
 |---|---|
 | Saisie papier lente et sujette aux erreurs | Comptage par classe de diamètre avec boutons +/−, GPS automatique |
-| Mesure de hauteur sans clinomètre physique | Clinomètre numérique intégré (capteur téléphone, ±0,5° à ±2°) |
-| Calculs manuels fastidieux | 7 méthodes de cubage intégrées, calcul temps réel |
-| Pas de visualisation sur place | Carte interactive avec 12 couches cartographiques (IGN, satellite, cadastre…) |
+| Mesure de hauteur sans clinomètre physique | Outil numérique ; protocole et précision à qualifier sur le matériel terrain |
+| Calculs manuels fastidieux | Méthodes de cubage ; résultat indisponible si le tarif n'est pas qualifié |
+| Pas de visualisation sur place | Moteur Mapbox commun, fonds et couches cartographiques |
 | Export compliqué vers SIG | Export Shapefile, GeoJSON, CSV-XY en un clic |
-| Pas de réseau en forêt | 100% hors-ligne, tuiles cartographiques téléchargeables |
+| Pas de réseau en forêt | Saisies locales et préparation préalable des fonds ; journée terrain complète à recetter |
 | Analyse difficile sur le terrain | Tableau de bord visuel avec graphiques temps réel |
 
 ### Opportunité & vision
@@ -170,11 +190,11 @@ martelage.
 app/src/main/java/com/forestry/counter/
 ├── data/
 │   ├── local/
-│   │   ├── entity/              Room entities (29 tables)
+│   │   ├── entity/              Room entities (66 tables)
 │   │   ├── dao/                 Data Access Objects
 │   │   ├── CanonicalEssences.kt 95+ espèces pré-configurées
-│   │   ├── DatabaseMigrations.kt Migrations v1→v33
-│   │   └── ForestryDatabase.kt  Room database (v33, SQLCipher)
+│   │   ├── DatabaseMigrations.kt Migrations v1→v49
+│   │   └── ForestryDatabase.kt  Room database (v49, SQLCipher)
 │   ├── sync/                    Contrat GSIE, file et politique de reprise
 │   ├── preferences/             DataStore (GPS, affichage, tarifs…)
 │   ├── repository/              Implémentations Repository
@@ -221,9 +241,9 @@ app/src/main/java/com/forestry/counter/
 |---|---|
 | **Langage** | Kotlin 1.9 + Coroutines + Flow |
 | **UI** | Jetpack Compose + Material 3 |
-| **Base de données** | Room (SQLite) — 29 tables, DB v33, SQLCipher |
+| **Base de données** | Room (SQLite) — 66 tables, DB v49, SQLCipher |
 | **Préférences** | DataStore Preferences |
-| **Cartographie** | MapLibre GL Native 10.3 |
+| **Cartographie** | Mapbox Maps SDK 11.34.1 — moteur partagé |
 | **Géolocalisation** | Google Fused Location Provider |
 | **Export** | Apache POI (XLSX), OpenCSV, Shapefile (pur Java), PDF |
 | **Sérialisation** | kotlinx.serialization |
@@ -239,7 +259,7 @@ app/src/main/java/com/forestry/counter/
 
 - Android Studio Ladybug (2024.2) ou supérieur
 - JDK 17
-- Android SDK API 26+ (Android 8.0 Oreo)
+- Android SDK Platform 35 et Build-Tools 34.0.0 ; appareil Android 8.0/API 26 minimum
 - Gradle 8.2+
 
 ### Build
@@ -258,7 +278,7 @@ cd GeoSylva
 # Debug
 ./gradlew assembleDebug
 
-# Release (APK signé)
+# Release (signée si le keystore local est configuré)
 ./gradlew assembleRelease
 # → app/build/outputs/apk/release/
 
@@ -298,17 +318,17 @@ toujours avec son compte et ses jetons GSIE.
 ./gradlew testDebugUnitTest
 
 # Tests spécifiques
-./gradlew testDebugUnitTest --tests "*.TarifCalculatorTest"
-./gradlew testDebugUnitTest --tests "*.SanityCheckerTest"
-./gradlew testDebugUnitTest --tests "*.ForestryCalculatorTest"
+./gradlew :app:testDebugUnitTest --tests "*.TarifCalculatorTest"
+./gradlew :app:testDebugUnitTest --tests "*.SanityCheckerTest"
+./gradlew :app:testDebugUnitTest --tests "*.ForestryCalculatorTest"
 ```
 
-**Couverture des tests (420+ tests unitaires) :**
+**Domaines couverts par les tests JVM (comptages datés dans les preuves) :**
 - Calculs de volume (7 méthodes de cubage + conversion volume)
 - Classification produit & qualité bois
 - Garde-fous de cohérence (SanityChecker)
 - Export GeoJSON / CSV-XY / WKT / PDF / XLSX
-- Conversion Lambert 93 + transformation Helmert WGS84→ETRS89
+- Conversion Lambert 93, validation des systèmes de coordonnées et des imports
 - IBP — scoring CNPF officiel (10 critères, groupes A/B)
 - Tarifs forestiers (Schaeffer, Algan, IFN, FGH, coefficient de forme)
 - Alias d'essences, triangles de structure, formatage monétaire
@@ -362,7 +382,7 @@ Références :
 - ✅ **Compte optionnel transparent** — seules les données d'identité nécessaires sont transmises
 - ✅ **Chiffrement SQLCipher** — base de données chiffrée au repos (Keystore Android)
 - ✅ **Réseau durci** — HTTPS obligatoire, validation TLS système, refus des redirections non publiques
-- ✅ **RGPD compliant** — SCC pour transferts US (Esri/MapLibre/CartoCDN)
+- **Documentation des fournisseurs et de la confidentialité** — à maintenir avec les sources cartographiques activées
 - ✅ **ProGuard/R8** — code obfusqué en release
 
 📄 [Politique de confidentialité](PRIVACY_POLICY.md) · 🔐 [Registre RGPD](RECORD_OF_PROCESSING_ACTIVITIES.md) · 📋 [Audit forestier](AUDIT_FORESTIER_COMPLET.md) · 🌐 [Audit global](AUDIT_GLOBAL_GEOSYLVA.md)

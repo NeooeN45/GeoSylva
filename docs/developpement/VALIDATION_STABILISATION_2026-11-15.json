@@ -1,0 +1,521 @@
+{
+  "date": "2026-11-15",
+  "constructionVersion": "3.0.0",
+  "versionCode": 11,
+  "productionTarget": "3.1",
+  "deliveryDeadline": "2027-02-28",
+  "validatedCodeCommit": "8ea8cde4b9c7a283e4404c45f39298ed5375af26",
+  "buildId": "stabilisation-20261115",
+  "qualification": "Build and JVM validated; targeted API28 native tests; no S25, one-day offline or pixel-perfect approval",
+  "toolchain": {
+    "jdk": 17,
+    "gradle": "8.2",
+    "sdkPlatform": 35,
+    "buildTools": "34.0.0",
+    "androidCli": "1.1.16919734",
+    "androidCliUsage": "Emulator and UI inspection; advertised build command unavailable, Gradle fallback"
+  },
+  "fullGates": {
+    "baseHead": "3e016bc072c915c37006195c6000fd37e3fc0ac6",
+    "workingTreeSourceFingerprint": "79d4aaf60830e3ced0550d7664ecc3a81d8876e4e18fb62020a689d882a4b1a1",
+    "target": "test lint assembleDebug bundleRelease :app:assembleDebugAndroidTest",
+    "client": "Gradle8.2/JDK17; Android CLI build unavailable, documented attempt1",
+    "status": "FINISHED",
+    "scope": "CI-equivalent JVM tests, Lint, debug APKs, unsigned optimized release bundle and AndroidTest APK; device execution separate",
+    "exitCode": 0,
+    "elapsedSeconds": 243.38,
+    "sourceFingerprintAfter": "79d4aaf60830e3ced0550d7664ecc3a81d8876e4e18fb62020a689d882a4b1a1",
+    "inputsUnchanged": true
+  },
+  "jvm": {
+    "appDebug": {
+      "tests": 2046,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 157
+    },
+    "appRelease": {
+      "tests": 2046,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 157
+    },
+    "cartography-mapboxDebug": {
+      "tests": 47,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 9
+    },
+    "cartography-mapboxRelease": {
+      "tests": 47,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 9
+    },
+    "capsule-verifier": {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 2
+    },
+    "distinctCases": 2100,
+    "variantExecutions": 4193
+  },
+  "lint": {
+    "app": {
+      "Error": 0,
+      "Warning": 972
+    },
+    "cartography-mapbox": {
+      "Error": 0,
+      "Warning": 3
+    },
+    "cartography-ui": {
+      "Error": 0,
+      "Warning": 18
+    },
+    "cartography-preview": {
+      "Error": 0,
+      "Warning": 15
+    }
+  },
+  "artifacts": {
+    "app/build/outputs/apk/debug/app-debug.apk": {
+      "bytes": 191157223,
+      "sha256": "bcd046b7e3e66fd59e5b188325e37eb2ae704bfb3158dcea8dcd9700ca2c36ec",
+      "signature": "Debug APK signature verified with apksigner"
+    },
+    "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": {
+      "bytes": 11653270,
+      "sha256": "699c511e18137b2bb84926e8909c57a1c24d06c15fe1f930cf464b0145b9f120",
+      "signature": "Instrumentation APK"
+    },
+    "app/build/outputs/bundle/release/app-release.aab": {
+      "bytes": 85770303,
+      "sha256": "6394e5b897b38dc12587ea6c9848a6c27b9bfd2927174e4e3bee04bf589eb428",
+      "signature": "Unsigned release bundle"
+    }
+  },
+  "nativeRuns": [
+    {
+      "run": "native-map-final1",
+      "status": "FINISHED",
+      "device": "emulator-5570",
+      "api": 28,
+      "classes": [
+        "com.forestry.counter.ui.MapScreenTest"
+      ],
+      "startedEpoch": 1794742242.9006581,
+      "scope": "Final batch of all eight Mapbox native tests after SDK-consistent pinch timing and observational cleanup; real SDK and default settings",
+      "exitCode": 0,
+      "passed": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "summaryOk": true,
+      "elapsedSeconds": 145.89
+    },
+    {
+      "run": "native-map-retry1",
+      "status": "FINISHED",
+      "device": "emulator-5570",
+      "api": 28,
+      "classes": [
+        "com.forestry.counter.ui.MapScreenTest"
+      ],
+      "startedEpoch": 1794740254.5104659,
+      "scope": "Retry of eight real native Mapbox tests after correcting pinch pointer pairing; production assertion unchanged",
+      "exitCode": 0,
+      "passed": 7,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "summaryOk": false,
+      "elapsedSeconds": 179.11
+    },
+    {
+      "run": "native-migrations1",
+      "status": "FINISHED",
+      "device": "emulator-5570",
+      "api": 28,
+      "classes": [
+        "com.forestry.counter.data.local.Migration43To44Test",
+        "com.forestry.counter.data.local.Migration44To45Test",
+        "com.forestry.counter.data.local.Migration45To46Test",
+        "com.forestry.counter.data.local.Migration46To47Test",
+        "com.forestry.counter.data.local.Migration47To48Test"
+      ],
+      "startedEpoch": 1794739111.1617606,
+      "scope": "Real SQLCipher migration tests on an isolated software emulator; not physical S25",
+      "exitCode": 0,
+      "passed": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "summaryOk": true,
+      "elapsedSeconds": 99.75
+    },
+    {
+      "run": "native-pinch2",
+      "status": "FINISHED",
+      "device": "emulator-5570",
+      "api": 28,
+      "classes": [
+        "com.forestry.counter.ui.MapScreenTest#pinch_is_acknowledged_by_the_real_native_camera"
+      ],
+      "startedEpoch": 1794740769.9883747,
+      "scope": "Real Android touchscreen events through UiAutomation; unchanged published SDK camera zoom assertion; production code unchanged",
+      "exitCode": 0,
+      "passed": 0,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "summaryOk": false,
+      "elapsedSeconds": 71.34
+    },
+    {
+      "run": "native-pinch3",
+      "status": "FINISHED",
+      "device": "emulator-5570",
+      "api": 28,
+      "classes": [
+        "com.forestry.counter.ui.MapScreenTest#pinch_is_acknowledged_by_the_real_native_camera"
+      ],
+      "startedEpoch": 1794740991.1201153,
+      "scope": "Real Android touchscreen events; invalid post-UP CANCEL removed; unchanged published SDK camera zoom assertion",
+      "exitCode": 0,
+      "passed": 0,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "summaryOk": false,
+      "elapsedSeconds": 95.05
+    },
+    {
+      "run": "native-pinch4",
+      "status": "FINISHED",
+      "device": "emulator-5570",
+      "api": 28,
+      "classes": [
+        "com.forestry.counter.ui.MapScreenTest#pinch_is_acknowledged_by_the_real_native_camera"
+      ],
+      "startedEpoch": 1794741209.30779,
+      "scope": "Real Android touchscreen events; real window focus/draw barrier added; unchanged published SDK camera zoom assertion",
+      "exitCode": 0,
+      "passed": 0,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "summaryOk": false,
+      "elapsedSeconds": 96.96
+    },
+    {
+      "run": "native-pinch5",
+      "status": "FINISHED",
+      "device": "emulator-5570",
+      "api": 28,
+      "classes": [
+        "com.forestry.counter.ui.MapScreenTest#pinch_is_acknowledged_by_the_real_native_camera"
+      ],
+      "startedEpoch": 1794741941.8259697,
+      "scope": "Real Android touchscreen events; Window and SDK detector diagnostic, unchanged gesture and zoom assertion; unchanged published SDK camera zoom assertion",
+      "exitCode": 0,
+      "passed": 0,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "summaryOk": false,
+      "elapsedSeconds": 115.25
+    },
+    {
+      "run": "native-pinch6",
+      "status": "FINISHED",
+      "device": "emulator-5570",
+      "api": 28,
+      "classes": [
+        "com.forestry.counter.ui.MapScreenTest#pinch_is_acknowledged_by_the_real_native_camera"
+      ],
+      "startedEpoch": 1794742095.189808,
+      "scope": "Real Android touchscreen events; Valid real-time pinch above native SDK minimum speed; asynchronous MOVE; unchanged zoom assertion and default SDK settings; unchanged published SDK camera zoom assertion",
+      "exitCode": 0,
+      "passed": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "summaryOk": true,
+      "elapsedSeconds": 80.16
+    },
+    {
+      "run": "native-ui1",
+      "status": "FINISHED",
+      "device": "emulator-5570",
+      "api": 28,
+      "classes": [
+        "com.forestry.counter.ui.MapScreenTest",
+        "com.forestry.counter.ui.RetainedBusinessErgonomicsUiTest",
+        "com.forestry.counter.ui.WorksiteDossierWiringUiTest",
+        "com.forestry.counter.ui.FieldToolsUiTest",
+        "com.forestry.counter.ui.LayerWorkspaceUiTest"
+      ],
+      "startedEpoch": 1794739366.3348317,
+      "scope": "Real app components and SDK on isolated software emulator; no physical S25 or mockup pixel equivalence claim",
+      "exitCode": 0,
+      "passed": 27,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "summaryOk": false,
+      "elapsedSeconds": 415.93
+    }
+  ],
+  "knownLimitations": [
+    "Complete Maps navigation entry remains a stub",
+    "Per-datum explanations in Technicien Synthese incomplete",
+    "Diagnostics UI review and camera/GPS height protocol not physically qualified",
+    "Pending WoodFileCard and full retained journal require genuine stock/control contracts",
+    "Offline manager Free scope does not aggregate all forest/parcel/plot packs",
+    "Approved image21 asset and complete image/route/capture comparison unavailable",
+    "Production signing and device/offline acceptance pending",
+    "Historical November13 source identity not fully recovered"
+  ],
+  "nativeSummary": {
+    "distinctPassedCases": 35,
+    "unresolvedCases": [],
+    "caseResults": {
+      "com.forestry.counter.data.local.Migration45To46Test#encrypted_migration_preserves_initial_stock_without_inventing_receipts": {
+        "code": 0,
+        "run": "native-migrations1"
+      },
+      "com.forestry.counter.data.local.Migration43To44Test#encrypted_database_migrates_from_42_through_44_and_reopens": {
+        "code": 0,
+        "run": "native-migrations1"
+      },
+      "com.forestry.counter.data.local.Migration43To44Test#additive_migration_retains_depot_and_adds_empty_wood_tables": {
+        "code": 0,
+        "run": "native-migrations1"
+      },
+      "com.forestry.counter.data.local.Migration44To45Test#encrypted_migration_preserves_existing_business_records_and_opens_room": {
+        "code": 0,
+        "run": "native-migrations1"
+      },
+      "com.forestry.counter.data.local.Migration46To47Test#migration_preserves_legacy_bytes_without_promoting_old_controls_and_enforces_exact_contract": {
+        "code": 0,
+        "run": "native-migrations1"
+      },
+      "com.forestry.counter.data.local.Migration46To47Test#dao_isolates_owners_refuses_snapshot_replacement_and_cascades_only_the_deleted_parent": {
+        "code": 0,
+        "run": "native-migrations1"
+      },
+      "com.forestry.counter.data.local.Migration47To48Test#encrypted_migration_preserves_existing_snapshots_without_claiming_historical_measurements": {
+        "code": 0,
+        "run": "native-migrations1"
+      },
+      "com.forestry.counter.ui.LayerWorkspaceUiTest#managed_layer_swatch_follows_host_colour_without_mutation_and_preserves_navigation_guard": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.LayerWorkspaceUiTest#formats_primary_action_stays_wholly_visible_and_reports_total_panel_occlusion": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.LayerWorkspaceUiTest#preview_attributes_distinguish_empty_null_zero_and_absent_without_edit_action": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.LayerWorkspaceUiTest#palette_exposes_accessible_colour_names_and_keeps_current_state_until_host_acknowledges": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.LayerWorkspaceUiTest#colour_actions_remain_wholly_visible_while_body_scrolls_and_invalid_input_still_cancels": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.LayerWorkspaceUiTest#invalid_colour_has_no_use_action_and_cancel_is_explicit": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.MapScreenTest#local_style_stays_renderable_with_the_real_offline_hint_without_claiming_downloaded_data": {
+        "code": 0,
+        "run": "native-map-final1"
+      },
+      "com.forestry.counter.ui.MapScreenTest#pinch_is_acknowledged_by_the_real_native_camera": {
+        "code": 0,
+        "run": "native-map-final1"
+      },
+      "com.forestry.counter.ui.MapScreenTest#location_command_exposes_its_real_semantic_click_action": {
+        "code": 0,
+        "run": "native-map-final1"
+      },
+      "com.forestry.counter.ui.MapScreenTest#panel_back_closes_the_panel_without_leaving_the_current_scope": {
+        "code": 0,
+        "run": "native-map-final1"
+      },
+      "com.forestry.counter.ui.MapScreenTest#mapScreen_displays_real_native_pixels_after_loading": {
+        "code": 0,
+        "run": "native-map-final1"
+      },
+      "com.forestry.counter.ui.MapScreenTest#location_request_obeys_host_availability_and_never_claims_a_GPS_fix": {
+        "code": 0,
+        "run": "native-map-final1"
+      },
+      "com.forestry.counter.ui.MapScreenTest#rendered_marker_is_hit_only_in_its_current_scope_and_cleared_on_scope_change": {
+        "code": 0,
+        "run": "native-map-final1"
+      },
+      "com.forestry.counter.ui.MapScreenTest#real_map_commands_keep_accessible_targets_and_explicit_back_navigation": {
+        "code": 0,
+        "run": "native-map-final1"
+      },
+      "com.forestry.counter.ui.RetainedBusinessErgonomicsUiTest#dateHelpStaysBesideBothCompleteDatesWithItsOwn48dpTarget": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.RetainedBusinessErgonomicsUiTest#remainingControlExplainsNoStockAdjustmentBeforeItsEditableQuantity": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.RetainedBusinessErgonomicsUiTest#activeHistoryEntryIsReadFirstDespiteTiedRecordedDatesAndOriginalRemainsOpenable": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.RetainedBusinessErgonomicsUiTest#realPilePreviewKeepsEssentialReserveVisibleAndItsFullReserveInOwn48dpHelp": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.RetainedBusinessErgonomicsUiTest#parcelHelpStaysInItsActionRowAndDoesNotTriggerNavigation": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.WorksiteDossierWiringUiTest#emptyDossierIsExplicitAndRevocationRemovesItsActions": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.WorksiteDossierWiringUiTest#archiveRequiresConfirmationAndRetainsNoteAndParcelReferences": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.WorksiteDossierWiringUiTest#dossierUsesActualCountsAndPreservesShortcutAndEditorIdentity": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.WorksiteDossierWiringUiTest#associatedWoodKeepsRealTargetIdsAndBackReturnsToDossier": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.FieldToolsUiTest#wood_timeline_shows_partial_removals_and_remaining_discrepancy": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.FieldToolsUiTest#management_note_autosaves_restores_then_saves_without_stock_controls": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.FieldToolsUiTest#worksite_name_keeps_keyboard_focus_when_empty_validation_is_cleared": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.FieldToolsUiTest#worksite_records_multiple_parcels_and_archives_without_deleting": {
+        "code": 0,
+        "run": "native-ui1"
+      },
+      "com.forestry.counter.ui.FieldToolsUiTest#journal_name_keeps_keyboard_focus_when_empty_validation_is_cleared": {
+        "code": 0,
+        "run": "native-ui1"
+      }
+    },
+    "device": "Isolated API28 software emulator, not S25",
+    "entireInstrumentationSuiteExecuted": false
+  },
+  "nativeTestBuildFollowups": [
+    {
+      "run": "native-gesture2-build",
+      "baseHead": "3e016bc072c915c37006195c6000fd37e3fc0ac6",
+      "workingTreeSourceFingerprint": "db5d6849fc19cb990ac345d6c453edae7aed718a6bf3f71c57130d20bc934b0b",
+      "target": ":app:assembleDebugAndroidTest :app:lintDebug",
+      "client": "Gradle8.2/JDK17; Android CLI build unavailable, documented attempt1",
+      "status": "FINISHED",
+      "scope": "Recompile and lint changed native gesture test only; production and JVM sources unchanged since full-gates3",
+      "exitCode": 0,
+      "elapsedSeconds": 243.25,
+      "sourceFingerprintAfter": "ff613569c959f8e3e8087546244f2bd0a5bdf0b08d20ed0d33018ff9f560cb50",
+      "inputsUnchanged": false
+    },
+    {
+      "run": "native-gesture3-build",
+      "baseHead": "3e016bc072c915c37006195c6000fd37e3fc0ac6",
+      "workingTreeSourceFingerprint": "b2510c8e9ab1a9501e970148c329a45830a36bb76623fc8cfd7f9342cde72183",
+      "target": ":app:assembleDebugAndroidTest",
+      "client": "Gradle8.2/JDK17; Android CLI build unavailable, documented attempt1",
+      "status": "FINISHED",
+      "scope": "Recompile gesture test after removing invalid CANCEL following a successful UP; Lint already passed for full native-input harness; production and JVM sources unchanged since full-gates3",
+      "exitCode": 0,
+      "elapsedSeconds": 62.9,
+      "sourceFingerprintAfter": "b2510c8e9ab1a9501e970148c329a45830a36bb76623fc8cfd7f9342cde72183",
+      "inputsUnchanged": true
+    },
+    {
+      "run": "native-gesture4-build",
+      "baseHead": "3e016bc072c915c37006195c6000fd37e3fc0ac6",
+      "workingTreeSourceFingerprint": "1a74b7c9e7900d4d621fc5f71add19f18dec02bbf861a5c5a486bd3255a4d030",
+      "target": ":app:assembleDebugAndroidTest",
+      "client": "Gradle8.2/JDK17; Android CLI build unavailable, documented attempt1",
+      "status": "FINISHED",
+      "scope": "Recompile gesture test after verifying native window drawing and focus before physical touchscreen input; Lint already passed for full native-input harness; production and JVM sources unchanged since full-gates3",
+      "exitCode": 0,
+      "elapsedSeconds": 63.12,
+      "sourceFingerprintAfter": "1a74b7c9e7900d4d621fc5f71add19f18dec02bbf861a5c5a486bd3255a4d030",
+      "inputsUnchanged": true
+    },
+    {
+      "run": "native-gesture5-build",
+      "baseHead": "4ef67f77dfb5199b92672b5e473baf6bd25479e3",
+      "workingTreeSourceFingerprint": "fdbc10b1cb8aed41e900028d3a515fe448982a9364a38534d06f4293ad182a79",
+      "target": ":app:assembleDebugAndroidTest",
+      "client": "Gradle8.2/JDK17; Android CLI build unavailable, documented attempt1",
+      "status": "FINISHED",
+      "scope": "Recompile gesture test with observational Window/SDK/scale/camera diagnostics; gesture and zoom assertion unchanged; Lint already passed for full native-input harness; production and JVM sources unchanged since full-gates3",
+      "exitCode": 0,
+      "elapsedSeconds": 63.1,
+      "sourceFingerprintAfter": "fdbc10b1cb8aed41e900028d3a515fe448982a9364a38534d06f4293ad182a79",
+      "inputsUnchanged": true
+    },
+    {
+      "run": "native-gesture6-build",
+      "baseHead": "4ef67f77dfb5199b92672b5e473baf6bd25479e3",
+      "workingTreeSourceFingerprint": "87b8fda88563f1ef0b104b79b5ba24f29b78d5987e167af8cba6ccfa8a166fc2",
+      "target": ":app:assembleDebugAndroidTest",
+      "client": "Gradle8.2/JDK17; Android CLI build unavailable, documented attempt1",
+      "status": "FINISHED",
+      "scope": "Recompile gesture test with a real-time pinch above the default SDK minimum gesture speed; MOVE samples asynchronous; SDK settings and zoom assertion unchanged; Lint already passed for full native-input harness; production and JVM sources unchanged since full-gates3",
+      "exitCode": 0,
+      "elapsedSeconds": 76.9,
+      "sourceFingerprintAfter": "87b8fda88563f1ef0b104b79b5ba24f29b78d5987e167af8cba6ccfa8a166fc2",
+      "inputsUnchanged": true
+    }
+  ],
+  "finalLint": {
+    "baseHead": "4ef67f77dfb5199b92672b5e473baf6bd25479e3",
+    "workingTreeSourceFingerprint": "87b8fda88563f1ef0b104b79b5ba24f29b78d5987e167af8cba6ccfa8a166fc2",
+    "target": ":app:lintDebug",
+    "client": "Gradle8.2/JDK17; Android CLI build unavailable, documented attempt1",
+    "status": "FINISHED",
+    "scope": "Final Lint after the observational native gesture test and valid real-time input repair; production/JVM inputs unchanged",
+    "exitCode": 0,
+    "elapsedSeconds": 218.94,
+    "sourceFingerprintAfter": "87b8fda88563f1ef0b104b79b5ba24f29b78d5987e167af8cba6ccfa8a166fc2",
+    "inputsUnchanged": true
+  },
+  "nativePinchRepair": {
+    "cause": "The default SDK minimum scale speed rejected every sample of the slow synchronous test pinch; 34 events reached both Window and SDK with two pointers but no ScaleBegin, gesture duration2726ms",
+    "repair": "Ten real-time MOVE samples with8ms spacing and asynchronous MOVE injection; original SDK defaults and published native camera zoom assertion retained",
+    "successfulFocusedRun": "native-pinch6",
+    "settingsModified": false,
+    "assertionWeakened": false
+  },
+  "sourceChangeNotes": "Production and JVM inputs unchanged since full-gates3; only Android gesture test harness and documentation evolved. A fingerprint marked inputsUnchanged=false in native-gesture2-build reflects documentation edits during that build; later targeted assemblies record stable inputs."
+}

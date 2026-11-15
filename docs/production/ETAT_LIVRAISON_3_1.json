@@ -3,11 +3,18 @@
   "exactDeliveryDate": "2027-02-28",
   "constructionVersion": "3.0.0",
   "productionVersionTarget": "3.1",
-  "testedSource": "33d904901a320cb3439e25a2af4d2efdfebe444a",
-  "build": "DEBUG_APK_PACKAGED",
+  "testedSource": "8ea8cde4b9c7a283e4404c45f39298ed5375af26",
+  "build": "DEBUG_APK_AND_UNSIGNED_OPTIMIZED_RELEASE_BUNDLE_PACKAGED",
   "tests": {
-    "appJvm": 2036,
+    "appJvm": 2046,
     "cartographyJvm": 47,
+    "capsuleVerifierJvm": 7,
+    "appAndCartographyVariants": [
+      "debug",
+      "release"
+    ],
+    "distinctJvmCases": 2100,
+    "variantJvmExecutions": 4193,
     "failures": 0,
     "errors": 0,
     "skipped": 0
@@ -18,17 +25,52 @@
     "nativeS25RenderVerified": false
   },
   "remainingKnownWork": [
-    "S25 Ultra installation and native render review",
-    "Android instrumentation and SQLCipher record migrations",
-    "One full field day offline",
-    "Native comparison against approved100 mockups",
-    "Restore or complete stock/control contracts before activating pending WoodFileCard and RetainedJournalContent",
+    "S25 Ultra installation, real satellite rendering and native sensor review",
+    "Broader instrumentation coverage and real user database upgrade qualification",
+    "One full field day offline, including pack scope transitions and transfer resumption",
+    "Native comparison against approved100 mockups; catalogue images and routes still incomplete",
+    "Complete per-datum explanations in Technicien Synthese and agreed Diagnostics review",
+    "Qualify the camera/GPS height protocol on target hardware with a field reference",
+    "Restore or complete stock/control contracts before activating pending WoodFileCard and full RetainedJournalContent",
     "Approved21 artwork and selector integration",
-    "Wire and qualify complete Maps navigation journey, current main entry remains stub",
-    "Production signature, release optimization, agreed sales scope and distribution channel"
+    "Wire and qualify complete Maps navigation journey; current main entry remains a stub",
+    "Production signature, agreed sales scope and distribution channel"
   ],
-  "evidence": "APPLICATION_VALIDATION_2026-11-14.json",
-  "qualification": "Current development over partially recovered sources; not exact November13 identity; not production ready",
+  "evidence": "../developpement/VALIDATION_STABILISATION_2026-11-15.json",
+  "qualification": "Construction build and targeted native cases qualified for local testing; historical recovery remains partial; not exact November13 identity or production readiness",
   "dateConfirmedByUser": true,
-  "stabilizedCandidatePlanningTarget": "2027-02-14"
+  "stabilizedCandidatePlanningTarget": "2027-02-14",
+  "historicalValidation20261114": {
+    "testedSource": "33d904901a320cb3439e25a2af4d2efdfebe444a",
+    "build": "DEBUG_APK_PACKAGED",
+    "tests": {
+      "appJvm": 2036,
+      "cartographyJvm": 47,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "evidence": "APPLICATION_VALIDATION_2026-11-14.json"
+  },
+  "validationDate": "2026-11-15",
+  "targetedNativeTests": {
+    "distinctPassed": 35,
+    "migrationCases": 7,
+    "mapboxCases": 8,
+    "otherUiCases": 20,
+    "unresolvedCases": [],
+    "device": "Isolated Android9 API28 software emulator",
+    "entireSuiteExecuted": false,
+    "s25Executed": false,
+    "failuresInInitialRunsRetainedInEvidence": true
+  },
+  "lint": {
+    "errors": 0,
+    "warningsByModule": {
+      "app": 972,
+      "cartography-mapbox": 3,
+      "cartography-ui": 18,
+      "cartography-preview": 15
+    }
+  }
 }

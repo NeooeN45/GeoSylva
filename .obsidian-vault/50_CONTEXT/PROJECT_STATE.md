@@ -1,13 +1,43 @@
 ---
 date: 2026-06-29
-updated: 2026-10-19
+updated: 2026-11-15
 project: GeoSylva
 version: 3.0.0
-db_version: 46
+db_version: 49
 tags: [context, project-state]
 ---
 
 # GeoSylva — État du projet
+
+## Reprise actuelle — 15 novembre 2026
+
+Les guides `docs/developpement/ESSAIS_LOCAUX.md` et `REPRISE_AGENTS.md`,
+`docs/recovery/STATUS.txt` et `docs/production/ETAT_LIVRAISON_3_1.json`
+priment sur les bilans datés ci-dessous. La construction 3.0.0 utilise Room 49
+et Mapbox. La production 3.1 est visée au 28 février 2027.
+L'utilisateur autorise maintenant la mise à jour des sources sur GitHub public ;
+les anciennes restrictions de publication ci-dessous restent des faits historiques.
+Les preuves actuelles sont datées et ne certifient pas une recette physique S25
+ou la fidélité visuelle des 100 maquettes.
+
+
+## Stabilisation vérifiée — 15 novembre 2026
+
+Le commit `8ea8cde` contient le code vérifié du lot courant ; les commits
+documentaires suivants ne changent pas les sources applicatives. Build debug,
+bundle release optimisé non signé et APK AndroidTest sont produits. Les 2 100 cas
+JVM distincts passent dans les variantes concernées (4 193 exécutions), Lint sans
+erreur. 35 cas natifs ciblés passent sur plusieurs exécutions API28 : sept de
+migrations SQLCipher, vingt métier/couches et huit Mapbox. Le geste de pincement
+du banc a été corrigé pour respecter le seuil natif du SDK, sans changer ses
+réglages ni l'assertion de zoom ; ses échecs initiaux sont conservés dans le bilan.
+
+Le dossier chantier retenu et le gestionnaire hors connexion sont maintenant
+raccordés. Technicien et Conducteur restent à finaliser ; le mode Maps complet,
+les contrats des fiches bois/contrôle, la conformité des maquettes et la recette
+S25/journée hors connexion restent ouverts. Voir les bilans et le suivi dans
+`docs/developpement/`. Les archives historiques ci-dessous ne sont pas des
+preuves sur le code courant.
 
 ## Recette utilisateur et correctifs UX — 19 octobre 2026
 

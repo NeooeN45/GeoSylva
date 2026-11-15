@@ -1,11 +1,20 @@
 # GeoSylva — AI Context / Documentation technique de référence
 
-## État courant — 19 octobre 2026
+## État courant — 15 novembre 2026
+
+Commencer par `docs/developpement/REPRISE_AGENTS.md`, `docs/recovery/STATUS.txt`
+et `docs/production/ETAT_LIVRAISON_3_1.json`. Version 3.0.0 (11) de construction,
+Room 49, Mapbox Maps SDK 11.34.1. La production 3.1 est visée au 28 février 2027.
+Les anciennes validations ci-dessous conservent leur date et leur portée.
+L'utilisateur autorise désormais la mise à jour des sources sur le dépôt GitHub
+public ; les anciennes consignes de report de publication ne décrivent plus cette décision.
+
+## Bilan historique — 19 octobre 2026
 
 Les décisions récentes du fondateur priment sur les sections historiques ci-dessous.
 Lire `.obsidian-vault/50_CONTEXT/PROJECT_STATE.md`, puis
 `docs/FORMULAIRES_BOIS_C02_C03_2026-10-18.md` pour le lot de saisie manuelle et ses
-preuves. Le code courant est en version 3.0.0 (11), avec base Room 46.
+preuves. Le code de ce bilan historique était en version 3.0.0 (11), avec base Room 46.
 Le lot `docs/CARNET_TERRAIN_CHANTIERS_2026-10-18.md` ajoute ensuite les chantiers
 multi-parcelles, photos, archives et événements physiques datés, dans l'espace local
 ou personnel. Le lot du 19 octobre ajoute les réceptions locales versionnées, leur
@@ -40,8 +49,8 @@ Ce fichier est la **source de vérité technique** pour comprendre le code de Ge
 
 GeoSylva est une application Android (Kotlin / Jetpack Compose) de **gestion forestière de terrain** : inventaire, martelage, diagnostic sylvicole, IBP CNPF, cartographie, exports SIG.
 
-**Version actuelle** : 2.4.0 (versionCode 10)
-**DB version** : 32 (mis à jour 2026-07-01, était 29 au 2026-06-29 — voir `MASTER_PLAN.md` §2.4 pour le détail des items déjà résolus depuis l'audit initial)
+**Version actuelle** : 3.0.0 (versionCode 11), construction ; production 3.1 prévue le 28 février 2027
+**DB version** : 49 ; schéma généré et migrations additives documentées dans `docs/recovery/`
 **Statut** : En développement — voir `MASTER_PLAN.md` §2.4/§3.2 pour le statut vérifié (Phase 0 sécurité/RGPD très avancée, Phase 1 i18n/perf encore largement à faire)
 
 **Identité Quintessences** : cycle mobile local livré le 2026-08-03
@@ -65,12 +74,12 @@ dans l'APK. L'activation publique attend le domaine et le tunnel du Fondateur.
 | UI | Jetpack Compose | BOM 2024.09.00 | À mettre à jour |
 | Design | Material 3 | — | Dark mode + dynamic colors |
 | Navigation | Navigation Compose | 2.8.5 | Sealed class Screen, 5 sous-graphes |
-| Persistance | Room | 2.6.1 | DB v32, migrations actives |
+| Persistance | Room | 2.6.1 | DB v49, migrations actives |
 | Préférences | DataStore | 1.0.0 | Non chiffré (à corriger) |
 | Sérialisation | kotlinx.serialization | 1.6.3 | |
 | Coroutines | kotlinx.coroutines | 1.8.1 | Bien scopées (viewModelScope, lifecycleScope) |
 | Network | OkHttp | 4.12.0 | SecureHttpClient : HTTPS, autorités Android, liste blanche et DNS public |
-| Maps | MapLibre GL | 10.3.1 | 12 couches carto |
+| Maps | Mapbox Maps SDK | 11.34.1 | Moteur commun et couches selon contexte |
 | Camera | CameraX | 1.3.3 | Clinomètre numérique |
 | Location | Play Services Location | 21.3.0 | + LocationManager legacy (à remplacer) |
 | WorkManager | Work Runtime KTX | 2.9.0 | BackupWorker, PriceSyncWorker |
@@ -380,12 +389,12 @@ Voir `docs/RGPD_AUDIT_REPORT.md` + `AUDIT_GLOBAL_GEOSYLVA.md` §6.
 ### 13.2 Configuration
 
 - `compileSdk = 35`, `targetSdk = 35`, `minSdk = 26`
-- `versionCode = 10`, `versionName = "2.4.0"`
-- `BUILD_ID` injecté à chaque compilation (timestamp)
+- `versionCode = 11`, `versionName = "3.0.0"` (construction)
+- `BUILD_ID` stable par défaut (`dev`) ; injection explicite par propriété Gradle ou variable CI
 - Signing : `keystore.properties` externalisé, conditionnel
 - ProGuard : `proguard-android-optimize.txt` + `proguard-rules.pro`
 - Asset pack : `dem_pack` (tuiles DEM SRTM, install-time)
-- **`kotlin.incremental=false`** dans `gradle.properties` — **À CORRIGER** (Phase 0.1)
+- `kotlin.incremental=true`, `ksp.incremental=false` dans `gradle.properties`
 
 ### 13.3 CI/CD
 

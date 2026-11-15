@@ -6,6 +6,16 @@
 
 ---
 
+## Reprise du développement — novembre 2026
+
+Avant une nouvelle intervention, lire `docs/developpement/REPRISE_AGENTS.md`,
+`docs/recovery/STATUS.txt` et `docs/production/ETAT_LIVRAISON_3_1.json`.
+La version 3.0.0 est une construction ; la cible de production 3.1 est fixée au
+28 février 2027. Les bilans anciens gardent leur portée historique.
+La publication des sources sur le dépôt GitHub public est autorisée par
+l'utilisateur le 14/15 novembre ; les configurations personnelles restent hors Git.
+Conserver les tests, les maquettes validées et les archives de données.
+
 ## Vue d'ensemble
 
 Ce document décrit le système complet mis en place pour :

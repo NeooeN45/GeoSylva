@@ -14,6 +14,16 @@
 
 ---
 
+## Priorité actuelle — 15 novembre 2026
+
+La livraison de production 3.1 est visée au **28 février 2027**, avec un candidat
+stabilisé visé le 14 février. La version 3.0.0 reste une construction.
+Lire `docs/production/ETAT_LIVRAISON_3_1.json` et les guides dans
+`docs/developpement/` pour la reprise actuelle : Room 49, Mapbox commun,
+validation datée et limites encore à tester. Les bilans ci-dessous sont historiques.
+L'autorisation utilisateur du 14/15 novembre permet désormais la publication des
+sources sur le dépôt public, avec contrôle des fichiers sensibles et tests.
+
 ## Complément du 18 octobre 2026
 
 Les décisions actuelles du fondateur et l'état vérifié de
@@ -112,7 +122,7 @@ L'ambition est de fournir :
 
 ---
 
-## 2. ÉTAT ACTUEL (vérifié 2026-07-17)
+## 2. ÉTAT HISTORIQUE (vérifié 2026-07-17)
 
 ### 2.1 Version
 

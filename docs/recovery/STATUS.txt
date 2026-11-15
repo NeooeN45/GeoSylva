@@ -1,10 +1,17 @@
-APPLICATION_DEBUG_COMPILED_AND_PACKAGED / MAPBOX_CONFIGURED
-2036 APP JVM TESTS + 47 CARTOGRAPHY JVM TESTS PASS / NO FAILURES OR SKIPS
-Tested source: 33d904901a320cb3439e25a2af4d2efdfebe444a
-Proof: APPLICATION_VALIDATION_2026-11-14.json
-Room46-to49 host schema comparison passed; Android SQLCipher migration execution remains pending.
-Current development includes literal recovered sources and documented new contract repairs.
+CONSTRUCTION 3.0.0 (11) / VALIDATION 2026-11-15
+DEBUG APK + UNSIGNED OPTIMIZED RELEASE BUNDLE + ANDROIDTEST APK PACKAGED
+2046 APP JVM + 47 MAPBOX JVM IN EACH VARIANT; 7 CAPSULE VERIFIER JVM
+2100 DISTINCT JVM CASES / 4193 VARIANT EXECUTIONS / NO FAILURES, ERRORS OR SKIPS
+35 TARGETED NATIVE CASES VERIFIED ACROSS RUNS ON ISOLATED API28 SOFTWARE EMULATOR
+7 SQLCIPHER MIGRATION CASES + 20 BUSINESS/LAYER UI CASES + FINAL8 MAPBOX CASES PASS
+Final native pinch uses real Android input above SDK default minimum speed; SDK settings and camera assertion unchanged.
+Initial native failures and their repair remain in the evidence; entire instrumentation suite not executed.
+Validated code: 8ea8cde4b9c7a283e4404c45f39298ed5375af26
+Proof: ../developpement/VALIDATION_STABILISATION_2026-11-15.json
+Integration: ../developpement/SUIVI_INTEGRATION_MAQUETTES.md
+Local testing: ../developpement/ESSAIS_LOCAUX.md
+Worksite dossier and offline manager now connected; pending stock/control interfaces and full Maps journey remain incomplete.
+No physical S25, full-day offline, all100-mockup pixel or production qualification.
 Historical recovery remains partial; exact November13 source identity is not claimed.
-Pending sources and missing business contracts: WOOD_FIELD_INTEGRATION_BOUNDARIES.json and RESOURCE_CONTRACT_REPAIRS.json.
-No physical S25, all100-mockup pixel or production qualification.
-Production deadline: February28,2027, confirmed by user. Stabilized candidate target: February14. See ../production/LIVRAISON_3_1_FEVRIER_2027.md.
+Production3.1 deadline: February28,2027, confirmed by user. Candidate planning target: February14.
+Historical proof preserved: APPLICATION_VALIDATION_2026-11-14.json (source33d9049,2083JVM).
