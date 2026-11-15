@@ -1,10 +1,12 @@
 package com.forestry.counter.ui
 
 import android.os.SystemClock
+import android.animation.ValueAnimator
 import android.view.InputDevice
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -24,11 +26,14 @@ import com.forestry.counter.presentation.components.maps.MapOfflineConnectivityB
 import com.forestry.counter.presentation.theme.ForestryCounterTheme
 import com.mapbox.geojson.Point
 import com.mapbox.maps.MapView
+import com.mapbox.android.gestures.StandardScaleGestureDetector
+import com.mapbox.maps.plugin.gestures.OnScaleListener
 import com.mapbox.maps.plugin.gestures.gestures
 import com.quintessences.geosylva.cartography.mapbox.*
 import com.quintessences.geosylva.cartography.ui.*
 import com.quintessences.geosylva.cartography.ui.R as MapUiR
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.math.abs
 import org.junit.After
@@ -57,6 +62,11 @@ class MapScreenTest {
     private val locateRequests = AtomicInteger()
     private val backRequests = AtomicInteger()
     private val contextRequests = AtomicInteger()
+    private val cameraGestureCallbacks = AtomicInteger()
+    private val inputSamples = AtomicInteger()
+    private val inputMaxMillis = AtomicLong()
+    private val inputTotalMillis = AtomicLong()
+    private val inputGestureMillis = AtomicLong()
 
     @After fun restoreWindowConfiguration() { restoreWindow?.invoke() }
 
@@ -130,22 +140,69 @@ class MapScreenTest {
         awaitMapChromePresentation(compose.activity)
         val before = checkNotNull(camera.get()).zoom
         val bounds = IntArray(4)
+        val probe = NativePinchProbe()
+        val scaleObserver = object : OnScaleListener {
+            override fun onScaleBegin(detector: StandardScaleGestureDetector) {
+                probe.scaleBegins.incrementAndGet(); probe.sample(detector)
+            }
+            override fun onScale(detector: StandardScaleGestureDetector) {
+                probe.scaleMoves.incrementAndGet(); probe.sample(detector)
+            }
+            override fun onScaleEnd(detector: StandardScaleGestureDetector) {
+                probe.scaleEnds.incrementAndGet(); probe.sample(detector)
+            }
+        }
+        lateinit var native: MapView
+        lateinit var previousWindow: Window.Callback
+        lateinit var observingWindow: Window.Callback
         compose.runOnUiThread {
-            val view = nativeMap(compose.activity.window.decorView)
-            assertTrue("Le SDK doit autoriser le zoom tactile", view.gestures.pinchToZoomEnabled)
-            view.getLocationOnScreen(bounds)
-            bounds[2] = view.width
-            bounds[3] = view.height
+            native = nativeMap(compose.activity.window.decorView)
+            assertTrue("Le SDK doit autoriser le zoom tactile", native.gestures.pinchToZoomEnabled)
+            native.getLocationOnScreen(bounds)
+            bounds[2] = native.width
+            bounds[3] = native.height
+            previousWindow = checkNotNull(compose.activity.window.callback)
+            // Observation seulement : le callback Android original reçoit le même événement.
+            observingWindow = object : Window.Callback by previousWindow {
+                override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+                    probe.windowEvents.incrementAndGet()
+                    probe.windowMaxPointers.updateAndGet { maxOf(it, event.pointerCount) }
+                    val handled = previousWindow.dispatchTouchEvent(event)
+                    if (handled) probe.windowHandled.incrementAndGet()
+                    val detector = native.gestures.getGesturesManager().standardScaleGestureDetector
+                    probe.sample(detector)
+                    detector.currentEvent?.let { received ->
+                        if (received.eventTime == event.eventTime && received.actionMasked == event.actionMasked) {
+                            probe.nativeEventMatches.incrementAndGet()
+                            probe.nativeMaxPointers.updateAndGet { maxOf(it, received.pointerCount) }
+                        }
+                    }
+                    return handled
+                }
+            }
+            native.gestures.addOnScaleListener(scaleObserver)
+            compose.activity.window.callback = observingWindow
+            probe.configuration = "bounds=${bounds.toList()}; zoomBounds=${native.mapboxMap.getBounds()}; " +
+                "pinchEnabled=${native.gestures.pinchToZoomEnabled}; " +
+                "animatorsEnabled=${ValueAnimator.areAnimatorsEnabled()}"
         }
         // Le SDK Android natif reçoit des MotionEvent horodatés par l'horloge réelle.
         // L'horloge synthétique Compose ne rythme pas les détecteurs/animations natifs.
-        pinchOutWithAndroidInput(bounds)
         try {
+            pinchOutWithAndroidInput(bounds)
             compose.waitUntil(TIMEOUT) { camera.get()?.zoom?.let { it > before + 0.15 } == true }
         } catch (failure: ComposeTimeoutException) {
             var nativeZoom = Double.NaN
             compose.runOnUiThread { nativeZoom = nativeMap(compose.activity.window.decorView).mapboxMap.cameraState.zoom }
-            throw AssertionError("Zoom initial=$before ; natif=$nativeZoom ; publié=${camera.get()?.zoom}", failure)
+            throw AssertionError("Zoom initial=$before ; natif=$nativeZoom ; publié=${camera.get()?.zoom}; " +
+                "cameraGestureCallbacks=${cameraGestureCallbacks.get()}; ${probe.summary()}; " +
+                "inputSamples=${inputSamples.get()}; maxInjectMs=${inputMaxMillis.get()}; " +
+                "totalInjectMs=${inputTotalMillis.get()}; gestureElapsedMs=${inputGestureMillis.get()}", failure)
+        } finally {
+            compose.runOnUiThread {
+                native.gestures.removeOnScaleListener(scaleObserver)
+                if (compose.activity.window.callback === observingWindow) compose.activity.window.callback = previousWindow
+            }
         }
     }
 
@@ -164,8 +221,19 @@ class MapScreenTest {
             } }
             val event = MotionEvent.obtain(downTime, SystemClock.uptimeMillis(), action, count,
                 properties, coordinates, 0, 0, 1f, 1f, 0, 0, InputDevice.SOURCE_TOUCHSCREEN, 0)
-            try { assertTrue("Échec d'injection Android : action=$action, pointeurs=$count", automation.injectInputEvent(event, true)) }
-            finally { event.recycle() }
+            val started = SystemClock.uptimeMillis()
+            try {
+                inputSamples.incrementAndGet()
+                // Ne pas attendre un rendu pour chaque MOVE : les doigts produisent
+                // leurs échantillons indépendamment de la vitesse du GPU de test.
+                val synchronous = event.actionMasked != MotionEvent.ACTION_MOVE
+                assertTrue("Échec d'injection Android : action=$action, pointeurs=$count", automation.injectInputEvent(event, synchronous))
+            } finally {
+                val elapsed = SystemClock.uptimeMillis() - started
+                inputMaxMillis.updateAndGet { maxOf(it, elapsed) }
+                inputTotalMillis.addAndGet(elapsed)
+                event.recycle()
+            }
         }
         val start = bounds[2] * 0.12f
         val end = bounds[2] * 0.32f
@@ -174,15 +242,18 @@ class MapScreenTest {
             send(MotionEvent.ACTION_DOWN, 1, start)
             SystemClock.sleep(24)
             send(MotionEvent.ACTION_POINTER_DOWN or (1 shl MotionEvent.ACTION_POINTER_INDEX_SHIFT), 2, start)
-            for (step in 1..30) {
-                SystemClock.sleep(20)
-                send(MotionEvent.ACTION_MOVE, 2, start + (end - start) * step / 30f)
+            // Le SDK refuse le début d'un geste sous sa vitesse minimale native.
+            // Un pincement franc franchit ce seuil sans modifier les réglages du moteur.
+            for (step in 1..10) {
+                SystemClock.sleep(8)
+                send(MotionEvent.ACTION_MOVE, 2, start + (end - start) * step / 10f)
             }
             send(MotionEvent.ACTION_POINTER_UP or (1 shl MotionEvent.ACTION_POINTER_INDEX_SHIFT), 2, end)
             send(MotionEvent.ACTION_UP, 1, end)
             completed = true
         } finally {
             if (!completed) runCatching { send(MotionEvent.ACTION_CANCEL, 1, end) }
+            inputGestureMillis.set(SystemClock.uptimeMillis() - downTime)
         }
     }
 
@@ -229,6 +300,7 @@ class MapScreenTest {
                         onStatusChanged = status::set,
                         onOverlayStatusChanged = overlay::set,
                         onCameraChanged = camera::set,
+                        onCameraUserGesture = { cameraGestureCallbacks.incrementAndGet() },
                         onMapTap = tap::set,
                         scaleBarVisible = state.value.panel == null,
                     )
@@ -267,6 +339,31 @@ class MapScreenTest {
         override fun onExaggerationChange(exaggeration: Double) = Unit
         override fun onFlatView(flat: Boolean) = Unit
         override fun onExplain(help: MapHelp) = Unit
+    }
+
+    /** Mesures du banc seulement, sans intercepter le plugin ni modifier ses seuils. */
+    private class NativePinchProbe {
+        val windowEvents = AtomicInteger()
+        val windowHandled = AtomicInteger()
+        val windowMaxPointers = AtomicInteger()
+        val nativeEventMatches = AtomicInteger()
+        val nativeMaxPointers = AtomicInteger()
+        val scaleBegins = AtomicInteger()
+        val scaleMoves = AtomicInteger()
+        val scaleEnds = AtomicInteger()
+        private val maxSpan = AtomicReference(0f)
+        private var lastScale = "none"
+        var configuration = "none"
+        fun sample(detector: StandardScaleGestureDetector) {
+            maxSpan.updateAndGet { maxOf(it, detector.currentSpan) }
+            lastScale = "enabled=${detector.isEnabled}; span=${detector.currentSpan}; " +
+                "threshold=${detector.spanSinceStartThreshold}; factor=${detector.scaleFactor}; " +
+                "duration=${detector.gestureDuration}; inProgress=${detector.isInProgress}"
+        }
+        fun summary() = "$configuration; windowEvents=${windowEvents.get()}; windowHandled=${windowHandled.get()}; " +
+            "windowMaxPointers=${windowMaxPointers.get()}; nativeEventMatches=${nativeEventMatches.get()}; " +
+            "nativeMaxPointers=${nativeMaxPointers.get()}; scaleBegins=${scaleBegins.get()}; " +
+            "scaleMoves=${scaleMoves.get()}; scaleEnds=${scaleEnds.get()}; maxSpan=${maxSpan.get()}; detector=[$lastScale]"
     }
 
     companion object {
