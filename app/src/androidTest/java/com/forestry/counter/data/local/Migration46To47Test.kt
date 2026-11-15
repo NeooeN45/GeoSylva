@@ -8,7 +8,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.forestry.counter.data.local.entity.FieldControlBasisEntity
 import com.forestry.counter.data.local.entity.FieldEntryEntity
 import kotlinx.coroutines.runBlocking
-import net.sqlcipher.database.SQLiteConstraintException
+import android.database.sqlite.SQLiteConstraintException
 import net.sqlcipher.database.SQLiteDatabase
 import net.sqlcipher.database.SupportFactory
 import org.junit.After

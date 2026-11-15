@@ -1,5 +1,11 @@
 package com.forestry.counter.presentation.navigation
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -13,6 +19,7 @@ import com.forestry.counter.presentation.screens.formulas.FormulasScreen
 import com.forestry.counter.presentation.screens.group.GroupScreen
 import com.forestry.counter.presentation.screens.groups.GroupsScreen
 import com.forestry.counter.presentation.screens.packs.PackManagerScreen
+import com.forestry.counter.presentation.screens.packs.offline.OfflinePackManagerScreen
 import com.forestry.counter.presentation.screens.settings.PriceTablesEditorScreen
 import com.forestry.counter.presentation.screens.settings.SettingsHomeScreen
 import com.forestry.counter.presentation.screens.settings.SettingsScreen
@@ -329,8 +336,21 @@ fun NavGraphBuilder.settingsNavGraph(
         popEnterTransition = transitions.popEnter,
         popExitTransition = transitions.popExit,
     ) {
-        PackManagerScreen(
-            onNavigateBack = { navController.popBackStack() }
-        )
+        var showAdministrativeFiles by rememberSaveable { mutableStateOf(false) }
+        val packScreens = rememberSaveableStateHolder()
+        BackHandler(enabled = showAdministrativeFiles) { showAdministrativeFiles = false }
+        if (showAdministrativeFiles) {
+            packScreens.SaveableStateProvider("administrative-files") {
+                PackManagerScreen(onNavigateBack = { showAdministrativeFiles = false })
+            }
+        } else {
+            packScreens.SaveableStateProvider("offline-mapbox") {
+                OfflinePackManagerScreen(
+                    controller = app.offlineMapPackController,
+                    onBack = { navController.popBackStack() },
+                    onLegacyFiles = { showAdministrativeFiles = true },
+                )
+            }
+        }
     }
 }

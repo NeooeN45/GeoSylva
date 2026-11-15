@@ -103,15 +103,40 @@ class FieldJournalViewModel(private val repository: FieldRepository, val target:
             mutable.value=mutable.value.copy(form=null,draftSaved=false)
         } }
     }
-    fun addPhoto(bytes: ByteArray, mime: String) {
-        if (!ready() || draft?.submitted == true || (draft?.form?.photoIds?.size ?: 6) >= 6) return
+    /** Identité à conserver dès l'ouverture de la caméra ou de la galerie. */
+    internal fun currentPhotoDraftId(): String? {
+        val capturedAccess = access ?: return null
+        if (!repository.isCurrent(capturedAccess) || mutable.value.accessLost || !mutable.value.writable) return null
+        return draft?.takeUnless { it.submitted }?.id
+    }
+
+    fun addPhoto(expectedDraftId: String?, bytes: ByteArray, mime: String) {
+        if (expectedDraftId == null || !ready()) return
+        val capturedAccess = access ?: return
+        val requestedDraft = photoDraft(expectedDraftId, capturedAccess) ?: return
+        if (requestedDraft.form.photoIds.size >= MAX_PHOTOS) return
+        val payload = bytes.copyOf()
         action { writes.withLock {
-            val photo=repository.addPhoto(target,bytes,mime,"",permit())
-            val current=checkNotNull(draft)
+            // L'attente du verrou peut avoir laissé passer une révocation ou un autre brouillon.
+            val beforeWrite = photoDraft(expectedDraftId, capturedAccess) ?: return@withLock
+            if (beforeWrite.form.photoIds.size >= MAX_PHOTOS) return@withLock
+            val photo=repository.addPhoto(target,payload,mime,"",capturedAccess)
+            val current=photoDraft(expectedDraftId, capturedAccess) ?: return@withLock
+            if (current.form.photoIds.size >= MAX_PHOTOS || photo.id in current.form.photoIds) return@withLock
             draft=current.copy(form=current.form.copy(photoIds=current.form.photoIds+photo.id))
-            mutable.value=mutable.value.copy(form=draft?.form)
+            mutable.value=mutable.value.copy(form=draft?.form,draftSaved=false)
             persist()
+            photoDraft(expectedDraftId, capturedAccess) ?: return@withLock
         } }
+    }
+    private fun photoDraft(expectedDraftId: String, capturedAccess: FieldAccess): JournalDraft? {
+        if (access !== capturedAccess || !repository.isCurrent(capturedAccess)) {
+            revoke()
+            return null
+        }
+        return draft?.takeIf {
+            it.id == expectedDraftId && !it.submitted && !mutable.value.accessLost && mutable.value.writable
+        }
     }
     suspend fun photo(id: String): ByteArray=repository.photo(id,target,permit()).second
     fun photoError() { mutable.value=mutable.value.copy(error=FieldError.INVALID) }
@@ -128,7 +153,10 @@ class FieldJournalViewModel(private val repository: FieldRepository, val target:
         if (access != null && !repository.isCurrent(permit())) revoke()
         else mutable.value=mutable.value.copy(error=(e as? FieldException)?.code ?: if (e is IllegalArgumentException) FieldError.INVALID else FieldError.IO)
     }
-    companion object { private const val SLOT="journal-v1" }
+    companion object {
+        private const val SLOT="journal-v1"
+        private const val MAX_PHOTOS=6
+    }
 }
 
 /** Reuse only the explicit unit/convention; never copy a quantity or convert a measure. */

@@ -204,7 +204,7 @@ fun MainScaffold(
             // back navigation remains available; the floating menu must not
             // cover a field action or bypass an unsaved-draft confirmation.
             currentRoute !in setOf(
-                Screen.Worksites.route, Screen.WorksiteReceipts.route,
+                Screen.Worksites.route, Screen.WorksiteMap.route, Screen.WorksiteReceipts.route,
                 Screen.WorksiteExport.route, Screen.FieldJournal.route,
                 Screen.WoodDepots.route, Screen.WoodObjects.route,
             )) {

@@ -1,0 +1,28 @@
+<resources>
+    <string name="preview_app_name">Géosylva TEST Mapbox</string>
+    <string name="preview_configuration_title">Configure Mapbox</string>
+    <string name="preview_configuration_body">The Géosylva account and its public token are required to display the actual map.</string>
+    <string name="preview_show_illustration">View the approved interface</string>
+    <string name="preview_context_title">Forest fieldwork</string>
+    <string name="preview_context_subtitle">No area opened</string>
+    <string name="preview_demo_title">Fictitious example</string>
+    <string name="preview_demo_parcel">Plot A</string>
+    <string name="preview_unavailable_title">Integration pending</string>
+    <string name="preview_unavailable_body">This test host checks the shared map engine and panels. Business records and tools remain in Géosylva.</string>
+    <string name="preview_no_position">No position has been acquired in this test host.</string>
+    <string name="preview_no_source">This source needs qualification and integration before activation.</string>
+    <string name="preview_camera_requires_map">Available when the Mapbox map is configured and ready.</string>
+    <string name="preview_no_data">No field data is loaded in this test host.</string>
+    <string name="preview_close">Close</string>
+    <string name="preview_retry">Retry</string>
+    <string name="preview_failure">The map could not load.</string>
+    <string name="preview_vercors">Vercors · test view</string>
+    <string name="preview_map_loading">Loading the map…</string>
+    <string name="preview_relief_applying">Applying terrain…</string>
+    <string name="preview_basemap_satellite_labels">Satellite with labels</string>
+    <string name="preview_basemap_satellite">Satellite</string>
+    <string name="preview_basemap_plan">Street map</string>
+    <string name="preview_basemap_topographic">Topographic</string>
+    <string name="preview_sources_body">Basemaps and terrain are supplied by Mapbox. Imagery capture dates vary by area. This test host loads no forest survey records.</string>
+    <string name="preview_information">Test host information</string>
+</resources>

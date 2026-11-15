@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="field_q_quantity_initial">Quantité de départ</string>
+    <string name="field_q_quantity_removal">Quantité enlevée</string>
+    <string name="field_q_quantity_remaining">Quantité observée</string>
+    <string name="field_q_quantity_placeholder">Saisir la quantité</string>
+    <string name="field_q_choose">À choisir</string>
+    <string name="field_q_required">À renseigner</string>
+    <string name="field_q_date_initial">Date du stock</string>
+    <string name="field_q_date_removal">Date de l’enlèvement</string>
+    <string name="field_q_date_remaining">Date du contrôle</string>
+    <string name="field_q_ledger">Unité et convention</string>
+    <string name="field_q_convention_missing">Convention à préciser</string>
+    <string name="field_q_details">Détails</string>
+    <string name="field_q_details_summary">Documents, notes, photos</string>
+    <string name="field_q_details_invalid">Titre ou motif à vérifier</string>
+    <string name="field_q_sheet_done">Terminé</string>
+    <string name="field_q_error_quantity">Vérifiez la quantité saisie.</string>
+    <string name="field_q_error_title">Renseignez un titre.</string>
+    <string name="field_q_error_date">Renseignez une date et un fuseau valides.</string>
+    <string name="field_q_error_convention">Renseignez la convention de mesure.</string>
+    <string name="field_q_error_reason">Expliquez la correction.</string>
+    <string name="field_q_help_open">Comprendre : %1$s</string>
+    <string name="field_q_help_date">Il s’agit de la date du constat, dans le fuseau indiqué. La date d’enregistrement est conservée séparément. Une heure inexistante ou ambiguë lors d’un changement d’heure doit être corrigée.</string>
+    <string name="field_q_help_ledger">Choisissez ce que représente la quantité suivie. Les opérations utilisent exactement la même unité et la même convention. Le volume apparent, le bois plein, les tonnes, les stères et les pièces ne sont ni additionnés entre eux ni convertis automatiquement.</string>
+    <string name="field_q_help_initial">Déclarez explicitement la quantité physique de départ, positive ou nulle. Une mesure géométrique ne crée pas de stock. La date, l’unité et la convention sont nécessaires ; les pièces se comptent en nombres entiers. Cette quantité ne constitue pas un montant payable.</string>
+    <string name="field_q_help_removal">Saisissez la quantité effectivement enlevée, strictement positive. Le stock affiché correspond aux opérations enregistrées à la date saisie et ne comprend pas ce brouillon. L’enregistrement vérifie aussi l’historique : aucune sortie ne doit rendre le solde négatif dans la même unité et convention.</string>
+    <string name="field_q_help_observed">Saisissez le restant observé, indépendamment du stock théorique. Un contrôle conserve un constat ; il ne modifie ni ne réinitialise le stock. Une comparaison sans référence disponible reste inconnue. Les pièces se comptent en nombres entiers.</string>
+    <string name="field_q_help_remainder">Bois encore présent et Fond de pile demandent une quantité positive. Zéro constaté signifie qu’aucun bois ne reste : la quantité est zéro après ce choix explicite. Non quantifié conserve un constat sans quantité ; il ne signifie jamais zéro.</string>
+    <string name="field_q_control_no_adjustment">Le stock théorique reste inchangé.</string>
+</resources>

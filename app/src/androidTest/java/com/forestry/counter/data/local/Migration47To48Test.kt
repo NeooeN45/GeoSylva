@@ -19,10 +19,15 @@ class Migration47To48Test {
         fun factory() = net.sqlcipher.database.SupportFactory("TEST-only-cartographic-migration".toByteArray(), null, false)
         try {
             val helper = MigrationTestHelper(instrumentation, "com.forestry.counter.data.local.ForestryDatabase", factory())
-            helper.createDatabase(name, 47).use { db ->
+            // Les exports archivés s'arrêtent à46 puis reprennent à49. Préparer
+            // 47 depuis la vraie base46 sans fabriquer un schéma intermédiaire.
+            helper.createDatabase(name, 46).use { db ->
+                ControlBasisMigrations.MIGRATION_46_47.migrate(db)
+                db.version = 47
                 db.execSQL("INSERT INTO field_entries(id,ownerKey,targetKind,targetId,payload,sha256,recordedAt,author) VALUES('TEST-old','LOCAL','FOREST','TEST-forest','TEST unchanged old bytes','TEST hash',10,'anonymous')")
-            }
-            helper.runMigrationsAndValidate(name, 48, true, CartographicMeasurementMigrations.MIGRATION_47_48).use { db ->
+                CartographicMeasurementMigrations.MIGRATION_47_48.migrate(db)
+                db.version = 48
+                assertEquals(48, db.version)
                 db.query("SELECT payload, sha256 FROM field_entries WHERE id='TEST-old'").use {
                     assertTrue(it.moveToFirst())
                     assertEquals("TEST unchanged old bytes", it.getString(0))
@@ -35,7 +40,16 @@ class Migration47To48Test {
             }
             val room = Room.databaseBuilder(context, ForestryDatabase::class.java, name)
                 .openHelperFactory(factory()).addMigrations(*DatabaseMigrations.ALL).build()
-            try { assertEquals(48, room.openHelper.writableDatabase.version) } finally { room.close() }
+            // L'ouverture Room migre48→49 et valide le schéma courant complet,
+            // dont les deux tables de48, sans prétendre à un export48 retrouvé.
+            try {
+                assertEquals(49, room.openHelper.writableDatabase.version)
+                room.openHelper.writableDatabase.query("SELECT payload, sha256 FROM field_entries WHERE id='TEST-old'").use {
+                    assertTrue(it.moveToFirst())
+                    assertEquals("TEST unchanged old bytes", it.getString(0))
+                    assertEquals("TEST hash", it.getString(1))
+                }
+            } finally { room.close() }
         } finally { context.deleteDatabase(name) }
     }
 }

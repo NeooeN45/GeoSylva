@@ -27,7 +27,7 @@ class Migration44To45Test {
                 db.query("PRAGMA foreign_key_check").use {assertFalse(it.moveToFirst())}
             }
             val room=Room.databaseBuilder(context,ForestryDatabase::class.java,name).openHelperFactory(factory()).addMigrations(*DatabaseMigrations.ALL).build()
-            try {assertEquals(46,room.openHelper.writableDatabase.version)} finally {room.close()}
+            try {assertEquals(49,room.openHelper.writableDatabase.version)} finally {room.close()}
         } finally {context.deleteDatabase(name)}
     }
 }

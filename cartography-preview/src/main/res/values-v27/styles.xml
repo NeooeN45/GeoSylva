@@ -1,0 +1,6 @@
+<resources>
+    <style name="PreviewTheme" parent="PreviewTheme.Base">
+        <item name="android:navigationBarColor">#F9F8F4</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+</resources>

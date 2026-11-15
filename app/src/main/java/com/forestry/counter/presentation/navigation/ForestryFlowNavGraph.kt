@@ -37,6 +37,18 @@ fun NavGraphBuilder.forestryFlowNavGraph(
                 onReceipts = { navController.navigate(Screen.WorksiteReceipts.createRoute(it)) },
                 onExport = { navController.navigate(Screen.WorksiteExport.createRoute(it)) },
                 onManageWood = { navController.navigate(Screen.WoodDepots.route) },
+                onMap = { navController.navigate(Screen.WorksiteMap.createRoute(it)) },
+                onBack = { navController.popBackStack() })
+        } else com.forestry.counter.presentation.screens.home.JourneyUnavailableScreen({ navController.popBackStack() })
+    }
+    composable(Screen.WorksiteMap.route, arguments = listOf(navArgument("siteId") { type = NavType.StringType })) { entry ->
+        val profession = app.userPreferences.userProfession.collectAsStateWithLifecycle(initialValue = null)
+        val site = entry.arguments?.getString("siteId")?.let { raw ->
+            runCatching { java.util.UUID.fromString(raw).toString().takeIf { it == raw } }.getOrNull()
+        }
+        if (site != null && JourneyNavigation.access(profession.value).allows(com.forestry.counter.domain.journey.JourneyFeature.WORKSITES)) {
+            com.forestry.counter.presentation.screens.field.WorksiteMapScreen(app.fieldRepository, site,
+                onOpenParcel = { navController.navigate(Screen.Map.createRoute(it)) },
                 onBack = { navController.popBackStack() })
         } else com.forestry.counter.presentation.screens.home.JourneyUnavailableScreen({ navController.popBackStack() })
     }

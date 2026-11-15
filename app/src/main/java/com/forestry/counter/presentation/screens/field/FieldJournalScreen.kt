@@ -71,7 +71,7 @@ import com.forestry.counter.presentation.screens.wood.ObservationCard
                 val form=state.form
                 if (!state.accessLost && form != null) {
                     item(key = "field_draft") { Text(stringResource(if (state.draftSaved) R.string.field_draft else R.string.field_draft_pending),style=MaterialTheme.typography.labelMedium) }
-                    item(key = "field_editor") { FieldEntryEditor(form,vm.target,state.entries,!state.busy && !state.retry && state.writable,vm::change) }
+                    item(key = "field_editor") { FieldEntryEditor(form,vm.target,state.entries,!state.busy && !state.retry && state.writable,vm::change,showValidation=state.error==FieldError.INVALID) }
                     item(key = "field_photos") { FieldPhotos(vm,form.photoIds,!state.busy && !state.retry && state.writable) }
                     if (!state.retry) item(key = "field_discard") { TextButton({discard=true},enabled=!state.busy) { Text(stringResource(R.string.field_discard)) } }
                 } else if (!state.accessLost) {
@@ -98,10 +98,14 @@ import com.forestry.counter.presentation.screens.wood.ObservationCard
             }
         }
     }
-    if (leaveUnsaved) FieldConfirmation(R.string.field_leave_unsaved,R.string.field_leave_unsaved_body,R.string.field_leave,
-        onConfirm={leaveUnsaved=false;onBack()},onDismiss={leaveUnsaved=false})
-    if (discard) FieldConfirmation(R.string.field_discard,R.string.field_discard_body,R.string.field_discard,
-        onConfirm={discard=false;vm.discard()},onDismiss={discard=false})
+    if (leaveUnsaved) {
+        FieldConfirmation(R.string.field_leave_unsaved,R.string.field_leave_unsaved_body,R.string.field_leave,
+            onConfirm={leaveUnsaved=false;onBack()},onDismiss={leaveUnsaved=false})
+    }
+    if (discard) {
+        FieldConfirmation(R.string.field_discard,R.string.field_discard_body,R.string.field_discard,
+            onConfirm={discard=false;vm.discard()},onDismiss={discard=false})
+    }
 }
 @Composable internal fun FieldErrorCard(error: FieldError) {
     Surface(color=MaterialTheme.colorScheme.errorContainer,shape=MaterialTheme.shapes.medium) {
@@ -148,11 +152,15 @@ import com.forestry.counter.presentation.screens.wood.ObservationCard
     FieldRemainder.PARTIAL->R.string.field_partial;FieldRemainder.BOTTOM->R.string.field_bottom
     FieldRemainder.EMPTY->R.string.field_empty;FieldRemainder.UNKNOWN->R.string.field_unknown
 })
-@Composable private fun FieldEntryEditor(form: FieldEntryForm,target: FieldTarget,entries: List<FieldEntry>,enabled: Boolean,change: (FieldEntryForm.()->FieldEntryForm)->Unit) {
+@Composable private fun FieldEntryEditor(form: FieldEntryForm,target: FieldTarget,entries: List<FieldEntry>,enabled: Boolean,change: (FieldEntryForm.()->FieldEntryForm)->Unit,showValidation: Boolean=false) {
+    if (form.kind in FieldEntryForm.quantityKinds) {
+        FieldQuantityEditor(form,entries,enabled,showValidation,change,photos={})
+        return
+    }
     Column(verticalArrangement=Arrangement.spacedBy(12.dp)) {
         val kinds=FieldEntryKind.entries.filter { target.kind==FieldTargetKind.WOOD_OBJECT || it !in FieldEntryForm.quantityKinds && it!=FieldEntryKind.QUALITY }
         FieldChoice(R.string.field_type,form.kind,kinds,{kindLabel(it)},enabled && form.correctionOf==null) { kind ->
-            change { FieldEntryForm(kind=kind,title=title,notes=notes,observed=observed,zone=zone,latitude=latitude,longitude=longitude,photoIds=photoIds,unit=unit,convention=convention) }
+            change { selectFieldEntryKind(kind) }
         }
         FieldText(R.string.field_name,form.title,enabled,tag="field_name") {change {copy(title=it)}}
         FieldText(R.string.field_date,form.observed,enabled,tag="field_date") {change {copy(observed=it)}}
@@ -174,29 +182,6 @@ import com.forestry.counter.presentation.screens.wood.ObservationCard
             }
             else -> Unit
         }
-        if (form.kind in FieldEntryForm.quantityKinds) {
-            StockHelp()
-            if (form.kind==FieldEntryKind.REMAINING) FieldChoice(R.string.field_remainder,form.remainder,FieldRemainder.entries,{remainderLabel(it)},enabled) {
-                change {copy(remainder=it,quantity=when(it) {FieldRemainder.UNKNOWN->"";FieldRemainder.EMPTY->"0";else->quantity})}
-            }
-            if (form.remainder!=FieldRemainder.UNKNOWN) {
-                val ledgers=fieldLedgerChoices(entries)
-                if (form.kind != FieldEntryKind.INITIAL_STOCK && ledgers.isNotEmpty()) {
-                    FieldChoice(R.string.field_ledger_existing,form.unit?.let { it to form.convention },ledgers,
-                        { "${unitLabel(it.first)} · ${it.second}" },enabled && form.correctionOf==null) { selected ->
-                        change { copy(unit=selected.first,convention=selected.second) }
-                    }
-                    Text(stringResource(if(ledgers.size==1) R.string.field_ledger_single else R.string.field_ledger_multiple),style=MaterialTheme.typography.bodySmall)
-                }
-                FieldText(R.string.field_quantity,form.quantity,enabled,true,tag="field_quantity") {change {copy(quantity=it)}}
-                FieldChoice(R.string.field_unit,form.unit,FieldQuantityUnit.entries,{unitLabel(it)},enabled) {change {copy(unit=it)}}
-                FieldText(R.string.field_convention,form.convention,enabled,tag="field_convention") {change {copy(convention=it)}}
-            }
-            FieldText(R.string.field_counterparty,form.counterparty,enabled) {change {copy(counterparty=it)}}
-            FieldText(R.string.field_destination,form.destination,enabled) {change {copy(destination=it)}}
-            FieldText(R.string.field_document,form.documentReference,enabled) {change {copy(documentReference=it)}}
-            FieldText(R.string.field_passage,form.passageReference,enabled) {change {copy(passageReference=it)}}
-        }
         FieldText(R.string.field_notes,form.notes,enabled,tag="field_notes") {change {copy(notes=it)}}
         Text(stringResource(R.string.field_location_manual),style=MaterialTheme.typography.labelMedium)
         FieldText(R.string.field_lat,form.latitude,enabled) {change {copy(latitude=it,locationSource="MANUAL",accuracyM="")}}
@@ -210,9 +195,7 @@ import com.forestry.counter.presentation.screens.wood.ObservationCard
         Text(kindLabel(f.kind),style=MaterialTheme.typography.labelLarge,color=MaterialTheme.colorScheme.primary)
         Text(f.title,style=MaterialTheme.typography.titleLarge)
         if(!active) Text(stringResource(R.string.field_replaced))
-        if(f.observed.isNotBlank()) Text("${f.observed} · ${f.zone}")
-        val locale=androidx.compose.ui.platform.LocalConfiguration.current.locales[0]
-        Text(stringResource(R.string.wo_recorded,java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT,java.text.DateFormat.SHORT,locale).format(java.util.Date(entry.recordedAt))),style=MaterialTheme.typography.bodySmall)
+        JournalEntryDates(entry)
         listOf(f.notes,f.vehicle,f.restriction,f.equipment,f.product,f.defects,f.counterparty,f.destination,f.documentReference,f.passageReference).filter {it.isNotBlank()}.forEach {Text(it)}
         if(f.latitude.isNotBlank()) Text("${f.latitude}, ${f.longitude}")
         f.activity?.let {Text("${activityLabel(it)} · ${f.durationMinutes} min")}

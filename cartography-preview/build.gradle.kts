@@ -1,3 +1,6 @@
+import java.io.StringReader
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -14,8 +17,14 @@ android {
         versionName = "3.0.0-test-mapbox"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         // Seul un jeton public d'affichage est admissible dans cette APK de recette.
+        val localProperties = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.isFile) {
+            localProperties.load(StringReader(localPropertiesFile.readText(Charsets.UTF_8).removePrefix("\uFEFF")))
+        }
         val publicToken = providers.gradleProperty("geosylva.mapboxPublicToken")
             .orElse(providers.environmentVariable("MAPBOX_PUBLIC_ACCESS_TOKEN"))
+            .orElse(localProperties.getProperty("MAPBOX_PUBLIC_ACCESS_TOKEN", ""))
             .orElse("").get()
         require(publicToken.isEmpty() || (publicToken.startsWith("pk.") && publicToken.none { it.isWhitespace() || it == '\"' || it == '\\' })) {
             "Mapbox preview expects an empty value or a public pk token; configure it outside the repository."

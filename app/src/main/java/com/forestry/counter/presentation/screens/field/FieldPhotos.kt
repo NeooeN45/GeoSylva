@@ -26,8 +26,14 @@ import kotlinx.coroutines.*
 @Composable internal fun FieldPhotos(vm: FieldJournalViewModel, ids: List<String>, editable: Boolean) {
     val context=LocalContext.current
     val scope=rememberCoroutineScope()
-    var cameraPath by rememberSaveable { mutableStateOf<String?>(null) }
-    fun import(uri: Uri, temporary: File?=null) {
+    var cameraPath by rememberSaveable(vm) { mutableStateOf<String?>(null) }
+    var galleryDraftId by rememberSaveable(vm) { mutableStateOf<String?>(null) }
+    var cameraDraftId by rememberSaveable(vm) { mutableStateOf<String?>(null) }
+    fun import(expectedDraftId: String?, uri: Uri, temporary: File?=null) {
+        if (expectedDraftId == null || expectedDraftId != vm.currentPhotoDraftId()) {
+            temporary?.delete()
+            return
+        }
         scope.launch {
             try {
                 val result=withContext(Dispatchers.IO) {
@@ -44,19 +50,32 @@ import kotlinx.coroutines.*
                     BitmapFactory.decodeByteArray(bytes,0,bytes.size,bounds)
                     bytes to (bounds.outMimeType ?: error("INVALID_IMAGE"))
                 }
-                vm.addPhoto(result.first,result.second)
+                vm.addPhoto(expectedDraftId,result.first,result.second)
             } catch(e: CancellationException) {throw e}
-            catch(_: Exception) {vm.photoError()}
+            catch(_: Exception) {
+                if (expectedDraftId == vm.currentPhotoDraftId()) vm.photoError()
+            }
             finally {temporary?.delete()}
         }
     }
-    val gallery=rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { it?.let {uri->import(uri)} }
+    val gallery=rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        val expectedDraftId=galleryDraftId
+        galleryDraftId=null
+        if (uri != null) import(expectedDraftId,uri)
+    }
     val camera=rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+        val expectedDraftId=cameraDraftId
+        cameraDraftId=null
         val file=cameraPath?.let(::File);cameraPath=null
-        if(success && file!=null) import(FileProvider.getUriForFile(context,"${context.packageName}.fileprovider",file),file)
+        if(success && file!=null) import(expectedDraftId,FileProvider.getUriForFile(context,"${context.packageName}.fileprovider",file),file)
         else file?.delete()
     }
     fun launchCamera() {
+        val expectedDraftId=cameraDraftId
+        if (expectedDraftId == null || expectedDraftId != vm.currentPhotoDraftId()) {
+            cameraDraftId=null
+            return
+        }
         try {
             val dir=File(context.cacheDir,"field_capture").apply {mkdirs()}
             // Only stale captures are removed; never delete another in-flight capture.
@@ -64,9 +83,19 @@ import kotlinx.coroutines.*
             val file=File.createTempFile("capture-",".jpg",dir)
             cameraPath=file.absolutePath
             camera.launch(FileProvider.getUriForFile(context,"${context.packageName}.fileprovider",file))
-        } catch(_: Exception) {cameraPath?.let(::File)?.delete();cameraPath=null;vm.photoError()}
+        } catch(_: Exception) {
+            cameraPath?.let(::File)?.delete();cameraPath=null;cameraDraftId=null
+            if (expectedDraftId == vm.currentPhotoDraftId()) vm.photoError()
+        }
     }
-    val permission=rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { if(it) launchCamera() else vm.photoError() }
+    val permission=rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {
+        if(it) launchCamera()
+        else {
+            val expectedDraftId=cameraDraftId
+            cameraDraftId=null
+            if (expectedDraftId != null && expectedDraftId == vm.currentPhotoDraftId()) vm.photoError()
+        }
+    }
     Column(verticalArrangement=Arrangement.spacedBy(8.dp)) {
         Text(stringResource(R.string.field_photos),style=MaterialTheme.typography.titleMedium)
         ids.forEach { id ->
@@ -87,10 +116,20 @@ import kotlinx.coroutines.*
         }
         if(editable && ids.size<6) {
             Text(stringResource(R.string.field_photo_limit),style=MaterialTheme.typography.bodySmall)
-            OutlinedButton({gallery.launch("image/*")},modifier=Modifier.fillMaxWidth()) {Text(stringResource(R.string.field_photo_add))}
             OutlinedButton({
-                if(ContextCompat.checkSelfPermission(context,Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED) launchCamera()
-                else permission.launch(Manifest.permission.CAMERA)
+                val expectedDraftId=vm.currentPhotoDraftId()
+                if (expectedDraftId != null) {
+                    galleryDraftId=expectedDraftId
+                    gallery.launch("image/*")
+                }
+            },modifier=Modifier.fillMaxWidth()) {Text(stringResource(R.string.field_photo_add))}
+            OutlinedButton({
+                val expectedDraftId=vm.currentPhotoDraftId()
+                if (expectedDraftId != null) {
+                    cameraDraftId=expectedDraftId
+                    if(ContextCompat.checkSelfPermission(context,Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED) launchCamera()
+                    else permission.launch(Manifest.permission.CAMERA)
+                }
             },modifier=Modifier.fillMaxWidth()) {Text(stringResource(R.string.field_photo_camera))}
         }
     }

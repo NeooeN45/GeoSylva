@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="field_q_quantity_initial">Starting quantity</string>
+    <string name="field_q_quantity_removal">Quantity removed</string>
+    <string name="field_q_quantity_remaining">Observed quantity</string>
+    <string name="field_q_quantity_placeholder">Enter the quantity</string>
+    <string name="field_q_choose">Choose</string>
+    <string name="field_q_required">Not entered</string>
+    <string name="field_q_date_initial">Stock date</string>
+    <string name="field_q_date_removal">Removal date</string>
+    <string name="field_q_date_remaining">Control date</string>
+    <string name="field_q_ledger">Unit and convention</string>
+    <string name="field_q_convention_missing">Enter the convention</string>
+    <string name="field_q_details">Details</string>
+    <string name="field_q_details_summary">Documents, notes, photos</string>
+    <string name="field_q_details_invalid">Check the title or correction reason</string>
+    <string name="field_q_sheet_done">Done</string>
+    <string name="field_q_error_quantity">Check the entered quantity.</string>
+    <string name="field_q_error_title">Enter a title.</string>
+    <string name="field_q_error_date">Enter a valid date and time zone.</string>
+    <string name="field_q_error_convention">Enter the measurement convention.</string>
+    <string name="field_q_error_reason">Explain the correction.</string>
+    <string name="field_q_help_open">Understand: %1$s</string>
+    <string name="field_q_help_date">This is the observation time in the indicated time zone. The recorded time is kept separately. A missing or ambiguous local time during a clock change must be corrected.</string>
+    <string name="field_q_help_ledger">Choose what the tracked quantity represents. Operations use exactly the same unit and convention. Apparent volume, solid wood, tonnes, steres and pieces are neither combined nor automatically converted.</string>
+    <string name="field_q_help_initial">Explicitly declare a positive or zero physical starting quantity. A geometric measurement does not create stock. Date, unit and convention are required; pieces must be whole numbers. This quantity is not a payable amount.</string>
+    <string name="field_q_help_removal">Enter the strictly positive quantity actually removed. The displayed stock comes from recorded operations at the entered date and excludes this draft. Saving also checks the history: no removal may make the balance negative for the same unit and convention.</string>
+    <string name="field_q_help_observed">Enter the observed remainder independently of the theoretical stock. A control records an observation; it does not change or reset stock. A comparison without an available reference remains unknown. Pieces must be whole numbers.</string>
+    <string name="field_q_help_remainder">Wood present and Pile bottom require a positive quantity. Zero observed means no wood remains: the quantity is zero after that explicit choice. Not quantified records an observation without a quantity; it never means zero.</string>
+    <string name="field_q_control_no_adjustment">The theoretical stock stays unchanged.</string>
+</resources>

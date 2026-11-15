@@ -19,4 +19,10 @@
     <string name="preview_vercors">Vercors · vue d’essai</string>
     <string name="preview_map_loading">Chargement de la carte…</string>
     <string name="preview_relief_applying">Application du relief…</string>
+    <string name="preview_basemap_satellite_labels">Satellite légendé</string>
+    <string name="preview_basemap_satellite">Satellite</string>
+    <string name="preview_basemap_plan">Plan</string>
+    <string name="preview_basemap_topographic">Topographie</string>
+    <string name="preview_sources_body">Fonds et relief fournis par Mapbox. Les dates de prise de vue varient selon les zones. Aucune donnée de relevé forestier n’est chargée dans ce banc d’essai.</string>
+    <string name="preview_information">Informations du banc d’essai</string>
 </resources>

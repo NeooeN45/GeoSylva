@@ -60,6 +60,9 @@ sealed class Screen(val route: String) {
         fun createRoute(parcelleId: String) = "placettes/$parcelleId"
     }
     object Worksites : Screen("worksites")
+    object WorksiteMap : Screen("worksites/{siteId}/map") {
+        fun createRoute(siteId: String) = "worksites/${java.util.UUID.fromString(siteId)}/map"
+    }
     object WorksiteReceipts : Screen("worksites/{siteId}/receipts") {
         fun createRoute(siteId: String) = "worksites/${java.util.UUID.fromString(siteId)}/receipts"
     }

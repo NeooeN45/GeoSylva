@@ -70,4 +70,10 @@
     <string name="retained_no_date">Not provided</string>
     <string name="retained_photo_unavailable">Photo unavailable</string>
     <string name="retained_photo_expand">Enlarge photo</string>
+    <string name="retained_correct_entry">Correct entry</string>
+    <string name="retained_history_order">Active version first; previous versions follow in reverse order of recording.</string>
+    <string name="retained_dossier_help">Parcels and timber directly associated with this file, with access to the field journal. This does not grant a right of passage or intervention.</string>
+    <string name="retained_no_parcels">No linked parcel.</string>
+    <string name="retained_wood_receipts">Timber receipts</string>
+    <string name="retained_woods_preview">Choose a timber item to view.</string>
 </resources>

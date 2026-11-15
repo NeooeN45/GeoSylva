@@ -184,17 +184,23 @@ fun MapRechercheScreen(
     val mapOnlyReliableGps by preferencesManager.mapOnlyReliableGps.collectAsStateWithLifecycle(initialValue = false)
     val mapReliableGpsThresholdM by preferencesManager.mapReliableGpsThresholdM.collectAsStateWithLifecycle(initialValue = 8f)
 
-    var hasLocationPermission by remember {
-        mutableStateOf(
-            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-        )
-    }
+    fun hasForegroundLocationPermission(): Boolean =
+        ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    var hasLocationPermission by remember { mutableStateOf(hasForegroundLocationPermission()) }
     val locationPermissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { granted -> if (granted) hasLocationPermission = true }
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { hasLocationPermission = hasForegroundLocationPermission() }
+    fun requestForegroundLocationPermissions() {
+        // Android 12+ exige une demande conjointe ; la carte accepte aussi l'accès approximatif.
+        // L'enregistrement GPS conserve son contrôle distinct de localisation précise.
+        locationPermissionLauncher.launch(arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+        ))
+    }
     LaunchedEffect(Unit) {
-        if (!hasLocationPermission) locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        if (!hasLocationPermission) requestForegroundLocationPermissions()
     }
 
     @Suppress("NAME_SHADOWING")
@@ -220,7 +226,7 @@ fun MapRechercheScreen(
         mapOnlyReliableGps, mapReliableGpsThresholdM, hasLocationPermission,
         onAccuracyFilterChanged = { scope.launch { preferencesManager.setMapOnlyReliableGps(it) } },
         onAccuracyThresholdChanged = { scope.launch { preferencesManager.setMapReliableGpsThresholdM(it) } },
-        onRequestLocation = { locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION) },
+        onRequestLocation = ::requestForegroundLocationPermissions,
         onRetryRead = { dataRetry++ }, treesVisible = treesVisible)
     val geoTiges = remember(tiges) { tiges.mapNotNull { t ->
         val (lon, lat, _) = WktUtils.parsePointZ(t.gpsWkt)
@@ -470,7 +476,7 @@ fun MapRechercheScreen(
             if (panel != null) { treeUi.dispatch(TreeWorkspaceAction.Close) }
         }
         override fun onLocate() {
-            if (!hasLocationPermission) locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            if (!hasLocationPermission) requestForegroundLocationPermissions()
             else phonePosition?.let { requestCamera(camera.copy(longitude = it.longitude, latitude = it.latitude, zoom = 18.0)) }
         }
         override fun onTask(task: MapTask) {
@@ -648,7 +654,7 @@ fun MapRechercheScreen(
                         paddingTopPx = 130.0 * density, paddingBottomPx = tracePadding.calculateBottomPadding().value * density + 40.0,
                         paddingLeftPx = 32.0 * density, paddingRightPx = 72.0 * density)
                 },
-                onRequestPermissions = { locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION) },
+                onRequestPermissions = ::requestForegroundLocationPermissions,
                 previewLocation = standardPhonePosition,
                 canvas = { padding -> SideEffect { tracePadding = padding } })
             viewPack?.let { draft ->

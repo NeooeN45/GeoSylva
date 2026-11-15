@@ -112,8 +112,8 @@ class FieldToolsUiTest {
         compose.waitUntil(10_000) {!vm.state.value.busy && vm.state.value.detail!=null}
         compose.onNodeWithText("TEST · Exploitation chêne").assertIsDisplayed()
         screenshot("chantier-parcelles.png")
-        compose.onNodeWithTag("site_content").performScrollToNode(hasText("Archiver le chantier"))
-        compose.onNodeWithText("Archiver le chantier").performClick()
+        compose.onNodeWithTag("site_options").assertIsEnabled().performClick()
+        compose.onNodeWithTag("site_menu_archive").assertIsEnabled().performClick()
         compose.onNodeWithText("Enregistrer").performClick()
         compose.waitUntil(10_000) {!vm.state.value.busy && vm.state.value.detail==null}
         assertTrue(vm.state.value.sites.single().archived)
