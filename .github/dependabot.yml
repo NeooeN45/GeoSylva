@@ -1,7 +1,15 @@
 version: 2
+registries:
+  mapbox:
+    type: maven-repository
+    url: https://api.mapbox.com/downloads/v2/releases/maven
+    username: mapbox
+    password: ${{ secrets.MAPBOX_DOWNLOADS_TOKEN }}
 updates:
   - package-ecosystem: gradle
     directory: /
+    registries:
+      - mapbox
     schedule:
       interval: weekly
       day: monday

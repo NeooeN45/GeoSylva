@@ -517,5 +517,219 @@
     "settingsModified": false,
     "assertionWeakened": false
   },
-  "sourceChangeNotes": "Production and JVM inputs unchanged since full-gates3; only Android gesture test harness and documentation evolved. A fingerprint marked inputsUnchanged=false in native-gesture2-build reflects documentation edits during that build; later targeted assemblies record stable inputs."
+  "sourceChangeNotes": "Production and JVM inputs unchanged since full-gates3; only Android gesture test harness and documentation evolved. A fingerprint marked inputsUnchanged=false in native-gesture2-build reflects documentation edits during that build; later targeted assemblies record stable inputs.",
+  "postPublicationCi": {
+    "initialCommit": "488aae439e7b352bebc0bff1e458dd230430b19a",
+    "initialRun": "https://github.com/NeooeN45/GeoSylva/actions/runs/43709887359",
+    "initialJobs": {
+      "Lint": "success",
+      "Unit Tests": "failure",
+      "Build Debug APK": "skipped",
+      "Release Bundle Verification": "skipped",
+      "Quality Gate": "failure",
+      "Repository security (main and backup)": "success"
+    },
+    "failure": "compileReleaseKotlin: OutOfMemoryError: Java heap space; Gradle heap3GiB; Kotlin compiler in-process",
+    "dependabot": {
+      "run": "https://github.com/NeooeN45/GeoSylva/actions/runs/43709991539",
+      "status": "failure",
+      "cause": "private_source_authentication_failure for Mapbox Maven registry",
+      "requiredDependabotSecret": "MAPBOX_DOWNLOADS_TOKEN",
+      "requiredMapboxScope": "Downloads:Read",
+      "secretValueRecorded": false,
+      "configurationRequiresAuthorizedMergeAndFounderSettings": true
+    },
+    "repair": {
+      "branch": "ci/fiabilisation-memoire-2026-11-15",
+      "status": "REMOTE_CI_SUCCESS",
+      "localDefaultHeapGiB": 4,
+      "ciHeapGiB": 6,
+      "gradleWorkers": 1,
+      "kotlinStrategy": "in-process",
+      "variantIsolation": "Separate runners for debug and release; fail-fast=false",
+      "retainedTests": "All Android JVM debug/release tasks and capsule-verifier:test",
+      "existingAggregateChecksPreserved": [
+        "Unit Tests",
+        "Quality Gate"
+      ],
+      "functionalApplicationChanges": false,
+      "testedHeadCommit": "41c87c545fabc5a62a7d65f704afb11ace7f7605",
+      "pullRequest": "https://github.com/NeooeN45/GeoSylva/pull/18",
+      "run": "https://github.com/NeooeN45/GeoSylva/actions/runs/43741964744",
+      "junit": {
+        "headSha": "41c87c545fabc5a62a7d65f704afb11ace7f7605",
+        "runId": 43741964744,
+        "variants": {
+          "debug": {
+            "artifactId": 14173605633,
+            "sha256": "f90caf5017ce954832ef14429bbf0f7e67b27c6d285af56499395ed250e405b4",
+            "modules": {
+              "app": {
+                "tests": 2046,
+                "failures": 0,
+                "errors": 0,
+                "skipped": 0,
+                "suites": 157
+              },
+              "capsule-verifier": {
+                "tests": 7,
+                "failures": 0,
+                "errors": 0,
+                "skipped": 0,
+                "suites": 2
+              },
+              "cartography-mapbox": {
+                "tests": 47,
+                "failures": 0,
+                "errors": 0,
+                "skipped": 0,
+                "suites": 9
+              }
+            }
+          },
+          "release": {
+            "artifactId": 14172896478,
+            "sha256": "2ac056b45729c990fb14e0069dc57de6791627aa5fdeeeefc57fe2ec912c45ac",
+            "modules": {
+              "app": {
+                "tests": 2046,
+                "failures": 0,
+                "errors": 0,
+                "skipped": 0,
+                "suites": 157
+              },
+              "cartography-mapbox": {
+                "tests": 47,
+                "failures": 0,
+                "errors": 0,
+                "skipped": 0,
+                "suites": 9
+              }
+            }
+          }
+        },
+        "distinctCases": 2100,
+        "variantExecutions": 4193
+      },
+      "taskGraphComparison": {
+        "kind": "dry-run task discovery only, not executed tests",
+        "originalConcreteTestTasks": [
+          ":app:testDebugUnitTest",
+          ":app:testReleaseUnitTest",
+          ":capsule-verifier:test",
+          ":cartography-mapbox:testDebugUnitTest",
+          ":cartography-mapbox:testReleaseUnitTest",
+          ":cartography-preview:testDebugUnitTest",
+          ":cartography-ui:testDebugUnitTest",
+          ":cartography-ui:testReleaseUnitTest"
+        ],
+        "splitVariantTestTasks": [
+          ":app:testDebugUnitTest",
+          ":app:testReleaseUnitTest",
+          ":capsule-verifier:test",
+          ":cartography-mapbox:testDebugUnitTest",
+          ":cartography-mapbox:testReleaseUnitTest",
+          ":cartography-preview:testDebugUnitTest",
+          ":cartography-ui:testDebugUnitTest",
+          ":cartography-ui:testReleaseUnitTest"
+        ],
+        "excludedLifecycleAggregatorsWithoutActions": [
+          {
+            "path": ":app:test",
+            "isTestTask": false,
+            "actions": 0
+          },
+          {
+            "path": ":cartography-mapbox:test",
+            "isTestTask": false,
+            "actions": 0
+          },
+          {
+            "path": ":cartography-preview:test",
+            "isTestTask": false,
+            "actions": 0
+          },
+          {
+            "path": ":cartography-ui:test",
+            "isTestTask": false,
+            "actions": 0
+          }
+        ],
+        "missingTestTasks": [],
+        "addedTestTasks": [],
+        "equal": true
+      },
+      "ciCompletedAt": "2026-11-15T17:54:37Z",
+      "jobs": [
+        {
+          "name": "Unit Tests (debug)",
+          "id": 132896868394,
+          "result": "success",
+          "startedAt": "2026-11-15T17:35:27Z",
+          "completedAt": "2026-11-15T17:44:10Z"
+        },
+        {
+          "name": "Unit Tests (release)",
+          "id": 132896868595,
+          "result": "success",
+          "startedAt": "2026-11-15T17:35:27Z",
+          "completedAt": "2026-11-15T17:43:53Z"
+        },
+        {
+          "name": "Lint",
+          "id": 132896868688,
+          "result": "success",
+          "startedAt": "2026-11-15T17:35:27Z",
+          "completedAt": "2026-11-15T17:46:37Z"
+        },
+        {
+          "name": "Unit Tests",
+          "id": 132899355350,
+          "result": "success",
+          "startedAt": "2026-11-15T17:44:11Z",
+          "completedAt": "2026-11-15T17:44:14Z"
+        },
+        {
+          "name": "Build Debug APK",
+          "id": 132900053561,
+          "result": "success",
+          "startedAt": "2026-11-15T17:46:38Z",
+          "completedAt": "2026-11-15T17:54:09Z"
+        },
+        {
+          "name": "Release Bundle Verification",
+          "id": 132900053645,
+          "result": "success",
+          "startedAt": "2026-11-15T17:46:38Z",
+          "completedAt": "2026-11-15T17:54:31Z"
+        },
+        {
+          "name": "Quality Gate",
+          "id": 132902315645,
+          "result": "success",
+          "startedAt": "2026-11-15T17:54:33Z",
+          "completedAt": "2026-11-15T17:54:37Z"
+        }
+      ],
+      "security": {
+        "run": "https://github.com/NeooeN45/GeoSylva/actions/runs/43741964657",
+        "result": "success",
+        "jobs": [
+          {
+            "name": "Secrets et fichiers sensibles",
+            "id": 132896868201,
+            "result": "success"
+          }
+        ]
+      },
+      "releaseVerification": {
+        "unsignedBundle": true,
+        "r8Task": ":app:minifyReleaseWithR8",
+        "bundleTask": ":app:bundleRelease",
+        "result": "success",
+        "resourceShrinkTask": ":app:shrinkBundleReleaseResources"
+      },
+      "documentationFollowup": "The report records the successful CI of testedHeadCommit. The final documentation-only commit has its own PR checks; it is not the source of the historical local build or this first remote execution."
+    }
+  }
 }

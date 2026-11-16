@@ -51,6 +51,101 @@ JSON. Les sources de production et les tests JVM restent inchangés depuis ce pa
 | APK debug | Produit, signature debug vérifiée ; configuration Mapbox conservée hors Git |
 | Bundle release | Produit et optimisé, **non signé pour la production** |
 
+## Suivi CI après la publication du bilan
+
+Le bilan local ci-dessus a été rédigé avant la fin des contrôles GitHub du
+commit `488aae439e7b352bebc0bff1e458dd230430b19a`. Il ne constitue pas un
+passage vert de cette CI. Les journaux de la
+[CI initiale](https://github.com/NeooeN45/GeoSylva/actions/runs/43709887359)
+établissent les résultats suivants :
+
+| Job initial | Résultat |
+| --- | --- |
+| Lint | Réussi |
+| Unit Tests | Échec pendant `compileReleaseKotlin` : `OutOfMemoryError: Java heap space`, heap Gradle de 3 Gio |
+| Build Debug APK | Ignoré à la suite de cet échec |
+| Release Bundle Verification | Ignoré à la suite de cet échec |
+| Quality Gate | Échec |
+| Sécurité du dépôt | Réussie sur les deux références publiées |
+
+Cet échec intervient pendant la compilation Kotlin ; il ne démontre pas
+l'échec d'une assertion métier. Le démon Gradle héberge le compilateur avec
+`kotlin.compiler.execution.strategy=in-process` : augmenter un éventuel heap
+de démon Kotlin séparé n'aurait pas corrigé ce processus.
+
+La correction de configuration testée sur la branche
+`ci/fiabilisation-memoire-2026-11-15` :
+
+- porte le heap local par défaut à 4 Gio et celui des invocations CI à 6 Gio ;
+- limite les invocations à un worker, sans compilation parallèle des projets ;
+- isole debug et release dans deux runners, avec `fail-fast: false` ;
+- conserve les tests Android JVM des deux variantes et les sept tests du
+  vérificateur d'échange ; aucun test, filtre ou assertion n'est supprimé ;
+- conserve les contrôles agrégés `Unit Tests` et `Quality Gate`, tous deux
+  bloquants si une variante ou un build échoue.
+
+La [première exécution corrigée](https://github.com/NeooeN45/GeoSylva/actions/runs/43741964744)
+est celle de la [PR nº 18](https://github.com/NeooeN45/GeoSylva/pull/18), sur le
+commit `41c87c545fabc5a62a7d65f704afb11ace7f7605`, avec `main` à `488aae4`.
+La comparaison des graphes Gradle confirme que les huit tâches effectives de
+test sont conservées ; les quatre tâches Android `test` sans action propre
+sont des agrégateurs de ces tâches de variante.
+
+Les rapports JUnit GitHub téléchargés confirment **4 193 exécutions et 2 100
+cas distincts**, sans échec, erreur ni test ignoré : application 2 046 dans
+chaque variante, Mapbox 47 dans chaque variante et vérificateur d'échange 7.
+Les identifiants et empreintes SHA-256 des deux artefacts figurent dans le JSON.
+
+**Résultat obtenu le 15 novembre 2026 : les sept jobs de construction et le
+contrôle de sécurité réussissent sur ce commit.** L'exécution CI se termine
+à 17:54:37 UTC ; elle produit l'APK debug et exécute notamment
+`minifyReleaseWithR8` puis `bundleRelease` pour le bundle non signé.
+
+| Job après correction | Résultat |
+| --- | --- |
+| Unit Tests (debug) | Réussi |
+| Unit Tests (release) | Réussi |
+| Unit Tests (agrégateur conservé) | Réussi |
+| Lint | Réussi |
+| Build Debug APK | Réussi |
+| Release Bundle Verification | Réussi |
+| Quality Gate | Réussi |
+| [Secrets et fichiers sensibles](https://github.com/NeooeN45/GeoSylva/actions/runs/43741964657) | Réussi |
+
+Le présent complément documentaire consigne ce premier passage réussi ; il
+ne modifie ni la configuration testée ni les sources applicatives. Les résultats
+du commit final de la PR sont consultables dans ses contrôles GitHub.
+
+### Dependabot et registre Maven Mapbox
+
+L'[échec Dependabot initial](https://github.com/NeooeN45/GeoSylva/actions/runs/43709991539)
+est distinct de l'échec mémoire. Les journaux indiquent
+`private_source_authentication_failure` pour `android-ndk27` et
+`maps-compose-ndk27` sur le registre Maven Mapbox.
+
+La configuration déclare désormais ce registre sous le nom `mapbox`, avec
+l'utilisateur technique `mapbox` et une référence à
+`${{ secrets.MAPBOX_DOWNLOADS_TOKEN }}`. Aucune valeur de jeton n'est versionnée.
+
+À faire par le Fondateur dans les réglages :
+
+1. Créer dans Mapbox un **jeton secret** avec le droit minimal
+   **`Downloads:Read`**, conformément à la
+   [documentation des jetons Mapbox](https://docs.mapbox.com/help/dive-deeper/access-tokens/).
+   Le jeton public de rendu `pk.…` ne remplace pas cet identifiant de registre.
+2. Dans GitHub, ouvrir le dépôt GeoSylva → **Settings → Secrets and variables →
+   Dependabot → New repository secret**, puis enregistrer ce jeton sous le nom
+   exact **`MAPBOX_DOWNLOADS_TOKEN`**. Un secret placé uniquement dans Actions
+   ne suffit pas à l'authentification de Dependabot.
+3. Après revue et fusion autorisée de la configuration, relancer la recherche
+   de mises à jour Dependabot et vérifier son résultat. Dependabot utilise sa
+   configuration de branche par défaut ; sa correction n'est pas démontrée
+   par les seuls jobs de construction de cette PR.
+
+Les dépendances ne sont pas exclues des mises à jour pour masquer l'échec.
+Les jobs de construction restent indépendants de ce nouveau secret ; leur
+succès ne doit pas être annoncé comme celui de Dependabot.
+
 ## Vérifications natives ciblées
 
 Les essais utilisent un **émulateur logiciel Android 9 / API 28 isolé**. Il ne
