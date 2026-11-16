@@ -134,7 +134,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/02",
@@ -178,7 +180,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/03",
@@ -243,7 +247,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/04",
@@ -307,7 +313,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/05",
@@ -372,7 +380,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/06",
@@ -424,7 +434,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/07",
@@ -488,7 +500,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/08",
@@ -553,7 +567,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/09",
@@ -617,7 +633,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/10",
@@ -693,7 +711,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/11",
@@ -763,7 +783,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/12",
@@ -809,7 +831,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/13",
@@ -867,7 +891,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/14",
@@ -935,7 +961,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/15",
@@ -1003,7 +1031,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/16",
@@ -1069,7 +1099,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/17",
@@ -1135,7 +1167,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/18B",
@@ -1212,7 +1246,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/19",
@@ -1277,7 +1313,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/20",
@@ -1354,7 +1392,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/21",
@@ -1424,7 +1464,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/22B",
@@ -1492,7 +1534,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/23B",
@@ -1558,7 +1602,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/24",
@@ -1636,7 +1682,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/25",
@@ -1701,7 +1749,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/26",
@@ -1767,7 +1817,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/27",
@@ -1833,7 +1885,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/28",
@@ -1899,7 +1953,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/29",
@@ -1966,7 +2022,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/30",
@@ -2032,7 +2090,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/31",
@@ -2098,7 +2158,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/32",
@@ -2164,7 +2226,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/33",
@@ -2230,7 +2294,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/34",
@@ -2296,7 +2362,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/35",
@@ -2362,7 +2430,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/36",
@@ -2428,7 +2498,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/37",
@@ -2494,7 +2566,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/38",
@@ -2559,7 +2633,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/39",
@@ -2625,7 +2701,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/40",
@@ -2691,7 +2769,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/41C",
@@ -2755,7 +2835,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/42B",
@@ -2813,7 +2895,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/43",
@@ -2871,7 +2955,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/44",
@@ -2929,7 +3015,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/45",
@@ -2987,7 +3075,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/46",
@@ -3045,7 +3135,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/47",
@@ -3103,7 +3195,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/48",
@@ -3161,7 +3255,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/49",
@@ -3220,7 +3316,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/50",
@@ -3278,7 +3376,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/51B",
@@ -3336,7 +3436,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/52",
@@ -3394,7 +3496,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/53B",
@@ -3452,7 +3556,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/54",
@@ -3520,9 +3626,11 @@
         }
       ],
       "limites": [],
-      "image_originale_locale": "absente",
+      "image_originale_locale": "présente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": "docs/maquettes/cartographie/54.png",
+      "image_originale_sha256": "6af4a58290b046dd658136029edb7427329ba84329849bee3ba52348078da0a2"
     },
     {
       "id": "cartographie/55",
@@ -3579,7 +3687,9 @@
       "limites": [],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/56",
@@ -3631,7 +3741,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/57",
@@ -3689,7 +3801,9 @@
       "limites": [],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/58",
@@ -3747,7 +3861,9 @@
       "limites": [],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/59",
@@ -3805,7 +3921,9 @@
       "limites": [],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/60",
@@ -3863,7 +3981,9 @@
       "limites": [],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/61",
@@ -3923,7 +4043,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/62",
@@ -3983,7 +4105,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/63",
@@ -4043,7 +4167,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/64",
@@ -4107,7 +4233,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/65",
@@ -4171,7 +4299,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/66",
@@ -4233,7 +4363,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/67",
@@ -4295,7 +4427,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/68",
@@ -4355,7 +4489,9 @@
       "limites": [],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/69",
@@ -4415,7 +4551,9 @@
       "limites": [],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/70",
@@ -4477,7 +4615,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/71",
@@ -4537,7 +4677,9 @@
       "limites": [],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/72",
@@ -4607,9 +4749,11 @@
         }
       ],
       "limites": [],
-      "image_originale_locale": "absente",
+      "image_originale_locale": "présente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": "docs/maquettes/cartographie/72.png",
+      "image_originale_sha256": "c719737715baeae1639eaaaf1e48bf02082bc08e5230c53f6d582b73a6a09ddf"
     },
     {
       "id": "cartographie/73",
@@ -4669,7 +4813,9 @@
       "limites": [],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/74",
@@ -4728,7 +4874,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/75",
@@ -4787,7 +4935,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/76",
@@ -4846,7 +4996,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/77",
@@ -4910,7 +5062,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/78",
@@ -4968,7 +5122,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/79",
@@ -5030,7 +5186,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/80",
@@ -5090,7 +5248,9 @@
       "limites": [],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/81",
@@ -5156,7 +5316,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/82",
@@ -5225,7 +5387,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/83",
@@ -5292,7 +5456,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/84",
@@ -5358,7 +5524,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/85",
@@ -5427,7 +5595,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/86",
@@ -5493,7 +5663,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/87",
@@ -5562,7 +5734,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/88",
@@ -5628,7 +5802,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/89",
@@ -5694,7 +5870,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/90B",
@@ -5763,7 +5941,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/91",
@@ -5833,7 +6013,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/92",
@@ -5903,7 +6085,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/93",
@@ -5973,7 +6157,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/94",
@@ -6043,7 +6229,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/95",
@@ -6113,7 +6301,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/96",
@@ -6183,7 +6373,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/97",
@@ -6253,7 +6445,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/98",
@@ -6323,7 +6517,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/99",
@@ -6393,7 +6589,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "cartographie/100",
@@ -6463,7 +6661,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "conducteur/dossier-chantier/proposition-02",
@@ -6521,9 +6721,11 @@
         "Carte ouvre un choix de parcelle locale accessible, puis la carte commune, pas une carte de toutes les parcelles du chantier.",
         "Le test du dossier utilise un FieldRepository de test ; la lecture du code atteste le raccord de production, pas un essai de navigation complet."
       ],
-      "image_originale_locale": "absente",
+      "image_originale_locale": "présente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": "docs/maquettes/conducteur/dossier-chantier-proposition-02.png",
+      "image_originale_sha256": "a7ac739651c323f142f38faf9ef79648cf0211332c410f6b8df3f09724fbf4c9"
     },
     {
       "id": "conducteur/carnet-terrain/proposition-01",
@@ -6584,7 +6786,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "conducteur/formulaire-note/proposition-01",
@@ -6643,7 +6847,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "conducteur/formulaire-activite/proposition-01",
@@ -6702,7 +6908,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "conducteur/formulaire-acces/proposition-01",
@@ -6761,7 +6969,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "conducteur/detail-entree/proposition-01",
@@ -6819,7 +7029,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "conducteur/correction-motivee/proposition-01",
@@ -6878,7 +7090,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "conducteur/historique-entree/proposition-01",
@@ -6938,7 +7152,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "conducteur/bois-associes/proposition-01",
@@ -6997,7 +7213,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "conducteur/fiche-bois/proposition-01",
@@ -7066,9 +7284,11 @@
         "La fiche générique active lit l’identité, la référence et l’historique ; elle n’est pas la fiche retenue.",
         "Décision historique confirmée : proposition 01 choisie, variantes 02/03 écartées."
       ],
-      "image_originale_locale": "absente",
+      "image_originale_locale": "présente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": "docs/maquettes/conducteur/fiche-bois-proposition-01.jpg",
+      "image_originale_sha256": "aff3dd8fb54096c354dde617cd4561308d6305c946ea7e169355fa717cef4790"
     },
     {
       "id": "conducteur/releve-pile/proposition-02",
@@ -7129,7 +7349,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "conducteur/stock-initial/proposition-01",
@@ -7192,7 +7414,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "conducteur/stock-renseigne/proposition-03",
@@ -7250,7 +7474,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "conducteur/enlevement/proposition-01",
@@ -7316,7 +7542,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "conducteur/controle/proposition-01",
@@ -7391,7 +7619,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "technicien/synthese/proposition-02-a",
@@ -7455,7 +7685,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     },
     {
       "id": "technicien/aide-surface-terriere/proposition-03",
@@ -7511,7 +7743,9 @@
       ],
       "image_originale_locale": "absente",
       "conformite_visuelle": "non vérifiée",
-      "essai_appareil_physique": "aucune preuve"
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": null,
+      "image_originale_sha256": null
     }
   ],
   "provisoires": [
@@ -11480,5 +11714,39 @@
       ],
       "constat": "Demande de changement de couleur, puis acceptation contextuelle de90B ;90 ne doit pas être comptée séparément."
     }
-  ]
+  ],
+  "conservation_images": {
+    "date": "2026-11-16",
+    "branche": "docs/conservation-maquettes-2026-11-16",
+    "manifeste": "docs/maquettes/MANIFESTE_IMAGES.json",
+    "bilan": "docs/maquettes/RECUPERATION_2026-11-16.md",
+    "liste_introuvables": "docs/maquettes/MAQUETTES_INTROUVABLES_2026-11-16.csv",
+    "references_de_travail": 107,
+    "images_originales_versionnees": 4,
+    "introuvables": 103,
+    "poids_images_octets": 5832440,
+    "par_metier": {
+      "technicien": {
+        "references": 12,
+        "retrouvees": 1,
+        "introuvables": 11
+      },
+      "conducteur": {
+        "references": 15,
+        "retrouvees": 2,
+        "introuvables": 13
+      },
+      "commun": {
+        "references": 80,
+        "retrouvees": 1,
+        "introuvables": 79
+      },
+      "hors périmètre": {
+        "references": 0,
+        "retrouvees": 0,
+        "introuvables": 0
+      }
+    },
+    "qualification": "contrôle des fichiers et des preuves de rattachement seulement ; conformité visuelle des écrans non vérifiée ; aucun nouvel essai Android"
+  }
 }

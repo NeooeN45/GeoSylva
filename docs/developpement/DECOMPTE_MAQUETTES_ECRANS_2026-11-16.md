@@ -23,9 +23,14 @@ traçabilité, mais sont exclus de ce sous-ensemble. Il ne faut donc pas appeler
 ces 107 lignes « 107 maquettes indépendantes validées au pixel près ».
 
 Les échanges historiques, prompts, copies d'artefacts et décisions ont permis
-de retrouver les identifiants, notamment **64** et **90B**. Aucun PNG original
-du catalogue n'est actuellement récupéré dans le workspace : la recherche a
-couvert les images locales et 38 ZIP. Une description ou une approbation dans
+de retrouver les identifiants, notamment **64** et **90B**. La recherche initiale
+portait sur les images locales et 38 ZIP. Le lot de conservation du même jour
+a ensuite récupéré **4 originaux de pièces jointes sur les 107 références de
+travail** : 54, 72, dossier chantier02 et fiche du bois01. Le
+[manifeste](../maquettes/MANIFESTE_IMAGES.json) et le
+[bilan de recherche](../maquettes/RECUPERATION_2026-11-16.md) en donnent les preuves.
+Les **103 autres images de travail manquent** ; les 107 conformités visuelles
+des écrans restent non vérifiées. Une description ou une approbation dans
 l'historique ne remplace pas une comparaison visuelle sur le téléphone.
 
 ### Sens des trois états
@@ -91,125 +96,125 @@ sans annoncer une carte de code créée ou actualisée.
 
 ### Correspondance des 117 repères
 
-| Identifiant et maquette | Métier | Écran Kotlin | État | Vérification existante |
-|---|---|---|---|---|
-| cartographie/01 — Carte commune — première proposition — remplacée | commun | [MapRechercheScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt#L128) | codé et raccordé aux données | test instrumenté¹ |
-| cartographie/02 — Accueil Carte — trois thèmes — remplacée | commun | [CarteModeSelectorScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/CarteModeSelectorScreen.kt#L44) | codé et raccordé aux données | aucune |
-| cartographie/03 — Terrain forestier — première présentation — remplacée | commun | [MapRechercheScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt#L128) | codé et raccordé aux données | test instrumenté¹ |
-| cartographie/04 — Terrain forestier — carte immersive | commun | [MapRechercheScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt#L128) | codé et raccordé aux données | test instrumenté¹ |
-| cartographie/05 — Couches — première présentation — remplacée | commun | [MapWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt#L410) | codé et raccordé aux données | test instrumenté¹ |
-| cartographie/06 — Couches — catalogue — remplacée | commun | [MapWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt#L410) | codé et raccordé aux données | test instrumenté¹ |
-| cartographie/07 — Couches — aperçus illustrés | commun | [MapWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt#L410) | codé et raccordé aux données | test instrumenté¹ |
-| cartographie/08 — Fond — trois fonds — remplacée | commun | [MapWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt#L360) | codé et raccordé aux données | test instrumenté¹ |
-| cartographie/09 — Fond — catalogue | commun | [MapWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt#L360) | codé et raccordé aux données | test instrumenté¹ |
-| cartographie/10 — Relief | commun | [MapWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt#L471) | codé et raccordé aux données | test instrumenté¹ |
-| cartographie/11 — Mesurer — outil non finalisé — non finalisée | commun | [MapManualMeasureUi.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt#L39) | codé et raccordé aux données | test JVM¹ |
-| cartographie/12 — Accès et itinéraires — remplacée | commun | aucun | non codé | aucune |
-| cartographie/13 — Maps — satellite 3D immersif | commun | aucun | non codé | aucune |
-| cartographie/14 — Examiner l’accès | commun | aucun | non codé | aucune |
-| cartographie/15 — Nouveau constat | commun | aucun | non codé | aucune |
-| cartographie/16 — Atlas et couches — remplacée | commun | [MainScaffold.kt](../../app/src/main/java/com/forestry/counter/presentation/navigation/MainScaffold.kt#L435) | codé et raccordé aux données | test instrumenté¹ |
-| cartographie/17 — Carte libre — satellite dégagé — remplacée | commun | [MainScaffold.kt](../../app/src/main/java/com/forestry/counter/presentation/navigation/MainScaffold.kt#L435) | codé et raccordé aux données | test instrumenté¹ |
-| cartographie/18B — Carte libre — satellite 3D immersif | commun | [MainScaffold.kt](../../app/src/main/java/com/forestry/counter/presentation/navigation/MainScaffold.kt#L435) | codé et raccordé aux données | test instrumenté¹ |
-| cartographie/19 — Détail d’une couche | commun | [MapRechercheScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt#L509) | codé et raccordé aux données | test instrumenté¹ |
-| cartographie/20 — Source et détails | commun | [MapWorkspaceSourceDetails.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt#L27) | codé et raccordé aux données | test instrumenté¹ |
-| cartographie/21 — Accueil Carte — Maps, Terrain forestier, Carte libre | commun | aucun | non codé | aucune |
-| cartographie/22B — Enregistrer la vue affichée | commun | [MapRechercheScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt#L675) | codé et raccordé aux données | test JVM¹ |
-| cartographie/23B — Packs — carte immersive | commun | [OfflinePackManagerScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackManagerScreen.kt#L123) | codé et raccordé aux données | test JVM¹ |
-| cartographie/24 — Contenu du pack | commun | [OfflinePackManagerScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackManagerScreen.kt#L211) | codé et raccordé aux données | test JVM¹ |
-| cartographie/25 — Choisir les couches | commun | [OfflinePackPreparationPanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackPreparationPanel.kt#L64) | codé et raccordé aux données | test JVM¹ |
-| cartographie/26 — Estimation et confirmation | commun | [OfflinePackConfirmationSheet.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackConfirmationSheet.kt#L34) | codé et raccordé aux données | test JVM¹ |
-| cartographie/27 — Téléchargement en cours | commun | [OfflinePackDetailsPanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackDetailsPanel.kt#L86) | codé et raccordé aux données | test JVM¹ |
-| cartographie/28 — Pause et reprise | commun | [OfflinePackDetailsPanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackDetailsPanel.kt#L144) | codé et raccordé aux données | test JVM¹ |
-| cartographie/29 — En attente de Wi-Fi | commun | [OfflinePackDetailsPanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackDetailsPanel.kt#L149) | codé et raccordé aux données | test JVM¹ |
-| cartographie/30 — Disponible hors connexion | commun | [OfflinePackDetailsPanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackDetailsPanel.kt#L138) | codé et raccordé aux données | test JVM¹ |
-| cartographie/31 — Mes packs — Liste | commun | [OfflinePackManagerScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackManagerScreen.kt#L83) | codé et raccordé aux données | test JVM¹ |
-| cartographie/32 — Mes packs — Carte | commun | [OfflinePackManagerScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackManagerScreen.kt#L91) | codé et raccordé aux données | test JVM¹ |
-| cartographie/33 — Détail du pack | commun | [OfflinePackManagerScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackManagerScreen.kt#L171) | codé et raccordé aux données | test JVM¹ |
-| cartographie/34 — Couverture du pack | commun | [OfflinePackDetailsPanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackDetailsPanel.kt#L49) | codé et raccordé aux données | test JVM¹ |
-| cartographie/35 — Sources et versions | commun | [OfflinePackDetailsPanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackDetailsPanel.kt#L109) | codé et raccordé aux données | test JVM¹ |
-| cartographie/36 — Versions enregistrées | commun | [OfflinePackVersionsPanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackVersionsPanel.kt#L25) | codé et raccordé aux données | test JVM¹ |
-| cartographie/37 — Stockage des cartes | commun | [OfflinePackStoragePanels.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackStoragePanels.kt#L35) | codé et raccordé aux données | test JVM¹ |
-| cartographie/38 — Choisir les contenus | commun | [OfflinePackStoragePanels.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackStoragePanels.kt#L91) | codé et raccordé aux données | test JVM¹ |
-| cartographie/39 — Confirmation du retrait | commun | [OfflinePackStoragePanels.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackStoragePanels.kt#L145) | codé et raccordé aux données | test JVM¹ |
-| cartographie/40 — Retour au stockage | commun | [OfflinePackManagerScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackManagerScreen.kt#L109) | codé et raccordé aux données | test JVM¹ |
-| cartographie/41C — Rechercher une destination — style arrondi | commun | [MapWorkspaceHostDialogs.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt#L75) | codé sans données | test JVM¹ |
-| cartographie/42B — Aperçu du lieu — version illustrée | commun | aucun | non codé | aucune |
-| cartographie/43 — Préparer l’itinéraire | commun | aucun | non codé | aucune |
-| cartographie/44 — Choisir le départ | commun | aucun | non codé | aucune |
-| cartographie/45 — Placer le départ sur la carte | commun | aucun | non codé | aucune |
-| cartographie/46 — Itinéraire prêt à calculer | commun | aucun | non codé | aucune |
-| cartographie/47 — Aperçu de l’itinéraire | commun | aucun | non codé | aucune |
-| cartographie/48 — Étapes du trajet | commun | aucun | non codé | aucune |
-| cartographie/49 — Démarrage du guidage — validation à confirmer | commun | aucun | non codé | aucune |
-| cartographie/50 — Guidage actif | commun | aucun | non codé | aucune |
-| cartographie/51B — Position perdue — sans jaune | commun | aucun | non codé | aucune |
-| cartographie/52 — Position retrouvée | commun | aucun | non codé | aucune |
-| cartographie/53B — Arrivée — pictogramme corrigé | commun | aucun | non codé | aucune |
-| cartographie/54 — Ajouter une forêt | technicien | [ForestMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/ForestMapCreationScreen.kt#L26) | codé et raccordé aux données | test JVM¹ |
-| cartographie/55 — Choisir une parcelle | technicien | [ParcelMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/ParcelMapCreationScreen.kt#L21) | codé et raccordé aux données | test JVM¹ |
-| cartographie/56 — Source et détails de la parcelle | technicien | [ForestryCreationSourcePanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/ForestryCreationSourcePanel.kt#L20) | codé sans données | aucune |
-| cartographie/57 — Placer les placettes | technicien | [PlacetteMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt#L41) | codé et raccordé aux données | test JVM¹ |
-| cartographie/58 — Paramètres des placettes | technicien | [PlacetteMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt#L120) | codé et raccordé aux données | test JVM¹ |
-| cartographie/59 — Grille automatique | technicien | [PlacetteMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt#L193) | codé et raccordé aux données | test JVM¹ |
-| cartographie/60 — Réglages de répartition | technicien | [PlacetteMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt#L123) | codé et raccordé aux données | test JVM¹ |
-| cartographie/61 — Liste des placettes | technicien | [PlacetteMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt#L126) | codé et raccordé aux données | test JVM¹ |
-| cartographie/62 — Fiche d’une placette planifiée | technicien | [PlacetteMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt#L150) | codé et raccordé aux données | test JVM¹ |
-| cartographie/63 — Empreinte en bordure | technicien | [PlacetteMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt#L172) | codé et raccordé aux données | test JVM¹ |
-| cartographie/64 — Arbre sélectionné sur la carte | commun | [MapTreeWorkspace.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapTreeWorkspace.kt#L132) | codé et raccordé aux données | test JVM¹ |
-| cartographie/65 — Boussole vers l’arbre | commun | [MapTreeWorkspace.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapTreeWorkspace.kt#L158) | codé et raccordé aux données | test JVM¹ |
-| cartographie/66 — Approche du point enregistré | commun | [TreeWorkspacePanel.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trees/TreeWorkspacePanel.kt#L159) | codé et raccordé aux données | test JVM¹ |
-| cartographie/67 — Compas perturbé | commun | [TreeWorkspacePanel.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trees/TreeWorkspacePanel.kt#L179) | codé et raccordé aux données | test JVM¹ |
-| cartographie/68 — Position GPS perdue | commun | [TreeWorkspacePanel.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trees/TreeWorkspacePanel.kt#L189) | codé et raccordé aux données | test JVM¹ |
-| cartographie/69 — Essences affichées | commun | [MapTreeWorkspace.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapTreeWorkspace.kt#L145) | codé et raccordé aux données | test JVM¹ |
-| cartographie/70 — Précision enregistrée | commun | [MapTreeWorkspace.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapTreeWorkspace.kt#L151) | codé et raccordé aux données | test JVM¹ |
-| cartographie/71 — Aucun point après filtrage | commun | [MapTreeWorkspace.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapTreeWorkspace.kt#L179) | codé et raccordé aux données | test JVM¹ |
-| cartographie/72 — Mesurer une distance | commun | [MapManualMeasureUi.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt#L74) | codé et raccordé aux données | test JVM¹ |
-| cartographie/73 — Mesurer une surface | commun | [MapManualMeasureUi.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt#L74) | codé et raccordé aux données | test JVM¹ |
-| cartographie/74 — Enregistrer une mesure | commun | [MapManualMeasureUi.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt#L76) | codé et raccordé aux données | aucune |
-| cartographie/75 — Mesures enregistrées | commun | [MapManualMeasureUi.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt#L92) | codé et raccordé aux données | aucune |
-| cartographie/76 — Détail d’une mesure | commun | [MapManualMeasureUi.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt#L197) | codé et raccordé aux données | aucune |
-| cartographie/77 — Calcul et détails | commun | [ManualMeasureAuxiliaryPanels.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureAuxiliaryPanels.kt#L409) | codé et raccordé aux données | test JVM¹ |
-| cartographie/78 — Reprendre une mesure | commun | [MapManualMeasureViewModel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureViewModel.kt#L301) | codé et raccordé aux données | aucune |
-| cartographie/79 — Partager une mesure | commun | [MapManualMeasureUi.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt#L202) | codé et raccordé aux données | test JVM¹ |
-| cartographie/80 — Unités de mesure | commun | [MapManualMeasureUi.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt#L87) | codé et raccordé aux données | test JVM¹ |
-| cartographie/81 — Importer une couche | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L184) | codé et raccordé aux données | test JVM¹ |
-| cartographie/82 — Formats disponibles | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L193) | codé et raccordé aux données | test JVM, test instrumenté¹ |
-| cartographie/83 — Aperçu d’import | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L211) | codé et raccordé aux données | test JVM¹ |
-| cartographie/84 — Données de la couche | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L224) | codé et raccordé aux données | test JVM¹ |
-| cartographie/85 — Attributs de P-03 | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L251) | codé et raccordé aux données | test JVM, test instrumenté¹ |
-| cartographie/86 — Source et champs | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L260) | codé et raccordé aux données | test JVM¹ |
-| cartographie/87 — Couche ajoutée | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L305) | codé et raccordé aux données | test JVM, test instrumenté¹ |
-| cartographie/88 — Modifier les attributs | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L317) | codé et raccordé aux données | test JVM¹ |
-| cartographie/89 — Filtrer les objets | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L331) | codé et raccordé aux données | test JVM¹ |
-| cartographie/90B — Apparence — choix de couleur | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L352) | codé et raccordé aux données | test JVM, test instrumenté¹ |
-| cartographie/91 — Couleur personnalisée | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L107) | codé et raccordé aux données | test JVM, test instrumenté¹ |
-| cartographie/92 — Préparer un tracé GPS | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L169) | codé et raccordé aux données | test JVM¹ |
-| cartographie/93 — Tracé GPS en cours | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L193) | codé et raccordé aux données | test JVM¹ |
-| cartographie/94 — Réception GPS interrompue | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L193) | codé et raccordé aux données | test JVM¹ |
-| cartographie/95 — Reprise du tracé GPS | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L193) | codé et raccordé aux données | test JVM¹ |
-| cartographie/96 — Tracé GPS en pause | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L193) | codé et raccordé aux données | test JVM¹ |
-| cartographie/97 — Vérifier le tracé | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L217) | codé et raccordé aux données | test JVM¹ |
-| cartographie/98 — Enregistrer le tracé | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L228) | codé et raccordé aux données | test JVM¹ |
-| cartographie/99 — Tracé enregistré | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L258) | codé et raccordé aux données | test JVM¹ |
-| cartographie/100 — Calcul et réception | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L272) | codé et raccordé aux données | test JVM¹ |
-| conducteur/dossier-chantier/proposition-02 — Dossier chantier — fond clair uni | conducteur | [WorksitesScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/field/WorksitesScreen.kt#L67) | codé et raccordé aux données | test instrumenté¹ |
-| conducteur/carnet-terrain/proposition-01 — Carnet terrain | conducteur | aucun | non codé | aucune |
-| conducteur/formulaire-note/proposition-01 — Nouvelle entrée — Note, version claire | conducteur | aucun | non codé | aucune |
-| conducteur/formulaire-activite/proposition-01 — Nouvelle entrée — Activité | conducteur | aucun | non codé | aucune |
-| conducteur/formulaire-acces/proposition-01 — Nouvelle entrée — Accès et restrictions | conducteur | aucun | non codé | aucune |
-| conducteur/detail-entree/proposition-01 — Détail de l’entrée | conducteur | aucun | non codé | aucune |
-| conducteur/correction-motivee/proposition-01 — Correction motivée | conducteur | aucun | non codé | aucune |
-| conducteur/historique-entree/proposition-01 — Historique de l’entrée | conducteur | [FieldJournalComponents.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/field/FieldJournalComponents.kt#L69) | codé sans données | test JVM, test instrumenté¹ |
-| conducteur/bois-associes/proposition-01 — Bois associés | conducteur | [WorksitesScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/field/WorksitesScreen.kt#L91) (candidat, identité à rattacher) | — (à rattacher) | aucune |
-| conducteur/fiche-bois/proposition-01 — Fiche du bois — stock à renseigner | conducteur | aucun | non codé | aucune |
-| conducteur/releve-pile/proposition-02 — Relevé de pile — version concise | conducteur | [PileMeasurementForm.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/wood/PileMeasurementForm.kt#L37) | codé et raccordé aux données | test JVM, test instrumenté¹ |
-| conducteur/stock-initial/proposition-01 — Stock initial | conducteur | [FieldQuantityEditor.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/field/FieldQuantityEditor.kt#L48) | codé et raccordé aux données | test JVM¹ |
-| conducteur/stock-renseigne/proposition-03 — Fiche du bois — stock renseigné et code couleur | conducteur | aucun | non codé | aucune |
-| conducteur/enlevement/proposition-01 — Enlever | conducteur | [FieldQuantityEditor.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/field/FieldQuantityEditor.kt#L48) | codé et raccordé aux données | test JVM¹ |
-| conducteur/controle/proposition-01 — Contrôler | conducteur | [FieldQuantityEditor.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/field/FieldQuantityEditor.kt#L48) | codé et raccordé aux données | test JVM, test instrumenté¹ |
-| technicien/synthese/proposition-02-a — Synthèse Technicien — Terrain clair A — référence documentaire | technicien | [MartelageScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MartelageScreen.kt#L140) | codé et raccordé aux données | test JVM¹ |
-| technicien/aide-surface-terriere/proposition-03 — Aide Surface terrière — référence documentaire | technicien | aucun | non codé | aucune |
+| Identifiant et maquette | Métier | Écran Kotlin | État | Vérification existante | Image originale locale |
+|---|---|---|---|---| --- |
+| cartographie/01 — Carte commune — première proposition — remplacée | commun | [MapRechercheScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt#L128) | codé et raccordé aux données | test instrumenté¹ | absente |
+| cartographie/02 — Accueil Carte — trois thèmes — remplacée | commun | [CarteModeSelectorScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/CarteModeSelectorScreen.kt#L44) | codé et raccordé aux données | aucune | absente |
+| cartographie/03 — Terrain forestier — première présentation — remplacée | commun | [MapRechercheScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt#L128) | codé et raccordé aux données | test instrumenté¹ | absente |
+| cartographie/04 — Terrain forestier — carte immersive | commun | [MapRechercheScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt#L128) | codé et raccordé aux données | test instrumenté¹ | absente |
+| cartographie/05 — Couches — première présentation — remplacée | commun | [MapWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt#L410) | codé et raccordé aux données | test instrumenté¹ | absente |
+| cartographie/06 — Couches — catalogue — remplacée | commun | [MapWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt#L410) | codé et raccordé aux données | test instrumenté¹ | absente |
+| cartographie/07 — Couches — aperçus illustrés | commun | [MapWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt#L410) | codé et raccordé aux données | test instrumenté¹ | absente |
+| cartographie/08 — Fond — trois fonds — remplacée | commun | [MapWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt#L360) | codé et raccordé aux données | test instrumenté¹ | absente |
+| cartographie/09 — Fond — catalogue | commun | [MapWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt#L360) | codé et raccordé aux données | test instrumenté¹ | absente |
+| cartographie/10 — Relief | commun | [MapWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/MapWorkspace.kt#L471) | codé et raccordé aux données | test instrumenté¹ | absente |
+| cartographie/11 — Mesurer — outil non finalisé — non finalisée | commun | [MapManualMeasureUi.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt#L39) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/12 — Accès et itinéraires — remplacée | commun | aucun | non codé | aucune | absente |
+| cartographie/13 — Maps — satellite 3D immersif | commun | aucun | non codé | aucune | absente |
+| cartographie/14 — Examiner l’accès | commun | aucun | non codé | aucune | absente |
+| cartographie/15 — Nouveau constat | commun | aucun | non codé | aucune | absente |
+| cartographie/16 — Atlas et couches — remplacée | commun | [MainScaffold.kt](../../app/src/main/java/com/forestry/counter/presentation/navigation/MainScaffold.kt#L435) | codé et raccordé aux données | test instrumenté¹ | absente |
+| cartographie/17 — Carte libre — satellite dégagé — remplacée | commun | [MainScaffold.kt](../../app/src/main/java/com/forestry/counter/presentation/navigation/MainScaffold.kt#L435) | codé et raccordé aux données | test instrumenté¹ | absente |
+| cartographie/18B — Carte libre — satellite 3D immersif | commun | [MainScaffold.kt](../../app/src/main/java/com/forestry/counter/presentation/navigation/MainScaffold.kt#L435) | codé et raccordé aux données | test instrumenté¹ | absente |
+| cartographie/19 — Détail d’une couche | commun | [MapRechercheScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt#L509) | codé et raccordé aux données | test instrumenté¹ | absente |
+| cartographie/20 — Source et détails | commun | [MapWorkspaceSourceDetails.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceSourceDetails.kt#L27) | codé et raccordé aux données | test instrumenté¹ | absente |
+| cartographie/21 — Accueil Carte — Maps, Terrain forestier, Carte libre | commun | aucun | non codé | aucune | absente |
+| cartographie/22B — Enregistrer la vue affichée | commun | [MapRechercheScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapRechercheScreen.kt#L675) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/23B — Packs — carte immersive | commun | [OfflinePackManagerScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackManagerScreen.kt#L123) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/24 — Contenu du pack | commun | [OfflinePackManagerScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackManagerScreen.kt#L211) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/25 — Choisir les couches | commun | [OfflinePackPreparationPanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackPreparationPanel.kt#L64) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/26 — Estimation et confirmation | commun | [OfflinePackConfirmationSheet.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackConfirmationSheet.kt#L34) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/27 — Téléchargement en cours | commun | [OfflinePackDetailsPanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackDetailsPanel.kt#L86) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/28 — Pause et reprise | commun | [OfflinePackDetailsPanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackDetailsPanel.kt#L144) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/29 — En attente de Wi-Fi | commun | [OfflinePackDetailsPanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackDetailsPanel.kt#L149) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/30 — Disponible hors connexion | commun | [OfflinePackDetailsPanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackDetailsPanel.kt#L138) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/31 — Mes packs — Liste | commun | [OfflinePackManagerScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackManagerScreen.kt#L83) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/32 — Mes packs — Carte | commun | [OfflinePackManagerScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackManagerScreen.kt#L91) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/33 — Détail du pack | commun | [OfflinePackManagerScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackManagerScreen.kt#L171) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/34 — Couverture du pack | commun | [OfflinePackDetailsPanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackDetailsPanel.kt#L49) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/35 — Sources et versions | commun | [OfflinePackDetailsPanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackDetailsPanel.kt#L109) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/36 — Versions enregistrées | commun | [OfflinePackVersionsPanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackVersionsPanel.kt#L25) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/37 — Stockage des cartes | commun | [OfflinePackStoragePanels.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackStoragePanels.kt#L35) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/38 — Choisir les contenus | commun | [OfflinePackStoragePanels.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackStoragePanels.kt#L91) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/39 — Confirmation du retrait | commun | [OfflinePackStoragePanels.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackStoragePanels.kt#L145) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/40 — Retour au stockage | commun | [OfflinePackManagerScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/packs/offline/OfflinePackManagerScreen.kt#L109) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/41C — Rechercher une destination — style arrondi | commun | [MapWorkspaceHostDialogs.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapWorkspaceHostDialogs.kt#L75) | codé sans données | test JVM¹ | absente |
+| cartographie/42B — Aperçu du lieu — version illustrée | commun | aucun | non codé | aucune | absente |
+| cartographie/43 — Préparer l’itinéraire | commun | aucun | non codé | aucune | absente |
+| cartographie/44 — Choisir le départ | commun | aucun | non codé | aucune | absente |
+| cartographie/45 — Placer le départ sur la carte | commun | aucun | non codé | aucune | absente |
+| cartographie/46 — Itinéraire prêt à calculer | commun | aucun | non codé | aucune | absente |
+| cartographie/47 — Aperçu de l’itinéraire | commun | aucun | non codé | aucune | absente |
+| cartographie/48 — Étapes du trajet | commun | aucun | non codé | aucune | absente |
+| cartographie/49 — Démarrage du guidage — validation à confirmer | commun | aucun | non codé | aucune | absente |
+| cartographie/50 — Guidage actif | commun | aucun | non codé | aucune | absente |
+| cartographie/51B — Position perdue — sans jaune | commun | aucun | non codé | aucune | absente |
+| cartographie/52 — Position retrouvée | commun | aucun | non codé | aucune | absente |
+| cartographie/53B — Arrivée — pictogramme corrigé | commun | aucun | non codé | aucune | absente |
+| cartographie/54 — Ajouter une forêt | technicien | [ForestMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/ForestMapCreationScreen.kt#L26) | codé et raccordé aux données | test JVM¹ | [présente](../../docs/maquettes/cartographie/54.png) |
+| cartographie/55 — Choisir une parcelle | technicien | [ParcelMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/ParcelMapCreationScreen.kt#L21) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/56 — Source et détails de la parcelle | technicien | [ForestryCreationSourcePanel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/ForestryCreationSourcePanel.kt#L20) | codé sans données | aucune | absente |
+| cartographie/57 — Placer les placettes | technicien | [PlacetteMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt#L41) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/58 — Paramètres des placettes | technicien | [PlacetteMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt#L120) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/59 — Grille automatique | technicien | [PlacetteMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt#L193) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/60 — Réglages de répartition | technicien | [PlacetteMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt#L123) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/61 — Liste des placettes | technicien | [PlacetteMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt#L126) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/62 — Fiche d’une placette planifiée | technicien | [PlacetteMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt#L150) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/63 — Empreinte en bordure | technicien | [PlacetteMapCreationScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/PlacetteMapCreationScreen.kt#L172) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/64 — Arbre sélectionné sur la carte | commun | [MapTreeWorkspace.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapTreeWorkspace.kt#L132) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/65 — Boussole vers l’arbre | commun | [MapTreeWorkspace.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapTreeWorkspace.kt#L158) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/66 — Approche du point enregistré | commun | [TreeWorkspacePanel.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trees/TreeWorkspacePanel.kt#L159) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/67 — Compas perturbé | commun | [TreeWorkspacePanel.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trees/TreeWorkspacePanel.kt#L179) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/68 — Position GPS perdue | commun | [TreeWorkspacePanel.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trees/TreeWorkspacePanel.kt#L189) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/69 — Essences affichées | commun | [MapTreeWorkspace.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapTreeWorkspace.kt#L145) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/70 — Précision enregistrée | commun | [MapTreeWorkspace.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapTreeWorkspace.kt#L151) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/71 — Aucun point après filtrage | commun | [MapTreeWorkspace.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapTreeWorkspace.kt#L179) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/72 — Mesurer une distance | commun | [MapManualMeasureUi.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt#L74) | codé et raccordé aux données | test JVM¹ | [présente](../../docs/maquettes/cartographie/72.png) |
+| cartographie/73 — Mesurer une surface | commun | [MapManualMeasureUi.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt#L74) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/74 — Enregistrer une mesure | commun | [MapManualMeasureUi.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt#L76) | codé et raccordé aux données | aucune | absente |
+| cartographie/75 — Mesures enregistrées | commun | [MapManualMeasureUi.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt#L92) | codé et raccordé aux données | aucune | absente |
+| cartographie/76 — Détail d’une mesure | commun | [MapManualMeasureUi.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt#L197) | codé et raccordé aux données | aucune | absente |
+| cartographie/77 — Calcul et détails | commun | [ManualMeasureAuxiliaryPanels.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/ManualMeasureAuxiliaryPanels.kt#L409) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/78 — Reprendre une mesure | commun | [MapManualMeasureViewModel.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureViewModel.kt#L301) | codé et raccordé aux données | aucune | absente |
+| cartographie/79 — Partager une mesure | commun | [MapManualMeasureUi.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt#L202) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/80 — Unités de mesure | commun | [MapManualMeasureUi.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MapManualMeasureUi.kt#L87) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/81 — Importer une couche | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L184) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/82 — Formats disponibles | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L193) | codé et raccordé aux données | test JVM, test instrumenté¹ | absente |
+| cartographie/83 — Aperçu d’import | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L211) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/84 — Données de la couche | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L224) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/85 — Attributs de P-03 | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L251) | codé et raccordé aux données | test JVM, test instrumenté¹ | absente |
+| cartographie/86 — Source et champs | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L260) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/87 — Couche ajoutée | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L305) | codé et raccordé aux données | test JVM, test instrumenté¹ | absente |
+| cartographie/88 — Modifier les attributs | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L317) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/89 — Filtrer les objets | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L331) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/90B — Apparence — choix de couleur | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L352) | codé et raccordé aux données | test JVM, test instrumenté¹ | absente |
+| cartographie/91 — Couleur personnalisée | commun | [LayerWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/layers/LayerWorkspace.kt#L107) | codé et raccordé aux données | test JVM, test instrumenté¹ | absente |
+| cartographie/92 — Préparer un tracé GPS | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L169) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/93 — Tracé GPS en cours | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L193) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/94 — Réception GPS interrompue | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L193) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/95 — Reprise du tracé GPS | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L193) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/96 — Tracé GPS en pause | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L193) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/97 — Vérifier le tracé | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L217) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/98 — Enregistrer le tracé | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L228) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/99 — Tracé enregistré | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L258) | codé et raccordé aux données | test JVM¹ | absente |
+| cartographie/100 — Calcul et réception | commun | [TraceWorkspace.kt](../../cartography-ui/src/main/java/com/quintessences/geosylva/cartography/ui/trace/TraceWorkspace.kt#L272) | codé et raccordé aux données | test JVM¹ | absente |
+| conducteur/dossier-chantier/proposition-02 — Dossier chantier — fond clair uni | conducteur | [WorksitesScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/field/WorksitesScreen.kt#L67) | codé et raccordé aux données | test instrumenté¹ | [présente](../../docs/maquettes/conducteur/dossier-chantier-proposition-02.png) |
+| conducteur/carnet-terrain/proposition-01 — Carnet terrain | conducteur | aucun | non codé | aucune | absente |
+| conducteur/formulaire-note/proposition-01 — Nouvelle entrée — Note, version claire | conducteur | aucun | non codé | aucune | absente |
+| conducteur/formulaire-activite/proposition-01 — Nouvelle entrée — Activité | conducteur | aucun | non codé | aucune | absente |
+| conducteur/formulaire-acces/proposition-01 — Nouvelle entrée — Accès et restrictions | conducteur | aucun | non codé | aucune | absente |
+| conducteur/detail-entree/proposition-01 — Détail de l’entrée | conducteur | aucun | non codé | aucune | absente |
+| conducteur/correction-motivee/proposition-01 — Correction motivée | conducteur | aucun | non codé | aucune | absente |
+| conducteur/historique-entree/proposition-01 — Historique de l’entrée | conducteur | [FieldJournalComponents.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/field/FieldJournalComponents.kt#L69) | codé sans données | test JVM, test instrumenté¹ | absente |
+| conducteur/bois-associes/proposition-01 — Bois associés | conducteur | [WorksitesScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/field/WorksitesScreen.kt#L91) (candidat, identité à rattacher) | — (à rattacher) | aucune | absente |
+| conducteur/fiche-bois/proposition-01 — Fiche du bois — stock à renseigner | conducteur | aucun | non codé | aucune | [présente](../../docs/maquettes/conducteur/fiche-bois-proposition-01.jpg) |
+| conducteur/releve-pile/proposition-02 — Relevé de pile — version concise | conducteur | [PileMeasurementForm.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/wood/PileMeasurementForm.kt#L37) | codé et raccordé aux données | test JVM, test instrumenté¹ | absente |
+| conducteur/stock-initial/proposition-01 — Stock initial | conducteur | [FieldQuantityEditor.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/field/FieldQuantityEditor.kt#L48) | codé et raccordé aux données | test JVM¹ | absente |
+| conducteur/stock-renseigne/proposition-03 — Fiche du bois — stock renseigné et code couleur | conducteur | aucun | non codé | aucune | absente |
+| conducteur/enlevement/proposition-01 — Enlever | conducteur | [FieldQuantityEditor.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/field/FieldQuantityEditor.kt#L48) | codé et raccordé aux données | test JVM¹ | absente |
+| conducteur/controle/proposition-01 — Contrôler | conducteur | [FieldQuantityEditor.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/field/FieldQuantityEditor.kt#L48) | codé et raccordé aux données | test JVM, test instrumenté¹ | absente |
+| technicien/synthese/proposition-02-a — Synthèse Technicien — Terrain clair A — référence documentaire | technicien | [MartelageScreen.kt](../../app/src/main/java/com/forestry/counter/presentation/screens/forestry/MartelageScreen.kt#L140) | codé et raccordé aux données | test JVM¹ | absente |
+| technicien/aide-surface-terriere/proposition-03 — Aide Surface terrière — référence documentaire | technicien | aucun | non codé | aucune | absente |
 
 ## B. Interfaces et messages provisoires
 

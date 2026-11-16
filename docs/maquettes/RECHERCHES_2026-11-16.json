@@ -1,0 +1,2048 @@
+{
+  "schema_version": 1,
+  "date_verification": "2026-11-16",
+  "fuseau_affichage": "Europe/Paris",
+  "perimetre": "Recherche des fichiers originaux accessibles, lecture seule des sources ; aucun fichier régénéré, retouché ou rattaché par ressemblance.",
+  "conversations": {
+    "racine": "/workspace/outputs/2026-11-14/recovery-history",
+    "archives_examinees": 239,
+    "fichiers_root": 83,
+    "traces_uniques_imageGeneration": 139,
+    "pieces_jointes_image_uniques": 5,
+    "telechargements_http_200": 5,
+    "images_distinctes_par_sha256": 4,
+    "methode": "Relecture de quatre pages avec codex_app.read_thread, puis téléchargement des URL de pièces jointes renouvelées. Les URL signées et les retours bruts ne sont pas publiés.",
+    "pieces_jointes": [
+      {
+        "page": 28,
+        "turn": "01a1ac7f-4d8b-742c-8806-0cb834b70b21",
+        "item": "01a1ac7f-507a-720f-8ad8-9cc0fa1891da",
+        "http_status": 200,
+        "sha256": "c719737715baeae1639eaaaf1e48bf02082bc08e5230c53f6d582b73a6a09ddf",
+        "largeur": 952,
+        "hauteur": 1653,
+        "format": "PNG",
+        "octets": 2245792
+      },
+      {
+        "page": 28,
+        "turn": "01a1ac7b-7870-7175-a216-9ad23e24a8bd",
+        "item": "01a1ac7b-7b43-72f8-ba3e-86bbbda80f35",
+        "http_status": 200,
+        "sha256": "c719737715baeae1639eaaaf1e48bf02082bc08e5230c53f6d582b73a6a09ddf",
+        "largeur": 952,
+        "hauteur": 1653,
+        "format": "PNG",
+        "octets": 2245792
+      },
+      {
+        "page": 34,
+        "turn": "01a1ac0c-30c2-7686-9ba2-78ede2cf0e61",
+        "item": "01a1ac0c-3383-70b8-912f-ed69c9ea605e",
+        "http_status": 200,
+        "sha256": "6af4a58290b046dd658136029edb7427329ba84329849bee3ba52348078da0a2",
+        "largeur": 953,
+        "hauteur": 1651,
+        "format": "PNG",
+        "octets": 2079785
+      },
+      {
+        "page": 68,
+        "turn": "01a19d0d-3d28-76b7-a395-34a831193ac8",
+        "item": "01a19d0d-44c8-7166-a0ca-83229feac8af",
+        "http_status": 200,
+        "sha256": "aff3dd8fb54096c354dde617cd4561308d6305c946ea7e169355fa717cef4790",
+        "largeur": 640,
+        "hauteur": 1280,
+        "format": "JPEG",
+        "octets": 82631
+      },
+      {
+        "page": 71,
+        "turn": "01a19ca3-516f-71df-8149-6c606fcfbe59",
+        "item": "01a19ca3-57a1-7355-af80-f486f101f3a5",
+        "http_status": 200,
+        "sha256": "a7ac739651c323f142f38faf9ef79648cf0211332c410f6b8df3f09724fbf4c9",
+        "largeur": 887,
+        "hauteur": 1774,
+        "format": "PNG",
+        "octets": 1424232
+      }
+    ],
+    "images_base64": "Aucune image de maquette encapsulée ; un logo SVG de documentation Mapbox écarté.",
+    "limite_historique_anterieur": {
+      "premier_tour_lisible": "01a1976d-7fb1-708a-bfe2-487810363526",
+      "date_utc": "2026-11-01T14:04:58+00:00",
+      "erreur_tour_anterieur": "Thread history exceeds the read size limit. Try fewer turns. A single oversized turn cannot be read by this tool.",
+      "verification": "Même erreur avec turnLimit=1 ; pas de conclusion sur les pièces jointes du tour inaccessible."
+    },
+    "archives": [
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-0.json",
+        "sha256": "114d3257457c57689b5a5fe9caddfae9f9154b14922936e8453ca3328d8d67e1",
+        "conversation": "6af70c99-3890-8191-b298-c47aea9c006e",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-1.json",
+        "sha256": "21bbefe87c497bac739650bbe5caa73f410f3cf5e1df4a9e498a037e676c9ea7",
+        "conversation": "6af70c99-3890-8191-b298-c47aea9c006e",
+        "tours_retournes": 2
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-2.json",
+        "sha256": "fec4b8aca915f7a4241f74c0587dc548d6c1813721c50264a564c68c26ee4374",
+        "conversation": "6af70c99-3890-8191-b298-c47aea9c006e",
+        "tours_retournes": 2
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/arrival-symbol16-3.json",
+        "sha256": "77f5650374a3e6e9c0f207635c22e5331884311e84521d54fac8e54f8cdb0678",
+        "conversation": "6af70c99-3890-8191-b298-c47aea9c006e",
+        "tours_retournes": 2
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/business-style20-earlier.json",
+        "sha256": "a4b126c9691ee4827b23c1934d4c337afddb1976dbd23573b43017a47b206e0e",
+        "conversation": "6af77584-a51c-8191-a90b-d1cfd4006046",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/business-style20-latest.json",
+        "sha256": "710cf0d5ce08681c1bd91aa9d87343900dda1411a2632de0adf0bf7ee6898aa4",
+        "conversation": "6af77584-a51c-8191-a90b-d1cfd4006046",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/business-visual16-earlier.json",
+        "sha256": "41d948ce61fd4208c8fe377a582fe4cecfde274bf7962785afdc42e408bc1370",
+        "conversation": "6af7399a-7edc-8191-a528-c941f7d12064",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/business-visual16-latest.json",
+        "sha256": "3bc0699babe84f35341153bf2572ee4ef9dff46fde46496518b2d5ae9d1f61b9",
+        "conversation": "6af7399a-7edc-8191-a528-c941f7d12064",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/business-visual18-earlier.json",
+        "sha256": "9a17126c915d5219518d6326e8507573a663fb10119af795a83004d522b3d736",
+        "conversation": "6af75ed8-b64c-8191-9d91-3c4aaf348057",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/business-visual18-latest.json",
+        "sha256": "c1832d202b3db08a882a04d59892c993af3b42bd445645c2cb0aa7a8e6530077",
+        "conversation": "6af75ed8-b64c-8191-9d91-3c4aaf348057",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/business20-review-latest.json",
+        "sha256": "ffcce136ece3cf9c227f63beb0fe56d221916b9d4d332945f7ee611eea77b5a0",
+        "conversation": "6af7a1b2-8dac-8191-82dd-b43600b3b05b",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-fit19-finalize-latest.json",
+        "sha256": "5e8bf14467eac44e9d01fce1a82e1f132f8e0419a1d1f6fc7b49d50c98f39c56",
+        "conversation": "6af7723c-395c-8191-9c7a-fed4b08a9077",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-before-v2.json",
+        "sha256": "fba2f7ab0202f938834700e02950a4c3e40b4f9ae166aad18bf4eebb12576cda",
+        "conversation": "6af7a318-0430-8191-8c9d-1cee283ec043",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-initial.json",
+        "sha256": "64beca8567a93b710ffeb9b144124f143758a52529af26f63279833de5ecd7b9",
+        "conversation": "6af7a318-0430-8191-8c9d-1cee283ec043",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-fit20-latest.json",
+        "sha256": "9dd18540a1875a6c6731219bebaaafa3ff9f3c9df637f42881c2d2d5a2b6722c",
+        "conversation": "6af7a318-0430-8191-8c9d-1cee283ec043",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier.json",
+        "sha256": "ee3b70ba685064d2dcebdeb0620f412cd28de5c60863f371f7dc1c2d3b728528",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier10.json",
+        "sha256": "08943cbb1727e20f7d273d538e0af442189e2f8e6fe6e754b753f916aee9f206",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier11.json",
+        "sha256": "bee5fab6ca11c26e3a152a42faf76c1bdada16b840250bcb7b5442f42efe5748",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier12.json",
+        "sha256": "39a020940e508e3052f0aeccb23e23bc401932258bde5c0249a0bb4b9c9823a5",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier13.json",
+        "sha256": "9080bec18206163e92c77736da2f1ec4639f61b1c197aa4e5db5e91b73b384a2",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier14.json",
+        "sha256": "da60ebe9e5d9550357aef0bcdb9a19067eb3f92bca52f9bc685d7d747fea5e7a",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier15.json",
+        "sha256": "fe9ccf278756f48067586bb5ea883eef3f16fa497ee461611ea0336b13966c44",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier16.json",
+        "sha256": "f892506789e1ebafc842b7153e4077102ed1e58acdd9f58ebfc8b332798efc80",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier17.json",
+        "sha256": "d517eaa3974eb21324d629d0f87318abcae8a3286f8044ab042ec150b5fddeaf",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier18.json",
+        "sha256": "8ba5a9d75d4251aabc4a3af480747d4751b76ca250e49dad5f71bf858e9bc578",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier19.json",
+        "sha256": "a2c9bb7e7c5f87630089a358ec61813dc0caafd99b79352871a5311457668191",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier2.json",
+        "sha256": "85d2352c380ec079af9ad2938b4f2cc3b9aa6789537b7d46795bfa4bac64fbb9",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier20.json",
+        "sha256": "86bebb3b5a879a5e85ca5c833fe918005bbeaa56bdb3fd816ef71615325db3d3",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier21.json",
+        "sha256": "b7f3e77287a908ccd3e2d96386c272d25d519e13d4f3dfbc9af4eef4e1e8c1ca",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier3.json",
+        "sha256": "07cfec0ade35a4aa24f7aa594939d8513d95e6b535cd9bc18572fc633853ea5a",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier4.json",
+        "sha256": "5e0119903a86cba3c090353cec271e6ed4eff0aed86299405cea15112243a070",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier5.json",
+        "sha256": "b70a506b27ed14f0dc1b67b0f7196100c63fb98517ed986e5772b2427acf0bf0",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier6.json",
+        "sha256": "a2c4d06be9529a0ee32a0f5b55c46592eb2f6d6febdd4f3a69a65ccaf901fc49",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier7.json",
+        "sha256": "f5717077fe9294b4a0a4465a72ec5618da1ecdab9c9fd2a8e8d256cd2005d4bf",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier8.json",
+        "sha256": "bdda25f65e9130dac0d3c2fe79694c3ed2601a22884638194f62bf2c139a1245",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-earlier9.json",
+        "sha256": "2939118a62050ae595a34464f906079ba20b5e13d45b7f5de6d66e5a0845b68f",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-resume13-latest.json",
+        "sha256": "70029441c69518c52196f3d0046310b8d2b95672e35c75a61ea9f4d88b28d24b",
+        "conversation": "6af6e294-444c-8191-93d9-8086c2b14061",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-review21-earlier1.json",
+        "sha256": "22d32188064dac3556d50785d9444ad1ec6d9c7cc2b33efe26d3d594e9b93e76",
+        "conversation": "6af7ba97-666c-8191-83e3-7e867f736067",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/camera-review21-latest.json",
+        "sha256": "1e873864fccb9fd3d23e2d915f6eb2cd59d3abe5a5d1c328e452ff5a5312c972",
+        "conversation": "6af7ba97-666c-8191-83e3-7e867f736067",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/finish-dossier21-latest.json",
+        "sha256": "c86543853ce44cd08d821fa6ea64d1de768824a5ef29fb6ba31bf5150051e4d8",
+        "conversation": "6af7a23a-7400-8191-aae1-fe549c70506f",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/finish-map-target20-latest.json",
+        "sha256": "1a8ba3eb5e603bbbf3e38542313e1a178d3cb45211726d398fbcc88d3ab5e9e5",
+        "conversation": "6af77ca5-5f34-8191-974e-838b4c85206f",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch2.json",
+        "sha256": "1963dff4cf059a87a44063073c6e7805cd36ff6268b07190488d57564f8b4b36",
+        "conversation": "01a1b53a-ede9-73c6-9561-368c2129706b",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch3.json",
+        "sha256": "badafe28b2638fc398926d1501e7e44e27d8ab723d1fbb366ed9308dc542d565",
+        "conversation": "01a1b53a-ede9-73c6-9561-368c2129706b",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch4.json",
+        "sha256": "5800be05181fa2b8e885a2e6d842b4678dcd0c3591df7cdcce809b48c12b1fd8",
+        "conversation": "01a1b53a-ede9-73c6-9561-368c2129706b",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch5.json",
+        "sha256": "75ae1333ca8771e5f266b1b93f51af66b285046b6a0ad8e3dc85c1957c614138",
+        "conversation": "01a1b53a-ede9-73c6-9561-368c2129706b",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch6-single.json",
+        "sha256": "e1799a36bfe34748e739ec2cd114be686a1bd34d893261f0c4991d115aa810fa",
+        "conversation": "01a1b53a-ede9-73c6-9561-368c2129706b",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-batch7.json",
+        "sha256": "cabd633c5b134c23af00a31ef9bdde55307739d672a17ec7129ea49e7e404950",
+        "conversation": "01a1b53a-ede9-73c6-9561-368c2129706b",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/forets-placettes-latest.json",
+        "sha256": "0c181a40370a0412abe0d7c459b100c917217bcc769f2c87975a4577f17b49d6",
+        "conversation": "01a1b53a-ede9-73c6-9561-368c2129706b",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/height-sensor-audit-latest.json",
+        "sha256": "5029f116aec6279cf7a17e5426a8108afc54a8ceff8aaeccc10c6b48ad4789f5",
+        "conversation": "01a1b69a-ca8d-70df-9af0-3c8c9970c040",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/integration-mapbox-routespacks-earlier.json",
+        "sha256": "e3745fe68fc07a8c1ce65208822ad63993c65c889151f8c199128d29fdc642bb",
+        "conversation": "01a1ad17-b94e-7630-b9fe-d80fb8f7f075",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/integration-mapbox-routespacks-latest.json",
+        "sha256": "acb5175175e3dd2cdc8e9ba1a208817c4832b7bbf459afaa9409a80b9bc40556",
+        "conversation": "01a1ad17-b94e-7630-b9fe-d80fb8f7f075",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/integration-validation-commands20k.json",
+        "sha256": "65c07f2fc8fb6c95910ef03c884e0c0337c2a1581707f4797653fd36d4fb607f",
+        "conversation": "01a1b639-64d0-7090-b99a-0ee0fe0b0074",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/integration-validation-full500.json",
+        "sha256": "7b749c7804dfa81070d42a3947667531d428a076cbb21ae600feca2d105a68d5",
+        "conversation": "01a1b639-64d0-7090-b99a-0ee0fe0b0074",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/journal-finish21-latest.json",
+        "sha256": "b6a2f9660851282bd6d22ebfcc9251d2b0b1e41da0c151ec0d271eb4ac4a1128",
+        "conversation": "6af7a246-433c-8191-b973-50885bcdf055",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch10.json",
+        "sha256": "3431b54242c93e720f4e8d2c818cd8ad7b24b0d7e3ab962508774fd069668bc5",
+        "conversation": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch11.json",
+        "sha256": "920c0ce4d1bc57252f11f5eff4f568f6bd06157ea9ff6128a6945fb8399bf31d",
+        "conversation": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch12.json",
+        "sha256": "12f88fb2e530846c1bb3ee4f20ad7c8b673ecb4a2d8ad504937b9c481dc0ddf8",
+        "conversation": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch13.json",
+        "sha256": "0e037e6210d58742f21015db0fdec1eaf41c33bfa7ff8b3c0b79a519f7a450fe",
+        "conversation": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch14.json",
+        "sha256": "e53a077fbea0e4c4ed1cee5ab421b8f14042f819df50e8dfea224969fb3d3694",
+        "conversation": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch6.json",
+        "sha256": "328aab15f8d24674d6c7602b9304a6bb499fc92de6a57e0c676453d22d1e34ee",
+        "conversation": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch7.json",
+        "sha256": "683b1be11ff001c9784296318981a5f4f17d8ccf1f9f428685bb1ce8f0731fe6",
+        "conversation": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch8.json",
+        "sha256": "e6e23b5d97111102193cd3bb05b7f2f40b922ba8cd2f1841a9fbbbed31dee86e",
+        "conversation": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-batch9.json",
+        "sha256": "ca67ae022d52454c3e0a190f6de3a829874e73180f8515cf89711cc20c9314b1",
+        "conversation": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-earlier.json",
+        "sha256": "4fde2581f318d74289a1c0c80b0bc14d4adce37215a11a9986f29a7e07660482",
+        "conversation": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-earlier2.json",
+        "sha256": "0515b51feb702729f89c8df7d330c68129db6e8069cd2122301cd127b37d9923",
+        "conversation": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-earlier3.json",
+        "sha256": "64ab19cfcb6c6a9f18a2adae34e7acb69d50cfce3a95ddceaf6eb9b04377e845",
+        "conversation": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-earlier4.json",
+        "sha256": "158da6ec40f5a4cef252429406c5fb9fd07be347ea38f69ad10211b020d34e52",
+        "conversation": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-earlier5.json",
+        "sha256": "21b23e13e618437447b44fb143a30a76233a9d75e7116be3f30e263a39eefffc",
+        "conversation": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/layers-attributes-latest.json",
+        "sha256": "3cf0057c3da990a8728aeb4ee67f126b7a5cd9631bc3c5b8c3e0e6d1edfa2e82",
+        "conversation": "01a1b53b-4c1b-727e-aad6-51364e8ba05e",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/manual-calculation-latest.json",
+        "sha256": "4f86337635bacf5cdce5aef689688e285ad4b77848c551a024d37699de2aa2c0",
+        "conversation": "01a1b19c-7017-77f1-8fd6-1e41e51c3055",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/manual-controller-tests-earlier1.json",
+        "sha256": "4c8fdb859190033360f4f18f466982ac1736d955e42526a8bf9dfe21ca8b9903",
+        "conversation": "01a1b1a7-161e-7307-9012-74ca378ec045",
+        "tours_retournes": 2
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/manual-controller-tests-latest.json",
+        "sha256": "d07c5796bfbc42cc7cc8949e6d808492d015df5a3fbb52d6d2a595c73bcf9dde",
+        "conversation": "01a1b1a7-161e-7307-9012-74ca378ec045",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/manual-repository-earlier.json",
+        "sha256": "bc497b9a456caf2196ac3fd936328480c53e5686efecbf2414cc4a15d7147716",
+        "conversation": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/manual-repository-latest.json",
+        "sha256": "c0c68a4d949fa0e6ad2f1be79051a3f40e6b23a0bc8b25fb1be85f5fb9562eb8",
+        "conversation": "01a1b19d-d3e2-7580-8cc8-a3689d09c046",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/mapbox-audit-earlier.json",
+        "sha256": "b67380fd453c8494d739285c1ce34ed1357569921cc5fc63d563bb0e9259af8a",
+        "conversation": "01a1ad12-b15f-72b7-8c46-8aa6f18e8041",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/mapbox-audit-earliest-next.json",
+        "sha256": "917470cfe6d3e0866904ac9428c3bedd01b3e5a9ab411ff7d79ccf74d873dd15",
+        "conversation": "01a1ad12-b15f-72b7-8c46-8aa6f18e8041",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/mapbox-audit-earliest2.json",
+        "sha256": "0a3ed33fe7a706a289c62a2f0e8ab2d4fe9ea6b6edc8eb7f6a9ff1220abfbbcb",
+        "conversation": "01a1ad12-b15f-72b7-8c46-8aa6f18e8041",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/mapbox-audit-earliest3.json",
+        "sha256": "aebd384d95f8c3825a8449196072912c0a8b2fe0a1f6c6b2a30cc16bc292924f",
+        "conversation": "01a1ad12-b15f-72b7-8c46-8aa6f18e8041",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/mapbox-audit-initial.json",
+        "sha256": "3f9e3d863d980757ce9cebd3bc33d701930b8f08f1ecc9f94b954234cdb66e41",
+        "conversation": "01a1ad12-b15f-72b7-8c46-8aa6f18e8041",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/mapbox-engine-design-earlier1.json",
+        "sha256": "834d712b8a3b49871729023f8b2fa0ec8999f9253e574e618db4eccb5bb71b7c",
+        "conversation": "01a1a278-c645-743e-920a-63323ffd4068",
+        "tours_retournes": 2
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/mapbox-engine-design-earlier2.json",
+        "sha256": "cbb04b49df3cff872dca10db46837cac2187adf9f51909b555608ce8fec53f47",
+        "conversation": "01a1a278-c645-743e-920a-63323ffd4068",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/mapbox-engine-design-latest.json",
+        "sha256": "010ee89b67bcf3519acbaabd5515f968ad5b8a19adc65a13936c8b3262d13edb",
+        "conversation": "01a1a278-c645-743e-920a-63323ffd4068",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/mapbox-shared-panels-earlier1.json",
+        "sha256": "a9754f92fdc5e948667758086ea23564e57f7780cd9fc6de268be4a3fca5af7d",
+        "conversation": "01a1a27a-c724-7603-b533-3271e15f6057",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/mapbox-shared-panels-latest.json",
+        "sha256": "7238a78b6d3caca74103fa4361e56229206ae34770e786963a3a69f29454149b",
+        "conversation": "01a1a27a-c724-7603-b533-3271e15f6057",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maps-guidage-batch2.json",
+        "sha256": "75576ab0c2fae604462c36c70054be2676044a6f9bd1247946b7bdbb061e03ef",
+        "conversation": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maps-guidage-batch3.json",
+        "sha256": "6ac2110f798c5f31ad87cde0ebd2b65c089e325e9ab1c4e242d118b40ee0ee23",
+        "conversation": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maps-guidage-batch4.json",
+        "sha256": "3da4ca53a554797f3f7f670ebbe630f615cf69bce1cc307c31647af0d0c17d95",
+        "conversation": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maps-guidage-batch5.json",
+        "sha256": "c0ae5a2cd30b6d31805d048a0dd1d796dac47c67669757bf3bcfd5b11ebe7cbe",
+        "conversation": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maps-guidage-batch6.json",
+        "sha256": "856a912668d19c8bd19b0098a9c54fcd6649684d5895c6f1ee88cc069cb12825",
+        "conversation": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maps-guidage-batch7.json",
+        "sha256": "b5b7bab330be2e08c2ad6932df3ad286d8174e838aa0ded6cb9360ff1e7cb499",
+        "conversation": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maps-guidage-batch8.json",
+        "sha256": "0c7092658b1aa3f92c1bf09985464a45790a9523c0a57c005977ed3a9f98e991",
+        "conversation": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maps-guidage-initial10k.json",
+        "sha256": "e9e44cda6b753dfb4315bc119b534213d3550443390bc4e48619170b5df78133",
+        "conversation": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maps-guidage-latest.json",
+        "sha256": "1737153023477bb9e48ad98c6cda1861409da589ef57b5695adb933c98b97b93",
+        "conversation": "01a1b53b-bc44-7029-8fa8-5c2074a7706e",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maps-ui14-earlier.json",
+        "sha256": "5d7712c11b0cc2b796ed12c826735ccbaaeea26be78242a16e4feb558c4cb4eb",
+        "conversation": "6af6f711-8450-8191-a350-498234eb204f",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maps-ui14-latest.json",
+        "sha256": "13ab0ab2d523118ab0a1cf6060f4ff5d0149f4ea164b3563c542f90d8e6fda26",
+        "conversation": "6af6f711-8450-8191-a350-498234eb204f",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maps20-visual-review-latest.json",
+        "sha256": "bea63b816c65c59c431391d0d5b380451d7b1d1e9d074b2ab8427f5e4fe236d2",
+        "conversation": "6af7a5eb-5b8c-8191-8510-76223c69a042",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-batch4.json",
+        "sha256": "06f1ef8f3f41f85a5822fe696196799adca21d017f0f51c84130393c0200082d",
+        "conversation": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-batch5.json",
+        "sha256": "8fdf30e7107877159c902e6fdb6428bc691bbeb68f3c25704ed884cd0b0035b8",
+        "conversation": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-batch6.json",
+        "sha256": "79624604872c63b94f921cec7a6e29ddbf993df0ea91478c9e94f1844e9a0571",
+        "conversation": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-batch7.json",
+        "sha256": "0b2179126570e2ce66f620a03d8aa707d11de81ae83cc3ca480e7fa25c273244",
+        "conversation": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-batch8-single.json",
+        "sha256": "f0b9c8bb52c9101c1a95a95d27421f1aea1a862de460b021384aa82cce76a7d3",
+        "conversation": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-earlier.json",
+        "sha256": "98c5476f7a33bdc00ca3f524696eced321c451cb0f7f9bf93b759af84d61589d",
+        "conversation": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-earlier2.json",
+        "sha256": "57869b4d2c3af25dcf484019f886fc664b6fa5d76aedc9241e28ba7e331d98e3",
+        "conversation": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-earlier3.json",
+        "sha256": "0bd40ab6d5a276aa327af6227dadeb42996474f8dae52b2a4ae46acdb7f05e35",
+        "conversation": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-initial10k.json",
+        "sha256": "a204f55ff132e8407a576136a44424c89c12b6e05ace38029e4046d4ef31e5bc",
+        "conversation": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/maquettes-audit-latest.json",
+        "sha256": "ff7bd50ff499336baa6f80b8a3504d715cb061cdeb255eb307bf1cf0a752e5ee",
+        "conversation": "01a1b53a-bd88-70ff-956f-23b61b57e077",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/native-batch-protocol-earlier1.json",
+        "sha256": "e9d9fc253e49743e92c370c2ca7ef3df657dcfed25df101d49a421df34f7c7fc",
+        "conversation": "01a1b72d-a1e9-7230-9344-d5cc96f1b07d",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/native-batch-protocol-latest.json",
+        "sha256": "2858c06a4a40a0d39bec0452ed9aeaaa331b130cfbc2126f1ea0a96855f76bd4",
+        "conversation": "01a1b72d-a1e9-7230-9344-d5cc96f1b07d",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/offline-independent-latest.json",
+        "sha256": "e577837646e182c867e7ba2a6c2ce2d055b830ebc3546fdde15e97a1a614e486",
+        "conversation": "01a1b66e-fe61-75a1-a67e-8d8b36e4704a",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/packs-offline-batch5.json",
+        "sha256": "4021eccd47d50d7ae2c0cce0f1f187f07621d05ec5b2f1d04dbdc3274920dcfc",
+        "conversation": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/packs-offline-batch6.json",
+        "sha256": "48c375de74323f884d78f5727093490ec5571bbe52358f20a123e17ecddbe1c3",
+        "conversation": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+        "tours_retournes": 2
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/packs-offline-earlier.json",
+        "sha256": "1047f318717343384c5da09bc04754bb7b3afb092ca57bba53100da8d767039e",
+        "conversation": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/packs-offline-earlier2.json",
+        "sha256": "b9990b9306b7d3f73d67ff7430db899b7415b06b34fdc191fba0239671218c4d",
+        "conversation": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/packs-offline-earlier3.json",
+        "sha256": "d8f479af0bf0c0900cc9f3114af51cf564dd8a25558be476153f871730ee4ac9",
+        "conversation": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/packs-offline-earlier4.json",
+        "sha256": "ad8cdf0817c4e7a474b57354e1a70a0e5170b1a41ad38f31fbb474a0bf4aedd4",
+        "conversation": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/packs-offline-latest.json",
+        "sha256": "362f0dc4c8ee9133065f56891dc86b7a3679fb29224e80ec7c4ecc25bfe39e41",
+        "conversation": "01a1b53b-8580-718e-afa7-899dfe3ed04a",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/reference-inventory-0.json",
+        "sha256": "9fba1ca0da5c0120d7aa39e9e2086e13737138f629ddd1ee1681b58e2e0dfa4f",
+        "conversation": "01a1ad13-1f71-7465-b385-fe03f969607d",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/reference-inventory-1.json",
+        "sha256": "7f82b08bb33944b2869c0616d67f4f26ea5475d5b54781fa6d9a1d6ae054011e",
+        "conversation": "01a1ad13-1f71-7465-b385-fe03f969607d",
+        "tours_retournes": 2
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-nov13-with-outputs-100.json",
+        "sha256": "1ebe41728f8aeca2606957554311067a9c2b243c9450e92f4be90f22e70cf3da",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0026.json",
+        "sha256": "87bbfbbebc820e033f3b51aa04372429490bdc31881aaa5f8b5341553da839ed",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0027.json",
+        "sha256": "fd9dd2cf09fa950ea3e93149577762b3d259d4bc0d17cf6d0f21a729500fdd72",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0028.json",
+        "sha256": "4a7bce76bdf90485a681082b8309b13cdbe7f2893e675562f3c6168ae4c510b8",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0029.json",
+        "sha256": "5a646794802fdd026f377fb5605441a2aab23b8f9ed4ddb60063b40f95fe727d",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0030.json",
+        "sha256": "7f84965f11326607e820b2050bf647828d58d8209c37bc56933933863c79eaf7",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0031.json",
+        "sha256": "52459a07622916a230ec5ba827859255fb81112506bae7cbfe336213a7e7b528",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0032.json",
+        "sha256": "c0ec190fec71b859065174c6fbfe250c57ee0976f29917ecf389f7dafbcba8bd",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0033.json",
+        "sha256": "3d1133c26c93f260469dfe78c1d039d7344d328703db3c35ace3f2badccd5318",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0034.json",
+        "sha256": "102ec75b2a58e74f70efbb81f65adca88b7496e8b99d93199dd03c28a9d6ad65",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0035.json",
+        "sha256": "fb34493bd3f82bf18b15ddaafec893e03eaaa2298c65e530019aa9ad85f89c68",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0036.json",
+        "sha256": "5bb13a0ffee531e03cfdcd89a7aac0351099493ca4b626aebdb46b6beb2b4bd0",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0037.json",
+        "sha256": "310c4fc908a313c8cfb3dbb51236a994654d8e594a5186886a0f8463e6cdfd56",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0038.json",
+        "sha256": "716e18825881a40df2610488ed379afc5033fe2df464257a0db673c7a030ea21",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0039.json",
+        "sha256": "7082ce16c2e51a073a201dbbae1615410347a548481eb6b27040d406c79b41e0",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0040.json",
+        "sha256": "e27a0cb95080cdf6878efb9ded665766de1e9a62e2d60b65da0ab8a9ae0d966c",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0041.json",
+        "sha256": "d27cacab64614c3a8080c5614c1000c334bff47c182bda95c986bd5fc629a36b",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0042.json",
+        "sha256": "37d6008d992878aaad9f55921212cdb225b5ed73737565d379adbd1ac4ae6229",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0043.json",
+        "sha256": "796127c0a653fb18bfc9d09eb57d6d27ac7afc3b379568ef1e05765e80699a21",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0044.json",
+        "sha256": "45400103cca915930fbdf66154fc0e8b30c968e370248518c3700695e69d7eea",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0045.json",
+        "sha256": "18775953e5260af4dc6f1fd5018a40423f01aabee8ed79f93f9f3327fdaed4fe",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0046.json",
+        "sha256": "18afcc32d2bb2613f61066fdd8e5451e7789eda77086b2ea473a4ab163279551",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0047.json",
+        "sha256": "c9425e5163b25a2c627a52e9e00de9cd662fbdc8f3bbcd14cd5d9d0819194c43",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0048.json",
+        "sha256": "9b597146ca7e421822dfa0e025154c3346ffae5a2c3230ceed84e54f3074edcd",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0063.json",
+        "sha256": "2bc5865a79d4445ab3fb1b6e913ec56922709577ced3249535e0e173c5c00364",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0064.json",
+        "sha256": "33ab96a22a47ca5b8ea97a0e6fc4be9511ecdc4d8d5bea57f6692291630e541d",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0065.json",
+        "sha256": "99418f1df25a2f36c8bcc515a7dec9be21078e017f4674db03bd76e2fbccaa9a",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0066.json",
+        "sha256": "150169917279f34f1af52feec2d4e3b0902d02e4d14d0aa4c7888aa0f81ad6a5",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0067.json",
+        "sha256": "268c1354029cea708dc7e0138aed1f0cb1de8ccbe272723087c600e5f97fd2f7",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0068.json",
+        "sha256": "7318c6a94f1c195ed1f55a1a3a8a278f04d7b381796fd89de99953fb4c4ff88b",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0069.json",
+        "sha256": "2020e73974feb225ffe78a3aba717cc6a9c6cd8cb40ab4112a7c24911e06b050",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0070.json",
+        "sha256": "b3d8d3e9238b312264bcb4fa4116b161b985d2f9eaefd6fedeb5655633acced3",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0071.json",
+        "sha256": "3c38cf76e49bd9a8cde80a39b70e6502795206808d84070849e74eb1ded8036d",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0072.json",
+        "sha256": "6f6c9f70283670548788f8a3933ed2ef0ae5b379dee9d5b0c7af8f3b8e194a61",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0073.json",
+        "sha256": "f502372b63bb7dac6268073c51df255f19d7fb1c3f2e81191e0c17fbee75d5e8",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-batch-0074.json",
+        "sha256": "17dff3eec5d0ff95f1fb553140d109ba96b5b8a971ded0323591b1aecc273773",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-single-0049.json",
+        "sha256": "4ee32eec9e61dd789c29347f6bd4e2963f83b1c39daa6e8acacb190dfdd7a824",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-single-0050.json",
+        "sha256": "7a27d2d0b980872b0423aef13326f81206a3d3b989da98babec6f1ee45d68011",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-single-0051.json",
+        "sha256": "6b3e3dc8772bc2e6b01f66714c18b08be8474510af614a906dde27112a30d71b",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-single-0052.json",
+        "sha256": "64cc249c2f6099cb0e8f2874f1f9a9abe796626025cf1039ce9f43d5421608b7",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-single-0053.json",
+        "sha256": "6fc0667a7bf4add61cbdf7d80b1a22dfb32de6d0df7ae6f02fe0901a780e31cb",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-single-0054.json",
+        "sha256": "e3cfd24ffa5b88d5869caa42525f743f1e7211b6d9f0a5d7c7cefbb9bfcf31a9",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-single-0055.json",
+        "sha256": "58ee0e3990d9af901ab0ce5c460938d8eb0b2c205ecbacb52661a6128eda1a63",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-single-0056.json",
+        "sha256": "7c38736aa5e50d298d523c496b5fde683eef548c68280760a0497540dbbc3bce",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-single-0057.json",
+        "sha256": "c2e07a646e4e3a089ab5cadb4fb02d44727bf60bcca473b7690bdb7df2ca8a53",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-single-0058.json",
+        "sha256": "c5ceb6e6bb3e485173e85035e1298615285e59a9b9e84957449916ba63df108d",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-single-0059.json",
+        "sha256": "f80a0bae8e881337cc3c954898238e38eb8a19b03408b137510a9e3796e361c8",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-single-0060.json",
+        "sha256": "6ada1da7db8f63cea215ef050cfb49bbb747de918b6ccc14438267d0273b57a2",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-single-0061.json",
+        "sha256": "955adb1056004eab7e69cdbdad5c5eed10c6eae4b9b52b2949b2f15f718fb1e1",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-older-single-0062.json",
+        "sha256": "f60591a74d568ddb47b3a66ef168ccb4cd30f4c895e482d069159e2c83b72108",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-page-0001.json",
+        "sha256": "39dab37a6604f54f33897863b4e657d10b373b230ea781607150c88ec3f351ae",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root-page-0002.json",
+        "sha256": "0aef0d2eac2b3dc70e92eb61f16b53b7debd049bf5636c47adfadb5f0dec42be",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0002-commands20k.json",
+        "sha256": "57256d85f0cdddb29105123c28eb74efbdb77468d39ee4af0dd402928acbfefb",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0002-full250.json",
+        "sha256": "3cdbc9ce5aa9972c5c5c80316f5af27259c3d830c85860896c505b4a147d7af3",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0003-full.json",
+        "sha256": "a3847b827004660f61ad6a1aaaa08b559091219a1974720fd4fdbeedbdfc5181",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0003.json",
+        "sha256": "6559f4c2866cacdb4e7d2e6eb9b8d6eeda1d5bb61af10abc773eec2bd32ffc97",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0004-full.json",
+        "sha256": "5f24a4cec92d0b874020272e0e9cdf815801ddfe63a34415d1d94707e708c3f0",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0004.json",
+        "sha256": "58d9aac0277169fb7f1bd6bd08fe518549b4060fde4699ed8488066aacb86373",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0005-full.json",
+        "sha256": "8a70f8d1908008f79fbe0fbfaebccad0407910453a542d5074aa5c08bd6dc3ae",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0005.json",
+        "sha256": "50d2fbe755a6a601bc2b085f94bbc1eafa35ad6f161f9bc6162e6bbda072a150",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0006-full.json",
+        "sha256": "d34550115bbd7069fab058f44093189fb03185008d8032019f76ea1554163944",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0006.json",
+        "sha256": "8f4d15f5dc873bf5feaa0559bc32140f0af189e78ddf24a4bc593c83bfb5706a",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0007-commands20k.json",
+        "sha256": "700e969fcb5decc77a6f431c4eea20280cfdb9060d1b771ba8a0beed497f884a",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0007-full10k.json",
+        "sha256": "25e5cbb47296cf750fa6957d5c6edb55aac92e3cfd0f23e7e5b1d4c57f1ea658",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0007.json",
+        "sha256": "6f40f1e178cd1511b1dadff4b83ec947470c4553a912f87f48466975141c5044",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0008.json",
+        "sha256": "89fdc6f1ce3e3595adf012ac0469fb236c6eb269b9a49e3daaef8e940810aeef",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0009.json",
+        "sha256": "81c309638dfde74a9b528e5c81f593e1260c72ff340814e170bb4065440bc774",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0010.json",
+        "sha256": "1529647d91f3c8701a39a23d87a8952f6863a5c3161803ba6a3ef675a09be4a0",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0011-full.json",
+        "sha256": "3efd7603fde61f99bf48e2e0cef355d4d290d84d4f617c923b6a1fee13e0d759",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0012-full.json",
+        "sha256": "b346dd7518376ea3c72c73793a0daaf23469b32686ed638fc22e2fa9a6e557a1",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0013-full.json",
+        "sha256": "cd48f78299026cca14884277b09ef5dab21b7315192ac1aba68ccf0de0f7606e",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0014-full.json",
+        "sha256": "d10cd870ed8c31c3aa6d2fa8ba387bb0d664b77098c44af68f4ddd341f36a731",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0015-full.json",
+        "sha256": "f3687612837a43eb4f6d1a51d155931a46e6912c8d375842d810343c681a58a5",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0016-full.json",
+        "sha256": "325cf4e227044680b2c5ac6b280c544245cfc425f4745f171c2cc728dad85380",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0017-full.json",
+        "sha256": "4c5483e7a8ae8c3d1990291417a0257fa62705a9c1dbc54635218a6e36b86d2c",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0018-full.json",
+        "sha256": "7d5283b7afa04ef9d56045e99c5724618ae80db6b4428f4a79c0a36ce9cc5c86",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0019-full.json",
+        "sha256": "07d2cf8deaf9493a5d7179ad1a32d43fc69ceb622e88368ab1276ad6463d00bc",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0020-full.json",
+        "sha256": "58d333f3ba26cc8cf0b5f70a26f2dbdb66d404a138fed1963ef76d81b974b18f",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0021-full.json",
+        "sha256": "10f4c8eeeea8e82ad11cdee4ee17ca89570e665ac635ffee5eff0bd2fc2dd30b",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0022-full.json",
+        "sha256": "220663bdc962fdc0e080925d48b21f1bf63ff49a1f34eb54d666093386bc93a0",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0023-full.json",
+        "sha256": "d937c5570b937f3a985c5f2f0dcbded0dd37b1034ec0e1b12a4163b239443cbb",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0024-full.json",
+        "sha256": "6185f3e7c3c6cc648bfa11405af281ab031ff98ed4b30cf00b3b23d416674d0c",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/root0025-full.json",
+        "sha256": "5270f565a0b7397f22423f0e42d5317d1d832b5388bbff8f35670d031ce9ba3f",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/stock-forms-safety-earlier1.json",
+        "sha256": "a62daf7a8bc61e2fc1b03b57fea1c53f0b3a49b4730d1e7d9521e8405091b53c",
+        "conversation": "01a19d4c-cab6-7167-8b7b-30f68271c06d",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/stock-forms-safety-earlier2.json",
+        "sha256": "95e7b743969311d4f3078ae51765e9f7805280130aa0c6f23e79fe3a56350046",
+        "conversation": "01a19d4c-cab6-7167-8b7b-30f68271c06d",
+        "tours_retournes": 2
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/stock-forms-safety-latest.json",
+        "sha256": "c40b5cacdf6d76b74ac66fc4b80aafd2a1d5d4dd76276db4a69ad6f3b96274a5",
+        "conversation": "01a19d4c-cab6-7167-8b7b-30f68271c06d",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/stock-forms-tests-earlier1.json",
+        "sha256": "09f17f2bce59b284a9a9d48b5f7fa59d165bfd3674489451ae7c105d0d76e503",
+        "conversation": "01a19d4c-75d6-7419-9de7-c7b79d44a051",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/stock-forms-tests-earlier2.json",
+        "sha256": "093f0ce0650e044c4dc4c8e8f8c9ac717ac5f553f74934777659251706dab3c6",
+        "conversation": "01a19d4c-75d6-7419-9de7-c7b79d44a051",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/stock-forms-tests-latest.json",
+        "sha256": "3663cdd450cfe1174365e39fb94fb53a46f70657d6ae81cbdce4c2dfe176ca40",
+        "conversation": "01a19d4c-75d6-7419-9de7-c7b79d44a051",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/stock-forms-ui-earlier1.json",
+        "sha256": "4d0dd46ca3799051252f98423c54a3ef89fad0cb3f6805c48138aabc3cfce4d1",
+        "conversation": "01a19d4c-0941-7450-bd93-354152d3e06c",
+        "tours_retournes": 2
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/stock-forms-ui-latest.json",
+        "sha256": "71c44a9f143b5009c98b14f33033c5dd4beb6bcb32d717cd1e64f8422b9561fe",
+        "conversation": "01a19d4c-0941-7450-bd93-354152d3e06c",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trace-domain-earlier.json",
+        "sha256": "c16d3f2dad2b1baccf438589af9606e4bd0c54dd43ed87d9e93926499bad0f95",
+        "conversation": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trace-domain-initial-next.json",
+        "sha256": "6ee14d931efb029fec6d8e0534aa8507b651932f4fb02f2e0f490a34d919c4d0",
+        "conversation": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trace-domain-initial2.json",
+        "sha256": "56b725258d17eadc3bcc3215394f63af8d87c87de7bd7fc2d1e263496de52086",
+        "conversation": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trace-domain-latest.json",
+        "sha256": "680564526605e09ccc74f64d643cf002a8b9080739b54ba43faecac19d38576f",
+        "conversation": "01a1ad12-e6bb-71ad-958b-b7d3583ea047",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trace-ui-earlier.json",
+        "sha256": "18b3794a47b96cdd6611322118bc0839e4654ba2c22eb313b56e2fc1c7f954a9",
+        "conversation": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trace-ui-initial-next.json",
+        "sha256": "6243564131c4b8602b9220a7ffeac82c0b55e4f1a08565058e98bc7bbf41fb0a",
+        "conversation": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trace-ui-latest.json",
+        "sha256": "e86e04f29067fd7f546e735950a66b09ca613b9d0d6357eea66786ad4bd8cfc3",
+        "conversation": "01a1ad13-b742-7697-8f13-631d55ce905c",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-batch10-single.json",
+        "sha256": "1c5ca8505927ac36ca166d35ca93a82e96da0fe11ba2d646f889f4ed9f1e0cf4",
+        "conversation": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-batch11.json",
+        "sha256": "1a01da0e94873066511fded9c510b4a6419363cb004774e6265fc18b5bd9b193",
+        "conversation": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "tours_retournes": 2
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-batch6.json",
+        "sha256": "1a6d00497633dd8a5248fda0d282f26445b3cc526fe3ce940629a074e13de92d",
+        "conversation": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-batch7.json",
+        "sha256": "4690a165dc69192e69be39491544ce50b345876d28f871d7a64d1a663b5d9981",
+        "conversation": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-batch8.json",
+        "sha256": "8200920053683f9d12244fad8c07765a2f2bbd578e6d2aa18e6047f9c809f090",
+        "conversation": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-batch9.json",
+        "sha256": "a8acd9c6f7d945fd40d304b73de38f44ef17166e956f99090cdee35d970656b5",
+        "conversation": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "tours_retournes": 3
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-earlier.json",
+        "sha256": "e7d182f1d8da31479039464701f44d3bb04ae24844d40b39b9af662fad800623",
+        "conversation": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-earlier2.json",
+        "sha256": "0f30e0e46db04b260c74c52b4c7d6eab8abd6a4445104cc02af0acc59c0086f0",
+        "conversation": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-earlier3.json",
+        "sha256": "0d3f8232951efd6421f9f3df4d6ca136daa0804495ae6918754a8b82e7566756",
+        "conversation": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-earlier4.json",
+        "sha256": "3e30ecedcdf051203b8ca0d218e993f1d1bf83e8686d8c066e962cfc9a237a88",
+        "conversation": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-earlier5.json",
+        "sha256": "663f3d0f23f30aaefdf4fbe65f10a02b473cabe2076e27bae2afe2f32388d332",
+        "conversation": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/trees-filters-latest.json",
+        "sha256": "cd371e3905d56fd9c7caa9114e5072c15e07d4beb66a6b6359d3c9036fceefe0",
+        "conversation": "01a1b53b-19ee-7264-9258-6cde4b9aa066",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/wood-ui21-initial.json",
+        "sha256": "86c500cd1a1513be1dbca45c941b164ee913697d50fd68eeec08aeef04b086f4",
+        "conversation": "6af7a465-576c-8191-9a3f-e4d68aba907b",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/wood-ui21-latest.json",
+        "sha256": "3052f0f929edd0e14f6a16b5f5349cb888655df17e89ceaf75f37b336d54978a",
+        "conversation": "6af7a465-576c-8191-9a3f-e4d68aba907b",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/workspace-host-earlier.json",
+        "sha256": "f0e29d84fc421424bb09ee280c5446047aa8db433a4fe4901a6248c2d90072f1",
+        "conversation": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/workspace-host-latest.json",
+        "sha256": "447b58cf9b2c7eef9911bf7afcdc9c91a9b352b56034a5522412c5ac8baab1f0",
+        "conversation": "01a1b019-2ab8-7655-a156-23d7bfc2804f",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/workspace-search-tools-initial.json",
+        "sha256": "a7cd3668797dfca3597d922ee17ba1464b91618ebfe709e23b9eb99e47ea4f2c",
+        "conversation": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/workspace-search-tools.json",
+        "sha256": "9a0ef509c4cd6197141f69ca1e2debd07fd6a137a15ab1e0c7c92c2741a8f603",
+        "conversation": "01a1b01f-8f77-75e2-b888-45f73cc0f054",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/workspace-ui-earlier.json",
+        "sha256": "eb664102cbec05e096c1fd040c283e1c24e3d3016aca629c6712052ad6e02875",
+        "conversation": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/workspace-ui-earliest-next.json",
+        "sha256": "4c460132fb70be15ea08293490b9ec49c47ef6c60bfec8742a2bb274d3933277",
+        "conversation": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/workspace-ui-initial-next.json",
+        "sha256": "95f310fbe54d7c1e47f1f763526fac613f38497909ffc42a9b4dc6ee53beb124",
+        "conversation": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/workspace-ui-latest.json",
+        "sha256": "a73baa5461242a99d5b07631febcbae99cffa33766777b6d8783e576fa16ba06",
+        "conversation": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+        "tours_retournes": 1
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-history/workspace-ui-older.json",
+        "sha256": "158e0de1676a64793466f5cfb68a841d3d3df33ebd6972dddbd7b994bac0cd80",
+        "conversation": "01a1b01a-24c4-71d2-8ae1-b4bc0a6ff05b",
+        "tours_retournes": 1
+      }
+    ]
+  },
+  "fichiers_caches_archives": {
+    "racines": [
+      "/workspace",
+      "/tmp",
+      "/home/agent"
+    ],
+    "emplacements_cibles": [
+      "/workspace/GeoSylva",
+      "/workspace/GeoSylva-user-tests",
+      "/workspace/recovery-geosylva",
+      "/workspace/geosylva-backup-checkpoints",
+      "/workspace/geosylva-ci-2026-11-15",
+      "/workspace/geosylva-decompte-maquettes-2026-11-16",
+      "/workspace/geosylva-conservation-maquettes-2026-11-16",
+      "/workspace/Quintessences",
+      "/workspace/Forge",
+      "/workspace/Hub",
+      "/workspace/horizon-origin-web",
+      "/workspace/generated_images",
+      "/workspace/attachments",
+      "/workspace/library-files",
+      "/workspace/outputs",
+      "/workspace/.onboarding",
+      "/home/agent/.cache",
+      "/home/agent/.codex",
+      "/tmp/codex-remote-attachments",
+      "/mnt",
+      "/media"
+    ],
+    "fichiers_indexes": 543213,
+    "images_fichiers": 9478,
+    "images_archives_premier_niveau": 674,
+    "images_archives_imbriquees": 39,
+    "occurrences_images_examinees": 10191,
+    "archives_premier_niveau": 126,
+    "archives_imbriquees": 4,
+    "fausses_zip_fixtures_pytest": 4,
+    "fichiers_cache_sans_extension_examines_par_signature": 17400,
+    "originaux_rattachables": 0,
+    "limites": [
+      "Credentials/cookies/keyrings navigateur exclus.",
+      "/root non lisible ; /tmp/codex-daemon-1000 refusé.",
+      "Huit chemins temporaires disparus pendant la lecture.",
+      "APK/JAR/WAR/wheels non traités comme archives de maquettes ; les ressources et captures du code ne prouvent pas un original validé.",
+      "Aucune conclusion sur un ordinateur Windows non monté ou un environnement supprimé."
+    ],
+    "emplacements_supplementaires": [
+      {
+        "chemin": "/var/tmp",
+        "constat": "accessible, aucun fichier retourné par rg --files --hidden --no-ignore"
+      },
+      {
+        "chemin": "/mnt/data",
+        "constat": "absent"
+      },
+      {
+        "chemin": "/home/oai/share",
+        "constat": "absent"
+      }
+    ]
+  },
+  "git": {
+    "date_verification": "2026-11-16",
+    "scope": "Recherche lecture seule des sources Git ; aucun original de maquette identifié ou assigné.",
+    "repos": [
+      {
+        "path": "/workspace/GeoSylva",
+        "refs": 4,
+        "reachable_commits": 219,
+        "blob_count_including_unreachable": 3064,
+        "blob_bytes": 89097086,
+        "image_blobs": 15,
+        "excluded_oversize_blobs": 0
+      },
+      {
+        "path": "/workspace/recovery-geosylva",
+        "refs": 11,
+        "reachable_commits": 216,
+        "blob_count_including_unreachable": 3062,
+        "blob_bytes": 88468042,
+        "image_blobs": 15,
+        "excluded_oversize_blobs": 0
+      },
+      {
+        "path": "/workspace/geosylva-backup-checkpoints",
+        "refs": 6,
+        "reachable_commits": 12,
+        "blob_count_including_unreachable": 1158,
+        "blob_bytes": 235759926,
+        "image_blobs": 0,
+        "excluded_oversize_blobs": 0
+      },
+      {
+        "path": "/workspace/geosylva-privacy",
+        "refs": 2,
+        "reachable_commits": 2,
+        "blob_count_including_unreachable": 2,
+        "blob_bytes": 3045,
+        "image_blobs": 0,
+        "excluded_oversize_blobs": 0
+      },
+      {
+        "path": "/workspace/Quintessences",
+        "refs": 43,
+        "reachable_commits": 667,
+        "blob_count_including_unreachable": 4662,
+        "blob_bytes": 119259844,
+        "image_blobs": 53,
+        "excluded_oversize_blobs": 0
+      },
+      {
+        "path": "/workspace/Forge",
+        "refs": 4,
+        "reachable_commits": 53,
+        "blob_count_including_unreachable": 390,
+        "blob_bytes": 10765552,
+        "image_blobs": 0,
+        "excluded_oversize_blobs": 0
+      },
+      {
+        "path": "/workspace/Hub",
+        "refs": 1,
+        "reachable_commits": 1,
+        "blob_count_including_unreachable": 3,
+        "blob_bytes": 4166,
+        "image_blobs": 0,
+        "excluded_oversize_blobs": 0
+      },
+      {
+        "path": "/workspace/horizon-origin-web",
+        "refs": 1,
+        "reachable_commits": 15,
+        "blob_count_including_unreachable": 354,
+        "blob_bytes": 57032167,
+        "image_blobs": 71,
+        "excluded_oversize_blobs": 0
+      },
+      {
+        "path": "/workspace/outputs/2026-11-16/conservation-maquettes/recherche-git/remote-geosylva.git",
+        "refs": 16,
+        "reachable_commits": 271,
+        "blob_count_including_unreachable": 4838,
+        "blob_bytes": 1748338318,
+        "image_blobs": 16,
+        "excluded_oversize_blobs": 0
+      }
+    ],
+    "unique_image_blobs": 132,
+    "image_blobs_without_historical_path": [],
+    "generation_ids_compared": 115,
+    "exact_generation_id_filename_matches": [],
+    "bundles": {
+      "files": 12,
+      "heads": 25,
+      "heads_missing_from_scanned_repositories": 0
+    },
+    "remote": {
+      "repo": "NeooeN45/GeoSylva",
+      "branches": 15,
+      "tags": 1,
+      "release_drafts": 1,
+      "release_assets": 0,
+      "embedded_zip_blobs": 7,
+      "embedded_zips_identical_to_local_backups": 7
+    },
+    "actions": {
+      "artifact_metadata_count": 34,
+      "report_zips_inspected": 31,
+      "report_zip_bytes": 6820909,
+      "image_members": 0,
+      "mockup_named_members": 0,
+      "apk_artifacts_metadata_only": 3
+    },
+    "recovered_original_mockups": 0,
+    "limits": [
+      "Trois artefacts APK n’ont pas été téléchargés : seules leurs métadonnées sont vérifiées. Ils sont des sorties de build, pas des archives de maquettes.",
+      "Les blobs images trouvés appartiennent aux ressources applicatives, feuilles IBP, aperçus cartographiques, identités visuelles des autres applications et images du site horizon. Aucun rattachement au registre ne repose sur leur apparence.",
+      "La recherche ne peut couvrir des branches supprimées et objets GitHub devenus inaccessibles, ni les fichiers qui n’ont jamais été poussés."
+    ],
+    "refs_distantes_examinees": [
+      {
+        "ref": "refs/remotes/origin/backup/geosylva-2026-11-15-175754Z",
+        "sha": "53244fe40a4c6c5b9891a3dc8d7a9b273d6bfa95"
+      },
+      {
+        "ref": "refs/remotes/origin/backup/geosylva-2026-11-15-181420Z",
+        "sha": "53244fe40a4c6c5b9891a3dc8d7a9b273d6bfa95"
+      },
+      {
+        "ref": "refs/remotes/origin/backup/geosylva-decompte-2026-11-16-200219Z",
+        "sha": "9fb5fcf881c5f008c94925dc7239b6c6ac54ad94"
+      },
+      {
+        "ref": "refs/remotes/origin/backup/geosylva-recovery-2026-11-14",
+        "sha": "fe1699bf2c74de96eb285fc4edcc5d6826e77186"
+      },
+      {
+        "ref": "refs/remotes/origin/backup/geosylva-stabilisation-2026-11-15",
+        "sha": "488aae439e7b352bebc0bff1e458dd230430b19a"
+      },
+      {
+        "ref": "refs/remotes/origin/claude/dazzling-cannon-hfcygs",
+        "sha": "9e2aad48508838e1ab5a36cb000990f51e00adb3"
+      },
+      {
+        "ref": "refs/remotes/origin/dependabot/github_actions/github-actions-1e5c764c2a",
+        "sha": "82d08497b97e503653409a7a38a6792bd82c3028"
+      },
+      {
+        "ref": "refs/remotes/origin/dependabot/gradle/android-dependencies-25d0213abe",
+        "sha": "97cf576812f0321e9e194dfa7490adb716a8933a"
+      },
+      {
+        "ref": "refs/remotes/origin/devin/1778324660-code-quality-improvements",
+        "sha": "0dea0f1e201d075e80f1211dc40fc3c9025e1356"
+      },
+      {
+        "ref": "refs/remotes/origin/docs/decompte-maquettes-ecrans-2026-11-16",
+        "sha": "9fb5fcf881c5f008c94925dc7239b6c6ac54ad94"
+      },
+      {
+        "ref": "refs/remotes/origin/docs/geosylva-v3-1-release",
+        "sha": "8097715bd463159ef334ae76e1313a306c3932ec"
+      },
+      {
+        "ref": "refs/remotes/origin/feat/gsie-integration-ui",
+        "sha": "fb1dbeef3d6b26415ecbbebf956ae9870ac58ed2"
+      },
+      {
+        "ref": "refs/remotes/origin/feature/diagnostics-rework",
+        "sha": "5ec8f15d6134779dffcaf90fde41ecb7c7c6e7e0"
+      },
+      {
+        "ref": "refs/remotes/origin/fix/foret-group-local",
+        "sha": "b795b2ee0f3898253aa55c9590640b1d9088d214"
+      },
+      {
+        "ref": "refs/remotes/origin/main",
+        "sha": "77a5d72020c0f54d8c35e3513b02019919c247d4"
+      },
+      {
+        "ref": "refs/tags/v2.3.0",
+        "sha": "d733ec22de2e7980ca5c6d8aeb59be09b3bb0f2b"
+      }
+    ],
+    "bundles_examines": [
+      {
+        "fichier": "/workspace/outputs/2026-10-19/receipts/GeoSylva-local-through-d42240d.bundle",
+        "octets": 6633579,
+        "tetes": [
+          {
+            "oid": "d42240dcbac9b9f51441237f1ca0ae1de7208d81",
+            "ref": "HEAD",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          }
+        ]
+      },
+      {
+        "fichier": "/workspace/outputs/2026-10-19/user-journey/GeoSylva-recette-utilisateur-2026-10-19.bundle",
+        "octets": 6653908,
+        "tetes": [
+          {
+            "oid": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+            "ref": "refs/heads/fix/recette-utilisateur-2026-10-19",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          }
+        ]
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-15/stabilisation/GeoSylva-4ef67f7.bundle",
+        "octets": 26863423,
+        "tetes": [
+          {
+            "oid": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+            "ref": "refs/heads/recovery/base-2026-10-19",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          },
+          {
+            "oid": "4ef67f77dfb5199b92672b5e473baf6bd25479e3",
+            "ref": "refs/heads/recovery/reassembled-2026-11-14",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          },
+          {
+            "oid": "c59ba7cccd3b5a69ae81e5007bb7d5f263aeacb7",
+            "ref": "refs/heads/work",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          },
+          {
+            "oid": "c59ba7cccd3b5a69ae81e5007bb7d5f263aeacb7",
+            "ref": "refs/remotes/github/main",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          },
+          {
+            "oid": "c59ba7cccd3b5a69ae81e5007bb7d5f263aeacb7",
+            "ref": "refs/remotes/origin/HEAD",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          },
+          {
+            "oid": "c59ba7cccd3b5a69ae81e5007bb7d5f263aeacb7",
+            "ref": "refs/remotes/origin/work",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          },
+          {
+            "oid": "4ef67f77dfb5199b92672b5e473baf6bd25479e3",
+            "ref": "HEAD",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          }
+        ]
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-15/stabilisation/GeoSylva-488aae4.bundle",
+        "octets": 26890313,
+        "tetes": [
+          {
+            "oid": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+            "ref": "refs/heads/recovery/base-2026-10-19",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          },
+          {
+            "oid": "488aae439e7b352bebc0bff1e458dd230430b19a",
+            "ref": "refs/heads/recovery/reassembled-2026-11-14",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          },
+          {
+            "oid": "c59ba7cccd3b5a69ae81e5007bb7d5f263aeacb7",
+            "ref": "refs/heads/work",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          },
+          {
+            "oid": "4ef67f77dfb5199b92672b5e473baf6bd25479e3",
+            "ref": "refs/remotes/github/backup/geosylva-stabilisation-2026-11-15",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          },
+          {
+            "oid": "c59ba7cccd3b5a69ae81e5007bb7d5f263aeacb7",
+            "ref": "refs/remotes/github/main",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          },
+          {
+            "oid": "c59ba7cccd3b5a69ae81e5007bb7d5f263aeacb7",
+            "ref": "refs/remotes/origin/HEAD",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          },
+          {
+            "oid": "c59ba7cccd3b5a69ae81e5007bb7d5f263aeacb7",
+            "ref": "refs/remotes/origin/work",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          },
+          {
+            "oid": "488aae439e7b352bebc0bff1e458dd230430b19a",
+            "ref": "HEAD",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          }
+        ]
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-15/gouvernance-dec073/Quintessences-GSIE-PROMPT-0032-33dbc59.bundle",
+        "octets": 23539594,
+        "tetes": [
+          {
+            "oid": "33dbc59ee949e4daf9c6ebdb2db65d91e8b013e3",
+            "ref": "refs/heads/docs/gsie-prompt-0032-validation-dec-000073",
+            "already_available_in": [
+              "/workspace/Quintessences"
+            ]
+          }
+        ]
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/recovery-local-inventory/GeoSylva-recovery-base-2026-10-19-36d1515-complete.bundle",
+        "octets": 26084588,
+        "tetes": [
+          {
+            "oid": "36d1515b6bd53217bd8d85a6fe0a2b11a549dc58",
+            "ref": "refs/heads/recovery/base-2026-10-19",
+            "already_available_in": [
+              "/workspace/GeoSylva",
+              "/workspace/recovery-geosylva"
+            ]
+          }
+        ]
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/geosylva-backup-checkpoints/geosylva-checkpoint3-039f3e941186.bundle",
+        "octets": 467999,
+        "tetes": [
+          {
+            "oid": "039f3e9411868d34665dcd31766af083bc1c8bf5",
+            "ref": "refs/heads/main",
+            "already_available_in": [
+              "/workspace/geosylva-backup-checkpoints"
+            ]
+          }
+        ]
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/geosylva-backup-checkpoints/geosylva-checkpoint6-3e24ffa65c94.bundle",
+        "octets": 52945524,
+        "tetes": [
+          {
+            "oid": "3e24ffa65c94ebcd3d4fd8b40e0212ad40867c83",
+            "ref": "refs/heads/main",
+            "already_available_in": [
+              "/workspace/geosylva-backup-checkpoints"
+            ]
+          }
+        ]
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/geosylva-backup-checkpoints/geosylva-checkpoint5-59bbd037c04f.bundle",
+        "octets": 26934445,
+        "tetes": [
+          {
+            "oid": "59bbd037c04fd3c74f7c1d029efd6c84f54a5ed7",
+            "ref": "refs/heads/main",
+            "already_available_in": [
+              "/workspace/geosylva-backup-checkpoints"
+            ]
+          }
+        ]
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/geosylva-backup-checkpoints/geosylva-checkpoint2-638d77dc1139.bundle",
+        "octets": 223518,
+        "tetes": [
+          {
+            "oid": "638d77dc11396797f9517a24852aa883e748a827",
+            "ref": "refs/heads/main",
+            "already_available_in": [
+              "/workspace/geosylva-backup-checkpoints"
+            ]
+          }
+        ]
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/geosylva-backup-checkpoints/geosylva-checkpoint4-6ff36b711297.bundle",
+        "octets": 1545315,
+        "tetes": [
+          {
+            "oid": "6ff36b71129758af4b876dd6176d18c1e7e9a565",
+            "ref": "refs/heads/main",
+            "already_available_in": [
+              "/workspace/geosylva-backup-checkpoints"
+            ]
+          }
+        ]
+      },
+      {
+        "fichier": "/workspace/outputs/2026-11-14/geosylva-backup-checkpoints/geosylva-partial-recovery-9a91b0e13c6a.bundle",
+        "octets": 66281,
+        "tetes": [
+          {
+            "oid": "9a91b0e13c6a1505e37c83b33ea18c70598eb16f",
+            "ref": "refs/heads/main",
+            "already_available_in": [
+              "/workspace/geosylva-backup-checkpoints"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "pieces_jointes_sediment_non_resolues": [
+    {
+      "nom": "DOCUMENTS_POUR_DEVELOPPEMENT_GEOSYLVA_2026-11-01.zip",
+      "identifiant": "file_00000000bc64821086b6c404a7fd3cfa",
+      "constat": "Absente sous son nom et non reconnue dans les archives locales ; téléchargement download_file refusé ou non résolu : file could not be authorized or resolved. Contenu non vérifié."
+    },
+    {
+      "nom": "DOSSIER_BASE_LOCALE_GEOSYLVA_QUINTESSENCES.zip",
+      "identifiant": "file_00000000cc6c81f5a8c509e749472ba7",
+      "constat": "Absente sous son nom et non reconnue dans les archives locales ; téléchargement download_file refusé ou non résolu : file could not be authorized or resolved. Contenu non vérifié."
+    }
+  ],
+  "preuves_locales_hors_git": {
+    "fichiers": "/workspace/outputs/2026-11-16/conservation-maquettes/recherche-fichiers",
+    "git": "/workspace/outputs/2026-11-16/conservation-maquettes/recherche-git",
+    "pieces_jointes": "/workspace/outputs/2026-11-16/conservation-maquettes/pieces-jointes-resultats.json",
+    "controle": "/workspace/outputs/2026-11-16/conservation-maquettes/controle",
+    "raison": "Ne pas publier aveuglément les index bruts, sorties techniques ou URL signées ; le manifeste conserve les provenances et citations utiles."
+  }
+}
