@@ -5,6 +5,23 @@ stabilisation. Il distingue une fonctionnalité présente, son raccordement dans
 l’application et la conformité à la maquette approuvée. Ce suivi ne constitue pas
 une recette du téléphone.
 
+## Décompte et errata du 16 novembre 2026
+
+Le [décompte maquette → écran](DECOMPTE_MAQUETTES_ECRANS_2026-11-16.md), son
+[CSV](DECOMPTE_MAQUETTES_ECRANS_2026-11-16.csv) et ses
+[preuves structurées](PREUVES_MAQUETTES_ECRANS_2026-11-16.json) sont établis sur
+`main` à `77a5d72020c0f54d8c35e3513b02019919c247d4`.
+Ils inventorient 117 repères, dont 107 références de travail : 78 raccordées,
+3 sans raccord dans le parcours cible, 25 non codées et une à rattacher.
+Ce ne sont ni 117 écrans indépendants, ni des validations au pixel.
+
+Les archives de conception permettent désormais d'identifier les numéros,
+variantes et décisions ; les PNG originaux restent à récupérer. Le contrôle
+des appels corrige 56 (composant défini mais jamais appelé) et lève les doutes
+d'identité documentaire sur 64 et 90B. Les trois lignes sont rectifiées plus bas.
+Les constats du 15 novembre et leurs résultats d'essai gardent leur portée
+historique ; aucun nouveau test ou essai sur appareil n'est ajouté par cet audit.
+
 ## Ce qui est vérifié et ce qui ne l’est pas
 
 - Le passage du **14 novembre** a produit un APK debug sur la source
@@ -104,7 +121,7 @@ terminée au pixel près ».
 | --- | --- | --- | --- |
 | 54 | Ajouter une forêt | `ForestMapCreationScreen` via `ForestDetailNavGraph`. | R |
 | 55 | Choisir une parcelle | `ParcelMapCreationScreen` via le même graphe. | R |
-| 56 | Source et détails | `ForestryCreationSourcePanel` réutilise le composant commun `ForestrySourceDetails`. | R |
+| 56 | Source et détails | `ForestryCreationSourcePanel` réutilise `ForestrySourceDetails`, mais aucun appel de production n'est trouvé au contrôle du 16 novembre. | Composant compilé, non raccordé ; ancien R corrigé |
 | 57 | Placer les placettes | `CreatePlacetteWizard` → `PlacetteMapCreationScreen`. | R |
 | 58 | Paramètres des placettes | Panneau `PARAMETERS`, `PlotParameterEditor`. | R |
 | 59 | Grille automatique | Mode `AUTOMATIC_GRID`, aperçu et génération par le ViewModel. | R |
@@ -112,7 +129,7 @@ terminée au pixel près ».
 | 61 | Liste des placettes | Panneau `LIST` du même hôte. | R |
 | 62 | Fiche d’une placette planifiée | Panneau de détail et empreinte sélectionnée. | R |
 | 63 | Empreinte en bordure | Prévisualisation hors contour, avertissement et confirmation dédiés. | R |
-| 64 | Référence exacte à retrouver | La fiche/relevé d’arbre existe sous `TreeWorkspacePanel.RECORD`, mais l’image et le numéro 64 n’ont pas été authentifiés dans ce suivi. | À réconcilier |
+| 64 | Arbre sélectionné sur la carte | Les échanges d'origine retrouvés identifient explicitement la sélection du relevé ; `MapTreeWorkspace` ouvre `TreeWorkspacePanel.RECORD`. | R ; identité documentaire retrouvée le 16 novembre, pixels non vérifiés |
 | 65 | Boussole vers l’arbre | `MapTreeWorkspace` → `TreeWorkspacePanel.GUIDANCE`. | R |
 | 66 | Approche du point enregistré | États de guidage du même panneau, avec relevé et positions distinctes. | R |
 | 67 | Compas perturbé | État de direction indisponible du guidage ; comportement matériel à vérifier. | R |
@@ -138,7 +155,7 @@ terminée au pixel près ».
 | 87 | Gérer une couche | Panneau `MANAGE`. | R |
 | 88 | Modifier les attributs | Panneau `EDIT`, dépôt et opération versionnée. | R |
 | 89 | Filtrer les objets | Panneau `FILTER`. | R |
-| 90 | Apparence et couleur | Panneau `APPEARANCE` ; la numérotation précise est déduite de l’enchaînement des échanges et reste à rapprocher de l’image. | R, référence à réconcilier |
+| 90 | Apparence et couleur — 90B | Panneau `APPEARANCE` ; l'édition ajoutant la palette et la réponse « Parfait » identifient la variante 90B dans les échanges retrouvés. | R ; identité documentaire retrouvée le 16 novembre, pixels non vérifiés |
 | 91 | Couleur personnalisée | Panneau `COLOR`, `CustomLayerColorPanel`. | R |
 | 92 | Préparer un tracé GPS | `MapTraceHost` → `TraceScreen.PREPARATION`. | R |
 | 93 | Tracé en cours | `TraceScreen.CAPTURE`, état `RECORDING`. | R |
