@@ -17,6 +17,15 @@ mettre à jour. Aucun code applicatif n'en provient ; aucune fusion distante et
 aucun push sur `main` ne sont effectués. Les états de codage, tests Android et
 décisions historiques de cet audit restent inchangés.
 
+Pendant la publication, la nº 19 a été fusionnée dans `main` par ailleurs, au
+commit `9a9f165423ef60458c407123f34d68512df5403c` (16 novembre, 21 h 28 à Paris).
+Cette mise à jour est intégrée localement à la branche de conservation. Les
+quatre conflits documentaires portent sur une base entrante vérifiée identique
+à `9fb5fcf` ; les enrichissements de conservation sont préservés et les décomptes
+revérifiés. Le diff vers ce nouveau `main` ne comprend plus la création initiale
+du registre. Cette intégration ne modifie aucun code applicatif et ne fusionne
+pas la demande de fusion de conservation.
+
 ## Images retrouvées et preuve du rattachement
 
 Les cinq pièces jointes identifiées dans les archives ont été relues avec
