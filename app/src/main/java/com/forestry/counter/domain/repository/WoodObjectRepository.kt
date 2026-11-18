@@ -16,6 +16,7 @@ data class SavedWoodObservation(
 )
 data class WoodObjectDetails(
     val item: SavedWoodObject, val observations: List<SavedWoodObservation>, val history: WoodObservationHistory,
+    val depotName: String? = null,
 )
 data class WoodCommandReceipt(
     val commandId: UUID, val objectId: UUID, val appliedObjectRevision: Int,

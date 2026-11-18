@@ -69,9 +69,9 @@ class WoodObjectRepositoryImpl(
     override suspend fun details(depotId: UUID, objectId: UUID, access: WoodObjectAccess): WoodObjectDetails {
         val a = current(access)
         val result = transaction(a) {
-            parent(depotId, a, false)
+            val depot = parent(depotId, a, false)
             val row = objectRow(depotId, objectId, a)
-            details(row)
+            details(row).copy(depotName = depot.name)
         }
         current(a)
         return result
@@ -174,11 +174,12 @@ class WoodObjectRepositoryImpl(
         return result
     }
 
-    private suspend fun parent(depotId: UUID, a: Access, live: Boolean) {
+    private suspend fun parent(depotId: UUID, a: Access, live: Boolean): WoodDepotEntity {
         val row = database.woodDepotDao().getByIdIncludingDeleted(depotId.toString())
         if (row == null || row.ownerScope != a.scope.name || row.ownerAccountId != a.accountId || live && row.deletedAt != null) {
             fail(WoodRepositoryError.UNAVAILABLE)
         }
+        return row
     }
     private fun owned(row: WoodObjectEntity, a: Access) {
         if (row.ownerScope != a.scope.name || row.ownerAccountId != a.accountId) fail(WoodRepositoryError.UNAVAILABLE)

@@ -72,18 +72,30 @@ class WoodObjectsUiTest {
             store.put("TEST-wood", vm); mounted.value = vm
         }
     }
-    private fun content(scale: Float = 1f) {
+    private fun content(scale: Float = 1f, onJournal: ((UUID) -> Unit)? = null) {
         compose.setContent {
             val density = LocalDensity.current
             CompositionLocalProvider(LocalContext provides ctx, LocalConfiguration provides ctx.resources.configuration,
                 LocalDensity provides Density(density.density, scale)) {
-                ForestryCounterTheme(themeMode = ThemeMode.LIGHT) { mounted.value?.let { WoodObjectsContent(it, {}) } }
+                ForestryCounterTheme(themeMode = ThemeMode.LIGHT) {
+                    mounted.value?.let { WoodObjectsContent(it, {}, onJournal = onJournal) }
+                }
             }
         }
         compose.waitUntil(10_000) { !vm.state.value.busy }
     }
     private fun field(tag: String) = compose.onNodeWithTag("wood_objects_content").performScrollToNode(hasTestTag(tag))
         .let { compose.waitForIdle(); compose.onNodeWithTag(tag) }
+    private fun inPilePanel(tag: String, edit: () -> Unit) {
+        settleKeyboard()
+        field(tag).performClick()
+        edit()
+        settleKeyboard()
+        compose.onNodeWithTag("wood_panel_close").performClick()
+        compose.onNodeWithTag("wood_panel_close").assertDoesNotExist()
+    }
+    private fun panelField(tag: String) =
+        compose.onNode(hasTestTag(tag) and hasAnyAncestor(isDialog())).performScrollTo()
     private fun openMeasurement() {
         field("wood_object_measure").performClick()
         compose.waitUntil(10_000) { !vm.state.value.busy && vm.state.value.form?.identityOnly == false }
@@ -114,16 +126,24 @@ class WoodObjectsUiTest {
         assertNull(vm.state.value.error)
     }
     @Test fun manual_pile_is_saved_then_reread_after_database_and_screen_reopen() {
-        content(); create()
+        var openedJournal: UUID? = null
+        content(onJournal = { openedJournal = it })
+        create()
         openMeasurement()
-        field("wood_observed_date").performTextInput("18/10/2026 10:30")
+        inPilePanel("wood_date_panel") {
+            panelField("wood_observed_date").performTextInput("18/10/2026 10:30")
+        }
         field("wood_length").performTextInput("12,50")
         field("wood_depth").performTextInput("2")
         field("wood_height").performTextInput("1,20")
         screenshot("pile-formulaire-mesures-fr.png")
-        field("wood_shape").performClick()
-        field("wood_protocol").performTextInput("TEST · Enveloppe et moyenne de trois hauteurs")
-        field("wood_quality").performTextInput("TEST · Bois énergie déclaré")
+        inPilePanel("wood_method_panel") {
+            panelField("wood_shape").performClick()
+            panelField("wood_protocol").performTextInput("TEST · Enveloppe et moyenne de trois hauteurs")
+        }
+        inPilePanel("wood_details_panel") {
+            panelField("wood_quality").performTextInput("TEST · Bois énergie déclaré")
+        }
         saveObservation()
         val original = vm.state.value.detail!!
         assertEquals("12,50", (original.observations.single().payload.measurement as RawWoodMeasurement.Pile).length?.rawText)
@@ -135,12 +155,55 @@ class WoodObjectsUiTest {
         compose.waitUntil(10_000) { vm.state.value.detail != null && !vm.state.value.busy }
         assertEquals(original.item, vm.state.value.detail!!.item)
         assertEquals(original.observations, vm.state.value.detail!!.observations)
+        val depotName = hasText("TEST · Bord de route")
+        compose.onNodeWithTag("wood_objects_content").performScrollToNode(depotName)
+        compose.onNode(depotName and hasAnyAncestor(hasTestTag("wood_objects_content"))).assertIsDisplayed()
+        field("wood_file_reference").assertIsDisplayed()
+        val noReference = ctx.getString(R.string.wo_no_reference)
+        compose.onNodeWithTag("wood_objects_content").performScrollToNode(hasText(noReference))
+        compose.onNodeWithText(noReference).assertIsDisplayed()
+        compose.onNodeWithTag("wood_calculated_value").assertDoesNotExist()
+        field("wood_file_surveys").performClick()
         compose.onNodeWithTag("wood_objects_content").performScrollToNode(hasText(ctx.getString(R.string.wo_history)))
-        val savedDate = ctx.getString(R.string.wo_recorded, java.text.DateFormat.getDateTimeInstance(
-            java.text.DateFormat.SHORT, java.text.DateFormat.SHORT, Locale.FRANCE).format(java.util.Date.from(original.observations.single().record.observation.recordedAt)))
+        val recorded = original.observations.single()
+        val dateFormat = java.text.DateFormat.getDateTimeInstance(
+            java.text.DateFormat.SHORT, java.text.DateFormat.SHORT, Locale.FRANCE,
+        ).apply { timeZone = java.util.SimpleTimeZone(recorded.recordedOffsetSeconds * 1000, recorded.recordedZoneId) }
+        val savedDate = ctx.getString(R.string.wo_file_recorded,
+            dateFormat.format(java.util.Date.from(recorded.record.observation.recordedAt)), recorded.recordedZoneId)
         compose.onNodeWithTag("wood_objects_content").performScrollToNode(hasText(savedDate))
         compose.onNodeWithText(savedDate).assertIsDisplayed()
         screenshot("pile-historique-enregistre-fr.png")
+        val select = ctx.getString(R.string.wo_select)
+        compose.onNodeWithTag("wood_objects_content").performScrollToNode(hasText(select))
+        compose.onNodeWithText(select).performClick()
+        val reference = original.observations.single().record.observationId
+        compose.waitUntil(10_000) { vm.state.value.detail?.history?.effectiveObservationId == reference && !vm.state.value.busy }
+        Espresso.pressBack()
+        field("wood_calculated_value").assertTextEquals(ctx.getString(R.string.wo_volume, "30"))
+        screenshot("pile-fiche-releve-reference-fr.png")
+        field("wood_file_protocol").performClick()
+        val protocol = hasText("TEST · Enveloppe et moyenne de trois hauteurs", substring = true)
+        compose.onNode(protocol and hasAnyAncestor(isDialog())).performScrollTo().assertIsDisplayed()
+        Espresso.pressBack()
+        val journal = ctx.getString(R.string.wo_file_journal)
+        compose.onNodeWithTag("wood_objects_content").performScrollToNode(hasText(journal))
+        compose.onNodeWithText(journal).performClick()
+        compose.runOnIdle { assertEquals(original.item.id, openedJournal) }
+    }
+
+    @Test fun empty_history_returns_to_the_same_wood_file() {
+        content(); create()
+        val objectId = checkNotNull(vm.state.value.detail).item.id
+        field("wood_file_surveys").performClick()
+        compose.onNodeWithText(ctx.getString(R.string.wo_file_no_surveys)).assertIsDisplayed()
+        Espresso.pressBack()
+        field("wood_file_reference").assertIsDisplayed()
+        compose.onNodeWithTag("wood_calculated_value").assertDoesNotExist()
+        val detail = checkNotNull(vm.state.value.detail)
+        assertEquals(objectId, detail.item.id)
+        assertTrue(detail.observations.isEmpty())
+        assertNull(detail.history.effectiveObservationId)
     }
     @Test fun partial_remeasurement_adds_history_to_the_same_pile_without_a_volume() {
         content(); create()
@@ -182,7 +245,9 @@ class WoodObjectsUiTest {
         openMeasurement()
         field("wood_length").performTextInput("8,50")
         compose.onNodeWithTag("wood_object_save").assertIsDisplayed()
-        field("wood_notes").performTextInput("TEST · Complément à relever à la prochaine visite")
+        inPilePanel("wood_details_panel") {
+            panelField("wood_notes").performTextInput("TEST · Complément à relever à la prochaine visite")
+        }
         compose.onNodeWithTag("wood_object_save").assertIsDisplayed()
         screenshot("pile-formulaire-grande-police-fr.png")
         saveObservation()

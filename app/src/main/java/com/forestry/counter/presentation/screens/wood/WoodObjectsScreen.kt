@@ -12,9 +12,9 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Inventory2
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
@@ -35,9 +35,7 @@ import com.forestry.counter.domain.repository.*
 import com.forestry.counter.domain.wood.*
 import com.forestry.counter.presentation.theme.GsShape
 import com.forestry.counter.presentation.theme.Space
-import java.text.DateFormat
 import java.text.NumberFormat
-import java.util.Date
 import java.util.UUID
 
 @Composable
@@ -64,13 +62,16 @@ internal fun WoodObjectsContent(vm: WoodObjectsViewModel, onBack: () -> Unit, on
     var search by remember { mutableStateOf("") }
     DisposableEffect(vm) { onDispose { vm.flushDraft() } }
     var discard by remember { mutableStateOf(false) }
+    val detail = state.detail
+    var showHistory by rememberSaveable(detail?.item?.id?.toString()) { mutableStateOf(false) }
     val listState = rememberLazyListState()
     val focus = LocalFocusManager.current
     val keyboard = LocalSoftwareKeyboardController.current
     val page = when {
         state.form?.identityOnly == true -> "identity"
         state.form != null -> "measure-${state.form?.correction?.record?.observationId}"
-        state.detail != null -> "detail-${state.detail?.item?.id}"
+        showHistory -> "history"
+        detail != null -> "detail-${detail.item.id}"
         else -> "list"
     }
     LaunchedEffect(page) {
@@ -81,7 +82,8 @@ internal fun WoodObjectsContent(vm: WoodObjectsViewModel, onBack: () -> Unit, on
     val back: () -> Unit = {
         if (!state.busy) when {
             state.form != null || state.pendingRetry -> discard = true
-            state.detail != null -> vm.close()
+            showHistory -> showHistory = false
+            detail != null -> vm.close()
             else -> onBack()
         }
     }
@@ -93,12 +95,22 @@ internal fun WoodObjectsContent(vm: WoodObjectsViewModel, onBack: () -> Unit, on
                 Row(Modifier.fillMaxWidth().windowInsetsPadding(TopAppBarDefaults.windowInsets).heightIn(min = 56.dp).padding(Space.xs),
                     verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
                     IconButton(back, enabled = !state.busy) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.wo_close)) }
-                    Text(stringResource(when {
-                        state.form?.identityOnly == true -> R.string.wo_create
-                        state.form?.correction != null -> R.string.wo_correct
-                        state.form != null -> R.string.wo_measure
-                        else -> R.string.wo_title
-                    }), style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f).padding(end = Space.sm).testTag("wood_objects_title"))
+                    Column(Modifier.weight(1f).padding(end = Space.sm)) {
+                        Text(stringResource(when {
+                            state.form?.identityOnly == true -> R.string.wo_create
+                            state.form?.correction != null -> R.string.wo_correct
+                            state.form != null -> R.string.wo_measure
+                            showHistory -> R.string.retained_surveys
+                            detail != null -> R.string.retained_wood_file
+                            else -> R.string.wo_title
+                        }), style = MaterialTheme.typography.titleLarge, modifier = Modifier.testTag("wood_objects_title"))
+                        if (state.form == null && showHistory && detail != null) {
+                            Text(detail.item.header.name, style = MaterialTheme.typography.labelMedium)
+                        }
+                    }
+                    if (detail != null && !state.accessLost && state.form == null && !showHistory) {
+                        WoodFileMenu(detail.item, enabled = !state.busy && !state.pendingRetry, onEditIdentity = vm::editIdentity)
+                    }
                 }
             }
         },
@@ -143,7 +155,6 @@ internal fun WoodObjectsContent(vm: WoodObjectsViewModel, onBack: () -> Unit, on
                 if (state.saved) item { Text(stringResource(R.string.wo_saved), color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.testTag("wood_object_saved")) }
                 val form = state.form
-                val detail = state.detail
                 when {
                     state.accessLost -> Unit
                     form != null -> {
@@ -155,47 +166,29 @@ internal fun WoodObjectsContent(vm: WoodObjectsViewModel, onBack: () -> Unit, on
                         item { WoodForm(form, enabled = !state.busy && !state.pendingRetry && !state.draftConflict, change = vm::change) }
                     }
                     detail != null -> {
-                        if (onJournal != null) item {
-                            OutlinedButton({ onJournal(detail.item.id) }, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.field_title)) }
-                        }
-                        item {
-                            Card(shape = GsShape.lg, colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)) {
-                                Column(Modifier.fillMaxWidth().padding(Space.lg), verticalArrangement = Arrangement.spacedBy(Space.sm)) {
-                                    Icon(Icons.Default.Inventory2, null)
-                                    Text(detail.item.header.name, style = MaterialTheme.typography.headlineSmall)
-                                    Text(stringResource(if (detail.item.kind == WoodObjectKind.PILE) R.string.wo_pile else R.string.wo_log))
-                                    detail.item.header.tag?.let { Text(it) }
-                                    detail.item.header.declaredSpecies?.let { Text(it) }
-                                    detail.item.header.declaredQuality?.let { Text(it) }
-                                    detail.item.header.declaredOrigin?.let { Text(it) }
-                                    detail.item.header.description?.let { Text(it) }
-                                    Text(stringResource(R.string.wo_local), style = MaterialTheme.typography.labelLarge)
-                                }
+                        val enabled = !state.busy && !state.pendingRetry
+                        val writable = enabled && detail.item.archivedAt == null
+                        val openJournal = onJournal?.let { navigate -> { navigate(detail.item.id) } }
+                        if (showHistory) {
+                            item { Text(stringResource(R.string.wo_history), style = MaterialTheme.typography.titleLarge) }
+                            if (detail.observations.isEmpty()) item { Text(stringResource(R.string.wo_file_no_surveys)) }
+                            val corrected = detail.observations.mapNotNull { it.record.correctionOfObservationId }.toSet()
+                            items(detail.observations.asReversed(), key = { it.record.observationId }) { observation ->
+                                ObservationCard(
+                                    observation, observation.record.observationId == detail.history.effectiveObservationId,
+                                    observation.record.observationId in corrected, enabled = writable,
+                                    onCorrect = { vm.measure(observation) }, onSelect = { vm.select(observation.record.observationId) },
+                                )
                             }
-                        }
-                        if (detail.item.archivedAt == null) item {
-                            OutlinedButton(vm::editIdentity, enabled = !state.busy && !state.pendingRetry, modifier = Modifier.fillMaxWidth()) {
-                                Text(stringResource(R.string.wo_edit_identity))
+                        } else {
+                            item(key = "wood_file_overview") {
+                                WoodFileOverview(detail, enabled, onHistory = { showHistory = true }, onJournal = openJournal)
                             }
-                        }
-                        if (detail.item.archivedAt == null) item { Button({ vm.measure() }, enabled = !state.busy && !state.pendingRetry,
-                            modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp).testTag("wood_object_measure"), shape = GsShape.md) {
-                            Text(stringResource(R.string.wo_measure))
-                        } } else item { Text(stringResource(R.string.wo_read_only)) }
-                        item {
-                            Text(stringResource(R.string.wo_reference), style = MaterialTheme.typography.titleLarge)
-                            when (val selection = detail.history.effectiveSelection) {
-                                WoodEffectiveSelection.None -> Text(stringResource(R.string.wo_no_reference))
-                                is WoodEffectiveSelection.Superseded -> Text(stringResource(R.string.wo_reference_corrected))
-                                is WoodEffectiveSelection.Current -> Calculation(selection.record.observation)
-                            }
-                        }
-                        item { Text(stringResource(R.string.wo_history), style = MaterialTheme.typography.titleLarge) }
-                        val corrected = detail.observations.mapNotNull { it.record.correctionOfObservationId }.toSet()
-                        items(detail.observations.asReversed(), key = { it.record.observationId }) { observation ->
-                            ObservationCard(observation, observation.record.observationId == detail.history.effectiveObservationId,
-                                observation.record.observationId in corrected, enabled = !state.busy && !state.pendingRetry && detail.item.archivedAt == null,
-                                onCorrect = { vm.measure(observation) }, onSelect = { vm.select(observation.record.observationId) })
+                            item(key = "wood_file_reference") { WoodFileReference(detail) }
+                            if (openJournal != null) item { WoodFileStockLink(enabled, openJournal) }
+                            if (detail.item.archivedAt == null) {
+                                item { WoodFileNewSurvey(writable) { vm.measure() } }
+                            } else item { Text(stringResource(R.string.wo_read_only)) }
                         }
                     }
                     else -> {
@@ -318,15 +311,13 @@ private fun WoodChoice(label: Int, selected: String?, options: List<Pair<String?
 @Composable
 internal fun ObservationCard(saved: SavedWoodObservation, selected: Boolean, corrected: Boolean, enabled: Boolean, onCorrect: () -> Unit, onSelect: () -> Unit) {
     var expanded by remember(saved.record.observationId) { mutableStateOf(false) }
-    val locale = LocalConfiguration.current.locales[0]
     OutlinedCard(Modifier.fillMaxWidth().testTag("wood_observation_${saved.record.observationId}"), shape = GsShape.lg) {
         Column(Modifier.padding(Space.lg), verticalArrangement = Arrangement.spacedBy(Space.sm)) {
             val date = saved.payload.observedTime
             Text(if (date == null) stringResource(R.string.wo_date_unknown)
                 else stringResource(R.string.wo_observed, WoodManualForm.DATE_FORMAT.format(date.instant.atZone(java.time.ZoneId.of(date.zoneId)))),
                 style = MaterialTheme.typography.titleMedium)
-            Text(stringResource(R.string.wo_recorded, DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale).format(Date.from(saved.record.observation.recordedAt))),
-                style = MaterialTheme.typography.bodySmall)
+            Text(woodRecordedLabel(saved), style = MaterialTheme.typography.bodySmall)
             Text(stringResource(R.string.wo_revision, saved.record.observationRevision), style = MaterialTheme.typography.labelLarge)
             if (corrected) Text(stringResource(R.string.wo_superseded))
             else if (selected) Text(stringResource(R.string.wo_selected), color = MaterialTheme.colorScheme.primary)

@@ -84,4 +84,17 @@
     <string name="wo_units_read_only">"Ce relevé utilise des unités ou un protocole non pris en charge par ce formulaire. Ses données sont conservées."</string>
     <string name="wo_local">"Relevés locaux · sauvegardés hors ligne"</string>
     <string name="wo_edit_identity">"Modifier l’identification"</string>
+    <string name="wo_file_options">Options de la fiche du bois</string>
+    <string name="wo_file_depot">Dépôt</string>
+    <string name="wo_file_depot_help">Dépôt auquel ce bois est rattaché dans Géosylva.</string>
+    <string name="wo_file_species_help">Essence renseignée dans l’identification du bois.</string>
+    <string name="wo_file_journal">Carnet</string>
+    <string name="wo_file_no_surveys">Aucun relevé enregistré pour ce bois.</string>
+    <string name="wo_file_observed">Relevé le %1$s · %2$s</string>
+    <string name="wo_file_recorded">Enregistré le %1$s · %2$s</string>
+    <string name="wo_file_envelope">Enveloppe rectangulaire</string>
+    <string name="wo_file_protocol">Voir mesures et protocole</string>
+    <string name="wo_file_stock">Stock théorique</string>
+    <string name="wo_file_stock_help">Le stock est suivi à partir des quantités déclarées dans le carnet terrain.</string>
+    <string name="wo_file_stock_journal">Suivre le stock dans le carnet</string>
 </resources>
