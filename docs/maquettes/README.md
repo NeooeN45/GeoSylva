@@ -18,7 +18,8 @@ génération ou une image uniquement visible dans une conversation ne suffit pas
 
 ## Règle obligatoire pour une nouvelle maquette ou une modification
 
-Dans **la même session**, avant de terminer :
+Enregistrer l’original **dès sa création**. Dans la même session, suivre ces
+étapes jusqu’à la vérification du commit sur GitHub.
 
 1. Enregistrer les octets de l'image sous `docs/maquettes/<famille>/`, avec un
    nom dérivé de son identifiant. Garder le format d'origine. Une variante reçoit
@@ -34,7 +35,9 @@ Dans **la même session**, avant de terminer :
    public. Signaler toute donnée personnelle, secret ou donnée réelle de client
    et garder le fichier concerné hors Git jusqu'au traitement explicite du cas.
    Ne pas retoucher un original en silence. Ne pas publier d'URL signée ni de jeton.
-5. Exécuter le contrôle ci-dessous, committer sur une branche dédiée et pousser
+5. Exécuter le contrôle ci-dessous, committer ensemble le fichier, le manifeste
+   et le registre sur une branche dédiée. Si la décision arrive après le
+   premier commit, committer son lien et le nouveau statut. Pousser
    sur une branche distante avant la fin de session. Vérifier le SHA distant et
    effectuer aussi la sauvegarde distante datée prévue dans
    [REPRISE_AGENTS](../developpement/REPRISE_AGENTS.md#sauvegarde-obligatoire-à-la-fin-de-chaque-session).
