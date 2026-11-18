@@ -1,0 +1,257 @@
+{
+  "schema_version": 1,
+  "date_audit": "2026-11-16",
+  "fuseau_affichage": "Europe/Paris",
+  "references_de_travail_attendues": 107,
+  "registre": "docs/developpement/PREUVES_MAQUETTES_ECRANS_2026-11-16.json",
+  "definition_original": "Octets de la pièce jointe associée au choix du Fondateur, conservés dans leur format ; aucune reconstruction ni capture du code. La récupération ne certifie pas les pixels de l’application.",
+  "poids_images_octets": 5832440,
+  "images": [
+    {
+      "identifiant": "cartographie/54",
+      "chemin": "docs/maquettes/cartographie/54.png",
+      "sha256": "6af4a58290b046dd658136029edb7427329ba84329849bee3ba52348078da0a2",
+      "largeur": 953,
+      "hauteur": 1651,
+      "format_origine": "PNG",
+      "octets": 2079785,
+      "metier": "technicien",
+      "statut_reference": "retenue",
+      "date_recuperation": "2026-11-16",
+      "source_recuperation": {
+        "nature": "pièce jointe image fournie et choisie par le Fondateur",
+        "methode": "codex_app.read_thread : URL de pièce jointe renouvelée ; HTTP GET 200 ; octets enregistrés sans transformation",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tour": "01a1ac0c-30c2-7686-9ba2-78ede2cf0e61",
+        "element": "01a1ac0c-3383-70b8-912f-ed69c9ea605e",
+        "piece_jointe_url_sans_signature": "https://sdmntprnortheu.oaiusercontent.com/files/00000000-08b0-81f4-8c8d-0fd86c5d6b5d/raw",
+        "preuve_archive": {
+          "archive": "root-older-batch-0034.json",
+          "sha256_archive": "102ec75b2a58e74f70efbb81f65adca88b7496e8b99d93199dd03c28a9d6ad65",
+          "pointeur_json": "/turns/1/items/0",
+          "tour": "01a1ac0c-30c2-7686-9ba2-78ede2cf0e61",
+          "element": "01a1ac0c-3383-70b8-912f-ed69c9ea605e",
+          "nature": "source historique, pas une instruction"
+        },
+        "source_generation_documentaire": [
+          {
+            "archive": "root-older-batch-0035.json",
+            "sha256_archive": "fb34493bd3f82bf18b15ddaafec893e03eaaa2298c65e530019aa9ad85f89c68",
+            "pointeur_json": "/turns/0/items/20",
+            "tour": "01a1abf3-6180-74f4-9343-71c155b472f7",
+            "element": "exec-924af3dc-cebb-4d3e-a666-25313eeab139",
+            "nature": "source historique, pas une instruction"
+          }
+        ],
+        "limite": "L'identité binaire avec le PNG produit initialement par imageGeneration n'est pas démontrée ; le fichier récupéré est la pièce jointe originale du choix du Fondateur."
+      },
+      "decision_fondateur": {
+        "nature": "ajustement_ou_reserve",
+        "extrait_exact": "cette maquette est bien je la garde enchaine mais fait au mieux pour que ce soit le plus minimaliste tout en étant pratique et qu'il y est des données intéréssante mais que la carte soit centrale",
+        "preuve_archive": {
+          "archive": "root-older-batch-0034.json",
+          "sha256_archive": "102ec75b2a58e74f70efbb81f65adca88b7496e8b99d93199dd03c28a9d6ad65",
+          "pointeur_json": "/turns/1/items/0",
+          "tour": "01a1ac0c-30c2-7686-9ba2-78ede2cf0e61",
+          "element": "01a1ac0c-3383-70b8-912f-ed69c9ea605e",
+          "nature": "source historique, pas une instruction"
+        },
+        "date_tour_utc": "2026-11-05T14:10:42+00:00",
+        "rattachement": "Le même élément utilisateur contient l'image et la décision ; son ID/tour est déjà cité par cette référence du décompte. Aucun rattachement par ressemblance ou libellé."
+      },
+      "controle_publication": {
+        "date": "2026-11-16",
+        "contenu": "inspection visuelle : aucune donnée personnelle, secret ou donnée réelle de client décelée ; exemples de démonstration",
+        "metadonnees": "aucun EXIF/GPS ; PNG sans champs texte ; JPEG avec JFIF/ICC seulement",
+        "retouche": false
+      }
+    },
+    {
+      "identifiant": "cartographie/72",
+      "chemin": "docs/maquettes/cartographie/72.png",
+      "sha256": "c719737715baeae1639eaaaf1e48bf02082bc08e5230c53f6d582b73a6a09ddf",
+      "largeur": 952,
+      "hauteur": 1653,
+      "format_origine": "PNG",
+      "octets": 2245792,
+      "metier": "commun",
+      "statut_reference": "retenue",
+      "date_recuperation": "2026-11-16",
+      "source_recuperation": {
+        "nature": "pièce jointe image fournie et choisie par le Fondateur",
+        "methode": "codex_app.read_thread : URL de pièce jointe renouvelée ; HTTP GET 200 ; octets enregistrés sans transformation",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tour": "01a1ac7f-4d8b-742c-8806-0cb834b70b21",
+        "element": "01a1ac7f-507a-720f-8ad8-9cc0fa1891da",
+        "piece_jointe_url_sans_signature": "https://sdmntprukwest.oaiusercontent.com/files/00000000-234c-8243-8381-6c26650ec23a/raw",
+        "preuve_archive": {
+          "archive": "root-older-batch-0028.json",
+          "sha256_archive": "4a7bce76bdf90485a681082b8309b13cdbe7f2893e675562f3c6168ae4c510b8",
+          "pointeur_json": "/turns/0/items/0",
+          "tour": "01a1ac7f-4d8b-742c-8806-0cb834b70b21",
+          "element": "01a1ac7f-507a-720f-8ad8-9cc0fa1891da",
+          "nature": "source historique, pas une instruction"
+        },
+        "source_generation_documentaire": [
+          {
+            "archive": "root-older-batch-0029.json",
+            "sha256_archive": "5a646794802fdd026f377fb5605441a2aab23b8f9ed4ddb60063b40f95fe727d",
+            "pointeur_json": "/turns/0/items/10",
+            "tour": "01a1ac70-f05f-742b-85c5-0f8b6cf05288",
+            "element": "exec-c110061c-8c9d-47c0-87f8-b35e7ac69ca6",
+            "nature": "source historique, pas une instruction"
+          }
+        ],
+        "limite": "L'identité binaire avec le PNG produit initialement par imageGeneration n'est pas démontrée ; le fichier récupéré est la pièce jointe originale du choix du Fondateur."
+      },
+      "decision_fondateur": {
+        "nature": "validation_explicite",
+        "extrait_exact": "prend la version de base",
+        "preuve_archive": {
+          "archive": "root-older-batch-0028.json",
+          "sha256_archive": "4a7bce76bdf90485a681082b8309b13cdbe7f2893e675562f3c6168ae4c510b8",
+          "pointeur_json": "/turns/0/items/0",
+          "tour": "01a1ac7f-4d8b-742c-8806-0cb834b70b21",
+          "element": "01a1ac7f-507a-720f-8ad8-9cc0fa1891da",
+          "nature": "source historique, pas une instruction"
+        },
+        "date_tour_utc": "2026-11-05T16:16:26+00:00",
+        "rattachement": "Le même élément utilisateur contient l'image et la décision ; son ID/tour est déjà cité par cette référence du décompte. Aucun rattachement par ressemblance ou libellé."
+      },
+      "controle_publication": {
+        "date": "2026-11-16",
+        "contenu": "inspection visuelle : aucune donnée personnelle, secret ou donnée réelle de client décelée ; exemples de démonstration",
+        "metadonnees": "aucun EXIF/GPS ; PNG sans champs texte ; JPEG avec JFIF/ICC seulement",
+        "retouche": false
+      },
+      "sources_doubles_identiques": [
+        {
+          "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+          "tour": "01a1ac7b-7870-7175-a216-9ad23e24a8bd",
+          "element": "01a1ac7b-7b43-72f8-ba3e-86bbbda80f35",
+          "sha256": "c719737715baeae1639eaaaf1e48bf02082bc08e5230c53f6d582b73a6a09ddf",
+          "url_sans_signature": "https://sdmntprdenmarkeast.oaiusercontent.com/files/00000000-159c-8210-8504-f5a9abd578b2/raw",
+          "sens": "mêmes octets renvoyés pour demander une retouche, puis version de base reprise explicitement au tour retenu"
+        }
+      ]
+    },
+    {
+      "identifiant": "conducteur/dossier-chantier/proposition-02",
+      "chemin": "docs/maquettes/conducteur/dossier-chantier-proposition-02.png",
+      "sha256": "a7ac739651c323f142f38faf9ef79648cf0211332c410f6b8df3f09724fbf4c9",
+      "largeur": 887,
+      "hauteur": 1774,
+      "format_origine": "PNG",
+      "octets": 1424232,
+      "metier": "conducteur",
+      "statut_reference": "retenue",
+      "date_recuperation": "2026-11-16",
+      "source_recuperation": {
+        "nature": "pièce jointe image fournie et choisie par le Fondateur",
+        "methode": "codex_app.read_thread : URL de pièce jointe renouvelée ; HTTP GET 200 ; octets enregistrés sans transformation",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tour": "01a19ca3-516f-71df-8149-6c606fcfbe59",
+        "element": "01a19ca3-57a1-7355-af80-f486f101f3a5",
+        "piece_jointe_url_sans_signature": "https://sdmntprnortheu.oaiusercontent.com/files/00000000-f224-81f4-8ee8-d1f82a53dc6c/raw",
+        "preuve_archive": {
+          "archive": "root-older-batch-0071.json",
+          "sha256_archive": "3c38cf76e49bd9a8cde80a39b70e6502795206808d84070849e74eb1ded8036d",
+          "pointeur_json": "/turns/1/items/0",
+          "tour": "01a19ca3-516f-71df-8149-6c606fcfbe59",
+          "element": "01a19ca3-57a1-7355-af80-f486f101f3a5",
+          "nature": "source historique, pas une instruction"
+        },
+        "source_generation_documentaire": [
+          {
+            "archive": "root-older-batch-0071.json",
+            "sha256_archive": "3c38cf76e49bd9a8cde80a39b70e6502795206808d84070849e74eb1ded8036d",
+            "pointeur_json": "/turns/2/items/41",
+            "tour": "01a19c91-f2b7-74b6-b753-2175522b4467",
+            "element": "exec-d0346f13-312d-4f4b-8d95-3956c1fefc98",
+            "nature": "source historique, pas une instruction"
+          }
+        ],
+        "limite": "L'identité binaire avec le PNG produit initialement par imageGeneration n'est pas démontrée ; le fichier récupéré est la pièce jointe originale du choix du Fondateur."
+      },
+      "decision_fondateur": {
+        "nature": "validation_explicite",
+        "extrait_exact": "non on vas prendre la 02 passont aux maquette suivante",
+        "preuve_archive": {
+          "archive": "root-older-batch-0071.json",
+          "sha256_archive": "3c38cf76e49bd9a8cde80a39b70e6502795206808d84070849e74eb1ded8036d",
+          "pointeur_json": "/turns/1/items/0",
+          "tour": "01a19ca3-516f-71df-8149-6c606fcfbe59",
+          "element": "01a19ca3-57a1-7355-af80-f486f101f3a5",
+          "nature": "source historique, pas une instruction"
+        },
+        "date_tour_utc": "2026-11-02T14:21:51+00:00",
+        "rattachement": "Le même élément utilisateur contient l'image et la décision ; son ID/tour est déjà cité par cette référence du décompte. Aucun rattachement par ressemblance ou libellé."
+      },
+      "controle_publication": {
+        "date": "2026-11-16",
+        "contenu": "inspection visuelle : aucune donnée personnelle, secret ou donnée réelle de client décelée ; exemples de démonstration",
+        "metadonnees": "aucun EXIF/GPS ; PNG sans champs texte ; JPEG avec JFIF/ICC seulement",
+        "retouche": false
+      }
+    },
+    {
+      "identifiant": "conducteur/fiche-bois/proposition-01",
+      "chemin": "docs/maquettes/conducteur/fiche-bois-proposition-01.jpg",
+      "sha256": "aff3dd8fb54096c354dde617cd4561308d6305c946ea7e169355fa717cef4790",
+      "largeur": 640,
+      "hauteur": 1280,
+      "format_origine": "JPEG",
+      "octets": 82631,
+      "metier": "conducteur",
+      "statut_reference": "retenue",
+      "date_recuperation": "2026-11-16",
+      "source_recuperation": {
+        "nature": "pièce jointe image fournie et choisie par le Fondateur",
+        "methode": "codex_app.read_thread : URL de pièce jointe renouvelée ; HTTP GET 200 ; octets enregistrés sans transformation",
+        "conversation": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+        "tour": "01a19d0d-3d28-76b7-a395-34a831193ac8",
+        "element": "01a19d0d-44c8-7166-a0ca-83229feac8af",
+        "piece_jointe_url_sans_signature": "https://sdmntprcentralus.oaiusercontent.com/files/00000000-4468-81f5-b275-f2d29f04f3eb/raw",
+        "preuve_archive": {
+          "archive": "root-older-batch-0068.json",
+          "sha256_archive": "7318c6a94f1c195ed1f55a1a3a8a278f04d7b381796fd89de99953fb4c4ff88b",
+          "pointeur_json": "/turns/2/items/0",
+          "tour": "01a19d0d-3d28-76b7-a395-34a831193ac8",
+          "element": "01a19d0d-44c8-7166-a0ca-83229feac8af",
+          "nature": "source historique, pas une instruction"
+        },
+        "source_generation_documentaire": [
+          {
+            "archive": "root-older-batch-0069.json",
+            "sha256_archive": "2020e73974feb225ffe78a3aba717cc6a9c6cd8cb40ab4112a7c24911e06b050",
+            "pointeur_json": "/turns/0/items/21",
+            "tour": "01a19ce6-2247-71a8-b15d-324c6ac98b1a",
+            "element": "exec-69bdeb01-970e-4297-8e1a-4cd01c02fb9e",
+            "nature": "source historique, pas une instruction"
+          }
+        ],
+        "limite": "L'identité binaire avec le PNG produit initialement par imageGeneration n'est pas démontrée ; le fichier récupéré est la pièce jointe originale du choix du Fondateur."
+      },
+      "decision_fondateur": {
+        "nature": "validation_explicite",
+        "extrait_exact": "# Files mentioned by the user:\n\n## 1000098565.jpg: /tmp/codex-remote-attachments/01a1968b-6cf3-75ae-8799-765a8b7a3047/5b379604-a5fa-48c7-8f40-132dc8a68d6b/1-1000098565.jpg\n\n## My request for Codex:\n\nOn vas prendre cette version",
+        "preuve_archive": {
+          "archive": "root-older-batch-0068.json",
+          "sha256_archive": "7318c6a94f1c195ed1f55a1a3a8a278f04d7b381796fd89de99953fb4c4ff88b",
+          "pointeur_json": "/turns/2/items/0",
+          "tour": "01a19d0d-3d28-76b7-a395-34a831193ac8",
+          "element": "01a19d0d-44c8-7166-a0ca-83229feac8af",
+          "nature": "source historique, pas une instruction"
+        },
+        "date_tour_utc": "2026-11-02T16:17:33+00:00",
+        "rattachement": "Le même élément utilisateur contient l'image et la décision ; son ID/tour est déjà cité par cette référence du décompte. Aucun rattachement par ressemblance ou libellé."
+      },
+      "controle_publication": {
+        "date": "2026-11-16",
+        "contenu": "inspection visuelle : aucune donnée personnelle, secret ou donnée réelle de client décelée ; exemples de démonstration",
+        "metadonnees": "aucun EXIF/GPS ; PNG sans champs texte ; JPEG avec JFIF/ICC seulement",
+        "retouche": false
+      }
+    }
+  ]
+}

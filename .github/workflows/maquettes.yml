@@ -1,0 +1,35 @@
+name: Conservation des maquettes
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/maquettes/**'
+      - 'docs/developpement/PREUVES_MAQUETTES_ECRANS_2026-11-16.json'
+      - 'tools/check_mockup_images.py'
+      - 'tools/tests/test_check_mockup_images.py'
+      - '.github/workflows/maquettes.yml'
+  pull_request:
+    paths:
+      - 'docs/maquettes/**'
+      - 'docs/developpement/PREUVES_MAQUETTES_ECRANS_2026-11-16.json'
+      - 'tools/check_mockup_images.py'
+      - 'tools/tests/test_check_mockup_images.py'
+      - '.github/workflows/maquettes.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  mockup-images:
+    name: Images des maquettes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with: {persist-credentials: false}
+      - name: Tester le contrôle de conservation
+        run: python3 -m unittest discover -s tools/tests -p 'test_check_mockup_images.py' -v
+      - name: Vérifier le manifeste et lister les originaux manquants
+        # Ajouter --strict quand les 107 références de travail ont leur original.
+        run: python3 tools/check_mockup_images.py

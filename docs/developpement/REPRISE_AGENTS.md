@@ -81,6 +81,31 @@ des interfaces factices ou des résultats de stock inventés pour fermer une err
 de compilation. Les [limites du guide local](ESSAIS_LOCAUX.md#limites-à-garder-visibles)
 et l'état courant permettent de suivre leur résolution.
 
+## Conservation obligatoire des maquettes
+
+Règle du Fondateur du **16 novembre 2026** : toute maquette créée ou modifiée
+doit, **dans la même session**, être enregistrée sous
+`docs/maquettes/<famille>/` avec son identifiant, inscrite au
+[manifeste](../maquettes/MANIFESTE_IMAGES.json) avec son SHA-256 et ses dimensions,
+liée à la décision du Fondateur qui la retient ou l'écarte, puis poussée sur une
+branche distante avant de terminer. Garder le format d'origine, sans écraser
+une variante retenue. Un choix en attente est déclaré `non finalisée`, jamais
+présenté comme une validation.
+
+**Une maquette qui n'existe que dans une conversation n'est pas une référence.**
+Vérifier le contenu visible et les métadonnées avant publication sur le dépôt
+public ; signaler toute donnée personnelle, secret ou donnée réelle de client
+et garder l'image concernée hors Git. Ne pas publier d'URL signée ou de jeton.
+
+Mettre à jour le décompte et le registre de preuves dans le même lot : `présente`
+uniquement pour une image réellement enregistrée et versionnée. Lancer
+`python3 tools/check_mockup_images.py` ; les images historiques manquantes
+avertissent, les empreintes incorrectes et faux statuts de présence bloquent.
+Le [guide de conservation](../maquettes/README.md) décrit le contrôle CI et son
+passage à `--strict` quand le stock est complet. Récupérer un fichier n'établit
+pas la conformité visuelle d'un écran Android. La sauvegarde distante datée
+ci-dessous reste obligatoire.
+
 ## Bilan de session attendu
 
 Indiquer le commit de départ et celui testé, le problème reproduit, les fichiers

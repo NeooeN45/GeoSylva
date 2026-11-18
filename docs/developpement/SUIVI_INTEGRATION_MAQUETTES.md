@@ -16,11 +16,38 @@ Ils inventorient 117 repères, dont 107 références de travail : 78 raccordées
 Ce ne sont ni 117 écrans indépendants, ni des validations au pixel.
 
 Les archives de conception permettent désormais d'identifier les numéros,
-variantes et décisions ; les PNG originaux restent à récupérer. Le contrôle
+variantes et décisions. Le lot de conservation du même jour a récupéré quatre
+originaux de pièces jointes sur les 107 références de travail ; 103 restent
+introuvables. Le contrôle
 des appels corrige 56 (composant défini mais jamais appelé) et lève les doutes
 d'identité documentaire sur 64 et 90B. Les trois lignes sont rectifiées plus bas.
 Les constats du 15 novembre et leurs résultats d'essai gardent leur portée
 historique ; aucun nouveau test ou essai sur appareil n'est ajouté par cet audit.
+
+## Conservation des originaux — 16 novembre 2026
+
+Le [bilan de récupération](../maquettes/RECUPERATION_2026-11-16.md), le
+[manifeste SHA-256](../maquettes/MANIFESTE_IMAGES.json) et la
+[liste des 103 manquantes](../maquettes/MAQUETTES_INTROUVABLES_2026-11-16.csv)
+conservent les preuves : 54 (Technicien), 72 (commun), dossier chantier02 et fiche
+du bois01 (Conducteur). Aucun fichier n'est recréé ou retouché ; les 107
+conformités visuelles restent non vérifiées. Les états de codage sont inchangés.
+
+Règle obligatoire : **dans la même session**, toute maquette créée ou modifiée
+est enregistrée sous `docs/maquettes/` avec son identifiant, inscrite au manifeste
+avec empreinte et dimensions, liée à la décision du Fondateur qui la retient ou
+l'écarte, puis poussée sur une branche distante avant la fin de session. Un
+choix en attente reste `non finalisée`. Contrôler contenu et métadonnées pour le
+dépôt public ; garder hors Git et signaler tout secret, donnée personnelle ou
+donnée réelle de client. Préserver les variantes et la sauvegarde distante datée.
+**Une maquette qui n'existe que dans une conversation n'est pas une référence.**
+
+Le [contrôle CI](../../.github/workflows/maquettes.yml) exécute
+`python3 tools/check_mockup_images.py` : chaque référence de travail doit avoir
+son original et une empreinte conforme. Les absences historiques sont listées
+sans échec ; incohérences et fausses présences bloquent. Quand le stock est
+complété, ajouter `--strict` à la commande du workflow dans un lot relu. Voir
+les [consignes de conservation](../maquettes/README.md).
 
 ## Ce qui est vérifié et ce qui ne l’est pas
 
