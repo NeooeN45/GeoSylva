@@ -11,7 +11,11 @@ from test_recuperer import digest, pixel, reference
 
 class HistoricalNameTest(unittest.TestCase):
     def test_documented_names_preserve_candidates_and_hash_takes_precedence(self):
-        original, copy, unknown = pixel(18), pixel(19), pixel(20)
+        original, copy = pixel(18), pixel(19)
+        # A valid single-pixel GIF in a different encoding from the archived PNG.
+        unknown = bytes.fromhex(
+            '47494638396101000100800000000000ffffff2c00000000010001000002024401003b'
+        )
         ref = reference('cartographie/98', historical=[digest(original)])
         ref['preuves_sha256'] = [{'nom': 'enregistrer-le-trace.png'}]
         recorded = reference('cartographie/99')
@@ -19,7 +23,7 @@ class HistoricalNameTest(unittest.TestCase):
         contents = BytesIO()
         with zipfile.ZipFile(contents, 'w') as zf:
             zf.writestr('medias/enregistrer-le-trace.PNG', copy)
-            zf.writestr('file-12345678-1234-1234-1234-123456789abc-trace-enregistre.jpeg', unknown)
+            zf.writestr('file-12345678-1234-1234-1234-123456789abc-trace-enregistre.gif', unknown)
             zf.writestr('maquette-trace-enregistre.png', pixel(21))
             zf.writestr('prive/trace-enregistre-miniature.png', pixel(22))
             # An incorrect filename cannot take precedence over verified bytes.
@@ -29,6 +33,7 @@ class HistoricalNameTest(unittest.TestCase):
         self.assertEqual(set(found), {digest(original), digest(copy), digest(unknown)})
         self.assertTrue(found[digest(original)].verified)
         self.assertEqual(found[digest(original)].ids, ['cartographie/98'])
+        self.assertEqual(found[digest(unknown)].ext, '.gif')
         for candidate, identifier in ((copy, 'cartographie/98'), (unknown, 'cartographie/99')):
             self.assertEqual(found[digest(candidate)].proof, 'nom_historique')
             self.assertEqual(found[digest(candidate)].ids, [identifier])
