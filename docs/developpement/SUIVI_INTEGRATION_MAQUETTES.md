@@ -49,6 +49,20 @@ sans échec ; incohérences et fausses présences bloquent. Quand le stock est
 complété, ajouter `--strict` à la commande du workflow dans un lot relu. Voir
 les [consignes de conservation](../maquettes/README.md).
 
+## Fiche du bois — premier lot de la proposition 01
+
+La fiche du Conducteur s’ouvre depuis les bois d’un dépôt ou d’un chantier.
+Elle affiche le dépôt lié, l’identification déclarée et le relevé choisi comme
+référence. Les dates du relevé et de l’enregistrement gardent leurs fuseaux
+respectifs. Le volume apparent provient du calcul existant, avec ses conditions
+et les mesures brutes consultables. « Relevés » ouvre l’historique et le choix
+explicite de la référence. « Carnet » et « Nouveau relevé manuel » ouvrent les
+parcours existants. [Maquette de référence](../maquettes/conducteur/fiche-bois-proposition-01.jpg)
+
+Le bloc de stock ouvre le carnet. L’affichage du solde et l’action directe
+« Renseigner le stock initial » restent à raccorder à un état de stock autorisé.
+La vérification visuelle sur S25 Ultra reste à faire.
+
 ## Ce qui est vérifié et ce qui ne l’est pas
 
 - Le passage du **14 novembre** a produit un APK debug sur la source

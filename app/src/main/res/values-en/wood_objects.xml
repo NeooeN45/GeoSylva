@@ -84,4 +84,17 @@
     <string name="wo_units_read_only">"This observation uses units or a protocol not supported by this form. Its data is retained."</string>
     <string name="wo_local">"Local observations · saved offline"</string>
     <string name="wo_edit_identity">"Edit identification"</string>
+    <string name="wo_file_options">Wood details options</string>
+    <string name="wo_file_depot">Depot</string>
+    <string name="wo_file_depot_help">Depot this wood item is linked to in Géosylva.</string>
+    <string name="wo_file_species_help">Species entered when identifying the wood item.</string>
+    <string name="wo_file_journal">Journal</string>
+    <string name="wo_file_no_surveys">No observations recorded for this wood item.</string>
+    <string name="wo_file_observed">Observed on %1$s · %2$s</string>
+    <string name="wo_file_recorded">Recorded on %1$s · %2$s</string>
+    <string name="wo_file_envelope">Rectangular envelope</string>
+    <string name="wo_file_protocol">View measurements and protocol</string>
+    <string name="wo_file_stock">Theoretical stock</string>
+    <string name="wo_file_stock_help">Stock is tracked from quantities declared in the field journal.</string>
+    <string name="wo_file_stock_journal">Track stock in the journal</string>
 </resources>
