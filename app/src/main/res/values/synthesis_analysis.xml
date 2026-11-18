@@ -18,6 +18,16 @@
     <string name="analysis_diameter_value">%1$s cm</string>
     <string name="analysis_valid_diameters">Diamètres exploitables : %1$s / %2$s</string>
     <string name="analysis_diameter_basis_unknown">Les diamètres enregistrés peuvent être des mesures ou des représentants de classe ; leur nature reste à préciser.</string>
+    <string name="analysis_help_description">Comprendre %1$s</string>
+    <string name="analysis_help_count_definition">Nombre de tiges renseignées dans la version du relevé consultée.</string>
+    <string name="analysis_help_count_formula">Chaque tige est comptée une fois, même si son diamètre est absent ou inexploitable.</string>
+    <string name="analysis_help_basal_definition">Somme des sections calculées à partir des diamètres exploitables du relevé.</string>
+    <string name="analysis_help_basal_formula">G = Σ π × (D / 200)² · D en cm, G en m² pour les tiges du relevé.</string>
+    <string name="analysis_help_quadratic_definition">Diamètre d’une tige dont la section correspond à la section moyenne des tiges aux diamètres exploitables.</string>
+    <string name="analysis_help_quadratic_formula">Dg = √(Σ D² / n) · D et Dg en cm, n diamètres exploitables.</string>
+    <string name="analysis_help_no_diameters">Aucun diamètre exploitable. Pour un nouveau relevé, renseignez un diamètre positif en centimètres selon le protocole utilisé.</string>
+    <string name="analysis_help_record_source">Source : tiges associées à la version du relevé consultée.</string>
+    <string name="analysis_help_view_sources">Voir les sources</string>
     <string name="analysis_projection_unavailable">Vérifiez les mesures et les résultats de cette version avant de consulter la dendrométrie.</string>
     <string name="analysis_distribution_title">Fréquence des diamètres</string>
     <string name="analysis_distribution_scope">Distribution des diamètres tels qu’ils sont enregistrés dans ce relevé.</string>

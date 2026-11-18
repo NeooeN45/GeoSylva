@@ -56,4 +56,14 @@
     <string name="analysis_protocol_help_stand">S % describes an inventoried stand: dominant height, density, population and effectively surveyed area must match. Stand Hdom/Dg differs from individual H/D.</string>
     <string name="analysis_protocol_help_convention">A merchantable or diameter-class height does not automatically qualify H/D. This help describes the required information and does not change your survey.</string>
     <string name="analysis_protocol_help_close">Close</string>
+    <string name="analysis_help_description">Understand %1$s</string>
+    <string name="analysis_help_count_definition">Number of trees recorded in the selected survey revision.</string>
+    <string name="analysis_help_count_formula">Each tree is counted once, including trees with a missing or unusable diameter.</string>
+    <string name="analysis_help_basal_definition">Sum of the cross-sectional areas calculated from usable diameters in the survey.</string>
+    <string name="analysis_help_basal_formula">G = Σ π × (D / 200)² · D in cm, G in m² for the trees in the survey.</string>
+    <string name="analysis_help_quadratic_definition">Diameter of a tree whose cross-sectional area equals the mean cross-sectional area of trees with usable diameters.</string>
+    <string name="analysis_help_quadratic_formula">Dg = √(Σ D² / n) · D and Dg in cm, n usable diameters.</string>
+    <string name="analysis_help_no_diameters">No usable diameters. For a new survey, enter a positive diameter in centimetres using the survey protocol.</string>
+    <string name="analysis_help_record_source">Source: trees associated with the selected survey revision.</string>
+    <string name="analysis_help_view_sources">View sources</string>
 </resources>

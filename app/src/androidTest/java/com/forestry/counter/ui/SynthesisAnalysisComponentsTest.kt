@@ -23,6 +23,7 @@ import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertHeightIsAtLeast
+import androidx.compose.ui.test.assertWidthIsAtLeast
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotSelected
 import androidx.compose.ui.test.assertIsSelected
@@ -146,6 +147,23 @@ class SynthesisAnalysisComponentsTest {
     }
 
     @Test
+    fun basal_area_help_shows_its_formula_and_opens_sources_once() {
+        val observations = observations()
+        val data = RecordedDendrometryCalculator.calculate(report(observations), observations)
+        var sourcesOpened = 0
+        content { DendrometryOverviewCard(data, onShowSources = { sourcesOpened++ }) }
+
+        compose.onNodeWithTag("synthesis_metric_help_basal").performScrollTo()
+            .assertHeightIsAtLeast(48.dp).assertWidthIsAtLeast(48.dp).assertHasClickAction().performClick()
+        compose.onNodeWithTag("synthesis_metric_help_sheet").assertIsDisplayed()
+        compose.onNodeWithText(context.getString(R.string.analysis_help_basal_formula))
+            .performScrollTo().assertIsDisplayed()
+        compose.onNodeWithTag("synthesis_metric_help_sources").performScrollTo().assertHasClickAction().performClick()
+        compose.runOnIdle { assertEquals(1, sourcesOpened) }
+        compose.onNodeWithTag("synthesis_metric_help_sheet").assertDoesNotExist()
+    }
+
+    @Test
     fun inconsistent_report_projection_shows_unavailable_instead_of_other_rows() {
         val observations = observations()
         val report = report(observations)
@@ -153,6 +171,7 @@ class SynthesisAnalysisComponentsTest {
         assertEquals(RecordedDendrometryStatus.REPORT_MISMATCH, data.status)
         content { DendrometryOverviewCard(data) }
         compose.onNodeWithText(context.getString(R.string.analysis_projection_unavailable)).assertIsDisplayed()
+        compose.onNodeWithTag("synthesis_metric_help_basal").assertDoesNotExist()
         compose.onNodeWithText(context.getString(R.string.analysis_valid_diameters, 4, 4)).assertDoesNotExist()
         compose.onNodeWithText(context.getString(R.string.analysis_diameter_value,
             String.format(Locale.getDefault(), "%.1f", sqrt(1800.0)))).assertDoesNotExist()
