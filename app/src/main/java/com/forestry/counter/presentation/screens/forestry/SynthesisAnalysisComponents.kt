@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -22,28 +23,35 @@ import androidx.compose.material.icons.filled.Eco
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Forest
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -142,7 +150,12 @@ private fun sectionTag(section: SynthesisSection) =
 
 /** Display only the verified projection of the selected report; never recover from current rows. */
 @Composable
-fun DendrometryOverviewCard(data: RecordedDendrometry, modifier: Modifier = Modifier) {
+fun DendrometryOverviewCard(
+    data: RecordedDendrometry,
+    modifier: Modifier = Modifier,
+    onShowSources: (() -> Unit)? = null,
+) {
+    var explained by remember(data) { mutableStateOf<DendrometryMetric?>(null) }
     AnalysisCard(stringResource(R.string.analysis_dendrometry_title),
         modifier.testTag("synthesis_dendrometry_overview")) {
         Text(stringResource(R.string.analysis_recorded_scope), modifier = Modifier.fillMaxWidth(),
@@ -154,21 +167,16 @@ fun DendrometryOverviewCard(data: RecordedDendrometry, modifier: Modifier = Modi
             BoxWithConstraints(Modifier.fillMaxWidth()) {
                 if (maxWidth >= 600.dp && LocalDensity.current.fontScale <= 1.4f) {
                     Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
-                        AnalysisMetric(stringResource(R.string.analysis_count_label), integerText(data.recordedCount), Modifier.weight(1f))
-                        AnalysisMetric(stringResource(R.string.analysis_basal_label),
-                            stringResource(R.string.analysis_basal_value, formatSynthesisNumber(data.basalAreaM2, 3)), Modifier.weight(1f))
-                        AnalysisMetric(stringResource(R.string.analysis_dg_label),
-                            stringResource(R.string.analysis_diameter_value, formatSynthesisNumber(data.quadraticDiameterCm, 1)), Modifier.weight(1f))
+                        DendrometryMetric.entries.forEach { metric ->
+                            DendrometryMetricValue(metric, data, Modifier.weight(1f)) { explained = metric }
+                        }
                     }
                 } else {
                     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                        AnalysisMetric(stringResource(R.string.analysis_count_label), integerText(data.recordedCount))
-                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                        AnalysisMetric(stringResource(R.string.analysis_basal_label),
-                            stringResource(R.string.analysis_basal_value, formatSynthesisNumber(data.basalAreaM2, 3)))
-                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                        AnalysisMetric(stringResource(R.string.analysis_dg_label),
-                            stringResource(R.string.analysis_diameter_value, formatSynthesisNumber(data.quadraticDiameterCm, 1)))
+                        DendrometryMetric.entries.forEachIndexed { index, metric ->
+                            if (index > 0) HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                            DendrometryMetricValue(metric, data) { explained = metric }
+                        }
                     }
                 }
             }
@@ -179,6 +187,108 @@ fun DendrometryOverviewCard(data: RecordedDendrometry, modifier: Modifier = Modi
                 Text(stringResource(R.string.analysis_diameter_basis_unknown), modifier = Modifier.fillMaxWidth(),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
+    }
+    explained?.let { metric ->
+        DendrometryMetricHelp(
+            metric = metric,
+            data = data,
+            onDismiss = { explained = null },
+            onShowSources = onShowSources?.let { openSources ->
+                {
+                    explained = null
+                    openSources()
+                }
+            },
+        )
+    }
+}
+
+private enum class DendrometryMetric(
+    @StringRes val label: Int,
+    @StringRes val definition: Int,
+    @StringRes val formula: Int,
+) {
+    COUNT(R.string.analysis_count_label, R.string.analysis_help_count_definition, R.string.analysis_help_count_formula),
+    BASAL(R.string.analysis_basal_label, R.string.analysis_help_basal_definition, R.string.analysis_help_basal_formula),
+    QUADRATIC(R.string.analysis_dg_label, R.string.analysis_help_quadratic_definition, R.string.analysis_help_quadratic_formula),
+}
+
+@Composable
+private fun DendrometryMetric.formattedValue(data: RecordedDendrometry): String = when (this) {
+    DendrometryMetric.COUNT -> integerText(data.recordedCount)
+    DendrometryMetric.BASAL ->
+        data.basalAreaM2?.let { stringResource(R.string.analysis_basal_value, formatSynthesisNumber(it, 3)) }
+            ?: stringResource(R.string.analysis_missing_value)
+    DendrometryMetric.QUADRATIC ->
+        data.quadraticDiameterCm?.let { stringResource(R.string.analysis_diameter_value, formatSynthesisNumber(it, 1)) }
+            ?: stringResource(R.string.analysis_missing_value)
+}
+
+@Composable
+private fun DendrometryMetricValue(
+    metric: DendrometryMetric,
+    data: RecordedDendrometry,
+    modifier: Modifier = Modifier,
+    onExplain: () -> Unit,
+) {
+    val label = stringResource(metric.label)
+    Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        AnalysisMetric(label, metric.formattedValue(data), Modifier.weight(1f))
+        IconButton(
+            onClick = onExplain,
+            modifier = Modifier.sizeIn(minWidth = 48.dp, minHeight = 48.dp)
+                .testTag("synthesis_metric_help_${metric.name.lowercase(Locale.ROOT)}"),
+        ) {
+            Icon(Icons.Outlined.Info, stringResource(R.string.analysis_help_description, label))
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DendrometryMetricHelp(
+    metric: DendrometryMetric,
+    data: RecordedDendrometry,
+    onDismiss: () -> Unit,
+    onShowSources: (() -> Unit)?,
+) {
+    val maxHeight = LocalConfiguration.current.screenHeightDp.dp * 0.8f
+    val contentDensity = LocalDensity.current
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+    ) {
+        CompositionLocalProvider(LocalDensity provides contentDensity) {
+            Column(
+                Modifier.fillMaxWidth().heightIn(max = maxHeight).verticalScroll(rememberScrollState())
+                    .padding(horizontal = 20.dp, vertical = 12.dp).testTag("synthesis_metric_help_sheet"),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Text(stringResource(metric.label), Modifier.semantics { heading() },
+                    style = MaterialTheme.typography.headlineSmall)
+                Text(metric.formattedValue(data), style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.primary)
+                Text(stringResource(metric.definition))
+                Text(stringResource(metric.formula), style = MaterialTheme.typography.titleSmall)
+                if (metric != DendrometryMetric.COUNT) {
+                    Text(stringResource(R.string.analysis_valid_diameters,
+                        integerText(data.validDiameterCount), integerText(data.recordedCount)))
+                    if (data.validDiameterCount == 0) Text(stringResource(R.string.analysis_help_no_diameters))
+                    if (data.diameterBasisUnknown) Text(stringResource(R.string.analysis_diameter_basis_unknown))
+                }
+                HorizontalDivider()
+                Text(stringResource(R.string.analysis_help_record_source), style = MaterialTheme.typography.bodySmall)
+                if (onShowSources != null) {
+                    TextButton(
+                        onClick = onShowSources,
+                        modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp).testTag("synthesis_metric_help_sources"),
+                    ) { Text(stringResource(R.string.analysis_help_view_sources)) }
+                }
+                FilledTonalButton(onClick = onDismiss, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
+                    Text(stringResource(R.string.analysis_protocol_help_close))
+                }
             }
         }
     }

@@ -93,6 +93,19 @@ spécificités d’un métier ou d’un organisme.
 est développée et raccordée ; Synthèse, Diagnostics, interfaces et qualification
 terrain restent à clore suivant les décisions prises ensemble.
 
+### Synthèse Gestion — premier lot d’aides pour la 3.1
+
+Les tiges renseignées, la surface terrière et le diamètre quadratique ont chacun
+une aide dans la fiche du relevé. Elle reprend la valeur affichée, sa définition,
+la formule et les unités lorsque le résultat est calculé. Pour les indicateurs
+calculés à partir des diamètres, elle précise la couverture des mesures et le cas
+où aucun diamètre n’est exploitable. « Voir les sources » ouvre les sources de
+la version consultée depuis le parcours Technicien existant.
+
+Ce lot applique l’aide par donnée aux trois indicateurs de Gestion. La
+comparaison visuelle sur S25 Ultra et les aides des autres sections restent
+ouvertes.
+
 ## Conducteur de travaux forestiers
 
 | Partie | État constaté | Reste avant de la déclarer terminée |

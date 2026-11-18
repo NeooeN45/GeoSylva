@@ -48,6 +48,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -181,7 +182,7 @@ fun MartelageScreen(
     var sectionName by rememberSaveable { mutableStateOf(SynthesisSection.MANAGEMENT.name) }
     val section = SynthesisSection.entries.firstOrNull { it.name == sectionName } ?: SynthesisSection.MANAGEMENT
     var showSources by remember(state.report?.parcelId, state.report?.sessionId,
-        state.report?.revisionNumber, state.accessSnapshot) { mutableStateOf(false) }
+        state.report?.selectedPlotId, state.report?.revisionNumber, state.accessSnapshot) { mutableStateOf(false) }
     var showHeightHelp by remember(state.report?.parcelId, state.report?.sessionId,
         state.report?.revisionNumber, state.accessSnapshot) { mutableStateOf(false) }
     var showExport by remember { mutableStateOf(false) }
@@ -384,7 +385,9 @@ fun MartelageScreen(
                         SynthesisSection.MANAGEMENT -> {
                             VolumeConditionsCard(report)
                             state.dendrometry?.let { analysis ->
-                                DendrometryOverviewCard(analysis)
+                                key(report.parcelId, report.sessionId, report.selectedPlotId, report.revisionNumber, state.accessSnapshot) {
+                                    DendrometryOverviewCard(analysis, onShowSources = { showSources = true })
+                                }
                                 DiameterDistributionCard(analysis)
                             }
                             UnqualifiedHeightIndicatorsCard(report.measuredHeightCount, report.observationCount,
