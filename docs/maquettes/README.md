@@ -90,3 +90,7 @@ Le lecteur Windows compare localement les fichiers de l’export ChatGPT à ces 
 Le rapport du Fondateur couvre le ZIP de 1,85 Go et le dossier extrait. L’empreinte de l’index utilisé correspond au commit `6476d56`. Les 107 identifiants et leurs empreintes concordent avec le registre et le manifeste. L’examen local indique **0 nouvel original et 0 candidat relié à une référence**. Le fil d’origine n’a été retrouvé ni par identifiant ni par titre dans les index examinés. Les **103 références manquantes** restent à rechercher dans la conversation d’origine ou dans une autre sauvegarde contenant les images.
 
 La maquette 100 « Calcul et réception », placée avant la validation « Conserver et passer à l’intégration prévue », sert de premier essai de téléchargement depuis le fil. L’empreinte historique de cette image permet de contrôler les octets du fichier téléchargé. [Index des preuves de recherche](../../tools/maquettes/index.json)
+
+### Relecture de la conversation après son retour
+
+Le journal de sauvegarde de la maquette 99 « Tracé enregistré » confirme la dernière empreinte manquante. L’index de recherche couvre désormais les **107 références par SHA-256**. Les entrées de génération relues dans le fil fournissent le nom et l’ancien chemin du fichier. Pour les images examinées, ces chemins renvoient à des fichiers absents de l’espace de travail actuel. Le manifeste atteste toujours les **4 originaux conservés**. [Index des preuves de recherche](../../tools/maquettes/index.json)
