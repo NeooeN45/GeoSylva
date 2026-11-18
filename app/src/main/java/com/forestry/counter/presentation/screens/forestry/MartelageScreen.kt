@@ -182,7 +182,7 @@ fun MartelageScreen(
     var sectionName by rememberSaveable { mutableStateOf(SynthesisSection.MANAGEMENT.name) }
     val section = SynthesisSection.entries.firstOrNull { it.name == sectionName } ?: SynthesisSection.MANAGEMENT
     var showSources by remember(state.report?.parcelId, state.report?.sessionId,
-        state.report?.revisionNumber, state.accessSnapshot) { mutableStateOf(false) }
+        state.report?.selectedPlotId, state.report?.revisionNumber, state.accessSnapshot) { mutableStateOf(false) }
     var showHeightHelp by remember(state.report?.parcelId, state.report?.sessionId,
         state.report?.revisionNumber, state.accessSnapshot) { mutableStateOf(false) }
     var showExport by remember { mutableStateOf(false) }

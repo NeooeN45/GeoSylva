@@ -253,37 +253,40 @@ private fun DendrometryMetricHelp(
     onShowSources: (() -> Unit)?,
 ) {
     val maxHeight = LocalConfiguration.current.screenHeightDp.dp * 0.8f
+    val contentDensity = LocalDensity.current
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
     ) {
-        Column(
-            Modifier.fillMaxWidth().heightIn(max = maxHeight).verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp, vertical = 12.dp).testTag("synthesis_metric_help_sheet"),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            Text(stringResource(metric.label), Modifier.semantics { heading() },
-                style = MaterialTheme.typography.headlineSmall)
-            Text(metric.formattedValue(data), style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.primary)
-            Text(stringResource(metric.definition))
-            Text(stringResource(metric.formula), style = MaterialTheme.typography.titleSmall)
-            if (metric != DendrometryMetric.COUNT) {
-                Text(stringResource(R.string.analysis_valid_diameters,
-                    integerText(data.validDiameterCount), integerText(data.recordedCount)))
-                if (data.validDiameterCount == 0) Text(stringResource(R.string.analysis_help_no_diameters))
-                if (data.diameterBasisUnknown) Text(stringResource(R.string.analysis_diameter_basis_unknown))
-            }
-            HorizontalDivider()
-            Text(stringResource(R.string.analysis_help_record_source), style = MaterialTheme.typography.bodySmall)
-            if (onShowSources != null) {
-                TextButton(
-                    onClick = onShowSources,
-                    modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp).testTag("synthesis_metric_help_sources"),
-                ) { Text(stringResource(R.string.analysis_help_view_sources)) }
-            }
-            FilledTonalButton(onClick = onDismiss, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
-                Text(stringResource(R.string.analysis_protocol_help_close))
+        CompositionLocalProvider(LocalDensity provides contentDensity) {
+            Column(
+                Modifier.fillMaxWidth().heightIn(max = maxHeight).verticalScroll(rememberScrollState())
+                    .padding(horizontal = 20.dp, vertical = 12.dp).testTag("synthesis_metric_help_sheet"),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Text(stringResource(metric.label), Modifier.semantics { heading() },
+                    style = MaterialTheme.typography.headlineSmall)
+                Text(metric.formattedValue(data), style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.primary)
+                Text(stringResource(metric.definition))
+                Text(stringResource(metric.formula), style = MaterialTheme.typography.titleSmall)
+                if (metric != DendrometryMetric.COUNT) {
+                    Text(stringResource(R.string.analysis_valid_diameters,
+                        integerText(data.validDiameterCount), integerText(data.recordedCount)))
+                    if (data.validDiameterCount == 0) Text(stringResource(R.string.analysis_help_no_diameters))
+                    if (data.diameterBasisUnknown) Text(stringResource(R.string.analysis_diameter_basis_unknown))
+                }
+                HorizontalDivider()
+                Text(stringResource(R.string.analysis_help_record_source), style = MaterialTheme.typography.bodySmall)
+                if (onShowSources != null) {
+                    TextButton(
+                        onClick = onShowSources,
+                        modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp).testTag("synthesis_metric_help_sources"),
+                    ) { Text(stringResource(R.string.analysis_help_view_sources)) }
+                }
+                FilledTonalButton(onClick = onDismiss, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
+                    Text(stringResource(R.string.analysis_protocol_help_close))
+                }
             }
         }
     }
