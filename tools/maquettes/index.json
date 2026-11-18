@@ -1,0 +1,2528 @@
+{
+  "schema": 1,
+  "thread_id": "01a1968b-6cf3-75ae-8799-765a8b7a3047",
+  "title": "Développement de Géosylva maquette",
+  "references": [
+    {
+      "id": "conducteur/dossier-chantier/proposition-02",
+      "exec_id": "exec-d0346f13-312d-4f4b-8d95-3956c1fefc98",
+      "sha256": [
+        "a7ac739651c323f142f38faf9ef79648cf0211332c410f6b8df3f09724fbf4c9"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "proposition-02-dossier-chantier.png",
+          "sha256": "a7ac739651c323f142f38faf9ef79648cf0211332c410f6b8df3f09724fbf4c9",
+          "ligne_sortie": 2,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-8fd2c3ec-9585-436e-aad0-293ae8a4bab6"
+        }
+      ],
+      "sha256_deja_conserves": [
+        "a7ac739651c323f142f38faf9ef79648cf0211332c410f6b8df3f09724fbf4c9"
+      ]
+    },
+    {
+      "id": "conducteur/carnet-terrain/proposition-01",
+      "exec_id": "exec-11fe1c79-1ae2-492f-9e45-446f46b812e2",
+      "sha256": [
+        "7474859a710d65339994357b441819a3603bbe86c85afb753d38b6eeb03fd869"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "proposition-01-carnet-terrain.png",
+          "sha256": "7474859a710d65339994357b441819a3603bbe86c85afb753d38b6eeb03fd869",
+          "ligne_sortie": 3,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-8fd2c3ec-9585-436e-aad0-293ae8a4bab6",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0071.json",
+            "pointeur": "/turns/1/items/25/command",
+            "element": "exec-ef9fa201-b419-431c-a93d-a9beadaf0f11"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "conducteur/formulaire-note/proposition-01",
+      "exec_id": "exec-7e03bb98-56b9-44bc-aaa3-49c1ba3ebf32",
+      "sha256": [
+        "abaa7c46574003cc36681e5f21407851a35fad3419a5650b9fda2bfc6ada78ba"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "formulaire-note-proposition-01.png",
+          "sha256": "abaa7c46574003cc36681e5f21407851a35fad3419a5650b9fda2bfc6ada78ba",
+          "ligne_sortie": 4,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-8fd2c3ec-9585-436e-aad0-293ae8a4bab6",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0071.json",
+            "pointeur": "/turns/1/items/42/command",
+            "element": "exec-fee4bcca-93ed-45e8-8953-283ff10a87b2"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "conducteur/formulaire-activite/proposition-01",
+      "exec_id": "exec-eb981422-b6b5-46ed-83df-f0df444ba094",
+      "sha256": [
+        "e42430080d7dd3facd28c379c11ffcf3b8575faef8c84efc9fc0e9f3e04fb034"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "formulaire-activite-proposition-01.png",
+          "sha256": "e42430080d7dd3facd28c379c11ffcf3b8575faef8c84efc9fc0e9f3e04fb034",
+          "ligne_sortie": 5,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-8fd2c3ec-9585-436e-aad0-293ae8a4bab6",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0071.json",
+            "pointeur": "/turns/0/items/15/command",
+            "element": "exec-f8730abd-366a-442d-b7cf-048e2cc7070d"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "conducteur/formulaire-acces/proposition-01",
+      "exec_id": "exec-d43482d1-78e1-4752-afc7-773baca278ed",
+      "sha256": [
+        "b53f4212c4b4d1bf618cd6963893099f36011c0680f3c0b236f396159907168e"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "formulaire-acces-proposition-01.png",
+          "sha256": "b53f4212c4b4d1bf618cd6963893099f36011c0680f3c0b236f396159907168e",
+          "ligne_sortie": 6,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-8fd2c3ec-9585-436e-aad0-293ae8a4bab6",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0070.json",
+            "pointeur": "/turns/2/items/14/command",
+            "element": "exec-563d6685-539c-4c42-83b4-02b56b5bee5f"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "conducteur/detail-entree/proposition-01",
+      "exec_id": "exec-d0f1e588-5e94-4728-821f-a3a33af799f9",
+      "sha256": [
+        "5fbbd0f6e18570411454e47c47c82844671fede5250cbf0411c3794a6df376f7"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "detail-entree-proposition-01.png",
+          "sha256": "5fbbd0f6e18570411454e47c47c82844671fede5250cbf0411c3794a6df376f7",
+          "ligne_sortie": 7,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-8fd2c3ec-9585-436e-aad0-293ae8a4bab6",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0070.json",
+            "pointeur": "/turns/1/items/21/command",
+            "element": "exec-3106ce3f-47fc-4acc-9d20-8908e3aff7f3"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "conducteur/correction-motivee/proposition-01",
+      "exec_id": "exec-6ca3c6ab-88b5-43e2-b075-cbe3f32145c2",
+      "sha256": [
+        "13c25ef37d813a40592e24c2783626e7b208b67703a40da166a841b6be68ed21"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "correction-motivee-proposition-01.png",
+          "sha256": "13c25ef37d813a40592e24c2783626e7b208b67703a40da166a841b6be68ed21",
+          "ligne_sortie": 8,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-8fd2c3ec-9585-436e-aad0-293ae8a4bab6",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0070.json",
+            "pointeur": "/turns/0/items/17/command",
+            "element": "exec-149b0a8b-a301-47ac-a222-fae78d66f809"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "conducteur/historique-entree/proposition-01",
+      "exec_id": "exec-baee6f09-1962-4139-807d-771894c9c141",
+      "sha256": [
+        "2d33ad4ab5fbc0a50e41abd494b12353ffbe36f22dd7f57c0f9e55e9311e8cf7"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "historique-entree-proposition-01.png",
+          "sha256": "2d33ad4ab5fbc0a50e41abd494b12353ffbe36f22dd7f57c0f9e55e9311e8cf7",
+          "ligne_sortie": 9,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-8fd2c3ec-9585-436e-aad0-293ae8a4bab6",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0069.json",
+            "pointeur": "/turns/2/items/26/command",
+            "element": "exec-47c7e97b-1980-4ef0-b4e9-95ce2e10ab9e"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "conducteur/bois-associes/proposition-01",
+      "exec_id": "exec-560b9d5d-371e-4bb3-8fd5-1fd438fdeada",
+      "sha256": [
+        "736c1361e756a6708796f36ff0a18b9645983124619150e1a1ca46330a39fe75"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "bois-associes-proposition-01.png",
+          "sha256": "736c1361e756a6708796f36ff0a18b9645983124619150e1a1ca46330a39fe75",
+          "ligne_sortie": 10,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-8fd2c3ec-9585-436e-aad0-293ae8a4bab6",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0069.json",
+            "pointeur": "/turns/1/items/31/command",
+            "element": "exec-c94be1c2-2c28-4447-91df-2732a4cf93e6"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "conducteur/fiche-bois/proposition-01",
+      "exec_id": "exec-69bdeb01-970e-4297-8e1a-4cd01c02fb9e",
+      "sha256": [
+        "c8628ddc6e8506a915d4b1f61ab8e9c03d35ad8e5e0591df5052c96399d98954"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "fiche-bois-proposition-01.png",
+          "sha256": "c8628ddc6e8506a915d4b1f61ab8e9c03d35ad8e5e0591df5052c96399d98954",
+          "ligne_sortie": 11,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-8fd2c3ec-9585-436e-aad0-293ae8a4bab6",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0069.json",
+            "pointeur": "/turns/0/items/29/command",
+            "element": "exec-be0ba8d8-66d6-49c3-8372-912a326bd090"
+          }
+        }
+      ],
+      "sha256_deja_conserves": [
+        "aff3dd8fb54096c354dde617cd4561308d6305c946ea7e169355fa717cef4790"
+      ]
+    },
+    {
+      "id": "conducteur/releve-pile/proposition-02",
+      "exec_id": "exec-90675113-fa22-4fb9-8baf-ed2342142851",
+      "sha256": [
+        "7841e88fdd0eec6b5a656b752502b85f25695733742e4da232667105c3b0dcc5"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "releve-pile-proposition-02.png",
+          "sha256": "7841e88fdd0eec6b5a656b752502b85f25695733742e4da232667105c3b0dcc5",
+          "ligne_sortie": 13,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-8fd2c3ec-9585-436e-aad0-293ae8a4bab6",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0068.json",
+            "pointeur": "/turns/1/items/36/command",
+            "element": "exec-50cc99ed-0c55-420a-914d-1b3016599cbc"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "conducteur/stock-initial/proposition-01",
+      "exec_id": "exec-8876b003-86cb-453a-8ded-11583f272c8f",
+      "sha256": [
+        "75d418cd4c0061ce00715d068a7e36b8cd330538b1d22a375a8538f706587b3e"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "stock-initial-proposition-01.png",
+          "sha256": "75d418cd4c0061ce00715d068a7e36b8cd330538b1d22a375a8538f706587b3e",
+          "ligne_sortie": 14,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-8fd2c3ec-9585-436e-aad0-293ae8a4bab6",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0068.json",
+            "pointeur": "/turns/0/items/30/command",
+            "element": "exec-5691b40a-374e-460e-93a8-9b798008c904"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "conducteur/stock-renseigne/proposition-03",
+      "exec_id": "exec-17746edf-3884-4112-899d-2bf6e991d779",
+      "sha256": [
+        "f584cb0dae61c23d642087ebaf9aa9536e1e014e3c3e3f98bdfc133e1fd06eb4"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "fiche-bois-stock-renseigne-03.png",
+          "sha256": "f584cb0dae61c23d642087ebaf9aa9536e1e014e3c3e3f98bdfc133e1fd06eb4",
+          "ligne_sortie": 12,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-8fd2c3ec-9585-436e-aad0-293ae8a4bab6",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0067.json",
+            "pointeur": "/turns/1/items/27/command",
+            "element": "exec-c2b57efb-5275-45d9-bf5d-546ffa0f1a9a"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "conducteur/enlevement/proposition-01",
+      "exec_id": "exec-19573eb0-cc49-45d1-9f9e-86da533b38ea",
+      "sha256": [
+        "385bcc71d15c12f014e90eb5a59945fc925a3c17baf41d949f4ed6f498301ded"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "enlevement-proposition-01.png",
+          "sha256": "385bcc71d15c12f014e90eb5a59945fc925a3c17baf41d949f4ed6f498301ded",
+          "ligne_sortie": 15,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-8fd2c3ec-9585-436e-aad0-293ae8a4bab6",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0067.json",
+            "pointeur": "/turns/0/items/22/command",
+            "element": "exec-a7eaa495-d6c9-42bd-8447-29108e565a06"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "conducteur/controle/proposition-01",
+      "exec_id": "exec-44f31882-f8dc-45f6-976c-758c74f346a9",
+      "sha256": [
+        "4e9faf540670c531e7b2906b0495ff3a36dd4feabcbbe4a9dff7a83ef07549cc"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "controle-proposition-01.png",
+          "sha256": "4e9faf540670c531e7b2906b0495ff3a36dd4feabcbbe4a9dff7a83ef07549cc",
+          "ligne_sortie": 16,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-8fd2c3ec-9585-436e-aad0-293ae8a4bab6",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0066.json",
+            "pointeur": "/turns/2/items/22/command",
+            "element": "exec-c9ddd2d8-2a1d-4e8d-ab39-5f0f80b0e43a"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/04",
+      "exec_id": "exec-9d76d40b-b320-40eb-af5c-2a8409581c74",
+      "sha256": [
+        "3d36a0c2733174880431413951219b974cff4f4fe057aa5e6463de225af05f7a"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0063.json",
+          "pointeur": "/turns/1/items/3/output/text",
+          "nom": "maquette-terrain-forestier-proposition-04-immersive.png",
+          "sha256": "3d36a0c2733174880431413951219b974cff4f4fe057aa5e6463de225af05f7a",
+          "ligne_sortie": 49,
+          "tour": "01a1a0de-9810-75f8-ae47-401c96277381",
+          "element": "exec-4247a2ec-55a0-4f91-85f9-810cbf4977c6",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0063.json",
+            "pointeur": "/turns/2/items/17/command",
+            "element": "exec-95b176b7-9260-4da6-a6fd-7666d47c769c"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/07",
+      "exec_id": "exec-e1869bf8-14e4-485e-a71b-1bf0196899b3",
+      "sha256": [
+        "06f680215cca5ce86d1886e44f322bc41be84c4884b7ae6e6f5e06e38b9e382e"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0063.json",
+          "pointeur": "/turns/0/items/3/output/text",
+          "nom": "maquette-terrain-couches-proposition-07-apercus.png",
+          "sha256": "06f680215cca5ce86d1886e44f322bc41be84c4884b7ae6e6f5e06e38b9e382e",
+          "ligne_sortie": 48,
+          "tour": "01a1a114-a5f6-7223-abfd-1946983c8533",
+          "element": "exec-978bf870-f034-4813-8dda-7344c949892f",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0063.json",
+            "pointeur": "/turns/1/items/101/command",
+            "element": "exec-40c327fb-dfe6-46b5-b0e6-3645352ab3d6"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/09",
+      "exec_id": "exec-8ea86182-a9ef-437b-8649-c1aac20e8f21",
+      "sha256": [
+        "13271a80526bd93a7e34674ec016f46322d4936e03cb97d98bbcd68478204665"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-single-0059.json",
+          "pointeur": "/turns/0/items/12/output/text",
+          "nom": "maquette-terrain-fond-proposition-09-catalogue.png",
+          "sha256": "13271a80526bd93a7e34674ec016f46322d4936e03cb97d98bbcd68478204665",
+          "ligne_sortie": 94,
+          "tour": "01a1a16e-1f55-709d-90d9-15a48199bd6a",
+          "element": "exec-fc9df681-3db2-43a2-a711-d5326935c002",
+          "preuve_copie_exec": {
+            "archive": "root-older-single-0062.json",
+            "pointeur": "/turns/0/items/57/command",
+            "element": "exec-35c62300-f6bb-411b-a82e-27aaadd40a05"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/10",
+      "exec_id": "exec-c6325e04-6dc4-4f77-b779-54c4fd67f337",
+      "sha256": [
+        "7d388b6f4ee3162fcf356f98025003cda3ef9ba83401d6156aab10dd2434e2e4"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-single-0059.json",
+          "pointeur": "/turns/0/items/12/output/text",
+          "nom": "maquette-terrain-relief-proposition-10.png",
+          "sha256": "7d388b6f4ee3162fcf356f98025003cda3ef9ba83401d6156aab10dd2434e2e4",
+          "ligne_sortie": 95,
+          "tour": "01a1a16e-1f55-709d-90d9-15a48199bd6a",
+          "element": "exec-fc9df681-3db2-43a2-a711-d5326935c002",
+          "preuve_copie_exec": {
+            "archive": "root-older-single-0062.json",
+            "pointeur": "/turns/0/items/78/command",
+            "element": "exec-00f7e622-3024-4de1-9066-aa1aa82ab5ed"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/13",
+      "exec_id": "exec-602e74d2-65a5-4e1e-b383-f899f81eb894",
+      "sha256": [
+        "815bd43d95a629f24c75aa217335a42df359b26be1af48c367bae75304af9faa"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0041.json",
+          "pointeur": "/turns/1/items/8/output/text",
+          "nom": "maquette-maps-satellite-3d-proposition-13.png",
+          "sha256": "815bd43d95a629f24c75aa217335a42df359b26be1af48c367bae75304af9faa",
+          "ligne_sortie": 62,
+          "tour": "01a1a6ff-8c9c-775f-a79c-98d4dac78efd",
+          "element": "exec-b2408c30-cd86-4101-8201-a4713870bfc4",
+          "preuve_copie_exec": {
+            "archive": "root-older-single-0059.json",
+            "pointeur": "/turns/0/items/44/command",
+            "element": "exec-75e9c212-8f4a-4db4-9b08-f24c63dd67a1"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/14",
+      "exec_id": "exec-640fddb1-71f0-44f5-b708-71d8ee888e99",
+      "sha256": [
+        "4126df63c00432b28a5b670c1d1faf8875788974b39c4cbf1a0e77378e76de9f"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-single-0051.json",
+          "pointeur": "/turns/0/items/288/output/text",
+          "nom": "maquette-maps-examiner-acces-proposition-14.png",
+          "sha256": "4126df63c00432b28a5b670c1d1faf8875788974b39c4cbf1a0e77378e76de9f",
+          "ligne_sortie": 79,
+          "tour": "01a1a1d1-9063-7147-a4cb-af6ea0e051e9",
+          "element": "exec-7db7d609-03f5-4315-af5a-07d5f5fcba51",
+          "preuve_copie_exec": {
+            "archive": "root-older-single-0059.json",
+            "pointeur": "/turns/0/items/62/command",
+            "element": "exec-cf1d4756-84fb-42e7-b801-f40914f03085"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/15",
+      "exec_id": "exec-f80dc38f-77c2-4115-8d86-92544a3d849f",
+      "sha256": [
+        "22d841ee6ae4ebd954cab7859c574f15632ae6292d42a1a234d6fa643b4e27da"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-single-0051.json",
+          "pointeur": "/turns/0/items/288/output/text",
+          "nom": "maquette-maps-constat-acces-proposition-15.png",
+          "sha256": "22d841ee6ae4ebd954cab7859c574f15632ae6292d42a1a234d6fa643b4e27da",
+          "ligne_sortie": 105,
+          "tour": "01a1a1d1-9063-7147-a4cb-af6ea0e051e9",
+          "element": "exec-7db7d609-03f5-4315-af5a-07d5f5fcba51",
+          "preuve_copie_exec": {
+            "archive": "root-older-single-0058.json",
+            "pointeur": "/turns/0/items/20/command",
+            "element": "exec-213516d1-0b4a-4a0a-86f0-627bf11d6a46"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/18B",
+      "exec_id": "exec-f1836763-b918-4fcd-9040-996556e6dd3c",
+      "sha256": [
+        "236021d0c78aaac71cc48a9f9845ffbb83230cb118ace1478e7b9c659c5a05d2"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "maquettes-audit-batch4.json",
+          "pointeur": "/turns/0/items/2/output/text",
+          "nom": "maquette-carte-libre-proposition-18b-immersif.png",
+          "sha256": "236021d0c78aaac71cc48a9f9845ffbb83230cb118ace1478e7b9c659c5a05d2",
+          "ligne_sortie": 10,
+          "tour": "01a1b675-e1db-7682-9339-2958cb48ad8c",
+          "element": "exec-76161ade-64d1-4d1a-9ae6-05921c8b6088"
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/19",
+      "exec_id": "exec-031762da-4cfd-4998-874f-f41174aaf309",
+      "sha256": [
+        "b07d409fca7df032df19cd774fd68cb0d3193f4653c668f39c0f9971830d9478"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-single-0051.json",
+          "pointeur": "/turns/0/items/288/output/text",
+          "nom": "maquette-carte-libre-fiche-couche-proposition-19.png",
+          "sha256": "b07d409fca7df032df19cd774fd68cb0d3193f4653c668f39c0f9971830d9478",
+          "ligne_sortie": 121,
+          "tour": "01a1a1d1-9063-7147-a4cb-af6ea0e051e9",
+          "element": "exec-7db7d609-03f5-4315-af5a-07d5f5fcba51",
+          "preuve_copie_exec": {
+            "archive": "root-older-single-0054.json",
+            "pointeur": "/turns/0/items/20/command",
+            "element": "exec-1b7c7f50-6d30-4356-a75b-2fc214e8440a"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/20",
+      "exec_id": "exec-461682e1-64bb-4c2b-a8e1-6340c64de337",
+      "sha256": [
+        "dd5d46f8a60c8d42ef9462cbf5b285b98f8877ab09f80ed2322660991734c8e2"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0043.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "maquette-carte-libre-source-details-proposition-20.png",
+          "sha256": "dd5d46f8a60c8d42ef9462cbf5b285b98f8877ab09f80ed2322660991734c8e2",
+          "ligne_sortie": 47,
+          "tour": "01a1a6e7-767f-72fc-9a63-eecacc5f2a01",
+          "element": "exec-eac86764-78ac-4d5a-be7c-f8925d9b6797",
+          "preuve_copie_exec": {
+            "archive": "root-older-single-0053.json",
+            "pointeur": "/turns/0/items/32/command",
+            "element": "exec-bff8edff-e0a0-4243-a91a-68e440a13117"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/21",
+      "exec_id": "exec-2b45b3a2-a759-4932-97d8-2bcb0c36816d",
+      "sha256": [
+        "6b7a6297993de06ce84ffe47136f4f5e9aafe2e698a88e34b362f0d476bda5d3"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-single-0051.json",
+          "pointeur": "/turns/0/items/288/output/text",
+          "nom": "maquette-accueil-carte-trois-modes-proposition-21.png",
+          "sha256": "6b7a6297993de06ce84ffe47136f4f5e9aafe2e698a88e34b362f0d476bda5d3",
+          "ligne_sortie": 147,
+          "tour": "01a1a1d1-9063-7147-a4cb-af6ea0e051e9",
+          "element": "exec-7db7d609-03f5-4315-af5a-07d5f5fcba51",
+          "preuve_copie_exec": {
+            "archive": "root-older-single-0052.json",
+            "pointeur": "/turns/0/items/25/command",
+            "element": "exec-a7ff44d2-584a-4025-8869-4fb722d70d7f"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/22B",
+      "exec_id": "exec-f2cc9c81-0782-49e1-a203-e0d381e3c21d",
+      "sha256": [
+        "96f69b20a74dc544467717e3100ca0d8fe9d1315432e5c1ad988ae91750459a7"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "maquettes-audit-earlier3.json",
+          "pointeur": "/turns/0/items/40/output/text",
+          "nom": "maquette-22b-enregistrer-vue-affichee.png",
+          "sha256": "96f69b20a74dc544467717e3100ca0d8fe9d1315432e5c1ad988ae91750459a7",
+          "ligne_sortie": 7,
+          "tour": "01a1b69f-08db-755d-9a95-86d79807e15d",
+          "element": "exec-b8cfbd90-9dbd-4639-a4f1-d8dffcd8dbf9",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0047.json",
+            "pointeur": "/turns/2/items/13/command",
+            "element": "exec-e46b9dfb-e4e8-4322-9bd9-d46599d8570e"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/23B",
+      "exec_id": "exec-0d121417-947b-4fca-960b-475456b2c906",
+      "sha256": [
+        "8b5dd80f47260cc2ce641f62d094b3a93d177ef68f214c25ed8254efce2c84d7"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "reference-inventory-1.json",
+          "pointeur": "/turns/1/items/1/output/text",
+          "nom": "maquette-23b-packs-carte-immersive.png",
+          "sha256": "8b5dd80f47260cc2ce641f62d094b3a93d177ef68f214c25ed8254efce2c84d7",
+          "ligne_sortie": 26,
+          "tour": "01a1ad13-2c31-778e-965b-b4ff3496e937",
+          "element": "exec-86218def-80d4-4bef-8c77-3fa89f9d72c1"
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/24",
+      "exec_id": "exec-fc34d592-97ab-45e7-b558-6fad7ad45371",
+      "sha256": [
+        "101ad48a54323e9b8a8a5fc4c88245f10a9ddc06cc6d37cb3bc62d3a07f35351"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0046.json",
+          "pointeur": "/turns/1/items/3/output/text",
+          "nom": "maquette-24-contenu-du-pack.png",
+          "sha256": "101ad48a54323e9b8a8a5fc4c88245f10a9ddc06cc6d37cb3bc62d3a07f35351",
+          "ligne_sortie": 81,
+          "tour": "01a1a659-cb77-7180-835c-8a4c205c3ba7",
+          "element": "exec-305691df-7224-4ef6-be9b-1d51eb6afae2",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0046.json",
+            "pointeur": "/turns/2/items/14/command",
+            "element": "exec-71d47ca4-daee-4e24-9a25-f13f0dfa9e0c"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/25",
+      "exec_id": "exec-a3702485-2fb0-44a0-8283-e2073785a94c",
+      "sha256": [
+        "db23bc7303715c30d3bf2f3cd7bc0bf2f6c5ef42ef9afee820ef4c9d5eb67a10"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0046.json",
+          "pointeur": "/turns/0/items/3/output/text",
+          "nom": "maquette-25-choisir-les-couches.png",
+          "sha256": "db23bc7303715c30d3bf2f3cd7bc0bf2f6c5ef42ef9afee820ef4c9d5eb67a10",
+          "ligne_sortie": 101,
+          "tour": "01a1a660-60ea-7535-9d80-c68cc7132d3c",
+          "element": "exec-335e84c4-f83a-4441-ad46-7b6c5139c357",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0046.json",
+            "pointeur": "/turns/1/items/16/command",
+            "element": "exec-f14d2613-417f-4c4b-8d12-e2cbbef06566"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/26",
+      "exec_id": "exec-41eadae3-5e04-4ee9-9f82-9aa77a526a5a",
+      "sha256": [
+        "53c37be935f0790832b0daa6eaba0523c96007b2bb5563b9820fb41642989f56"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0045.json",
+          "pointeur": "/turns/2/items/3/output/text",
+          "nom": "maquette-26-estimation-confirmation.png",
+          "sha256": "53c37be935f0790832b0daa6eaba0523c96007b2bb5563b9820fb41642989f56",
+          "ligne_sortie": 100,
+          "tour": "01a1a664-e3cd-740d-9cd7-096d9f8c5df6",
+          "element": "exec-a7ead40b-311b-4b4c-97d9-516406a3153e",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0046.json",
+            "pointeur": "/turns/0/items/13/command",
+            "element": "exec-7a133aa7-aa7b-4103-b32c-cd8f7c364c68"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/27",
+      "exec_id": "exec-b761daee-03ca-425e-a40a-f8cf2e20e02a",
+      "sha256": [
+        "3cc40906f8381b41571030f6310fd77e0a6bd7b92d09cb9a7d38b05e0601c575"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0045.json",
+          "pointeur": "/turns/1/items/3/output/text",
+          "nom": "maquette-27-telechargement-en-cours.png",
+          "sha256": "3cc40906f8381b41571030f6310fd77e0a6bd7b92d09cb9a7d38b05e0601c575",
+          "ligne_sortie": 5,
+          "tour": "01a1a67d-8397-71dc-85d9-f76ec3bb110f",
+          "element": "exec-32df1193-bff9-4429-9306-547df6128798",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0045.json",
+            "pointeur": "/turns/2/items/13/command",
+            "element": "exec-21e5898f-5545-4220-a6e7-a6ecbcd71377"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/28",
+      "exec_id": "exec-53d1f6a8-aab4-4551-8cfc-ee2bdee54240",
+      "sha256": [
+        "6fb4d365469b753f1b5550055f23dc724231940f3f2cb62453176223a1a2df0e"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0045.json",
+          "pointeur": "/turns/0/items/2/output/text",
+          "nom": "maquette-28-pause-reprise.png",
+          "sha256": "6fb4d365469b753f1b5550055f23dc724231940f3f2cb62453176223a1a2df0e",
+          "ligne_sortie": 5,
+          "tour": "01a1a687-2758-7680-8b75-1116eb38788a",
+          "element": "exec-0df97825-8925-4626-a19a-039d0cb9fa5e",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0045.json",
+            "pointeur": "/turns/1/items/9/command",
+            "element": "exec-346c6b28-5966-43bd-88a7-329c97f83a71"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/29",
+      "exec_id": "exec-bf570d81-071c-48f2-b6ce-62014f4dac71",
+      "sha256": [
+        "578d5c3a6f662ff81ac0047c24aaa5bac653fdabb849cc22c09859bff7f4d50b"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0044.json",
+          "pointeur": "/turns/2/items/2/output/text",
+          "nom": "maquette-29-attente-wifi.png",
+          "sha256": "578d5c3a6f662ff81ac0047c24aaa5bac653fdabb849cc22c09859bff7f4d50b",
+          "ligne_sortie": 13,
+          "tour": "01a1a68d-24f9-76ef-9069-a80a7b8d91c9",
+          "element": "exec-010620c4-86b1-45c8-99ca-68a5dd2a5897",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0045.json",
+            "pointeur": "/turns/0/items/13/command",
+            "element": "exec-75cf274d-45ed-4983-8a4e-c7b59e844163"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/30",
+      "exec_id": "exec-414c7eca-d019-4eea-ac80-d2e8215ed3cd",
+      "sha256": [
+        "9ed56bc7f1c0bf20ba2d6a435a4b11764a0e776dd85c9974b94700d0519e1060"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0044.json",
+          "pointeur": "/turns/1/items/2/output/text",
+          "nom": "maquette-30-disponible-hors-connexion.png",
+          "sha256": "9ed56bc7f1c0bf20ba2d6a435a4b11764a0e776dd85c9974b94700d0519e1060",
+          "ligne_sortie": 123,
+          "tour": "01a1a694-d339-7387-9c76-0abe3d9cadaf",
+          "element": "exec-17b00d36-76b2-447d-8cb3-5a33b96e3673",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0044.json",
+            "pointeur": "/turns/2/items/14/command",
+            "element": "exec-f3807474-5eae-4c37-8acc-1d4d1dae0b66"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/31",
+      "exec_id": "exec-23d2c0d4-64b2-4b79-b809-c9343cd3ea8d",
+      "sha256": [
+        "7694094b2a197cce4c90e2f51e2e750fdf6677bb2f47b41ad89214b7a4060481"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0044.json",
+          "pointeur": "/turns/0/items/2/output/text",
+          "nom": "maquette-31-mes-packs-liste.png",
+          "sha256": "7694094b2a197cce4c90e2f51e2e750fdf6677bb2f47b41ad89214b7a4060481",
+          "ligne_sortie": 5,
+          "tour": "01a1a69e-bf94-71c7-8c13-fad7d7a54910",
+          "element": "exec-da4475d5-0993-40c1-9bf8-e2273a61f350",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0044.json",
+            "pointeur": "/turns/1/items/25/command",
+            "element": "exec-ae5f5da0-e5d2-4678-93ac-645e4642104f"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/32",
+      "exec_id": "exec-feb354fe-00d7-488a-abfa-f255c7ee192a",
+      "sha256": [
+        "d23401534b9f59dda702496ac43528a172a07011aeccb72ce937c94419ecbd96"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0043.json",
+          "pointeur": "/turns/2/items/2/output/text",
+          "nom": "maquette-32-mes-packs-carte.png",
+          "sha256": "d23401534b9f59dda702496ac43528a172a07011aeccb72ce937c94419ecbd96",
+          "ligne_sortie": 111,
+          "tour": "01a1a6a6-729b-778b-9062-795af4f5e317",
+          "element": "exec-92573892-d15c-499c-a99e-35ca17271b7c",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0044.json",
+            "pointeur": "/turns/0/items/19/command",
+            "element": "exec-14ea2452-ca3b-499f-b73c-8bfe623a073a"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/33",
+      "exec_id": "exec-5578c121-4d1d-45ba-97f7-8dcd1f0db137",
+      "sha256": [
+        "363736429a830769a6bcc855585e49554bce848df7b5d713b2aa8e6e3e16452c"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0043.json",
+          "pointeur": "/turns/1/items/2/output/text",
+          "nom": "maquette-33-detail-du-pack.png",
+          "sha256": "363736429a830769a6bcc855585e49554bce848df7b5d713b2aa8e6e3e16452c",
+          "ligne_sortie": 35,
+          "tour": "01a1a6e3-1935-75b5-b22b-763bf2023259",
+          "element": "exec-ad62b1af-2de1-4680-af8b-9288aa0e5e07",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0043.json",
+            "pointeur": "/turns/2/items/24/command",
+            "element": "exec-d005a8fc-7059-4e7f-81ac-1809bc409a79"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/34",
+      "exec_id": "exec-76495836-3cfa-4244-b5d7-56b7938d2da9",
+      "sha256": [
+        "9a90817a001dea2c8cd048efa041699ad1c9ab54c7b14d3e2f8ecfb7617669fe"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "reference-inventory-1.json",
+          "pointeur": "/turns/1/items/1/output/text",
+          "nom": "maquette-34-couverture-du-pack.png",
+          "sha256": "9a90817a001dea2c8cd048efa041699ad1c9ab54c7b14d3e2f8ecfb7617669fe",
+          "ligne_sortie": 37,
+          "tour": "01a1ad13-2c31-778e-965b-b4ff3496e937",
+          "element": "exec-86218def-80d4-4bef-8c77-3fa89f9d72c1"
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/35",
+      "exec_id": "exec-23a43ada-28ad-4e3c-b9b0-f7bfc58e5243",
+      "sha256": [
+        "2aef79cf989f927b643e09d12a52be15c9561096a295bd478f0a60419b68b7f4"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "reference-inventory-1.json",
+          "pointeur": "/turns/1/items/1/output/text",
+          "nom": "maquette-35-sources-et-versions.png",
+          "sha256": "2aef79cf989f927b643e09d12a52be15c9561096a295bd478f0a60419b68b7f4",
+          "ligne_sortie": 38,
+          "tour": "01a1ad13-2c31-778e-965b-b4ff3496e937",
+          "element": "exec-86218def-80d4-4bef-8c77-3fa89f9d72c1"
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/36",
+      "exec_id": "exec-87f39900-35ab-4134-810b-1d9edb9bf79f",
+      "sha256": [
+        "be4809ac6d939f6e34bc2b5b3a61f9188770e4b3e49d667db87a5b752cb36839"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "reference-inventory-1.json",
+          "pointeur": "/turns/1/items/1/output/text",
+          "nom": "maquette-36-versions-enregistrees.png",
+          "sha256": "be4809ac6d939f6e34bc2b5b3a61f9188770e4b3e49d667db87a5b752cb36839",
+          "ligne_sortie": 39,
+          "tour": "01a1ad13-2c31-778e-965b-b4ff3496e937",
+          "element": "exec-86218def-80d4-4bef-8c77-3fa89f9d72c1"
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/37",
+      "exec_id": "exec-f2c6c6cf-9d99-43ea-ba62-9cab858094d8",
+      "sha256": [
+        "1e0d83e72613c29efeb270790bedfa9593a5b471d3f4da9f623c9daad1bc419b"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0042.json",
+          "pointeur": "/turns/1/items/2/output/text",
+          "nom": "maquette-37-stockage-des-cartes.png",
+          "sha256": "1e0d83e72613c29efeb270790bedfa9593a5b471d3f4da9f623c9daad1bc419b",
+          "ligne_sortie": 23,
+          "tour": "01a1a6f0-e92d-7111-aa54-11f47a8e2ede",
+          "element": "exec-36e94676-cf59-4836-b2bd-5f4fe29e6887",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0042.json",
+            "pointeur": "/turns/2/items/11/command",
+            "element": "exec-51e0b606-710a-4da1-ac88-04d3cb27618e"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/38",
+      "exec_id": "exec-51b82dfa-5d2d-47da-98dc-a15d59b0532c",
+      "sha256": [
+        "b1ea35ecbebd016d9ca68e1d756a3e912670e1f6c9ea182ea7d86c315d928225"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0042.json",
+          "pointeur": "/turns/0/items/3/output/text",
+          "nom": "maquette-38-choisir-les-contenus.png",
+          "sha256": "b1ea35ecbebd016d9ca68e1d756a3e912670e1f6c9ea182ea7d86c315d928225",
+          "ligne_sortie": 23,
+          "tour": "01a1a6f3-c2aa-7414-89ec-5865ecf19f99",
+          "element": "exec-6dfebe22-1cce-4927-8acf-417782885532",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0042.json",
+            "pointeur": "/turns/1/items/8/command",
+            "element": "exec-ac098193-a713-464c-9af8-ef83aef61ecb"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/39",
+      "exec_id": "exec-2a822499-9f2f-43c3-be5f-df7fd70c5848",
+      "sha256": [
+        "9c4b0c2e23fb8155e1d49d290a59212774a34bb906812b674670753b39a27028"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0041.json",
+          "pointeur": "/turns/2/items/2/output/text",
+          "nom": "maquette-39-confirmation-du-retrait.png",
+          "sha256": "9c4b0c2e23fb8155e1d49d290a59212774a34bb906812b674670753b39a27028",
+          "ligne_sortie": 21,
+          "tour": "01a1a6fa-1f6a-74c2-85c0-d18379799b95",
+          "element": "exec-f7470552-147a-4687-94a8-1e940c7df693",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0042.json",
+            "pointeur": "/turns/0/items/9/command",
+            "element": "exec-d5850639-a307-4771-a43c-6b4b130f1507"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/40",
+      "exec_id": "exec-cb5c23ce-9f6f-4382-828b-af19ca12e102",
+      "sha256": [
+        "7206e2b8abdfce044c906c4b6d328446cd91510b9fc0a21173036c88880c8b4a"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "reference-inventory-1.json",
+          "pointeur": "/turns/1/items/1/output/text",
+          "nom": "maquette-40-retour-au-stockage.png",
+          "sha256": "7206e2b8abdfce044c906c4b6d328446cd91510b9fc0a21173036c88880c8b4a",
+          "ligne_sortie": 43,
+          "tour": "01a1ad13-2c31-778e-965b-b4ff3496e937",
+          "element": "exec-86218def-80d4-4bef-8c77-3fa89f9d72c1"
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/41C",
+      "exec_id": "exec-bd87fc62-de0b-49fa-9a67-0aaabc44b261",
+      "sha256": [
+        "e2455bbd31e81e8f2a4e821561cad46927178b12779c42f0e2767c381471f9b6"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/4/output/text",
+          "nom": "maquette-41c-recherche-arrondie.png",
+          "sha256": "e2455bbd31e81e8f2a4e821561cad46927178b12779c42f0e2767c381471f9b6",
+          "ligne_sortie": 308,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-5ebdecde-10ef-4d92-99f3-5e7185636a7c",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0040.json",
+            "pointeur": "/turns/1/items/8/command",
+            "element": "exec-f20aaeb2-1466-4557-a28b-b03039e7704d"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/42B",
+      "exec_id": "exec-6a77915e-a6db-4338-8b22-4ac2513ba632",
+      "sha256": [
+        "7cac31aecdb8b909de8ddd936da9d7095f6c85b7f0d3ba77dd84e72b7db71fad"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual18-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "maquette-42b-apercu-du-lieu-illustre.png",
+          "sha256": "7cac31aecdb8b909de8ddd936da9d7095f6c85b7f0d3ba77dd84e72b7db71fad",
+          "ligne_sortie": 130,
+          "tour": "01a1d64a-8480-76ce-a2ac-39bc6048d7fb",
+          "element": "exec-ca531d45-a192-4bd8-a6b3-570ef60bbbb5",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0039.json",
+            "pointeur": "/turns/2/items/8/command",
+            "element": "exec-96eeaca5-657b-46c3-9545-e96ce1b2fca2"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/43",
+      "exec_id": "exec-e90d95a2-60ed-4a5f-bd20-064cfb5365f0",
+      "sha256": [
+        "b704ad84d81b93d2d998ba22b6ed5127b4eaa7e97ae19a95e176f82d4d6bbae0"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0039.json",
+          "pointeur": "/turns/0/items/2/output/text",
+          "nom": "maquette-43-preparer-itineraire.png",
+          "sha256": "b704ad84d81b93d2d998ba22b6ed5127b4eaa7e97ae19a95e176f82d4d6bbae0",
+          "ligne_sortie": 119,
+          "tour": "01a1a719-5bf6-7323-a22a-d62a148fea33",
+          "element": "exec-a03d9d74-b0e1-4a4f-b0d0-267af0edb1f9",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0039.json",
+            "pointeur": "/turns/1/items/9/command",
+            "element": "exec-55433879-a160-44ff-a366-4304a39a1f13"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/44",
+      "exec_id": "exec-afaf99ec-e65c-4f26-8cb2-3eb9501cd94c",
+      "sha256": [
+        "55b2ef91eff3f112a1569091193a1b9d882cb537ac685af8c4ef1c6673a448a7"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0038.json",
+          "pointeur": "/turns/2/items/2/output/text",
+          "nom": "maquette-44-choisir-le-depart.png",
+          "sha256": "55b2ef91eff3f112a1569091193a1b9d882cb537ac685af8c4ef1c6673a448a7",
+          "ligne_sortie": 109,
+          "tour": "01a1a722-61f7-74be-9354-70650c16f5e3",
+          "element": "exec-b1a20ca5-4316-4d1d-8ee3-2a7b3506be0f",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0039.json",
+            "pointeur": "/turns/0/items/8/command",
+            "element": "exec-024350a6-f38d-448b-8f6b-14a604331a2e"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/45",
+      "exec_id": "exec-85d842bb-40c6-4023-bfdd-aacea33ca6b5",
+      "sha256": [
+        "ca5ec518c019f0f3baccc57fc881990cd9a34bd62cdcc55b44f796068c728288"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0038.json",
+          "pointeur": "/turns/1/items/2/output/text",
+          "nom": "maquette-45-placer-le-depart-sur-carte.png",
+          "sha256": "ca5ec518c019f0f3baccc57fc881990cd9a34bd62cdcc55b44f796068c728288",
+          "ligne_sortie": 23,
+          "tour": "01a1a725-9983-7438-bf40-d20c2b8c3810",
+          "element": "exec-58ee619a-d93f-4355-9bb5-f1e1f0167060",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0038.json",
+            "pointeur": "/turns/2/items/8/command",
+            "element": "exec-74f51090-4c15-4670-8519-2f9ff021fa59"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/46",
+      "exec_id": "exec-53184963-394d-4363-980f-66e608102570",
+      "sha256": [
+        "68bae3ed5272fe8d12250520caf0689e3936e7eb2da2062798b3c684b15ce9a4"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0038.json",
+          "pointeur": "/turns/0/items/2/output/text",
+          "nom": "maquette-46-itineraire-pret-a-calculer.png",
+          "sha256": "68bae3ed5272fe8d12250520caf0689e3936e7eb2da2062798b3c684b15ce9a4",
+          "ligne_sortie": 22,
+          "tour": "01a1a728-8235-7794-85da-2801dff0141f",
+          "element": "exec-326d97d9-58ff-4f40-8a67-61c33569724f",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0038.json",
+            "pointeur": "/turns/1/items/8/command",
+            "element": "exec-7627e9e3-e5a7-4db3-8c04-2ba88798376c"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/47",
+      "exec_id": "exec-de128e0c-2a49-44df-a98b-ed52e516cf5c",
+      "sha256": [
+        "e0ffe8069bc7ed8f091313340aec63cd771ff0b41d7c3258225942ffcf0e8c40"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0037.json",
+          "pointeur": "/turns/2/items/2/output/text",
+          "nom": "maquette-47-apercu-itineraire.png",
+          "sha256": "e0ffe8069bc7ed8f091313340aec63cd771ff0b41d7c3258225942ffcf0e8c40",
+          "ligne_sortie": 22,
+          "tour": "01a1a72d-a2f8-7025-b303-9b4b806d9bdc",
+          "element": "exec-14e230bf-1811-42a9-8a9e-bc558cf29e98",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0038.json",
+            "pointeur": "/turns/0/items/12/command",
+            "element": "exec-44a457bb-c70b-4e06-a7fd-1e2bba5ba940"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/48",
+      "exec_id": "exec-46db89d7-4512-43b6-a025-596a8cbda2a0",
+      "sha256": [
+        "22b2c89d7068f5588f636908af4a85040a7b5f68e5e3bba7bde35789bc6aed29"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0037.json",
+          "pointeur": "/turns/2/items/16/output/text",
+          "nom": "maquette-48-etapes-du-trajet.png",
+          "sha256": "22b2c89d7068f5588f636908af4a85040a7b5f68e5e3bba7bde35789bc6aed29",
+          "ligne_sortie": 19,
+          "tour": "01a1a72d-a2f8-7025-b303-9b4b806d9bdc",
+          "element": "exec-53aad95d-8a1c-4fb0-997e-99f9ce1c7ebb",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0037.json",
+            "pointeur": "/turns/2/items/9/command",
+            "element": "exec-01bf70a9-6bc3-4e81-aae8-71cc908f9623"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/49",
+      "exec_id": "exec-c37544e9-492c-45b9-bb15-51360735475d",
+      "sha256": [
+        "469be560066b8b2589c19d8cfeec03248083c3bea9c392d64c99ba7b0fa1ca23"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0037.json",
+          "pointeur": "/turns/1/items/4/output/text",
+          "nom": "maquette-49-demarrage-guidage-position.png",
+          "sha256": "469be560066b8b2589c19d8cfeec03248083c3bea9c392d64c99ba7b0fa1ca23",
+          "ligne_sortie": 23,
+          "tour": "01a1a734-ddab-74d3-8639-58c806b3d586",
+          "element": "exec-d8229271-7e50-44a5-97f7-f5ee8e38ea9d",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0037.json",
+            "pointeur": "/turns/2/items/22/command",
+            "element": "exec-857b31c7-4a4d-40b9-9217-86535f5044cd"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/50",
+      "exec_id": "exec-a8223cfd-52d9-48a0-8f93-6af5421597de",
+      "sha256": [
+        "cdb9a965ee92789253da677d61bd3c6c2908ded45513969fce8728fdd6e1d45b"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0037.json",
+          "pointeur": "/turns/0/items/2/output/text",
+          "nom": "maquette-50-guidage-actif.png",
+          "sha256": "cdb9a965ee92789253da677d61bd3c6c2908ded45513969fce8728fdd6e1d45b",
+          "ligne_sortie": 21,
+          "tour": "01a1a73a-b852-71b6-85d3-4965404fff69",
+          "element": "exec-76e3bf28-4108-406d-9aa2-01f556b99986",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0037.json",
+            "pointeur": "/turns/1/items/14/command",
+            "element": "exec-550d6aab-6ae1-47d8-a699-9677ff68c6d1"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/51B",
+      "exec_id": "exec-84ae3f77-680b-4837-b209-0d245e97c69f",
+      "sha256": [
+        "e2e1531ef49b706be0cd9abf9aa6949736ce8d09a25c265e69f32a7a9202ac24"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0035.json",
+          "pointeur": "/turns/2/items/13/output/text",
+          "nom": "maquette-51b-position-perdue-nouveau-style.png",
+          "sha256": "e2e1531ef49b706be0cd9abf9aa6949736ce8d09a25c265e69f32a7a9202ac24",
+          "ligne_sortie": 22,
+          "tour": "01a1abe7-2b65-76aa-adb4-0df27f096221",
+          "element": "exec-67a25b38-91a3-4d83-a28d-6bfa396589c2",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0035.json",
+            "pointeur": "/turns/2/items/7/command",
+            "element": "exec-a5014dce-2591-49eb-8cb2-661e55bb9d6a"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/52",
+      "exec_id": "exec-5dabcd6d-52e9-414c-b01e-df59f7b85df9",
+      "sha256": [
+        "d0f3e0b04273e69bae79d4660e9a7ee9fef56b33a3e8209921c751ff05bbf297"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0035.json",
+          "pointeur": "/turns/2/items/23/output/text",
+          "nom": "maquette-52-position-retrouvee.png",
+          "sha256": "d0f3e0b04273e69bae79d4660e9a7ee9fef56b33a3e8209921c751ff05bbf297",
+          "ligne_sortie": 22,
+          "tour": "01a1abe7-2b65-76aa-adb4-0df27f096221",
+          "element": "exec-7bef4145-e5e0-4742-91d0-fd9510ec2603",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0035.json",
+            "pointeur": "/turns/2/items/17/command",
+            "element": "exec-d6ab5f83-062d-43ff-8dfb-eb9128a78ce2"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/53B",
+      "exec_id": "exec-68766a9c-4729-4bdc-81ff-8452a1f56e35",
+      "sha256": [
+        "8c20a7ae7417e538d552dae0b717cbde418215aa940e05268d97f4af90f5a940"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual18-earlier.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "maquette-53b-arrivee-nouveau-pictogramme.png",
+          "sha256": "8c20a7ae7417e538d552dae0b717cbde418215aa940e05268d97f4af90f5a940",
+          "ligne_sortie": 284,
+          "tour": "01a1d64a-8480-76ce-a2ac-39bc6048d7fb",
+          "element": "exec-ca531d45-a192-4bd8-a6b3-570ef60bbbb5",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0035.json",
+            "pointeur": "/turns/1/items/8/command",
+            "element": "exec-6e763a06-d136-467b-9acb-6c1bf57001e2"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/54",
+      "exec_id": "exec-924af3dc-cebb-4d3e-a666-25313eeab139",
+      "sha256": [
+        "6af4a58290b046dd658136029edb7427329ba84329849bee3ba52348078da0a2"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "business-visual16-earlier.json",
+          "pointeur": "/turns/0/items/89/output/text",
+          "nom": "maquette-54-ajouter-une-foret.png",
+          "sha256": "6af4a58290b046dd658136029edb7427329ba84329849bee3ba52348078da0a2",
+          "ligne_sortie": 107,
+          "tour": "01a1d5b9-0ce9-712e-a552-14f81c2c6877",
+          "element": "exec-95e64f88-da7f-4a98-a5dc-953ea1f5b8ff",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0035.json",
+            "pointeur": "/turns/0/items/23/command",
+            "element": "exec-0b328be9-373d-4cdd-8423-1f28772b11e1"
+          }
+        }
+      ],
+      "sha256_deja_conserves": [
+        "6af4a58290b046dd658136029edb7427329ba84329849bee3ba52348078da0a2"
+      ]
+    },
+    {
+      "id": "cartographie/55",
+      "exec_id": "exec-cd54191c-a5bd-4d05-b0f5-67f698955457",
+      "sha256": [
+        "48f57856b30dd67158891fdc9dc7e456060ce552afd64f3929d94c519992852e"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0034.json",
+          "pointeur": "/turns/1/items/18/output/text",
+          "nom": "maquette-55-choisir-une-parcelle.png",
+          "sha256": "48f57856b30dd67158891fdc9dc7e456060ce552afd64f3929d94c519992852e",
+          "ligne_sortie": 23,
+          "tour": "01a1ac0c-30c2-7686-9ba2-78ede2cf0e61",
+          "element": "exec-1efcf0d7-9969-4adf-931c-78b9b26f450f",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0034.json",
+            "pointeur": "/turns/1/items/12/command",
+            "element": "exec-dda11416-bc62-455b-ad77-0b744a46389b"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/56",
+      "exec_id": "exec-e132e426-7ff0-4a3d-bde0-b24c47fa2872",
+      "sha256": [
+        "29db48e923316295b9324c0508017ed530f8eb93104340436e7ab26b913633c7"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "layers-attributes-earlier4.json",
+          "pointeur": "/turns/0/items/11/output/text",
+          "nom": "maquette-56-source-details-parcelle.png",
+          "sha256": "29db48e923316295b9324c0508017ed530f8eb93104340436e7ab26b913633c7",
+          "ligne_sortie": 15,
+          "tour": "01a1b712-c132-7558-b31f-a811de0274e9",
+          "element": "exec-0c81f443-91b1-404a-9ca3-e607514b48d4",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0034.json",
+            "pointeur": "/turns/1/items/25/command",
+            "element": "exec-1dfb5fe1-684f-472d-a3a9-43e2190e36bc"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/57",
+      "exec_id": "exec-49ac9b4a-e38d-4cc8-b50c-04c2a61513c9",
+      "sha256": [
+        "97fc8cf3295751da76be737e84c0773c278aed2cee821be021cd51024ca52b0f"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "maps-ui14-earlier.json",
+          "pointeur": "/turns/0/items/4/output/text",
+          "nom": "maquette-57-placer-les-placettes.png",
+          "sha256": "97fc8cf3295751da76be737e84c0773c278aed2cee821be021cd51024ca52b0f",
+          "ligne_sortie": 5,
+          "tour": "01a1d641-0aee-75ed-b3a0-ba3e33470c24",
+          "element": "exec-a191fedd-c94c-4995-baa1-9a9eefb571d7",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0034.json",
+            "pointeur": "/turns/0/items/17/command",
+            "element": "exec-59fe693b-e87e-4870-89fc-45e7e668deb5"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/58",
+      "exec_id": "exec-cd710bbb-c920-47e5-a393-5dd25853b081",
+      "sha256": [
+        "2a7ade7840dedd7be1808dbbfd1dc23d86e7e38ac48f8e507ca7861fb8bbf2d5"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "maps-ui14-earlier.json",
+          "pointeur": "/turns/0/items/4/output/text",
+          "nom": "maquette-58-parametres-placettes.png",
+          "sha256": "2a7ade7840dedd7be1808dbbfd1dc23d86e7e38ac48f8e507ca7861fb8bbf2d5",
+          "ligne_sortie": 6,
+          "tour": "01a1d641-0aee-75ed-b3a0-ba3e33470c24",
+          "element": "exec-a191fedd-c94c-4995-baa1-9a9eefb571d7",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0033.json",
+            "pointeur": "/turns/2/items/8/command",
+            "element": "exec-ab83d615-b272-4626-8d90-b05ad2e34436"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/59",
+      "exec_id": "exec-bab6f380-17bf-4956-9cc8-3e28d6fb172e",
+      "sha256": [
+        "b496a1be564f8b3121de5685128af0f3e10aed6214e553c837737b2d74bc3961"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "maps-ui14-earlier.json",
+          "pointeur": "/turns/0/items/4/output/text",
+          "nom": "maquette-59-grille-automatique.png",
+          "sha256": "b496a1be564f8b3121de5685128af0f3e10aed6214e553c837737b2d74bc3961",
+          "ligne_sortie": 7,
+          "tour": "01a1d641-0aee-75ed-b3a0-ba3e33470c24",
+          "element": "exec-a191fedd-c94c-4995-baa1-9a9eefb571d7",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0033.json",
+            "pointeur": "/turns/1/items/15/command",
+            "element": "exec-74ce2e75-1d73-4764-acca-286e89afee09"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/60",
+      "exec_id": "exec-c86a8f3a-f091-4f86-be01-103f88ffbeab",
+      "sha256": [
+        "4f50f5dde3134db992a19289c553edc840753bcedd263428411f92f080ec90a8"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "maps-ui14-earlier.json",
+          "pointeur": "/turns/0/items/4/output/text",
+          "nom": "maquette-60-reglages-repartition.png",
+          "sha256": "4f50f5dde3134db992a19289c553edc840753bcedd263428411f92f080ec90a8",
+          "ligne_sortie": 8,
+          "tour": "01a1d641-0aee-75ed-b3a0-ba3e33470c24",
+          "element": "exec-a191fedd-c94c-4995-baa1-9a9eefb571d7",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0033.json",
+            "pointeur": "/turns/0/items/10/command",
+            "element": "exec-47b82b91-ff63-497b-89f3-03026fcb75d4"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/61",
+      "exec_id": "exec-72bb48f3-8bb2-4d33-8720-3103c7bf3284",
+      "sha256": [
+        "01d79a2ef81721b489c574c8e488e4c2e2eee0f7ea4bc9619c542f4ded97fe55"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "maps-ui14-earlier.json",
+          "pointeur": "/turns/0/items/4/output/text",
+          "nom": "maquette-61-liste-des-placettes.png",
+          "sha256": "01d79a2ef81721b489c574c8e488e4c2e2eee0f7ea4bc9619c542f4ded97fe55",
+          "ligne_sortie": 9,
+          "tour": "01a1d641-0aee-75ed-b3a0-ba3e33470c24",
+          "element": "exec-a191fedd-c94c-4995-baa1-9a9eefb571d7",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0032.json",
+            "pointeur": "/turns/2/items/10/command",
+            "element": "exec-0606ffa7-ddc3-4f95-b377-4bcca9951ea9"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/62",
+      "exec_id": "exec-d2450378-95d9-494c-b3c8-d35075d53534",
+      "sha256": [
+        "5258252608a71dd9ab08498ba56d9ea0b52eae8f7bb51b869bc7fa35f7013c7f"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "maps-ui14-earlier.json",
+          "pointeur": "/turns/0/items/4/output/text",
+          "nom": "maquette-62-fiche-placette-planifiee.png",
+          "sha256": "5258252608a71dd9ab08498ba56d9ea0b52eae8f7bb51b869bc7fa35f7013c7f",
+          "ligne_sortie": 10,
+          "tour": "01a1d641-0aee-75ed-b3a0-ba3e33470c24",
+          "element": "exec-a191fedd-c94c-4995-baa1-9a9eefb571d7",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0032.json",
+            "pointeur": "/turns/1/items/11/command",
+            "element": "exec-9499261a-8a00-462e-bfa2-9f117208db58"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/63",
+      "exec_id": "exec-5428841c-5934-4b6a-93df-49a82b7df804",
+      "sha256": [
+        "bc87868803fdd0d4f82303165b1a641b294cf97969799bbe426b99c9f8a85a8e"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "maps-ui14-earlier.json",
+          "pointeur": "/turns/0/items/4/output/text",
+          "nom": "maquette-63-empreinte-en-bordure.png",
+          "sha256": "bc87868803fdd0d4f82303165b1a641b294cf97969799bbe426b99c9f8a85a8e",
+          "ligne_sortie": 11,
+          "tour": "01a1d641-0aee-75ed-b3a0-ba3e33470c24",
+          "element": "exec-a191fedd-c94c-4995-baa1-9a9eefb571d7",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0032.json",
+            "pointeur": "/turns/0/items/11/command",
+            "element": "exec-a09012c5-e384-4de3-b2fc-620704457e58"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/64",
+      "exec_id": "exec-4f45b0ab-dccb-4cbc-9332-79971172b2c1",
+      "sha256": [
+        "9a7aeb3eefe1744175f06d6ec2674d5de9f11cd0bd5d7c6d66e8d32b4d0f7712"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0031.json",
+          "pointeur": "/turns/0/items/14/output/text",
+          "nom": "maquette-64-arbre-selectionne-carte.png",
+          "sha256": "9a7aeb3eefe1744175f06d6ec2674d5de9f11cd0bd5d7c6d66e8d32b4d0f7712",
+          "ligne_sortie": 209,
+          "tour": "01a1ac58-d82c-751f-84f3-e47f4332d6ef",
+          "element": "exec-3e558d4c-9171-4070-b6a5-eb7751acc480",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0031.json",
+            "pointeur": "/turns/2/items/23/command",
+            "element": "exec-5cf7a915-9836-4a13-8a9d-10fb9ff63211"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/65",
+      "exec_id": "exec-b9159be8-faef-4a76-bcaf-59f7e3d52376",
+      "sha256": [
+        "46e896f89584b938cdabbe7e12972fc04b63b669e75b81d38dd88650ca0c5c10"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0031.json",
+          "pointeur": "/turns/0/items/5/output/text",
+          "nom": "maquette-65-boussole-vers-arbre.png",
+          "sha256": "46e896f89584b938cdabbe7e12972fc04b63b669e75b81d38dd88650ca0c5c10",
+          "ligne_sortie": 20,
+          "tour": "01a1ac58-d82c-751f-84f3-e47f4332d6ef",
+          "element": "exec-04f3d087-3474-49af-b142-64b3de4e6750",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0031.json",
+            "pointeur": "/turns/1/items/14/command",
+            "element": "exec-b680a5c5-3d0f-463f-9371-99cd5ad3a1ed"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/66",
+      "exec_id": "exec-dc451651-836c-4cb3-9f29-5f2731e2ea92",
+      "sha256": [
+        "85fab1bdae5b8a9b0313a60c978e580e69b424ec49e5258a574d54b270b9e30c"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0030.json",
+          "pointeur": "/turns/2/items/2/output/text",
+          "nom": "maquette-66-approche-point-enregistre.png",
+          "sha256": "85fab1bdae5b8a9b0313a60c978e580e69b424ec49e5258a574d54b270b9e30c",
+          "ligne_sortie": 98,
+          "tour": "01a1ac5f-8254-741b-9bc9-4dfa1dcd1f34",
+          "element": "exec-63e122b6-b597-4426-a59f-534e597948ba",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0031.json",
+            "pointeur": "/turns/0/items/17/command",
+            "element": "exec-a61244db-fe12-482e-b1d5-3670cbb61b54"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/67",
+      "exec_id": "exec-3bfa499a-229b-4569-b5d4-22d857c064c4",
+      "sha256": [
+        "186fd3ad8f1323a75223a65abcd1c7d1528af7285e1df1d124ef2f43f0957031"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0030.json",
+          "pointeur": "/turns/1/items/2/output/text",
+          "nom": "maquette-67-compas-perturbe.png",
+          "sha256": "186fd3ad8f1323a75223a65abcd1c7d1528af7285e1df1d124ef2f43f0957031",
+          "ligne_sortie": 79,
+          "tour": "01a1ac62-354e-7004-9dd6-b136a23dc2bf",
+          "element": "exec-e08a0582-67e0-4efd-b15a-d1b4ae2f5f46",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0030.json",
+            "pointeur": "/turns/2/items/8/command",
+            "element": "exec-a7fdb7a3-6f3c-4220-bbf3-d1451ac9d249"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/68",
+      "exec_id": "exec-f41bc800-1de2-4006-9783-c976ed1ec84a",
+      "sha256": [
+        "03d341fb2636c8a90045d652d3eaf06b4b93f48d3c2761616832b6628825a5e2"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "maquettes-audit-earlier3.json",
+          "pointeur": "/turns/0/items/7/output/text",
+          "nom": "maquette-68-position-gps-perdue.png",
+          "sha256": "03d341fb2636c8a90045d652d3eaf06b4b93f48d3c2761616832b6628825a5e2",
+          "ligne_sortie": 166,
+          "tour": "01a1b69f-08db-755d-9a95-86d79807e15d",
+          "element": "exec-7acfbca0-0514-4ecb-9ad9-e1c078805f0c",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0030.json",
+            "pointeur": "/turns/1/items/8/command",
+            "element": "exec-f1e4e2ca-7559-42ea-b91c-9f56fe6b5a3b"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/69",
+      "exec_id": "exec-df30458d-3b51-4384-abbe-e97971bfa3fc",
+      "sha256": [
+        "b3601959b29847e629a854939eb29454a938ad1f4dee137a889939f383580916"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0029.json",
+          "pointeur": "/turns/2/items/2/output/text",
+          "nom": "maquette-69-essences-affichees.png",
+          "sha256": "b3601959b29847e629a854939eb29454a938ad1f4dee137a889939f383580916",
+          "ligne_sortie": 64,
+          "tour": "01a1ac69-c8fa-7436-ba91-e2a2cb2e8abb",
+          "element": "exec-5ca92630-d0f9-48b8-aa08-789793d05a39",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0030.json",
+            "pointeur": "/turns/0/items/18/command",
+            "element": "exec-2856a2dc-ddc9-4931-b9e2-7740582be1e4"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/70",
+      "exec_id": "exec-d93b2a23-b3d0-4db5-96d3-e079290d109d",
+      "sha256": [
+        "e7b7c143b78889edf0a36e08e178f83c06d54f07a2eeaf4caa6a8e6a71f91b40"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0029.json",
+          "pointeur": "/turns/1/items/2/output/text",
+          "nom": "maquette-70-precision-positions-enregistrees.png",
+          "sha256": "e7b7c143b78889edf0a36e08e178f83c06d54f07a2eeaf4caa6a8e6a71f91b40",
+          "ligne_sortie": 136,
+          "tour": "01a1ac6d-ca62-70e5-b7b0-d7e2b2aa2548",
+          "element": "exec-ecc46dae-da4f-4c7b-ad97-daad9aa08c5a",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0029.json",
+            "pointeur": "/turns/2/items/14/command",
+            "element": "exec-c68f67be-4c68-4d81-b00a-9dc274c37995"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/71",
+      "exec_id": "exec-62c8af86-f2e7-40b9-8945-da30a87dfcaa",
+      "sha256": [
+        "38867d146a5d26dff00e9ca9fc3e13e1b39c4d65ecc4df54a1e6aa47c8969bf6"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "maquettes-audit-earlier3.json",
+          "pointeur": "/turns/0/items/7/output/text",
+          "nom": "maquette-71-aucun-point-apres-filtrage.png",
+          "sha256": "38867d146a5d26dff00e9ca9fc3e13e1b39c4d65ecc4df54a1e6aa47c8969bf6",
+          "ligne_sortie": 277,
+          "tour": "01a1b69f-08db-755d-9a95-86d79807e15d",
+          "element": "exec-7acfbca0-0514-4ecb-9ad9-e1c078805f0c",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0029.json",
+            "pointeur": "/turns/1/items/9/command",
+            "element": "exec-575f0426-8968-4f03-8cc7-4e5f7422d639"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/72",
+      "exec_id": "exec-c110061c-8c9d-47c0-87f8-b35e7ac69ca6",
+      "sha256": [
+        "c719737715baeae1639eaaaf1e48bf02082bc08e5230c53f6d582b73a6a09ddf"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0028.json",
+          "pointeur": "/turns/2/items/2/output/text",
+          "nom": "maquette-72-mesurer-distance-carte.png",
+          "sha256": "c719737715baeae1639eaaaf1e48bf02082bc08e5230c53f6d582b73a6a09ddf",
+          "ligne_sortie": 26,
+          "tour": "01a1ac75-476e-718a-8fbb-1483f3ce0f3a",
+          "element": "exec-a8f1e49b-a994-4c99-ad94-ec910a6f83e8",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0029.json",
+            "pointeur": "/turns/0/items/13/command",
+            "element": "exec-400ff2c6-23d3-4829-a6d4-3f038ae1f209"
+          }
+        }
+      ],
+      "sha256_deja_conserves": [
+        "c719737715baeae1639eaaaf1e48bf02082bc08e5230c53f6d582b73a6a09ddf"
+      ]
+    },
+    {
+      "id": "cartographie/73",
+      "exec_id": "exec-7cccb4dc-d0c2-4606-8d38-1bd9e17d5b72",
+      "sha256": [
+        "d7176b21dc697f327e336ee2fc8790a5a85a9b4dd7e2df6d7843d82f0a5a712c"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0027.json",
+          "pointeur": "/turns/2/items/2/output/text",
+          "nom": "maquette-73-mesurer-surface-carte.png",
+          "sha256": "d7176b21dc697f327e336ee2fc8790a5a85a9b4dd7e2df6d7843d82f0a5a712c",
+          "ligne_sortie": 239,
+          "tour": "01a1ac83-45e8-7165-b188-cd45927ec9b7",
+          "element": "exec-2aee2bbf-31e2-4029-a5ef-5121b674c066",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0028.json",
+            "pointeur": "/turns/0/items/11/command",
+            "element": "exec-d7533e1e-c39b-4d97-b3b0-46efb3b87e09"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/74",
+      "exec_id": "exec-93c545e2-1ead-4ccb-8446-2e3b5c0a5ffb",
+      "sha256": [
+        "7f246ae2f5f96e719a69d900c42e64ae7ab54eb2394ef73c9a2b22f4a5996502"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0027.json",
+          "pointeur": "/turns/1/items/2/output/text",
+          "nom": "maquette-74-enregistrer-une-mesure.png",
+          "sha256": "7f246ae2f5f96e719a69d900c42e64ae7ab54eb2394ef73c9a2b22f4a5996502",
+          "ligne_sortie": 116,
+          "tour": "01a1ac86-9c92-7217-baf4-2248990e0978",
+          "element": "exec-4586684d-1d4a-4327-bab3-a5d6f65e6f07",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0027.json",
+            "pointeur": "/turns/2/items/10/command",
+            "element": "exec-b2974be0-3efb-4583-ab0b-ed144196af8a"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/75",
+      "exec_id": "exec-97af3bcd-51df-4b3e-adcc-80a6e43d0da5",
+      "sha256": [
+        "ad197824b6369a0e9cb7fefb1a7aadacbb79fc0553d3fe10235f6fb174432ddd"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0027.json",
+          "pointeur": "/turns/0/items/4/output/text",
+          "nom": "maquette-75-mesures-enregistrees.png",
+          "sha256": "ad197824b6369a0e9cb7fefb1a7aadacbb79fc0553d3fe10235f6fb174432ddd",
+          "ligne_sortie": 115,
+          "tour": "01a1ac8c-303a-7227-8939-2b4a6764d7de",
+          "element": "exec-5a27f459-88f8-4027-a60d-1c0c4fb113ef",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0027.json",
+            "pointeur": "/turns/1/items/11/command",
+            "element": "exec-c9fe630f-f96f-475c-98a3-e7136d53b6b6"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/76",
+      "exec_id": "exec-55fea218-cfae-4207-a8bc-468dcd7e1939",
+      "sha256": [
+        "333438fc14301a203379e435ca59db4903896e778bb672235c6e1ecb8f7df93b"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0026.json",
+          "pointeur": "/turns/2/items/2/output/text",
+          "nom": "maquette-76-detail-mesure-enregistree.png",
+          "sha256": "333438fc14301a203379e435ca59db4903896e778bb672235c6e1ecb8f7df93b",
+          "ligne_sortie": 112,
+          "tour": "01a1ac91-ca2e-74d3-9527-282a3c1e0ffb",
+          "element": "exec-472728fe-a985-4ae2-ac50-6cfcf79ca6a6",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0027.json",
+            "pointeur": "/turns/0/items/16/command",
+            "element": "exec-69b27ac0-c344-4fe7-a4d6-b7e733724bea"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/77",
+      "exec_id": "exec-05f8aa03-d2bd-444a-b4ee-2cce480af4f0",
+      "sha256": [
+        "7bd0ac22899623fe9594a6680b552f60cafe5d34afbad3376dbe0d9de696a010"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0026.json",
+          "pointeur": "/turns/1/items/2/output/text",
+          "nom": "maquette-77-calcul-et-details-mesure.png",
+          "sha256": "7bd0ac22899623fe9594a6680b552f60cafe5d34afbad3376dbe0d9de696a010",
+          "ligne_sortie": 84,
+          "tour": "01a1ac97-2ca5-7165-bcde-f256c1d48862",
+          "element": "exec-8f840e91-d41a-485a-9913-5eb2b673cbbd",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0026.json",
+            "pointeur": "/turns/2/items/12/command",
+            "element": "exec-944cb7ef-7fea-418b-9f03-27b975ecf847"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/78",
+      "exec_id": "exec-7ce1bd45-935b-4a7e-a5a2-514cc79f82c6",
+      "sha256": [
+        "2fdef029051c81342216a5c14ba1cc7cc7d036b40e831093b30fd767c67ac3b0"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0026.json",
+          "pointeur": "/turns/0/items/2/output/text",
+          "nom": "maquette-78-reprendre-mesure-copie.png",
+          "sha256": "2fdef029051c81342216a5c14ba1cc7cc7d036b40e831093b30fd767c67ac3b0",
+          "ligne_sortie": 84,
+          "tour": "01a1ac9e-6a69-7398-8161-e5be3fe91bca",
+          "element": "exec-3a2ccb83-2e76-4d83-abd1-49b4ffa1521d",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0026.json",
+            "pointeur": "/turns/1/items/11/command",
+            "element": "exec-72f09867-fe09-43be-87f7-b8fe89d7ee23"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/79",
+      "exec_id": "exec-d2f487ad-52c6-4012-9594-a97d8eee6fc1",
+      "sha256": [
+        "1f01c98e04b156c92a6a6592f2df7f2b4f363b5988ae96f568b5b57e776c80e3"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root0003-full.json",
+          "pointeur": "/turns/0/items/9/output/text",
+          "nom": "maquette-79-partager-une-mesure.png",
+          "sha256": "1f01c98e04b156c92a6a6592f2df7f2b4f363b5988ae96f568b5b57e776c80e3",
+          "ligne_sortie": 8,
+          "tour": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+          "element": "exec-d95615c6-4bb4-4c3a-a6ec-b01caccf4fd8",
+          "preuve_copie_exec": {
+            "archive": "root-older-batch-0026.json",
+            "pointeur": "/turns/0/items/11/command",
+            "element": "exec-86a900d6-2d32-4eab-974a-3592eb3eb313"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/80",
+      "exec_id": "exec-002c6891-51b1-4a8b-9d3a-f14e2fff1dcf",
+      "sha256": [
+        "199f2680d56d94c29d6ce5f159e2979ef183dbdfcd380b9a7eeceaf8b0534ae0"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root0003-full.json",
+          "pointeur": "/turns/0/items/9/output/text",
+          "nom": "maquette-80-unites-de-mesure.png",
+          "sha256": "199f2680d56d94c29d6ce5f159e2979ef183dbdfcd380b9a7eeceaf8b0534ae0",
+          "ligne_sortie": 9,
+          "tour": "01a1b19b-53d8-7425-9d3f-1c1be6d70477",
+          "element": "exec-d95615c6-4bb4-4c3a-a6ec-b01caccf4fd8",
+          "preuve_copie_exec": {
+            "archive": "root0025-full.json",
+            "pointeur": "/turns/0/items/13/command",
+            "element": "exec-d5d2443b-2683-4817-9029-33177066aff6"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/81",
+      "exec_id": "exec-b8ab203f-ec0f-4c0c-90f8-52f29fc72769",
+      "sha256": [
+        "212b2005d7cc1666cac88a9824c29f1fedfe0c86b3f9169331d22f200031e98f"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root0024-full.json",
+          "pointeur": "/turns/0/items/6/output/text",
+          "nom": "maquette-81-importer-une-couche.png",
+          "sha256": "212b2005d7cc1666cac88a9824c29f1fedfe0c86b3f9169331d22f200031e98f",
+          "ligne_sortie": 242,
+          "tour": "01a1acaa-9ea2-71ba-a5b4-1b1079e06a80",
+          "element": "exec-0706d719-451f-4edf-aa0c-f3e30ff11de3",
+          "preuve_copie_exec": {
+            "archive": "root0025-full.json",
+            "pointeur": "/turns/0/items/34/command",
+            "element": "exec-a51a1532-b5d8-44a4-9281-1522352819f4"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/82",
+      "exec_id": "exec-28aa52ea-a5d6-4771-8f9a-137308699ec3",
+      "sha256": [
+        "a053e9185031ef7007ad8a59862eadcbc84d4da1e5ada2c24148f56b307ef136"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root0023-full.json",
+          "pointeur": "/turns/0/items/2/output/text",
+          "nom": "maquette-82-formats-disponibles.png",
+          "sha256": "a053e9185031ef7007ad8a59862eadcbc84d4da1e5ada2c24148f56b307ef136",
+          "ligne_sortie": 112,
+          "tour": "01a1acaf-38df-7771-954a-8010a8159056",
+          "element": "exec-aa26de95-2998-4a20-8ee5-497eec11cae8",
+          "preuve_copie_exec": {
+            "archive": "root0024-full.json",
+            "pointeur": "/turns/0/items/16/command",
+            "element": "exec-9c7fcdb5-9fd5-42af-bdd6-2edda8959c38"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/83",
+      "exec_id": "exec-5dcca513-7d9e-4c18-8710-06b7dc756d69",
+      "sha256": [
+        "43226330bd90c1eac90b0f4c1625b17d89076b8a311f81cfb048e7b20db1806f"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root0022-full.json",
+          "pointeur": "/turns/0/items/2/output/text",
+          "nom": "maquette-83-apercu-import.png",
+          "sha256": "43226330bd90c1eac90b0f4c1625b17d89076b8a311f81cfb048e7b20db1806f",
+          "ligne_sortie": 117,
+          "tour": "01a1acb4-0213-7029-9ebb-4e436290afe6",
+          "element": "exec-5da92cb2-175f-4902-a56d-2c547a89018c",
+          "preuve_copie_exec": {
+            "archive": "root0023-full.json",
+            "pointeur": "/turns/0/items/14/command",
+            "element": "exec-2597cf52-d145-41b9-8cd8-f7f82e29f884"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/84",
+      "exec_id": "exec-1e7284a9-295e-402b-a7f0-1a28734e33cf",
+      "sha256": [
+        "41bc5ceff774fa82db24333d3b10936653da60390d6c65521a06ab52cac8695b"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root0021-full.json",
+          "pointeur": "/turns/0/items/2/output/text",
+          "nom": "maquette-84-donnees-de-la-couche.png",
+          "sha256": "41bc5ceff774fa82db24333d3b10936653da60390d6c65521a06ab52cac8695b",
+          "ligne_sortie": 23,
+          "tour": "01a1acb8-d59b-761a-b08c-346df0f11ed6",
+          "element": "exec-6dcd0d1a-ff17-4179-a0c8-84a779fdafcd",
+          "preuve_copie_exec": {
+            "archive": "root0022-full.json",
+            "pointeur": "/turns/0/items/15/command",
+            "element": "exec-9a7b96c2-4f62-4e0d-b3b8-229d86cdff9d"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/85",
+      "exec_id": "exec-3cb24e40-f520-4119-b63f-05950fdbc4ac",
+      "sha256": [
+        "1b7303ec1683432a0863d111843ad0ead010554097a73e28c54c5a2601805d8f"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "layers-attributes-batch7.json",
+          "pointeur": "/turns/2/items/2/output/text",
+          "nom": "maquette-85-attributs-objet.png",
+          "sha256": "1b7303ec1683432a0863d111843ad0ead010554097a73e28c54c5a2601805d8f",
+          "ligne_sortie": 68,
+          "tour": "01a1b6a3-51db-724e-9d65-e12c0a2ef80d",
+          "element": "exec-12e20207-2c5d-4b59-ba2c-e51da674504d",
+          "preuve_copie_exec": {
+            "archive": "root0021-full.json",
+            "pointeur": "/turns/0/items/14/command",
+            "element": "exec-56cc3951-24b6-457b-b3f2-65897477975e"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/86",
+      "exec_id": "exec-22347b67-60ae-4454-8124-a594339a9fc7",
+      "sha256": [
+        "ea8a682e62664fca393dd63c2e209e0f340ea225dfc0e8c80762030b58803824"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "layers-attributes-batch7.json",
+          "pointeur": "/turns/2/items/2/output/text",
+          "nom": "maquette-86-source-et-champs.png",
+          "sha256": "ea8a682e62664fca393dd63c2e209e0f340ea225dfc0e8c80762030b58803824",
+          "ligne_sortie": 75,
+          "tour": "01a1b6a3-51db-724e-9d65-e12c0a2ef80d",
+          "element": "exec-12e20207-2c5d-4b59-ba2c-e51da674504d",
+          "preuve_copie_exec": {
+            "archive": "root0020-full.json",
+            "pointeur": "/turns/0/items/15/command",
+            "element": "exec-67424759-be2d-4ecb-af4a-2b21b2842953"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/87",
+      "exec_id": "exec-f6a679fe-544f-477a-baa0-6aa8811ecd2a",
+      "sha256": [
+        "01ddd5e7698e92580b1a6408153d07e12486c8c42586705b7e1b3a0f5920ad63"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "layers-attributes-batch7.json",
+          "pointeur": "/turns/2/items/2/output/text",
+          "nom": "maquette-87-gerer-une-couche.png",
+          "sha256": "01ddd5e7698e92580b1a6408153d07e12486c8c42586705b7e1b3a0f5920ad63",
+          "ligne_sortie": 82,
+          "tour": "01a1b6a3-51db-724e-9d65-e12c0a2ef80d",
+          "element": "exec-12e20207-2c5d-4b59-ba2c-e51da674504d",
+          "preuve_copie_exec": {
+            "archive": "root0020-full.json",
+            "pointeur": "/turns/0/items/35/command",
+            "element": "exec-56588604-d624-431c-824c-1fa7fe12795a"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/88",
+      "exec_id": "exec-946f90cc-dbfb-4923-a939-79fcabb79297",
+      "sha256": [
+        "9089861fe15adcea162569e5c05974021a9d2b8f28c87aab33e2a9f31a39c541"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "layers-attributes-batch7.json",
+          "pointeur": "/turns/2/items/2/output/text",
+          "nom": "maquette-88-modifier-attributs.png",
+          "sha256": "9089861fe15adcea162569e5c05974021a9d2b8f28c87aab33e2a9f31a39c541",
+          "ligne_sortie": 89,
+          "tour": "01a1b6a3-51db-724e-9d65-e12c0a2ef80d",
+          "element": "exec-12e20207-2c5d-4b59-ba2c-e51da674504d",
+          "preuve_copie_exec": {
+            "archive": "root0019-full.json",
+            "pointeur": "/turns/0/items/14/command",
+            "element": "exec-e79d5e54-f147-43e0-be7b-27c25cff3b20"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/89",
+      "exec_id": "exec-1870bce3-a1a4-4ee3-9c87-4f1db6397f4e",
+      "sha256": [
+        "da6e261cf38adbc4b1f50f6e06a8f4df8d8fa5e9866190f491dbecc9e2452b4f"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "layers-attributes-batch7.json",
+          "pointeur": "/turns/2/items/2/output/text",
+          "nom": "maquette-89-filtrer-objets.png",
+          "sha256": "da6e261cf38adbc4b1f50f6e06a8f4df8d8fa5e9866190f491dbecc9e2452b4f",
+          "ligne_sortie": 96,
+          "tour": "01a1b6a3-51db-724e-9d65-e12c0a2ef80d",
+          "element": "exec-12e20207-2c5d-4b59-ba2c-e51da674504d",
+          "preuve_copie_exec": {
+            "archive": "root0018-full.json",
+            "pointeur": "/turns/0/items/17/command",
+            "element": "exec-7c2708b5-dd57-441f-82e1-73fbce657bf4"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/90B",
+      "exec_id": "exec-b12a3105-b5ab-4e04-b08f-361914e803ba",
+      "sha256": [
+        "dddadd01ce37511b9d0e14fab84c98aab8349752e18be7c868476a7cadb7744d"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "layers-attributes-batch7.json",
+          "pointeur": "/turns/2/items/2/output/text",
+          "nom": "maquette-90b-apparence-couleur.png",
+          "sha256": "dddadd01ce37511b9d0e14fab84c98aab8349752e18be7c868476a7cadb7744d",
+          "ligne_sortie": 103,
+          "tour": "01a1b6a3-51db-724e-9d65-e12c0a2ef80d",
+          "element": "exec-12e20207-2c5d-4b59-ba2c-e51da674504d",
+          "preuve_copie_exec": {
+            "archive": "root0017-full.json",
+            "pointeur": "/turns/0/items/33/command",
+            "element": "exec-23c38ce2-d33b-4d6f-a7b7-91810efc05f3"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/91",
+      "exec_id": "exec-c4579058-c33a-4f04-8188-b1faa436e214",
+      "sha256": [
+        "a3c0700a98e1e1acb23b09a1e69d7507a5123e00d2e3d67ffb971eba1aecfb49"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "layers-attributes-batch8.json",
+          "pointeur": "/turns/2/items/4/output/text",
+          "nom": "maquette-91-couleur-personnalisee.png",
+          "sha256": "a3c0700a98e1e1acb23b09a1e69d7507a5123e00d2e3d67ffb971eba1aecfb49",
+          "ligne_sortie": 14,
+          "tour": "01a1b68f-b317-7782-b9cf-674ac224b1e8",
+          "element": "exec-4bc4562d-fecd-40df-9cf3-daa96a1731f6",
+          "preuve_copie_exec": {
+            "archive": "root0017-full.json",
+            "pointeur": "/turns/0/items/52/command",
+            "element": "exec-9b634ae5-057e-4ad5-a69c-c489f7786d55"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/92",
+      "exec_id": "exec-37e0f198-3eb4-4140-833e-9d14c036220c",
+      "sha256": [
+        "db86ae3b52a26fff2766921ba413396558b41c026217027c6aed1202313fa1cd"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root0015-full.json",
+          "pointeur": "/turns/0/items/17/output/text",
+          "nom": "maquette-92-preparer-trace-gps.png",
+          "sha256": "db86ae3b52a26fff2766921ba413396558b41c026217027c6aed1202313fa1cd",
+          "ligne_sortie": 6,
+          "tour": "01a1ace5-ff45-749a-a628-ff11adcdbcdb",
+          "element": "exec-d34cd4c9-978b-4ba1-a12a-3828d296000d",
+          "preuve_copie_exec": {
+            "archive": "root0016-full.json",
+            "pointeur": "/turns/0/items/20/command",
+            "element": "exec-f8c82ea8-c093-4bab-be97-9a3bf9141717"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/93",
+      "exec_id": "exec-6071dee8-aea1-4921-82d3-6d78f9b72447",
+      "sha256": [
+        "ef21a8cc3fec07defdd46ace0636ae84bcb0ca372a423b9ff058053b40655ace"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root0014-full.json",
+          "pointeur": "/turns/0/items/2/output/text",
+          "nom": "maquette-93-trace-gps-en-cours.png",
+          "sha256": "ef21a8cc3fec07defdd46ace0636ae84bcb0ca372a423b9ff058053b40655ace",
+          "ligne_sortie": 48,
+          "tour": "01a1acff-7f7a-74a3-a5f6-15374a284f47",
+          "element": "exec-504852b2-91ea-41c2-be15-ce35e4f92b48",
+          "preuve_copie_exec": {
+            "archive": "root0015-full.json",
+            "pointeur": "/turns/0/items/22/command",
+            "element": "exec-6e8759aa-b5f3-4c3a-a136-5b40a73584ec"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/94",
+      "exec_id": "exec-b1e7326f-b471-4301-9729-8eb8b140a6e0",
+      "sha256": [
+        "303cd5463b6fdceb3394984759a125631ef256297f95ee950db190a3a921c7eb"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root0013-full.json",
+          "pointeur": "/turns/0/items/2/output/text",
+          "nom": "maquette-94-reception-gps-degradee.png",
+          "sha256": "303cd5463b6fdceb3394984759a125631ef256297f95ee950db190a3a921c7eb",
+          "ligne_sortie": 34,
+          "tour": "01a1ad01-d201-710d-ae2d-795cc8a4e8be",
+          "element": "exec-2c5c2c38-20b5-4104-a6a8-b1acf8133193",
+          "preuve_copie_exec": {
+            "archive": "root0014-full.json",
+            "pointeur": "/turns/0/items/12/command",
+            "element": "exec-f8eb309e-7ec8-4ca9-a417-f6811d1c4f3a"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/95",
+      "exec_id": "exec-77deccea-b570-41fb-8af1-d27879d90712",
+      "sha256": [
+        "b53001b387f3c6e77e11c9d17530bfc235577af19420700654befef47391f447"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root0012-full.json",
+          "pointeur": "/turns/0/items/2/output/text",
+          "nom": "maquette-95-reprise-trace-gps.png",
+          "sha256": "b53001b387f3c6e77e11c9d17530bfc235577af19420700654befef47391f447",
+          "ligne_sortie": 34,
+          "tour": "01a1ad04-3fe6-7708-a3d3-8ed09c07dcde",
+          "element": "exec-18743602-2ab6-4935-b9ed-9a6faf8a1e82",
+          "preuve_copie_exec": {
+            "archive": "root0013-full.json",
+            "pointeur": "/turns/0/items/10/command",
+            "element": "exec-73afa3f0-2421-46a1-8501-0197e10379dd"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/96",
+      "exec_id": "exec-36fde2a8-cc70-4fe3-bc71-c9b07bb75514",
+      "sha256": [
+        "21407147c039fd8934318dcb02702fef37a322041c97eac6e47a6aba57a0f9ce"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root0011-full.json",
+          "pointeur": "/turns/0/items/2/output/text",
+          "nom": "maquette-96-pause-manuelle-trace-gps.png",
+          "sha256": "21407147c039fd8934318dcb02702fef37a322041c97eac6e47a6aba57a0f9ce",
+          "ligne_sortie": 32,
+          "tour": "01a1ad06-a5bf-70cd-8edf-3466f4ba1e46",
+          "element": "exec-cb7a6723-31f5-46ab-bdf5-bb7495a1c390",
+          "preuve_copie_exec": {
+            "archive": "root0012-full.json",
+            "pointeur": "/turns/0/items/9/command",
+            "element": "exec-d98e8ae3-9c62-49df-ae4d-9e1c1194da5a"
+          }
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/97",
+      "exec_id": "exec-24344ba5-4cd2-43f9-a731-0a0bd87bdd43",
+      "sha256": [
+        "e0537051138a225917a1cae23e993ebf0ba991e202aa70218b730389c2dea654"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "trees-filters-earlier2.json",
+          "pointeur": "/turns/0/items/3/output/text",
+          "nom": "maquette-97-verifier-trace-gps.png",
+          "sha256": "e0537051138a225917a1cae23e993ebf0ba991e202aa70218b730389c2dea654",
+          "ligne_sortie": 6,
+          "tour": "01a1b686-b2ed-76fa-8e3d-f7724669cf35",
+          "element": "exec-9ac1a6d3-6051-426a-8586-5066a8699452"
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/98",
+      "exec_id": "exec-10a1ce22-6eb2-4bcc-937c-627729b3e8c2",
+      "sha256": [
+        "9e63f6d3a1ceb3ee7f7c9ca6ffab6fd1fd54dbcfe2038223e30cb24efef12330"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "trees-filters-earlier2.json",
+          "pointeur": "/turns/0/items/3/output/text",
+          "nom": "maquette-98-enregistrer-trace-gps.png",
+          "sha256": "9e63f6d3a1ceb3ee7f7c9ca6ffab6fd1fd54dbcfe2038223e30cb24efef12330",
+          "ligne_sortie": 7,
+          "tour": "01a1b686-b2ed-76fa-8e3d-f7724669cf35",
+          "element": "exec-9ac1a6d3-6051-426a-8586-5066a8699452"
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "cartographie/99",
+      "exec_id": "exec-333346f8-35c4-46dd-84d7-d11c9189fd4c",
+      "sha256": [
+        "8537cc3d9eb6ee531e6d186e281cc6c46ce168ef62edd6ff0a556eaa96fb3eb9"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root0009-relecture-2026-11-18.json",
+          "pointeur": "/turns/0/items/11/output/text",
+          "nom": "maquette-99-trace-gps-enregistre.png",
+          "sha256": "8537cc3d9eb6ee531e6d186e281cc6c46ce168ef62edd6ff0a556eaa96fb3eb9",
+          "ligne_sortie": 1,
+          "tour": "01a1ad0c-69df-763a-8f6a-7bc168d6429c",
+          "element": "exec-0aff8048-2d57-48b8-b0cb-3c44227d97cc"
+        }
+      ],
+      "sha256_deja_conserves": [],
+      "preuves_nom": [
+        {
+          "archive": "trees-filters-batch11.json",
+          "pointeur": "/turns/1/items/76/output/text",
+          "nom": "maquette-99-trace-gps-enregistre.png",
+          "ligne_sortie": 8,
+          "tour": "01a1b53b-1f67-70ef-ae17-a063d738da2b",
+          "element": "exec-29f218a3-dbe8-4a1b-9609-e4caa1bb0053"
+        }
+      ]
+    },
+    {
+      "id": "cartographie/100",
+      "exec_id": "exec-f56e9053-048a-4ca7-adcc-8148530c0b6f",
+      "sha256": [
+        "51b281f09b129339e91757b1099d5ea7ac82628fec8628c963a25e14dc441d58"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "reference-inventory-1.json",
+          "pointeur": "/turns/1/items/1/output/text",
+          "nom": "maquette-100-calcul-et-reception-trace-gps.png",
+          "sha256": "51b281f09b129339e91757b1099d5ea7ac82628fec8628c963a25e14dc441d58",
+          "ligne_sortie": 58,
+          "tour": "01a1ad13-2c31-778e-965b-b4ff3496e937",
+          "element": "exec-86218def-80d4-4bef-8c77-3fa89f9d72c1"
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "technicien/synthese/proposition-02-a",
+      "exec_id": null,
+      "sha256": [
+        "e44e54119522237ecebfcaa3c901c5c97fc5cf4e2cadcab85e197c9eda24ca28"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0074.json",
+          "pointeur": "/turns/1/items/41/output/text",
+          "nom": "synthese-technicien-proposition-02-a.png",
+          "sha256": "e44e54119522237ecebfcaa3c901c5c97fc5cf4e2cadcab85e197c9eda24ca28",
+          "ligne_sortie": 3,
+          "tour": "01a19bb7-05a3-74c1-a96b-9762257d5faa",
+          "element": "exec-29da024d-5308-4f7c-a59d-be0ae21b9814"
+        }
+      ],
+      "sha256_deja_conserves": []
+    },
+    {
+      "id": "technicien/aide-surface-terriere/proposition-03",
+      "exec_id": null,
+      "sha256": [
+        "4eadc2003462131750eb671e62e4978246444b4af13abeff7772e90fe3181b4d"
+      ],
+      "preuves_sha256": [
+        {
+          "archive": "root-older-batch-0074.json",
+          "pointeur": "/turns/1/items/41/output/text",
+          "nom": "synthese-technicien-proposition-03-aide-surface-terriere.png",
+          "sha256": "4eadc2003462131750eb671e62e4978246444b4af13abeff7772e90fe3181b4d",
+          "ligne_sortie": 8,
+          "tour": "01a19bb7-05a3-74c1-a96b-9762257d5faa",
+          "element": "exec-29da024d-5308-4f7c-a59d-be0ae21b9814"
+        }
+      ],
+      "sha256_deja_conserves": []
+    }
+  ]
+}

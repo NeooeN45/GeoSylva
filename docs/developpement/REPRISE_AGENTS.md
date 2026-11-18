@@ -92,6 +92,12 @@ branche distante avant de terminer. Garder le format d'origine, sans écraser
 une variante retenue. Un choix en attente est déclaré `non finalisée`, jamais
 présenté comme une validation.
 
+Copier l’original dans le dépôt dès sa création. Après vérification du contenu
+et des métadonnées, committer ensemble le fichier, son entrée au manifeste et
+son entrée au registre sur la branche de travail. À réception de la décision du
+Fondateur, committer son lien et le statut de la maquette. Avant la fin de
+session, pousser ces commits et vérifier le SHA distant.
+
 **Une maquette qui n'existe que dans une conversation n'est pas une référence.**
 Vérifier le contenu visible et les métadonnées avant publication sur le dépôt
 public ; signaler toute donnée personnelle, secret ou donnée réelle de client
