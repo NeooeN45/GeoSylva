@@ -86,6 +86,16 @@ class WoodObjectsUiTest {
     }
     private fun field(tag: String) = compose.onNodeWithTag("wood_objects_content").performScrollToNode(hasTestTag(tag))
         .let { compose.waitForIdle(); compose.onNodeWithTag(tag) }
+    private fun inPilePanel(tag: String, edit: () -> Unit) {
+        settleKeyboard()
+        field(tag).performClick()
+        edit()
+        settleKeyboard()
+        compose.onNodeWithTag("wood_panel_close").performClick()
+        compose.onNodeWithTag("wood_panel_close").assertDoesNotExist()
+    }
+    private fun panelField(tag: String) =
+        compose.onNode(hasTestTag(tag) and hasAnyAncestor(isDialog())).performScrollTo()
     private fun openMeasurement() {
         field("wood_object_measure").performClick()
         compose.waitUntil(10_000) { !vm.state.value.busy && vm.state.value.form?.identityOnly == false }
@@ -120,14 +130,20 @@ class WoodObjectsUiTest {
         content(onJournal = { openedJournal = it })
         create()
         openMeasurement()
-        field("wood_observed_date").performTextInput("18/10/2026 10:30")
+        inPilePanel("wood_date_panel") {
+            panelField("wood_observed_date").performTextInput("18/10/2026 10:30")
+        }
         field("wood_length").performTextInput("12,50")
         field("wood_depth").performTextInput("2")
         field("wood_height").performTextInput("1,20")
         screenshot("pile-formulaire-mesures-fr.png")
-        field("wood_shape").performClick()
-        field("wood_protocol").performTextInput("TEST · Enveloppe et moyenne de trois hauteurs")
-        field("wood_quality").performTextInput("TEST · Bois énergie déclaré")
+        inPilePanel("wood_method_panel") {
+            panelField("wood_shape").performClick()
+            panelField("wood_protocol").performTextInput("TEST · Enveloppe et moyenne de trois hauteurs")
+        }
+        inPilePanel("wood_details_panel") {
+            panelField("wood_quality").performTextInput("TEST · Bois énergie déclaré")
+        }
         saveObservation()
         val original = vm.state.value.detail!!
         assertEquals("12,50", (original.observations.single().payload.measurement as RawWoodMeasurement.Pile).length?.rawText)
@@ -229,7 +245,9 @@ class WoodObjectsUiTest {
         openMeasurement()
         field("wood_length").performTextInput("8,50")
         compose.onNodeWithTag("wood_object_save").assertIsDisplayed()
-        field("wood_notes").performTextInput("TEST · Complément à relever à la prochaine visite")
+        inPilePanel("wood_details_panel") {
+            panelField("wood_notes").performTextInput("TEST · Complément à relever à la prochaine visite")
+        }
         compose.onNodeWithTag("wood_object_save").assertIsDisplayed()
         screenshot("pile-formulaire-grande-police-fr.png")
         saveObservation()
