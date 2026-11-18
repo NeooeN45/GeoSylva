@@ -75,3 +75,9 @@ suppression ou un remplacement de référence exige une décision sourcée disti
 Le contrôle de conservation ne détermine ni l'authenticité d'une décision, ni
 l'absence de données sensibles, ni la conformité des écrans Android. Celle-ci
 requiert une comparaison de captures avec l'original sur la version testée.
+
+## Recherche complémentaire du 18 novembre 2026
+
+Le nouvel examen de 9 563 occurrences d’images sur disque et de 713 dans des archives, complété par les empreintes de 132 images Git, retrouve les quatre originaux déjà au manifeste. Le total reste de **4 originaux conservés sur 107** pour **5 832 440 octets**. Les archives de conversation ont en revanche fourni l’empreinte de génération de 106 références, y compris les deux écrans de Synthèse Technicien. Pour la 99 « Tracé enregistré », le nom du fichier et l’identifiant de génération sont connus. L’index de recherche rattache les empreintes aux sorties historiques qui les attestent. [Index des preuves de recherche](../../tools/maquettes/index.json)
+
+Le lecteur Windows compare localement les fichiers de l’export ChatGPT à ces preuves. Il produit des lots d’images et un rapport sans texte de conversation. Le contrôle du manifeste continue de compter les fichiers effectivement déposés. [Mode d’emploi Windows](../../tools/maquettes/LISEZ-MOI.md) · [Téléchargements du lecteur dans GitHub Actions](https://github.com/NeooeN45/GeoSylva/actions/workflows/recuperation-maquettes.yml)
