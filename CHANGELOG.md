@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com).
 
+## [2026-11-19] — Documentation et maquettes
+
+- Présentation GitHub illustrée par deux captures de GeoSylva 3.0.0.
+- Parcours Android documentés pour le premier lancement, le Technicien et le
+  Conducteur de travaux.
+- Choix du métier validé en maquette claire, avec les deux variantes
+  originales conservées et leurs empreintes vérifiées.
+
 ## [Unreleased] — 2026-08-03
 
 ### Fixed

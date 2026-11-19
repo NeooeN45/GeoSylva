@@ -2,10 +2,10 @@
   "schema_version": 1,
   "date_audit": "2026-11-16",
   "fuseau_affichage": "Europe/Paris",
-  "references_de_travail_attendues": 107,
+  "references_de_travail_attendues": 108,
   "registre": "docs/developpement/PREUVES_MAQUETTES_ECRANS_2026-11-16.json",
   "definition_original": "Octets de la pièce jointe associée au choix du Fondateur, conservés dans leur format ; aucune reconstruction ni capture du code. La récupération ne certifie pas les pixels de l’application.",
-  "poids_images_octets": 5832440,
+  "poids_images_octets": 8692593,
   "images": [
     {
       "identifiant": "cartographie/54",
@@ -252,6 +252,75 @@
         "metadonnees": "aucun EXIF/GPS ; PNG sans champs texte ; JPEG avec JFIF/ICC seulement",
         "retouche": false
       }
+    },
+    {
+      "identifiant": "demarrage/choix-du-metier-v01",
+      "chemin": "docs/maquettes/demarrage/choix-du-metier-v01.png",
+      "sha256": "6bb7bd4dd80f50a411ed947d639f06d2522fc316578492ec60fff6d909ab6dcc",
+      "largeur": 887,
+      "hauteur": 1774,
+      "format_origine": "PNG",
+      "octets": 1422869,
+      "metier": "commun",
+      "statut_reference": "remplacée",
+      "date_recuperation": "2026-11-19",
+      "source_recuperation": {
+        "nature": "maquette originale générée avec ImageGen",
+        "methode": "Copie des octets PNG générés, sans transformation",
+        "conversation": "01a1f346-7836-7360-b937-94d10167213e",
+        "tour": "01a1f34f-8073-7610-b22b-10d3f994b43b",
+        "fichier_source": "exec-af9f9b9d-9484-4c5b-8f6a-4db0478ec861.png",
+        "brief": "docs/maquettes/demarrage/README.md"
+      },
+      "decision_fondateur": {
+        "nature": "ajustement_ou_reserve",
+        "extrait_exact": "il faut qu'on différencie technicien privé, technicien public.",
+        "conversation": "01a1f346-7836-7360-b937-94d10167213e",
+        "tour": "01a1f34f-8073-7610-b22b-10d3f994b43b",
+        "element": "01a1f352-c3c1-76d1-91c7-18289af4c8e9",
+        "date": "2026-11-19"
+      },
+      "controle_publication": {
+        "date": "2026-11-19",
+        "contenu": "Image de conception sans compte, dossier client ni donnée personnelle.",
+        "metadonnees": "PNG avec provenance C2PA (caBX), sans zone EXIF/GPS ni champ texte libre.",
+        "retouche": false
+      }
+    },
+    {
+      "identifiant": "demarrage/choix-du-metier-v02",
+      "chemin": "docs/maquettes/demarrage/choix-du-metier-v02.png",
+      "sha256": "a815d63db5723a215884ef81639bf065709f1a688e9cfbc9cfa53ecb2a3fc219",
+      "largeur": 887,
+      "hauteur": 1774,
+      "format_origine": "PNG",
+      "octets": 1437284,
+      "metier": "commun",
+      "statut_reference": "retenue",
+      "date_recuperation": "2026-11-19",
+      "source_recuperation": {
+        "nature": "maquette originale générée avec ImageGen",
+        "methode": "Copie des octets PNG générés, sans transformation",
+        "conversation": "01a1f346-7836-7360-b937-94d10167213e",
+        "tour": "01a1f34f-8073-7610-b22b-10d3f994b43b",
+        "fichier_source": "exec-ca3cbeee-1593-4b92-bede-f5b97328f0cf.png",
+        "brief": "docs/maquettes/demarrage/README.md"
+      },
+      "decision_fondateur": {
+        "nature": "validation_explicite",
+        "extrait_exact": "Je suis très content de la maquette, elle est excellente. C'est parfait, avançons",
+        "conversation": "01a1f346-7836-7360-b937-94d10167213e",
+        "tour": "01a1f34f-8073-7610-b22b-10d3f994b43b",
+        "element": "01a1f355-d4a3-7c80-83b4-6d0bf148e5bb",
+        "date": "2026-11-19"
+      },
+      "controle_publication": {
+        "date": "2026-11-19",
+        "contenu": "Image de conception sans compte, dossier client ni donnée personnelle.",
+        "metadonnees": "PNG avec provenance C2PA (caBX), sans zone EXIF/GPS ni champ texte libre.",
+        "retouche": false
+      }
     }
-  ]
+  ],
+  "date_derniere_mise_a_jour": "2026-11-19"
 }

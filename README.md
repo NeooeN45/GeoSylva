@@ -1,68 +1,63 @@
 <div align="center">
 
+<img src="app/src/main/res/drawable-nodpi/app_icon.png" alt="" width="88">
+
 # GeoSylva
 
-### Application Android professionnelle d'inventaire forestier et de martelage
+**Inventaire forestier, cartographie et suivi des chantiers sur Android.**
 
-**Conçue par des forestiers, pour les forestiers.**
-Inventaire terrain, martelage, cartographie et synthèse dendrométrique,
-avec préparation des données pour le terrain hors connexion.
+Relevez les arbres et les parcelles sur le terrain, puis retrouvez vos
+observations, vos synthèses et vos exports au bureau.
 
-[![Version](https://img.shields.io/badge/version-3.0-green?style=for-the-badge)](CHANGELOG.md)
-[![Android](https://img.shields.io/badge/Android-8.0%2B-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com)
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.9-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org)
+[![Android 8+](https://img.shields.io/badge/Android-8%2B-255633?style=for-the-badge&logo=android&logoColor=white)](#installation)
 [![CI](https://github.com/NeooeN45/GeoSylva/actions/workflows/ci.yml/badge.svg)](https://github.com/NeooeN45/GeoSylva/actions/workflows/ci.yml)
-[![Licence](https://img.shields.io/badge/licence-propri%C3%A9taire-red?style=for-the-badge)](LICENSE)
 
-> **GeoSylva** est la spécialisation forestière de
-> [**Quintessences**](https://github.com/NeooeN45/Quintessences) —
-> écosystème d'intelligence environnementale propulsé par le moteur
-> GSIE (General System Intelligence Engine).
-
----
-
-[Pourquoi](#pourquoi-geosylva) · [Fonctionnalités](#fonctionnalités) · [Architecture](#architecture) · [Stack](#stack-technique) · [Installation](#installation) · [Tests](#tests) · [GSIE](#intégration-gsie-et-hub-geosylva) · [Sécurité](#sécurité--confidentialité) · [Licence](#licence)
+[Aperçu](#aperçu) · [Parcours](docs/developpement/PARCOURS_ACTUELS.md) · [Essayer GeoSylva](#essayer-geosylva) · [Développement 3.1](#développement-31) · [Licence](#licence)
 
 </div>
 
 ---
 
-## État pour les essais locaux
-
-**3.0.0 est la version de construction ; 3.1 est la version de production visée au 28 février 2027.**
-Le code courant utilise Room 49 et le moteur Mapbox commun aux cartes intégrées.
-Le [bilan du 15 novembre](docs/developpement/VALIDATION_STABILISATION_2026-11-15.md)
-décrit les builds, tests et limites du lot courant. Il ne qualifie pas encore le
-S25 Ultra ni la conformité visuelle des 100 maquettes. La
-[preuve du 14 novembre](docs/recovery/APPLICATION_VALIDATION_2026-11-14.json)
-est conservée comme référence historique.
-
-- [Installer, configurer et tester sous Windows ou Linux](docs/developpement/ESSAIS_LOCAUX.md)
-- [Reprendre le dépôt avec Claude ou Flable](docs/developpement/REPRISE_AGENTS.md)
-- [État de livraison et fonctions encore à raccorder](docs/production/ETAT_LIVRAISON_3_1.json)
-- [Suivi des maquettes, Technicien et Conducteur](docs/developpement/SUIVI_INTEGRATION_MAQUETTES.md)
-
-Les relevés restent locaux. Les fonds cartographiques et les données nécessaires
-au terrain doivent être préparés avant la journée sans connexion.
-
-
 ## Aperçu
 
-<p align="center">
-  <img src="app/src/main/res/drawable-nodpi/app_icon.png" alt="GeoSylva — icône" width="180">
-</p>
+| Premier lancement | Accueil Technicien |
+| :---: | :---: |
+| <img src="docs/assets/captures/3.0/choix-du-metier.png" alt="Grille des métiers au premier lancement de GeoSylva" width="250"> | <img src="docs/assets/captures/3.0/accueil-technicien.png" alt="Accueil Technicien avec accès à la création d’une première forêt" width="250"> |
 
-<!-- TODO: remplacer par un screenshot de l'écran inventaire + carte dans docs/assets/geosylva-hero.png -->
-<!-- <p align="center"><img src="docs/assets/geosylva-hero.png" alt="GeoSylva — inventaire terrain et cartographie" width="800"></p> -->
+Captures de GeoSylva **3.0.0** sur émulateur Android 16 avec un profil de test
+hors ligne. [Compilation du 18 novembre](https://github.com/NeooeN45/GeoSylva/actions/runs/44322713768)
 
-```
-Terrain : saisie tiges → position → clinomètre → cubage selon méthode qualifiée
-Bureau  : synthèse dendrométrique → martelage → export PDF / Shapefile / GeoJSON
-```
+Le **Technicien** parcourt les forêts, parcelles et placettes, saisit les
+observations et consulte les synthèses. Le **Conducteur de travaux** retrouve
+ses chantiers, leur carnet, les bois associés et les réceptions.
+[Enchaînement des écrans et fonctions raccordées](docs/developpement/PARCOURS_ACTUELS.md)
 
-**Conçue par des forestiers, pour les forestiers.** Inventaire terrain,
-martelage, cartographie et synthèse dendrométrique, avec saisies locales et
-préparation des fonds cartographiques pour le terrain.
+## Essayer GeoSylva
+
+**3.0.0** est la version de construction disponible pour les essais. Au
+premier lancement, choisissez un métier puis utilisez **Continuer hors ligne**
+pour accéder au parcours local. Préparez les fonds cartographiques avant une
+sortie sans réseau.
+
+- [Compiler et installer sous Windows ou Linux](docs/developpement/ESSAIS_LOCAUX.md)
+- [Consultation des compilations de test et rapports](https://github.com/NeooeN45/GeoSylva/actions/workflows/ci.yml)
+
+## Développement 3.1
+
+La cible de production est le **28 février 2027**. La recette sur Samsung
+S25 Ultra et la comparaison des écrans avec les maquettes restent des étapes
+de validation. [État de livraison](docs/production/ETAT_LIVRAISON_3_1.json) ·
+[Bilan des essais du 15 novembre](docs/developpement/VALIDATION_STABILISATION_2026-11-15.md)
+
+Le [catalogue des maquettes](docs/maquettes/README.md) conserve les originaux
+et les décisions. La [nouvelle grille de choix du métier](docs/maquettes/demarrage/README.md)
+est retenue en thème clair. Son intégration Android fait partie de la suite
+du développement. [Dossier de reprise](docs/developpement/REPRISE_AGENTS.md)
+
+GeoSylva est la spécialisation forestière de
+[Quintessences](https://github.com/NeooeN45/Quintessences). Le compte et les
+échanges connectés s’appuient sur [GSIE](GSIE_INTEGRATION.md) lorsqu’il est
+configuré.
 
 ---
 
@@ -172,7 +167,7 @@ martelage.
 - **Cœur métier hors-ligne** — inventaire, calculs, carte locale et exports sans compte ni connexion
 - **Sauvegarde automatique** quotidienne via WorkManager
 - **Rappel hauteurs avec snooze** — reportez les alertes de hauteurs manquantes
-- **Onboarding complet** — 14 écrans d'introduction interactifs avec consentement RGPD
+- **Premier lancement** — choix du métier, compte facultatif et visite guidée des principaux accès
 
 ### Compte Quintessences et connexion GSIE
 

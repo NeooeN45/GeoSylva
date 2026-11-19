@@ -4,6 +4,14 @@ Audit documentaire du **16 novembre 2026**, affichage des dates en Europe/Paris.
 Code audité : `77a5d72020c0f54d8c35e3513b02019919c247d4` (`main` au départ).
 Branche : `docs/decompte-maquettes-ecrans-2026-11-16`.
 
+## Ajout du 19 novembre 2026
+
+Deux propositions de [choix du métier](../maquettes/demarrage/README.md)
+complètent le registre et le CSV. La 02 est retenue en thème clair, la 01 est
+remplacée. Le registre courant compte 119 repères et 108 références de
+travail. Les chiffres ci-dessous décrivent le périmètre historique du
+16 novembre.
+
 Le lancement concerne **Technicien forestier, public et privé, et Conducteur de
 travaux forestiers**. Les interfaces communes sont comptées une seule fois.
 Les autres métiers restent gelés. Ce lot ne change aucun code applicatif.
