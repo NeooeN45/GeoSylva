@@ -1,5 +1,9 @@
 # Carte de navigation GeoSylva 3.0 — toutes les pages et leurs liens
 
+La [carte des parcours actuels](developpement/PARCOURS_ACTUELS.md) suit le code
+de la version de construction. Le diagramme ci-dessous conserve la référence
+de conception v0.8.0.
+
 > Diagramme Mermaid de l'organisation et des liens entre toutes les pages.
 > Généré depuis §29 de GEOSYLVA_3_SPECIFICATION_FONCTIONNELLE.md v0.8.0.
 > Visualisable dans tout éditeur supportant Mermaid (GitHub, VS Code, etc.).
