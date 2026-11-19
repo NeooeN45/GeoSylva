@@ -1,4 +1,6 @@
-# Choix du métier — GeoSylva
+# Maquettes du démarrage — GeoSylva
+
+## Choix du métier
 
 La proposition **02 est retenue pour le thème clair** le 19 novembre 2026. Elle
 servira de référence lors du développement Android après la revue des maquettes.
@@ -40,3 +42,19 @@ Ne mettre aucun nom ONF, CNPF, DDT, ADD ni carte générique « Technicien fores
 Direction artistique : blanc légèrement chaud, boutons sapin, cartes blanches à bordure gris sauge fine. Donner un peu de vie avec de petites touches de couleur précises autour de chaque pictogramme (petit aplat organique et une ou deux marques fines, pas un grand disque uniforme), par exemple bleu de lin pour public, sauge claire pour privé, ocre doux, terracotta claire, teal, aubergine grisée, pêche, bleu ciel. Couleurs différentes et bien dosées, jamais en fond intégral de carte, aucune saturation criarde. Un seul état sélectionné illustré, « Conducteur de travaux forestiers », avec coche discrète et bordure sapin. Bouton large stable « Continuer » sous la grille. L’image doit sentir un produit Android abouti, pas une planche graphique. Aucune version sombre, aucun autre texte.
 
 </details>
+
+## Bienvenue
+
+Le 19 novembre 2026, le Fondateur a choisi de conserver l’écran Bienvenue de
+la version **3.0.0**. La [capture de référence](../../assets/captures/3.0/bienvenue.png)
+provient de l’APK du commit `3c57225a`, affichée sur l’émulateur Android 16.
+L’amélioration du fond vidéo est reportée à un lot ultérieur.
+
+| Proposition | État | Original |
+| --- | --- | --- |
+| Formulaire sombre avec action hors ligne renforcée | Écartée | [PNG](bienvenue-v01.png) |
+| Panneau clair sur un nouveau plan de forêt | Écartée | [PNG](bienvenue-v02.png) |
+| Forêt au premier plan et formulaire à la demande | Écartée | [PNG](bienvenue-v03.png) |
+
+Le [manifeste](../MANIFESTE_IMAGES.json) conserve les trois empreintes et la
+décision associée. La référence de l’écran retenu reste la capture de la 3.0.0.

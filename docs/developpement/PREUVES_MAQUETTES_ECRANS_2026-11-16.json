@@ -7,7 +7,7 @@
   "branche": "docs/decompte-maquettes-ecrans-2026-11-16",
   "source_tests_historique": "8ea8cde4b9c7a283e4404c45f39298ed5375af26",
   "nouveaux_tests_ou_essais": false,
-  "nombre_references": 119,
+  "nombre_references": 122,
   "nombre_references_de_travail": 108,
   "compteurs": {
     "toutes_references": {
@@ -26,7 +26,7 @@
       "commun": {
         "codé et raccordé aux données": 72,
         "codé sans données": 1,
-        "non codé": 19,
+        "non codé": 22,
         "à rattacher": 0
       },
       "hors périmètre": {
@@ -7844,6 +7844,153 @@
       "essai_appareil_physique": "aucune preuve",
       "image_originale_chemin": "docs/maquettes/demarrage/choix-du-metier-v02.png",
       "image_originale_sha256": "a815d63db5723a215884ef81639bf065709f1a688e9cfbc9cfa53ecb2a3fc219"
+    },
+    {
+      "id": "demarrage/bienvenue-v01",
+      "famille": "demarrage",
+      "numero": 1,
+      "titre": "Bienvenue — proposition 01",
+      "metier": "commun",
+      "statut_reference": "remplacee_ou_ecartee",
+      "reference_de_travail": false,
+      "ecran_kotlin": "app/src/main/java/com/forestry/counter/presentation/screens/account/LoginScreen.kt",
+      "ligne_ecran": 117,
+      "etat": "non codé",
+      "verification": [
+        "inspection visuelle",
+        "contrôle d’intégrité PNG"
+      ],
+      "navigation": "Premier lancement → Choix du métier → Bienvenue. La version fonctionnelle conserve ses accès.",
+      "donnees": "Champs de saisie vides dans la maquette.",
+      "preuves_code": [],
+      "preuves_tests_supports": [],
+      "sources_identite": [
+        {
+          "nature": "maquette originale générée avec ImageGen",
+          "methode": "Conservation du PNG original, sans transformation",
+          "conversation": "01a1f346-7836-7360-b937-94d10167213e",
+          "tour": "01a1f363-7dc6-7ac2-a317-dae21eff2613",
+          "demande": "01a1f363-8125-70c3-b55d-2dba585f316d",
+          "fichier_source": "bienvenue-v01-formulaire-sombre.png"
+        }
+      ],
+      "decisions_sourcees": [
+        {
+          "nature": "choix_de_conserver_l_ecran_actuel",
+          "extrait_exact": "on garde la version de base mais on améliorera la vidéo plus tard",
+          "conversation": "01a1f346-7836-7360-b937-94d10167213e",
+          "tour": "01a1f36a-a2b9-7be3-aaa2-9d906546ce2f",
+          "element": "01a1f36a-a630-7e43-8e06-9d0aa1862cab",
+          "date": "2026-11-19"
+        }
+      ],
+      "limites": [
+        "Formulaire sombre, champs séparés et actions rapprochées.",
+        "Choix final en faveur de l’écran de base."
+      ],
+      "image_originale_locale": "présente",
+      "conformite_visuelle": "non vérifiée",
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": "docs/maquettes/demarrage/bienvenue-v01.png",
+      "image_originale_sha256": "1d269abf1c9877059f6a2291fb996d6513a215ab49034b6391be7e4917bc2805"
+    },
+    {
+      "id": "demarrage/bienvenue-v02",
+      "famille": "demarrage",
+      "numero": 2,
+      "titre": "Bienvenue — proposition 02",
+      "metier": "commun",
+      "statut_reference": "remplacee_ou_ecartee",
+      "reference_de_travail": false,
+      "ecran_kotlin": "app/src/main/java/com/forestry/counter/presentation/screens/account/LoginScreen.kt",
+      "ligne_ecran": 117,
+      "etat": "non codé",
+      "verification": [
+        "inspection visuelle",
+        "contrôle d’intégrité PNG"
+      ],
+      "navigation": "Premier lancement → Choix du métier → Bienvenue. La version fonctionnelle conserve ses accès.",
+      "donnees": "Champs de saisie vides dans la maquette.",
+      "preuves_code": [],
+      "preuves_tests_supports": [],
+      "sources_identite": [
+        {
+          "nature": "maquette originale générée avec ImageGen",
+          "methode": "Conservation du PNG original, sans transformation",
+          "conversation": "01a1f346-7836-7360-b937-94d10167213e",
+          "tour": "01a1f363-7dc6-7ac2-a317-dae21eff2613",
+          "demande": "01a1f365-86e3-7960-a592-45559643d053",
+          "fichier_source": "bienvenue-v02-panneau-clair.png"
+        }
+      ],
+      "decisions_sourcees": [
+        {
+          "nature": "choix_de_conserver_l_ecran_actuel",
+          "extrait_exact": "on garde la version de base mais on améliorera la vidéo plus tard",
+          "conversation": "01a1f346-7836-7360-b937-94d10167213e",
+          "tour": "01a1f36a-a2b9-7be3-aaa2-9d906546ce2f",
+          "element": "01a1f36a-a630-7e43-8e06-9d0aa1862cab",
+          "date": "2026-11-19"
+        }
+      ],
+      "limites": [
+        "Nouveau plan de forêt avec panneau de connexion clair.",
+        "Choix final en faveur de l’écran de base."
+      ],
+      "image_originale_locale": "présente",
+      "conformite_visuelle": "non vérifiée",
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": "docs/maquettes/demarrage/bienvenue-v02.png",
+      "image_originale_sha256": "1e58cf827a9cc915bf0a502e132aeebb5dd64718e8f8fa18e0cd6a66b802fc1e"
+    },
+    {
+      "id": "demarrage/bienvenue-v03",
+      "famille": "demarrage",
+      "numero": 3,
+      "titre": "Bienvenue — proposition 03",
+      "metier": "commun",
+      "statut_reference": "remplacee_ou_ecartee",
+      "reference_de_travail": false,
+      "ecran_kotlin": "app/src/main/java/com/forestry/counter/presentation/screens/account/LoginScreen.kt",
+      "ligne_ecran": 117,
+      "etat": "non codé",
+      "verification": [
+        "inspection visuelle",
+        "contrôle d’intégrité PNG"
+      ],
+      "navigation": "Premier lancement → Choix du métier → Bienvenue. La version fonctionnelle conserve ses accès.",
+      "donnees": "Champs de saisie vides dans la maquette.",
+      "preuves_code": [],
+      "preuves_tests_supports": [],
+      "sources_identite": [
+        {
+          "nature": "maquette originale générée avec ImageGen",
+          "methode": "Conservation du PNG original, sans transformation",
+          "conversation": "01a1f346-7836-7360-b937-94d10167213e",
+          "tour": "01a1f363-7dc6-7ac2-a317-dae21eff2613",
+          "demande": "01a1f367-45f8-7a20-aa8c-1f626d87e24d",
+          "fichier_source": "bienvenue-v03-video-au-premier-plan.png"
+        }
+      ],
+      "decisions_sourcees": [
+        {
+          "nature": "choix_de_conserver_l_ecran_actuel",
+          "extrait_exact": "on garde la version de base mais on améliorera la vidéo plus tard",
+          "conversation": "01a1f346-7836-7360-b937-94d10167213e",
+          "tour": "01a1f36a-a2b9-7be3-aaa2-9d906546ce2f",
+          "element": "01a1f36a-a630-7e43-8e06-9d0aa1862cab",
+          "date": "2026-11-19"
+        }
+      ],
+      "limites": [
+        "Accueil centré sur la forêt, formulaire déployé à la demande.",
+        "Choix final en faveur de l’écran de base."
+      ],
+      "image_originale_locale": "présente",
+      "conformite_visuelle": "non vérifiée",
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": "docs/maquettes/demarrage/bienvenue-v03.png",
+      "image_originale_sha256": "c3e0ee56eb253459581863f646e6abd846fca626bf87b9af5db8b135711dbbb8"
     }
   ],
   "provisoires": [

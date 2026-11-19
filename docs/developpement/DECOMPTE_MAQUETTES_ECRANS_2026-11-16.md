@@ -8,9 +8,10 @@ Branche : `docs/decompte-maquettes-ecrans-2026-11-16`.
 
 Deux propositions de [choix du métier](../maquettes/demarrage/README.md)
 complètent le registre et le CSV. La 02 est retenue en thème clair, la 01 est
-remplacée. Le registre courant compte 119 repères et 108 références de
-travail. Les chiffres ci-dessous décrivent le périmètre historique du
-16 novembre.
+remplacée. Les trois propositions de [l’écran Bienvenue](../maquettes/demarrage/README.md#bienvenue)
+sont écartées au profit de l’écran de la 3.0.0. Le registre courant compte
+122 repères et 108 références de travail. Les chiffres ci-dessous décrivent
+le périmètre historique du 16 novembre.
 
 Le lancement concerne **Technicien forestier, public et privé, et Conducteur de
 travaux forestiers**. Les interfaces communes sont comptées une seule fois.

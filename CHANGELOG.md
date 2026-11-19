@@ -10,6 +10,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com).
   Conducteur de travaux.
 - Choix du métier validé en maquette claire, avec les deux variantes
   originales conservées et leurs empreintes vérifiées.
+- Écran Bienvenue de la 3.0.0 retenu. Sa capture et les variantes écartées
+  sont archivées. L’amélioration du fond vidéo est reportée.
 
 ## [Unreleased] — 2026-08-03
 

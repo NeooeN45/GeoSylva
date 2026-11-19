@@ -4,6 +4,9 @@
 est validé en maquette pour le thème clair. L’acceptation porte sur la
 proposition image. L’intégration Android et sa recette restent à faire.
 
+L’[écran Bienvenue de la 3.0.0](../maquettes/demarrage/README.md#bienvenue)
+est retenu comme référence. Le travail sur son fond vidéo est reporté.
+
 Point de situation du **15 novembre 2026**, établi par lecture du code pendant la
 stabilisation. Il distingue une fonctionnalité présente, son raccordement dans
 l’application et la conformité à la maquette approuvée. Ce suivi ne constitue pas

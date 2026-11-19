@@ -7,8 +7,10 @@ génération ou une image uniquement visible dans une conversation ne suffit pas
 
 - [Manifeste des images](MANIFESTE_IMAGES.json) : identifiant, chemin, SHA-256,
   dimensions, provenance et décision sourcée.
-- [Choix du métier](demarrage/README.md) présente la maquette retenue le
+- [Choix du métier](demarrage/README.md#choix-du-métier) présente la maquette retenue le
   19 novembre, sa variante précédente et le brief de génération.
+- [Bienvenue](demarrage/README.md#bienvenue) donne la capture de l’écran
+  retenu et l’historique des propositions.
 - [Bilan de récupération du 16 novembre](RECUPERATION_2026-11-16.md) : résultat,
   emplacements examinés, limites et suites proposées.
 - [Originaux de travail introuvables](MAQUETTES_INTROUVABLES_2026-11-16.csv) :
