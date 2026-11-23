@@ -58,3 +58,10 @@ L’amélioration du fond vidéo est reportée à un lot ultérieur.
 
 Le [manifeste](../MANIFESTE_IMAGES.json) conserve les trois empreintes et la
 décision associée. La référence de l’écran retenu reste la capture de la 3.0.0.
+
+## Accueil Technicien
+
+Le 23 novembre 2026, le Fondateur a retenu l’[accueil Technicien de la 3.0.0](../../assets/captures/3.0/accueil-technicien.png)
+comme référence. La [proposition 01](accueil-technicien-v01.png) montrant la
+création d’une forêt et l’accès aux forêts récentes est écartée. Le
+[manifeste](../MANIFESTE_IMAGES.json) conserve son empreinte et la décision.

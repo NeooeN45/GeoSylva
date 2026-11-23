@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com).
 
+## [2026-11-23] — Revue d’interface
+
+- Accueil Technicien de la 3.0.0 retenu. La proposition en deux états est
+  archivée comme écartée.
+
 ## [2026-11-19] — Documentation et maquettes
 
 - Présentation GitHub illustrée par deux captures de GeoSylva 3.0.0.

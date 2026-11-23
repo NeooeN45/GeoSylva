@@ -5,7 +5,7 @@
   "references_de_travail_attendues": 108,
   "registre": "docs/developpement/PREUVES_MAQUETTES_ECRANS_2026-11-16.json",
   "definition_original": "Octets de la pièce jointe associée au choix du Fondateur, conservés dans leur format ; aucune reconstruction ni capture du code. La récupération ne certifie pas les pixels de l’application.",
-  "poids_images_octets": 15533124,
+  "poids_images_octets": 17418110,
   "images": [
     {
       "identifiant": "cartographie/54",
@@ -422,7 +422,42 @@
         "metadonnees": "Provenance C2PA conservée quand présente. Aucune zone EXIF/GPS ni champ texte libre.",
         "retouche": false
       }
+    },
+    {
+      "identifiant": "demarrage/accueil-technicien-v01",
+      "chemin": "docs/maquettes/demarrage/accueil-technicien-v01.png",
+      "sha256": "14144c987852f8aa438906d67009343b2d562777017bcbf4daa64c1fa87d239b",
+      "largeur": 1263,
+      "hauteur": 1246,
+      "format_origine": "PNG",
+      "octets": 1884986,
+      "metier": "technicien",
+      "statut_reference": "remplacée",
+      "date_recuperation": "2026-11-23",
+      "source_recuperation": {
+        "nature": "maquette originale générée avec ImageGen",
+        "methode": "Conservation du PNG original, sans transformation",
+        "conversation": "01a1f346-7836-7360-b937-94d10167213e",
+        "tour": "01a2085f-122b-7841-b6a9-c24d0e233c17",
+        "demande": "01a2085f-17e4-7e50-92a4-8e676c1402dd",
+        "fichier_source": "accueil-technicien-v01.png"
+      },
+      "decision_fondateur": {
+        "nature": "choix_de_conserver_l_ecran_actuel",
+        "extrait_exact": "on garde l'acceuil de base",
+        "conversation": "01a1f346-7836-7360-b937-94d10167213e",
+        "tour": "01a20863-6c7a-78f2-ae24-81f8714df0d3",
+        "element": "01a20863-6e26-7101-a622-b2c307429b1f",
+        "date": "2026-11-23",
+        "capture_reference": "docs/assets/captures/3.0/accueil-technicien.png"
+      },
+      "controle_publication": {
+        "date": "2026-11-23",
+        "contenu": "Deux états de l’accueil, avec compteurs et forêts fictifs.",
+        "metadonnees": "PNG inspecté. Aucune zone EXIF/GPS ni champ texte libre. Provenance C2PA conservée.",
+        "retouche": false
+      }
     }
   ],
-  "date_derniere_mise_a_jour": "2026-11-19"
+  "date_derniere_mise_a_jour": "2026-11-23"
 }

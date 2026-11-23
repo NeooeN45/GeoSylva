@@ -11,6 +11,8 @@ génération ou une image uniquement visible dans une conversation ne suffit pas
   19 novembre, sa variante précédente et le brief de génération.
 - [Bienvenue](demarrage/README.md#bienvenue) donne la capture de l’écran
   retenu et l’historique des propositions.
+- [Accueil Technicien](demarrage/README.md#accueil-technicien) donne la
+  référence de la 3.0.0 retenue le 23 novembre et la proposition écartée.
 - [Bilan de récupération du 16 novembre](RECUPERATION_2026-11-16.md) : résultat,
   emplacements examinés, limites et suites proposées.
 - [Originaux de travail introuvables](MAQUETTES_INTROUVABLES_2026-11-16.csv) :

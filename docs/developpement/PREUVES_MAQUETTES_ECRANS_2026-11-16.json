@@ -7,14 +7,14 @@
   "branche": "docs/decompte-maquettes-ecrans-2026-11-16",
   "source_tests_historique": "8ea8cde4b9c7a283e4404c45f39298ed5375af26",
   "nouveaux_tests_ou_essais": false,
-  "nombre_references": 122,
+  "nombre_references": 123,
   "nombre_references_de_travail": 108,
   "compteurs": {
     "toutes_references": {
       "technicien": {
         "codé et raccordé aux données": 10,
         "codé sans données": 1,
-        "non codé": 1,
+        "non codé": 2,
         "à rattacher": 0
       },
       "conducteur": {
@@ -7991,6 +7991,55 @@
       "essai_appareil_physique": "aucune preuve",
       "image_originale_chemin": "docs/maquettes/demarrage/bienvenue-v03.png",
       "image_originale_sha256": "c3e0ee56eb253459581863f646e6abd846fca626bf87b9af5db8b135711dbbb8"
+    },
+    {
+      "id": "demarrage/accueil-technicien-v01",
+      "famille": "demarrage",
+      "numero": 1,
+      "titre": "Accueil Technicien — proposition 01",
+      "metier": "technicien",
+      "statut_reference": "remplacee_ou_ecartee",
+      "reference_de_travail": false,
+      "ecran_kotlin": "app/src/main/java/com/forestry/counter/presentation/screens/home/HomeScreen.kt",
+      "ligne_ecran": 71,
+      "etat": "non codé",
+      "verification": [
+        "inspection visuelle",
+        "contrôle d’intégrité PNG"
+      ],
+      "navigation": "Premier lancement → Choix du métier → Bienvenue → Accueil Technicien.",
+      "donnees": "Exemples fictifs pour l’état avec forêts.",
+      "preuves_code": [],
+      "preuves_tests_supports": [],
+      "sources_identite": [
+        {
+          "nature": "maquette originale générée avec ImageGen",
+          "methode": "Conservation du PNG original, sans transformation",
+          "conversation": "01a1f346-7836-7360-b937-94d10167213e",
+          "tour": "01a2085f-122b-7841-b6a9-c24d0e233c17",
+          "demande": "01a2085f-17e4-7e50-92a4-8e676c1402dd",
+          "fichier_source": "accueil-technicien-v01.png"
+        }
+      ],
+      "decisions_sourcees": [
+        {
+          "nature": "choix_de_conserver_l_ecran_actuel",
+          "extrait_exact": "on garde l'acceuil de base",
+          "conversation": "01a1f346-7836-7360-b937-94d10167213e",
+          "tour": "01a20863-6c7a-78f2-ae24-81f8714df0d3",
+          "element": "01a20863-6e26-7101-a622-b2c307429b1f",
+          "date": "2026-11-23",
+          "capture_reference": "docs/assets/captures/3.0/accueil-technicien.png"
+        }
+      ],
+      "limites": [
+        "L’accueil de base de la 3.0.0 est retenu."
+      ],
+      "image_originale_locale": "présente",
+      "conformite_visuelle": "non vérifiée",
+      "essai_appareil_physique": "aucune preuve",
+      "image_originale_chemin": "docs/maquettes/demarrage/accueil-technicien-v01.png",
+      "image_originale_sha256": "14144c987852f8aa438906d67009343b2d562777017bcbf4daa64c1fa87d239b"
     }
   ],
   "provisoires": [
@@ -11994,5 +12043,5 @@
     },
     "qualification": "contrôle des fichiers et des preuves de rattachement seulement ; conformité visuelle des écrans non vérifiée ; aucun nouvel essai Android"
   },
-  "date_dernier_ajout_au_registre": "2026-11-19"
+  "date_dernier_ajout_au_registre": "2026-11-23"
 }
