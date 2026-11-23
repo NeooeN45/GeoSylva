@@ -7,6 +7,12 @@ génération ou une image uniquement visible dans une conversation ne suffit pas
 
 - [Manifeste des images](MANIFESTE_IMAGES.json) : identifiant, chemin, SHA-256,
   dimensions, provenance et décision sourcée.
+- [Choix du métier](demarrage/README.md#choix-du-métier) présente la maquette retenue le
+  19 novembre, sa variante précédente et le brief de génération.
+- [Bienvenue](demarrage/README.md#bienvenue) donne la capture de l’écran
+  retenu et l’historique des propositions.
+- [Accueil Technicien](demarrage/README.md#accueil-technicien) donne la
+  référence de la 3.0.0 retenue le 23 novembre et la proposition écartée.
 - [Bilan de récupération du 16 novembre](RECUPERATION_2026-11-16.md) : résultat,
   emplacements examinés, limites et suites proposées.
 - [Originaux de travail introuvables](MAQUETTES_INTROUVABLES_2026-11-16.csv) :
@@ -40,8 +46,10 @@ Dans **la même session**, avant de terminer :
    [REPRISE_AGENTS](../developpement/REPRISE_AGENTS.md#sauvegarde-obligatoire-à-la-fin-de-chaque-session).
 
 **Une maquette qui n'existe que dans une conversation n'est pas une référence.**
-Les 107 lignes historiques restent un index de travail et de correspondance au
-code ; les lignes dépourvues d'original ne qualifient aucune conformité visuelle.
+Les 107 références de travail de l’audit du 16 novembre restent l’index
+historique. Le registre comprend aussi la référence « Choix du métier »
+retenue le 19 novembre. La conformité visuelle se vérifie sur les écrans
+Android, en comparant les captures aux originaux.
 
 ## Contrôle automatique
 

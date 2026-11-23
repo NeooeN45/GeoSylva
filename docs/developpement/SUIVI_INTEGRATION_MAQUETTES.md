@@ -1,5 +1,16 @@
 # État d’intégration des maquettes et des deux parcours prioritaires
 
+**23 novembre 2026.** L’[accueil Technicien de la 3.0.0](../maquettes/demarrage/README.md#accueil-technicien)
+est retenu comme référence. La proposition du même jour est archivée comme
+écartée.
+
+**19 novembre 2026.** Le [choix du métier](../maquettes/demarrage/README.md)
+est validé en maquette pour le thème clair. L’acceptation porte sur la
+proposition image. L’intégration Android et sa recette restent à faire.
+
+L’[écran Bienvenue de la 3.0.0](../maquettes/demarrage/README.md#bienvenue)
+est retenu comme référence. Le travail sur son fond vidéo est reporté.
+
 Point de situation du **15 novembre 2026**, établi par lecture du code pendant la
 stabilisation. Il distingue une fonctionnalité présente, son raccordement dans
 l’application et la conformité à la maquette approuvée. Ce suivi ne constitue pas

@@ -128,6 +128,16 @@ de toute la suite instrumentée. Les tests Mapbox de ce lot utilisent un style
 local de laboratoire pour vérifier le SDK ; le satellite réel et les téléchargements
 nécessitent une recette distincte avec réseau puis sans réseau.
 
+## Recette des évolutions d’interface
+
+| Vérification | Preuve attendue |
+| --- | --- |
+| Écran et navigation | Capture de la version testée et scénario Compose ciblant une action de l’utilisateur et sa destination. Vérifier retour, reprise et refus des permissions utiles. [Navigation Android](https://developer.android.com/guide/navigation/testing) |
+| Accessibilité et thèmes | Contrôler sur petit écran et avec texte agrandi, en clair puis en sombre. Viser des cibles tactiles d’au moins 48 dp, un contraste suffisant et un choix identifiable par son libellé et son état avec TalkBack. [Accessibilité Compose](https://developer.android.com/codelabs/jetpack-compose-accessibility) |
+| Continuité du terrain | Vérifier les dossiers et préférences existants après mise à jour, en réseau coupé puis rétabli. Les relevés restent accessibles depuis le stockage local. [Architecture hors connexion](https://developer.android.com/topic/architecture/data-layer/offline-first) |
+| Permissions et données | Donner le minimum de permissions au moment utile. Vérifier que le choix d’un métier ne confère aucun droit sur les dossiers d’une organisation. Utiliser des données d’essai pour les captures. [Sécurité Android](https://developer.android.com/privacy-and-security/security-best-practices) |
+| Performance | Mesurer le démarrage et les interactions concernées sur un appareil cible avec une version proche de la distribution, avant et après une optimisation. [Macrobenchmark](https://developer.android.com/topic/performance/benchmarking/macrobenchmark-overview) |
+
 ## Recette courte sur des données TEST
 
 Utiliser des dossiers et observations fictifs nommés `TEST`. Relever pour chaque
